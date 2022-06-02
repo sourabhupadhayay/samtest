@@ -1,0 +1,200 @@
+<ion-content [fullscreen]="true">
+  <ion-grid class="main-screen-bg">
+    <ion-grid class="user-bubble">
+      <div id="background-wrap">
+        <!-- [ngClass]="{'customClass' : bubble1 === true }" -->
+        <div
+          class="bubble x1"
+          [ngClass]="{'pop-bubble' : bubble1 === true }"
+          (click)="playAudio('1')"
+        >
+          <div class="inner-data abc">
+            <img src="assets/icon/user-img.png" />
+            <span class="online"></span>
+          </div>
+        </div>
+        <div class="bubble x2" (click)="playAudio('')">
+          <div class="inner-data">
+            <img src="assets/icon/user-2.jpg" />
+            <span class="busy"></span>
+          </div>
+        </div>
+        <div class="bubble x3" (click)="playAudio('')">
+          <div class="inner-data">
+            <img src="assets/icon/user-img.png" />
+            <span class="online"></span>
+          </div>
+        </div>
+        <div class="bubble x4" (click)="playAudio('')">
+          <div class="inner-data">
+            <img src="assets/icon/user-img.png" />
+            <span class="online"></span>
+          </div>
+        </div>
+        <div class="bubble x5" (click)="playAudio('')">
+          <div class="inner-data">
+            <img src="assets/icon/user-img.png" />
+            <span class="online"></span>
+          </div>
+        </div>
+      </div>
+    </ion-grid>
+
+    <ion-grid class="bg-bubble">
+      <div class="dots-bubble">
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+      </div>
+    </ion-grid>
+  </ion-grid>
+
+  <!-- <audio autoplay loop src="../../assets/audio/bubbles.mp3" loop="true"
+    autostart="true"></audio> -->
+
+  <!-- <audio id="dog"  src="http://c0026106.cdn1.cloudfiles.rackspacecloud.com/2fbc94686ceb434a864c0691906bd144_dog.mp3" preload="auto"></audio> -->
+
+  <ion-grid class="logo-bg">
+    <img src="assets/icon/logo-bg.png" />
+  </ion-grid>
+
+  <ion-fab
+    vertical="bottom"
+    horizontal="center"
+    slot="fixed"
+    id="trigger-button"
+  >
+    <ion-fab-button>
+      <img src="assets/icon/login-btn.png" />
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
+
+<ion-modal trigger="trigger-button" class="client-filter-modal">
+  <ng-template>
+    <ion-header mode="md">
+      <div class="icon-header">
+        <img src="assets/icon/header-bubble.png" />
+        <h3>Add Appearance</h3>
+      </div>
+      <!-- <div class="top-noch">
+          <img src="assets/images/modal-tope.png">
+        </div> -->
+    </ion-header>
+
+    <div class="inner-content">
+      <div class="main-screen">
+        <ion-row>
+          <ion-col size="12">
+            <div class="input-box">
+              <ion-item lines="none" class="ion-align-items-center">
+                <ion-label position="floating">Select Date</ion-label>
+                <ion-input></ion-input>
+                <img
+                  class="ion-align-items-center"
+                  slot="end"
+                  src="assets/icon/calendar.svg"
+                />
+              </ion-item>
+            </div>
+          </ion-col>
+          <ion-col size="6">
+            <div class="input-box">
+              <ion-item lines="none" class="ion-align-items-center">
+                <ion-label position="floating">Stat Time</ion-label>
+                <ion-input></ion-input>
+                <img
+                  class="ion-align-items-center"
+                  slot="end"
+                  src="assets/icon/calendar.svg"
+                />
+              </ion-item>
+            </div>
+          </ion-col>
+          <ion-col size="6">
+            <div class="input-box">
+              <ion-item lines="none" class="ion-align-items-center">
+                <ion-label position="floating">End Time </ion-label>
+                <ion-input></ion-input>
+                <img
+                  class="ion-align-items-center"
+                  slot="end"
+                  src="assets/icon/calendar.svg"
+                />
+              </ion-item>
+            </div>
+          </ion-col>
+          <ion-col size="12">
+            <div class="input-box">
+              <ion-item lines="none" class="ion-align-items-center">
+                <ion-label position="floating">Minimum Bid</ion-label>
+                <ion-input></ion-input>
+                <img
+                  class="ion-align-items-center"
+                  slot="end"
+                  src="assets/icon/calendar.svg"
+                />
+              </ion-item>
+            </div>
+          </ion-col>
+          <ion-col size="12">
+            <div class="input-box">
+              <ion-item lines="none" class="ion-align-items-center">
+                <ion-label position="floating">Message For Fans</ion-label>
+                <ion-input></ion-input>
+                <img
+                  class="ion-align-items-center"
+                  slot="end"
+                  src="assets/icon/calendar.svg"
+                />
+              </ion-item>
+            </div>
+          </ion-col>
+        </ion-row>
+      </div>
+    </div>
+
+    <ion-footer mode="ios">
+      <ion-toolbar mode="ios">
+        <ion-button class="white-btn" (click)="onclick_cancel()">
+          <img src="assets/icon/close-icon.png" />
+        </ion-button>
+        <ion-button class="white-btn">
+          <img src="assets/icon/right-icon.png" />
+        </ion-button>
+      </ion-toolbar>
+    </ion-footer>
+    <ion-grid class="bg-bubble">
+      <div class="dots-bubble">
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+      </div>
+    </ion-grid>
+  </ng-template>
+</ion-modal>
