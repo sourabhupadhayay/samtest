@@ -9,11 +9,11 @@ import { AuthenticationService } from "./authentication.service";
 import { NetworkService } from "./network.service";
 import { ConstantService } from "./constant.service";
 
-// export interface Request {
-//   path: string;
-//   data?: any;
-//   isAuth?: boolean;
-// }
+export interface Request {
+  path: string;
+  data?: any;
+  isAuth?: boolean;
+}
 
 @Injectable({
   providedIn: "root",
@@ -36,10 +36,10 @@ export class DataService {
     return !val || !this._networkService.isOnline;
   }
 
-  get(requestUrl: string, isByPass = false) {
+  get(request: Request) {
     return this.http
-      .get<any>(`${this.BASE_URL + "" + requestUrl}`, {
-        headers: this.getHeader(isByPass),
+      .get<any>(`${this.BASE_URL + "" + request.path}`, {
+        headers: this.getHeader(request.isAuth),
       })
       .pipe(
         takeWhile((): boolean => this._isOnline()),
@@ -103,10 +103,10 @@ export class DataService {
   //       })
   //     );
   // }
-  post(requestUrl: string, isByPass = false, params) {
+  post(request: Request) {
     return this.http
-      .post<any>(`${this.BASE_URL + "" + requestUrl}`, params, {
-        headers: this.getHeader(isByPass),
+      .post<any>(`${this.BASE_URL + "" + request.path}`, request.data, {
+        headers: this.getHeader(request.isAuth),
       })
       .pipe(
         takeWhile((): boolean => this._isOnline()),
