@@ -237,7 +237,7 @@ export class DataService {
       header = header.append("TOKEN", token);
       // }
     }
-    console.log(header);
+
     return header;
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -264,7 +264,7 @@ export class DataService {
       header = header.append("TOKEN", token);
       // }
     }
-    console.log(header);
+
     return header;
   }
 

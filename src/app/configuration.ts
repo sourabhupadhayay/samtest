@@ -4,7 +4,7 @@ export class Configuration {
 
   constructor(public state: projectState) {
     if (this.state == "staging") {
-      this.BASE_URL = "https://rr-dev-apis.riskrelease.com/";
+      this.BASE_URL = "http://localhost:3000/";
     } else if (this.state == "qa") {
       this.BASE_URL = "https://qa-apis.riskrelease.com/";
     } else if (this.state == "production") {
@@ -19,4 +19,4 @@ export class Configuration {
 }
 
 type projectState = "staging" | "production" | "qa" | "preprod";
-export const configuration = new Configuration("production");
+export const configuration = new Configuration("staging");

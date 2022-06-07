@@ -43,7 +43,5 @@ export class ConstantService {
   STATUS_INVALID = "INVALID";
   STATUS_DELETED = "DELETED";
 
-  constructor(public config: Configuration) {
-    this.HOST_URL = config.BASE_URL;
-  }
+  constructor() {}
 }
