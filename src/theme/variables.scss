@@ -74,6 +74,25 @@
   --ion-color-light-contrast-rgb: 0, 0, 0;
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
+
+// Theme one
+  --theme-one-clr-rgb: 32, 153, 218;
+  --theme-one-bg-rgb: 32, 153, 218;
+  --theme-one-bg: #227AC9;
+  --theme-one-clr: #227AC9;
+
+  // White 
+  --white-clr: #fff;
+  --white-bg: #fff;
+  --white-bg-rgb: 255, 255, 255;
+  --white-clr-rgb: 255, 255, 255;
+
+  --text-black: #000;
+  --text-gray: #949494;
+  --placeholder: #cccccc;
+
+  --red-clr: #ff2929;
+  --red-bg: #ff2929;
 }
 
 @media (prefers-color-scheme: dark) {

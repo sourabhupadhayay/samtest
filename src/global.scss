@@ -24,3 +24,30 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+
+*{font-family: 'Inter', sans-serif !important;}
+
+.client-filter-modal{--height: auto; align-items: end; --background: transparent;
+    .ion-page { position: relative; display: block; contain: content; border-radius: 55px 55px 0px 0px;
+      .inner-content { max-height: 70vh; overflow: auto; }
+    }
+    ion-footer{background: var(--white-bg); border-radius: 0;
+      ion-toolbar{border-radius: 0 !important; border: 0; background: var(--white-bg);}
+    }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border:none !important;
+  -webkit-text-fill-color: inherit !important;                      
+  transition: background-color 5000s ease-in-out 0s;
+}

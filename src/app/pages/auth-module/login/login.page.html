@@ -1,200 +1,111 @@
-<ion-content [fullscreen]="true">
-  <ion-grid class="main-screen-bg">
-    <ion-grid class="user-bubble">
-      <div id="background-wrap">
-        <!-- [ngClass]="{'customClass' : bubble1 === true }" -->
-        <div
-          class="bubble x1"
-          [ngClass]="{'pop-bubble' : bubble1 === true }"
-          (click)="playAudio('1')"
-        >
-          <div class="inner-data abc">
-            <img src="assets/icon/user-img.png" />
-            <span class="online"></span>
-          </div>
-        </div>
-        <div class="bubble x2" (click)="playAudio('')">
-          <div class="inner-data">
-            <img src="assets/icon/user-2.jpg" />
-            <span class="busy"></span>
-          </div>
-        </div>
-        <div class="bubble x3" (click)="playAudio('')">
-          <div class="inner-data">
-            <img src="assets/icon/user-img.png" />
-            <span class="online"></span>
-          </div>
-        </div>
-        <div class="bubble x4" (click)="playAudio('')">
-          <div class="inner-data">
-            <img src="assets/icon/user-img.png" />
-            <span class="online"></span>
-          </div>
-        </div>
-        <div class="bubble x5" (click)="playAudio('')">
-          <div class="inner-data">
-            <img src="assets/icon/user-img.png" />
-            <span class="online"></span>
-          </div>
-        </div>
-      </div>
+<ion-header class="ion-no-border" [translucent]="true">
+  <ion-toolbar>
+      <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true" >
+  
+  <div class="top-screen">
+    <!-- <ion-icon slot="start" name="arrow-back-outline"></ion-icon> -->
+    <ion-grid class="video-part">
+      <video height="100%" width="100%" poster="http://content.bitsontherun.com/thumbs/bkaovAYt-320.jpg" autoplay="" loop="" muted="" controls="">
+        <source src="http://content.bitsontherun.com/videos/bkaovAYt-52qL9xLP.mp4">
+        <source src="http://content.bitsontherun.com/videos/bkaovAYt-27m5HpIu.webm">
+        <p class="warning">Your browser does not support HTML5 video.</p>
+      </video>
     </ion-grid>
-
-    <ion-grid class="bg-bubble">
-      <div class="dots-bubble">
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-      </div>
+  
+    <ion-grid class="logo-head">
+      <img src="assets/images/logo.svg">
     </ion-grid>
-  </ion-grid>
+  
+    <ion-grid class="overlay-bg"></ion-grid>
+  </div>
 
-  <!-- <audio autoplay loop src="../../assets/audio/bubbles.mp3" loop="true"
-    autostart="true"></audio> -->
+  <ion-grid class="content-part">
+    <div class="sticky-part">
+        <div class="auth-title">
+            <img src="assets/images/auth-img.png">
+            <h4>Login</h4>
+            <p>Welcome! Login to your account.</p>
+        </div>
 
-  <!-- <audio id="dog"  src="http://c0026106.cdn1.cloudfiles.rackspacecloud.com/2fbc94686ceb434a864c0691906bd144_dog.mp3" preload="auto"></audio> -->
+        <div class="auth-form">
+            
+              <div class="input-box">
+                <ion-item lines="none">
+                  <ion-label position="floating">Select Date</ion-label>
+                  <ion-input autocomplete="off" type="email"></ion-input>
+                  <img
+                    class="ion-align-self-center"
+                    slot="end"
+                    src="assets/icon/email.svg"
+                  />
+                </ion-item>
+              </div>
+            
+              <div class="input-box">
+                <ion-item lines="none">
+                  <ion-label position="floating">Minimum Bid</ion-label>
+                  <ion-input autocomplete="off" type="password"></ion-input>
+                  <img
+                    class="ion-align-self-center"
+                    slot="end"
+                    src="assets/icon/hide.svg"
+                  />
+                </ion-item>
+              </div>
+          
+        </div>
 
-  <ion-grid class="logo-bg">
-    <img src="assets/icon/logo-bg.png" />
-  </ion-grid>
+        <div class="forgot-pass">
+            <p>Forget Password?</p>
+        </div>
 
-  <ion-fab
-    vertical="bottom"
-    horizontal="center"
-    slot="fixed"
-    id="trigger-button"
-  >
-    <ion-fab-button>
-      <img src="assets/icon/login-btn.png" />
-    </ion-fab-button>
-  </ion-fab>
-</ion-content>
+        <div class="auth-btn">
+            <ion-button> 
+              <img src="assets/images/button-auth.png"> 
+              <span>Login</span>
+            </ion-button>
+        </div>
 
-<ion-modal trigger="trigger-button" class="client-filter-modal">
-  <ng-template>
-    <ion-header mode="md">
-      <div class="icon-header">
-        <img src="assets/icon/header-bubble.png" />
-        <h3>Add Appearance</h3>
-      </div>
-      <!-- <div class="top-noch">
-          <img src="assets/images/modal-tope.png">
-        </div> -->
-    </ion-header>
+        <div class="or-login-with">
+          <div class="main-text">
+            <span class="line"></span>
+            <p>Or Login With</p>
+            <span class="line"></span>
+          </div>
+        </div>
 
-    <div class="inner-content">
-      <div class="main-screen">
-        <ion-row>
-          <ion-col size="12">
-            <div class="input-box">
-              <ion-item lines="none" class="ion-align-items-center">
-                <ion-label position="floating">Select Date</ion-label>
-                <ion-input></ion-input>
-                <img
-                  class="ion-align-items-center"
-                  slot="end"
-                  src="assets/icon/calendar.svg"
-                />
-              </ion-item>
-            </div>
-          </ion-col>
-          <ion-col size="6">
-            <div class="input-box">
-              <ion-item lines="none" class="ion-align-items-center">
-                <ion-label position="floating">Stat Time</ion-label>
-                <ion-input></ion-input>
-                <img
-                  class="ion-align-items-center"
-                  slot="end"
-                  src="assets/icon/calendar.svg"
-                />
-              </ion-item>
-            </div>
-          </ion-col>
-          <ion-col size="6">
-            <div class="input-box">
-              <ion-item lines="none" class="ion-align-items-center">
-                <ion-label position="floating">End Time </ion-label>
-                <ion-input></ion-input>
-                <img
-                  class="ion-align-items-center"
-                  slot="end"
-                  src="assets/icon/calendar.svg"
-                />
-              </ion-item>
-            </div>
-          </ion-col>
-          <ion-col size="12">
-            <div class="input-box">
-              <ion-item lines="none" class="ion-align-items-center">
-                <ion-label position="floating">Minimum Bid</ion-label>
-                <ion-input></ion-input>
-                <img
-                  class="ion-align-items-center"
-                  slot="end"
-                  src="assets/icon/calendar.svg"
-                />
-              </ion-item>
-            </div>
-          </ion-col>
-          <ion-col size="12">
-            <div class="input-box">
-              <ion-item lines="none" class="ion-align-items-center">
-                <ion-label position="floating">Message For Fans</ion-label>
-                <ion-input></ion-input>
-                <img
-                  class="ion-align-items-center"
-                  slot="end"
-                  src="assets/icon/calendar.svg"
-                />
-              </ion-item>
-            </div>
-          </ion-col>
-        </ion-row>
-      </div>
+        <div class="social-media">
+            <ion-button>
+                <img src="assets/images/facebook.png">
+            </ion-button>
+            <ion-button>
+              <img src="assets/images/google.png">
+            </ion-button>
+        </div>
+
+        <div class="create-account">
+            <p>Create Bubble App Account</p>
+        </div>
+
+        <ion-grid class="buble-part">
+          <div class="dots-bubble">
+            <div class="dots"></div>
+            <div class="dots"></div>
+            <div class="dots"></div>
+            <div class="dots"></div>
+            <div class="dots"></div>
+            <div class="dots"></div>
+            <div class="dots"></div>
+            <div class="dots"></div>
+            <div class="dots"></div>
+            <div class="dots"></div>
+          </div>
+        </ion-grid>
+
     </div>
+  </ion-grid>
 
-    <ion-footer mode="ios">
-      <ion-toolbar mode="ios">
-        <ion-button class="white-btn" (click)="onclick_cancel()">
-          <img src="assets/icon/close-icon.png" />
-        </ion-button>
-        <ion-button class="white-btn">
-          <img src="assets/icon/right-icon.png" />
-        </ion-button>
-      </ion-toolbar>
-    </ion-footer>
-    <ion-grid class="bg-bubble">
-      <div class="dots-bubble">
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-      </div>
-    </ion-grid>
-  </ng-template>
-</ion-modal>
+</ion-content>

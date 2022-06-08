@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from "@angular/router";
 const routes: Routes = [
   {
     path: "",
-    redirectTo: "login",
+    redirectTo: "bubble-screen",
     pathMatch: "full",
   },
   {
@@ -14,6 +14,11 @@ const routes: Routes = [
         (m) => m.LoginPageModule
       ),
   },
+  {
+    path: 'bubble-screen',
+    loadChildren: () => import('./pages/bubble-screen/bubble-screen.module').then( m => m.BubbleScreenPageModule)
+  },
+
 ];
 
 @NgModule({
