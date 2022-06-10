@@ -18,6 +18,10 @@ const routes: Routes = [
     path: 'bubble-screen',
     loadChildren: () => import('./pages/bubble-screen/bubble-screen.module').then( m => m.BubbleScreenPageModule)
   },
+  {
+    path: 'forgot',
+    loadChildren: () => import('./pages/auth-module/forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
+  },
 
 ];
 
