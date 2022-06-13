@@ -7,6 +7,8 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
   styleUrls: ["./login.page.scss"],
 })
 export class LoginPage implements OnInit {
+  isFormSubmitted = false;
+  isShowingPassword: boolean = false;
   loginForm: FormGroup = new FormGroup({
     userName: new FormControl<string | null | number>(null, [
       Validators.required,
@@ -19,7 +21,12 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {}
 
+  showPasswordToggle() {
+    this.isShowingPassword = !this.isShowingPassword;
+  }
+
   onSubmit() {
+    this.isFormSubmitted = true;
     console.log(this.loginForm.value);
   }
 }

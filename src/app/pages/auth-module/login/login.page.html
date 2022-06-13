@@ -46,7 +46,10 @@
 
         <form [formGroup]="loginForm" class="auth-form">
           <div class="input-box">
-            <ion-item lines="none">
+            <ion-item
+              [ngClass]="isFormSubmitted && loginForm.controls.userName.invalid ? 'error-border':' '"
+              lines="none"
+            >
               <ion-label position="floating">Email</ion-label>
               <ion-input
                 formControlName="userName"
@@ -67,9 +70,10 @@
               <ion-input
                 formControlName="password"
                 autocomplete="on"
-                type="password"
+                [type]=" isShowingPassword ? 'text' : 'password'"
               ></ion-input>
               <img
+                (click)="showPasswordToggle()"
                 class="ion-align-self-center"
                 slot="end"
                 src="assets/icon/hide.svg"
