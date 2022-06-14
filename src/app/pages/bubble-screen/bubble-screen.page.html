@@ -4,7 +4,7 @@
       <div id="background-wrap">
         <!-- [ngClass]="{'customClass' : bubble1 === true }" -->
         <div
-          class="bubble x1" routerLink="/login"
+          class="bubble x1" routerLink="auth/login"
           [ngClass]="{'pop-bubble' : bubble1 === true }"
           (click)="playAudio('1')"
         >
@@ -55,6 +55,57 @@
             <span class="online"></span>
           </div>
         </div>
+
+        <!-- <div class="bubble x6" routerLink="auth/login" (click)="playAudio('1')">
+          <div class="bubble-toch">
+            <img src="assets/images/bubble-toch.png">
+          </div>
+          <div class="inner-data abc">
+            <img src="assets/icon/user-img.png" />
+            <span class="online"></span>
+          </div>
+        </div>
+
+        <div class="bubble x7" (click)="playAudio('')">
+          <div class="bubble-toch">
+              <img src="assets/images/bubble-toch.png">
+          </div>
+          <div class="inner-data">
+            <img src="assets/icon/user-2.jpg" />
+            <span class="busy"></span>
+          </div>
+          <div class="name-user">
+              <p>Bubble</p>
+          </div>
+        </div>
+        <div class="bubble x8" (click)="playAudio('')">
+          <div class="bubble-toch">
+            <img src="assets/images/bubble-toch.png">
+          </div>
+          <div class="inner-data">
+            <img src="assets/icon/user-img.png" />
+            <span class="offline"></span>
+          </div>
+        </div>
+        <div class="bubble x9" (click)="playAudio('')">
+          <div class="bubble-toch">
+            <img src="assets/images/bubble-toch.png">
+          </div>
+          <div class="inner-data">
+            <img src="assets/icon/user-img.png" />
+            <span class="online"></span>
+          </div>
+        </div>
+        <div class="bubble x10" (click)="playAudio('')">
+          <div class="bubble-toch">
+            <img src="assets/images/bubble-toch.png">
+          </div>
+          <div class="inner-data">
+            <img src="assets/icon/user-img.png" />
+            <span class="online"></span>
+          </div>
+        </div> -->
+
       </div>
     </ion-grid>
 
@@ -98,15 +149,16 @@
     vertical="bottom"
     horizontal="center"
     slot="fixed"
-    id="trigger-button"
+    
   >
+  <!-- id="trigger-button" -->
     <ion-fab-button>
       <img src="assets/icon/login-btn.png" />
     </ion-fab-button>
   </ion-fab>
 </ion-content>
 
-<ion-modal trigger="trigger-button" class="client-filter-modal">
+<!-- <ion-modal trigger="trigger-button" class="client-filter-modal">
   <ng-template>
     <ion-header mode="md">
       <div class="icon-header">
@@ -215,4 +267,4 @@
       </div>
     </ion-grid>
   </ng-template>
-</ion-modal>
+</ion-modal> -->
