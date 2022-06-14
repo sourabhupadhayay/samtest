@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { EMAIL_PATTERN } from "src/app/helpers/emailValidation";
 
 @Component({
   selector: "app-login",
@@ -10,9 +11,9 @@ export class LoginPage implements OnInit {
   isFormSubmitted = false;
   isShowingPassword: boolean = false;
   loginForm: FormGroup = new FormGroup({
-    userName: new FormControl<string | null | number>(null, [
+    userName: new FormControl<string | null>(null, [
       Validators.required,
-      Validators.email,
+      Validators.pattern(EMAIL_PATTERN),
     ]),
     password: new FormControl<string | null>(null, [Validators.required]),
   });
