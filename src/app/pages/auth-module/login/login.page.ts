@@ -27,6 +27,5 @@ export class LoginPage implements OnInit {
 
   onSubmit() {
     this.isFormSubmitted = true;
-    console.log(this.loginForm.value);
   }
 }
