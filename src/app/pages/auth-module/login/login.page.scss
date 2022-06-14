@@ -173,7 +173,13 @@ ion-content {
             img {
               margin: 0;
               width: 22px;
+              opacity: 0.45;
             }
+          }
+          .error-msg{
+            p{position: relative; padding-left: 20px; font-size: 0.8125rem; color: var(--red-clr); margin: 5px 0 0; font-weight: 400;
+              img{width: 15px; position: absolute; top: 0; bottom: 0; margin: auto; height: 15px; left: 0;}
+            } 
           }
         }
       }
@@ -261,17 +267,19 @@ ion-content {
         text-align: center;
         padding: 0 15px;
         ion-button {
-          --background: transparent;
-          --background-focused: transparent;
-          --background-hover: transparent;
-          --background-activated: transparent;
-          --box-shadow: none;
+          --background: var(--white-clr);
+          --background-focused: var(--white-clr);
+          --background-hover: var(--white-clr);
+          --background-activated: var(--white-clr);
+          
           --padding-start: 0rem;
           --padding-end: 0rem;
-          height: 60px;
-          width: 60px;
-          border-radius: 50%;
+          height: 40px;
+          width: 40px;
+          --border-radius: 50%;
           box-shadow: none;
+          margin: 5px 10px;
+          --box-shadow: 0 4px 7px #5c5353;
           img {
             max-width: 100%;
           }
