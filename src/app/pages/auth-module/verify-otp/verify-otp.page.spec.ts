@@ -1,3 +1,4 @@
+import { HttpClientModule } from "@angular/common/http";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 import { IonicModule } from "@ionic/angular";
@@ -12,16 +13,19 @@ describe("VerifyOTPPage", () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [VerifyOTPPage],
-        imports: [IonicModule.forRoot(), RouterTestingModule],
+        imports: [IonicModule.forRoot(), RouterTestingModule, HttpClientModule],
         providers: [],
       }).compileComponents();
 
       fixture = TestBed.createComponent(VerifyOTPPage);
+
       component = fixture.componentInstance;
       fixture.detectChanges();
     })
   );
-
+  function updateForm(otp) {
+    fixture.componentInstance.otpFormControl.setValue(otp);
+  }
   it("should create", () => {
     expect(component).toBeTruthy();
   });

@@ -55,8 +55,11 @@
             [config]="otpInputConfig"
           ></ng-otp-input>
         </div>
+        <h4 *ngIf="timeLeft !==0" class="otp-timer">
+          {{secondsToHms(timeLeft)}}
+        </h4>
 
-        <div class="resend-text">
+        <div *ngIf="timeLeft ==0" class="resend-text">
           <p>
             Didn’t recieve the verification code?
             <span>Resend</span>
@@ -64,7 +67,7 @@
         </div>
 
         <div class="auth-btn">
-          <ion-button routerLink="/reset-password">
+          <ion-button (click)="onSubmit()">
             <img src="assets/images/button-auth.png" />
             <span>Confirm</span>
           </ion-button>
