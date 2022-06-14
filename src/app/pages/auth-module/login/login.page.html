@@ -61,7 +61,15 @@
                 slot="end"
                 src="assets/icon/email.svg"
               />
+              <img
+                class="ion-align-self-center"
+                slot="end"
+                src="assets/icon/right-green.svg"
+              />
             </ion-item>
+            <div class="error-msg">
+              <p><img src="assets/icon/info-red.svg"> Email address is required</p>
+            </div>
           </div>
 
           <div class="input-box">
@@ -78,7 +86,16 @@
                 slot="end"
                 src="assets/icon/hide.svg"
               />
+              <img
+                (click)="showPasswordToggle()"
+                class="ion-align-self-center"
+                slot="end"
+                src="assets/icon/show.svg"
+              />
             </ion-item>
+            <div class="error-msg">
+              <p><img src="assets/icon/info-red.svg"> Password is required</p>
+            </div>
           </div>
         </form>
 
