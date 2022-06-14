@@ -49,11 +49,70 @@ describe("LoginPage", () => {
     updateForm(null, null);
     expect(component.loginForm.invalid).toBeTruthy();
   });
+
   it("form value should update from when u change the input", () => {
     updateForm("someUser@gmail.com", 123456);
     expect(component.loginForm.value).toEqual({
       userName: "someUser@gmail.com",
       password: 123456,
     });
+  });
+
+  it("Display Username Error Msg when Username is blank", () => {
+    updateForm(null, "1234");
+    fixture.detectChanges();
+    const button = fixture.debugElement.nativeElement.querySelector(
+      "#submitBtn"
+    );
+    button.click();
+    fixture.detectChanges();
+    const usernameErrorMsg = fixture.debugElement.nativeElement.querySelector(
+      "#userNameError"
+    );
+    expect(usernameErrorMsg).toBeDefined();
+    expect(usernameErrorMsg.innerHTML).toContain("Email address is required");
+  });
+
+  it("Display password Error Msg when password is blank", () => {
+    updateForm("xyz@gmail.com", null);
+    fixture.detectChanges();
+    const button = fixture.debugElement.nativeElement.querySelector(
+      "#submitBtn"
+    );
+    button.click();
+    fixture.detectChanges();
+    const usernameErrorMsg = fixture.debugElement.nativeElement.querySelector(
+      "#passwordError"
+    );
+    expect(usernameErrorMsg).toBeDefined();
+    expect(usernameErrorMsg.innerHTML).toContain(" Password is required");
+  });
+  it("When username is blank, username field should display red outline ", () => {
+    updateForm(null, "1234");
+    fixture.detectChanges();
+    const button = fixture.debugElement.nativeElement.querySelector(
+      "#submitBtn"
+    );
+    button.click();
+    fixture.detectChanges();
+    const userNameInput = fixture.debugElement.nativeElement.querySelector(
+      "#userNameInputContainer"
+    );
+    console.log(userNameInput);
+    expect(userNameInput.classList).toContain("error-border");
+  });
+  it("When password is blank, password field should display red outline ", () => {
+    updateForm("xyz@gmail.com", null);
+    fixture.detectChanges();
+    const button = fixture.debugElement.nativeElement.querySelector(
+      "#submitBtn"
+    );
+    button.click();
+    fixture.detectChanges();
+    const userNameInput = fixture.debugElement.nativeElement.querySelector(
+      "#passwordInputContainer"
+    );
+    console.log(userNameInput);
+    expect(userNameInput.classList).toContain("error-border");
   });
 });

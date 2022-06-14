@@ -47,6 +47,7 @@
         <form [formGroup]="loginForm" class="auth-form">
           <div class="input-box">
             <ion-item
+              id="userNameInputContainer"
               [ngClass]="isFormSubmitted && loginForm.controls.userName.invalid ? 'error-border':' '"
               lines="none"
             >
@@ -57,23 +58,35 @@
                 type="email"
               ></ion-input>
               <img
+                *ngIf="!isFormSubmitted"
                 class="ion-align-self-center"
                 slot="end"
                 src="assets/icon/email.svg"
               />
               <img
+                *ngIf="isFormSubmitted && loginForm.controls.userName.valid"
                 class="ion-align-self-center"
                 slot="end"
                 src="assets/icon/right-green.svg"
               />
             </ion-item>
-            <div class="error-msg">
-              <p><img src="assets/icon/info-red.svg"> Email address is required</p>
+            <div
+              *ngIf="isFormSubmitted && loginForm.controls.userName.invalid"
+              class="error-msg"
+              id="userNameError"
+            >
+              <p>
+                <img src="assets/icon/info-red.svg" /> Email address is required
+              </p>
             </div>
           </div>
 
           <div class="input-box">
-            <ion-item lines="none">
+            <ion-item
+              id="passwordInputContainer"
+              [ngClass]="isFormSubmitted && loginForm.controls.password.invalid ? 'error-border':' '"
+              lines="none"
+            >
               <ion-label position="floating">Password</ion-label>
               <ion-input
                 formControlName="password"
@@ -81,20 +94,26 @@
                 [type]=" isShowingPassword ? 'text' : 'password'"
               ></ion-input>
               <img
+                *ngIf="isShowingPassword"
                 (click)="showPasswordToggle()"
                 class="ion-align-self-center"
                 slot="end"
                 src="assets/icon/hide.svg"
               />
               <img
+                *ngIf="!isShowingPassword"
                 (click)="showPasswordToggle()"
                 class="ion-align-self-center"
                 slot="end"
                 src="assets/icon/show.svg"
               />
             </ion-item>
-            <div class="error-msg">
-              <p><img src="assets/icon/info-red.svg"> Password is required</p>
+            <div
+              *ngIf="isFormSubmitted && loginForm.controls.password.invalid"
+              class="error-msg"
+              id="passwordError"
+            >
+              <p><img src="assets/icon/info-red.svg" /> Password is required</p>
             </div>
           </div>
         </form>
@@ -104,7 +123,7 @@
         </div>
 
         <div class="auth-btn">
-          <ion-button (click)="onSubmit()">
+          <ion-button id="submitBtn" (click)="onSubmit()">
             <img src="assets/images/button-auth.png" />
             <span>Login</span>
           </ion-button>
