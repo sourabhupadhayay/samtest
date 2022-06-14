@@ -31,6 +31,10 @@ const routes: Routes = [
             (m) => m.ResetPasswordPageModule
           ),
       },
+      {
+        path: 'signup',
+        loadChildren: () => import('./signup/signup.module').then( m => m.SignupPageModule)
+      },
     ],
   },
   {
@@ -43,6 +47,8 @@ const routes: Routes = [
       },
     ],
   },
+  
+
 ];
 
 @NgModule({

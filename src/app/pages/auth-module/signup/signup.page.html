@@ -1,0 +1,128 @@
+
+<ion-header class="ion-no-border" [translucent]="true">
+  <ion-toolbar>
+    <ion-icon
+      slot="start"
+      name="arrow-back-outline"
+      routerLink="/bubble-screen"
+    ></ion-icon>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+  <div class="main-screen">
+    <div class="top-screen">
+      <!-- <ion-icon slot="start" name="arrow-back-outline"></ion-icon> -->
+      <ion-grid class="video-part">
+        <video
+          height="100%"
+          width="100%"
+          poster="http://content.bitsontherun.com/thumbs/bkaovAYt-320.jpg"
+          loop=""
+          muted
+        >
+          <source
+            src="http://content.bitsontherun.com/videos/bkaovAYt-52qL9xLP.mp4"
+          />
+          <source
+            src="http://content.bitsontherun.com/videos/bkaovAYt-27m5HpIu.webm"
+          />
+          <p class="warning">Your browser does not support HTML5 video.</p>
+        </video>
+      </ion-grid>
+
+      <ion-grid class="logo-head">
+        <img src="assets/images/logo.svg" />
+      </ion-grid>
+
+      <ion-grid class="overlay-bg"></ion-grid>
+    </div>
+
+    <ion-grid class="content-part">
+      <div class="main-part">
+        <div class="auth-title sticky-top">
+          <img src="assets/images/auth-img.png" />
+          <h4>Signup</h4>
+          <p>Complete details to your account.</p>
+        </div>
+
+        <form class="auth-form">
+          <div class="input-box">
+            <ion-item
+              
+              lines="none"
+            >
+              <ion-label position="floating">Email <span class="red">*</span></ion-label>
+              <ion-input
+          
+                autocomplete="on"
+                type="email"
+              ></ion-input>
+              <img
+                class="ion-align-self-center"
+                slot="end"
+                src="assets/icon/email.svg"
+              />
+              <img
+                class="ion-align-self-center"
+                slot="end"
+                src="assets/icon/right-green.svg"
+              />
+            </ion-item>
+            <div class="error-msg">
+              <p><img src="assets/icon/info-red.svg"> Email address is required</p>
+            </div>
+          </div>
+
+          <div class="input-box">
+            <ion-item
+              
+              lines="none"
+            >
+              <ion-label position="floating">Phone no. </ion-label>
+              <ion-input
+          
+                autocomplete="on"
+                type="email"
+              ></ion-input>
+              <img
+                class="ion-align-self-center"
+                slot="end"
+                src="assets/icon/mobile.svg"
+              />
+            </ion-item>
+          </div>
+        </form>
+
+        <div class="accept-terms-policy">
+          <ion-item lines="none">
+            <ion-checkbox mode="md" slot="start"></ion-checkbox>
+            <ion-label>Accept <span>Terms of Use</span> & <span>Privacy Policy</span></ion-label>
+          </ion-item>
+        </div>
+       
+
+        <div class="auth-btn">
+          <ion-button>
+            <img src="assets/images/button-auth.png" />
+            <span>Signup</span>
+          </ion-button>
+        </div>
+
+      </div>
+      <ion-grid class="buble-part">
+        <div class="dots-bubble">
+          <div class="dots"></div>
+          <div class="dots"></div>
+          <div class="dots"></div>
+          <div class="dots"></div>
+          <div class="dots"></div>
+          <div class="dots"></div>
+          <div class="dots"></div>
+          <div class="dots"></div>
+          <div class="dots"></div>
+          <div class="dots"></div>
+        </div>
+      </ion-grid>
+    </ion-grid>
+  </div>
+</ion-content>
