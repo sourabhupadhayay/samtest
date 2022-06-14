@@ -3,7 +3,7 @@
     <ion-icon
       slot="start"
       name="arrow-back-outline"
-      routerLink="/login"
+      routerLink="/auth/login"
     ></ion-icon>
   </ion-toolbar>
 </ion-header>
@@ -50,16 +50,68 @@
         </div>
 
         <div class="auth-form">
-          <ng-otp-input
-            [formCtrl]="otpFormControl"
-            [config]="otpInputConfig"
-          ></ng-otp-input>
-        </div>
-        <h4 *ngIf="timeLeft !==0" class="otp-timer">
-          {{secondsToHms(timeLeft)}}
-        </h4>
+          <div class="input-box">
+            <ion-item lines="none">
+              <ion-input
+                autocomplete="off"
+                type="number"
+                placeholder="-"
+              ></ion-input>
+            </ion-item>
+          </div>
 
-        <div *ngIf="timeLeft ==0" class="resend-text">
+          <div class="input-box">
+            <ion-item lines="none">
+              <ion-input
+                autocomplete="off"
+                type="number"
+                placeholder="-"
+              ></ion-input>
+            </ion-item>
+          </div>
+
+          <div class="input-box">
+            <ion-item lines="none">
+              <ion-input
+                autocomplete="off"
+                type="number"
+                placeholder="-"
+              ></ion-input>
+            </ion-item>
+          </div>
+
+          <div class="input-box">
+            <ion-item lines="none">
+              <ion-input
+                autocomplete="off"
+                type="number"
+                placeholder="-"
+              ></ion-input>
+            </ion-item>
+          </div>
+
+          <div class="input-box">
+            <ion-item lines="none">
+              <ion-input
+                autocomplete="off"
+                type="number"
+                placeholder="-"
+              ></ion-input>
+            </ion-item>
+          </div>
+
+          <div class="input-box">
+            <ion-item lines="none">
+              <ion-input
+                autocomplete="off"
+                type="number"
+                placeholder="-"
+              ></ion-input>
+            </ion-item>
+          </div>
+        </div>
+
+        <div class="resend-text">
           <p>
             Didn’t recieve the verification code?
             <span>Resend</span>
@@ -67,7 +119,7 @@
         </div>
 
         <div class="auth-btn">
-          <ion-button (click)="onSubmit()">
+          <ion-button routerLink="auth/reset-password">
             <img src="assets/images/button-auth.png" />
             <span>Confirm</span>
           </ion-button>
@@ -96,5 +148,72 @@
         </div>
       </ion-grid>
     </ion-grid>
+
+    <ion-grid class="logo-head">
+      <img src="assets/images/logo.svg" />
+    </ion-grid>
+
+    <ion-grid class="overlay-bg"></ion-grid>
   </div>
+
+  <ion-grid class="content-part">
+    <div class="main-part">
+      <div class="auth-title sticky-top">
+        <img src="assets/images/auth-img.png" />
+        <h4>Verify OTP</h4>
+        <p>
+          To verify your email,<br />
+          we've sent a One-Time Password (OTP) to<br />
+          your email address.<br />
+          Please enter the password below.
+        </p>
+      </div>
+
+      <div class="auth-form">
+        <ng-otp-input
+          [formCtrl]="otpFormControl"
+          [config]="otpInputConfig"
+        ></ng-otp-input>
+      </div>
+      <h4 *ngIf="timeLeft !==0" class="otp-timer">
+        {{secondsToHms(timeLeft)}}
+      </h4>
+
+      <div *ngIf="timeLeft ==0" class="resend-text">
+        <p>
+          Didn’t recieve the verification code?
+          <span>Resend</span>
+        </p>
+      </div>
+
+      <div class="auth-btn">
+        <ion-button (click)="onSubmit()">
+          <img src="assets/images/button-auth.png" />
+          <span>Confirm</span>
+        </ion-button>
+      </div>
+
+      <div class="auth-back-text">
+        <p routerLink="/auth/login">
+          Back to
+          <span>Login</span>
+          <ion-icon name="chevron-back-outline"></ion-icon>
+        </p>
+      </div>
+    </div>
+    <ion-grid class="buble-part">
+      <div class="dots-bubble">
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+      </div>
+    </ion-grid>
+  </ion-grid>
 </ion-content>
