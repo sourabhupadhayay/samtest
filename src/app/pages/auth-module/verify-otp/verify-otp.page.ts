@@ -16,6 +16,7 @@ export class VerifyOTPPage implements OnInit {
     length: 6,
     inputClass: "otpInput",
     containerClass: "optInputContainer",
+    placeholder:"-"
   };
 
   constructor() {}
