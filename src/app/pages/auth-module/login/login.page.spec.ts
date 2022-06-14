@@ -1,22 +1,34 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 import { IonicModule } from "@ionic/angular";
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from "@angular/common/http/testing";
 
 import { LoginPage } from "./login.page";
+import { HttpClient } from "@angular/common/http";
 
 describe("LoginPage", () => {
   let component: LoginPage;
   let fixture: ComponentFixture<LoginPage>;
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [LoginPage],
-        imports: [IonicModule.forRoot(), RouterTestingModule],
+        imports: [
+          IonicModule.forRoot(),
+          RouterTestingModule,
+          HttpClientTestingModule,
+        ],
       }).compileComponents();
 
       fixture = TestBed.createComponent(LoginPage);
       component = fixture.componentInstance;
+
       fixture.detectChanges();
     })
   );
