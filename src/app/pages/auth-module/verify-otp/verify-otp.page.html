@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border" [translucent]="true">
   <ion-toolbar>
-      <ion-icon slot="start" name="arrow-back-outline" routerLink="/login"></ion-icon>
+      <ion-icon slot="start" name="arrow-back-outline" routerLink="/auth/login"></ion-icon>
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true" >
@@ -80,14 +80,14 @@
             </div>
 
             <div class="auth-btn">
-                <ion-button routerLink="/reset-password"> 
+                <ion-button routerLink="auth/reset-password"> 
                   <img src="assets/images/button-auth.png"> 
                   <span>Confirm</span>
                 </ion-button>
             </div>
 
             <div class="auth-back-text">
-                <p routerLink="/login">Back to 
+                <p routerLink="/auth/login">Back to 
                   <span>Login</span>
                   <ion-icon name="chevron-back-outline"></ion-icon>
                 </p>
