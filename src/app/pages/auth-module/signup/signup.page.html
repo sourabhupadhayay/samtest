@@ -96,7 +96,7 @@
         <div class="accept-terms-policy">
           <ion-item lines="none">
             <ion-checkbox mode="md" slot="start"></ion-checkbox>
-            <ion-label>Accept <span>Terms of Use</span> & <span>Privacy Policy</span></ion-label>
+            <ion-label>Accept <span id="terms-of-use">Terms of Use</span> & <span id="privacy-policy">Privacy Policy</span></ion-label>
           </ion-item>
         </div>
        
@@ -126,3 +126,46 @@
     </ion-grid>
   </div>
 </ion-content>
+
+
+<!-- Modal T&C -->
+<ion-modal trigger="terms-of-use" class="tandc-modal">
+  <ng-template>
+    <ion-header mode="ios">
+        <ion-toolbar>
+          <ion-title>Terms of Use</ion-title>
+          <ion-icon slot="end" name="close-outline" (click)="onclick_cancel()"></ion-icon>
+        </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+        <ion-grid class="content-part">
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
+            <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+        </ion-grid>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+<!-- Modal Privacy Policy -->
+<ion-modal trigger="privacy-policy" class="privacy-policy-modal">
+  <ng-template>
+    <ion-header mode="ios">
+        <ion-toolbar>
+          <ion-title>Privacy Policy</ion-title>
+          <ion-icon slot="end" name="close-outline" (click)="onclick_cancel()"></ion-icon>
+        </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+        <ion-grid class="content-part">
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
+            <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+        </ion-grid>
+    </ion-content>
+  </ng-template>
+</ion-modal>
