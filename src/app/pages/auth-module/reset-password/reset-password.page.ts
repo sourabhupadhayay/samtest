@@ -14,8 +14,10 @@ export class ResetPasswordPage implements OnInit {
   isShowingConfirmPassword = false;
   isShowingPasswordHint = false;
   passwordFormGroup: FormGroup = new FormGroup({
-    password: new FormControl<string | null>(null, [Validators.required]),
-    confirmPassword: new FormControl<string | null>(null, [
+    password: new FormControl<string | null | number>(null, [
+      Validators.required,
+    ]),
+    confirmPassword: new FormControl<string | null | number>(null, [
       Validators.required,
     ]),
   });
@@ -37,7 +39,7 @@ export class ResetPasswordPage implements OnInit {
     this.isShowingConfirmPassword = !this.isShowingConfirmPassword;
   }
 
-  private validateBothPasswords(): boolean {
+  validateBothPasswords(): boolean {
     if (
       this.passwordFormGroup.controls["password"].value !==
       this.passwordFormGroup.controls["confirmPassword"].value
@@ -51,7 +53,7 @@ export class ResetPasswordPage implements OnInit {
     }
   }
 
-  private isFormValid(): boolean {
+  isFormValid(): boolean {
     if (this.passwordFormGroup.invalid) {
       this.coreService.showToastMessage(
         "Please enter password",
@@ -61,7 +63,7 @@ export class ResetPasswordPage implements OnInit {
     }
   }
 
-  private isPassWordStrongEnough(): boolean {
+  isPassWordStrongEnough(): boolean {
     if (!this.isPasswordStrong) {
       this.coreService.showToastMessage(
         "Password is not strong enough",
