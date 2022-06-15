@@ -2,11 +2,12 @@ import { Component, OnInit } from "@angular/core";
 import { IonRouterOutlet, ModalController } from "@ionic/angular";
 
 @Component({
-  selector: "app-bubble-screen",
-  templateUrl: "./bubble-screen.page.html",
-  styleUrls: ["./bubble-screen.page.scss"],
+  selector: 'app-bubble-screen',
+  templateUrl: './bubble-screen.page.html',
+  styleUrls: ['./bubble-screen.page.scss'],
 })
 export class BubbleScreenPage implements OnInit {
+
   bubble1: boolean = false;
   bubble2: boolean = false;
   constructor(
@@ -14,7 +15,8 @@ export class BubbleScreenPage implements OnInit {
     public routerOutLet: IonRouterOutlet
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   playAudio(e: string) {
     let audio = new Audio();
@@ -31,4 +33,5 @@ export class BubbleScreenPage implements OnInit {
   onclick_cancel(): void {
     this.modalCtrl.dismiss();
   }
+
 }
