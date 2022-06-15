@@ -2,6 +2,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 import { IonicModule } from "@ionic/angular";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
 
 import { VerifyOTPPage } from "./verify-otp.page";
 
@@ -13,7 +14,11 @@ describe("VerifyOTPPage", () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [VerifyOTPPage],
-        imports: [IonicModule.forRoot(), RouterTestingModule, HttpClientModule],
+        imports: [
+          IonicModule.forRoot(),
+          RouterTestingModule,
+          HttpClientTestingModule,
+        ],
         providers: [],
       }).compileComponents();
 
@@ -23,10 +28,8 @@ describe("VerifyOTPPage", () => {
       fixture.detectChanges();
     })
   );
-  function updateForm(otp) {
-    fixture.componentInstance.otpFormControl.setValue(otp);
-  }
-  it("should create", () => {
+
+  it("should create", async () => {
     expect(component).toBeTruthy();
   });
 });

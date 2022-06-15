@@ -25,4 +25,16 @@ describe("ResetPasswordPage", () => {
   it("should create", () => {
     expect(component).toBeTruthy();
   });
+
+  it("should create initial state of component ", () => {
+    expect(component.isPasswordStrong).toBeFalsy;
+    expect(component.isShowingPassword).toBeFalsy;
+    expect(component.isShowingConfirmPassword).toBeFalsy;
+    expect(component.isShowingPasswordHint).toBeFalsy;
+    expect(component.passwordFormGroup).toBeDefined();
+  });
+
+  // it("should create", () => {
+  //   expect(component).toBeTruthy();
+  // });
 });
