@@ -241,14 +241,14 @@ export class DataService {
     return header;
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////
-  getHeaderImage(isByPass = false): HttpHeaders {
+  getHeaderImage(isByPass = true): HttpHeaders {
     const currentTimeZone = new Date()
       .toLocaleTimeString("en-us", { timeZoneName: "short" })
       .split(" ")[2];
     const version = "1";
     let token = "";
     if (!isByPass) {
-      token = localStorage.getItem(this.constant.ACCESS_TOKEN); //this.authService.getToken();
+      token = this.authService.getToken();
     } else {
       //token = this.authService.getToken();
     }
