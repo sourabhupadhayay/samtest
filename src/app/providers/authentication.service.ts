@@ -1,5 +1,6 @@
-import { Injectable } from "@angular/core";
+import { Injectable, OnInit } from "@angular/core";
 import { configuration } from "../configuration";
+import { Storage } from "@capacitor/storage";
 const AUTH = configuration.AUTH_KEY;
 export class AuthData {
   isLoggedIn = false;
@@ -9,46 +10,58 @@ export class AuthData {
 @Injectable({
   providedIn: "root",
 })
-export class AuthenticationService {
+export class AuthenticationService implements OnInit {
   private data: AuthData = new AuthData();
-  constructor() {
-    if (localStorage.getItem(AUTH)) {
-      this.data = <any>JSON.parse(localStorage.getItem(AUTH));
+  constructor() {}
+
+  async ngOnInit() {
+    let extractedData = await Storage.get({ key: "AUTH" });
+    if (extractedData.value) {
+      let { value } = await Storage.get({ key: "AUTH" });
+      this.data = JSON.parse(value);
     }
   }
 
-  getToken() {
-    if (localStorage.getItem(AUTH) != null) {
-      this.data = JSON.parse(localStorage.getItem(AUTH)) as any;
-    }
-    return this.data.token;
-  }
-  getAuthDetail() {
-    if (localStorage.getItem(AUTH) != null) {
+  // getToken() {
+  //   if (localStorage.getItem(AUTH) != null) {
+  //     this.data = JSON.parse(localStorage.getItem(AUTH)) as any;
+  //   }
+  //   return this.data.token;
+  // }
+
+  async getAuthDetail() {
+    let extractedData = await Storage.get({ key: "AUTH" });
+    if (extractedData.value != null) {
       this.data = JSON.parse(localStorage.getItem(AUTH)) as any;
     }
     return this.data;
   }
-  setAuth(data) {
+  async setAuth(data) {
     this.data = data;
-    localStorage.setItem(AUTH, JSON.stringify(data));
+
+    await Storage.set({ key: "Auth", value: JSON.stringify(this.data) });
     this.data = JSON.parse(localStorage.getItem(AUTH)) as any;
     this.getAuthDetail();
   }
-  logout() {
-    localStorage.removeItem("auth");
+  async logout() {
+    await Storage.remove({ key: "AUTH" });
 
     location.reload();
   }
-  isAuthenticated() {
-    if (localStorage.getItem(AUTH) != null) {
-      this.data = JSON.parse(localStorage.getItem(AUTH)) as any;
+  async isAuthenticated() {
+    let extractedData = await Storage.get({ key: "AUTH" });
+
+    if (extractedData.value != null) {
+      // this.data = await JSON.parse(localStorage.getItem(AUTH)) as any;
+      let { value } = await Storage.get({ key: "AUTH" });
+      this.data = JSON.parse(value);
     }
     return this.data.isLoggedIn;
   }
-  setNewAuthDetail(data) {
+  async setNewAuthDetail(data) {
     this.data = data;
-    localStorage.setItem(AUTH, JSON.stringify(this.data));
+
+    await Storage.set({ key: "Auth", value: JSON.stringify(this.data) });
     this.getAuthDetail();
     //location.reload();
   }

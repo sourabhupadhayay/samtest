@@ -48,13 +48,16 @@ export class DataService {
         }),
         map((res: any) => {
           if (res["token"]) {
-            let data = this.authService.getAuthDetail();
-            data = {
-              ...data,
-              token: res["token"],
-              isLoggedIn: true,
-            };
-            this.authService.setAuth(data);
+            let data;
+            this.authService.getAuthDetail().then((AuthData) => {
+              data = AuthData;
+              data = {
+                ...data,
+                token: res["token"],
+                isLoggedIn: true,
+              };
+              this.authService.setAuth(data);
+            });
           }
           return res;
         }),
@@ -115,13 +118,16 @@ export class DataService {
         }),
         map((res: any) => {
           if (res["token"]) {
-            let data = this.authService.getAuthDetail();
-            data = {
-              ...data,
-              token: res["token"],
-              isLoggedIn: true,
-            };
-            this.authService.setAuth(data);
+            let data;
+            this.authService.getAuthDetail().then((authData) => {
+              data = authData;
+              data = {
+                ...data,
+                token: res["token"],
+                isLoggedIn: true,
+              };
+              this.authService.setAuth(data);
+            });
           }
           return res;
         }),
@@ -130,32 +136,32 @@ export class DataService {
       );
   }
 
-  postwithURL(requestUrl: string, isByPass = false, params) {
-    return this.http
-      .post<any>(`${this.BASE_URL + "" + requestUrl}`, params, {
-        headers: this.getHeader(isByPass),
-      })
-      .pipe(
-        takeWhile((): boolean => this._isOnline()),
-        catchError((err) => {
-          return err;
-        }),
-        map((res: any) => {
-          if (res["token"]) {
-            let data = this.authService.getAuthDetail();
-            data = {
-              ...data,
-              token: res["token"],
-              isLoggedIn: true,
-            };
-            this.authService.setAuth(data);
-          }
-          return res;
-        }),
-        retry(1),
-        catchError(this.handleError.bind(this))
-      );
-  }
+  // postwithURL(requestUrl: string, isByPass = false, params) {
+  //   return this.http
+  //     .post<any>(`${this.BASE_URL + "" + requestUrl}`, params, {
+  //       headers: this.getHeader(isByPass),
+  //     })
+  //     .pipe(
+  //       takeWhile((): boolean => this._isOnline()),
+  //       catchError((err) => {
+  //         return err;
+  //       }),
+  //       map((res: any) => {
+  //         if (res["token"]) {
+  //           let data = this.authService.getAuthDetail();
+  //           data = {
+  //             ...data,
+  //             token: res["token"],
+  //             isLoggedIn: true,
+  //           };
+  //           this.authService.setAuth(data);
+  //         }
+  //         return res;
+  //       }),
+  //       retry(1),
+  //       catchError(this.handleError.bind(this))
+  //     );
+  // }
 
   // put(request: Request, isByPass = false): Observable<any> {
   //   return this.http
@@ -187,32 +193,32 @@ export class DataService {
     window.URL.revokeObjectURL(url);
   }
 
-  postImage(requestUrl: string, isByPass = false, params) {
-    return this.http
-      .post<any>(`${this.BASE_URL + "" + requestUrl}`, params, {
-        headers: this.getHeaderImage(isByPass),
-      })
-      .pipe(
-        takeWhile((): boolean => this._isOnline()),
-        catchError((err) => {
-          return err;
-        }),
-        map((res: any) => {
-          if (res["token"]) {
-            let data = this.authService.getAuthDetail();
-            data = {
-              ...data,
-              token: res["token"],
-              isLoggedIn: true,
-            };
-            this.authService.setAuth(data);
-          }
-          return res;
-        }),
-        retry(1),
-        catchError(this.handleError.bind(this))
-      );
-  }
+  // postImage(requestUrl: string, isByPass = false, params) {
+  //   return this.http
+  //     .post<any>(`${this.BASE_URL + "" + requestUrl}`, params, {
+  //       headers: this.getHeaderImage(isByPass),
+  //     })
+  //     .pipe(
+  //       takeWhile((): boolean => this._isOnline()),
+  //       catchError((err) => {
+  //         return err;
+  //       }),
+  //       map((res: any) => {
+  //         if (res["token"]) {
+  //           let data = this.authService.getAuthDetail();
+  //           data = {
+  //             ...data,
+  //             token: res["token"],
+  //             isLoggedIn: true,
+  //           };
+  //           this.authService.setAuth(data);
+  //         }
+  //         return res;
+  //       }),
+  //       retry(1),
+  //       catchError(this.handleError.bind(this))
+  //     );
+  // }
 
   getHeader(isByPass = false): HttpHeaders {
     const currentTimeZone = new Date()
