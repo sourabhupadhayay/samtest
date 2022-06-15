@@ -47,11 +47,7 @@ describe("ForgotPasswordPage", () => {
   });
   it("form value should update from when you change the input", () => {
     forgotEmailForm("dummyUser@gmail.com");
-    expect(component.emailController.value).toEqual(
-     {
-      emailController:"dummyUser@gmail.com",
-    }
-    );
+    expect(component.emailController.value).toEqual("dummyUser@gmail.com");
   });
   it("Display email Error Msg when email is blank", () => {
     forgotEmailForm(null);
@@ -82,6 +78,4 @@ describe("ForgotPasswordPage", () => {
     expect(emailErrorMsg).toBeDefined();
     expect(emailErrorMsg.innerHTML).toContain("Email address is invalid");
   });
-
-
 });
