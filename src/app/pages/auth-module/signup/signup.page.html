@@ -1,4 +1,3 @@
-
 <ion-header class="ion-no-border" [translucent]="true">
   <ion-toolbar>
     <ion-icon
@@ -45,44 +44,64 @@
           <p>Complete details to your account.</p>
         </div>
 
-        <form class="auth-form">
+        <form class="auth-form" [formGroup]="signUpForm">
           <div class="input-box">
             <ion-item
-              
+              [ngClass]="isFormSubmitted && signUpForm.controls.email.invalid ? 'error-border':' '"
               lines="none"
+              id="emailInputContainer"
             >
-              <ion-label position="floating">Email <span class="red">*</span></ion-label>
+              <ion-label position="floating"
+                >Email <span class="red">*</span></ion-label
+              >
               <ion-input
-          
                 autocomplete="on"
                 type="email"
+                formControlName="email"
               ></ion-input>
               <img
                 class="ion-align-self-center"
                 slot="end"
                 src="assets/icon/email.svg"
+                *ngIf="!isFormSubmitted"
               />
               <img
                 class="ion-align-self-center"
                 slot="end"
                 src="assets/icon/right-green.svg"
+                *ngIf="isFormSubmitted && signUpForm.controls.email.valid"
               />
             </ion-item>
-            <div class="error-msg">
-              <p><img src="assets/icon/info-red.svg"> Email address is required</p>
+            <div
+              class="error-msg"
+              *ngIf="isFormSubmitted && signUpForm.controls.email.errors && signUpForm.controls.email.errors?.required"
+              id="userEmailRequiredError"
+            >
+              <p>
+                <img src="assets/icon/info-red.svg" />
+                Email address is required
+              </p>
+            </div>
+            <div
+              class="error-msg"
+              id="userEmailInvalid"
+              *ngIf="isFormSubmitted && signUpForm.controls.email.errors && signUpForm.controls.email.errors?.pattern"
+            >
+              <p>
+                <img src="assets/icon/info-red.svg" />
+                Email address is invalid
+              </p>
             </div>
           </div>
 
           <div class="input-box">
-            <ion-item
-              
-              lines="none"
-            >
+            <ion-item lines="none">
               <ion-label position="floating">Phone no. </ion-label>
               <ion-input
-          
                 autocomplete="on"
                 type="email"
+                formControlName="phone"
+                appPhoneMask
               ></ion-input>
               <img
                 class="ion-align-self-center"
@@ -90,24 +109,43 @@
                 src="assets/icon/mobile.svg"
               />
             </ion-item>
+
+            <div
+              class="error-msg"
+              id="userPhoneInvalid"
+              *ngIf="isFormSubmitted && signUpForm.controls.phone.errors && signUpForm.controls.phone.errors?.minlength"
+            >
+              <p>
+                <img src="assets/icon/info-red.svg" />
+                Phone number is invalid
+              </p>
+            </div>
+          </div>
+
+          <div class="accept-terms-policy">
+            <ion-item lines="none">
+              <ion-checkbox
+                mode="md"
+                slot="start"
+                formControlName="termCondition"
+              ></ion-checkbox>
+              <ion-label
+                >Accept <span id="terms-of-use">Terms of Use</span> &
+                <span id="privacy-policy">Privacy Policy</span></ion-label
+              >
+            </ion-item>
           </div>
         </form>
-
-        <div class="accept-terms-policy">
-          <ion-item lines="none">
-            <ion-checkbox mode="md" slot="start"></ion-checkbox>
-            <ion-label>Accept <span id="terms-of-use">Terms of Use</span> & <span id="privacy-policy">Privacy Policy</span></ion-label>
-          </ion-item>
-        </div>
-       
-
         <div class="auth-btn">
-          <ion-button>
+          <ion-button
+            id="submitBtn"
+            (click)="onSubmit()"
+            [disabled]="!signUpForm.controls.termCondition.value"
+          >
             <img src="assets/images/button-auth.png" />
             <span>Signup</span>
           </ion-button>
         </div>
-
       </div>
       <ion-grid class="buble-part">
         <div class="dots-bubble">
@@ -127,24 +165,59 @@
   </div>
 </ion-content>
 
-
 <!-- Modal T&C -->
 <ion-modal trigger="terms-of-use" class="tandc-modal">
   <ng-template>
     <ion-header mode="ios">
-        <ion-toolbar>
-          <ion-title>Terms of Use</ion-title>
-          <ion-icon slot="end" name="close-outline" (click)="onclick_cancel()"></ion-icon>
-        </ion-toolbar>
+      <ion-toolbar>
+        <ion-title>Terms of Use</ion-title>
+        <ion-icon
+          slot="end"
+          name="close-outline"
+          (click)="onclick_cancel()"
+        ></ion-icon>
+      </ion-toolbar>
     </ion-header>
 
     <ion-content>
-        <ion-grid class="content-part">
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
-            <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-        </ion-grid>
+      <ion-grid class="content-part">
+        <p>
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry. Lorem Ipsum has been the industry's standard dummy text ever
+          since the 1500s, when an unknown printer took a galley of type and
+          scrambled it to make a type specimen book. It has survived not only
+          five centuries, but also the leap into electronic typesetting,
+          remaining essentially unchanged. It was popularised in the 1960s with
+          the release of Letraset sheets containing Lorem Ipsum passages, and
+          more recently with desktop publishing software like Aldus PageMaker
+          including versions of Lorem Ipsum.
+        </p>
+        <p>
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry. Lorem Ipsum has been the industry's standard dummy text ever
+          since the 1500s, when an unknown printer took a galley of type and
+          scrambled it to make a type specimen book. It has survived not only
+          five centuries, but also the leap into electronic typesetting,
+          remaining essentially unchanged. It was popularised in the 1960s with
+          the release of Letraset sheets containing Lorem Ipsum passages, and
+          more recently with desktop publishing software like Aldus PageMaker
+          including versions of Lorem Ipsum.
+        </p>
+        <p>
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry.
+        </p>
+        <p>
+          Lorem Ipsum has been the industry's standard dummy text ever since the
+          1500s, when an unknown printer took a galley of type and scrambled it
+          to make a type specimen book. It has survived not only five centuries,
+          but also the leap into electronic typesetting, remaining essentially
+          unchanged. It was popularised in the 1960s with the release of
+          Letraset sheets containing Lorem Ipsum passages, and more recently
+          with desktop publishing software like Aldus PageMaker including
+          versions of Lorem Ipsum.
+        </p>
+      </ion-grid>
     </ion-content>
   </ng-template>
 </ion-modal>
@@ -153,19 +226,55 @@
 <ion-modal trigger="privacy-policy" class="privacy-policy-modal">
   <ng-template>
     <ion-header mode="ios">
-        <ion-toolbar>
-          <ion-title>Privacy Policy</ion-title>
-          <ion-icon slot="end" name="close-outline" (click)="onclick_cancel()"></ion-icon>
-        </ion-toolbar>
+      <ion-toolbar>
+        <ion-title>Privacy Policy</ion-title>
+        <ion-icon
+          slot="end"
+          name="close-outline"
+          (click)="onclick_cancel()"
+        ></ion-icon>
+      </ion-toolbar>
     </ion-header>
 
     <ion-content>
-        <ion-grid class="content-part">
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
-            <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-        </ion-grid>
+      <ion-grid class="content-part">
+        <p>
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry. Lorem Ipsum has been the industry's standard dummy text ever
+          since the 1500s, when an unknown printer took a galley of type and
+          scrambled it to make a type specimen book. It has survived not only
+          five centuries, but also the leap into electronic typesetting,
+          remaining essentially unchanged. It was popularised in the 1960s with
+          the release of Letraset sheets containing Lorem Ipsum passages, and
+          more recently with desktop publishing software like Aldus PageMaker
+          including versions of Lorem Ipsum.
+        </p>
+        <p>
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry. Lorem Ipsum has been the industry's standard dummy text ever
+          since the 1500s, when an unknown printer took a galley of type and
+          scrambled it to make a type specimen book. It has survived not only
+          five centuries, but also the leap into electronic typesetting,
+          remaining essentially unchanged. It was popularised in the 1960s with
+          the release of Letraset sheets containing Lorem Ipsum passages, and
+          more recently with desktop publishing software like Aldus PageMaker
+          including versions of Lorem Ipsum.
+        </p>
+        <p>
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry.
+        </p>
+        <p>
+          Lorem Ipsum has been the industry's standard dummy text ever since the
+          1500s, when an unknown printer took a galley of type and scrambled it
+          to make a type specimen book. It has survived not only five centuries,
+          but also the leap into electronic typesetting, remaining essentially
+          unchanged. It was popularised in the 1960s with the release of
+          Letraset sheets containing Lorem Ipsum passages, and more recently
+          with desktop publishing software like Aldus PageMaker including
+          versions of Lorem Ipsum.
+        </p>
+      </ion-grid>
     </ion-content>
   </ng-template>
 </ion-modal>
