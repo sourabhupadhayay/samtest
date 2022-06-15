@@ -4,7 +4,7 @@ export class Configuration {
 
   constructor(public state: projectState) {
     if (this.state == "staging") {
-      this.BASE_URL = "http://localhost:3000/";
+      this.BASE_URL = "https://dev-apis.bubbleapp.com/";
     } else if (this.state == "qa") {
       this.BASE_URL = "https://qa-apis.riskrelease.com/";
     } else if (this.state == "production") {

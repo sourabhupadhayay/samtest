@@ -14,6 +14,10 @@ export interface Request {
   data?: any;
   isAuth?: boolean;
 }
+export interface Response {
+  data: any;
+  status: any;
+}
 
 @Injectable({
   providedIn: "root",
