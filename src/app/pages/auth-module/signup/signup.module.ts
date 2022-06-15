@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { SignupPageRoutingModule } from './signup-routing.module';
 
 import { SignupPage } from './signup.page';
+import { CommonDirectiveModule } from '../../../directives/common-directive.module';
+
 
 @NgModule({
   imports: [
@@ -14,7 +16,9 @@ import { SignupPage } from './signup.page';
     FormsModule,
     IonicModule,
     SignupPageRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CommonDirectiveModule
+    
   ],
   declarations: [SignupPage]
 })

@@ -1,20 +1,40 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
 import { IonRouterOutlet, ModalController } from "@ionic/angular";
-
+import { EMAIL_PATTERN } from "src/app/helpers/emailValidation";
 @Component({
-  selector: 'app-signup',
-  templateUrl: './signup.page.html',
-  styleUrls: ['./signup.page.scss'],
+  selector: "app-signup",
+  templateUrl: "./signup.page.html",
+  styleUrls: ["./signup.page.scss"],
 })
 export class SignupPage implements OnInit {
+  isFormSubmitted = false;
+  signUpForm: FormGroup = new FormGroup({
+    email: new FormControl<string | null>(null, [
+      Validators.required,
+      Validators.pattern(EMAIL_PATTERN),
+      Validators.email,
+    ]),
+    phone: new FormControl<string | null>(null, [Validators.minLength(14)]),
+    termCondition: new FormControl(false),
+  });
+  constructor(
+    public modalCtrl: ModalController,
+    //public routerOutLet: IonRouterOutlet,
+    private router: Router,
+  ) {}
 
-  constructor(public modalCtrl: ModalController,public routerOutLet: IonRouterOutlet) { }
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onclick_cancel(): void {
     this.modalCtrl.dismiss();
   }
-
+  onSubmit() {
+    this.isFormSubmitted = true;
+    if(this.signUpForm.valid)
+    {
+      this.router.navigate(["/auth/verify-otp"]); 
+    }
+  }
 }
