@@ -16,7 +16,12 @@ export interface Request {
 }
 export interface Response {
   data: any;
-  status: any;
+  status: {
+    code: string;
+    description: string;
+    status: string;
+  };
+  token: string;
 }
 
 @Injectable({

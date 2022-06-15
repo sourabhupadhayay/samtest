@@ -1,13 +1,19 @@
-import { Component, OnInit } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from "@angular/core";
 import { IonRouterOutlet, ModalController } from "@ionic/angular";
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
-import { DataService, Request } from "src/app/providers/data.service";
+import { DataService, Request, Response } from "src/app/providers/data.service";
 
 @Component({
   selector: "app-bubble-screen",
   templateUrl: "./bubble-screen.page.html",
   styleUrls: ["./bubble-screen.page.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BubbleScreenPage implements OnInit {
   bubble1: boolean = false;
@@ -18,7 +24,8 @@ export class BubbleScreenPage implements OnInit {
     public routerOutLet: IonRouterOutlet,
     private apiService: DataService,
     private coreService: CoreService,
-    private constant: ConstantService
+    private constant: ConstantService,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -43,13 +50,15 @@ export class BubbleScreenPage implements OnInit {
       },
     };
     this.coreService.presentLoader();
-    this.apiService.post(request).subscribe((response) => {
+    this.apiService.post(request).subscribe((response: Response) => {
       if (response.status.code == this.constant.STATUS_OK) {
         this.coreService.dismissLoader();
         this.athleteList = response.data;
+        this.cd.detectChanges();
+        console.log(this.athleteList);
       } else {
         this.coreService.showToastMessage(
-          response,
+          response["status"]["description"],
           this.coreService.TOAST_ERROR
         );
         this.coreService.dismissLoader();
