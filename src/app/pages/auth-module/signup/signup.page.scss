@@ -229,11 +229,11 @@ ion-header {
         }
 
         .accept-terms-policy{padding: 10px 15px;
-            ion-item{--padding-start:0; --innerpadding-end:0; --background: transparent; --ripple-color:transparent;
-                ion-checkbox{margin: 0; margin-right: 5px; --size: 20px; --border-color:var(--white-clr); --background-checked:var(--theme-one-clr); --background:transparent; --border-width: 1px;}
+            ion-item{--padding-start:0; --innerpadding-end:0; --background: transparent; --ripple-color:none;--background-activated: none;
+                ion-checkbox{margin: 0; margin-right: 5px; --size: 20px; --border-color:var(--white-clr); --background-checked:transparent; --background:transparent; --border-width: 1px; --border-color-checked:var(--white-clr); --ripple-color:none; --border-radius: 4px;}
                 ion-label{
                     font-size: 0.75rem; color: var(--white-clr); font-weight: 500;
-                    span{font-weight: 800;}
+                    span{font-weight: 800; border-bottom: 1px solid var(--white-clr); display: inline-block; position: relative; z-index: 9;}
                 }
             }
         }
@@ -493,5 +493,42 @@ ion-header {
   .error-border {
     border: 2px solid red !important;
     border-radius: 10px;
+  }
+
+
+  ion-modal.tandc-modal{
+    ion-header{
+      ion-toolbar{position: relative;
+          ion-title{align-items: center; padding: 0 15px; font-size: 1rem; color: var(--theme-one-clr);
+            
+          }
+           ion-icon{color: var(--text-black);}
+          
+      }
+    }
+    ion-content{
+      --background: #fff;
+      ion-grid{margin: 0; padding: 15px;
+        p{font-size: 0.875rem; color: var(--text-black); margin: 0 0 10px; font-weight: 400; text-align: justify; line-height: 21px;}
+      }
+    }
+  }
+
+  ion-modal.privacy-policy-modal{
+    ion-header{
+      ion-toolbar{position: relative;
+          ion-title{align-items: center; padding: 0 15px; font-size: 1rem; color: var(--theme-one-clr);
+            
+          }
+           ion-icon{color: var(--text-black);}
+          
+      }
+    }
+    ion-content{
+      --background: #fff;
+      ion-grid{margin: 0; padding: 15px;
+        p{font-size: 0.875rem; color: var(--text-black); margin: 0 0 10px; font-weight: 400; text-align: justify; line-height: 21px;}
+      }
+    }
   }
   
