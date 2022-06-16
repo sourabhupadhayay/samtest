@@ -193,7 +193,7 @@ export class CoreService {
   }
 
   async pickImage() {
-    this.presentLoader(this.constant.UPLOADING);
+    // this.presentLoader(this.constant.UPLOADING);
 
     const image = await Camera.getPhoto({
       quality: 90,
