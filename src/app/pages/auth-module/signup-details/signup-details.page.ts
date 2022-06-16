@@ -54,6 +54,12 @@ export class SignupDetailsPage implements OnInit {
     if (this.validateBothPasswords()) return;
   }
 
+  uploadImage() {
+    this.coreService.changeProfile().then((image) => {
+      console.log(image);
+    });
+  }
+
   // utility methods
   checkDateFormat(event: any) {
     let x = event.target.value;
