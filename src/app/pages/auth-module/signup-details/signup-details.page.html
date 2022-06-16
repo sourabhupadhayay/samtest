@@ -38,7 +38,6 @@
 
     <ion-grid class="content-part">
       <div class="main-part">
-
         <div class="auth-title sticky-top">
           <img src="assets/images/auth-img.png" />
           <h4>Signup</h4>
@@ -46,28 +45,36 @@
         </div>
 
         <div class="profile-image">
-            <div class="images-upload">
-                <div class="upload-icon">
-                    <img src="assets/icon/camera.svg">
-                    <ion-input type="file"></ion-input>
-                </div>
-                <div class="uploaded-img">
-                    <div class="img-part">
-                        <img src="assets/images/upload-img.png">
-                        <div class="close-btn">
-                          <ion-icon name="trash-outline"></ion-icon>
-                        </div>
-                    </div>
-                </div>
+          <div class="images-upload">
+            <div class="upload-icon">
+              <img src="assets/icon/camera.svg" />
+              <ion-input type="file"></ion-input>
             </div>
+            <div class="uploaded-img">
+              <div class="img-part">
+                <img src="assets/images/upload-img.png" />
+                <div class="close-btn">
+                  <ion-icon name="trash-outline"></ion-icon>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <form class="auth-form">
+        <form [formGroup]="signUpDetailsForm" class="auth-form">
           <div class="input-box">
             <ion-item lines="none">
               <ion-label position="floating">Full Name</ion-label>
-              <ion-input autocomplete="off" type="text"></ion-input>
-              <img class="ion-align-self-center" slot="end" src="assets/icon/user.svg"/>
+              <ion-input
+                formControlName="fullName"
+                autocomplete="off"
+                type="text"
+              ></ion-input>
+              <img
+                class="ion-align-self-center"
+                slot="end"
+                src="assets/icon/user.svg"
+              />
             </ion-item>
             <!-- <div class="error-msg" id="userNameError">
               <p>
@@ -79,8 +86,16 @@
           <div class="input-box">
             <ion-item lines="none">
               <ion-label position="floating">Email</ion-label>
-              <ion-input autocomplete="off" type="email"></ion-input>
-              <img class="ion-align-self-center" slot="end" src="assets/icon/email.svg"/>
+              <ion-input
+                formControlName="email"
+                autocomplete="off"
+                type="email"
+              ></ion-input>
+              <img
+                class="ion-align-self-center"
+                slot="end"
+                src="assets/icon/email.svg"
+              />
             </ion-item>
             <!-- <div class="error-msg" id="userNameError">
               <p>
@@ -92,9 +107,21 @@
           <div class="input-box">
             <ion-item lines="none">
               <ion-label position="floating">Password</ion-label>
-              <ion-input autocomplete="off" type="password"></ion-input>
-              <img class="ion-align-self-center" slot="end" src="assets/icon/hide.svg"/>
-              <img class="ion-align-self-center" slot="end" src="assets/icon/show.svg"/>
+              <ion-input
+                formControlName="password"
+                autocomplete="off"
+                type="password"
+              ></ion-input>
+              <img
+                class="ion-align-self-center"
+                slot="end"
+                src="assets/icon/hide.svg"
+              />
+              <img
+                class="ion-align-self-center"
+                slot="end"
+                src="assets/icon/show.svg"
+              />
             </ion-item>
             <!-- <div class="error-msg" id="userNameError">
               <p>
@@ -104,11 +131,19 @@
           </div>
 
           <div class="input-box">
-            <ion-item lines="none" >
+            <ion-item lines="none">
               <ion-label position="floating">Confirm Password</ion-label>
               <ion-input autocomplete="on" type="password"></ion-input>
-              <img class="ion-align-self-center" slot="end" src="assets/icon/hide.svg"/>
-              <img class="ion-align-self-center" slot="end" src="assets/icon/show.svg"/>
+              <img
+                class="ion-align-self-center"
+                slot="end"
+                src="assets/icon/hide.svg"
+              />
+              <img
+                class="ion-align-self-center"
+                slot="end"
+                src="assets/icon/show.svg"
+              />
             </ion-item>
             <!-- <div class="error-msg" id="passwordError">
               <p><img src="assets/icon/info-red.svg" /> Password is required</p>
@@ -116,39 +151,80 @@
           </div>
 
           <div class="input-box">
-            <ion-item lines="none" >
-              <ion-label position="floating">Birthday<span class="red">*</span></ion-label>
-              <ion-input autocomplete="on" type="text"></ion-input>
-              <img class="ion-align-self-center" slot="end" src="assets/icon/calendar.svg"/>
+            <ion-item lines="none">
+              <ion-label position="floating"
+                >Birthday<span class="red">*</span></ion-label
+              >
+              <ion-input formControlName="birthDate"></ion-input>
+              <!-- <ion-input autocomplete="on" type="text"></ion-input> -->
+              <img
+                id="open-modal"
+                class="ion-align-self-center"
+                slot="end"
+                src="assets/icon/calendar.svg"
+              />
+              <ion-modal class="dateModal" trigger="open-modal" mode="ios">
+                <ng-template>
+                  <ion-content>
+                    <ion-datetime
+                      mode="ios"
+                      #dateTime
+                      presentation="date"
+                      [showDefaultButtons]="true"
+                      (ionChange)="patchDateValue(dateTime.value)"
+                    ></ion-datetime>
+                  </ion-content>
+                </ng-template>
+              </ion-modal>
             </ion-item>
             <!-- <div class="error-msg" id="passwordError">
               <p><img src="assets/icon/info-red.svg" /> Birthday is required</p>
             </div> -->
           </div>
           <div class="input-box">
-            <ion-item lines="none" >
+            <ion-item lines="none">
               <ion-label position="floating">Phone Number</ion-label>
-              <ion-input autocomplete="on" type="number"></ion-input>
-              <img class="ion-align-self-center" slot="end" src="assets/icon/phone.svg"/>
+              <ion-input
+                formControlName="phone"
+                autocomplete="on"
+                type="number"
+              ></ion-input>
+              <img
+                class="ion-align-self-center"
+                slot="end"
+                src="assets/icon/phone.svg"
+              />
             </ion-item>
             <!-- <div class="error-msg" id="passwordError">
               <p><img src="assets/icon/info-red.svg" /> Birthday is required</p>
             </div> -->
           </div>
           <div class="input-box">
-            <ion-item lines="none" >
+            <ion-item lines="none">
               <ion-label position="floating">Team</ion-label>
-              <ion-input autocomplete="on" type="text"></ion-input>
-              <img class="ion-align-self-center" slot="end" src="assets/icon/team.svg"/>
+              <ion-input
+                formControlName="teamName"
+                autocomplete="on"
+                type="text"
+              ></ion-input>
+              <img
+                class="ion-align-self-center"
+                slot="end"
+                src="assets/icon/team.svg"
+              />
             </ion-item>
             <!-- <div class="error-msg" id="passwordError">
               <p><img src="assets/icon/info-red.svg" /> Birthday is required</p>
             </div> -->
           </div>
           <div class="input-box">
-            <ion-item lines="none" >
+            <ion-item lines="none">
               <ion-label position="floating">State</ion-label>
-              <ion-input autocomplete="on" type="text"></ion-input>
+              <ion-input
+                formControlName="teamState"
+                autocomplete="on"
+                type="text"
+              ></ion-input>
               <!-- <img class="ion-align-self-center" slot="end" src="assets/icon/team.svg"/> -->
             </ion-item>
             <!-- <div class="error-msg" id="passwordError">
@@ -156,9 +232,13 @@
             </div> -->
           </div>
           <div class="input-box">
-            <ion-item lines="none" >
+            <ion-item lines="none">
               <ion-label position="floating">School/University</ion-label>
-              <ion-input autocomplete="on" type="text"></ion-input>
+              <ion-input
+                formControlName="school"
+                autocomplete="on"
+                type="text"
+              ></ion-input>
               <!-- <img class="ion-align-self-center" slot="end" src="assets/icon/team.svg"/> -->
             </ion-item>
             <!-- <div class="error-msg" id="passwordError">
@@ -168,12 +248,11 @@
         </form>
 
         <div class="auth-btn">
-          <ion-button id="submitBtn">
+          <ion-button (click)="onSubmit()" id="submitBtn">
             <img src="assets/images/button-auth.png" />
             <span>Signup</span>
           </ion-button>
         </div>
-
       </div>
       <ion-grid class="buble-part">
         <div class="dots-bubble">
