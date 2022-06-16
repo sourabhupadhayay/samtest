@@ -76,3 +76,7 @@ select:-webkit-autofill:focus {
     }
   }
 }
+
+.auth-title.sticky-top{
+  position: sticky; top: 0;
+}
