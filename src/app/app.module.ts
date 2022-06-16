@@ -8,7 +8,12 @@ import { AppComponent } from "./app.component";
 import { AppRoutingModule } from "./app-routing.module";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AuthModuleModule } from "./pages/auth-module/auth-module.module";
+<<<<<<< HEAD
 import { ErrorInterceptor } from "./interceptor/error.interceptor";
+=======
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { MatIconModule } from "@angular/material/icon";
+>>>>>>> featureS2/BUBAPP-73
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,6 +23,8 @@ import { ErrorInterceptor } from "./interceptor/error.interceptor";
     AppRoutingModule,
     HttpClientModule,
     AuthModuleModule,
+    BrowserAnimationsModule,
+    MatIconModule,
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
