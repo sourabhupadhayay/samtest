@@ -5,7 +5,8 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
-import { format, parseISO, getDate, getMonth, getYear } from "date-fns";
+import { format, parseISO } from "date-fns";
+import { CoreService } from "src/app/providers/core.service";
 
 @Component({
   selector: "app-signup-details",
@@ -13,9 +14,16 @@ import { format, parseISO, getDate, getMonth, getYear } from "date-fns";
   styleUrls: ["./signup-details.page.scss"],
 })
 export class SignupDetailsPage implements OnInit {
+  isPasswordStrong = false;
+  isShowingPassword = false;
+  isShowingConfirmPassword = false;
+  isShowingPasswordHint = false;
   signUpDetailsForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private coreService: CoreService
+  ) {}
 
   ngOnInit() {
     this.initForm();
@@ -34,6 +42,48 @@ export class SignupDetailsPage implements OnInit {
     });
   }
 
+  onSubmit() {
+    console.log(this.signUpDetailsForm);
+  }
+
+  // utility methods
+  checkDateFormat(event: any) {
+    let x = event.target.value;
+
+    if (x.length != 0) {
+      let date = x.split("/");
+      if (
+        date[0].length >= 0 &&
+        date[0].length <= 2 &&
+        Number(date[0]) <= 12 &&
+        date[1].length >= 0 &&
+        date[1].length <= 2 &&
+        Number(date[1]) <= 31 &&
+        date[2].length == 4
+      ) {
+        return;
+      } else {
+        this.signUpDetailsForm.controls.birthDate.reset();
+
+        this.coreService.showToastMessage(
+          "Please enter valid date format",
+          this.coreService.TOAST_ERROR
+        );
+      }
+    }
+  }
+  onStrengthChanged(strength: number) {
+    if (strength === 100) {
+      this.isPasswordStrong = true;
+    }
+  }
+  public showPassword(): void {
+    this.isShowingPassword = !this.isShowingPassword;
+  }
+  public showConfirmPassword(): void {
+    this.isShowingConfirmPassword = !this.isShowingConfirmPassword;
+  }
+
   formatDate(value: string) {
     return format(parseISO(value), "MM/dd/yyyy");
   }
@@ -43,9 +93,5 @@ export class SignupDetailsPage implements OnInit {
     this.signUpDetailsForm.controls.birthDate.patchValue(formattedDate);
 
     console.log(new Date(formattedDate));
-  }
-
-  onSubmit() {
-    console.log(this.signUpDetailsForm);
   }
 }
