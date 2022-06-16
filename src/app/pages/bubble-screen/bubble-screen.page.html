@@ -21,7 +21,7 @@
         <div
           *ngFor="let bubble of athleteList;let i = index"
           class="bubble"
-          routerLink="auth/login"
+          routerLink="/auth/login"
           [ngClass]="'x' + (i+1)"
           (click)="playAudio('1')"
         >
@@ -74,7 +74,7 @@
 
   <ion-fab vertical="bottom" horizontal="center" slot="fixed">
     <!-- id="trigger-button" -->
-    <ion-fab-button>
+    <ion-fab-button routerLink="/auth/login">
       <img src="assets/icon/login-btn.png" />
     </ion-fab-button>
   </ion-fab>
