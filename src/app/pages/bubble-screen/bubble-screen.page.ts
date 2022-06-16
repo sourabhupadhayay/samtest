@@ -54,7 +54,7 @@ export class BubbleScreenPage implements OnInit, AfterViewInit {
         },
       },
     };
-    this.coreService.presentLoader();
+    this.coreService.presentLoader("Please wait");
     this.apiService.post(request).subscribe((response: Response) => {
       if (response.status.code == this.constant.STATUS_OK) {
         this.coreService.dismissLoader();
