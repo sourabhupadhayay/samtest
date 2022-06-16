@@ -1,7 +1,9 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   OnInit,
 } from "@angular/core";
 import { IonRouterOutlet, ModalController } from "@ionic/angular";
@@ -16,7 +18,7 @@ import { NetworkService } from "src/app/providers/network.service";
   styleUrls: ["./bubble-screen.page.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BubbleScreenPage implements OnInit {
+export class BubbleScreenPage implements OnInit, AfterViewInit {
   bubble1: boolean = false;
   bubble2: boolean = false;
   athleteList: any[] = [];
@@ -27,12 +29,13 @@ export class BubbleScreenPage implements OnInit {
     private coreService: CoreService,
     private constant: ConstantService,
     private cd: ChangeDetectorRef,
-    private network: NetworkService
+    private htmlElement: ElementRef
   ) {}
 
   ngOnInit() {
     this.getAthletes();
   }
+  ngAfterViewInit(): void {}
 
   getAthletes() {
     let request: Request = {
