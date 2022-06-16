@@ -524,6 +524,7 @@ ion-content {
       }
     }
   }
+<<<<<<< HEAD
 }
 .input-box ion-item {
   border: 1px solid transparent;
@@ -549,3 +550,14 @@ ion-content {
     border-radius: 8px;
   }
 }
+=======
+  .input-box ion-item {
+    border: 1px solid transparent;
+  }
+  
+  .error-border {
+    border: 1px solid var(--red-clr) !important;
+    border-radius: 10px;
+  }
+  
+>>>>>>> 8dead7f ([HA][BUBAPP-55] signup details screen)
