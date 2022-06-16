@@ -12,8 +12,7 @@ import { catchError } from "rxjs/operators";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor() // private readonly coreService: coreService
-  {}
+  constructor() {} // private readonly coreService: coreService
   /***
    * description: http intercepter to handle API errors
    */
@@ -23,13 +22,8 @@ export class ErrorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((err) => {
-        console.log("error comes", err, request);
-        console.log(
-          "err.status",
-          err.status,
-          " err.statusText",
-          err.statusText
-        );
+        console.log(err);
+
         // this.coreService.dismissLoader();
         // if (err.status === 401) {
         // } else {
