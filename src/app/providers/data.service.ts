@@ -14,6 +14,15 @@ export interface Request {
   data?: any;
   isAuth?: boolean;
 }
+export interface Response {
+  data: any;
+  status: {
+    code: string;
+    description: string;
+    status: string;
+  };
+  token: string;
+}
 
 @Injectable({
   providedIn: "root",
@@ -214,16 +223,14 @@ export class DataService {
       );
   }
 
-  getHeader(isByPass = false): HttpHeaders {
+  getHeader(isByPass = true): HttpHeaders {
     const currentTimeZone = new Date()
       .toLocaleTimeString("en-us", { timeZoneName: "short" })
       .split(" ")[2];
     const version = "1";
     let token = "";
     if (!isByPass) {
-      token = localStorage.getItem(this.constant.ACCESS_TOKEN); //this.authService.getToken();
-    } else {
-      //token = this.authService.getToken();
+      token = this.authService.getToken();
     }
     let header: HttpHeaders = new HttpHeaders({
       "Content-Type": "application/json",
@@ -241,14 +248,14 @@ export class DataService {
     return header;
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////
-  getHeaderImage(isByPass = false): HttpHeaders {
+  getHeaderImage(isByPass = true): HttpHeaders {
     const currentTimeZone = new Date()
       .toLocaleTimeString("en-us", { timeZoneName: "short" })
       .split(" ")[2];
     const version = "1";
     let token = "";
     if (!isByPass) {
-      token = localStorage.getItem(this.constant.ACCESS_TOKEN); //this.authService.getToken();
+      token = this.authService.getToken();
     } else {
       //token = this.authService.getToken();
     }
