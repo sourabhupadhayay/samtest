@@ -1,10 +1,6 @@
 <ion-header class="ion-no-border" [translucent]="true">
   <ion-toolbar>
-    <ion-icon
-      slot="start"
-      name="arrow-back-outline"
-      routerLink="/auth/login"
-    ></ion-icon>
+      <ion-icon slot="start" name="arrow-back-outline" routerLink="/auth/login"></ion-icon>
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">
@@ -133,6 +129,7 @@
         <p>Welcome! Login to your account.</p>
       </div>
 
+<<<<<<< HEAD
       <form [formGroup]="loginForm" class="auth-form">
         <div class="input-box">
           <ion-item
@@ -167,6 +164,88 @@
             <p>
               <img src="assets/icon/info-red.svg" /> Email address is required
             </p>
+=======
+      <ion-grid class="content-part">
+        <div class="main-part">
+            <div class="auth-title sticky-top">
+                <img src="assets/images/auth-img.png">
+                <h4>Login</h4>
+                <p>Welcome! Login to your account.</p>
+            </div>
+
+            <div class="auth-form">
+                
+                  <div class="input-box">
+                    <ion-item lines="none">
+                      <ion-label position="floating">Email</ion-label>
+                      <ion-input autocomplete="off" type="email"></ion-input>
+                      <img
+                        class="ion-align-self-center"
+                        slot="end"
+                        src="assets/icon/email.svg"
+                      />
+                    </ion-item>
+                  </div>
+                
+                  <div class="input-box">
+                    <ion-item lines="none">
+                      <ion-label position="floating">Password</ion-label>
+                      <ion-input autocomplete="off" type="password"></ion-input>
+                      <img
+                        class="ion-align-self-center"
+                        slot="end"
+                        src="assets/icon/hide.svg"
+                      />
+                    </ion-item>
+                  </div>
+              
+            </div>
+
+            <div class="forgot-pass">
+                <p routerLink="/forgot">Forget Password?</p>
+            </div>
+
+            <div class="auth-btn">
+                <ion-button> 
+                  <img src="assets/images/button-auth.png"> 
+                  <span>Login</span>
+                </ion-button>
+            </div>
+
+            <div class="or-login-with">
+              <div class="main-text">
+                <span class="line"></span>
+                <p>Or Login With</p>
+                <span class="line"></span>
+              </div>
+            </div>
+
+            <div class="social-media">
+                <ion-button>
+                    <img src="assets/images/facebook.png">
+                </ion-button>
+                <ion-button>
+                  <img src="assets/images/google.png">
+                </ion-button>
+            </div>
+
+            <div class="create-account">
+                <p routerLink="/auth/signup">Create Bubble App Account</p>
+            </div>
+        </div>
+        <ion-grid class="buble-part">
+          <div class="dots-bubble">
+            <div class="dots"></div>
+            <div class="dots"></div>
+            <div class="dots"></div>
+            <div class="dots"></div>
+            <div class="dots"></div>
+            <div class="dots"></div>
+            <div class="dots"></div>
+            <div class="dots"></div>
+            <div class="dots"></div>
+            <div class="dots"></div>
+>>>>>>> 1f978081c944d3e001b9dba01b970805c25e96cc
           </div>
         </div>
 
