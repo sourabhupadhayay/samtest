@@ -6,6 +6,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { format, parseISO } from "date-fns";
+import { EMAIL_PATTERN } from "src/app/helpers/emailValidation";
 import { CoreService } from "src/app/providers/core.service";
 
 @Component({
@@ -19,6 +20,8 @@ export class SignupDetailsPage implements OnInit {
   isShowingConfirmPassword = false;
   isShowingPasswordHint = false;
   signUpDetailsForm: FormGroup;
+  confirmPassword: String = "";
+  isFormSubmitted: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -32,7 +35,7 @@ export class SignupDetailsPage implements OnInit {
   initForm() {
     this.signUpDetailsForm = this.formBuilder.group({
       fullName: [null, [Validators.required]],
-      email: [null, [Validators.required]],
+      email: [null, [Validators.required, Validators.pattern(EMAIL_PATTERN)]],
       password: [null, Validators.required],
       birthDate: [null, Validators.required],
       phone: [null],
@@ -44,6 +47,11 @@ export class SignupDetailsPage implements OnInit {
 
   onSubmit() {
     console.log(this.signUpDetailsForm);
+    this.isFormSubmitted = true;
+    // validations
+    if (this.isFormValid()) return;
+    if (this.isPassWordStrongEnough()) return;
+    if (this.validateBothPasswords()) return;
   }
 
   // utility methods
@@ -93,5 +101,36 @@ export class SignupDetailsPage implements OnInit {
     this.signUpDetailsForm.controls.birthDate.patchValue(formattedDate);
 
     console.log(new Date(formattedDate));
+  }
+
+  validateBothPasswords(): boolean {
+    if (
+      this.signUpDetailsForm.controls["password"].value !== this.confirmPassword
+    ) {
+      this.coreService.showToastMessage(
+        "passwords do not match",
+        this.coreService.TOAST_ERROR
+      );
+
+      return true;
+    }
+  }
+  isPassWordStrongEnough(): boolean {
+    if (!this.isPasswordStrong) {
+      this.coreService.showToastMessage(
+        "Password is not strong enough",
+        this.coreService.TOAST_ERROR
+      );
+      return true;
+    }
+  }
+  isFormValid(): boolean {
+    if (this.signUpDetailsForm.invalid) {
+      this.coreService.showToastMessage(
+        "Please enter valid details",
+        this.coreService.TOAST_ERROR
+      );
+      return true;
+    }
   }
 }
