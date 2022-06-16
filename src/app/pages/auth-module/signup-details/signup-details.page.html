@@ -64,7 +64,9 @@
         <form [formGroup]="signUpDetailsForm" class="auth-form">
           <div class="input-box">
             <ion-item lines="none">
-              <ion-label position="floating">Full Name</ion-label>
+              <ion-label position="floating">
+                Full Name<span class="red">*</span></ion-label
+              >
               <ion-input
                 formControlName="fullName"
                 autocomplete="off"
@@ -85,7 +87,9 @@
 
           <div class="input-box">
             <ion-item lines="none">
-              <ion-label position="floating">Email</ion-label>
+              <ion-label position="floating"
+                >Email<span class="red">*</span></ion-label
+              >
               <ion-input
                 formControlName="email"
                 autocomplete="off"
@@ -106,18 +110,26 @@
 
           <div class="input-box">
             <ion-item lines="none">
-              <ion-label position="floating">Password</ion-label>
+              <ion-label position="floating"
+                >Password<span class="red">*</span></ion-label
+              >
               <ion-input
                 formControlName="password"
+                (ionFocus)="isShowingPasswordHint = true"
+                (ionBlur)="isShowingPasswordHint = false"
                 autocomplete="off"
-                type="password"
+                [type]="isShowingPassword ? 'text' :'password'"
               ></ion-input>
               <img
+                (click)="showPassword()"
+                *ngIf="isShowingPassword"
                 class="ion-align-self-center"
                 slot="end"
                 src="assets/icon/hide.svg"
               />
               <img
+                (click)="showPassword()"
+                *ngIf="!isShowingPassword"
                 class="ion-align-self-center"
                 slot="end"
                 src="assets/icon/show.svg"
@@ -129,17 +141,40 @@
               </p>
             </div> -->
           </div>
+          <div class="password-meter">
+            <mat-password-strength
+              id="resetPassword"
+              #passwordComponent
+              (onStrengthChanged)="onStrengthChanged($event)"
+              [password]="signUpDetailsForm.controls.password.value"
+            >
+            </mat-password-strength>
+
+            <mat-password-strength-info
+              *ngIf="isShowingPasswordHint"
+              [passwordComponent]="passwordComponent"
+            >
+            </mat-password-strength-info>
+          </div>
 
           <div class="input-box">
             <ion-item lines="none">
-              <ion-label position="floating">Confirm Password</ion-label>
-              <ion-input autocomplete="on" type="password"></ion-input>
+              <ion-label position="floating"
+                >Confirm Password<span class="red">*</span></ion-label
+              >
+              <ion-input
+                [type]="isShowingConfirmPassword ? 'text' :'password'"
+                autocomplete="on"
+                type="password"
+              ></ion-input>
               <img
+                *ngIf="isShowingConfirmPassword"
                 class="ion-align-self-center"
                 slot="end"
                 src="assets/icon/hide.svg"
               />
               <img
+                *ngIf="!isShowingConfirmPassword"
                 class="ion-align-self-center"
                 slot="end"
                 src="assets/icon/show.svg"
@@ -155,7 +190,10 @@
               <ion-label position="floating"
                 >Birthday<span class="red">*</span></ion-label
               >
-              <ion-input formControlName="birthDate"></ion-input>
+              <ion-input
+                (ionBlur)="checkDateFormat($event)"
+                formControlName="birthDate"
+              ></ion-input>
               <!-- <ion-input autocomplete="on" type="text"></ion-input> -->
               <img
                 id="open-modal"
