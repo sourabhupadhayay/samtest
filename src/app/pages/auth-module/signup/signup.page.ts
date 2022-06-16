@@ -10,19 +10,20 @@ import { EMAIL_PATTERN } from "src/app/helpers/emailValidation";
 })
 export class SignupPage implements OnInit {
   isFormSubmitted = false;
+
   signUpForm: FormGroup = new FormGroup({
     email: new FormControl<string | null>(null, [
       Validators.required,
       Validators.pattern(EMAIL_PATTERN),
       Validators.email,
     ]),
-    phone: new FormControl<string | null>(null, [Validators.minLength(14)]),
-    termCondition: new FormControl(false),
+    phone: new FormControl<number | null>(null, [Validators.minLength(14)]),
+    termCondition: new FormControl<boolean>(false),
   });
   constructor(
     public modalCtrl: ModalController,
     //public routerOutLet: IonRouterOutlet,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngOnInit() {}
@@ -31,10 +32,10 @@ export class SignupPage implements OnInit {
     this.modalCtrl.dismiss();
   }
   onSubmit() {
+    console.log(this.signUpForm);
     this.isFormSubmitted = true;
-    if(this.signUpForm.valid)
-    {
-      this.router.navigate(["/auth/verify-otp"]); 
+    if (this.signUpForm.valid) {
+      this.router.navigate(["/auth/verify-otp"]);
     }
   }
 }
