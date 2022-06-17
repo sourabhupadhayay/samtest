@@ -36,7 +36,7 @@ export class AuthenticationService {
     this.getAuthDetail();
   }
   logout() {
-    localStorage.removeItem("auth");
+    localStorage.removeItem("AUTH");
 
     location.reload();
   }
