@@ -16,9 +16,9 @@ export class ResetPasswordPage implements OnInit {
   isPasswordStrong = false;
   isShowingPassword = false;
   isShowingConfirmPassword = false;
-  isShowingPasswordHint = false;
   passwordValidator = new PasswordStrength();
   failedValidationObject: failedValidation;
+  isFormSubmitted = false;
   passwordFormGroup: FormGroup = new FormGroup({
     password: new FormControl<string | null | number>(null, [
       Validators.required,
@@ -42,8 +42,6 @@ export class ResetPasswordPage implements OnInit {
       this.isPasswordStrong = <boolean>(
         this.passwordValidator.isPasswordStrong(value)
       );
-
-      console.log(this.isPasswordStrong);
     });
   }
 
@@ -89,6 +87,7 @@ export class ResetPasswordPage implements OnInit {
   }
 
   onSubmit() {
+    this.isFormSubmitted = true;
     if (this.isFormValid()) return;
     if (this.isPassWordStrongEnough()) return;
     if (this.validateBothPasswords()) return;
