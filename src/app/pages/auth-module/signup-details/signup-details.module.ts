@@ -7,7 +7,6 @@ import { IonicModule } from "@ionic/angular";
 import { SignupDetailsPageRoutingModule } from "./signup-details-routing.module";
 
 import { SignupDetailsPage } from "./signup-details.page";
-import { MatPasswordStrengthModule } from "@angular-material-extensions/password-strength";
 
 @NgModule({
   imports: [
@@ -16,7 +15,6 @@ import { MatPasswordStrengthModule } from "@angular-material-extensions/password
     IonicModule,
     SignupDetailsPageRoutingModule,
     ReactiveFormsModule,
-    MatPasswordStrengthModule,
   ],
   declarations: [SignupDetailsPage],
 })

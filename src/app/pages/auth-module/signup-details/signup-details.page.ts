@@ -5,6 +5,7 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
+import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 import { format, parseISO } from "date-fns";
 import { EMAIL_PATTERN } from "src/app/helpers/emailValidation";
 import { CoreService } from "src/app/providers/core.service";
@@ -22,10 +23,12 @@ export class SignupDetailsPage implements OnInit {
   signUpDetailsForm: FormGroup;
   confirmPassword: String = "";
   isFormSubmitted: boolean = false;
+  ProfileImage: SafeUrl | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
-    private coreService: CoreService
+    private coreService: CoreService,
+    private DOMSanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {
@@ -50,14 +53,18 @@ export class SignupDetailsPage implements OnInit {
     this.isFormSubmitted = true;
     // validations
     if (this.isFormValid()) return;
-    if (this.isPassWordStrongEnough()) return;
+    // if (this.isPassWordStrongEnough()) return;
     if (this.validateBothPasswords()) return;
   }
 
-  uploadImage() {
-    this.coreService.changeProfile().then((image) => {
-      console.log(image);
-    });
+  async uploadImage() {
+    let image = await this.coreService.captureImage();
+
+    this.ProfileImage = this.DOMSanitizer.bypassSecurityTrustUrl(image.webPath);
+  }
+
+  removeImage() {
+    this.ProfileImage = null;
   }
 
   // utility methods
@@ -86,11 +93,7 @@ export class SignupDetailsPage implements OnInit {
       }
     }
   }
-  onStrengthChanged(strength: number) {
-    if (strength === 100) {
-      this.isPasswordStrong = true;
-    }
-  }
+
   public showPassword(): void {
     this.isShowingPassword = !this.isShowingPassword;
   }
@@ -121,15 +124,15 @@ export class SignupDetailsPage implements OnInit {
       return true;
     }
   }
-  isPassWordStrongEnough(): boolean {
-    if (!this.isPasswordStrong) {
-      this.coreService.showToastMessage(
-        "Password is not strong enough",
-        this.coreService.TOAST_ERROR
-      );
-      return true;
-    }
-  }
+  // isPassWordStrongEnough(): boolean {
+  //   if (!this.isPasswordStrong) {
+  //     this.coreService.showToastMessage(
+  //       "Password is not strong enough",
+  //       this.coreService.TOAST_ERROR
+  //     );
+  //     return true;
+  //   }
+  // }
   isFormValid(): boolean {
     if (this.signUpDetailsForm.invalid) {
       this.coreService.showToastMessage(
