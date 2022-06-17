@@ -1,6 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { CoreService } from "src/app/providers/core.service";
+import {
+  PasswordStrength,
+  failedValidation,
+} from "src/app/utility/passwordValidator";
 
 @Component({
   selector: "app-reset-password",
@@ -13,6 +17,8 @@ export class ResetPasswordPage implements OnInit {
   isShowingPassword = false;
   isShowingConfirmPassword = false;
   isShowingPasswordHint = false;
+  passwordValidator = new PasswordStrength();
+  failedValidationObject: failedValidation;
   passwordFormGroup: FormGroup = new FormGroup({
     password: new FormControl<string | null | number>(null, [
       Validators.required,
@@ -24,12 +30,21 @@ export class ResetPasswordPage implements OnInit {
 
   constructor(private coreService: CoreService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.onPasswordChanged();
+  }
 
-  onStrengthChanged(strength: number) {
-    if (strength === 100) {
-      this.isPasswordStrong = true;
-    }
+  onPasswordChanged() {
+    this.passwordFormGroup.controls.password.valueChanges.subscribe((value) => {
+      this.failedValidationObject = this.passwordValidator.validatePassword(
+        value
+      );
+      this.isPasswordStrong = <boolean>(
+        this.passwordValidator.isPasswordStrong(value)
+      );
+
+      console.log(this.isPasswordStrong);
+    });
   }
 
   public showPassword(): void {
