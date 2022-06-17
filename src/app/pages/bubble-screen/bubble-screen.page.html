@@ -3,55 +3,33 @@
     <ion-grid class="user-bubble">
       <div id="background-wrap">
         <!-- [ngClass]="{'customClass' : bubble1 === true }" -->
-        <div
-          class="bubble x1" routerLink="/auth/login"
+        <!-- <div
+          class="bubble x1"
+          routerLink="auth/login"
           [ngClass]="{'pop-bubble' : bubble1 === true }"
           (click)="playAudio('1')"
         >
           <div class="bubble-toch">
-            <img src="assets/images/bubble-toch.png">
+            <img src="assets/images/bubble-toch.png" />
           </div>
           <div class="inner-data abc">
             <img src="assets/icon/user-img.png" />
             <span class="online"></span>
           </div>
-        </div>
-        <div class="bubble x2" (click)="playAudio('')">
+        </div> -->
+
+        <div
+          *ngFor="let bubble of athleteList;let i = index"
+          class="bubble"
+          routerLink="auth/login"
+          [ngClass]="'x' + (i+1)"
+          (click)="playAudio('1')"
+        >
           <div class="bubble-toch">
-              <img src="assets/images/bubble-toch.png">
+            <img src="assets/images/bubble-toch.png" />
           </div>
-          <div class="inner-data">
-            <img src="assets/icon/user-2.jpg" />
-            <span class="busy"></span>
-          </div>
-          <div class="name-user">
-              <p>Bubble</p>
-          </div>
-        </div>
-        <div class="bubble x3" (click)="playAudio('')">
-          <div class="bubble-toch">
-            <img src="assets/images/bubble-toch.png">
-          </div>
-          <div class="inner-data">
-            <img src="assets/icon/user-img.png" />
-            <span class="offline"></span>
-          </div>
-        </div>
-        <div class="bubble x4" (click)="playAudio('')">
-          <div class="bubble-toch">
-            <img src="assets/images/bubble-toch.png">
-          </div>
-          <div class="inner-data">
-            <img src="assets/icon/user-img.png" />
-            <span class="online"></span>
-          </div>
-        </div>
-        <div class="bubble x5" (click)="playAudio('')">
-          <div class="bubble-toch">
-            <img src="assets/images/bubble-toch.png">
-          </div>
-          <div class="inner-data">
-            <img src="assets/icon/user-img.png" />
+          <div class="inner-data abc">
+            <img [src]="bubble.profileUrl" />
             <span class="online"></span>
           </div>
         </div>
@@ -94,19 +72,15 @@
     <img src="assets/icon/logo-bg.png" />
   </ion-grid>
 
-  <ion-fab
-    vertical="bottom"
-    horizontal="center"
-    slot="fixed"
-    id="trigger-button"
-  >
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <!-- id="trigger-button" -->
     <ion-fab-button>
       <img src="assets/icon/login-btn.png" />
     </ion-fab-button>
   </ion-fab>
 </ion-content>
 
-<ion-modal trigger="trigger-button" class="client-filter-modal">
+<!-- <ion-modal trigger="trigger-button" class="client-filter-modal">
   <ng-template>
     <ion-header mode="md">
       <div class="icon-header">
@@ -215,4 +189,4 @@
       </div>
     </ion-grid>
   </ng-template>
-</ion-modal>
+</ion-modal> -->

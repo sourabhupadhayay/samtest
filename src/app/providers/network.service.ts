@@ -15,7 +15,9 @@ export class NetworkService {
   private readonly _didInternetWentOffline$: Observable<
     boolean
   > = this._didInternetWentOffline.asObservable();
-  constructor() {}
+  constructor() {
+    this._networkInit();
+  }
 
   private _networkInit(): void {
     Network.addListener("networkStatusChange", (status) => {
