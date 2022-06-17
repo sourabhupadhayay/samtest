@@ -1,5 +1,10 @@
 import { Injectable } from "@angular/core";
-import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
+import {
+  Camera,
+  CameraResultType,
+  CameraSource,
+  Photo,
+} from "@capacitor/camera";
 import {
   ActionSheetController,
   AlertController,
@@ -174,7 +179,7 @@ export class CoreService {
     await actionSheet.present();
   }
 
-  async captureImage(): Promise<string> {
+  async captureImage(): Promise<Photo> {
     const image = await Camera.getPhoto({
       quality: 90,
       allowEditing: true,
@@ -189,7 +194,7 @@ export class CoreService {
 
     // Can be set to the src of an image now
     // imageElement.src = imageUrl;
-    return image.webPath;
+    return image;
   }
 
   async pickImage() {
