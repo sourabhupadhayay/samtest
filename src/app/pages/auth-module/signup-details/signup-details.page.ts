@@ -5,6 +5,7 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
+import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 import { format, parseISO } from "date-fns";
 import { EMAIL_PATTERN } from "src/app/helpers/emailValidation";
 import { CoreService } from "src/app/providers/core.service";
@@ -22,10 +23,12 @@ export class SignupDetailsPage implements OnInit {
   signUpDetailsForm: FormGroup;
   confirmPassword: String = "";
   isFormSubmitted: boolean = false;
+  ProfileImage: SafeUrl | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
-    private coreService: CoreService
+    private coreService: CoreService,
+    private DOMSanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {
@@ -55,9 +58,17 @@ export class SignupDetailsPage implements OnInit {
   }
 
   uploadImage() {
-    this.coreService.changeProfile().then((image) => {
-      console.log(image);
+    this.coreService.captureImage().then((image) => {
+      this.ProfileImage = this.DOMSanitizer.bypassSecurityTrustUrl(
+        image.webPath
+      );
+
+      console.log(image.format);
     });
+  }
+
+  removeImage() {
+    this.ProfileImage = null;
   }
 
   // utility methods

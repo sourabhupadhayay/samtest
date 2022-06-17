@@ -1,5 +1,10 @@
 import { Injectable } from "@angular/core";
-import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
+import {
+  Camera,
+  CameraResultType,
+  CameraSource,
+  Photo,
+} from "@capacitor/camera";
 import {
   ActionSheetController,
   AlertController,
@@ -105,28 +110,6 @@ export class CoreService {
     return { icon, position, color };
   }
 
-  async changeProfile() {
-    const actionSheet: HTMLIonActionSheetElement = await this.actionSheetCtrl.create(
-      {
-        header: "Select Option",
-        buttons: [
-          {
-            text: "Load from Library",
-            handler: (): void => {
-              this.pickImage();
-            },
-          },
-          {
-            text: "Use Camera",
-            handler: (): void => {
-              this.captureImage();
-            },
-          },
-        ],
-      }
-    );
-    await actionSheet.present();
-  }
   b6toBlob(b64Data: any): Blob {
     // Split the base64 string in data and contentType
     const block: any = b64Data.split(";");
@@ -150,34 +133,12 @@ export class CoreService {
     const blob: Blob = new Blob(byteArrays, { type: contentType });
     return blob;
   }
-  uploadImage() {
-    return this.presentActionSheet();
-  }
-  async presentActionSheet() {
-    const actionSheet = await this.actionSheetCtrl.create({
-      header: "Select Option",
-      buttons: [
-        {
-          text: "Gallery",
-          handler: () => {
-            this.pickImage();
-          },
-        },
-        {
-          text: "Camera",
-          handler: () => {
-            this.captureImage();
-          },
-        },
-      ],
-    });
-    await actionSheet.present();
-  }
 
-  async captureImage(): Promise<string> {
+  async captureImage(): Promise<Photo> {
     const image = await Camera.getPhoto({
       quality: 90,
-      allowEditing: true,
+      allowEditing: false,
+
       resultType: CameraResultType.Uri,
     });
 
@@ -189,41 +150,7 @@ export class CoreService {
 
     // Can be set to the src of an image now
     // imageElement.src = imageUrl;
-    return image.webPath;
-  }
-
-  async pickImage() {
-    // this.presentLoader(this.constant.UPLOADING);
-
-    const image = await Camera.getPhoto({
-      quality: 90,
-      allowEditing: true,
-      resultType: CameraResultType.Uri,
-      source: CameraSource.Prompt,
-    });
-
-    if (image) {
-    }
-
     return image;
-    // this.camera.getPicture(options).then(
-    //   (imageData) => {
-    //     /*
-    //      * ImageData is either a base64 encoded string or a file URI
-    //      * If it's base64 (DATA_URL):
-    //      */
-
-    //     console.log(`==>>img ${imageData}`);
-    //     const img = `data:image/jpeg;base64,${imageData}`;
-    //     this.uploadImageToServer(img);
-    //     this.images = img;
-    //     console.log(`img ${imageData}`);
-    //   },
-    //   (err) => {
-    //     this.dismissLoader();
-    //     console.log(err);
-    //   }
-    // );
   }
 
   // uploadImageToServer(image) {
