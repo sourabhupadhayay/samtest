@@ -108,11 +108,12 @@
                 src="assets/icon/email.svg"
               />
             </ion-item>
-            <!-- <div class="error-msg" id="userNameError">
-              <p>
-                <img src="assets/icon/info-red.svg" /> Email address is required
-              </p>
-            </div> -->
+            <div
+              *ngIf="isFormSubmitted && signUpDetailsForm.controls.email.invalid"
+              class="error-msg"
+            >
+              <p><img src="assets/icon/info-red.svg" /> Email is required</p>
+            </div>
           </div>
 
           <div class="input-box">
@@ -142,27 +143,13 @@
                 src="assets/icon/show.svg"
               />
             </ion-item>
-            <!-- <div class="error-msg" id="userNameError">
-              <p>
-                <img src="assets/icon/info-red.svg" /> Password is required
-              </p>
-            </div> -->
+            <div
+              *ngIf="isFormSubmitted && signUpDetailsForm.controls.password.invalid"
+              class="error-msg"
+            >
+              <p><img src="assets/icon/info-red.svg" /> Password is required</p>
+            </div>
           </div>
-          <!-- <div class="password-meter">
-            <mat-password-strength
-              id="resetPassword"
-              #passwordComponent
-              (onStrengthChanged)="onStrengthChanged($event)"
-              [password]="signUpDetailsForm.controls.password.value"
-            >
-            </mat-password-strength>
-
-            <mat-password-strength-info
-              *ngIf="isShowingPasswordHint"
-              [passwordComponent]="passwordComponent"
-            >
-            </mat-password-strength-info>
-          </div> -->
 
           <div class="input-box">
             <ion-item lines="none">
@@ -203,7 +190,7 @@
                 (ionBlur)="checkDateFormat($event)"
                 formControlName="birthDate"
               ></ion-input>
-              <!-- <ion-input autocomplete="on" type="text"></ion-input> -->
+
               <img
                 id="open-modal"
                 class="ion-align-self-center"
@@ -224,9 +211,14 @@
                 </ng-template>
               </ion-modal>
             </ion-item>
-            <!-- <div class="error-msg" id="passwordError">
-              <p><img src="assets/icon/info-red.svg" /> Birthday is required</p>
-            </div> -->
+            <div
+              *ngIf="isFormSubmitted && signUpDetailsForm.controls.birthDate.invalid"
+              class="error-msg"
+            >
+              <p>
+                <img src="assets/icon/info-red.svg" /> Birth date is required
+              </p>
+            </div>
           </div>
           <div class="input-box">
             <ion-item lines="none">

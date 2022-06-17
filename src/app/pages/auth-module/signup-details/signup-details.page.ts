@@ -53,18 +53,14 @@ export class SignupDetailsPage implements OnInit {
     this.isFormSubmitted = true;
     // validations
     if (this.isFormValid()) return;
-    if (this.isPassWordStrongEnough()) return;
+    // if (this.isPassWordStrongEnough()) return;
     if (this.validateBothPasswords()) return;
   }
 
-  uploadImage() {
-    this.coreService.captureImage().then((image) => {
-      this.ProfileImage = this.DOMSanitizer.bypassSecurityTrustUrl(
-        image.webPath
-      );
+  async uploadImage() {
+    let image = await this.coreService.captureImage();
 
-      console.log(image.format);
-    });
+    this.ProfileImage = this.DOMSanitizer.bypassSecurityTrustUrl(image.webPath);
   }
 
   removeImage() {
@@ -97,11 +93,7 @@ export class SignupDetailsPage implements OnInit {
       }
     }
   }
-  onStrengthChanged(strength: number) {
-    if (strength === 100) {
-      this.isPasswordStrong = true;
-    }
-  }
+
   public showPassword(): void {
     this.isShowingPassword = !this.isShowingPassword;
   }
@@ -132,15 +124,15 @@ export class SignupDetailsPage implements OnInit {
       return true;
     }
   }
-  isPassWordStrongEnough(): boolean {
-    if (!this.isPasswordStrong) {
-      this.coreService.showToastMessage(
-        "Password is not strong enough",
-        this.coreService.TOAST_ERROR
-      );
-      return true;
-    }
-  }
+  // isPassWordStrongEnough(): boolean {
+  //   if (!this.isPasswordStrong) {
+  //     this.coreService.showToastMessage(
+  //       "Password is not strong enough",
+  //       this.coreService.TOAST_ERROR
+  //     );
+  //     return true;
+  //   }
+  // }
   isFormValid(): boolean {
     if (this.signUpDetailsForm.invalid) {
       this.coreService.showToastMessage(
