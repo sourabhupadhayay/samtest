@@ -43,7 +43,7 @@ describe("ResetPasswordPage", () => {
     expect(component.isPasswordStrong).toBeFalsy;
     expect(component.isShowingPassword).toBeFalsy;
     expect(component.isShowingConfirmPassword).toBeFalsy;
-    expect(component.isShowingPasswordHint).toBeFalsy;
+
     expect(component.passwordFormGroup).toBeDefined();
   });
 
@@ -66,7 +66,7 @@ describe("ResetPasswordPage", () => {
   });
   it("should check password strength to be strong", () => {
     updateForm("Test@123", "Test@123");
-    component.onStrengthChanged(100);
+
     fixture.detectChanges();
     expect(component.isPasswordStrong).toBe(true);
   });
