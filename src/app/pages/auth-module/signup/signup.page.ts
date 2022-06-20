@@ -3,6 +3,9 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { IonRouterOutlet, ModalController } from "@ionic/angular";
 import { EMAIL_PATTERN } from "src/app/helpers/emailValidation";
+import { ConstantService } from "src/app/providers/constant.service";
+import { CoreService } from "src/app/providers/core.service";
+import { DataService, Request, Response } from "src/app/providers/data.service";
 @Component({
   selector: "app-signup",
   templateUrl: "./signup.page.html",
@@ -22,8 +25,10 @@ export class SignupPage implements OnInit {
   });
   constructor(
     public modalCtrl: ModalController,
-    //public routerOutLet: IonRouterOutlet,
-    private router: Router
+    private coreService: CoreService,
+    private apiService: DataService,
+    private router: Router,
+    private constantService: ConstantService
   ) {}
 
   ngOnInit() {}
@@ -32,10 +37,28 @@ export class SignupPage implements OnInit {
     this.modalCtrl.dismiss();
   }
   onSubmit() {
-    console.log(this.signUpForm);
     this.isFormSubmitted = true;
-    if (this.signUpForm.valid) {
-      this.router.navigate(["/auth/verify-otp"]);
+    if (this.signUpForm.invalid) {
+      return;
     }
+
+    let request: Request = {
+      path: "auth/users/signUp",
+      data: { ...this.signUpForm.value },
+    };
+
+    this.coreService.presentLoader();
+
+    this.apiService.post(request).subscribe((response: Response) => {
+      this.coreService.dismissLoader();
+      if (response.status.status === this.constantService.STATUS_OK) {
+        this.router.navigate(["/auth/verify-otp"]);
+      } else {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_ERROR
+        );
+      }
+    });
   }
 }

@@ -54,7 +54,7 @@ export class CoreService {
     // Return;
     const loaderOpts: LoadingOptions = {
       spinner: "crescent",
-      duration: 2000,
+
       translucent: true,
       cssClass: "my-loading-class",
       animated: true,
