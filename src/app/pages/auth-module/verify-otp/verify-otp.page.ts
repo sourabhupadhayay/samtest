@@ -31,7 +31,7 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
   };
   isOtpSent: boolean = false;
   interval: any;
-  timeLeft: number = 120;
+  timeLeft: number = 5;
 
   constructor(
     private coreService: CoreService,
@@ -51,7 +51,7 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
   resendOtp() {
     this.stopTimer();
     let request: Request = {
-      path: "auth/users/otp/send?emailTemplate=ACTIVATE_ACCOUNT",
+      path: "auth/users/otp/send",
       isAuth: true,
     };
     this.coreService.presentLoader();

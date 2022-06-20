@@ -232,7 +232,7 @@ export class DataService {
     if (isByPass) {
       token = this.authService.getToken();
     }
-    debugger;
+
     let header: HttpHeaders = new HttpHeaders({
       "Content-Type": "application/json",
       Accept: "application/json",
