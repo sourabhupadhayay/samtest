@@ -240,22 +240,23 @@ export class DataService {
     return header;
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////
-  getHeaderImage(isByPass = true): HttpHeaders {
+  getHeaderImage(isByPass = false): HttpHeaders {
     const currentTimeZone = new Date()
       .toLocaleTimeString("en-us", { timeZoneName: "short" })
       .split(" ")[2];
     const version = "1";
     let token = "";
-    if (!isByPass) {
+    if (isByPass) {
       token = this.authService.getToken();
     }
+
     let header: HttpHeaders = new HttpHeaders({
       "Content-Type": "multipart/form-data;",
       Accept: "application/json, text/plain, */*",
     });
     header = header.append("timezone", currentTimeZone);
     header = header.append("Api-Version", version);
-    if (!isByPass) {
+    if (isByPass) {
       // header = header.append("Authentication", token);
       //if (this.authService.isAuthenticated()) {
       header = header.append("TOKEN", token);

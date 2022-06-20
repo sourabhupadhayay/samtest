@@ -38,17 +38,10 @@ const routes: Routes = [
             (m) => m.SignupDetailsPageModule
           ),
       },
-    ],
-  },
-  {
-    path: "",
-    children: [
       {
-        path: "",
+        path: "signup",
         loadChildren: () =>
-          import("./signup-details/signup-details.module").then(
-            (m) => m.SignupDetailsPageModule
-          ),
+          import("./signup/signup.module").then((m) => m.SignupPageModule),
       },
     ],
   },

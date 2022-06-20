@@ -7,6 +7,7 @@ import { IonicModule } from "@ionic/angular";
 import { SignupDetailsPageRoutingModule } from "./signup-details-routing.module";
 
 import { SignupDetailsPage } from "./signup-details.page";
+import { PipesModule } from "src/app/pipes/pipes.module";
 
 @NgModule({
   imports: [

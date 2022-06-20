@@ -6,6 +6,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
+import { Router } from "@angular/router";
 import { Photo } from "@capacitor/camera";
 import { format, parseISO } from "date-fns";
 import { EMAIL_PATTERN } from "src/app/helpers/emailValidation";
@@ -40,7 +41,8 @@ export class SignupDetailsPage implements OnInit {
     private coreService: CoreService,
     private DOMSanitizer: DomSanitizer,
     private apiService: DataService,
-    private constantSerice: ConstantService
+    private constantService: ConstantService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -54,10 +56,10 @@ export class SignupDetailsPage implements OnInit {
       email: [null, [Validators.required, Validators.pattern(EMAIL_PATTERN)]],
       password: [null, Validators.required],
       birthDate: [null, Validators.required],
-      phone: [null],
-      teamName: [null],
-      teamState: [null],
-      school: [null],
+      phone: [""],
+      teamName: [""],
+      teamState: [""],
+      school: [""],
     });
   }
 
@@ -73,12 +75,39 @@ export class SignupDetailsPage implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.signUpDetailsForm);
     this.isFormSubmitted = true;
     // validations
     if (this.isFormValid()) return;
     if (this.isPassWordStrongEnough()) return;
     if (this.validateBothPasswords()) return;
+
+    let { birthDate, ...signUpResponse } = this.signUpDetailsForm.value;
+    console.log(birthDate);
+
+    let request: Request = {
+      path: "auth/users/update",
+      data: {
+        ...signUpResponse,
+        birthDate: new Date(birthDate).toISOString(),
+      },
+      isAuth: true,
+    };
+    this.coreService.presentLoader(this.constantService.WAIT);
+    this.apiService.post(request).subscribe((response: Response) => {
+      this.coreService.dismissLoader();
+      if (response["status"]["code"] === this.constantService.STATUS_OK) {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_SUCCESS
+        );
+        this.router.navigate(["/auth/signup-details"]);
+      } else {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_ERROR
+        );
+      }
+    });
   }
 
   async selectImage() {
@@ -88,7 +117,7 @@ export class SignupDetailsPage implements OnInit {
     this.ProfileImageUrl = this.DOMSanitizer.bypassSecurityTrustUrl(
       this.selectedImage.webPath
     );
-    this.uploadImageToServer(blob);
+    // this.uploadImageToServer(blob);
   }
 
   removeImage() {
@@ -103,16 +132,15 @@ export class SignupDetailsPage implements OnInit {
 
     const imageFormData: FormData = new FormData();
     imageFormData.append("file", imageBlob);
-    console.log(imageBlob);
 
     let request: Request = {
       path: "auth/file/upload/profile",
       data: imageFormData,
-
       isAuth: true,
     };
 
     this.apiService.postImage(request).subscribe((response) => {
+      // this.coreService.dismissLoader();
       console.log(response);
     });
   }
@@ -157,6 +185,7 @@ export class SignupDetailsPage implements OnInit {
 
   patchDateValue(date: string) {
     let formattedDate = this.formatDate(date);
+
     this.signUpDetailsForm.controls.birthDate.patchValue(formattedDate);
   }
 

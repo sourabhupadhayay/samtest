@@ -47,7 +47,7 @@ export class SignupPage implements OnInit {
       data: { ...this.signUpForm.value },
     };
 
-    this.coreService.presentLoader();
+    this.coreService.presentLoader(this.constantService.WAIT);
 
     this.apiService.post(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
