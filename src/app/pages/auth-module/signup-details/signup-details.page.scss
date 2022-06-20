@@ -270,6 +270,41 @@ ion-content {
             }
           }
         }
+
+        .password-text {
+          padding: 5px 20px;
+          ion-item {
+            --padding-start: 0;
+            --inner-padding-end: 0;
+            --background: transparent;
+            --background-activated: transparent;
+            --min-height: 27px;
+            margin-top: 3px;
+            img {
+              width: 20px;
+              margin: 0;
+              margin-right: 10px;
+            }
+            svg {
+              fill: var(--white-clr);
+              margin-right: 10px;
+            }
+            ion-label {
+              font-size: 0.8125rem;
+              color: var(--white-clr);
+              font-weight: 400;
+              margin: 5px 0;
+            }
+            &.red-text {
+              ion-label {
+                color: var(--red-clr);
+              }
+              svg {
+                fill: var(--red-clr);
+              }
+            }
+          }
+        }
       }
 
       .auth-btn {

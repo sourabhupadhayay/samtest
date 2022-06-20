@@ -5,13 +5,17 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
-<<<<<<< HEAD
+import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
+import { Photo } from "@capacitor/camera";
 import { format, parseISO } from "date-fns";
 import { EMAIL_PATTERN } from "src/app/helpers/emailValidation";
+import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
-=======
-import { format, parseISO, getDate, getMonth, getYear } from "date-fns";
->>>>>>> 9f38b30 (fixed merge conflict)
+import { DataService, Request, Response } from "src/app/providers/data.service";
+import {
+  failedValidation,
+  PasswordStrength,
+} from "src/app/utility/passwordValidator";
 
 @Component({
   selector: "app-signup-details",
@@ -19,37 +23,35 @@ import { format, parseISO, getDate, getMonth, getYear } from "date-fns";
   styleUrls: ["./signup-details.page.scss"],
 })
 export class SignupDetailsPage implements OnInit {
-<<<<<<< HEAD
   isPasswordStrong = false;
   isShowingPassword = false;
   isShowingConfirmPassword = false;
   isShowingPasswordHint = false;
   signUpDetailsForm: FormGroup;
-  confirmPassword: String = "";
+  confirmPassword: String | null = null;
   isFormSubmitted: boolean = false;
+  ProfileImageUrl: SafeUrl | null = null;
+  selectedImage: Photo | null = null;
+  passwordValidator = new PasswordStrength();
+  failedValidationObject: failedValidation;
 
   constructor(
     private formBuilder: FormBuilder,
-    private coreService: CoreService
+    private coreService: CoreService,
+    private DOMSanitizer: DomSanitizer,
+    private apiService: DataService,
+    private constantSerice: ConstantService
   ) {}
-=======
-  signUpDetailsForm: FormGroup;
-
-  constructor(private formBuilder: FormBuilder) {}
->>>>>>> 9f38b30 (fixed merge conflict)
 
   ngOnInit() {
     this.initForm();
+    this.onPasswordChanged();
   }
 
   initForm() {
     this.signUpDetailsForm = this.formBuilder.group({
       fullName: [null, [Validators.required]],
-<<<<<<< HEAD
       email: [null, [Validators.required, Validators.pattern(EMAIL_PATTERN)]],
-=======
-      email: [null, [Validators.required]],
->>>>>>> 9f38b30 (fixed merge conflict)
       password: [null, Validators.required],
       birthDate: [null, Validators.required],
       phone: [null],
@@ -59,7 +61,17 @@ export class SignupDetailsPage implements OnInit {
     });
   }
 
-<<<<<<< HEAD
+  onPasswordChanged() {
+    this.signUpDetailsForm.controls.password.valueChanges.subscribe((value) => {
+      this.failedValidationObject = this.passwordValidator.validatePassword(
+        value
+      );
+      this.isPasswordStrong = <boolean>(
+        this.passwordValidator.isPasswordStrong(value)
+      );
+    });
+  }
+
   onSubmit() {
     console.log(this.signUpDetailsForm);
     this.isFormSubmitted = true;
@@ -69,9 +81,39 @@ export class SignupDetailsPage implements OnInit {
     if (this.validateBothPasswords()) return;
   }
 
-  uploadImage() {
-    this.coreService.changeProfile().then((image) => {
-      console.log(image);
+  async selectImage() {
+    this.selectedImage = await this.coreService.captureImage();
+    let blob = await fetch(this.selectedImage.webPath).then((r) => r.blob());
+
+    this.ProfileImageUrl = this.DOMSanitizer.bypassSecurityTrustUrl(
+      this.selectedImage.webPath
+    );
+    this.uploadImageToServer(blob);
+  }
+
+  removeImage() {
+    this.selectedImage = null;
+    this.ProfileImageUrl = null;
+  }
+
+  uploadImageToServer(imageBlob: Blob) {
+    if (!this.selectedImage) {
+      return;
+    }
+
+    const imageFormData: FormData = new FormData();
+    imageFormData.append("file", imageBlob);
+    console.log(imageBlob);
+
+    let request: Request = {
+      path: "auth/file/upload/profile",
+      data: imageFormData,
+
+      isAuth: true,
+    };
+
+    this.apiService.postImage(request).subscribe((response) => {
+      console.log(response);
     });
   }
 
@@ -101,11 +143,7 @@ export class SignupDetailsPage implements OnInit {
       }
     }
   }
-  onStrengthChanged(strength: number) {
-    if (strength === 100) {
-      this.isPasswordStrong = true;
-    }
-  }
+
   public showPassword(): void {
     this.isShowingPassword = !this.isShowingPassword;
   }
@@ -113,8 +151,6 @@ export class SignupDetailsPage implements OnInit {
     this.isShowingConfirmPassword = !this.isShowingConfirmPassword;
   }
 
-=======
->>>>>>> 9f38b30 (fixed merge conflict)
   formatDate(value: string) {
     return format(parseISO(value), "MM/dd/yyyy");
   }
@@ -122,11 +158,8 @@ export class SignupDetailsPage implements OnInit {
   patchDateValue(date: string) {
     let formattedDate = this.formatDate(date);
     this.signUpDetailsForm.controls.birthDate.patchValue(formattedDate);
-
-    console.log(new Date(formattedDate));
   }
 
-<<<<<<< HEAD
   validateBothPasswords(): boolean {
     if (
       this.signUpDetailsForm.controls["password"].value !== this.confirmPassword
@@ -156,9 +189,5 @@ export class SignupDetailsPage implements OnInit {
       );
       return true;
     }
-=======
-  onSubmit() {
-    console.log(this.signUpDetailsForm);
->>>>>>> 9f38b30 (fixed merge conflict)
   }
 }
