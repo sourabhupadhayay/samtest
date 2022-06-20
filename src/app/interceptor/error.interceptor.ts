@@ -7,12 +7,13 @@ import {
 } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
+import { CoreService } from "../providers/core.service";
 
 // import { coreService } from "../providers/coreService";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor() {} // private readonly coreService: coreService
+  constructor(private coreService: CoreService) {} // private readonly coreService: coreService
   /***
    * description: http intercepter to handle API errors
    */
@@ -22,9 +23,7 @@ export class ErrorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((err) => {
-        console.log(err);
-
-        // this.coreService.dismissLoader();
+        this.coreService.dismissLoader();
         // if (err.status === 401) {
         // } else {
         //   this.coreService.showToastMessage(

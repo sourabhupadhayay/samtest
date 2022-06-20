@@ -1,10 +1,11 @@
 <ion-header class="ion-no-border" [translucent]="true">
   <ion-toolbar>
-    <ion-icon
+    <!-- <ion-icon
       slot="start"
       name="arrow-back-outline"
       routerLink="/login"
-    ></ion-icon>
+    ></ion-icon> -->
+    <ion-back-button></ion-back-button>
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">
@@ -62,7 +63,7 @@
         <div *ngIf="timeLeft ==0" class="resend-text">
           <p>
             Didn’t recieve the verification code?
-            <span>Resend</span>
+            <span (click)="resendOtp()">Resend</span>
           </p>
         </div>
 
