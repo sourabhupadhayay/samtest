@@ -5,9 +5,13 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
+<<<<<<< HEAD
 import { format, parseISO } from "date-fns";
 import { EMAIL_PATTERN } from "src/app/helpers/emailValidation";
 import { CoreService } from "src/app/providers/core.service";
+=======
+import { format, parseISO, getDate, getMonth, getYear } from "date-fns";
+>>>>>>> 9f38b30 (fixed merge conflict)
 
 @Component({
   selector: "app-signup-details",
@@ -15,6 +19,7 @@ import { CoreService } from "src/app/providers/core.service";
   styleUrls: ["./signup-details.page.scss"],
 })
 export class SignupDetailsPage implements OnInit {
+<<<<<<< HEAD
   isPasswordStrong = false;
   isShowingPassword = false;
   isShowingConfirmPassword = false;
@@ -27,6 +32,11 @@ export class SignupDetailsPage implements OnInit {
     private formBuilder: FormBuilder,
     private coreService: CoreService
   ) {}
+=======
+  signUpDetailsForm: FormGroup;
+
+  constructor(private formBuilder: FormBuilder) {}
+>>>>>>> 9f38b30 (fixed merge conflict)
 
   ngOnInit() {
     this.initForm();
@@ -35,7 +45,11 @@ export class SignupDetailsPage implements OnInit {
   initForm() {
     this.signUpDetailsForm = this.formBuilder.group({
       fullName: [null, [Validators.required]],
+<<<<<<< HEAD
       email: [null, [Validators.required, Validators.pattern(EMAIL_PATTERN)]],
+=======
+      email: [null, [Validators.required]],
+>>>>>>> 9f38b30 (fixed merge conflict)
       password: [null, Validators.required],
       birthDate: [null, Validators.required],
       phone: [null],
@@ -45,6 +59,7 @@ export class SignupDetailsPage implements OnInit {
     });
   }
 
+<<<<<<< HEAD
   onSubmit() {
     console.log(this.signUpDetailsForm);
     this.isFormSubmitted = true;
@@ -98,6 +113,8 @@ export class SignupDetailsPage implements OnInit {
     this.isShowingConfirmPassword = !this.isShowingConfirmPassword;
   }
 
+=======
+>>>>>>> 9f38b30 (fixed merge conflict)
   formatDate(value: string) {
     return format(parseISO(value), "MM/dd/yyyy");
   }
@@ -109,6 +126,7 @@ export class SignupDetailsPage implements OnInit {
     console.log(new Date(formattedDate));
   }
 
+<<<<<<< HEAD
   validateBothPasswords(): boolean {
     if (
       this.signUpDetailsForm.controls["password"].value !== this.confirmPassword
@@ -138,5 +156,9 @@ export class SignupDetailsPage implements OnInit {
       );
       return true;
     }
+=======
+  onSubmit() {
+    console.log(this.signUpDetailsForm);
+>>>>>>> 9f38b30 (fixed merge conflict)
   }
 }

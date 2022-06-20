@@ -32,9 +32,11 @@ const routes: Routes = [
           ),
       },
       {
-        path: "signup",
+        path: "signup-details",
         loadChildren: () =>
-          import("./signup/signup.module").then((m) => m.SignupPageModule),
+          import("./signup-details/signup-details.module").then(
+            (m) => m.SignupDetailsPageModule
+          ),
       },
     ],
   },
@@ -47,13 +49,6 @@ const routes: Routes = [
           import("./login/login.module").then((m) => m.LoginPageModule),
       },
     ],
-  },
-  {
-    path: "signup-details",
-    loadChildren: () =>
-      import("./signup-details/signup-details.module").then(
-        (m) => m.SignupDetailsPageModule
-      ),
   },
 ];
 
