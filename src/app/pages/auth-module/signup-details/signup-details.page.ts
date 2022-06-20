@@ -9,6 +9,10 @@ import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 import { format, parseISO } from "date-fns";
 import { EMAIL_PATTERN } from "src/app/helpers/emailValidation";
 import { CoreService } from "src/app/providers/core.service";
+import {
+  failedValidation,
+  PasswordStrength,
+} from "src/app/utility/passwordValidator";
 
 @Component({
   selector: "app-signup-details",
@@ -21,9 +25,11 @@ export class SignupDetailsPage implements OnInit {
   isShowingConfirmPassword = false;
   isShowingPasswordHint = false;
   signUpDetailsForm: FormGroup;
-  confirmPassword: String = "";
+  confirmPassword: String | null = null;
   isFormSubmitted: boolean = false;
   ProfileImage: SafeUrl | null = null;
+  passwordValidator = new PasswordStrength();
+  failedValidationObject: failedValidation;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -33,6 +39,7 @@ export class SignupDetailsPage implements OnInit {
 
   ngOnInit() {
     this.initForm();
+    this.onPasswordChanged();
   }
 
   initForm() {
@@ -48,12 +55,23 @@ export class SignupDetailsPage implements OnInit {
     });
   }
 
+  onPasswordChanged() {
+    this.signUpDetailsForm.controls.password.valueChanges.subscribe((value) => {
+      this.failedValidationObject = this.passwordValidator.validatePassword(
+        value
+      );
+      this.isPasswordStrong = <boolean>(
+        this.passwordValidator.isPasswordStrong(value)
+      );
+    });
+  }
+
   onSubmit() {
     console.log(this.signUpDetailsForm);
     this.isFormSubmitted = true;
     // validations
     if (this.isFormValid()) return;
-    // if (this.isPassWordStrongEnough()) return;
+    if (this.isPassWordStrongEnough()) return;
     if (this.validateBothPasswords()) return;
   }
 
@@ -108,8 +126,6 @@ export class SignupDetailsPage implements OnInit {
   patchDateValue(date: string) {
     let formattedDate = this.formatDate(date);
     this.signUpDetailsForm.controls.birthDate.patchValue(formattedDate);
-
-    console.log(new Date(formattedDate));
   }
 
   validateBothPasswords(): boolean {
@@ -124,15 +140,15 @@ export class SignupDetailsPage implements OnInit {
       return true;
     }
   }
-  // isPassWordStrongEnough(): boolean {
-  //   if (!this.isPasswordStrong) {
-  //     this.coreService.showToastMessage(
-  //       "Password is not strong enough",
-  //       this.coreService.TOAST_ERROR
-  //     );
-  //     return true;
-  //   }
-  // }
+  isPassWordStrongEnough(): boolean {
+    if (!this.isPasswordStrong) {
+      this.coreService.showToastMessage(
+        "Password is not strong enough",
+        this.coreService.TOAST_ERROR
+      );
+      return true;
+    }
+  }
   isFormValid(): boolean {
     if (this.signUpDetailsForm.invalid) {
       this.coreService.showToastMessage(
