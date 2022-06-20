@@ -144,21 +144,6 @@
               </p>
             </div> -->
           </div>
-          <div class="password-meter">
-            <mat-password-strength
-              id="resetPassword"
-              #passwordComponent
-              (onStrengthChanged)="onStrengthChanged($event)"
-              [password]="signUpDetailsForm.controls.password.value"
-            >
-            </mat-password-strength>
-
-            <mat-password-strength-info
-              *ngIf="isShowingPasswordHint"
-              [passwordComponent]="passwordComponent"
-            >
-            </mat-password-strength-info>
-          </div>
 
           <div class="input-box">
             <ion-item lines="none">
