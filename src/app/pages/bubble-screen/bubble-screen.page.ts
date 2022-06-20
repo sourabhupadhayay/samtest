@@ -23,7 +23,7 @@ import { NetworkService } from "src/app/providers/network.service";
 export class BubbleScreenPage implements OnInit, AfterViewInit {
   bubble1: boolean = false;
   bubble2: boolean = false;
-  athleteList$: Observable<any[]>;
+  athleteList: any[] = [];
   constructor(
     public modalCtrl: ModalController,
     public routerOutLet: IonRouterOutlet,
@@ -57,34 +57,20 @@ export class BubbleScreenPage implements OnInit, AfterViewInit {
       },
     };
     this.coreService.presentLoader();
-    // this.apiService.post(request).subscribe((response: Response) => {
-    //   if (response.status.code == this.constant.STATUS_OK) {
-    //     this.coreService.dismissLoader();
-    //     this.athleteList = response.data;
-    //     this.cd.detectChanges();
-    //     console.log(this.athleteList);
-    //   } else {
-    //     this.coreService.showToastMessage(
-    //       response["status"]["description"],
-    //       this.coreService.TOAST_ERROR
-    //     );
-    //     this.coreService.dismissLoader();
-    //   }
-    // });
-
-    this.athleteList$ = this.apiService.post(request).pipe(
-      map((response: Response) => {
-        if (response.status.code == this.constant.STATUS_OK) {
-          return response.data;
-        } else {
-          this.coreService.dismissLoader();
-          this.coreService.showToastMessage(
-            response["status"]["description"],
-            this.coreService.TOAST_ERROR
-          );
-        }
-      })
-    );
+    this.apiService.post(request).subscribe((response: Response) => {
+      if (response.status.code == this.constant.STATUS_OK) {
+        this.coreService.dismissLoader();
+        this.athleteList = response.data;
+        this.cd.detectChanges();
+        console.log(this.athleteList);
+      } else {
+        this.coreService.showToastMessage(
+          response["status"]["description"],
+          this.coreService.TOAST_ERROR
+        );
+        this.coreService.dismissLoader();
+      }
+    });
   }
 
   playAudio(e: string) {

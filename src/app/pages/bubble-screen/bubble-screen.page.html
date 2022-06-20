@@ -19,7 +19,7 @@
         </div> -->
 
         <div
-          *ngFor="let bubble of athleteList$ | async ;let i = index"
+          *ngFor="let bubble of athleteList ;let i = index"
           class="bubble"
           routerLink="/auth/login"
           [ngClass]="'x' + (i+1)"
@@ -43,8 +43,8 @@
             <span class="busy"></span>
           </div>
           <div class="name-user">
-              <p>Casey Rodgers</p>
-              <span>Oregon Ducks football</span>
+            <p>Casey Rodgers</p>
+            <span>Oregon Ducks football</span>
           </div>
         </div>
         <div class="bubble x2" (click)="playAudio('')">
