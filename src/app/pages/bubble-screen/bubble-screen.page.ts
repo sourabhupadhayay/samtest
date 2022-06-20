@@ -78,12 +78,12 @@ export class BubbleScreenPage implements OnInit, AfterViewInit {
     audio.src = "assets/audio/bubble-bursting.mp3";
     audio.load();
     audio.play();
-    console.log("clicked", e);
-    if (e == "1") {
-      this.bubble1 = true;
-    } else if (e == "2") {
-      this.bubble2 = true;
-    }
+
+    // if (e == "1") {
+    //   this.bubble1 = true;
+    // } else if (e == "2") {
+    //   this.bubble2 = true;
+    // }
   }
   onclick_cancel(): void {
     this.modalCtrl.dismiss();
