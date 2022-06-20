@@ -18,8 +18,8 @@
           </div>
         </div> -->
 
-        <!-- <div
-          *ngFor="let bubble of athleteList;let i = index"
+        <div
+          *ngFor="let bubble of athleteList$ | async ;let i = index"
           class="bubble"
           routerLink="/auth/login"
           [ngClass]="'x' + (i+1)"
@@ -32,10 +32,11 @@
             <img [src]="bubble.profileUrl" />
             <span class="online"></span>
           </div>
-        </div> -->
+        </div>
+        -->
         <div class="bubble x1 show-name" (click)="playAudio('')">
           <div class="bubble-toch">
-              <img src="assets/images/bubble-toch.png">
+            <img src="assets/images/bubble-toch.png" />
           </div>
           <div class="inner-data">
             <img src="assets/icon/user-2.jpg" />
@@ -48,139 +49,136 @@
         </div>
         <div class="bubble x2" (click)="playAudio('')">
           <div class="bubble-toch">
-              <img src="assets/images/bubble-toch.png">
+            <img src="assets/images/bubble-toch.png" />
           </div>
           <div class="inner-data">
             <img src="assets/icon/user-2.jpg" />
             <span class="busy"></span>
           </div>
           <div class="name-user">
-              <p>Bubble</p>
+            <p>Bubble</p>
           </div>
         </div>
         <div class="bubble x3" (click)="playAudio('')">
           <div class="bubble-toch">
-              <img src="assets/images/bubble-toch.png">
+            <img src="assets/images/bubble-toch.png" />
           </div>
           <div class="inner-data">
             <img src="assets/icon/user-2.jpg" />
             <span class="busy"></span>
           </div>
           <div class="name-user">
-              <p>Bubble</p>
+            <p>Bubble</p>
           </div>
         </div>
         <div class="bubble x4" (click)="playAudio('')">
           <div class="bubble-toch">
-              <img src="assets/images/bubble-toch.png">
+            <img src="assets/images/bubble-toch.png" />
           </div>
           <div class="inner-data">
             <img src="assets/icon/user-2.jpg" />
             <span class="busy"></span>
           </div>
           <div class="name-user">
-              <p>Bubble</p>
+            <p>Bubble</p>
           </div>
         </div>
         <div class="bubble x5" (click)="playAudio('')">
           <div class="bubble-toch">
-              <img src="assets/images/bubble-toch.png">
+            <img src="assets/images/bubble-toch.png" />
           </div>
           <div class="inner-data">
             <img src="assets/icon/user-2.jpg" />
             <span class="busy"></span>
           </div>
           <div class="name-user">
-              <p>Bubble</p>
+            <p>Bubble</p>
           </div>
         </div>
         <div class="bubble x6" (click)="playAudio('')">
           <div class="bubble-toch">
-              <img src="assets/images/bubble-toch.png">
+            <img src="assets/images/bubble-toch.png" />
           </div>
           <div class="inner-data">
             <img src="assets/icon/user-2.jpg" />
             <span class="busy"></span>
           </div>
           <div class="name-user">
-              <p>Bubble</p>
+            <p>Bubble</p>
           </div>
         </div>
         <div class="bubble x7" (click)="playAudio('')">
           <div class="bubble-toch">
-              <img src="assets/images/bubble-toch.png">
+            <img src="assets/images/bubble-toch.png" />
           </div>
           <div class="inner-data">
             <img src="assets/icon/user-2.jpg" />
             <span class="busy"></span>
           </div>
           <div class="name-user">
-              <p>Bubble</p>
+            <p>Bubble</p>
           </div>
         </div>
         <div class="bubble x8" (click)="playAudio('')">
           <div class="bubble-toch">
-              <img src="assets/images/bubble-toch.png">
+            <img src="assets/images/bubble-toch.png" />
           </div>
           <div class="inner-data">
             <img src="assets/icon/user-2.jpg" />
             <span class="busy"></span>
           </div>
           <div class="name-user">
-              <p>Bubble</p>
+            <p>Bubble</p>
           </div>
         </div>
         <div class="bubble x9" (click)="playAudio('')">
           <div class="bubble-toch">
-              <img src="assets/images/bubble-toch.png">
+            <img src="assets/images/bubble-toch.png" />
           </div>
           <div class="inner-data">
             <img src="assets/icon/user-2.jpg" />
             <span class="busy"></span>
           </div>
           <div class="name-user">
-              <p>Bubble</p>
+            <p>Bubble</p>
           </div>
         </div>
         <div class="bubble x10" (click)="playAudio('')">
           <div class="bubble-toch">
-              <img src="assets/images/bubble-toch.png">
+            <img src="assets/images/bubble-toch.png" />
           </div>
           <div class="inner-data">
             <img src="assets/icon/user-2.jpg" />
             <span class="busy"></span>
           </div>
           <div class="name-user">
-              <p>Bubble</p>
+            <p>Bubble</p>
           </div>
         </div>
         <div class="bubble x11" (click)="playAudio('')">
           <div class="bubble-toch">
-              <img src="assets/images/bubble-toch.png">
+            <img src="assets/images/bubble-toch.png" />
           </div>
           <div class="inner-data">
             <img src="assets/icon/user-2.jpg" />
             <span class="busy"></span>
           </div>
           <div class="name-user">
-              <p>Bubble</p>
+            <p>Bubble</p>
           </div>
         </div>
         <div class="bubble x12" (click)="playAudio('')">
           <div class="bubble-toch">
-              <img src="assets/images/bubble-toch.png">
+            <img src="assets/images/bubble-toch.png" />
           </div>
           <div class="inner-data">
             <img src="assets/icon/user-2.jpg" />
             <span class="busy"></span>
           </div>
           <div class="name-user">
-              <p>Bubble</p>
+            <p>Bubble</p>
           </div>
         </div>
-    
-        
-
       </div>
     </ion-grid>
 
