@@ -470,6 +470,9 @@ ion-content {
 }
 .otp-timer {
   text-align: center;
+  color: var(--white-clr);
+  font-size: 0.875rem;
+  margin: 16px 0 0;
 }
 ion-back-button {
   --color: #fff;
