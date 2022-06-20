@@ -132,16 +132,10 @@ export class CoreService {
     );
     await actionSheet.present();
   }
-  b6toBlob(b64Data: any): Blob {
-    // Split the base64 string in data and contentType
-    const block: any = b64Data.split(";");
-    // Get the content type of the image
-    let contentType: any = block[0].split(":")[1]; // In this case "image/gif"
-    // Get the real base64 content of the file
-    const realData: any = block[1].split(",")[1]; //
-    contentType = contentType || "";
+  b6toBlob(b64Data: string): Blob {
+    let contentType = "";
     const sliceSize = 512;
-    const byteCharacters: string = atob(realData);
+    const byteCharacters: string = atob(b64Data);
     const byteArrays: any[] = [];
     for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
       const slice: string = byteCharacters.slice(offset, offset + sliceSize);
@@ -202,13 +196,10 @@ export class CoreService {
 
     const image = await Camera.getPhoto({
       quality: 90,
-      allowEditing: true,
-      resultType: CameraResultType.Uri,
+      allowEditing: false,
+      resultType: CameraResultType.Base64,
       source: CameraSource.Prompt,
     });
-
-    if (image) {
-    }
 
     return image;
     // this.camera.getPicture(options).then(

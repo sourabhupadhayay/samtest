@@ -6,9 +6,12 @@ import {
   Validators,
 } from "@angular/forms";
 import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
+import { Photo } from "@capacitor/camera";
 import { format, parseISO } from "date-fns";
 import { EMAIL_PATTERN } from "src/app/helpers/emailValidation";
+import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
+import { DataService, Request, Response } from "src/app/providers/data.service";
 import {
   failedValidation,
   PasswordStrength,
@@ -27,14 +30,17 @@ export class SignupDetailsPage implements OnInit {
   signUpDetailsForm: FormGroup;
   confirmPassword: String | null = null;
   isFormSubmitted: boolean = false;
-  ProfileImage: SafeUrl | null = null;
+  ProfileImageUrl: SafeUrl | null = null;
+  selectedImage: Photo | null = null;
   passwordValidator = new PasswordStrength();
   failedValidationObject: failedValidation;
 
   constructor(
     private formBuilder: FormBuilder,
     private coreService: CoreService,
-    private DOMSanitizer: DomSanitizer
+    private DOMSanitizer: DomSanitizer,
+    private apiService: DataService,
+    private constantSerice: ConstantService
   ) {}
 
   ngOnInit() {
@@ -75,14 +81,40 @@ export class SignupDetailsPage implements OnInit {
     if (this.validateBothPasswords()) return;
   }
 
-  async uploadImage() {
-    let image = await this.coreService.captureImage();
+  async selectImage() {
+    this.selectedImage = await this.coreService.captureImage();
+    let blob = await fetch(this.selectedImage.webPath).then((r) => r.blob());
 
-    this.ProfileImage = this.DOMSanitizer.bypassSecurityTrustUrl(image.webPath);
+    this.ProfileImageUrl = this.DOMSanitizer.bypassSecurityTrustUrl(
+      this.selectedImage.webPath
+    );
+    this.uploadImageToServer(blob);
   }
 
   removeImage() {
-    this.ProfileImage = null;
+    this.selectedImage = null;
+    this.ProfileImageUrl = null;
+  }
+
+  uploadImageToServer(imageBlob: Blob) {
+    if (!this.selectedImage) {
+      return;
+    }
+
+    const imageFormData: FormData = new FormData();
+    imageFormData.append("file", imageBlob);
+    console.log(imageBlob);
+
+    let request: Request = {
+      path: "auth/file/upload/profile",
+      data: imageFormData,
+
+      isAuth: true,
+    };
+
+    this.apiService.postImage(request).subscribe((response) => {
+      console.log(response);
+    });
   }
 
   // utility methods

@@ -196,10 +196,10 @@ export class DataService {
     window.URL.revokeObjectURL(url);
   }
 
-  postImage(requestUrl: string, isByPass = false, params) {
+  postImage(request: Request) {
     return this.http
-      .post<any>(`${this.BASE_URL + "" + requestUrl}`, params, {
-        headers: this.getHeaderImage(isByPass),
+      .post<any>(`${this.BASE_URL + "" + request.path}`, request.data, {
+        headers: this.getHeaderImage(request.isAuth),
       })
       .pipe(
         takeWhile((): boolean => this._isOnline()),
@@ -207,15 +207,6 @@ export class DataService {
           return err;
         }),
         map((res: any) => {
-          if (res["token"]) {
-            let data = this.authService.getAuthDetail();
-            data = {
-              ...data,
-              token: res["token"],
-              isLoggedIn: true,
-            };
-            this.authService.setAuth(data);
-          }
           return res;
         }),
         retry(1),
@@ -256,8 +247,6 @@ export class DataService {
     let token = "";
     if (!isByPass) {
       token = this.authService.getToken();
-    } else {
-      //token = this.authService.getToken();
     }
     let header: HttpHeaders = new HttpHeaders({
       "Content-Type": "multipart/form-data;",

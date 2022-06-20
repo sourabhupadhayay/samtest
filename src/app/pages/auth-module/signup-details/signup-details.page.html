@@ -47,15 +47,15 @@
         <div class="profile-image">
           <div class="images-upload">
             <div
-              *ngIf="!ProfileImage"
-              (click)="uploadImage()"
+              *ngIf="!ProfileImageUrl"
+              (click)="selectImage()"
               class="upload-icon"
             >
               <img src="assets/icon/camera.svg" />
             </div>
-            <div *ngIf="ProfileImage" class="uploaded-img">
+            <div *ngIf="ProfileImageUrl" class="uploaded-img">
               <div class="img-part">
-                <img [src]="ProfileImage" />
+                <img [src]="ProfileImageUrl" />
                 <div (click)="removeImage()" class="close-btn">
                   <ion-icon name="trash-outline"></ion-icon>
                 </div>
