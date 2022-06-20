@@ -7,6 +7,8 @@ import {
   OnInit,
 } from "@angular/core";
 import { IonRouterOutlet, ModalController } from "@ionic/angular";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
@@ -21,7 +23,7 @@ import { NetworkService } from "src/app/providers/network.service";
 export class BubbleScreenPage implements OnInit, AfterViewInit {
   bubble1: boolean = false;
   bubble2: boolean = false;
-  athleteList: any[] = [];
+  athleteList$: Observable<any[]>;
   constructor(
     public modalCtrl: ModalController,
     public routerOutLet: IonRouterOutlet,
@@ -55,20 +57,34 @@ export class BubbleScreenPage implements OnInit, AfterViewInit {
       },
     };
     this.coreService.presentLoader();
-    this.apiService.post(request).subscribe((response: Response) => {
-      if (response.status.code == this.constant.STATUS_OK) {
-        this.coreService.dismissLoader();
-        this.athleteList = response.data;
-        this.cd.detectChanges();
-        console.log(this.athleteList);
-      } else {
-        this.coreService.showToastMessage(
-          response["status"]["description"],
-          this.coreService.TOAST_ERROR
-        );
-        this.coreService.dismissLoader();
-      }
-    });
+    // this.apiService.post(request).subscribe((response: Response) => {
+    //   if (response.status.code == this.constant.STATUS_OK) {
+    //     this.coreService.dismissLoader();
+    //     this.athleteList = response.data;
+    //     this.cd.detectChanges();
+    //     console.log(this.athleteList);
+    //   } else {
+    //     this.coreService.showToastMessage(
+    //       response["status"]["description"],
+    //       this.coreService.TOAST_ERROR
+    //     );
+    //     this.coreService.dismissLoader();
+    //   }
+    // });
+
+    this.athleteList$ = this.apiService.post(request).pipe(
+      map((response: Response) => {
+        if (response.status.code == this.constant.STATUS_OK) {
+          return response.data;
+        } else {
+          this.coreService.dismissLoader();
+          this.coreService.showToastMessage(
+            response["status"]["description"],
+            this.coreService.TOAST_ERROR
+          );
+        }
+      })
+    );
   }
 
   playAudio(e: string) {

@@ -19,7 +19,7 @@
         </div> -->
 
         <div
-          *ngFor="let bubble of athleteList;let i = index"
+          *ngFor="let bubble of athleteList$ | async ;let i = index"
           class="bubble"
           routerLink="/auth/login"
           [ngClass]="'x' + (i+1)"
