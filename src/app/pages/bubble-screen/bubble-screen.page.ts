@@ -73,7 +73,7 @@ export class BubbleScreenPage implements OnInit, AfterViewInit {
 
   playAudio(e: string) {
     let audio = new Audio();
-    audio.src = "assets/audio/buble-sound.mp3";
+    audio.src = "assets/audio/bubble-bursting.mp3";
     audio.load();
     audio.play();
     console.log("clicked", e);
