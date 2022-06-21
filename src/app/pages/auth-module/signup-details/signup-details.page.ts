@@ -48,22 +48,23 @@ export class SignupDetailsPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getSignUpData();
     this.initForm();
+
     this.onPasswordChanged();
   }
 
   initForm() {
     this.signUpDetailsForm = this.formBuilder.group({
       fullName: [null, [Validators.required]],
-      email: [null, [Validators.required, Validators.pattern(EMAIL_PATTERN)]],
+      email: [{ value: null, disabled: true }],
       password: [null, Validators.required],
       birthDate: [null, Validators.required],
-      phone: [""],
+      phone: [{ value: null, disabled: false }],
       teamName: [""],
       teamState: [""],
       school: [""],
     });
+    this.getSignUpData();
   }
 
   onPasswordChanged() {
@@ -78,7 +79,23 @@ export class SignupDetailsPage implements OnInit {
   }
 
   getSignUpData() {
-    console.log(this.common.signUpData);
+    if (!this.common.signUpData) {
+      return;
+    }
+
+    this.signUpDetailsForm.controls.email.patchValue(
+      this.common.signUpData.email
+    );
+
+    if (!this.common.signUpData.phone) {
+      return;
+    }
+
+    this.signUpDetailsForm.controls.phone.patchValue(
+      this.common.signUpData.phone
+    );
+
+    this.signUpDetailsForm.controls.phone.disable({ onlySelf: true });
   }
 
   onSubmit() {
@@ -106,7 +123,7 @@ export class SignupDetailsPage implements OnInit {
           response.status.description,
           this.coreService.TOAST_SUCCESS
         );
-        this.router.navigate(["/auth/signup-details"]);
+        this.router.navigate(["/auth/login"]);
       } else {
         this.coreService.showToastMessage(
           response.status.description,
@@ -123,7 +140,7 @@ export class SignupDetailsPage implements OnInit {
     this.ProfileImageUrl = this.DOMSanitizer.bypassSecurityTrustUrl(
       this.selectedImage.webPath
     );
-    // this.uploadImageToServer(blob);
+    this.uploadImageToServer(blob);
   }
 
   removeImage() {

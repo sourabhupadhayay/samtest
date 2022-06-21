@@ -8,6 +8,7 @@ import { SignupDetailsPageRoutingModule } from "./signup-details-routing.module"
 
 import { SignupDetailsPage } from "./signup-details.page";
 import { PipesModule } from "src/app/pipes/pipes.module";
+import { CommonDirectiveModule } from "src/app/directives/common-directive.module";
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { PipesModule } from "src/app/pipes/pipes.module";
     IonicModule,
     SignupDetailsPageRoutingModule,
     ReactiveFormsModule,
+    CommonDirectiveModule,
   ],
   declarations: [SignupDetailsPage],
 })

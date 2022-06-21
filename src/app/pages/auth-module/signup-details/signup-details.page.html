@@ -108,12 +108,12 @@
                 src="assets/icon/email.svg"
               />
             </ion-item>
-            <div
+            <!-- <div
               *ngIf="isFormSubmitted && signUpDetailsForm.controls.email.invalid"
               class="error-msg"
             >
               <p><img src="assets/icon/info-red.svg" /> Email is required</p>
-            </div>
+            </div> -->
           </div>
 
           <div class="input-box">
@@ -351,9 +351,10 @@
             <ion-item lines="none">
               <ion-label position="floating">Phone Number</ion-label>
               <ion-input
+                appPhoneMask
                 formControlName="phone"
                 autocomplete="on"
-                type="number"
+                type="phone"
               ></ion-input>
               <img
                 class="ion-align-self-center"
