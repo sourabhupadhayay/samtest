@@ -54,7 +54,7 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
       path: "auth/users/otp/send",
       isAuth: true,
     };
-    this.coreService.presentLoader();
+    this.coreService.presentLoader(this.constantService.WAIT);
     this.apiService.get(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
       if (response["status"]["code"] === "OK") {
@@ -82,7 +82,7 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
       isAuth: true,
     };
 
-    this.coreService.presentLoader();
+    this.coreService.presentLoader(this.constantService.WAIT);
     this.apiService.get(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
       if (response["status"]["code"] === this.constantService.STATUS_OK) {
