@@ -53,6 +53,7 @@ export class DataService {
       .pipe(
         takeWhile((): boolean => this._isOnline()),
         catchError((err) => {
+          console.log(err);
           return err;
         }),
         map((res: any) => {
@@ -80,6 +81,7 @@ export class DataService {
       .pipe(
         takeWhile((): boolean => this._isOnline()),
         catchError((err) => {
+          console.log(err);
           return err;
         }),
         map((res: any) => {
