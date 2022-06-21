@@ -25,6 +25,7 @@ ion-content {
       position: relative;
       position: sticky;
       overflow: hidden;
+      min-height: 160px;
       top: 0;
       ion-icon {
         color: var(--white-clr);

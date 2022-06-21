@@ -100,3 +100,18 @@ select:-webkit-autofill:focus {
     }
   }
 }
+
+.logo-head{
+  .nil4all {
+    span{
+      font-size: 0.875rem;
+      color: var(--white-clr);
+      text-transform: uppercase;
+      opacity: 1;
+      font-weight: 500;
+      margin-top: 5px;
+      display: inline-block;
+      font-style: italic;
+    }
+  }
+}

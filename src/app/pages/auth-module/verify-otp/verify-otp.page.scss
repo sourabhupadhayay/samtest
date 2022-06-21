@@ -27,7 +27,7 @@ ion-content {
       position: sticky;
       overflow: hidden;
       top: 0;
-      min-height: 126px;
+      min-height: 160px;
       ion-icon {
         color: var(--white-clr);
         font-size: 2rem;
@@ -470,6 +470,7 @@ ion-content {
 }
 .otp-timer {
   text-align: center;
+  color: var(--white-clr); font-weight: 400; margin: 10px 0 5px; font-size: 0.875rem; 
 }
 ion-back-button {
   --color: #fff;
