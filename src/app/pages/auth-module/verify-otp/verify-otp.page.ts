@@ -28,6 +28,8 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
     inputClass: "otpInput",
     containerClass: "optInputContainer",
     placeholder: "-",
+    allowNumbersOnly: true,
+    disableAutoFocus: false,
   };
   isOtpSent: boolean = false;
   interval: any;
