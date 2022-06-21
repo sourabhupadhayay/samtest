@@ -32,28 +32,18 @@ const routes: Routes = [
           ),
       },
       {
+        path: "signup-details",
+        loadChildren: () =>
+          import("./signup-details/signup-details.module").then(
+            (m) => m.SignupDetailsPageModule
+          ),
+      },
+      {
         path: "signup",
         loadChildren: () =>
           import("./signup/signup.module").then((m) => m.SignupPageModule),
       },
     ],
-  },
-  {
-    path: "",
-    children: [
-      {
-        path: "",
-        loadChildren: () =>
-          import("./login/login.module").then((m) => m.LoginPageModule),
-      },
-    ],
-  },
-  {
-    path: "signup-details",
-    loadChildren: () =>
-      import("./signup-details/signup-details.module").then(
-        (m) => m.SignupDetailsPageModule
-      ),
   },
 ];
 

@@ -196,10 +196,10 @@ export class DataService {
     window.URL.revokeObjectURL(url);
   }
 
-  postImage(requestUrl: string, isByPass = false, params) {
+  postImage(request: Request) {
     return this.http
-      .post<any>(`${this.BASE_URL + "" + requestUrl}`, params, {
-        headers: this.getHeaderImage(isByPass),
+      .post<any>(`${this.BASE_URL + "" + request.path}`, request.data, {
+        headers: this.getHeaderImage(request.isAuth),
       })
       .pipe(
         takeWhile((): boolean => this._isOnline()),
@@ -207,15 +207,6 @@ export class DataService {
           return err;
         }),
         map((res: any) => {
-          if (res["token"]) {
-            let data = this.authService.getAuthDetail();
-            data = {
-              ...data,
-              token: res["token"],
-              isLoggedIn: true,
-            };
-            this.authService.setAuth(data);
-          }
           return res;
         }),
         retry(1),
@@ -249,24 +240,23 @@ export class DataService {
     return header;
   }
   //////////////////////////////////////////////////////////////////////////////////////////////////////////
-  getHeaderImage(isByPass = true): HttpHeaders {
+  getHeaderImage(isByPass = false): HttpHeaders {
     const currentTimeZone = new Date()
       .toLocaleTimeString("en-us", { timeZoneName: "short" })
       .split(" ")[2];
     const version = "1";
     let token = "";
-    if (!isByPass) {
+    if (isByPass) {
       token = this.authService.getToken();
-    } else {
-      //token = this.authService.getToken();
     }
+
     let header: HttpHeaders = new HttpHeaders({
       "Content-Type": "multipart/form-data;",
       Accept: "application/json, text/plain, */*",
     });
     header = header.append("timezone", currentTimeZone);
     header = header.append("Api-Version", version);
-    if (!isByPass) {
+    if (isByPass) {
       // header = header.append("Authentication", token);
       //if (this.authService.isAuthenticated()) {
       header = header.append("TOKEN", token);
