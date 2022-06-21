@@ -12,9 +12,16 @@
     <div class="top-screen">
       <!-- <ion-icon slot="start" name="arrow-back-outline"></ion-icon> -->
       <ion-grid class="video-part">
-        <video height="100%" width="100%" poster="http://content.bitsontherun.com/thumbs/bkaovAYt-320.jpg"  loop="" muted autoplay>
-          <source src="assets/video/video.mp4">
-          <source src="assets/video/video.webm">
+        <video
+          height="100%"
+          width="100%"
+          poster="http://content.bitsontherun.com/thumbs/bkaovAYt-320.jpg"
+          loop=""
+          muted
+          autoplay
+        >
+          <source src="assets/video/video.mp4" />
+          <source src="assets/video/video.webm" />
           <p class="warning">Your browser does not support HTML5 video.</p>
         </video>
       </ion-grid>
@@ -41,12 +48,12 @@
           <div class="input-box">
             <ion-item
               id="userNameInputContainer"
-              [ngClass]="isFormSubmitted && loginForm.controls.userName.invalid ? 'error-border':' '"
+              [ngClass]="isFormSubmitted && loginForm.controls.email.invalid ? 'error-border':' '"
               lines="none"
             >
               <ion-label position="floating">Email</ion-label>
               <ion-input
-                formControlName="userName"
+                formControlName="email"
                 autocomplete="on"
                 type="email"
               ></ion-input>
@@ -57,14 +64,14 @@
                 src="assets/icon/email.svg"
               />
               <img
-                *ngIf="isFormSubmitted && loginForm.controls.userName.valid"
+                *ngIf="isFormSubmitted && loginForm.controls.email.valid"
                 class="ion-align-self-center"
                 slot="end"
                 src="assets/icon/right-green.svg"
               />
             </ion-item>
             <div
-              *ngIf="isFormSubmitted && loginForm.controls.userName.invalid"
+              *ngIf="isFormSubmitted && loginForm.controls.email.invalid"
               class="error-msg"
               id="userNameError"
             >
