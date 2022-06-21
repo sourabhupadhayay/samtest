@@ -46,7 +46,7 @@ export class LoginPage implements OnInit {
       data: { ...this.loginForm.value, loginSource: "WEB" },
     };
 
-    this.coreService.presentLoader();
+    this.coreService.presentLoader(this.constantService.WAIT);
     this.apiService.post(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
