@@ -90,7 +90,7 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
           response.status.description,
           this.coreService.TOAST_SUCCESS
         );
-        this.router.navigate(["/auth/signup-details"]);
+        this.router.navigate(["auth/signup-details"]);
       } else {
         this.coreService.showToastMessage(
           response.status.description,
