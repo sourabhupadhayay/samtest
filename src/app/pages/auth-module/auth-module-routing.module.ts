@@ -3,52 +3,41 @@ import { RouterModule, Routes } from "@angular/router";
 
 const routes: Routes = [
   {
-    path: "auth",
-    children: [
-      {
-        path: "login",
-        loadChildren: () =>
-          import("./login/login.module").then((m) => m.LoginPageModule),
-      },
-      {
-        path: "forgot",
-        loadChildren: () =>
-          import("./forgot-password/forgot-password.module").then(
-            (m) => m.ForgotPasswordPageModule
-          ),
-      },
-      {
-        path: "verify-otp",
-        loadChildren: () =>
-          import("./verify-otp/verify-otp.module").then(
-            (m) => m.VerifyOTPPageModule
-          ),
-      },
-      {
-        path: "reset-password",
-        loadChildren: () =>
-          import("./reset-password/reset-password.module").then(
-            (m) => m.ResetPasswordPageModule
-          ),
-      },
-      {
-        path: 'signup',
-        loadChildren: () => import('./signup/signup.module').then( m => m.SignupPageModule)
-      },
-    ],
+    path: "login",
+    loadChildren: () =>
+      import("./login/login.module").then((m) => m.LoginPageModule),
   },
   {
     path: "",
-    children: [
-      {
-        path: "",
-        loadChildren: () =>
-          import("./login/login.module").then((m) => m.LoginPageModule),
-      },
-    ],
+    loadChildren: () =>
+      import("./login/login.module").then((m) => m.LoginPageModule),
   },
-  
-
+  {
+    path: "forgot",
+    loadChildren: () =>
+      import("./forgot-password/forgot-password.module").then(
+        (m) => m.ForgotPasswordPageModule
+      ),
+  },
+  {
+    path: "verify-otp",
+    loadChildren: () =>
+      import("./verify-otp/verify-otp.module").then(
+        (m) => m.VerifyOTPPageModule
+      ),
+  },
+  {
+    path: "reset-password",
+    loadChildren: () =>
+      import("./reset-password/reset-password.module").then(
+        (m) => m.ResetPasswordPageModule
+      ),
+  },
+  {
+    path: "signup",
+    loadChildren: () =>
+      import("./signup/signup.module").then((m) => m.SignupPageModule),
+  },
 ];
 
 @NgModule({
