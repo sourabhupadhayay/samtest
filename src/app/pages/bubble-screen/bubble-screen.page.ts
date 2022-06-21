@@ -10,7 +10,6 @@ import { IonRouterOutlet, ModalController } from "@ionic/angular";
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
-import { NetworkService } from "src/app/providers/network.service";
 
 @Component({
   selector: "app-bubble-screen",
