@@ -6,9 +6,9 @@ import {
   ElementRef,
   OnInit,
 } from "@angular/core";
+import { Router } from "@angular/router";
 import { IonRouterOutlet, ModalController } from "@ionic/angular";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
@@ -30,7 +30,8 @@ export class BubbleScreenPage implements OnInit, AfterViewInit {
     private coreService: CoreService,
     private constant: ConstantService,
     private cd: ChangeDetectorRef,
-    private htmlElement: ElementRef
+    private htmlElement: ElementRef,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -57,8 +58,8 @@ export class BubbleScreenPage implements OnInit, AfterViewInit {
     };
     this.coreService.presentLoader();
     this.apiService.post(request).subscribe((response: Response) => {
+      this.coreService.dismissLoader();
       if (response.status.code == this.constant.STATUS_OK) {
-        this.coreService.dismissLoader();
         this.athleteList = response.data;
         this.cd.detectChanges();
         console.log(this.athleteList);
@@ -67,7 +68,6 @@ export class BubbleScreenPage implements OnInit, AfterViewInit {
           response["status"]["description"],
           this.coreService.TOAST_ERROR
         );
-        this.coreService.dismissLoader();
       }
     });
   }
@@ -77,6 +77,10 @@ export class BubbleScreenPage implements OnInit, AfterViewInit {
     audio.src = "assets/audio/bubble-bursting.mp3";
     audio.load();
     audio.play();
+
+    setTimeout(() => {
+      this.router.navigate(["/auth/login"]);
+    }, 500);
 
     // if (e == "1") {
     //   this.bubble1 = true;

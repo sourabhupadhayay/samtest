@@ -1,5 +1,11 @@
 <ion-content [fullscreen]="true">
+  
   <ion-grid class="main-screen-bg">
+    <ion-header>
+      <ion-toolbar>
+          <img src="assets/images/single-logo.png">
+      </ion-toolbar>
+  </ion-header>
     <ion-grid class="user-bubble">
       <div id="background-wrap">
         <!-- [ngClass]="{'customClass' : bubble1 === true }" -->
@@ -21,20 +27,21 @@
         <div
           *ngFor="let bubble of athleteList ;let i = index"
           class="bubble"
-          routerLink="/auth/login"
           [ngClass]="'x' + (i+1)"
           (click)="playAudio('1')"
         >
-          <div class="bubble-toch">
-            <img src="assets/images/bubble-toch.png" />
-          </div>
-          <div class="inner-data abc">
-            <img [src]="bubble.profileUrl" />
-            <span class="online"></span>
+          <div class="new-bg">
+            <div class="bubble-toch">
+              <img src="assets/images/bubble-toch.png" />
+            </div>
+            <div class="inner-data abc">
+              <img [src]="bubble.profileUrl" />
+              <span class="online"></span>
+            </div>
           </div>
         </div>
-
-        <div class="bubble x1 show-name" (click)="playAudio('')">
+        
+        <!-- <div class="bubble x1 show-name" (click)="playAudio('')">
           <div class="bubble-toch">
             <img src="assets/images/bubble-toch.png" />
           </div>
@@ -47,7 +54,7 @@
             <span>Oregon Ducks football</span>
           </div>
         </div>
-        <!-- <div class="bubble x2" (click)="playAudio('')">
+         <div class="bubble x2" (click)="playAudio('')">
           <div class="bubble-toch">
             <img src="assets/images/bubble-toch.png" />
           </div>
@@ -95,90 +102,7 @@
             <p>Bubble</p>
           </div>
         </div>
-        <div class="bubble x6" (click)="playAudio('')">
-          <div class="bubble-toch">
-            <img src="assets/images/bubble-toch.png" />
-          </div>
-          <div class="inner-data">
-            <img src="assets/icon/user-2.jpg" />
-            <span class="busy"></span>
-          </div>
-          <div class="name-user">
-            <p>Bubble</p>
-          </div>
-        </div>
-        <div class="bubble x7" (click)="playAudio('')">
-          <div class="bubble-toch">
-            <img src="assets/images/bubble-toch.png" />
-          </div>
-          <div class="inner-data">
-            <img src="assets/icon/user-2.jpg" />
-            <span class="busy"></span>
-          </div>
-          <div class="name-user">
-            <p>Bubble</p>
-          </div>
-        </div>
-        <div class="bubble x8" (click)="playAudio('')">
-          <div class="bubble-toch">
-            <img src="assets/images/bubble-toch.png" />
-          </div>
-          <div class="inner-data">
-            <img src="assets/icon/user-2.jpg" />
-            <span class="busy"></span>
-          </div>
-          <div class="name-user">
-            <p>Bubble</p>
-          </div>
-        </div>
-        <div class="bubble x9" (click)="playAudio('')">
-          <div class="bubble-toch">
-            <img src="assets/images/bubble-toch.png" />
-          </div>
-          <div class="inner-data">
-            <img src="assets/icon/user-2.jpg" />
-            <span class="busy"></span>
-          </div>
-          <div class="name-user">
-            <p>Bubble</p>
-          </div>
-        </div>
-        <div class="bubble x10" (click)="playAudio('')">
-          <div class="bubble-toch">
-            <img src="assets/images/bubble-toch.png" />
-          </div>
-          <div class="inner-data">
-            <img src="assets/icon/user-2.jpg" />
-            <span class="busy"></span>
-          </div>
-          <div class="name-user">
-            <p>Bubble</p>
-          </div>
-        </div>
-        <div class="bubble x11" (click)="playAudio('')">
-          <div class="bubble-toch">
-            <img src="assets/images/bubble-toch.png" />
-          </div>
-          <div class="inner-data">
-            <img src="assets/icon/user-2.jpg" />
-            <span class="busy"></span>
-          </div>
-          <div class="name-user">
-            <p>Bubble</p>
-          </div>
-        </div>
-        <div class="bubble x12" (click)="playAudio('')">
-          <div class="bubble-toch">
-            <img src="assets/images/bubble-toch.png" />
-          </div>
-          <div class="inner-data">
-            <img src="assets/icon/user-2.jpg" />
-            <span class="busy"></span>
-          </div>
-          <div class="name-user">
-            <p>Bubble</p>
-          </div>
-        </div> -->
+         -->
       </div>
     </ion-grid>
 
@@ -216,6 +140,7 @@
 
   <ion-grid class="logo-bg">
     <img src="assets/icon/logo-bg.png" />
+    <span>#NIL4ALL</span>
   </ion-grid>
 
   <ion-fab vertical="bottom" horizontal="center" slot="fixed">
