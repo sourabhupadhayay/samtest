@@ -241,31 +241,31 @@ export class DataService {
 
     return header;
   }
+  // postImage(request: Request) {
+  //   let headers = new HttpHeaders();
+  //   const token = this.authService.getToken();
+  //   if (request.isAuth) {
+  //     headers = new HttpHeaders({ TOKEN: token });
+  //   }
+  //   headers.set("Content-Type", "multipart/form-data");
+  //   //console.log(token);
+  //   return this.http
+  //     .post(configuration.BASE_URL + request.path, request.data, {
+  //       headers: headers,
+  //     })
+  //     .pipe(retry(1), catchError(this.handleError.bind(this)));
+  // }
+
   //////////////////////////////////////////////////////////////////////////////////////////////////////////
   getHeaderImage(isByPass = false): HttpHeaders {
-    const currentTimeZone = new Date()
-      .toLocaleTimeString("en-us", { timeZoneName: "short" })
-      .split(" ")[2];
-    const version = "1";
-    let token = "";
+    let headers = new HttpHeaders();
+    const token = this.authService.getToken();
     if (isByPass) {
-      token = this.authService.getToken();
+      headers = new HttpHeaders({ TOKEN: token });
     }
+    headers.set("Content-Type", "multipart/form-data");
 
-    let header: HttpHeaders = new HttpHeaders({
-      "Content-Type": "multipart/form-data;",
-      Accept: "application/json, text/plain, */*",
-    });
-    header = header.append("timezone", currentTimeZone);
-    header = header.append("Api-Version", version);
-    if (isByPass) {
-      // header = header.append("Authentication", token);
-      //if (this.authService.isAuthenticated()) {
-      header = header.append("TOKEN", token);
-      // }
-    }
-
-    return header;
+    return headers;
   }
 
   handleError(error) {

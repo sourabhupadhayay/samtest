@@ -252,4 +252,8 @@ export class CoreService {
   //       }
   //     });
   // }
+
+  async getCameraPermission() {
+    //  let permissionStatus   = await this.Camer
+  }
 }
