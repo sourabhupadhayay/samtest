@@ -41,7 +41,11 @@ export class ForgotPasswordPage implements OnInit {
     this.apiService.post(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
       if (response["status"]["code"] === "OK") {
-        this.router.navigate(["auth/verify-otp"]);
+        this.router.navigate(["auth/verify-otp"], {
+          queryParams: {
+            mode: "forgot",
+          },
+        });
         this.coreService.showToastMessage(
           response.status.description,
           this.coreService.TOAST_SUCCESS

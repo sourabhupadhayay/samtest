@@ -6,7 +6,7 @@ import {
   OnInit,
 } from "@angular/core";
 import { FormControl, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Params, Router } from "@angular/router";
 import { NgOtpInputConfig } from "ng-otp-input";
 import { CommonService } from "src/app/providers/common.service";
 import { ConstantService } from "src/app/providers/constant.service";
@@ -35,6 +35,7 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
   isOtpSent: boolean = false;
   interval: any;
   timeLeft: number = 120;
+  mode: "signup" | "forgot";
 
   constructor(
     private coreService: CoreService,
@@ -42,15 +43,26 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
     private constantService: ConstantService,
     private cd: ChangeDetectorRef,
     private router: Router,
-    private common: CommonService
+    private common: CommonService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
     this.startTimer();
+    this.getFlowInfo();
+  }
+
+  getFlowInfo() {
+    this.route.queryParams.subscribe((params: Params) => {
+      this.mode = params.mode;
+    });
   }
 
   onSubmit() {
-    this.verifyActivateAccountOtp();
+    if (this.mode == "signup") {
+      this.verifyActivateAccountOtp();
+    } else {
+    }
   }
   resendOtp() {
     this.stopTimer();
@@ -94,7 +106,11 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
           response.status.description,
           this.coreService.TOAST_SUCCESS
         );
-        this.router.navigate(["auth/signup-details"]);
+        if (this.mode == "signup") {
+          this.router.navigate(["auth/signup-details"]);
+        } else {
+          this.router.navigate(["auth/reset-password"]);
+        }
       } else {
         this.coreService.showToastMessage(
           response.status.description,
