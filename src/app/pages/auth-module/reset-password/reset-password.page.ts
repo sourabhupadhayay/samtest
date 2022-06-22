@@ -1,6 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
+import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
+import { DataService, Request, Response } from "src/app/providers/data.service";
 import {
   PasswordStrength,
   failedValidation,
@@ -28,7 +31,12 @@ export class ResetPasswordPage implements OnInit {
     ]),
   });
 
-  constructor(private coreService: CoreService) {}
+  constructor(
+    private coreService: CoreService,
+    private apiService: DataService,
+    private constantService: ConstantService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.onPasswordChanged();
@@ -91,5 +99,28 @@ export class ResetPasswordPage implements OnInit {
     if (this.isFormValid()) return;
     if (this.isPassWordStrongEnough()) return;
     if (this.validateBothPasswords()) return;
+
+    let request: Request = {
+      path: "auth/users/user/password/update",
+      data: {
+        newPassword: this.passwordFormGroup.controls.password.value,
+      },
+      isAuth: true,
+    };
+    this.apiService.post(request).subscribe((response: Response) => {
+      this.coreService.dismissLoader();
+      if (response["status"]["code"] === this.constantService.STATUS_OK) {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_SUCCESS
+        );
+        this.router.navigate(["auth/login"]);
+      } else {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_ERROR
+        );
+      }
+    });
   }
 }

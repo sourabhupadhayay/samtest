@@ -59,10 +59,7 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    if (this.mode == "signup") {
-      this.verifyActivateAccountOtp();
-    } else {
-    }
+    this.verifyActivateAccountOtp();
   }
   resendOtp() {
     this.stopTimer();
