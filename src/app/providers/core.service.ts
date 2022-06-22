@@ -254,6 +254,10 @@ export class CoreService {
   // }
 
   async getCameraPermission() {
-    //  let permissionStatus   = await this.Camer
+    let permissionStatus = await Camera.checkPermissions();
+    if (permissionStatus.photos == "limited") {
+      await Camera.requestPermissions();
+    }
+    await Camera.requestPermissions();
   }
 }

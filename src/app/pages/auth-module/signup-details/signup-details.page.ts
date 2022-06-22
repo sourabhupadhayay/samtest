@@ -113,6 +113,7 @@ export class SignupDetailsPage implements OnInit {
       data: {
         ...signUpResponse,
         birthDate: new Date(birthDate).toISOString(),
+        profileUrl: this.profileUrl,
       },
       isAuth: true,
     };
@@ -135,6 +136,7 @@ export class SignupDetailsPage implements OnInit {
   }
 
   async selectImage() {
+    await this.coreService.getCameraPermission();
     this.selectedImage = await this.coreService.captureImage();
     let blob = await fetch(this.selectedImage.webPath).then((r) => r.blob());
 
