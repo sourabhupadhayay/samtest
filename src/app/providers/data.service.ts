@@ -216,7 +216,7 @@ export class DataService {
       );
   }
 
-  getHeader(isByPass = false): HttpHeaders {
+  getHeader(isByPass = true): HttpHeaders {
     const currentTimeZone = new Date()
       .toLocaleTimeString("en-us", { timeZoneName: "short" })
       .split(" ")[2];
