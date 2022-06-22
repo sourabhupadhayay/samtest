@@ -8,6 +8,7 @@ import {
 import { FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { NgOtpInputConfig } from "ng-otp-input";
+import { CommonService } from "src/app/providers/common.service";
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
@@ -28,6 +29,8 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
     inputClass: "otpInput",
     containerClass: "optInputContainer",
     placeholder: "-",
+    allowNumbersOnly: true,
+    disableAutoFocus: false,
   };
   isOtpSent: boolean = false;
   interval: any;
@@ -38,7 +41,8 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
     private apiService: DataService,
     private constantService: ConstantService,
     private cd: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private common: CommonService
   ) {}
 
   ngOnInit() {
@@ -51,10 +55,10 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
   resendOtp() {
     this.stopTimer();
     let request: Request = {
-      path: "auth/users/otp/send",
+      path: `auth/users/otp/send?email=${this.common.signUpData.email}`,
       isAuth: true,
     };
-    this.coreService.presentLoader();
+    this.coreService.presentLoader(this.constantService.WAIT);
     this.apiService.get(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
       if (response["status"]["code"] === "OK") {
@@ -82,7 +86,7 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
       isAuth: true,
     };
 
-    this.coreService.presentLoader();
+    this.coreService.presentLoader(this.constantService.WAIT);
     this.apiService.get(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
       if (response["status"]["code"] === this.constantService.STATUS_OK) {
@@ -90,7 +94,7 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
           response.status.description,
           this.coreService.TOAST_SUCCESS
         );
-        this.router.navigate(["/auth/signup-details"]);
+        this.router.navigate(["auth/signup-details"]);
       } else {
         this.coreService.showToastMessage(
           response.status.description,
@@ -107,10 +111,10 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    clearInterval(this.interval);
+    this.stopTimer();
   }
   ionViewDidLeave(): void {
-    clearInterval(this.interval);
+    this.stopTimer();
   }
 
   startTimer() {

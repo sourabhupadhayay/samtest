@@ -176,6 +176,17 @@ ion-content {
               width: 22px;
               opacity: 0.45;
             }
+            // .input-box ion-item {
+            //   border: 1px solid transparent;
+            // }
+            
+            &.error-border {
+              border: 1px solid var(--red-clr) !important;
+              border-radius: 10px;
+              ion-label{
+                color: var(--red-clr) !important;
+              }
+            }
           }
           .error-msg{
             p{position: relative; padding-left: 20px; font-size: 0.8125rem; color: var(--red-clr); margin: 5px 0 0; font-weight: 400;
@@ -510,11 +521,4 @@ ion-content {
     }
   }
 }
-.input-box ion-item {
-  border: 1px solid transparent;
-}
 
-.error-border {
-  border: 2px solid red !important;
-  border-radius: 10px;
-}

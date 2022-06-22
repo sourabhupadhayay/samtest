@@ -54,11 +54,11 @@ export class SignupPage implements OnInit {
       data: { ...this.signUpForm.value },
     };
 
-    this.coreService.presentLoader();
+    this.coreService.presentLoader(this.constantService.WAIT);
 
     this.apiService.post(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
-      if (response.status.status === this.constantService.STATUS_OK) {
+      if (response.status.code === this.constantService.STATUS_OK) {
         this.saveSignupData();
         this.router.navigate(["/auth/verify-otp"]);
       } else {

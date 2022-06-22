@@ -41,12 +41,12 @@
           <div class="input-box">
             <ion-item
               id="userNameInputContainer"
-              [ngClass]="isFormSubmitted && loginForm.controls.userName.invalid ? 'error-border':' '"
+              [ngClass]="isFormSubmitted && loginForm.controls.email.invalid ? 'error-border':' '"
               lines="none"
             >
               <ion-label position="floating">Email</ion-label>
               <ion-input
-                formControlName="userName"
+                formControlName="email"
                 autocomplete="on"
                 type="email"
               ></ion-input>
@@ -57,14 +57,14 @@
                 src="assets/icon/email.svg"
               />
               <img
-                *ngIf="isFormSubmitted && loginForm.controls.userName.valid"
+                *ngIf="isFormSubmitted && loginForm.controls.email.valid"
                 class="ion-align-self-center"
                 slot="end"
                 src="assets/icon/right-green.svg"
               />
             </ion-item>
             <div
-              *ngIf="isFormSubmitted && loginForm.controls.userName.invalid"
+              *ngIf="isFormSubmitted && loginForm.controls.email.invalid"
               class="error-msg"
               id="userNameError"
             >
@@ -139,7 +139,7 @@
           </ion-button>
         </div>
 
-        <div class="create-account">
+        <div routerLink="/auth/signup" class="create-account">
           <p>Create Bubble App Account</p>
         </div>
       </div>

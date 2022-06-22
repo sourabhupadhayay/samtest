@@ -23,6 +23,7 @@ export class BubbleScreenPage implements OnInit, AfterViewInit {
   bubble1: boolean = false;
   bubble2: boolean = false;
   athleteList: any[] = [];
+  audio = new Audio();
   constructor(
     public modalCtrl: ModalController,
     public routerOutLet: IonRouterOutlet,
@@ -35,6 +36,8 @@ export class BubbleScreenPage implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {
+    this.audio.src = "assets/audio/bubble-bursting.mp3";
+    this.audio.load();
     this.getAthletes();
   }
   ngAfterViewInit(): void {}
@@ -56,7 +59,7 @@ export class BubbleScreenPage implements OnInit, AfterViewInit {
         },
       },
     };
-    this.coreService.presentLoader();
+    this.coreService.presentLoader("Please wait");
     this.apiService.post(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
       if (response.status.code == this.constant.STATUS_OK) {
@@ -73,10 +76,7 @@ export class BubbleScreenPage implements OnInit, AfterViewInit {
   }
 
   playAudio(e: string) {
-    let audio = new Audio();
-    audio.src = "assets/audio/bubble-bursting.mp3";
-    audio.load();
-    audio.play();
+    this.audio.play();
 
     setTimeout(() => {
       this.router.navigate(["/auth/login"]);

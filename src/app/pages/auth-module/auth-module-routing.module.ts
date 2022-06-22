@@ -32,23 +32,19 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'signup',
-        loadChildren: () => import('./signup/signup.module').then( m => m.SignupPageModule)
-      },
-    ],
-  },
-  {
-    path: "",
-    children: [
-      {
-        path: "",
+        path: "signup-details",
         loadChildren: () =>
-          import("./login/login.module").then((m) => m.LoginPageModule),
+          import("./signup-details/signup-details.module").then(
+            (m) => m.SignupDetailsPageModule
+          ),
+      },
+      {
+        path: "signup",
+        loadChildren: () =>
+          import("./signup/signup.module").then((m) => m.SignupPageModule),
       },
     ],
   },
-  
-
 ];
 
 @NgModule({
