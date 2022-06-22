@@ -119,6 +119,8 @@ export class SignupDetailsPage implements OnInit {
       },
       isAuth: true,
     };
+    console.log(request);
+    debugger;
     this.coreService.presentLoader(this.constantService.WAIT);
     this.apiService.post(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
@@ -177,9 +179,9 @@ export class SignupDetailsPage implements OnInit {
       isAuth: true,
     };
     this.coreService.presentLoader(this.constantService.WAIT);
-    this.apiService.postImage(request).subscribe((response) => {
+    this.apiService.postImage(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
-      this.profileUrl = response.url;
+      this.profileUrl = response.data.url;
     });
   }
 
