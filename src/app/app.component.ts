@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+
 import { Platform } from "@ionic/angular";
 import { CoreService } from "./providers/core.service";
 import { DataService, Request } from "./providers/data.service";

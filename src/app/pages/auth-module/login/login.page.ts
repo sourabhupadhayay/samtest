@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
 import { EMAIL_PATTERN } from "src/app/helpers/emailValidation";
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
@@ -27,7 +28,13 @@ export class LoginPage implements OnInit {
     private apiService: DataService,
     private constantService: ConstantService,
     private router: Router
-  ) {}
+  ) {
+    GoogleAuth.initialize({
+      clientId:
+        "1082803264576-fvuob1bdp3sgcb4e0qe0tcrkohgkkddq.apps.googleusercontent.com",
+      scopes: ["profile", "email"],
+    });
+  }
 
   ngOnInit() {}
 
@@ -61,5 +68,10 @@ export class LoginPage implements OnInit {
         );
       }
     });
+  }
+
+  async googleSignIn() {
+    let user = await GoogleAuth.signIn();
+    console.log(user);
   }
 }
