@@ -36,6 +36,7 @@ export class SignupDetailsPage implements OnInit {
   selectedImage: Photo | null = null;
   passwordValidator = new PasswordStrength();
   failedValidationObject: failedValidation;
+  profileUrl: string = "";
 
   constructor(
     private formBuilder: FormBuilder,
@@ -49,8 +50,10 @@ export class SignupDetailsPage implements OnInit {
 
   ngOnInit() {
     this.initForm();
-
     this.onPasswordChanged();
+  }
+  ionViewDidEnter() {
+    this.getSignUpData();
   }
 
   initForm() {
@@ -112,6 +115,7 @@ export class SignupDetailsPage implements OnInit {
       data: {
         ...signUpResponse,
         birthDate: new Date(birthDate).toISOString(),
+        profileUrl: this.profileUrl,
       },
       isAuth: true,
     };
@@ -134,6 +138,7 @@ export class SignupDetailsPage implements OnInit {
   }
 
   async selectImage() {
+    await this.coreService.getCameraPermission();
     this.selectedImage = await this.coreService.captureImage();
     let blob = await fetch(this.selectedImage.webPath).then((r) => r.blob());
 
@@ -146,6 +151,7 @@ export class SignupDetailsPage implements OnInit {
   removeImage() {
     this.selectedImage = null;
     this.ProfileImageUrl = null;
+    this.profileUrl = "";
   }
 
   uploadImageToServer(imageBlob: Blob) {
@@ -153,7 +159,7 @@ export class SignupDetailsPage implements OnInit {
       return;
     }
 
-    const imageFormData: FormData = new FormData();
+    let imageFormData: FormData = new FormData();
     imageFormData.append("file", imageBlob);
 
     let request: Request = {
@@ -161,10 +167,10 @@ export class SignupDetailsPage implements OnInit {
       data: imageFormData,
       isAuth: true,
     };
-
+    this.coreService.presentLoader(this.constantService.WAIT);
     this.apiService.postImage(request).subscribe((response) => {
-      // this.coreService.dismissLoader();
-      console.log(response);
+      this.coreService.dismissLoader();
+      this.profileUrl = response.url;
     });
   }
 
