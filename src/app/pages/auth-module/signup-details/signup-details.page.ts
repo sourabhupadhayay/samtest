@@ -119,8 +119,6 @@ export class SignupDetailsPage implements OnInit {
       },
       isAuth: true,
     };
-    console.log(request);
-    debugger;
     this.coreService.presentLoader(this.constantService.WAIT);
     this.apiService.post(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
