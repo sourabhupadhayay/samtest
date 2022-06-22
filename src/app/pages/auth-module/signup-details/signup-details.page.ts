@@ -50,8 +50,10 @@ export class SignupDetailsPage implements OnInit {
 
   ngOnInit() {
     this.initForm();
-
     this.onPasswordChanged();
+  }
+  ionViewDidEnter() {
+    this.getSignUpData();
   }
 
   initForm() {
