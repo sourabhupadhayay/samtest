@@ -138,14 +138,23 @@ export class SignupDetailsPage implements OnInit {
   }
 
   async selectImage() {
-    await this.coreService.getCameraPermission();
+    // await this.coreService.getCameraPermission();
     this.selectedImage = await this.coreService.captureImage();
     let blob = await fetch(this.selectedImage.webPath).then((r) => r.blob());
 
+    let imageSize = this.coreService.formatBytes(blob.size);
+    if (imageSize > 5) {
+      this.coreService.showToastMessage(
+        "please upload image that is under 5 mb ",
+        this.coreService.TOAST_WARNING
+      );
+      return;
+    }
+
+    this.uploadImageToServer(blob);
     this.ProfileImageUrl = this.DOMSanitizer.bypassSecurityTrustUrl(
       this.selectedImage.webPath
     );
-    this.uploadImageToServer(blob);
   }
 
   removeImage() {
