@@ -1,11 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  OnInit,
-} from "@angular/core";
+import { AfterViewInit, Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { IonRouterOutlet, ModalController } from "@ionic/angular";
 
@@ -17,7 +10,6 @@ import { DataService, Request, Response } from "src/app/providers/data.service";
   selector: "app-bubble-screen",
   templateUrl: "./bubble-screen.page.html",
   styleUrls: ["./bubble-screen.page.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BubbleScreenPage implements OnInit, AfterViewInit {
   bubble1: boolean = false;
@@ -30,15 +22,14 @@ export class BubbleScreenPage implements OnInit, AfterViewInit {
     private apiService: DataService,
     private coreService: CoreService,
     private constant: ConstantService,
-    private cd: ChangeDetectorRef,
-    private htmlElement: ElementRef,
+
     private router: Router
   ) {}
 
   ngOnInit() {
+    this.getAthletes();
     this.audio.src = "assets/audio/bubble-bursting.mp3";
     this.audio.load();
-    this.getAthletes();
   }
   ngAfterViewInit(): void {}
 
@@ -64,8 +55,6 @@ export class BubbleScreenPage implements OnInit, AfterViewInit {
       this.coreService.dismissLoader();
       if (response.status.code == this.constant.STATUS_OK) {
         this.athleteList = response.data;
-        this.cd.detectChanges();
-        console.log(this.athleteList);
       } else {
         this.coreService.showToastMessage(
           response["status"]["description"],
