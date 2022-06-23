@@ -84,6 +84,8 @@ export class LoginPage implements OnInit {
     this.isFormSubmitted = false;
     this.loginForm.reset();
   }
+
+  //google sign in
   async googleSignIn() {
     let user = await GoogleAuth.signIn();
     console.log(user);

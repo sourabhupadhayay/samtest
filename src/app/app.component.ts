@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
     });
   }
 
+  //integrate facebook login
   private async initFacebook() {
     await FacebookLogin.initialize({ appId: "439680364461644" });
   }
