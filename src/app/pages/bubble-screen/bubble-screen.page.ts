@@ -1,4 +1,11 @@
-import { AfterViewInit, Component, OnInit } from "@angular/core";
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+} from "@angular/core";
 import { Router } from "@angular/router";
 import { IonRouterOutlet, ModalController } from "@ionic/angular";
 
@@ -22,7 +29,8 @@ export class BubbleScreenPage implements OnInit, AfterViewInit {
     private apiService: DataService,
     private coreService: CoreService,
     private constant: ConstantService,
-
+    private cd: ChangeDetectorRef,
+    private htmlElement: ElementRef,
     private router: Router
   ) {}
 
@@ -66,6 +74,10 @@ export class BubbleScreenPage implements OnInit, AfterViewInit {
 
   playAudio(e: string) {
     this.audio.play();
+
+    setTimeout(() => {
+      this.router.navigate(["/auth/login"]);
+    }, 500);
 
     setTimeout(() => {
       this.router.navigate(["/auth/login"]);

@@ -163,7 +163,7 @@ ion-content {
 
           bottom: -200px;
         }
-        50% {
+        30% {
           -webkit-transform: scale(1);
           -moz-transform: scale(1);
           transform: scale(1);
@@ -193,7 +193,7 @@ ion-content {
 
           bottom: -200px;
         }
-        50% {
+        30% {
           -webkit-transform: scale(1);
           -moz-transform: scale(1);
           transform: scale(1);
@@ -223,7 +223,7 @@ ion-content {
 
           bottom: -200px;
         }
-        50% {
+        30% {
           -webkit-transform: scale(1);
           -moz-transform: scale(1);
           transform: scale(1);
@@ -272,11 +272,11 @@ ion-content {
       /* ANIMATIONS */
 
       .x1 {
-        -webkit-animation: animateBubble linear 15s infinite,
+        -webkit-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        -moz-animation: animateBubble linear 15s infinite,
+        -moz-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        animation: animateBubble linear 15s infinite,
+        animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
 
         animation-delay: 2s;
@@ -284,47 +284,47 @@ ion-content {
       }
 
       .x2 {
-        -webkit-animation: animateBubble linear 15s infinite,
+        -webkit-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        -moz-animation: animateBubble linear 15s infinite,
+        -moz-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        animation: animateBubble linear 15s infinite,
+        animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
 
-        animation-delay: 4s;
+        animation-delay: 5s;
         left: 35%;
       }
 
       .x3 {
-        -webkit-animation: animateBubble linear 15s infinite,
+        -webkit-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        -moz-animation: animateBubble linear 15s infinite,
+        -moz-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        animation: animateBubble linear 15s infinite,
+        animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
 
         animation-delay: 6s;
-        left: 10%;
+        left: 7%;
       }
 
       .x4 {
-        -webkit-animation: animateBubble linear 15s infinite,
+        -webkit-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        -moz-animation: animateBubble linear 15s infinite,
+        -moz-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        animation: animateBubble linear 15s infinite,
+        animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
 
-        animation-delay: 8s;
+        animation-delay: 9s;
         left: 30%;
       }
 
       .x5 {
-        -webkit-animation: animateBubble linear 20s infinite,
+        -webkit-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        -moz-animation: animateBubble linear 20s infinite,
+        -moz-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        animation: animateBubble linear 20s infinite,
+        animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
 
         animation-delay: 11s;
@@ -332,11 +332,11 @@ ion-content {
       }
 
       .x6 {
-        -webkit-animation: animateBubble linear 20s infinite,
+        -webkit-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        -moz-animation: animateBubble linear 20s infinite,
+        -moz-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        animation: animateBubble linear 20s infinite,
+        animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
 
         animation-delay: 14s;
@@ -344,70 +344,70 @@ ion-content {
       }
 
       .x7 {
-        -webkit-animation: animateBubble linear 20s infinite,
+        -webkit-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        -moz-animation: animateBubble linear 20s infinite,
+        -moz-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        animation: animateBubble linear 20s infinite,
+        animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
 
-        animation-delay: 17s;
-        left: 8%;
+        animation-delay: 18s;
+        left: 20%;
       }
 
       .x8 {
-        -webkit-animation: animateBubble linear 20s infinite,
+        -webkit-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        -moz-animation: animateBubble linear 20s infinite,
+        -moz-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        animation: animateBubble linear 20s infinite,
+        animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
 
-        animation-delay: 20s;
-        left: 32%;
+        animation-delay: 21s;
+        left: 55%;
       }
 
       .x9 {
-        -webkit-animation: animateBubble linear 22s infinite,
+        -webkit-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        -moz-animation: animateBubble linear 22s infinite,
+        -moz-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        animation: animateBubble linear 22s infinite,
+        animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
 
-        animation-delay: 24s;
+        animation-delay: 23s;
         left: 55%;
       }
 
       .x10 {
-        -webkit-animation: animateBubble linear 22s infinite,
+        -webkit-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        -moz-animation: animateBubble linear 22s infinite,
+        -moz-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        animation: animateBubble linear 22s infinite,
+        animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
 
         animation-delay: 28s;
         left: 0%;
       }
       .x11 {
-        -webkit-animation: animateBubble linear 22s infinite,
+        -webkit-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        -moz-animation: animateBubble linear 22s infinite,
+        -moz-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        animation: animateBubble linear 22s infinite,
+        animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
 
-        animation-delay: 32s;
+        animation-delay: 33s;
         left: 18%;
       }
 
       .x12 {
-        -webkit-animation: animateBubble linear 22s infinite,
+        -webkit-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        -moz-animation: animateBubble linear 22s infinite,
+        -moz-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        animation: animateBubble linear 22s infinite,
+        animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
 
         animation-delay: 36s;
@@ -415,11 +415,11 @@ ion-content {
       }
 
       .x13 {
-        -webkit-animation: animateBubble linear 20s infinite,
+        -webkit-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        -moz-animation: animateBubble linear 20s infinite,
+        -moz-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        animation: animateBubble linear 20s infinite,
+        animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
 
         animation-delay: 38s;
@@ -427,11 +427,11 @@ ion-content {
       }
 
       .x14 {
-        -webkit-animation: animateBubble linear 20s infinite,
+        -webkit-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        -moz-animation: animateBubble linear 20s infinite,
+        -moz-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        animation: animateBubble linear 20s infinite,
+        animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
 
         animation-delay: 41s;
@@ -439,11 +439,11 @@ ion-content {
       }
 
       .x15 {
-        -webkit-animation: animateBubble linear 20s infinite,
+        -webkit-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        -moz-animation: animateBubble linear 20s infinite,
+        -moz-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        animation: animateBubble linear 20s infinite,
+        animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
 
         animation-delay: 44s;
@@ -451,11 +451,11 @@ ion-content {
       }
 
       .x16 {
-        -webkit-animation: animateBubble linear 22s infinite,
+        -webkit-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        -moz-animation: animateBubble linear 22s infinite,
+        -moz-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        animation: animateBubble linear 22s infinite,
+        animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
 
         animation-delay: 47s;
@@ -463,11 +463,11 @@ ion-content {
       }
 
       .x17 {
-        -webkit-animation: animateBubble linear 22s infinite,
+        -webkit-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        -moz-animation: animateBubble linear 22s infinite,
+        -moz-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        animation: animateBubble linear 22s infinite,
+        animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
 
         animation-delay: 50s;
@@ -475,11 +475,11 @@ ion-content {
       }
 
       .x18 {
-        -webkit-animation: animateBubble linear 22s infinite,
+        -webkit-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        -moz-animation: animateBubble linear 22s infinite,
+        -moz-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        animation: animateBubble linear 22s infinite,
+        animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
 
         animation-delay: 53s;
@@ -487,11 +487,11 @@ ion-content {
       }
 
       .x19 {
-        -webkit-animation: animateBubble linear 22s infinite,
+        -webkit-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        -moz-animation: animateBubble linear 22s infinite,
+        -moz-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        animation: animateBubble linear 22s infinite,
+        animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
 
         animation-delay: 56s;
@@ -499,11 +499,11 @@ ion-content {
       }
 
       .x20 {
-        -webkit-animation: animateBubble linear 22s infinite,
+        -webkit-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        -moz-animation: animateBubble linear 22s infinite,
+        -moz-animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
-        animation: animateBubble linear 22s infinite,
+        animation: animateBubble forwards 20s infinite,
           sideWays 2s ease-in-out infinite alternate;
 
         animation-delay: 59s;
