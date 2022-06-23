@@ -174,7 +174,7 @@ export class SignupDetailsPage implements OnInit {
     imageFormData.append("file", imageBlob, `profile.${imageFormat}`);
 
     let request: Request = {
-      path: "auth/file/upload/profile",
+      path: "auth/file/upload",
       data: imageFormData,
       isAuth: true,
     };
