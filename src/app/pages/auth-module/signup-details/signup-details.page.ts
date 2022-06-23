@@ -37,6 +37,7 @@ export class SignupDetailsPage implements OnInit {
   passwordValidator = new PasswordStrength();
   failedValidationObject: failedValidation;
   profileUrl: string = "";
+  currentDate: string = new Date().toISOString();
 
   constructor(
     private formBuilder: FormBuilder,

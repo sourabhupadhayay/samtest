@@ -12,9 +12,16 @@
     <div class="top-screen">
       <!-- <ion-icon slot="start" name="arrow-back-outline"></ion-icon> -->
       <ion-grid class="video-part">
-        <video height="100%" width="100%" poster="assets/video/video-poster.png"  loop="" muted autoplay>
-          <source src="assets/video/video.mp4">
-          <source src="assets/video/video.webm">
+        <video
+          height="100%"
+          width="100%"
+          poster="assets/video/video-poster.png"
+          loop=""
+          muted
+          autoplay
+        >
+          <source src="assets/video/video.mp4" />
+          <source src="assets/video/video.webm" />
           <p class="warning">Your browser does not support HTML5 video.</p>
         </video>
       </ion-grid>
@@ -316,12 +323,15 @@
                 <ng-template>
                   <ion-content>
                     <ion-datetime
+                      [max]="currentDate"
                       mode="ios"
                       #dateTime
                       presentation="date"
                       [showDefaultButtons]="true"
                       (ionChange)="patchDateValue(dateTime.value)"
-                    ></ion-datetime>
+                    >
+                      <span slot="title">Select Birth date</span></ion-datetime
+                    >
                   </ion-content>
                 </ng-template>
               </ion-modal>

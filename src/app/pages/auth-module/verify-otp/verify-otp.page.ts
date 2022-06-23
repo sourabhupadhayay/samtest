@@ -34,7 +34,7 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
   };
   isOtpSent: boolean = false;
   interval: any;
-  timeLeft: number = 120;
+  timeLeft: number = 5;
   mode: "signup" | "forgot";
 
   constructor(
