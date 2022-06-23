@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { EMAIL_PATTERN } from "src/app/helpers/emailValidation";
+import { CommonService } from "src/app/providers/common.service";
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
@@ -21,10 +22,16 @@ export class ForgotPasswordPage implements OnInit {
     private coreService: CoreService,
     private apiService: DataService,
     private constantService: ConstantService,
-    private router: Router
+    private router: Router,
+    private commonService: CommonService
   ) {}
 
   ngOnInit() {}
+
+  saveSignupData() {
+    this.commonService.forgotPasswordEmail = this.emailController.value;
+  }
+
   onSubmit() {
     this.isFormSubmitted = true;
     if (this.emailController.invalid) {
@@ -41,6 +48,7 @@ export class ForgotPasswordPage implements OnInit {
     this.apiService.post(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
       if (response["status"]["code"] === "OK") {
+        this.saveSignupData();
         this.router.navigate(["auth/verify-otp"], {
           queryParams: {
             mode: "forgot",

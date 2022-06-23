@@ -63,8 +63,11 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
   }
   resendOtp() {
     this.stopTimer();
+
+    let email = this.getEmail();
+
     let request: Request = {
-      path: `auth/users/otp/send?email=${this.common.signUpData.email}`,
+      path: `auth/users/otp/send?email=${email}`,
       isAuth: true,
     };
     this.coreService.presentLoader(this.constantService.WAIT);
@@ -128,6 +131,13 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
   }
   ionViewDidLeave(): void {
     this.stopTimer();
+  }
+  private getEmail(): string {
+    if (this.mode == "signup") {
+      return this.common.signUpData.email;
+    } else {
+      return this.common.forgotPasswordEmail;
+    }
   }
 
   startTimer() {

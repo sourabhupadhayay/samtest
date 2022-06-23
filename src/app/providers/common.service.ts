@@ -5,5 +5,6 @@ import { Injectable } from "@angular/core";
 })
 export class CommonService {
   signUpData: any | null = null;
+  forgotPasswordEmail: string | null;
   constructor() {}
 }

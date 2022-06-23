@@ -62,4 +62,9 @@ export class LoginPage implements OnInit {
       }
     });
   }
+
+  ionViewDidLeave() {
+    this.isFormSubmitted = false;
+    this.loginForm.reset();
+  }
 }
