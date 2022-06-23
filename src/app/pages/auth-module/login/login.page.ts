@@ -1,10 +1,15 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
 import { EMAIL_PATTERN } from "src/app/helpers/emailValidation";
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
+import {
+  FacebookLogin,
+  FacebookLoginResponse,
+} from "@capacitor-community/facebook-login";
 
 @Component({
   selector: "app-login",
@@ -21,13 +26,25 @@ export class LoginPage implements OnInit {
     ]),
     password: new FormControl<string | null>(null, [Validators.required]),
   });
+  FACEBOOK_PERMISSIONS: string[] = [
+    "email",
+    "user_birthday",
+    "user_photos",
+    "user_gender",
+  ];
 
   constructor(
     private coreService: CoreService,
     private apiService: DataService,
     private constantService: ConstantService,
     private router: Router
-  ) {}
+  ) {
+    GoogleAuth.initialize({
+      clientId:
+        "1082803264576-6fh2eljajj00i2ofs55omddhmrs1s3q1.apps.googleusercontent.com",
+      scopes: ["profile", "email"],
+    });
+  }
 
   ngOnInit() {}
 
@@ -66,5 +83,19 @@ export class LoginPage implements OnInit {
   ionViewDidLeave() {
     this.isFormSubmitted = false;
     this.loginForm.reset();
+  }
+  async googleSignIn() {
+    let user = await GoogleAuth.signIn();
+    console.log(user);
+  }
+
+  //facebook login
+
+  async faceBookSignIn() {
+    let result = (await FacebookLogin.login({
+      permissions: this.FACEBOOK_PERMISSIONS,
+    })) as FacebookLoginResponse;
+
+    console.log(result);
   }
 }

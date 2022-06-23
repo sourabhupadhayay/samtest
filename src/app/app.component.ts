@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { FacebookLogin } from "@capacitor-community/facebook-login";
+
 import { Platform } from "@ionic/angular";
 import { CoreService } from "./providers/core.service";
 import { DataService, Request } from "./providers/data.service";
@@ -24,7 +26,12 @@ export class AppComponent implements OnInit {
   initializeApp(): void {
     this.platform.ready().then((): void => {
       this._networkEventsListener();
+      this.initFacebook();
     });
+  }
+
+  private async initFacebook() {
+    await FacebookLogin.initialize({ appId: "439680364461644" });
   }
 
   private _networkEventsListener(): void {
