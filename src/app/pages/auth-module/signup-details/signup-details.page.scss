@@ -319,13 +319,13 @@ ion-content {
           --box-shadow: none;
           --padding-start: 0rem;
           --padding-end: 0rem;
-          height: 76px;
-          width: 76px;
+          height: 80px;
+          width: 80px;
           border-radius: 50%;
           box-shadow: 0 5px 7px #225889;
           img {
-            height: 76px;
-            width: 76px;
+            height: 80px;
+            width: 80px;
           }
           span {
             position: absolute;
@@ -338,6 +338,8 @@ ion-content {
             color: var(--white-clr);
             font-weight: 700;
             height: fit-content;
+            text-transform: capitalize;
+            font-size: 0.873rem;
           }
           &.button-disabled {
             opacity: 1;
