@@ -9,8 +9,7 @@ import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { Photo } from "@capacitor/camera";
 import { format, parseISO } from "date-fns";
-import { EMAIL_PATTERN } from "src/app/helpers/emailValidation";
-import { CommonService } from "src/app/providers/common.service";
+
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
@@ -18,6 +17,7 @@ import {
   failedValidation,
   PasswordStrength,
 } from "src/app/utility/passwordValidator";
+import { AuthModuleService } from "../auth-module.service";
 
 @Component({
   selector: "app-signup-details",
@@ -46,7 +46,7 @@ export class SignupDetailsPage implements OnInit {
     private apiService: DataService,
     private constantService: ConstantService,
     private router: Router,
-    private common: CommonService
+    private common: AuthModuleService
   ) {}
 
   ngOnInit() {

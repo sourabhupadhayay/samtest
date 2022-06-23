@@ -1,11 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { EMAIL_PATTERN } from "src/app/helpers/emailValidation";
-import { CommonService } from "src/app/providers/common.service";
+
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
+import { AuthModuleService } from "../auth-module.service";
 @Component({
   selector: "app-forgot-password",
   templateUrl: "./forgot-password.page.html",
@@ -23,7 +23,7 @@ export class ForgotPasswordPage implements OnInit {
     private apiService: DataService,
     private constantService: ConstantService,
     private router: Router,
-    private commonService: CommonService
+    private commonService: AuthModuleService
   ) {}
 
   ngOnInit() {}

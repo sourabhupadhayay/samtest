@@ -1,12 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { IonRouterOutlet, ModalController } from "@ionic/angular";
+import { ModalController } from "@ionic/angular";
 import { EMAIL_PATTERN } from "src/app/helpers/emailValidation";
-import { CommonService } from "src/app/providers/common.service";
+
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
+import { AuthModuleService } from "../auth-module.service";
 @Component({
   selector: "app-signup",
   templateUrl: "./signup.page.html",
@@ -30,7 +31,7 @@ export class SignupPage implements OnInit {
     private apiService: DataService,
     private router: Router,
     private constantService: ConstantService,
-    private commonService: CommonService
+    private commonService: AuthModuleService
   ) {}
 
   ngOnInit() {}

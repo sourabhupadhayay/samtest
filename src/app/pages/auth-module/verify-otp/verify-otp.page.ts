@@ -12,6 +12,7 @@ import { CommonService } from "src/app/providers/common.service";
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
+import { AuthModuleService } from "../auth-module.service";
 
 @Component({
   selector: "app-verify-otp",
@@ -43,7 +44,7 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
     private constantService: ConstantService,
     private cd: ChangeDetectorRef,
     private router: Router,
-    private common: CommonService,
+    private common: AuthModuleService,
     private route: ActivatedRoute
   ) {}
 

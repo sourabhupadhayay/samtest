@@ -38,8 +38,7 @@ export class CoreService {
     private actionSheetCtrl: ActionSheetController,
 
     private dataService: DataService,
-    private constant: ConstantService,
-    private common: CommonService
+    private constant: ConstantService
   ) {}
 
   async showToast(message: string): Promise<void> {
