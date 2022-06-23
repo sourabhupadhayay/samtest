@@ -31,7 +31,7 @@ export class LoginPage implements OnInit {
   ) {
     GoogleAuth.initialize({
       clientId:
-        "1082803264576-fvuob1bdp3sgcb4e0qe0tcrkohgkkddq.apps.googleusercontent.com",
+        "1082803264576-6fh2eljajj00i2ofs55omddhmrs1s3q1.apps.googleusercontent.com",
       scopes: ["profile", "email"],
     });
   }
