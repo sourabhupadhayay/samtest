@@ -153,7 +153,7 @@ export class SignupDetailsPage implements OnInit {
       return;
     }
 
-    this.uploadImageToServer(blob);
+    this.uploadImageToServer(blob, this.selectedImage.format);
     this.ProfileImageUrl = this.DOMSanitizer.bypassSecurityTrustUrl(
       this.selectedImage.webPath
     );
@@ -165,13 +165,13 @@ export class SignupDetailsPage implements OnInit {
     this.profileUrl = "";
   }
 
-  uploadImageToServer(imageBlob: Blob) {
+  uploadImageToServer(imageBlob: Blob, imageFormat: string) {
     if (!this.selectedImage) {
       return;
     }
 
     let imageFormData: FormData = new FormData();
-    imageFormData.append("file", imageBlob);
+    imageFormData.append("file", imageBlob, `profile.${imageFormat}`);
 
     let request: Request = {
       path: "auth/file/upload/profile",
