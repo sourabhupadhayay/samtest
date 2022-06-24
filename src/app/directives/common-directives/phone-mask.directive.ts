@@ -9,7 +9,6 @@ export class PhoneMaskDirective {
 
   @HostListener("ngModelChange", ["$event"])
   onModelChange(event) {
-    console.log(this.ngControl.control.value);
     this.onInputChange(event, false);
   }
 
