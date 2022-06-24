@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
+<<<<<<< HEAD
 import { AuthGuard } from "src/app/guard/auth.guard";
 
 const routes: Routes = [
@@ -22,6 +23,10 @@ const routes: Routes = [
     ],
   },
 ];
+=======
+
+const routes: Routes = [];
+>>>>>>> 5790f4d (code refactoring)
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
