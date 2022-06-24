@@ -56,10 +56,17 @@ export class SignupDetailsPage implements OnInit {
   ionViewDidEnter() {
     this.getSignUpData();
   }
+  ionViewDidLeave() {
+    this.isFormSubmitted = false;
+    this.signUpDetailsForm.reset();
+  }
 
   initForm() {
     this.signUpDetailsForm = this.formBuilder.group({
-      fullName: [null, [Validators.required]],
+      fullName: [
+        null,
+        [Validators.required, Validators.pattern("^[a-zA-Z ]*$")],
+      ],
       email: [{ value: null, disabled: true }],
       password: [null, Validators.required],
       birthDate: [null, Validators.required],
