@@ -9,12 +9,13 @@ export class PhoneMaskDirective {
 
   @HostListener("ngModelChange", ["$event"])
   onModelChange(event) {
+    console.log(this.ngControl.control.value);
     this.onInputChange(event, false);
   }
 
   @HostListener("keydown.backspace", ["$event"])
   keydownBackspace(event) {
-    this.onInputChange(event.target.value, true);
+    // this.onInputChange(event.target.value, true);
   }
 
   onInputChange(event, backspace) {
@@ -22,9 +23,7 @@ export class PhoneMaskDirective {
     if (backspace && newVal.length <= 6) {
       newVal = newVal.substring(0, newVal.length - 1);
     }
-    if (newVal.length === 0) {
-      newVal = "";
-    } else if (newVal.length <= 3) {
+    if (newVal.length <= 3) {
       newVal = newVal.replace(/^(\d{0,3})/, "$1");
     } else if (newVal.length <= 6) {
       newVal = newVal.replace(/^(\d{0,3})(\d{0,3})/, "($1) $2");
