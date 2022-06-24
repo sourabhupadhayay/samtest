@@ -10,7 +10,6 @@ const routes: Routes = [
   },
   {
     path: "bubble-screen",
-
     loadChildren: () =>
       import("./pages/bubble-screen/bubble-screen.module").then(
         (m) => m.BubbleScreenPageModule
@@ -25,7 +24,7 @@ const routes: Routes = [
   },
   {
     path: "home",
-    canActivate: [AuthGuard],
+
     loadChildren: () =>
       import("./pages/home/home.module").then((m) => m.HomeModule),
   },
