@@ -1,0 +1,134 @@
+<ion-content [fullscreen]="true">
+  <ion-grid class="top-card">
+    <div class="title-part">
+      <ion-item lines="none">
+        <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+        <ion-label>
+          <ion-grid class="logo-head">
+            <img src="assets/images/single-logo.svg" />
+            <div class="nil4all">
+              <span>#NIL4ALL</span>
+            </div>
+          </ion-grid>
+        </ion-label>
+        <div class="notification" slot="end">
+          <img src="assets/icon/notification.svg" />
+          <span></span>
+        </div>
+      </ion-item>
+    </div>
+    <div class="profile-part">
+      <ion-item lines="none">
+        <ion-avatar slot="start">
+          <img src="assets/images/profile.png" />
+        </ion-avatar>
+        <ion-label>
+          <h5>Casey Rodgers</h5>
+          <div class="live-status">
+            <span>LIVE</span>
+            <p>For Next 45 minutes</p>
+          </div>
+        </ion-label>
+      </ion-item>
+    </div>
+  </ion-grid>
+
+  <ion-grid class="content-part">
+    <div class="details-part">
+      <div class="details-box">
+        <h5>Biography</h5>
+        <p>
+          Casey Rodgers is a Redshirt Junior American - football Defensive
+          Lineman at University of Oregon of the NCAA. He played High School
+          Football at Westhill HS/Old Farms (Conn) Prep.
+        </p>
+      </div>
+      <div class="details-box">
+        <h5>Team</h5>
+        <p>Oregon Ducks football</p>
+      </div>
+      <div class="details-box">
+        <h5>Team State</h5>
+        <p>Oregon</p>
+      </div>
+      <div class="details-box">
+        <h5>Country</h5>
+        <p>USA</p>
+      </div>
+      <div class="details-box">
+        <h5>School/University</h5>
+        <p>University of Oregon</p>
+      </div>
+      <div class="details-box">
+        <h5>Born</h5>
+        <p>December 18, 1998 (28 yr.) Syracuse, NY</p>
+      </div>
+    </div>
+
+    <div class="highest-bid">
+      <ion-item lines="none">
+        <ion-avatar slot="start">
+          <img src="assets/icon/highest-bid.svg" />
+        </ion-avatar>
+        <ion-label>
+          <p>Highest Bid</p>
+          <span>$100</span>
+        </ion-label>
+      </ion-item>
+    </div>
+  </ion-grid>
+  <ion-grid class="buble-part">
+    <div class="dots-bubble">
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+    </div>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <div class="buttons-swipe">
+      <div class="buttons-data">
+        <ion-item-sliding>
+          <ion-item-options side="start">
+            <ion-item-option color="danger"></ion-item-option>
+          </ion-item-options>
+          <ion-item lines="none">
+            <ion-button slot="start">
+              <img src="assets/images/button-auth.png" />
+              <span
+                >Bid <br />
+                Now</span
+              >
+            </ion-button>
+          </ion-item>
+        </ion-item-sliding>
+      </div>
+
+      <div class="swipe-data">
+        <ion-item lines="none">
+          <ion-label>
+            <img class="one" src="assets/icon/arrow-right.svg" />
+            <img class="two" src="assets/icon/arrow-right.svg" />
+            <img class="three" src="assets/icon/arrow-right.svg" />
+          </ion-label>
+          <ion-text slot="end">
+            <p>Min Bid</p>
+            <span>$50</span>
+          </ion-text>
+        </ion-item>
+      </div>
+    </div>
+    <div class="wanna-bubble">
+      <p>Wanna Bubble Up? Increase your Bid</p>
+    </div>
+  </ion-toolbar>
+</ion-footer>
