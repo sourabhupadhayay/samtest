@@ -218,10 +218,10 @@ ion-content {
             color: var(--white-clr);
             font-weight: 700;
             height: fit-content;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             width: 100%;
-            word-break: break-all;
-            white-space: normal;
+            word-break: normal;
+            white-space: nowrap;
             padding: 0 10px;
             line-height: 18px;
             text-transform: capitalize;
