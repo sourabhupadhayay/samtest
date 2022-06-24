@@ -11,6 +11,7 @@ import { AuthModuleModule } from "./pages/auth-module/auth-module.module";
 import { ErrorInterceptor } from "./interceptor/error.interceptor";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatIconModule } from "@angular/material/icon";
+import { HomeModule } from "./pages/home/home.module";
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,6 +23,7 @@ import { MatIconModule } from "@angular/material/icon";
     AuthModuleModule,
     BrowserAnimationsModule,
     MatIconModule,
+    HomeModule,
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
