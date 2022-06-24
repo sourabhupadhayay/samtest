@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
 import { EMAIL_PATTERN } from "src/app/helpers/emailValidation";
 import { ConstantService } from "src/app/providers/constant.service";
@@ -26,6 +26,7 @@ export class LoginPage implements OnInit {
     ]),
     password: new FormControl<string | null>(null, [Validators.required]),
   });
+  returnUrl: string;
   FACEBOOK_PERMISSIONS: string[] = [
     "email",
     "user_birthday",
@@ -37,7 +38,8 @@ export class LoginPage implements OnInit {
     private coreService: CoreService,
     private apiService: DataService,
     private constantService: ConstantService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     GoogleAuth.initialize({
       clientId:
@@ -46,7 +48,10 @@ export class LoginPage implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
+    console.log(this.returnUrl);
+  }
 
   showPasswordToggle() {
     this.isShowingPassword = !this.isShowingPassword;
@@ -71,6 +76,7 @@ export class LoginPage implements OnInit {
           response.status.description,
           this.coreService.TOAST_SUCCESS
         );
+        this.router.navigateByUrl(this.returnUrl);
       } else {
         this.coreService.showToastMessage(
           response.status.description,

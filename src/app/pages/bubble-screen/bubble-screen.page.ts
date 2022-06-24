@@ -71,22 +71,12 @@ export class BubbleScreenPage implements OnInit, AfterViewInit {
     });
   }
 
-  playAudio(e: string) {
+  navigateToAthlete(id: string) {
     this.audio.play();
 
     setTimeout(() => {
-      this.router.navigate(["/auth/login"]);
+      this.router.navigate(["home/profile/athlete/" + id]);
     }, 500);
-
-    setTimeout(() => {
-      this.router.navigate(["/auth/login"]);
-    }, 500);
-
-    // if (e == "1") {
-    //   this.bubble1 = true;
-    // } else if (e == "2") {
-    //   this.bubble2 = true;
-    // }
   }
   onclick_cancel(): void {
     this.modalCtrl.dismiss();

@@ -1,11 +1,10 @@
 <ion-content [fullscreen]="true">
-  
   <ion-grid class="main-screen-bg">
     <ion-header>
       <ion-toolbar>
-          <img src="assets/images/single-logo.svg">
+        <img src="assets/images/single-logo.svg" />
       </ion-toolbar>
-  </ion-header>
+    </ion-header>
     <ion-grid class="user-bubble">
       <div id="background-wrap">
         <!-- [ngClass]="{'customClass' : bubble1 === true }" -->
@@ -28,7 +27,7 @@
           *ngFor="let bubble of athleteList ;let i = index"
           class="bubble"
           [ngClass]="'x' + (i+1)"
-          (click)="playAudio('1')"
+          (click)="navigateToAthlete(bubble.id)"
         >
           <div class="new-bg">
             <div class="bubble-toch">
@@ -216,7 +215,6 @@
               </div>
           </div>
         </div> -->
-        
       </div>
     </ion-grid>
 
