@@ -27,7 +27,7 @@
           <img src="assets/images/profile.png" />
         </ion-avatar>
         <ion-label>
-          <h5>Casey Rodgers</h5>
+          <h5>{{athleteData?.fullName}}</h5>
           <div class="live-status">
             <span>LIVE</span>
             <p>For Next 45 minutes</p>
@@ -42,30 +42,28 @@
       <div class="details-box">
         <h5>Biography</h5>
         <p>
-          Casey Rodgers is a Redshirt Junior American - football Defensive
-          Lineman at University of Oregon of the NCAA. He played High School
-          Football at Westhill HS/Old Farms (Conn) Prep.
+          {{athleteData?.bio}}
         </p>
       </div>
       <div class="details-box">
         <h5>Team</h5>
-        <p>Oregon Ducks football</p>
+        <p>{{athleteData?.teamName}}</p>
       </div>
       <div class="details-box">
         <h5>Team State</h5>
-        <p>Oregon</p>
+        <p>{{athleteData?.teamState}}</p>
       </div>
       <div class="details-box">
         <h5>Country</h5>
-        <p>USA</p>
+        <p>{{athleteData?.country}}</p>
       </div>
       <div class="details-box">
         <h5>School/University</h5>
-        <p>University of Oregon</p>
+        <p>{{athleteData?.universityName}}</p>
       </div>
       <div class="details-box">
         <h5>Born</h5>
-        <p>December 18, 1998 (28 yr.) Syracuse, NY</p>
+        <p>{{athleteData?.birthDate | date:'MMM d, y'}}</p>
       </div>
     </div>
 

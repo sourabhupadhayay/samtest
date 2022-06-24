@@ -6,6 +6,7 @@ import { AuthGuard } from "src/app/guard/auth.guard";
 const routes: Routes = [
   {
     path: "home",
+    canActivate: [AuthGuard],
     children: [
       {
         path: "profile",
