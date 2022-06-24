@@ -20,11 +20,7 @@ const routes: Routes = [
       import("./pages/auth-module/auth-module.module").then(
         (m) => m.AuthModuleModule
       ),
-  },  {
-    path: 'profile',
-    loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule)
   },
-
 ];
 
 @NgModule({
