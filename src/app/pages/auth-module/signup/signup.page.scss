@@ -234,7 +234,13 @@ ion-header {
 
         .accept-terms-policy{padding: 10px 15px;
             ion-item{--padding-start:0; --innerpadding-end:0; --background: transparent; --ripple-color:none;--background-activated: none;
-                ion-checkbox{margin: 0; margin-right: 5px; --size: 20px; --border-color:var(--white-clr); --background-checked:transparent; --background:transparent; --border-width: 1px; --border-color-checked:var(--white-clr); --ripple-color:none; --border-radius: 4px;}
+              --background-focused: none;
+              --background-hover: none;
+              --background-activated-opacity: 1;
+              --background-focused-opacity: 1;
+              --background-hover-opacity: 1;
+              --ripple-color: none;
+                ion-checkbox{--ripple-color: none; margin: 0; margin-right: 5px; --size: 20px; --border-color:var(--white-clr); --background-checked:transparent; --background:transparent; --border-width: 1px; --border-color-checked:var(--white-clr); --ripple-color:none; --border-radius: 4px;}
                 ion-label{
                     font-size: 0.75rem; color: var(--white-clr); font-weight: 500;
                     span{font-weight: 800; border-bottom: 1px solid var(--white-clr); display: inline-block; position: relative; z-index: 9;}
