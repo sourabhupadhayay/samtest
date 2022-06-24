@@ -24,7 +24,7 @@
     <div class="profile-part">
       <ion-item lines="none">
         <ion-avatar slot="start">
-          <img src="assets/images/profile.png" />
+          <img [src]="athleteData?.profileUrl" />
         </ion-avatar>
         <ion-label>
           <h5>{{athleteData?.fullName}}</h5>
@@ -42,24 +42,24 @@
       <div class="details-box">
         <h5>Biography</h5>
         <p>
-          {{athleteData?.bio}}
+          {{athleteData?.bio ?? '-'}}
         </p>
       </div>
       <div class="details-box">
         <h5>Team</h5>
-        <p>{{athleteData?.teamName}}</p>
+        <p>{{athleteData?.teamName ?? '-'}}</p>
       </div>
       <div class="details-box">
         <h5>Team State</h5>
-        <p>{{athleteData?.teamState}}</p>
+        <p>{{athleteData?.teamState ?? '-'}}</p>
       </div>
       <div class="details-box">
         <h5>Country</h5>
-        <p>{{athleteData?.country}}</p>
+        <p>{{athleteData?.country ?? '-'}}</p>
       </div>
       <div class="details-box">
         <h5>School/University</h5>
-        <p>{{athleteData?.universityName}}</p>
+        <p>{{athleteData?.universityName ?? '-'}}</p>
       </div>
       <div class="details-box">
         <h5>Born</h5>
