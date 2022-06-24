@@ -57,6 +57,7 @@ export class BubbleScreenPage implements OnInit, AfterViewInit {
           sortBy: "FIRST_NAME",
         },
       },
+      isAuth: false,
     };
 
     this.apiService.post(request).subscribe((response: Response) => {

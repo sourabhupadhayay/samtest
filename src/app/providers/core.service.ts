@@ -29,8 +29,7 @@ export class CoreService {
 
   TOAST_INFO = "TOAST_INFO";
   images!: string;
-
-  headers: any = this.dataService._headerInit();
+  isLoading = false;
   constructor(
     public toastCtrl: ToastController,
     private loadingController: LoadingController,
@@ -56,24 +55,48 @@ export class CoreService {
   }
   async presentLoader(message: string): Promise<void> {
     // Return;
-    const loaderOpts: LoadingOptions = {
-      spinner: "crescent",
+    this.isLoading = true;
 
-      translucent: true,
-      cssClass: "my-loading-class",
-      animated: true,
-      keyboardClose: true,
-      showBackdrop: true,
-      backdropDismiss: false,
-      message,
-    };
-    this.loading = this.loadingController?.create(loaderOpts);
-    (await this.loading)?.onDidDismiss().then((): any => (this.loading = null));
-    return (await this.loading)?.present();
+    return this.loadingController
+      .create({
+        spinner: "crescent",
+        translucent: true,
+        cssClass: "my-loading-class",
+        animated: true,
+        keyboardClose: true,
+        showBackdrop: true,
+        backdropDismiss: false,
+        message,
+      })
+      .then((a) => {
+        a.present().then(() => {
+          if (!this.isLoading) {
+            a.dismiss();
+          }
+        });
+      });
+
+    // const loaderOpts: LoadingOptions = {
+    //   spinner: "crescent",
+    //   translucent: true,
+    //   cssClass: "my-loading-class",
+    //   animated: true,
+    //   keyboardClose: true,
+    //   showBackdrop: true,
+    //   backdropDismiss: false,
+    //   message,
+    // };
+    // this.loading = this.loadingController?.create(loaderOpts);
+    // (await this.loading)?.onDidDismiss().then((): any => (this.loading = null));
+    // return (await this.loading)?.present();
   }
 
   async dismissLoader() {
-    return (await this.loading)?.dismiss();
+    this.isLoading = false;
+    let topLoader = await this.loadingController.getTop();
+    if (topLoader) {
+      return await this.loadingController.dismiss();
+    }
   }
   async showToastMessage(message: string, type: string): Promise<void> {
     const { icon, position, color } = this._colorPosition(type),

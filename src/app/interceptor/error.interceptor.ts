@@ -24,6 +24,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((err) => {
         this.coreService.dismissLoader();
+
         // if (err.status === 401) {
         // } else {
         //   this.coreService.showToastMessage(
