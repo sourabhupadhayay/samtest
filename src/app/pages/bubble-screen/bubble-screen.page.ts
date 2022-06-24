@@ -8,6 +8,7 @@ import {
 } from "@angular/core";
 import { Router } from "@angular/router";
 import { IonRouterOutlet, ModalController } from "@ionic/angular";
+import { AuthenticationService } from "src/app/providers/authentication.service";
 
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
@@ -18,19 +19,19 @@ import { DataService, Request, Response } from "src/app/providers/data.service";
   templateUrl: "./bubble-screen.page.html",
   styleUrls: ["./bubble-screen.page.scss"],
 })
-export class BubbleScreenPage implements OnInit, AfterViewInit {
+export class BubbleScreenPage implements OnInit {
   bubble1: boolean = false;
   bubble2: boolean = false;
   athleteList: any[] = [];
   audio = new Audio();
+  isLoggedIn: boolean = false;
   constructor(
     public modalCtrl: ModalController,
     public routerOutLet: IonRouterOutlet,
     private apiService: DataService,
     private coreService: CoreService,
     private constant: ConstantService,
-    private cd: ChangeDetectorRef,
-    private htmlElement: ElementRef,
+    public authenticationService: AuthenticationService,
     private router: Router
   ) {}
 
@@ -39,7 +40,6 @@ export class BubbleScreenPage implements OnInit, AfterViewInit {
     this.audio.src = "assets/audio/bubble-bursting.mp3";
     this.audio.load();
   }
-  ngAfterViewInit(): void {}
 
   getAthletes() {
     let request: Request = {
