@@ -98,7 +98,7 @@ describe("LoginPage", () => {
     const userNameInput = fixture.debugElement.nativeElement.querySelector(
       "#userNameInputContainer"
     );
-    console.log(userNameInput);
+
     expect(userNameInput.classList).toContain("error-border");
   });
   it("When password is blank, password field should display red outline ", () => {
