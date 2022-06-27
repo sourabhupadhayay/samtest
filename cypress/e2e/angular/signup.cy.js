@@ -8,7 +8,7 @@ describe("login", () => {
   const phone = chance.phone();
 
   beforeEach(() => {
-    cy.visit("http://localhost:8100/auth/signup");
+    cy.visit("/auth/signup");
   });
   it("has a title", () => {
     cy.contains("Signup");
@@ -25,6 +25,10 @@ describe("login", () => {
     cy.get("input[type=email]").type(email);
     cy.get("input[type=phone]").type(phone);
     cy.get("ion-checkbox[name=checkbox]").click();
-    cy.get("ion-button[name=submit]").click();
+    cy.get("ion-button[name=submit]")
+      .click()
+      .then(() => {
+        cy.url().should("include", "verify-otp");
+      });
   });
 });

@@ -8,7 +8,7 @@ describe("login", () => {
   const pass = "ValidPassword23";
 
   beforeEach(() => {
-    cy.visit("http://localhost:8100/auth/login");
+    cy.visit("/auth/login");
   });
   it("has a title", () => {
     cy.contains("Login");
@@ -26,8 +26,22 @@ describe("login", () => {
     //fill the form
     cy.get("input[type=email]").type(email);
     cy.get("input[type=password]").type(pass);
-    cy.get("#submitBtn").click();
+    cy.get("#submitBtn")
+      .click()
+      .should(() => {
+        expect(localStorage.getItem("authDetail")).to.be.null;
+      });
+  });
 
-    // cy.contains("");
+  it("should login as current user ", () => {
+    cy.get("input[type=email]").type("bubbly@yopmail.com");
+    cy.get("input[type=password]").type("Test@123");
+    cy.get("#submitBtn")
+      .click()
+      .should(() => {
+        expect(localStorage.getItem("authDetail")).to.be.not.null;
+      });
+
+    cy.url().should("include", "bubble-screen");
   });
 });
