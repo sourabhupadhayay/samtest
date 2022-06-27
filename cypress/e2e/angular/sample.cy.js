@@ -19,6 +19,16 @@ describe("login", () => {
     cy.get("#submitBtn").click();
 
     cy.contains("Email address is required");
-    cy.contains("Email address is required");
+    cy.contains("Password is required");
+  });
+
+  it("log in as random user", () => {
+    //fill the form
+    cy.get("input[type=email]").type(email);
+    cy.get("input[type=password]").type(pass);
+    cy.get("#submitBtn").click();
+    cy.pause();
+
+    // cy.contains("");
   });
 });
