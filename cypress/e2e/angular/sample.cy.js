@@ -8,6 +8,7 @@ describe("login", () => {
   const pass = "ValidPassword23";
 
   beforeEach(() => {
+    cy.viewport("iphone-x");
     cy.visit("/auth/login");
   });
   it("has a title", () => {

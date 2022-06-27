@@ -8,6 +8,7 @@ describe("login", () => {
   const phone = chance.phone();
 
   beforeEach(() => {
+    cy.viewport("iphone-x");
     cy.visit("/auth/signup");
   });
   it("has a title", () => {
