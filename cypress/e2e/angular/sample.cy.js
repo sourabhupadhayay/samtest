@@ -35,13 +35,13 @@ describe("login", () => {
   });
 
   it("should login as current user ", () => {
-    cy.get("input[type=email]").type("bubbly@yopmail.com");
-    cy.get("input[type=password]").type("Test@123");
-    cy.get("#submitBtn")
-      .click()
-      .should(() => {
-        expect(localStorage.getItem("authDetail")).to.be.not.null;
-      });
+    cy.login("bubbly@yopmail.com", "Test@123").should(() => {
+      expect(localStorage.getItem("authDetail")).to.be.not.null;
+    });
+    // cy.get("input[type=email]").type("bubbly@yopmail.com");
+    // cy.get("input[type=password]").type("Test@123");
+    // cy.get("#submitBtn")
+    //   .click()
 
     cy.url().should("include", "bubble-screen");
   });
