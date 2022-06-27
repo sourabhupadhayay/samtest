@@ -125,6 +125,7 @@
           <div class="accept-terms-policy">
             <ion-item lines="none" mode="ios">
               <ion-checkbox
+                name="checkbox"
                 mode="md"
                 slot="start"
                 formControlName="termCondition"
@@ -138,6 +139,7 @@
         </form>
         <div class="auth-btn">
           <ion-button
+            name="submit"
             id="submitBtn"
             (click)="onSubmit()"
             [disabled]="!signUpForm.controls.termCondition.value"

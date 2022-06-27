@@ -27,7 +27,6 @@ describe("login", () => {
     cy.get("input[type=email]").type(email);
     cy.get("input[type=password]").type(pass);
     cy.get("#submitBtn").click();
-    cy.pause();
 
     // cy.contains("");
   });
