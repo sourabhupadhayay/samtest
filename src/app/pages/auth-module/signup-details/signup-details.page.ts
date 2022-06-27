@@ -112,6 +112,8 @@ export class SignupDetailsPage implements OnInit {
   onSubmit() {
     this.isFormSubmitted = true;
     // validations
+
+    if (this.validateAge()) return;
     if (this.isFormValid()) return;
     if (this.isPassWordStrongEnough()) return;
     if (this.validateBothPasswords()) return;
@@ -265,5 +267,25 @@ export class SignupDetailsPage implements OnInit {
       );
       return true;
     }
+  }
+  validateAge(): boolean {
+    let selectedDate = new Date(
+      this.signUpDetailsForm.controls.birthDate.value
+    );
+    let age = this._calculateAge(selectedDate);
+    if (age <= 18) {
+      this.coreService.showToastMessage(
+        "age of user must be greater than 18",
+        this.coreService.TOAST_ERROR
+      );
+      return true;
+    }
+  }
+
+  private _calculateAge(birthday: Date) {
+    // birthday is a date
+    var ageDifMs = Date.now() - birthday.getTime();
+    var ageDate = new Date(ageDifMs); // miliseconds from epoch
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
   }
 }
