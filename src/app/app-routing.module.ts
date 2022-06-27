@@ -29,7 +29,6 @@ const routes: Routes = [
   },
   {
     path: "tabs",
-
     loadChildren: () =>
       import("./pages/home/tabs/tabs.module").then((m) => m.TabsPageModule),
   },
