@@ -1,9 +1,228 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>edit-profile</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true">
+  <ion-grid class="top-card">
+    <div class="title-part">
+      <ion-item lines="none">
+        <ion-icon
+          routerLink="/bubble-screen"
+          slot="start"
+          name="arrow-back-outline"
+        ></ion-icon>
+        <ion-label>
+          <ion-grid class="logo-head">
+            <img src="assets/images/single-logo.svg" />
+            <div class="nil4all">
+              <span>#NIL4ALL</span>
+            </div>
+          </ion-grid>
+        </ion-label>
+        <div class="notification" slot="end">
+          <img src="assets/icon/notification.svg" />
+          <span></span>
+        </div>
+      </ion-item>
+    </div>
+    <div class="profile-part">
+      <ion-item lines="none">
+        <ion-avatar slot="start">
+          <img src="assets/images/profile.png" />
+        </ion-avatar>
+        <ion-label>
+          <h5>Casey Rodgers</h5>
+          <p>$ 58,640.43</p>
+          <span>Total Earning</span>
+        </ion-label>
+      </ion-item>
+    </div>
+    <div class="edit-btn">
+        <ion-button id="submitBtn">
+          <img src="assets/images/button-auth.png" />
+          <span>
+            <svg viewBox="0 0 26 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12.2505 1.22852H7.76019C4.06734 1.22852 1.75195 3.7486 1.75195 7.3163V16.9405C1.75195 20.5082 4.05653 23.0283 7.76019 23.0283H18.3572C22.062 23.0283 24.3666 20.5082 24.3666 16.9405V12.2778" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M9.05126 10.6417L18.0258 1.99102C19.1438 0.914453 20.956 0.914453 22.0741 1.99102L23.5356 3.39981C24.6537 4.47753 24.6537 6.22549 23.5356 7.30206L14.5179 15.9944C14.0291 16.4656 13.3662 16.7307 12.6745 16.7307H8.17578L8.28867 12.355C8.30548 11.7113 8.57809 11.0978 9.05126 10.6417Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M16.6621 3.32812L22.1455 8.6137" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>              
+          </span>
+        </ion-button>
+    </div>
+  </ion-grid>
 
-<ion-content>
+  <ion-grid class="content-part">
 
+    <div class="details-part">
+      <div class="details-box">
+        <h5>Biography</h5>
+        <p>
+          Casey Rodgers is a Redshirt Junior American -
+          football Defensive Lineman at University of
+          Oregon of the NCAA. He played High School
+          Football at Westhill HS/Old Farms (Conn) Prep.
+        </p>
+      </div>
+      <div class="details-box">
+        <h5>Team</h5>
+        <p>Oregon Ducks football</p>
+      </div>
+      <div class="details-box">
+        <h5>Team State</h5>
+        <p>Oregon</p>
+      </div>
+      <div class="details-box">
+        <h5>Country</h5>
+        <p>USA</p>
+      </div>
+      <div class="details-box">
+        <h5>School/University</h5>
+        <p>University of Oregon</p>
+      </div>
+      <div class="details-box">
+        <h5>Born</h5>
+        <p>December 18, 1998 (28 yr.) Syracuse, NY</p>
+      </div>
+      <div class="details-box">
+        <h5>E-mail</h5>
+        <p>casey.rodgers99@gmail.com</p>
+      </div>
+      <div class="details-box">
+        <h5>Phone no.</h5>
+        <p>+1 555 863 012</p>
+      </div>
+    </div>
+
+    <div class="change-pass-logout">
+      <ion-item lines="none" id="trigger-button">
+        <ion-avatar slot="start">
+          <img src="assets/icon/lock.svg" />
+        </ion-avatar>
+        <ion-label>Change Password</ion-label>
+        <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+      </ion-item>
+      <ion-item lines="none" class="logout">
+        <ion-avatar slot="start">
+          <img src="assets/icon/login-red.svg" />
+        </ion-avatar>
+        <ion-label>Log Out</ion-label>
+        <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+      </ion-item>
+    </div>
+  
+  </ion-grid>
+  <ion-grid class="buble-part">
+    <div class="dots-bubble">
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+    </div>
+  </ion-grid>
 </ion-content>
+
+
+<ion-modal trigger="trigger-button" class="client-filter-modal">
+  <ng-template>
+    <ion-header mode="md">
+      <div class="icon-header">
+        <img src="assets/icon/header-bubble.png" />
+        <h3>Change Password</h3>
+        <p>a password with 8 characters including 
+          1 uppercase letter, 1 special character, 
+          and alphanumeric characters</p>
+      </div>
+      <div class="top-noch">
+          <img src="assets/images/modal-tope.png">
+        </div>
+    </ion-header>
+
+    <div class="inner-content">
+      <div class="main-screen">
+        
+          
+            <div class="input-box">
+              <ion-item lines="none" class="ion-align-items-center">
+                <ion-label position="floating">Old Password</ion-label>
+                <ion-input type="password"></ion-input>
+                <img
+                  class="ion-align-self-center"
+                  slot="end"
+                  src="assets/icon/hide.svg"
+                />
+                <img
+                  class="ion-align-self-center"
+                  slot="end"
+                  src="assets/icon/show.svg"
+                />
+              </ion-item>
+            </div>
+          
+          
+            <div class="input-box">
+              <ion-item lines="none" class="ion-align-items-center">
+                <ion-label position="floating">New Password</ion-label>
+                <ion-input type="password"></ion-input>
+                <img
+                  class="ion-align-self-center"
+                  slot="end"
+                  src="assets/icon/hide.svg"
+                />
+                <img
+                  class="ion-align-self-center"
+                  slot="end"
+                  src="assets/icon/show.svg"
+                />
+              </ion-item>
+            </div>
+          
+          
+            <div class="input-box">
+              <ion-item lines="none" class="ion-align-items-center">
+                <ion-label position="floating">Re-Enter New Password</ion-label>
+                <ion-input type="password"></ion-input>
+                <img
+                  class="ion-align-self-center"
+                  slot="end"
+                  src="assets/icon/hide.svg"
+                />
+                <img
+                  class="ion-align-self-center"
+                  slot="end"
+                  src="assets/icon/show.svg"
+                />
+              </ion-item>
+            </div>
+          
+        
+      </div>
+    </div>
+
+    <ion-footer mode="ios">
+      <ion-toolbar mode="ios">
+        <ion-button class="white-btn" (click)="onclick_cancel()">
+          <img src="assets/icon/close-icon.png" />
+        </ion-button>
+        <ion-button class="white-btn">
+          <img src="assets/icon/right-icon.png" />
+        </ion-button>
+      </ion-toolbar>
+    </ion-footer>
+    <ion-grid class="bg-bubble">
+      <div class="dots-bubble">
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+      </div>
+    </ion-grid>
+  </ng-template>
+</ion-modal>
