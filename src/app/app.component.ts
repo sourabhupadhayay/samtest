@@ -5,6 +5,7 @@ import { Platform } from "@ionic/angular";
 import { CoreService } from "./providers/core.service";
 import { DataService, Request } from "./providers/data.service";
 import { NetworkService } from "./providers/network.service";
+import { SplashScreen } from "@capacitor/splash-screen";
 
 @Component({
   selector: "app-root",
@@ -19,6 +20,7 @@ export class AppComponent implements OnInit {
     private core: CoreService
   ) {
     this.initializeApp();
+    this.hideSplashScreen();
   }
 
   ngOnInit(): void {}
@@ -27,6 +29,16 @@ export class AppComponent implements OnInit {
     this.platform.ready().then((): void => {
       this._networkEventsListener();
       this.initFacebook();
+    });
+  }
+
+  hideSplashScreen() {
+    this.platform.ready().then(async () => {
+      setTimeout(() => {
+        SplashScreen.hide({
+          fadeOutDuration: 1000,
+        });
+      }, 2000);
     });
   }
 
