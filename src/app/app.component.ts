@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
     private core: CoreService
   ) {
     this.initializeApp();
+    this.backButton();
   }
 
   ngOnInit(): void {}
@@ -55,5 +56,11 @@ export class AppComponent implements OnInit {
         : this.core.TOAST_ERROR;
 
     return { msg, type };
+  }
+
+  backButton() {
+    this.platform.backButton.subscribeWithPriority(0, () => {
+      history.back();
+    });
   }
 }
