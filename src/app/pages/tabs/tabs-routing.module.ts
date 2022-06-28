@@ -18,8 +18,8 @@ const routes: Routes = [
       {
         path: "profile",
         loadChildren: () =>
-          import("../home/edit-profile/edit-profile.module").then(
-            (m) => m.EditProfilePageModule
+          import("../home/view-profile/view-profile.module").then(
+            (m) => m.ViewProfilePageModule
           ),
       },
     ],

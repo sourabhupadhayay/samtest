@@ -19,22 +19,19 @@ const routes: Routes = [
               ),
           },
           {
-            path: "user",
+            path: "fan",
             loadChildren: () =>
-              import("./profiles/user/user.module").then(
-                (m) => m.UserPageModule
-              ),
+              import("./profiles/fan/fan.module").then((m) => m.fanPageModule),
           },
         ],
       },
     ],
   },
-
   {
-    path: "edit-profile",
+    path: "view-profile",
     loadChildren: () =>
-      import("./edit-profile/edit-profile.module").then(
-        (m) => m.EditProfilePageModule
+      import("./view-profile/view-profile.module").then(
+        (m) => m.ViewProfilePageModule
       ),
   },
 ];

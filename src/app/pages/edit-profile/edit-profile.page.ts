@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { IonRouterOutlet, ModalController } from "@ionic/angular";
 
 @Component({
   selector: 'app-edit-profile',
@@ -8,13 +7,9 @@ import { IonRouterOutlet, ModalController } from "@ionic/angular";
 })
 export class EditProfilePage implements OnInit {
 
-  constructor(public modalCtrl: ModalController,) { }
+  constructor() { }
 
   ngOnInit() {
-  }
-
-  onclick_cancel(): void {
-    this.modalCtrl.dismiss();
   }
 
 }
