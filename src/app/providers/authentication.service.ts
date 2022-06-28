@@ -36,8 +36,7 @@ export class AuthenticationService {
     this.getAuthDetail();
   }
   logout() {
-    localStorage.removeItem("AUTH");
-
+    localStorage.removeItem("authDetail");
     location.reload();
   }
   isAuthenticated() {

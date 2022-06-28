@@ -9,20 +9,27 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: "athlete/edit-profile",
+        path: "user/edit-profile",
         loadChildren: () =>
-          import("./profiles/athlete/edit-profile/edit-profile.module").then(
+          import("./profile/edit-profile/edit-profile.module").then(
             (m) => m.EditProfilePageModule
           ),
       },
-      {
-        path: "athlete/view-profile",
-        loadChildren: () =>
-          import("./profiles/athlete/view-profile/view-profile.module").then(
-            (m) => m.ViewProfilePageModule
-          ),
-      },
     ],
+  },
+  {
+    path: "edit-profile",
+    loadChildren: () =>
+      import("./profile/edit-profile/edit-profile.module").then(
+        (m) => m.EditProfilePageModule
+      ),
+  },
+  {
+    path: "view-profile",
+    loadChildren: () =>
+      import("./profile/view-profile/view-profile.module").then(
+        (m) => m.ViewProfilePageModule
+      ),
   },
 ];
 

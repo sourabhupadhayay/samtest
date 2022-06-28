@@ -1,0 +1,72 @@
+import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { ModalController } from "@ionic/angular";
+import { AuthenticationService } from "src/app/providers/authentication.service";
+import { ConstantService } from "src/app/providers/constant.service";
+import { CoreService } from "src/app/providers/core.service";
+import { DataService, Request, Response } from "src/app/providers/data.service";
+
+@Component({
+  selector: "app-view-profile",
+  templateUrl: "./view-profile.page.html",
+  styleUrls: ["./view-profile.page.scss"],
+})
+export class ViewProfilePage implements OnInit {
+  userData: any | null = null;
+  constructor(
+    public modalCtrl: ModalController,
+    private coreService: CoreService,
+    private apiService: DataService,
+    private constantService: ConstantService,
+    private authentication: AuthenticationService,
+    private router: Router
+  ) {}
+
+  ngOnInit() {
+    this.getCurrentUserDetails();
+  }
+
+  onclick_cancel(): void {
+    this.modalCtrl.dismiss();
+  }
+
+  getCurrentUserDetails() {
+    let request: Request = {
+      path: "auth/users/currentUser",
+      isAuth: true,
+    };
+    this.coreService.presentLoader(this.constantService.WAIT);
+
+    this.apiService.get(request).subscribe((response: Response) => {
+      this.coreService.dismissLoader();
+      if (response.status.code === this.constantService.STATUS_OK) {
+        this.userData = response.data;
+      } else {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_ERROR
+        );
+      }
+    });
+  }
+
+  logout() {
+    let request: Request = {
+      path: "auth/users/logout",
+      isAuth: true,
+    };
+    this.coreService.presentLoader(this.constantService.WAIT);
+    this.apiService.get(request).subscribe((response: Response) => {
+      this.coreService.dismissLoader();
+      if (response.status.code === this.constantService.STATUS_OK) {
+        localStorage.removeItem("authDetail");
+        this.router.navigate(["/auth/login"]);
+      } else {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_ERROR
+        );
+      }
+    });
+  }
+}

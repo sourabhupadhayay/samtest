@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
+import { AuthGuard } from "src/app/guard/auth.guard";
 
 import { TabsPage } from "./tabs.page";
 
@@ -7,6 +8,7 @@ const routes: Routes = [
   {
     path: "",
     component: TabsPage,
+    canActivate: [AuthGuard],
     children: [
       {
         path: "home",
@@ -18,7 +20,7 @@ const routes: Routes = [
       {
         path: "profile",
         loadChildren: () =>
-          import("../home/profiles/fan/view-profile/view-profile.module").then(
+          import("../home/profile/view-profile/view-profile.module").then(
             (m) => m.ViewProfilePageModule
           ),
       },
