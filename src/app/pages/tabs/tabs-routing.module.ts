@@ -9,10 +9,17 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: "",
+        path: "home",
         loadChildren: () =>
-          import("../home-page/home-page.module").then(
+          import("../home/home-page/home-page.module").then(
             (m) => m.HomePagePageModule
+          ),
+      },
+      {
+        path: "profile",
+        loadChildren: () =>
+          import("../home/view-profile/view-profile.module").then(
+            (m) => m.ViewProfilePageModule
           ),
       },
     ],
