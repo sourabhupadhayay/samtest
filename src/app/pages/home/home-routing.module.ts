@@ -19,20 +19,20 @@ const routes: Routes = [
               ),
           },
           {
-            path: "user",
+            path: "fan",
             loadChildren: () =>
-              import("./profiles/user/user.module").then(
-                (m) => m.UserPageModule
-              ),
+              import("./profiles/fan/fan.module").then((m) => m.fanPageModule),
           },
         ],
       },
+      {
+        path: "edit-profile",
+        loadChildren: () =>
+          import("./edit-profile/edit-profile.module").then(
+            (m) => m.EditProfilePageModule
+          ),
+      },
     ],
-  },
-  {
-    path: "tabs",
-    loadChildren: () =>
-      import("./tabs/tabs.module").then((m) => m.TabsPageModule),
   },
 ];
 
