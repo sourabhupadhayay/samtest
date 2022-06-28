@@ -1,6 +1,5 @@
 import { NgModule } from "@angular/core";
 import { PreloadAllModules, RouterModule, Routes } from "@angular/router";
-import { AuthGuard } from "./guard/auth.guard";
 
 const routes: Routes = [
   {
@@ -31,6 +30,25 @@ const routes: Routes = [
     path: "tabs",
     loadChildren: () =>
       import("./pages/tabs/tabs.module").then((m) => m.TabsPageModule),
+  },
+  {
+    path: "profile",
+    children: [
+      {
+        path: "athlete",
+        loadChildren: () =>
+          import("./pages/profile-view/athlete/athlete.module").then(
+            (m) => m.AthletePageModule
+          ),
+      },
+      {
+        path: "fan",
+        loadChildren: () =>
+          import("./pages/profile-view/fan/fan.module").then(
+            (m) => m.fanPageModule
+          ),
+      },
+    ],
   },
 ];
 

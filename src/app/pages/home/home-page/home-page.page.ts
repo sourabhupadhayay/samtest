@@ -64,7 +64,7 @@ export class HomePagePage implements OnInit {
     this.audio.play();
 
     setTimeout(() => {
-      this.router.navigate(["home/profile/athlete/" + id]);
+      this.router.navigate(["/profile/athlete/" + id]);
     }, 500);
   }
 }
