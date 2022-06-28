@@ -1,8 +1,9 @@
+import { Location } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { FacebookLogin } from "@capacitor-community/facebook-login";
 import { App } from "@capacitor/app";
 
-import { IonRouterOutlet, Platform } from "@ionic/angular";
+import { Platform } from "@ionic/angular";
 import { CoreService } from "./providers/core.service";
 import { DataService, Request } from "./providers/data.service";
 import { NetworkService } from "./providers/network.service";
@@ -18,7 +19,8 @@ export class AppComponent implements OnInit {
     private _networkService: NetworkService,
     private platform: Platform,
     private core: CoreService,
-    private routerOutlet: IonRouterOutlet
+
+    private _location: Location
   ) {
     this.initializeApp();
     this.backButton();
@@ -62,10 +64,11 @@ export class AppComponent implements OnInit {
 
   backButton() {
     this.platform.backButton.subscribeWithPriority(0, () => {
-      if (this.routerOutlet.canGoBack()) {
-        history.back();
-      } else {
+      if (this._location.isCurrentPathEqualTo("/bubble-screen")) {
+        // Show Exit Alert!
         App.exitApp();
+      } else {
+        this._location.back();
       }
     });
   }
