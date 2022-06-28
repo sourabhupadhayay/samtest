@@ -28,7 +28,8 @@
         </ion-avatar>
         <ion-label>
           <h5>{{athleteData?.fullName}}</h5>
-          <div class="live-status">
+          <div class="live-status live">
+            <!-- add class "live & offline" as per status -->
             <span>LIVE</span>
             <p>For Next 45 minutes</p>
           </div>
@@ -38,6 +39,19 @@
   </ion-grid>
 
   <ion-grid class="content-part">
+
+  <ion-grid class="tabs-design" >
+      <ion-segment [(ngModel)]="selectedindex" mode="ios">
+        <ion-segment-button value="profile">
+          <ion-label>Profile</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="appearances">
+          <ion-label>Appearances</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+  </ion-grid>
+
+  <div class="profile-tab" *ngIf="selectedindex == 'profile'">
     <div class="details-part">
       <div class="details-box">
         <h5>Biography</h5>
@@ -78,6 +92,16 @@
         </ion-label>
       </ion-item>
     </div>
+  </div>
+
+  <div class="appearances-tab" *ngIf="selectedindex == 'appearances'">
+    <div class="no-data-found">
+      <!-- <img src="assets/icon/medications-nodata.svg"> -->
+      <p>No Appearances Found</p>
+  </div>
+  </div>
+
+    
   </ion-grid>
   <ion-grid class="buble-part">
     <div class="dots-bubble">
@@ -95,8 +119,8 @@
   </ion-grid>
 </ion-content>
 
-<ion-footer>
-  <ion-toolbar>
+<ion-footer mode="ios">
+  <ion-toolbar mode="ios">
     <div class="buttons-swipe">
       <div class="buttons-data">
         <ion-item-sliding (ionDrag)="getAmountOpened($event)">

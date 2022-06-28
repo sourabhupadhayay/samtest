@@ -15,6 +15,7 @@ import { DataService, Request, Response } from "src/app/providers/data.service";
 })
 export class AthletePage implements OnInit {
   athleteData: any | null = null;
+  selectedindex:any;
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -22,7 +23,9 @@ export class AthletePage implements OnInit {
     private route: ActivatedRoute,
     private constantService: ConstantService,
     private commonService: AuthModuleService
-  ) {}
+  ) {
+    this.selectedindex = "profile";
+  }
 
   ngOnInit() {
     this.getUserIdFromParams();
