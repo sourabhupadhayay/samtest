@@ -25,14 +25,14 @@ const routes: Routes = [
           },
         ],
       },
+      {
+        path: "edit-profile",
+        loadChildren: () =>
+          import("./edit-profile/edit-profile.module").then(
+            (m) => m.EditProfilePageModule
+          ),
+      },
     ],
-  },
-  {
-    path: "view-profile",
-    loadChildren: () =>
-      import("./view-profile/view-profile.module").then(
-        (m) => m.ViewProfilePageModule
-      ),
   },
 ];
 
