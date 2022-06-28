@@ -27,9 +27,13 @@
           <img src="assets/images/profile.png" />
         </ion-avatar>
         <ion-label>
-          <h5>Casey Rodgers</h5>
-          <p>$ 58,640.43</p>
-          <span>Total Earning</span>
+          <h5>John Mark</h5>
+          <p>Houston Cougars football</p>
+          <p>Texas / USA</p>
+          <div class="bubble-bills">
+            <h6>Bubblebills - <span>$615</span> </h6>
+            <p>2 Apeereances held</p>
+          </div>
         </ion-label>
       </ion-item>
     </div>
@@ -71,42 +75,22 @@
 
   <ion-grid class="content-part">
     <div class="details-part">
-      <div class="details-box">
-        <h5>Biography</h5>
-        <p>
-          Casey Rodgers is a Redshirt Junior American - football Defensive
-          Lineman at University of Oregon of the NCAA. He played High School
-          Football at Westhill HS/Old Farms (Conn) Prep.
-        </p>
-      </div>
-      <div class="details-box">
-        <h5>Team</h5>
-        <p>Oregon Ducks football</p>
-      </div>
-      <div class="details-box">
-        <h5>Team State</h5>
-        <p>Oregon</p>
-      </div>
-      <div class="details-box">
-        <h5>Country</h5>
-        <p>USA</p>
-      </div>
-      <div class="details-box">
-        <h5>School/University</h5>
-        <p>University of Oregon</p>
-      </div>
-      <div class="details-box">
-        <h5>Born</h5>
-        <p>December 18, 1998 (28 yr.) Syracuse, NY</p>
-      </div>
+
       <div class="details-box">
         <h5>E-mail</h5>
-        <p>casey.rodgers99@gmail.com</p>
+        <p>john.mark@gmail.com</p>
       </div>
+      
+      <div class="details-box">
+        <h5>Born</h5>
+        <p>02/28/1992</p>
+      </div>
+      
       <div class="details-box">
         <h5>Phone no.</h5>
-        <p>+1 555 863 012</p>
+        <p>+1 555 268 128</p>
       </div>
+
     </div>
 
     <div class="change-pass-logout">
@@ -125,6 +109,17 @@
         <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
       </ion-item>
     </div>
+
+    <div class="delete-account">
+      <ion-item lines="none" id="trigger-button" id="small-modal-delete">
+        <ion-avatar slot="start">
+          <img src="assets/icon/delete-acc.svg" />
+        </ion-avatar>
+        <ion-label>Delete Bubbleapp account</ion-label>
+      </ion-item>
+    </div>
+
+
   </ion-grid>
   <ion-grid class="buble-part">
     <div class="dots-bubble">
@@ -149,8 +144,9 @@
         <img src="assets/icon/header-bubble.png" />
         <h3>Change Password</h3>
         <p>
-          a password with 8 characters including 1 uppercase letter, 1 special
-          character, and alphanumeric characters
+          a password with 8 characters including 
+          1 uppercase letter, 1 special character, 
+          and alphanumeric characters
         </p>
       </div>
       <div class="top-noch">
@@ -237,5 +233,34 @@
         <div class="dots"></div>
       </div>
     </ion-grid>
+  </ng-template>
+</ion-modal>
+
+
+<ion-modal trigger="small-modal-delete" class="small-modal">
+  <ng-template>
+    <ion-header mode="md">
+      
+        <h3>Delete Account</h3>
+      
+    </ion-header>
+
+    <div class="inner-content">
+      <div class="main-screen">
+          <p>Are you sure, you want to delete
+            your bubbleapp account.?</p>
+      </div>
+    </div>
+
+    <ion-footer mode="ios">
+      <ion-toolbar mode="ios">
+        <ion-button class="white-btn" (click)="onclick_cancel()">
+          <img src="assets/icon/close-icon.png" />
+        </ion-button>
+        <ion-button class="white-btn">
+          <img src="assets/icon/right-icon.png" />
+        </ion-button>
+      </ion-toolbar>
+    </ion-footer>
   </ng-template>
 </ion-modal>
