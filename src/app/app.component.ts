@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { FacebookLogin } from "@capacitor-community/facebook-login";
+import { App } from "@capacitor/app";
 
-import { Platform } from "@ionic/angular";
+import { IonRouterOutlet, Platform } from "@ionic/angular";
 import { CoreService } from "./providers/core.service";
 import { DataService, Request } from "./providers/data.service";
 import { NetworkService } from "./providers/network.service";
@@ -16,7 +17,8 @@ export class AppComponent implements OnInit {
     private apiservice: DataService,
     private _networkService: NetworkService,
     private platform: Platform,
-    private core: CoreService
+    private core: CoreService,
+    private routerOutlet: IonRouterOutlet
   ) {
     this.initializeApp();
     this.backButton();
@@ -60,7 +62,11 @@ export class AppComponent implements OnInit {
 
   backButton() {
     this.platform.backButton.subscribeWithPriority(0, () => {
-      history.back();
+      if (this.routerOutlet.canGoBack()) {
+        history.back();
+      } else {
+        App.exitApp();
+      }
     });
   }
 }
