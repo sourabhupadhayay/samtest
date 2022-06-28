@@ -1,13 +1,24 @@
-<ion-tabs>
-  <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="home">
-      <ion-icon name="calendar"></ion-icon>
-
-      <ion-badge>6</ion-badge>
-    </ion-tab-button>
-
-    <ion-tab-button tab="profile">
-      <ion-icon name="person-circle"></ion-icon>
-    </ion-tab-button>
+<ion-tabs mode="ios">
+  <ion-tab-bar slot="bottom" mode="ios">
+    <div class="tabs-btn-main">
+      <ion-tab-button tab="home" mode="ios">
+        <img src="assets/icon/calendar.png">
+      </ion-tab-button>
+      
+      <ion-tab-button tab="profile" class="main-btn" mode="ios">
+          <img src="assets/icon/tabs-main.png">
+      </ion-tab-button>
+      
+      <ion-tab-button tab="profile" class="profile" mode="ios">
+          <span>
+              <img src="assets/images/profile.png">
+          </span>
+      </ion-tab-button>
+      <div class="menu-shape">
+          <img src="assets/images/tabs-bg.png">
+      </div>
+    </div>
   </ion-tab-bar>
 </ion-tabs>
+
+
