@@ -22,6 +22,13 @@ const routes: Routes = [
             (m) => m.ViewProfilePageModule
           ),
       },
+      {
+        path: "profile-edit",
+        loadChildren: () =>
+          import("../home/profiles/fan/edit-profile/edit-profile.module").then(
+            (m) => m.EditProfilePageModule
+          ),
+      },
     ],
   },
 ];
