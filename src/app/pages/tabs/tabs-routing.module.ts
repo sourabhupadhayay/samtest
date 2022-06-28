@@ -18,9 +18,9 @@ const routes: Routes = [
       {
         path: "profile",
         loadChildren: () =>
-          import("../home/view-profile/view-profile.module").then(
-            (m) => m.ViewProfilePageModule
-          ),
+          import(
+            "../home/profiles/athlete/view-profile/view-profile.module"
+          ).then((m) => m.ViewProfilePageModule),
       },
     ],
   },

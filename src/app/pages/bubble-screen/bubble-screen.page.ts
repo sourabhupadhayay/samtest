@@ -69,7 +69,7 @@ export class BubbleScreenPage implements OnInit {
     this.audio.play();
 
     setTimeout(() => {
-      this.router.navigate(["home/profile/athlete/" + id]);
+      this.router.navigate(["/profile/athlete/" + id]);
     }, 500);
   }
   onclick_cancel(): void {
