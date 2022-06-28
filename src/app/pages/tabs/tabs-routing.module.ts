@@ -11,14 +11,14 @@ const routes: Routes = [
       {
         path: "home",
         loadChildren: () =>
-          import("../home-page/home-page.module").then(
+          import("../home/home-page/home-page.module").then(
             (m) => m.HomePagePageModule
           ),
       },
       {
         path: "profile",
         loadChildren: () =>
-          import("../edit-profile/edit-profile.module").then(
+          import("../home/edit-profile/edit-profile.module").then(
             (m) => m.EditProfilePageModule
           ),
       },
