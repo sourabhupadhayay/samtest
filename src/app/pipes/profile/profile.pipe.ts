@@ -6,10 +6,15 @@ import { configuration } from "../../configuration";
 })
 export class ProfilePipe implements PipeTransform {
   transform(value: string, ...args: unknown[]): string {
-    return (
-      configuration.BASE_URL +
-      "auth/file/view?fileKey=" +
-      encodeURIComponent(value)
-    );
+    const slug = value.split("//");
+    if (slug[0] !== "https") {
+      return (
+        configuration.BASE_URL +
+        "auth/file/view?fileKey=" +
+        encodeURIComponent(value)
+      );
+    } else {
+      return value;
+    }
   }
 }

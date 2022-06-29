@@ -8,6 +8,7 @@ import { EditProfilePageRoutingModule } from "./edit-profile-routing.module";
 
 import { EditProfilePage } from "./edit-profile.page";
 import { CommonDirectiveModule } from "src/app/directives/common-directive.module";
+import { PipesModule } from "src/app/pipes/pipes.module";
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { CommonDirectiveModule } from "src/app/directives/common-directive.modul
     EditProfilePageRoutingModule,
     ReactiveFormsModule,
     CommonDirectiveModule,
+    PipesModule,
   ],
   declarations: [EditProfilePage],
 })

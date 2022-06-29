@@ -21,11 +21,28 @@
         </div>
       </ion-item>
     </div>
-    <div class="profile-part">
-      <img src="assets/images/profile.png" />
+    <div *ngIf="profileUrl" class="profile-part">
+      <img [src]="profileUrl | profile" />
 
       <div class="edit-btn">
-        <ion-button id="submitBtn">
+        <ion-button (click)="presentProfileActionSheet()">
+          <img src="assets/images/button-auth.png" />
+          <span>
+            <img src="assets/icon/camera-white.svg" />
+          </span>
+        </ion-button>
+      </div>
+    </div>
+    <div *ngIf="!profileUrl" class="profile-part">
+      <!-- <img [src]="profileUrl | profile" /> -->
+      <div class="inital">
+        <span class="initial__span">
+          KU
+        </span>
+      </div>
+
+      <div class="edit-btn">
+        <ion-button (click)="presentProfileActionSheet()">
           <img src="assets/images/button-auth.png" />
           <span>
             <img src="assets/icon/camera-white.svg" />
@@ -39,9 +56,18 @@
     <div [formGroup]="editProfileForm" class="input-main">
       <div class="input-box">
         <ion-item lines="none">
-          <ion-label position="stacked">Display name</ion-label>
+          <ion-label position="stacked"
+            >Full name <span class="red">*</span>
+          </ion-label>
           <ion-input formControlName="fullName" type="text"></ion-input>
         </ion-item>
+        <div
+          *ngIf="isFormSubmitted && editProfileForm.controls.fullName.invalid"
+          class="error-msg"
+          id="userNameError"
+        >
+          <p><img src="assets/icon/info-red.svg" /> Full Name is invalid</p>
+        </div>
       </div>
       <div class="input-box">
         <ion-item lines="none">
@@ -55,13 +81,21 @@
       </div>
       <div class="input-box">
         <ion-item lines="none">
-          <ion-label position="stacked">Birthday</ion-label>
+          <ion-label position="stacked"
+            >Birthday <span class="red">*</span></ion-label
+          >
           <ion-input
             id="open-modal"
             formControlName="birthDate"
             type="text"
           ></ion-input>
         </ion-item>
+        <div
+          *ngIf="isFormSubmitted && editProfileForm.controls.birthDate.invalid"
+          class="error-msg"
+        >
+          <p><img src="assets/icon/info-red.svg" /> Birth date is required</p>
+        </div>
       </div>
       <ion-modal class="dateModal" trigger="open-modal" mode="ios">
         <ng-template>
@@ -123,7 +157,7 @@
     <ion-button class="white-btn">
       <img src="assets/icon/close-icon.png" />
     </ion-button>
-    <ion-button class="white-btn">
+    <ion-button (click)="onSubmit()" class="white-btn">
       <img src="assets/icon/right-icon.png" />
     </ion-button>
   </ion-toolbar>

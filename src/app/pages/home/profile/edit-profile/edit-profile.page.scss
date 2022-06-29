@@ -495,3 +495,45 @@ ion-footer {
     border-radius: 8px;
   }
 }
+
+.error-msg {
+  p {
+    position: relative;
+    padding-left: 20px;
+    font-size: 0.8125rem;
+    color: var(--red-clr);
+    margin: 5px 0 0;
+    font-weight: 400;
+    img {
+      width: 15px;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      height: 15px;
+      left: 0;
+    }
+  }
+}
+.red {
+  color: var(--red-clr);
+}
+
+.initial {
+  position: relative;
+  &__span {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50%;
+    background-color: #1b4b64;
+    margin-left: 9px;
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-size: 24px;
+    text-transform: uppercase;
+    border: 1px solid white;
+  }
+}
