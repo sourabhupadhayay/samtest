@@ -29,6 +29,11 @@
   font-family: "Inter", sans-serif !important;
 }
 
+body {
+  margin-top: constant(safe-area-inset-top);
+  margin-top: env(safe-area-inset-top);
+}
+
 .client-filter-modal {
   --height: auto;
   align-items: end;
