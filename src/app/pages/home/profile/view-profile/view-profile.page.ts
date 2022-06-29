@@ -5,6 +5,7 @@ import { AuthenticationService } from "src/app/providers/authentication.service"
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
+import { ChangePasswordComponent } from "./change-password/change-password.component";
 
 @Component({
   selector: "app-view-profile",
@@ -48,6 +49,15 @@ export class ViewProfilePage implements OnInit {
         );
       }
     });
+  }
+
+  async presentChangePasswordModal(): Promise<void> {
+    const modal: HTMLIonModalElement = await this.modalCtrl.create({
+      component: ChangePasswordComponent,
+      cssClass: "client-filter-modal",
+    });
+
+    modal.present();
   }
 
   logout() {

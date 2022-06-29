@@ -28,7 +28,7 @@
         </ion-avatar>
         <ion-label>
           <h5>{{userData?.fullName | titlecase}}</h5>
-          <p>Houston Cougars football</p>
+          <p>{{userData?.teamName}}</p>
           <p>{{userData?.state}} / {{userData?.country}}</p>
           <div class="bubble-bills">
             <h6>Bubble bills - <span>$615</span></h6>
@@ -92,7 +92,7 @@
     </div>
 
     <div class="change-pass-logout">
-      <ion-item lines="none" id="trigger-button">
+      <ion-item lines="none" (click)="presentChangePasswordModal()">
         <ion-avatar slot="start">
           <img src="assets/icon/lock.svg" />
         </ion-avatar>
@@ -133,104 +133,6 @@
   </ion-grid>
 </ion-content>
 
-<ion-modal trigger="trigger-button" class="client-filter-modal">
-  <ng-template>
-    <ion-header mode="md">
-      <div class="icon-header">
-        <img src="assets/icon/header-bubble.png" />
-        <h3>Change Password</h3>
-        <p>
-          a password with 8 characters including 1 uppercase letter, 1 special
-          character, and alphanumeric characters
-        </p>
-      </div>
-      <div class="top-noch">
-        <img src="assets/images/modal-tope.png" />
-      </div>
-    </ion-header>
-
-    <div class="inner-content">
-      <div class="main-screen">
-        <div class="input-box">
-          <ion-item lines="none" class="ion-align-items-center">
-            <ion-label position="floating">Old Password</ion-label>
-            <ion-input type="password"></ion-input>
-            <img
-              class="ion-align-self-center"
-              slot="end"
-              src="assets/icon/hide.svg"
-            />
-            <img
-              class="ion-align-self-center"
-              slot="end"
-              src="assets/icon/show.svg"
-            />
-          </ion-item>
-        </div>
-
-        <div class="input-box">
-          <ion-item lines="none" class="ion-align-items-center">
-            <ion-label position="floating">New Password</ion-label>
-            <ion-input type="password"></ion-input>
-            <img
-              class="ion-align-self-center"
-              slot="end"
-              src="assets/icon/hide.svg"
-            />
-            <img
-              class="ion-align-self-center"
-              slot="end"
-              src="assets/icon/show.svg"
-            />
-          </ion-item>
-        </div>
-
-        <div class="input-box">
-          <ion-item lines="none" class="ion-align-items-center">
-            <ion-label position="floating">Re-Enter New Password</ion-label>
-            <ion-input type="password"></ion-input>
-            <img
-              class="ion-align-self-center"
-              slot="end"
-              src="assets/icon/hide.svg"
-            />
-            <img
-              class="ion-align-self-center"
-              slot="end"
-              src="assets/icon/show.svg"
-            />
-          </ion-item>
-        </div>
-      </div>
-    </div>
-
-    <ion-footer mode="ios">
-      <ion-toolbar mode="ios">
-        <ion-button class="white-btn" (click)="onclick_cancel()">
-          <img src="assets/icon/close-icon.png" />
-        </ion-button>
-        <ion-button class="white-btn">
-          <img src="assets/icon/right-icon.png" />
-        </ion-button>
-      </ion-toolbar>
-    </ion-footer>
-    <ion-grid class="bg-bubble">
-      <div class="dots-bubble">
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-      </div>
-    </ion-grid>
-  </ng-template>
-</ion-modal>
-
 <ion-modal trigger="small-modal-delete" class="small-modal">
   <ng-template>
     <ion-header mode="md">
@@ -239,7 +141,7 @@
 
     <div class="inner-content">
       <div class="main-screen">
-        <p>Are you sure, you want to delete your bubbleapp account.?</p>
+        <p>Are you sure, you want to delete your bubble app account.?</p>
       </div>
     </div>
 

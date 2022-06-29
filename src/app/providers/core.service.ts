@@ -103,7 +103,7 @@ export class CoreService {
       toast = await this.toastCtrl.create({
         message: `<ion-icon name="${icon}" position="${position}" ></ion-icon> ${message}`,
         duration: 2500,
-        position: "bottom",
+        position: "top",
         color,
         cssClass: "toast_msg",
       });
