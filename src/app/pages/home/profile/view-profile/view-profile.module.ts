@@ -8,6 +8,7 @@ import { ViewProfilePageRoutingModule } from "./view-profile-routing.module";
 
 import { ViewProfilePage } from "./view-profile.page";
 import { ChangePasswordComponent } from "./change-password/change-password.component";
+import { PipesModule } from "src/app/pipes/pipes.module";
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { ChangePasswordComponent } from "./change-password/change-password.compo
     IonicModule,
     ViewProfilePageRoutingModule,
     ReactiveFormsModule,
+    PipesModule,
   ],
   declarations: [ViewProfilePage, ChangePasswordComponent],
 })

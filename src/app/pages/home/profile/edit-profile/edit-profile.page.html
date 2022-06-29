@@ -36,35 +36,68 @@
   </ion-grid>
 
   <ion-grid class="content-part">
-    <div class="input-main">
+    <div [formGroup]="editProfileForm" class="input-main">
       <div class="input-box">
         <ion-item lines="none">
           <ion-label position="stacked">Display name</ion-label>
-          <ion-input type="text" value="John Mark"></ion-input>
+          <ion-input formControlName="fullName" type="text"></ion-input>
         </ion-item>
       </div>
       <div class="input-box">
         <ion-item lines="none">
           <ion-label position="stacked">Phone no.</ion-label>
-          <ion-input type="number" value="+1 555 268 128"></ion-input>
+          <ion-input
+            type="text"
+            appPhoneMask
+            formControlName="phone"
+          ></ion-input>
         </ion-item>
       </div>
       <div class="input-box">
         <ion-item lines="none">
           <ion-label position="stacked">Birthday</ion-label>
-          <ion-input type="text" value=" 02/28/1992"></ion-input>
+          <ion-input
+            id="open-modal"
+            formControlName="birthDate"
+            type="text"
+          ></ion-input>
         </ion-item>
       </div>
+      <ion-modal class="dateModal" trigger="open-modal" mode="ios">
+        <ng-template>
+          <ion-content>
+            <ion-datetime
+              [max]="currentDate"
+              mode="ios"
+              #dateTime
+              presentation="date"
+              [showDefaultButtons]="true"
+              (ionChange)="patchDateValue(dateTime.value)"
+            >
+              <span slot="title">Select Birth date</span></ion-datetime
+            >
+          </ion-content>
+        </ng-template>
+      </ion-modal>
       <div class="check-box">
         <ion-item lines="none" mode="ios">
-          <ion-checkbox name="checkbox" mode="md" slot="start"></ion-checkbox>
+          <ion-checkbox
+            formControlName="showBirthDate"
+            name="checkbox"
+            mode="md"
+            slot="start"
+          ></ion-checkbox>
           <ion-label>make my birthday visible to all users</ion-label>
         </ion-item>
       </div>
       <div class="input-box">
         <ion-item lines="none">
           <ion-label position="stacked">Team</ion-label>
-          <ion-input type="text" value="Houston Cougars football"></ion-input>
+          <ion-input
+            formControlName="teamName"
+            type="text"
+            value="Houston Cougars football"
+          ></ion-input>
         </ion-item>
       </div>
     </div>

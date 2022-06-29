@@ -24,15 +24,16 @@
     <div class="profile-part">
       <ion-item lines="none">
         <ion-avatar slot="start">
-          <img src="assets/images/profile.png" />
+          <!-- <img src="assets/images/profile.png" /> -->
+          <img [src]="userData?.profileUrl | profile" />
         </ion-avatar>
         <ion-label>
           <h5>{{userData?.fullName | titlecase}}</h5>
           <p>{{userData?.teamName}}</p>
-          <p>{{userData?.state}} / {{userData?.country}}</p>
+          <p>{{userData?.teamState}} / {{userData?.country}}</p>
           <div class="bubble-bills">
-            <h6>Bubble bills - <span>$615</span></h6>
-            <p>2 appearances held</p>
+            <h6>Bubble bills - <span>${{userData?.totalEventAmount}}</span></h6>
+            <p>{{userData?.totalEventCount}} appearances held</p>
           </div>
         </ion-label>
       </ion-item>

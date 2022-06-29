@@ -1,20 +1,23 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import { IonicModule } from '@ionic/angular';
+import { IonicModule } from "@ionic/angular";
 
-import { EditProfilePageRoutingModule } from './edit-profile-routing.module';
+import { EditProfilePageRoutingModule } from "./edit-profile-routing.module";
 
-import { EditProfilePage } from './edit-profile.page';
+import { EditProfilePage } from "./edit-profile.page";
+import { CommonDirectiveModule } from "src/app/directives/common-directive.module";
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    EditProfilePageRoutingModule
+    EditProfilePageRoutingModule,
+    ReactiveFormsModule,
+    CommonDirectiveModule,
   ],
-  declarations: [EditProfilePage]
+  declarations: [EditProfilePage],
 })
 export class EditProfilePageModule {}
