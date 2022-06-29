@@ -6,7 +6,7 @@ import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { ChangePasswordComponent } from "./change-password/change-password.component";
-
+import { Storage } from "@capacitor/storage";
 @Component({
   selector: "app-view-profile",
   templateUrl: "./view-profile.page.html",
@@ -69,8 +69,10 @@ export class ViewProfilePage implements OnInit {
     this.apiService.get(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
-        localStorage.removeItem("authDetail");
-        this.router.navigate(["/auth/login"]);
+        Storage.clear().then(() => {
+          localStorage.removeItem("authDetail");
+          this.router.navigate(["/auth/login"]);
+        });
       } else {
         this.coreService.showToastMessage(
           response.status.description,

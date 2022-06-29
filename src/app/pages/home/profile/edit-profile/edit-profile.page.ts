@@ -14,6 +14,7 @@ import { AuthenticationService } from "src/app/providers/authentication.service"
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
+import { Storage } from "@capacitor/storage";
 
 @Component({
   selector: "app-edit-profile",
@@ -44,7 +45,14 @@ export class EditProfilePage implements OnInit {
   ngOnInit() {
     this.getCurrentUserDetails();
     this.initForm();
+    this.getUserDataFromStorage();
   }
+
+  async getUserDataFromStorage() {
+    const { value } = await Storage.get({ key: "userDetails" });
+    console.log(JSON.parse(value));
+  }
+
   initForm() {
     this.editProfileForm = this.formBuilder.group({
       fullName: [

@@ -6,6 +6,7 @@ import { EMAIL_PATTERN } from "src/app/helpers/emailValidation";
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
+import { Storage } from "@capacitor/storage";
 import {
   FacebookLogin,
   FacebookLoginResponse,
@@ -75,6 +76,12 @@ export class LoginPage implements OnInit {
           response.status.description,
           this.coreService.TOAST_SUCCESS
         );
+        Storage.set({
+          key: "userDetails",
+          value: JSON.stringify(response.data),
+        }).then(() => {
+          this.router.navigateByUrl(this.returnUrl);
+        });
         this.router.navigateByUrl(this.returnUrl);
       } else {
         this.coreService.showToastMessage(
@@ -102,7 +109,12 @@ export class LoginPage implements OnInit {
           response.status.description,
           this.coreService.TOAST_SUCCESS
         );
-        this.router.navigateByUrl(this.returnUrl);
+        Storage.set({
+          key: "userDetails",
+          value: JSON.stringify(response.data),
+        }).then(() => {
+          this.router.navigateByUrl(this.returnUrl);
+        });
       } else {
         this.coreService.showToastMessage(
           response.status.description,
