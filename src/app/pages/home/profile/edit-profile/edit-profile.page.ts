@@ -25,10 +25,11 @@ import { Storage } from "@capacitor/storage";
 export class EditProfilePage implements OnInit {
   editProfileForm: FormGroup;
   currentDate: string = new Date().toISOString();
-  profileUrl: string | null = "";
+  profileUrl: string = "";
   isFormSubmitted: boolean = false;
   // ProfileImageBlob: SafeUrl | null | string = null;
   selectedImage: Photo | null = null;
+  loggedInUserData: any;
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -50,7 +51,8 @@ export class EditProfilePage implements OnInit {
 
   async getUserDataFromStorage() {
     const { value } = await Storage.get({ key: "userDetails" });
-    console.log(JSON.parse(value));
+    this.loggedInUserData = JSON.parse(value);
+    console.log(this.loggedInUserData);
   }
 
   initForm() {
@@ -111,7 +113,7 @@ export class EditProfilePage implements OnInit {
   removeImage() {
     this.selectedImage = null;
     // this.ProfileImageBlob = null;
-    this.profileUrl = null;
+    this.profileUrl = "";
     this.cd.detectChanges();
   }
 

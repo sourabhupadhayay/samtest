@@ -13,6 +13,7 @@ import { Storage } from "@capacitor/storage";
   styleUrls: ["./view-profile.page.scss"],
 })
 export class ViewProfilePage implements OnInit {
+  loggedInUserData: any | null = null;
   userData: any | null = null;
   constructor(
     public modalCtrl: ModalController,
@@ -25,6 +26,13 @@ export class ViewProfilePage implements OnInit {
 
   ngOnInit() {
     this.getCurrentUserDetails();
+    this.getUserDataFromStorage();
+  }
+
+  async getUserDataFromStorage() {
+    const { value } = await Storage.get({ key: "userDetails" });
+    this.loggedInUserData = JSON.parse(value);
+    console.log(this.loggedInUserData);
   }
 
   onclick_cancel(): void {

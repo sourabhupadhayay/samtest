@@ -23,9 +23,17 @@
     </div>
     <div class="profile-part">
       <ion-item lines="none">
-        <ion-avatar *ngIf="userData?.profileUrl" slot="start">
+        <ion-avatar *ngIf="userData?.profileUrl !==''" slot="start">
           <!-- <img src="assets/images/profile.png" /> -->
           <img [src]="userData.profileUrl | profile" />
+        </ion-avatar>
+        <ion-avatar *ngIf="userData?.profileUrl ==''" slot="start">
+          <!-- <img src="assets/images/profile.png" /> -->
+          <div class="inital">
+            <span class="initial__span">
+              KU
+            </span>
+          </div>
         </ion-avatar>
         <ion-label>
           <h5>{{userData?.fullName | titlecase}}</h5>

@@ -21,7 +21,7 @@
         </div>
       </ion-item>
     </div>
-    <div *ngIf="profileUrl" class="profile-part">
+    <div *ngIf="profileUrl !== ''" class="profile-part">
       <img [src]="profileUrl | profile" />
 
       <div class="edit-btn">
@@ -33,7 +33,7 @@
         </ion-button>
       </div>
     </div>
-    <div *ngIf="!profileUrl" class="profile-part">
+    <div *ngIf="profileUrl ==''" class="profile-part">
       <!-- <img [src]="profileUrl | profile" /> -->
       <div class="inital">
         <span class="initial__span">
