@@ -47,7 +47,9 @@ export class SignupDetailsPage implements OnInit {
     private constantService: ConstantService,
     private router: Router,
     private common: AuthModuleService
-  ) {}
+  ) {
+    console.log("working");
+  }
 
   ngOnInit() {
     this.initForm();

@@ -18,7 +18,7 @@
               <img src="assets/images/bubble-toch.png" />
             </div>
             <div class="inner-data abc">
-              <img [src]="bubble.profileUrl" />
+              <img [src]="bubble.profileUrl | profile" />
               <span [ngClass]="bubble.online ? 'online':'offline'"></span>
             </div>
           </div>
