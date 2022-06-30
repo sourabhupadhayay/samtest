@@ -15,28 +15,7 @@ const routes: Routes = [
             (m) => m.EditProfilePageModule
           ),
       },
-      {
-        path: "edit-profile",
-        loadChildren: () =>
-          import("./edit-profile/edit-profile.module").then(
-            (m) => m.EditProfilePageModule
-          ),
-      },
     ],
-  },
-  {
-    path: "edit-profile",
-    loadChildren: () =>
-      import("./profile/edit-profile/edit-profile.module").then(
-        (m) => m.EditProfilePageModule
-      ),
-  },
-  {
-    path: "view-profile",
-    loadChildren: () =>
-      import("./profile/view-profile/view-profile.module").then(
-        (m) => m.ViewProfilePageModule
-      ),
   },
 ];
 

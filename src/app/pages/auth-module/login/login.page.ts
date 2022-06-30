@@ -51,7 +51,8 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit() {
-    this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
+    this.returnUrl =
+      this.route.snapshot.queryParams["returnUrl"] || "/tabs/home";
   }
 
   showPasswordToggle() {
@@ -82,7 +83,6 @@ export class LoginPage implements OnInit {
         }).then(() => {
           this.router.navigateByUrl(this.returnUrl);
         });
-        this.router.navigateByUrl(this.returnUrl);
       } else {
         this.coreService.showToastMessage(
           response.status.description,

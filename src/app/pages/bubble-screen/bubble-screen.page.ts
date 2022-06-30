@@ -66,11 +66,9 @@ export class BubbleScreenPage implements OnInit {
   }
 
   navigateToAthlete(id: string) {
-    this.audio.play();
-
-    setTimeout(() => {
+    this.audio.play().then(() => {
       this.router.navigate(["/profile/athlete/" + id]);
-    }, 500);
+    });
   }
   onclick_cancel(): void {
     this.modalCtrl.dismiss();

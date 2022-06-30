@@ -31,6 +31,25 @@ const routes: Routes = [
     loadChildren: () =>
       import("./pages/tabs/tabs.module").then((m) => m.TabsPageModule),
   },
+  {
+    path: "profile",
+    children: [
+      {
+        path: "athlete",
+        loadChildren: () =>
+          import("./pages/profile-view/athlete/athlete.module").then(
+            (m) => m.AthletePageModule
+          ),
+      },
+      {
+        path: "fan",
+        loadChildren: () =>
+          import("./pages/profile-view/fan/fan.module").then(
+            (m) => m.fanPageModule
+          ),
+      },
+    ],
+  },
 ];
 
 @NgModule({
