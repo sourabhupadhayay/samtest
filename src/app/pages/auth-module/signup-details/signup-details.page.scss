@@ -270,6 +270,46 @@ ion-content {
             }
           }
         }
+        .check-box {
+          margin-bottom: -12px;
+          margin-top: 7px;
+
+          ion-item {
+            --padding-start: 0;
+            --innerpadding-end: 0;
+            --background: transparent;
+            --ripple-color: none;
+            --background-activated: none;
+            --background-focused: none;
+            --background-hover: none;
+            --background-activated-opacity: 1;
+            --background-focused-opacity: 1;
+            --background-hover-opacity: 1;
+            --ripple-color: none;
+            --min-height: 35px;
+            ion-checkbox {
+              --ripple-color: none;
+              margin: 0;
+              margin-right: 5px;
+              --size: 20px;
+              --border-color: var(--black-clr);
+              --background-checked: transparent;
+              --background: transparent;
+              --border-width: 1px;
+              --border-color-checked: var(--black-clr);
+              --ripple-color: none;
+              --border-radius: 6px;
+              --checkmark-color: var(--black-clr);
+            }
+            ion-label {
+              word-break: break-word;
+              white-space: normal;
+              font-size: 0.875rem;
+              color: var(--black-clr);
+              font-weight: 400;
+            }
+          }
+        }
 
         .password-text {
           padding: 5px 20px;
