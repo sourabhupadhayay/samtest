@@ -42,8 +42,10 @@ export class AuthenticationService {
   isAuthenticated() {
     if (localStorage.getItem(AUTH) != null) {
       this.data = JSON.parse(localStorage.getItem(AUTH)) as any;
+      return this.data.isLoggedIn;
+    } else {
+      return false;
     }
-    return this.data.isLoggedIn;
   }
   setNewAuthDetail(data) {
     this.data = data;
