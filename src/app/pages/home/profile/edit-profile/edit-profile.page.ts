@@ -176,6 +176,7 @@ export class EditProfilePage implements OnInit {
     this.apiService.post(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
       if (response["status"]["code"] === this.constantService.STATUS_OK) {
+        this.modalCtrl.dismiss();
         this.coreService.showToastMessage(
           response.status.description,
           this.coreService.TOAST_SUCCESS
@@ -313,5 +314,9 @@ export class EditProfilePage implements OnInit {
     } else {
       return "fan";
     }
+  }
+
+  onclick_cancel(): void {
+    this.modalCtrl.dismiss();
   }
 }

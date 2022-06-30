@@ -24,7 +24,7 @@
     <div class="profile-part">
       <ion-item lines="none">
         <ion-avatar slot="start">
-          <img [src]="athleteData?.profileUrl" />
+          <img [src]="athleteData?.profileUrl | profile" />
         </ion-avatar>
         <ion-label>
           <h5>{{athleteData?.fullName}}</h5>

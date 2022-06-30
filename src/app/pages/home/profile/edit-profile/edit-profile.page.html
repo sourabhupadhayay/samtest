@@ -217,8 +217,32 @@
     <ion-button routerLink="/tabs/profile" class="white-btn">
       <img src="assets/icon/close-icon.png" />
     </ion-button>
-    <ion-button (click)="onSubmit()" class="white-btn">
+    <ion-button id="edit-modal" class="white-btn">
       <img src="assets/icon/right-icon.png" />
     </ion-button>
   </ion-toolbar>
 </ion-footer>
+<ion-modal trigger="edit-modal" class="small-modal">
+  <ng-template>
+    <ion-header mode="md">
+      <h3>Edit Profile</h3>
+    </ion-header>
+
+    <div class="inner-content">
+      <div class="main-screen">
+        <p>Are you sure, you want to edit your profile?</p>
+      </div>
+    </div>
+
+    <ion-footer mode="ios">
+      <ion-toolbar mode="ios">
+        <ion-button class="white-btn" (click)="onclick_cancel()">
+          <img src="assets/icon/close-icon.png" />
+        </ion-button>
+        <ion-button (click)="onSubmit()" class="white-btn">
+          <img src="assets/icon/right-icon.png" />
+        </ion-button>
+      </ion-toolbar>
+    </ion-footer>
+  </ng-template>
+</ion-modal>
