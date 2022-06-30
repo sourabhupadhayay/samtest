@@ -2,23 +2,27 @@
   <ion-tab-bar slot="bottom" mode="ios">
     <div class="tabs-btn-main">
       <ion-tab-button tab="home" mode="ios">
-        <img src="assets/icon/calendar.png">
+        <img src="assets/icon/calendar.png" />
       </ion-tab-button>
-      
+
       <ion-tab-button tab="profile" class="main-btn" mode="ios">
-          <img src="assets/icon/tabs-main.png">
+        <img src="assets/icon/tabs-main.png" />
       </ion-tab-button>
-      
+
       <ion-tab-button tab="profile" class="profile" mode="ios">
-          <span>
-              <img src="assets/images/profile.png">
+        <span *ngIf="userData?.profileUrl !==''">
+          <img [src]="userData?.profileUrl | profile" />
+        </span>
+
+        <div *ngIf="userData?.profileUrl ==''" class="inital">
+          <span class="initial__span">
+            {{nameInitials}}
           </span>
+        </div>
       </ion-tab-button>
       <div class="menu-shape">
-          <img src="assets/images/tabs-bg.png">
+        <img src="assets/images/tabs-bg.png" />
       </div>
     </div>
   </ion-tab-bar>
 </ion-tabs>
-
-

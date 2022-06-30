@@ -526,7 +526,7 @@ ion-footer {
     height: 120px;
     object-fit: cover;
     object-position: center;
-    border-radius: 50%;
+    border-radius: 10px;
     background-color: #1b4b64;
     margin-left: 9px;
     color: #fff;
@@ -535,5 +535,14 @@ ion-footer {
     font-size: 24px;
     text-transform: uppercase;
     border: 1px solid white;
+  }
+}
+.athlete-bio {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  & h6 {
+    font-size: 14px;
+    color: #000;
   }
 }

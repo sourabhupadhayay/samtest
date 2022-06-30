@@ -1,16 +1,15 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnInit,
-} from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { DomSanitizer, SafeUrl } from "@angular/platform-browser";
+
 import { Router } from "@angular/router";
 import { Photo } from "@capacitor/camera";
-import { ActionSheetController, ModalController } from "@ionic/angular";
+import {
+  ActionSheetController,
+  ModalController,
+  NavController,
+} from "@ionic/angular";
 import { format, parseISO } from "date-fns";
-import { AuthenticationService } from "src/app/providers/authentication.service";
+
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
@@ -20,16 +19,18 @@ import { Storage } from "@capacitor/storage";
   selector: "app-edit-profile",
   templateUrl: "./edit-profile.page.html",
   styleUrls: ["./edit-profile.page.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditProfilePage implements OnInit {
-  editProfileForm: FormGroup;
+  fanProfileForm: FormGroup;
+  athleteProfileForm: FormGroup;
   currentDate: string = new Date().toISOString();
   profileUrl: string = "";
   isFormSubmitted: boolean = false;
   // ProfileImageBlob: SafeUrl | null | string = null;
   selectedImage: Photo | null = null;
   loggedInUserData: any;
+  nameInitials: string;
+  currentUserRole: "fan" | "athlete";
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -37,34 +38,50 @@ export class EditProfilePage implements OnInit {
     private constantService: ConstantService,
     private router: Router,
     private formBuilder: FormBuilder,
-    private DOMSanitizer: DomSanitizer,
+    private navController: NavController,
     public actionSheetController: ActionSheetController,
-    private cd: ChangeDetectorRef,
-    private authData: AuthenticationService
+    private cd: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ionViewWillEnter() {
     this.getCurrentUserDetails();
-    this.initForm();
     this.getUserDataFromStorage();
+  }
+
+  initForm() {
+    if (this.currentUserRole == "fan") {
+      this.initFanForm();
+    } else {
+      this.initAthleteForm();
+    }
   }
 
   async getUserDataFromStorage() {
     const { value } = await Storage.get({ key: "userDetails" });
     this.loggedInUserData = JSON.parse(value);
-    console.log(this.loggedInUserData);
+    this.currentUserRole = this.getUserType(this.loggedInUserData.roles);
+    this.initForm();
   }
 
-  initForm() {
-    this.editProfileForm = this.formBuilder.group({
-      fullName: [
-        null,
-        [Validators.required, Validators.pattern("^[a-zA-Z ]*$")],
-      ],
+  initFanForm() {
+    this.fanProfileForm = this.formBuilder.group({
+      fullName: ["", [Validators.required, Validators.pattern("^[a-zA-Z ]*$")]],
       showBirthDate: [false],
-      birthDate: [null, Validators.required],
-      phone: [{ value: null, disabled: false }],
+      birthDate: ["", Validators.required],
+      phone: [""],
       teamName: [""],
+    });
+  }
+
+  initAthleteForm() {
+    this.athleteProfileForm = this.formBuilder.group({
+      teamName: [""],
+      teamState: [""],
+      country: [""],
+      universityName: [""],
+      phone: [""],
     });
   }
 
@@ -78,9 +95,9 @@ export class EditProfilePage implements OnInit {
     this.apiService.get(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
+        this.getInitials(response.data.fullName);
         this.profileUrl = response.data.profileUrl;
-        this.editProfileForm.patchValue(response.data);
-        this.patchDateValue(response.data.birthDate);
+        this.patchFormData(response.data);
       } else {
         this.coreService.showToastMessage(
           response.status.description,
@@ -88,6 +105,15 @@ export class EditProfilePage implements OnInit {
         );
       }
     });
+  }
+
+  patchFormData(data: any) {
+    if (this.currentUserRole == "fan") {
+      this.fanProfileForm.patchValue(data);
+      this.patchDateValue(data.birthDate);
+    } else {
+      this.athleteProfileForm.patchValue(data);
+    }
   }
 
   async selectImage() {
@@ -139,12 +165,41 @@ export class EditProfilePage implements OnInit {
   }
 
   onSubmit() {
+    let request: Request;
+    if (this.currentUserRole == "fan") {
+      request = this.fanDataRequest();
+    } else {
+      request = this.athleteDataRequest();
+    }
+    if (!request) {
+      return;
+    }
+
+    this.coreService.presentLoader(this.constantService.WAIT);
+    this.apiService.post(request).subscribe((response: Response) => {
+      this.coreService.dismissLoader();
+      if (response["status"]["code"] === this.constantService.STATUS_OK) {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_SUCCESS
+        );
+        this.router.navigateByUrl("/tabs/home");
+      } else {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_ERROR
+        );
+      }
+    });
+  }
+
+  fanDataRequest(): Request {
     this.isFormSubmitted = true;
-    console.log(this.editProfileForm);
+
     if (this.isFormValid()) return;
     if (this.validateAge()) return;
 
-    let { birthDate, ...signUpResponse } = this.editProfileForm.value;
+    let { birthDate, ...signUpResponse } = this.fanProfileForm.value;
 
     let request: Request = {
       path: "auth/users/update",
@@ -155,23 +210,20 @@ export class EditProfilePage implements OnInit {
       },
       isAuth: true,
     };
+    return request;
+  }
 
-    this.coreService.presentLoader(this.constantService.WAIT);
-    this.apiService.post(request).subscribe((response: Response) => {
-      this.coreService.dismissLoader();
-      if (response["status"]["code"] === this.constantService.STATUS_OK) {
-        this.coreService.showToastMessage(
-          response.status.description,
-          this.coreService.TOAST_SUCCESS
-        );
-        this.router.navigate(["/tabs/profile"]);
-      } else {
-        this.coreService.showToastMessage(
-          response.status.description,
-          this.coreService.TOAST_ERROR
-        );
-      }
-    });
+  athleteDataRequest(): Request {
+    let request: Request = {
+      path: "auth/users/update",
+      data: {
+        ...this.athleteProfileForm.value,
+
+        profileUrl: this.profileUrl,
+      },
+      isAuth: true,
+    };
+    return request;
   }
 
   formatDate(value: string) {
@@ -183,13 +235,23 @@ export class EditProfilePage implements OnInit {
       return;
     }
     let formattedDate = this.formatDate(date);
-    console.log(formattedDate);
 
-    this.editProfileForm.controls.birthDate.patchValue(formattedDate);
+    this.fanProfileForm.controls.birthDate.patchValue(formattedDate);
+  }
+
+  getInitials(fullName: String) {
+    let splitName = fullName.split(" ");
+    let firstName = splitName[0];
+    let lastName = splitName[1];
+    if (lastName) {
+      this.nameInitials = firstName[0] + lastName[0];
+    } else {
+      this.nameInitials = firstName[0];
+    }
   }
 
   isFormValid(): boolean {
-    if (this.editProfileForm.invalid) {
+    if (this.fanProfileForm.invalid) {
       this.coreService.showToastMessage(
         "Please enter valid details",
         this.coreService.TOAST_ERROR
@@ -198,7 +260,7 @@ export class EditProfilePage implements OnInit {
     }
   }
   validateAge(): boolean {
-    let selectedDate = new Date(this.editProfileForm.controls.birthDate.value);
+    let selectedDate = new Date(this.fanProfileForm.controls.birthDate.value);
     let age = this._calculateAge(selectedDate);
     if (age <= 18) {
       this.coreService.showToastMessage(
@@ -245,5 +307,13 @@ export class EditProfilePage implements OnInit {
     });
 
     await actionSheet.present();
+  }
+  getUserType(userRole: string[]): "athlete" | "fan" {
+    let isAthlete = userRole.some((role) => role === "ATHLETE");
+    if (isAthlete) {
+      return "athlete";
+    } else {
+      return "fan";
+    }
   }
 }

@@ -3,7 +3,7 @@
     <div class="title-part">
       <ion-item lines="none">
         <ion-icon
-          routerLink="/bubble-screen"
+          routerLink="/tabs/profile"
           slot="start"
           name="arrow-back-outline"
         ></ion-icon>
@@ -25,24 +25,34 @@
       <ion-item lines="none">
         <ion-avatar *ngIf="userData?.profileUrl !==''" slot="start">
           <!-- <img src="assets/images/profile.png" /> -->
-          <img [src]="userData.profileUrl | profile" />
+          <img [src]="userData?.profileUrl | profile" />
         </ion-avatar>
         <ion-avatar *ngIf="userData?.profileUrl ==''" slot="start">
           <!-- <img src="assets/images/profile.png" /> -->
           <div class="inital">
             <span class="initial__span">
-              KU
+              {{nameInitials}}
             </span>
           </div>
         </ion-avatar>
         <ion-label>
           <h5>{{userData?.fullName | titlecase}}</h5>
-          <p>{{userData?.teamName}}</p>
-          <p>{{userData?.teamState}} / {{userData?.country}}</p>
-          <div class="bubble-bills">
-            <h6>Bubble bills - <span>${{userData?.totalEventAmount}}</span></h6>
-            <p>{{userData?.totalEventCount}} appearances held</p>
-          </div>
+          <ng-container *ngIf="currentUserRole =='fan'">
+            <p>{{userData?.teamName}}</p>
+            <p>{{userData?.teamState}} / {{userData?.country}}</p>
+            <div class="bubble-bills">
+              <h6>
+                Bubble bills - <span>${{userData?.totalEventAmount}}</span>
+              </h6>
+              <p>{{userData?.totalEventCount}} appearances held</p>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="currentUserRole =='athlete'">
+            <p class="athlete-money">
+              $ {{userData?.totalEarning | number:'1.0':'en-US'}}
+            </p>
+            <span class="athlete-total">Total Earning</span>
+          </ng-container>
         </ion-label>
       </ion-item>
     </div>
@@ -83,22 +93,62 @@
   </ion-grid>
 
   <ion-grid class="content-part">
-    <div class="details-part">
-      <div class="details-box">
-        <h5>E-mail</h5>
-        <p>{{userData?.email}}</p>
-      </div>
+    <ng-container *ngIf="currentUserRole =='fan'">
+      <div class="details-part">
+        <div class="details-box">
+          <h5>E-mail</h5>
+          <p>{{userData?.email}}</p>
+        </div>
 
-      <div class="details-box">
-        <h5>Born</h5>
-        <p>{{userData?.birthDate | date:'M/d/yyy'}}</p>
-      </div>
+        <div class="details-box">
+          <h5>Born</h5>
+          <p>{{userData?.birthDate | date:'MMM/d/yyy'}}</p>
+        </div>
 
-      <div class="details-box">
-        <h5>Phone no.</h5>
-        <p>{{userData?.phone}}</p>
+        <div class="details-box">
+          <h5>Phone no.</h5>
+          <p>{{userData?.phone ?? '-'}}</p>
+        </div>
       </div>
-    </div>
+    </ng-container>
+    <ng-container *ngIf="currentUserRole =='athlete'">
+      <div class="details-part">
+        <div class="details-box">
+          <h5>Biography</h5>
+          <p>
+            {{userData?.bio ?? '-'}}
+          </p>
+        </div>
+        <div class="details-box">
+          <h5>Team</h5>
+          <p>{{userData?.teamName ?? '-'}}</p>
+        </div>
+        <div class="details-box">
+          <h5>Team State</h5>
+          <p>{{userData?.teamState ?? '-'}}</p>
+        </div>
+        <div class="details-box">
+          <h5>Country</h5>
+          <p>{{userData?.country ?? '-'}}</p>
+        </div>
+        <div class="details-box">
+          <h5>School/University</h5>
+          <p>{{userData?.universityName ?? '-'}}</p>
+        </div>
+        <div class="details-box">
+          <h5>Born</h5>
+          <p>{{userData?.birthDate | date:'MMM/d/yyy'}}</p>
+        </div>
+        <div class="details-box">
+          <h5>E-mail</h5>
+          <p>{{userData?.email}}</p>
+        </div>
+        <div class="details-box">
+          <h5>Phone no.</h5>
+          <p>{{userData?.phone ?? '-'}}</p>
+        </div>
+      </div>
+    </ng-container>
 
     <div class="change-pass-logout">
       <ion-item lines="none" (click)="presentChangePasswordModal()">
@@ -108,7 +158,7 @@
         <ion-label>Change Password</ion-label>
         <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
       </ion-item>
-      <ion-item (click)=" logout() " lines="none" class="logout">
+      <ion-item id="logout" lines="none" class="logout">
         <ion-avatar slot="start">
           <img src="assets/icon/login-red.svg" />
         </ion-avatar>
@@ -117,8 +167,8 @@
       </ion-item>
     </div>
 
-    <div class="delete-account">
-      <ion-item lines="none" id="trigger-button" id="small-modal-delete">
+    <div id="small-modal-delete" class="delete-account">
+      <ion-item lines="none">
         <ion-avatar slot="start">
           <img src="assets/icon/delete-acc.svg" />
         </ion-avatar>
@@ -159,7 +209,31 @@
         <ion-button class="white-btn" (click)="onclick_cancel()">
           <img src="assets/icon/close-icon.png" />
         </ion-button>
-        <ion-button class="white-btn">
+        <ion-button (click)="deleteAccount()" class="white-btn">
+          <img src="assets/icon/right-icon.png" />
+        </ion-button>
+      </ion-toolbar>
+    </ion-footer>
+  </ng-template>
+</ion-modal>
+<ion-modal trigger="logout" class="small-modal">
+  <ng-template>
+    <ion-header mode="md">
+      <h3>Logout</h3>
+    </ion-header>
+
+    <div class="inner-content">
+      <div class="main-screen">
+        <p>Are you sure, you want to Logout From Bubble App?</p>
+      </div>
+    </div>
+
+    <ion-footer mode="ios">
+      <ion-toolbar mode="ios">
+        <ion-button class="white-btn" (click)="onclick_cancel()">
+          <img src="assets/icon/close-icon.png" />
+        </ion-button>
+        <ion-button (click)="logout()" class="white-btn">
           <img src="assets/icon/right-icon.png" />
         </ion-button>
       </ion-toolbar>

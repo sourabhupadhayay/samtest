@@ -37,7 +37,7 @@
       <!-- <img [src]="profileUrl | profile" /> -->
       <div class="inital">
         <span class="initial__span">
-          KU
+          {{nameInitials}}
         </span>
       </div>
 
@@ -53,88 +53,148 @@
   </ion-grid>
 
   <ion-grid class="content-part">
-    <div [formGroup]="editProfileForm" class="input-main">
-      <div class="input-box">
-        <ion-item lines="none">
-          <ion-label position="stacked"
-            >Full name <span class="red">*</span>
-          </ion-label>
-          <ion-input formControlName="fullName" type="text"></ion-input>
-        </ion-item>
-        <div
-          *ngIf="isFormSubmitted && editProfileForm.controls.fullName.invalid"
-          class="error-msg"
-          id="userNameError"
-        >
-          <p><img src="assets/icon/info-red.svg" /> Full Name is invalid</p>
-        </div>
-      </div>
-      <div class="input-box">
-        <ion-item lines="none">
-          <ion-label position="stacked">Phone no.</ion-label>
-          <ion-input
-            type="text"
-            appPhoneMask
-            formControlName="phone"
-          ></ion-input>
-        </ion-item>
-      </div>
-      <div class="input-box">
-        <ion-item lines="none">
-          <ion-label position="stacked"
-            >Birthday <span class="red">*</span></ion-label
-          >
-          <ion-input
-            id="open-modal"
-            formControlName="birthDate"
-            type="text"
-          ></ion-input>
-        </ion-item>
-        <div
-          *ngIf="isFormSubmitted && editProfileForm.controls.birthDate.invalid"
-          class="error-msg"
-        >
-          <p><img src="assets/icon/info-red.svg" /> Birth date is required</p>
-        </div>
-      </div>
-      <ion-modal class="dateModal" trigger="open-modal" mode="ios">
-        <ng-template>
-          <ion-content>
-            <ion-datetime
-              [max]="currentDate"
-              mode="ios"
-              #dateTime
-              presentation="date"
-              [showDefaultButtons]="true"
-              (ionChange)="patchDateValue(dateTime.value)"
-            >
-              <span slot="title">Select Birth date</span></ion-datetime
-            >
-          </ion-content>
-        </ng-template>
-      </ion-modal>
-      <div class="check-box">
-        <ion-item lines="none" mode="ios">
-          <ion-checkbox
-            formControlName="showBirthDate"
-            name="checkbox"
-            mode="md"
-            slot="start"
-          ></ion-checkbox>
-          <ion-label>make my birthday visible to all users</ion-label>
-        </ion-item>
-      </div>
-      <div class="input-box">
-        <ion-item lines="none">
-          <ion-label position="stacked">Team</ion-label>
-          <ion-input
-            formControlName="teamName"
-            type="text"
-            value="Houston Cougars football"
-          ></ion-input>
-        </ion-item>
-      </div>
+    <div *ngIf="currentUserRole == 'athlete'" class="athlete-bio">
+      <svg
+        width="25"
+        height="25"
+        viewBox="0 0 16 16"
+        fill="#000"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M7.99935 0.666016C6.54896 0.666016 5.13113 1.09611 3.92517 1.9019C2.71921 2.7077 1.77928 3.85301 1.22424 5.193C0.669193 6.53299 0.523969 8.00748 0.806927 9.43001C1.08989 10.8525 1.78832 12.1592 2.8139 13.1848C3.83949 14.2104 5.14616 14.9088 6.56869 15.1918C7.99122 15.4747 9.46571 15.3295 10.8057 14.7745C12.1457 14.2194 13.291 13.2795 14.0968 12.0735C14.9026 10.8676 15.3327 9.44975 15.3327 7.99935C15.3304 6.05513 14.557 4.1912 13.1823 2.81643C11.8075 1.44166 9.94357 0.668309 7.99935 0.666016ZM7.99935 13.9993C6.81266 13.9993 5.65263 13.6475 4.66593 12.9882C3.67924 12.3289 2.9102 11.3918 2.45608 10.2954C2.00195 9.19909 1.88313 7.99269 2.11464 6.82881C2.34615 5.66492 2.9176 4.59582 3.75671 3.75671C4.59583 2.91759 5.66492 2.34615 6.82881 2.11464C7.9927 1.88313 9.1991 2.00195 10.2955 2.45607C11.3918 2.9102 12.3289 3.67923 12.9882 4.66593C13.6475 5.65262 13.9994 6.81266 13.9994 7.99935C13.9974 9.59005 13.3646 11.115 12.2399 12.2398C11.1151 13.3646 9.59006 13.9974 7.99935 13.9993ZM8.66602 5.33268H7.33269V3.99935H8.66602V5.33268ZM8.66602 11.9993H7.33269V6.66602H8.66602V11.9993Z"
+        />
+      </svg>
+      <h6>To update your biography, please contact your BubbleApp manager.</h6>
     </div>
+    <ng-container *ngIf="currentUserRole =='fan'">
+      <div [formGroup]="fanProfileForm" class="input-main">
+        <div class="input-box">
+          <ion-item lines="none">
+            <ion-label position="stacked"
+              >Full name <span class="red">*</span>
+            </ion-label>
+            <ion-input formControlName="fullName" type="text"></ion-input>
+          </ion-item>
+          <div
+            *ngIf="isFormSubmitted && fanProfileForm.controls.fullName.invalid"
+            class="error-msg"
+            id="userNameError"
+          >
+            <p><img src="assets/icon/info-red.svg" /> Full Name is invalid</p>
+          </div>
+        </div>
+        <div class="input-box">
+          <ion-item lines="none">
+            <ion-label position="stacked">Phone no.</ion-label>
+            <ion-input
+              type="text"
+              appPhoneMask
+              formControlName="phone"
+            ></ion-input>
+          </ion-item>
+        </div>
+        <div class="input-box">
+          <ion-item lines="none">
+            <ion-label position="stacked"
+              >Birthday <span class="red">*</span></ion-label
+            >
+            <ion-input
+              id="open-modal"
+              formControlName="birthDate"
+              type="text"
+            ></ion-input>
+          </ion-item>
+          <div
+            *ngIf="isFormSubmitted && fanProfileForm.controls.birthDate.invalid"
+            class="error-msg"
+          >
+            <p><img src="assets/icon/info-red.svg" /> Birth date is required</p>
+          </div>
+        </div>
+        <ion-modal class="dateModal" trigger="open-modal" mode="ios">
+          <ng-template>
+            <ion-content>
+              <ion-datetime
+                [max]="currentDate"
+                mode="ios"
+                #dateTime
+                presentation="date"
+                [showDefaultButtons]="true"
+                (ionChange)="patchDateValue(dateTime.value)"
+              >
+                <span slot="title">Select Birth date</span></ion-datetime
+              >
+            </ion-content>
+          </ng-template>
+        </ion-modal>
+        <div class="check-box">
+          <ion-item lines="none" mode="ios">
+            <ion-checkbox
+              formControlName="showBirthDate"
+              name="checkbox"
+              mode="md"
+              slot="start"
+            ></ion-checkbox>
+            <ion-label>make my birthday visible to all users</ion-label>
+          </ion-item>
+        </div>
+        <div class="input-box">
+          <ion-item lines="none">
+            <ion-label position="stacked">Team</ion-label>
+            <ion-input
+              formControlName="teamName"
+              type="text"
+              value="Houston Cougars football"
+            ></ion-input>
+          </ion-item>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="currentUserRole == 'athlete'">
+      <div [formGroup]="athleteProfileForm" class="input-main">
+        <div class="input-box">
+          <ion-item lines="none">
+            <ion-label position="stacked">Team </ion-label>
+            <ion-input formControlName="teamName" type="text"></ion-input>
+          </ion-item>
+        </div>
+        <div class="input-box">
+          <ion-item lines="none">
+            <ion-label position="stacked">Team State</ion-label>
+            <ion-input
+              formControlName="teamState"
+              type="text"
+              value="Houston Cougars football"
+            ></ion-input>
+          </ion-item>
+        </div>
+        <div class="input-box">
+          <ion-item lines="none">
+            <ion-label position="stacked">Country</ion-label>
+            <ion-input formControlName="country" type="text"></ion-input>
+          </ion-item>
+        </div>
+
+        <div class="input-box">
+          <ion-item lines="none">
+            <ion-label position="stacked">School/University</ion-label>
+            <ion-input formControlName="universityName" type="text"></ion-input>
+          </ion-item>
+        </div>
+
+        <div class="input-box">
+          <ion-item lines="none">
+            <ion-label position="stacked">Phone no.</ion-label>
+            <ion-input
+              type="text"
+              appPhoneMask
+              formControlName="phone"
+            ></ion-input>
+          </ion-item>
+        </div>
+      </div>
+    </ng-container>
   </ion-grid>
   <ion-grid class="buble-part">
     <div class="dots-bubble">

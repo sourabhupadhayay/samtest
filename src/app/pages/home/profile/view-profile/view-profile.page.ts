@@ -13,18 +13,20 @@ import { Storage } from "@capacitor/storage";
   styleUrls: ["./view-profile.page.scss"],
 })
 export class ViewProfilePage implements OnInit {
+  currentUserRole: "fan" | "athlete";
   loggedInUserData: any | null = null;
   userData: any | null = null;
+  nameInitials: string;
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
     private apiService: DataService,
     private constantService: ConstantService,
-    private authentication: AuthenticationService,
     private router: Router
   ) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+  ionViewWillEnter() {
     this.getCurrentUserDetails();
     this.getUserDataFromStorage();
   }
@@ -32,11 +34,31 @@ export class ViewProfilePage implements OnInit {
   async getUserDataFromStorage() {
     const { value } = await Storage.get({ key: "userDetails" });
     this.loggedInUserData = JSON.parse(value);
-    console.log(this.loggedInUserData);
+    this.currentUserRole = this.getUserType(this.loggedInUserData.roles);
   }
 
   onclick_cancel(): void {
     this.modalCtrl.dismiss();
+  }
+
+  getInitials(fullName: String) {
+    let splitName = fullName.split(" ");
+    let firstName = splitName[0];
+    let lastName = splitName[1];
+    if (lastName) {
+      this.nameInitials = firstName[0] + lastName[0];
+    } else {
+      this.nameInitials = firstName[0];
+    }
+  }
+
+  getUserType(userRole: string[]): "athlete" | "fan" {
+    let isAthlete = userRole.some((role) => role === "ATHLETE");
+    if (isAthlete) {
+      return "athlete";
+    } else {
+      return "fan";
+    }
   }
 
   getCurrentUserDetails() {
@@ -50,6 +72,7 @@ export class ViewProfilePage implements OnInit {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
         this.userData = response.data;
+        this.getInitials(this.userData.fullName);
       } else {
         this.coreService.showToastMessage(
           response.status.description,
@@ -68,6 +91,27 @@ export class ViewProfilePage implements OnInit {
     modal.present();
   }
 
+  deleteAccount() {
+    let request: Request = {
+      path: "auth/users/manage/delete/" + this.userData.id,
+      isAuth: true,
+    };
+
+    this.coreService.presentLoader(this.constantService.WAIT);
+    this.apiService.get(request).subscribe((response: Response) => {
+      this.coreService.dismissLoader();
+      if (response.status.code === this.constantService.STATUS_OK) {
+        this.modalCtrl.dismiss();
+        this.logout();
+      } else {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_ERROR
+        );
+      }
+    });
+  }
+
   logout() {
     let request: Request = {
       path: "auth/users/logout",
@@ -75,6 +119,7 @@ export class ViewProfilePage implements OnInit {
     };
     this.coreService.presentLoader(this.constantService.WAIT);
     this.apiService.get(request).subscribe((response: Response) => {
+      this.modalCtrl.dismiss();
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
         Storage.clear().then(() => {
