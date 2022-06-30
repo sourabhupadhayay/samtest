@@ -50,9 +50,11 @@ export class LoginPage implements OnInit {
     });
   }
 
-  ngOnInit() {
+  ngOnInit() {}
+  ionViewWillEnter() {
     this.returnUrl =
       this.route.snapshot.queryParams["returnUrl"] || "/tabs/home";
+    console.log(this.returnUrl);
   }
 
   showPasswordToggle() {
