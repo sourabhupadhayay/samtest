@@ -52,7 +52,5 @@ export class TabsPage implements OnInit {
     } else {
       this.nameInitials = firstName[0];
     }
-
-    console.log(this.nameInitials);
   }
 }
