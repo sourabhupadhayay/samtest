@@ -7,6 +7,8 @@ import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { ChangePasswordComponent } from "./change-password/change-password.component";
 import { Storage } from "@capacitor/storage";
+import { Subscription } from "rxjs";
+import { CommonService } from "src/app/providers/common.service";
 @Component({
   selector: "app-view-profile",
   templateUrl: "./view-profile.page.html",
@@ -17,18 +19,33 @@ export class ViewProfilePage implements OnInit {
   loggedInUserData: any | null = null;
   userData: any | null = null;
   nameInitials: string;
+  profileSubscription: Subscription;
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
     private apiService: DataService,
     private constantService: ConstantService,
-    private router: Router
+    private router: Router,
+    private commonService: CommonService
   ) {}
 
   ngOnInit() {}
   ionViewWillEnter() {
+    this.isProfileUpdated();
     this.getCurrentUserDetails();
     this.getUserDataFromStorage();
+  }
+
+  isProfileUpdated() {
+    this.profileSubscription = this.commonService.$profileSubject.subscribe(
+      () => {
+        this.getCurrentUserDetails();
+      }
+    );
+  }
+
+  ionViewDidLeave() {
+    this.profileSubscription.unsubscribe();
   }
 
   async getUserDataFromStorage() {

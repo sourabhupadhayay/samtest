@@ -3,17 +3,14 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 import { Router } from "@angular/router";
 import { Photo } from "@capacitor/camera";
-import {
-  ActionSheetController,
-  ModalController,
-  NavController,
-} from "@ionic/angular";
+import { ActionSheetController, ModalController } from "@ionic/angular";
 import { format, parseISO } from "date-fns";
 
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { Storage } from "@capacitor/storage";
+import { CommonService } from "src/app/providers/common.service";
 
 @Component({
   selector: "app-edit-profile",
@@ -38,7 +35,7 @@ export class EditProfilePage implements OnInit {
     private constantService: ConstantService,
     private router: Router,
     private formBuilder: FormBuilder,
-    private navController: NavController,
+    private commonService: CommonService,
     public actionSheetController: ActionSheetController,
     private cd: ChangeDetectorRef
   ) {}
@@ -183,7 +180,8 @@ export class EditProfilePage implements OnInit {
           response.status.description,
           this.coreService.TOAST_SUCCESS
         );
-        this.router.navigateByUrl("/tabs/home");
+        this.commonService.$profileSubject.next();
+        this.router.navigateByUrl("/tabs/profile");
       } else {
         this.coreService.showToastMessage(
           response.status.description,
