@@ -59,6 +59,35 @@ body {
   }
 }
 
+.small-modal {
+  --height: auto;
+    align-items: center;
+    --background: transparent;
+    background: transparent;
+  .ion-page {
+    position: relative;
+    display: block;
+    contain: content;
+    border-radius: 32px;
+    background: var(--white-bg);
+    max-width: 70%;
+    margin: 0 auto;
+    .inner-content {
+      max-height: 70vh;
+      overflow: auto;
+    }
+  }
+  ion-footer {
+    background: var(--white-bg);
+    border-radius: 0;
+    ion-toolbar {
+      border-radius: 0 !important;
+      border: 0;
+      background: var(--white-bg);
+    }
+  }
+}
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus input:-webkit-autofill,

@@ -9,21 +9,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: "profile",
-        children: [
-          {
-            path: "athlete",
-            loadChildren: () =>
-              import("./profiles/athlete/athlete.module").then(
-                (m) => m.AthletePageModule
-              ),
-          },
-          {
-            path: "fan",
-            loadChildren: () =>
-              import("./profiles/fan/fan.module").then((m) => m.fanPageModule),
-          },
-        ],
+        path: "user/edit-profile",
+        loadChildren: () =>
+          import("./profile/edit-profile/edit-profile.module").then(
+            (m) => m.EditProfilePageModule
+          ),
       },
       {
         path: "edit-profile",
@@ -33,6 +23,20 @@ const routes: Routes = [
           ),
       },
     ],
+  },
+  {
+    path: "edit-profile",
+    loadChildren: () =>
+      import("./profile/edit-profile/edit-profile.module").then(
+        (m) => m.EditProfilePageModule
+      ),
+  },
+  {
+    path: "view-profile",
+    loadChildren: () =>
+      import("./profile/view-profile/view-profile.module").then(
+        (m) => m.ViewProfilePageModule
+      ),
   },
 ];
 
