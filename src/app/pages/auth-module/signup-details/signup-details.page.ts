@@ -73,6 +73,7 @@ export class SignupDetailsPage implements OnInit {
       password: [null, Validators.required],
       birthDate: [null, Validators.required],
       phone: [{ value: null, disabled: false }],
+      showBirthDate: [false],
       teamName: [""],
       teamState: [""],
       school: [""],

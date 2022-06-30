@@ -19,7 +19,8 @@
           loop=""
           muted
           autoplay
-          webkit-playsinline playsinline
+          webkit-playsinline
+          playsinline
         >
           <source src="assets/video/video.mp4" />
           <source src="assets/video/video.webm" />
@@ -342,6 +343,17 @@
               </p>
             </div>
           </div>
+          <div class="check-box">
+            <ion-item lines="none" mode="ios">
+              <ion-checkbox
+                formControlName="showBirthDate"
+                name="checkbox"
+                mode="md"
+                slot="start"
+              ></ion-checkbox>
+              <ion-label>make my birthday visible to all users</ion-label>
+            </ion-item>
+          </div>
           <div class="input-box">
             <ion-item lines="none">
               <ion-label position="floating">Phone Number</ion-label>
@@ -372,9 +384,6 @@
                 src="assets/icon/team.svg"
               />
             </ion-item>
-            <!-- <div class="error-msg" id="passwordError">
-              <p><img src="assets/icon/info-red.svg" /> Birthday is required</p>
-            </div> -->
           </div>
           <div class="input-box">
             <ion-item lines="none">
@@ -384,11 +393,7 @@
                 autocomplete="on"
                 type="text"
               ></ion-input>
-              <!-- <img class="ion-align-self-center" slot="end" src="assets/icon/team.svg"/> -->
             </ion-item>
-            <!-- <div class="error-msg" id="passwordError">
-              <p><img src="assets/icon/info-red.svg" /> Birthday is required</p>
-            </div> -->
           </div>
           <div class="input-box">
             <ion-item lines="none">
@@ -398,11 +403,7 @@
                 autocomplete="on"
                 type="text"
               ></ion-input>
-              <!-- <img class="ion-align-self-center" slot="end" src="assets/icon/team.svg"/> -->
             </ion-item>
-            <!-- <div class="error-msg" id="passwordError">
-              <p><img src="assets/icon/info-red.svg" /> Birthday is required</p>
-            </div> -->
           </div>
         </form>
 
