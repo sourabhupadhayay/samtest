@@ -72,6 +72,7 @@ export class SignupDetailsPage implements OnInit {
       teamName: [""],
       teamState: [""],
       school: [""],
+      country: [""],
     });
     this.getSignUpData();
   }
