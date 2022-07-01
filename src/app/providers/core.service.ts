@@ -60,6 +60,7 @@ export class CoreService {
     return this.loadingController
       .create({
         spinner: "crescent",
+
         translucent: true,
         cssClass: "my-loading-class",
         animated: true,
@@ -93,10 +94,17 @@ export class CoreService {
 
   async dismissLoader() {
     this.isLoading = false;
-    let topLoader = await this.loadingController.getTop();
-    if (topLoader) {
-      return await this.loadingController.dismiss();
-    }
+    let topLoader = await this.loadingController
+      .getTop()
+      .then(async (value) => {
+        if (value) {
+          return await this.loadingController.dismiss();
+        }
+      });
+    // console.log(topLoader);
+    // if (topLoader) {
+    //   return await this.loadingController.dismiss();
+    // }
   }
   async showToastMessage(message: string, type: string): Promise<void> {
     const { icon, position, color } = this._colorPosition(type),

@@ -203,8 +203,8 @@ export class EditProfilePage implements OnInit {
           response.status.description,
           this.coreService.TOAST_SUCCESS
         );
-        this.commonService.$profileSubject.next();
         this.router.navigateByUrl("/tabs/profile");
+        this.commonService.$profileSubject.next();
         this.isUserProfileComplete = true;
       } else {
         this.coreService.showToastMessage(
