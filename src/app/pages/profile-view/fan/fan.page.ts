@@ -1,4 +1,10 @@
 import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, ParamMap } from "@angular/router";
+import { switchMap } from "rxjs/operators";
+import { ConstantService } from "src/app/providers/constant.service";
+import { CoreService } from "src/app/providers/core.service";
+import { DataService, Request, Response } from "src/app/providers/data.service";
+import { AuthModuleService } from "../../auth-module/auth-module.service";
 
 @Component({
   selector: "fan-page",
@@ -6,7 +12,43 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./fan.page.scss"],
 })
 export class fanPage implements OnInit {
-  constructor() {}
+  fanData: any | null = null;
+  constructor(
+    private coreService: CoreService,
+    private apiService: DataService,
+    private route: ActivatedRoute,
+    private constantService: ConstantService,
+    private commonService: AuthModuleService
+  ) {}
 
   ngOnInit() {}
+
+  ionViewWillEnter() {
+    this.getUserIdFromParams();
+  }
+  getUserIdFromParams() {
+    this.route.paramMap
+      .pipe(
+        switchMap((params: ParamMap) => {
+          this.coreService.presentLoader(this.constantService.WAIT);
+          let request: Request = {
+            // path: "auth/users/currentUser?userId=" + params.get("id"),
+            path: "auth/users/currentUser",
+          };
+
+          return this.apiService.get(request);
+        })
+      )
+      .subscribe((response: Response) => {
+        this.coreService.dismissLoader();
+        if (response.status.code === this.constantService.STATUS_OK) {
+          this.fanData = response.data;
+        } else {
+          this.coreService.showToastMessage(
+            response.status.description,
+            this.coreService.TOAST_ERROR
+          );
+        }
+      });
+  }
 }

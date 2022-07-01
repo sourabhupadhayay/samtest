@@ -7,9 +7,16 @@ import { IonicModule } from "@ionic/angular";
 import { fanPageRoutingModule } from "./fan-routing.module";
 
 import { fanPage } from "./fan.page";
+import { PipesModule } from "src/app/pipes/pipes.module";
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, fanPageRoutingModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    fanPageRoutingModule,
+    PipesModule,
+  ],
   declarations: [fanPage],
 })
 export class fanPageModule {}

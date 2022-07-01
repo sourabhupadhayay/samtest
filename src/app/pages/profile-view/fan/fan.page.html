@@ -1,7 +1,80 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>fan</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true">
+  <ion-grid class="top-card">
+    <div class="title-part">
+      <ion-item lines="none" mode="ios">
+        <ion-icon
+          routerLink="/tabs/home"
+          slot="start"
+          name="arrow-back-outline"
+        ></ion-icon>
+        <ion-label>
+          <ion-grid class="logo-head">
+            <img src="assets/images/single-logo.svg" />
+            <div class="nil4all">
+              <span>#NIL4ALL</span>
+            </div>
+          </ion-grid>
+        </ion-label>
+        <div class="notification" slot="end">
+          <img src="assets/icon/notification.svg" />
+          <span></span>
+        </div>
+      </ion-item>
+    </div>
+    <div class="profile-part">
+      <ion-item lines="none">
+        <ion-avatar slot="start">
+          <img [src]="fanData?.profileUrl | profile" />
+        </ion-avatar>
+        <ion-label>
+          <h5>{{fanData?.fullName}}</h5>
+          <span>{{fanData?.teamName}}</span>
+        </ion-label>
+      </ion-item>
+    </div>
+  </ion-grid>
 
-<ion-content> </ion-content>
+  <ion-grid class="content-part">
+    <div class="details-part">
+      <div class="details-box">
+        <h5>Email</h5>
+        <p>{{fanData?.email}}</p>
+      </div>
+      <div class="details-box">
+        <h5>Birthday</h5>
+        <p>{{fanData?.birthDate | date:'MMM d, y'}}</p>
+      </div>
+      <div class="details-box">
+        <h5>Phone no.</h5>
+        <p>{{fanData?.phone }}</p>
+      </div>
+      <div class="details-box">
+        <h5>Team</h5>
+        <p>{{fanData?.teamName}}</p>
+      </div>
+      <div class="details-box">
+        <h5>State</h5>
+        <p>{{fanData?.teamState}}</p>
+      </div>
+      <div class="details-box">
+        <h5>Country</h5>
+        <p>{{fanData?.country}}</p>
+      </div>
+    </div>
+  </ion-grid>
+
+  <ion-grid class="buble-part">
+    <div class="dots-bubble">
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+    </div>
+  </ion-grid>
+</ion-content>
