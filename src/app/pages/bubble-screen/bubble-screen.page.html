@@ -257,7 +257,7 @@
 
   <ion-fab vertical="bottom" horizontal="center" slot="fixed" mode="md">
     <!-- id="trigger-button" -->
-    <ion-fab-button
+    <ion-fab-button mode="md"
       *ngIf="!authenticationService.isAuthenticated()"
       routerLink="/auth/login"
     >

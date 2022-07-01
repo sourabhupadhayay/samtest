@@ -1,15 +1,15 @@
-<ion-tabs mode="ios">
-  <ion-tab-bar slot="bottom" mode="ios">
+<ion-tabs mode="md">
+  <ion-tab-bar slot="bottom" mode="md">
     <div class="tabs-btn-main">
-      <ion-tab-button tab="home" mode="ios">
+      <ion-tab-button tab="home" mode="md">
         <img src="assets/icon/calendar.png" />
       </ion-tab-button>
 
-      <ion-tab-button class="main-btn" mode="ios">
+      <ion-tab-button class="main-btn" mode="md">
         <img src="assets/icon/tabs-main.png" />
       </ion-tab-button>
 
-      <ion-tab-button tab="profile" class="profile" mode="ios">
+      <ion-tab-button tab="profile" class="profile" mode="md">
         <span *ngIf="userData?.profileUrl !==''">
           <img [src]="userData?.profileUrl | profile" />
         </span>
