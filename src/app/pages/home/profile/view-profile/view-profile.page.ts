@@ -102,6 +102,10 @@ export class ViewProfilePage implements OnInit {
     this.apiService.get(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_SUCCESS
+        );
         this.modalCtrl.dismiss();
         this.logout();
       } else {
