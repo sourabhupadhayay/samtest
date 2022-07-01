@@ -27,7 +27,7 @@ ion-content {
         position: fixed;
         right: 0;
         top: 0;
-        z-index: 1;
+        z-index: 3;
       }
       /* KEYFRAMES */
 
@@ -716,6 +716,7 @@ ion-content {
     display: inline-block;
     height: 130px;
     width: 130px;
+    z-index: 1;
     img {
       max-width: 100%;
     }
