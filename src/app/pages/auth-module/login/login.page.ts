@@ -78,6 +78,7 @@ export class LoginPage implements OnInit {
           response.status.description,
           this.coreService.TOAST_SUCCESS
         );
+
         Storage.set({
           key: "userDetails",
           value: JSON.stringify(response.data),
@@ -114,7 +115,15 @@ export class LoginPage implements OnInit {
           key: "userDetails",
           value: JSON.stringify(response.data),
         }).then(() => {
-          this.router.navigateByUrl(this.returnUrl);
+          if (!response.data.birthDate) {
+            this.router.navigate(["/home/user/edit-profile"], {
+              queryParams: {
+                isProfileComplete: false,
+              },
+            });
+          } else {
+            this.router.navigateByUrl(this.returnUrl);
+          }
         });
       } else {
         this.coreService.showToastMessage(

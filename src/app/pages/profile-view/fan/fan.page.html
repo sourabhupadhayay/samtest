@@ -24,7 +24,16 @@
     <div class="profile-part">
       <ion-item lines="none">
         <ion-avatar slot="start">
-          <img [src]="fanData?.profileUrl | profile" />
+          <ng-container *ngIf="fanData?.profileUrl !== '' ">
+            <img [src]="fanData?.profileUrl | profile" />
+          </ng-container>
+          <ng-container *ngIf="fanData?.profileUrl == '' ">
+            <div class="inital">
+              <span class="initial__span">
+                {{nameInitials}}
+              </span>
+            </div>
+          </ng-container>
         </ion-avatar>
         <ion-label>
           <h5>{{fanData?.fullName}}</h5>
