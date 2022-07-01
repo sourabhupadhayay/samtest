@@ -205,6 +205,7 @@ export class EditProfilePage implements OnInit {
         );
         this.commonService.$profileSubject.next();
         this.router.navigateByUrl("/tabs/profile");
+        this.isUserProfileComplete = true;
       } else {
         this.coreService.showToastMessage(
           response.status.description,
@@ -284,6 +285,8 @@ export class EditProfilePage implements OnInit {
   }
 
   cancelEditProfile() {
+    console.log(this.isUserProfileComplete);
+    debugger;
     if (this.isUserProfileComplete) {
       this.router.navigate(["/tabs/profile"]);
     } else {
