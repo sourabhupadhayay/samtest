@@ -1,10 +1,9 @@
-import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
-import { Router } from "@angular/router";
+import { ActivatedRoute, Params, Router } from "@angular/router";
 import { Photo } from "@capacitor/camera";
 import { ActionSheetController, ModalController } from "@ionic/angular";
-import { format, parseISO } from "date-fns";
 
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
@@ -18,6 +17,7 @@ import { CommonService } from "src/app/providers/common.service";
   styleUrls: ["./edit-profile.page.scss"],
 })
 export class EditProfilePage implements OnInit {
+  // @ViewChild(IonModal) modal: IonModal;
   fanProfileForm: FormGroup;
   athleteProfileForm: FormGroup;
   currentDate: string = new Date().toISOString();
@@ -28,6 +28,7 @@ export class EditProfilePage implements OnInit {
   loggedInUserData: any;
   nameInitials: string;
   currentUserRole: "fan" | "athlete";
+  isUserProfileComplete: boolean = true;
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -37,14 +38,15 @@ export class EditProfilePage implements OnInit {
     private formBuilder: FormBuilder,
     private commonService: CommonService,
     public actionSheetController: ActionSheetController,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {}
 
   ionViewWillEnter() {
-    this.getCurrentUserDetails();
     this.getUserDataFromStorage();
+    this.isUserFromSocialLogIn();
   }
 
   async getUserDataFromStorage() {
@@ -54,6 +56,7 @@ export class EditProfilePage implements OnInit {
       this.loggedInUserData.roles
     );
     this.initForm();
+    this.getCurrentUserDetails();
   }
   initForm() {
     if (this.currentUserRole == "fan") {
@@ -61,6 +64,16 @@ export class EditProfilePage implements OnInit {
     } else {
       this.initAthleteForm();
     }
+  }
+
+  isUserFromSocialLogIn() {
+    this.route.queryParams.subscribe((params: Params) => {
+      if (!params.isProfileComplete) {
+        return;
+      }
+      this.isUserProfileComplete = params.isProfileComplete;
+      console.log(this.isUserProfileComplete);
+    });
   }
 
   initFanForm() {
@@ -242,6 +255,7 @@ export class EditProfilePage implements OnInit {
         "Please enter valid details",
         this.coreService.TOAST_ERROR
       );
+      this.modalCtrl.dismiss();
       return true;
     }
   }
@@ -253,7 +267,16 @@ export class EditProfilePage implements OnInit {
         "age of user must be greater than 18",
         this.coreService.TOAST_ERROR
       );
+      this.modalCtrl.dismiss();
       return true;
+    }
+  }
+
+  cancelEditProfile() {
+    if (!this.isUserProfileComplete) {
+      this.router.navigate(["/tabs/profile"]);
+    } else {
+      this.logout();
     }
   }
 
@@ -291,5 +314,28 @@ export class EditProfilePage implements OnInit {
 
   onclick_cancel(): void {
     this.modalCtrl.dismiss();
+  }
+
+  logout() {
+    let request: Request = {
+      path: "auth/users/logout",
+      isAuth: true,
+    };
+    this.coreService.presentLoader(this.constantService.WAIT);
+    this.apiService.get(request).subscribe((response: Response) => {
+      this.modalCtrl.dismiss();
+      this.coreService.dismissLoader();
+      if (response.status.code === this.constantService.STATUS_OK) {
+        Storage.clear().then(() => {
+          localStorage.removeItem("authDetail");
+          this.router.navigate(["/auth/login"]);
+        });
+      } else {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_ERROR
+        );
+      }
+    });
   }
 }

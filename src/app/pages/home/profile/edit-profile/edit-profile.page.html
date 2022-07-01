@@ -3,6 +3,7 @@
     <div class="title-part">
       <ion-item lines="none">
         <ion-icon
+          *ngIf="!isUserProfileComplete"
           routerLink="/tabs/profile"
           slot="start"
           name="arrow-back-outline"
@@ -214,7 +215,7 @@
 
 <ion-footer mode="ios">
   <ion-toolbar mode="ios">
-    <ion-button routerLink="/tabs/profile" class="white-btn">
+    <ion-button (click)=" cancelEditProfile()" class="white-btn">
       <img src="assets/icon/close-icon.png" />
     </ion-button>
     <ion-button id="edit-modal" class="white-btn">
