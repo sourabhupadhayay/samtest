@@ -51,31 +51,13 @@ export class ViewProfilePage implements OnInit {
   async getUserDataFromStorage() {
     const { value } = await Storage.get({ key: "userDetails" });
     this.loggedInUserData = JSON.parse(value);
-    this.currentUserRole = this.getUserType(this.loggedInUserData.roles);
+    this.currentUserRole = this.commonService.getUserType(
+      this.loggedInUserData.roles
+    );
   }
 
   onclick_cancel(): void {
     this.modalCtrl.dismiss();
-  }
-
-  getInitials(fullName: String) {
-    let splitName = fullName.split(" ");
-    let firstName = splitName[0];
-    let lastName = splitName[1];
-    if (lastName) {
-      this.nameInitials = firstName[0] + lastName[0];
-    } else {
-      this.nameInitials = firstName[0];
-    }
-  }
-
-  getUserType(userRole: string[]): "athlete" | "fan" {
-    let isAthlete = userRole.some((role) => role === "ATHLETE");
-    if (isAthlete) {
-      return "athlete";
-    } else {
-      return "fan";
-    }
   }
 
   getCurrentUserDetails() {
@@ -89,7 +71,9 @@ export class ViewProfilePage implements OnInit {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
         this.userData = response.data;
-        this.getInitials(this.userData.fullName);
+        this.nameInitials = this.commonService.getInitials(
+          this.userData.fullName
+        );
       } else {
         this.coreService.showToastMessage(
           response.status.description,

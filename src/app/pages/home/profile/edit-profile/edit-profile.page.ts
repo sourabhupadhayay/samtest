@@ -47,19 +47,20 @@ export class EditProfilePage implements OnInit {
     this.getUserDataFromStorage();
   }
 
+  async getUserDataFromStorage() {
+    const { value } = await Storage.get({ key: "userDetails" });
+    this.loggedInUserData = JSON.parse(value);
+    this.currentUserRole = this.commonService.getUserType(
+      this.loggedInUserData.roles
+    );
+    this.initForm();
+  }
   initForm() {
     if (this.currentUserRole == "fan") {
       this.initFanForm();
     } else {
       this.initAthleteForm();
     }
-  }
-
-  async getUserDataFromStorage() {
-    const { value } = await Storage.get({ key: "userDetails" });
-    this.loggedInUserData = JSON.parse(value);
-    this.currentUserRole = this.getUserType(this.loggedInUserData.roles);
-    this.initForm();
   }
 
   initFanForm() {
@@ -92,7 +93,9 @@ export class EditProfilePage implements OnInit {
     this.apiService.get(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
-        this.getInitials(response.data.fullName);
+        this.nameInitials = this.commonService.getInitials(
+          response.data.fullName
+        );
         this.profileUrl = response.data.profileUrl;
         this.patchFormData(response.data);
       } else {
@@ -114,7 +117,6 @@ export class EditProfilePage implements OnInit {
   }
 
   async selectImage() {
-    // await this.coreService.getCameraPermission();
     this.selectedImage = await this.coreService.captureImage();
     let blob = await fetch(this.selectedImage.webPath).then((r) => r.blob());
 
@@ -225,28 +227,13 @@ export class EditProfilePage implements OnInit {
     return request;
   }
 
-  formatDate(value: string) {
-    return format(parseISO(value), "MM/dd/yyyy");
-  }
-
   patchDateValue(date: string) {
     if (!date) {
       return;
     }
-    let formattedDate = this.formatDate(date);
+    let formattedDate = this.commonService.formatDate(date);
 
     this.fanProfileForm.controls.birthDate.patchValue(formattedDate);
-  }
-
-  getInitials(fullName: String) {
-    let splitName = fullName.split(" ");
-    let firstName = splitName[0];
-    let lastName = splitName[1];
-    if (lastName) {
-      this.nameInitials = firstName[0] + lastName[0];
-    } else {
-      this.nameInitials = firstName[0];
-    }
   }
 
   isFormValid(): boolean {
@@ -260,7 +247,7 @@ export class EditProfilePage implements OnInit {
   }
   validateAge(): boolean {
     let selectedDate = new Date(this.fanProfileForm.controls.birthDate.value);
-    let age = this._calculateAge(selectedDate);
+    let age = this.commonService._calculateAge(selectedDate);
     if (age <= 18) {
       this.coreService.showToastMessage(
         "age of user must be greater than 18",
@@ -268,12 +255,6 @@ export class EditProfilePage implements OnInit {
       );
       return true;
     }
-  }
-  private _calculateAge(birthday: Date) {
-    // birthday is a date
-    var ageDifMs = Date.now() - birthday.getTime();
-    var ageDate = new Date(ageDifMs); // miliseconds from epoch
-    return Math.abs(ageDate.getUTCFullYear() - 1970);
   }
 
   async presentProfileActionSheet() {
@@ -306,14 +287,6 @@ export class EditProfilePage implements OnInit {
     });
 
     await actionSheet.present();
-  }
-  getUserType(userRole: string[]): "athlete" | "fan" {
-    let isAthlete = userRole.some((role) => role === "ATHLETE");
-    if (isAthlete) {
-      return "athlete";
-    } else {
-      return "fan";
-    }
   }
 
   onclick_cancel(): void {
