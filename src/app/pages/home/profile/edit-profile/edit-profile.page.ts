@@ -3,7 +3,11 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { Photo } from "@capacitor/camera";
-import { ActionSheetController, ModalController } from "@ionic/angular";
+import {
+  ActionSheetController,
+  IonModal,
+  ModalController,
+} from "@ionic/angular";
 
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
@@ -17,7 +21,7 @@ import { CommonService } from "src/app/providers/common.service";
   styleUrls: ["./edit-profile.page.scss"],
 })
 export class EditProfilePage implements OnInit {
-  // @ViewChild(IonModal) modal: IonModal;
+  @ViewChild("editModal") modal: IonModal;
   fanProfileForm: FormGroup;
   athleteProfileForm: FormGroup;
   currentDate: string = new Date().toISOString();
@@ -71,9 +75,10 @@ export class EditProfilePage implements OnInit {
       if (!params.isProfileComplete) {
         return;
       }
-      this.isUserProfileComplete = params.isProfileComplete;
-      console.log(this.isUserProfileComplete);
+
+      this.isUserProfileComplete = JSON.parse(params.isProfileComplete);
     });
+    this.cd.detectChanges();
   }
 
   initFanForm() {
@@ -208,11 +213,6 @@ export class EditProfilePage implements OnInit {
   }
 
   fanDataRequest(): Request {
-    this.isFormSubmitted = true;
-
-    if (this.isFormValid()) return;
-    if (this.validateAge()) return;
-
     let { birthDate, ...signUpResponse } = this.fanProfileForm.value;
 
     let request: Request = {
@@ -225,6 +225,15 @@ export class EditProfilePage implements OnInit {
       isAuth: true,
     };
     return request;
+  }
+
+  presentModal() {
+    if (this.currentUserRole == "fan") {
+      this.isFormSubmitted = true;
+      if (this.isFormValid()) return;
+      if (this.validateAge()) return;
+    }
+    this.modal.present();
   }
 
   athleteDataRequest(): Request {
@@ -255,7 +264,7 @@ export class EditProfilePage implements OnInit {
         "Please enter valid details",
         this.coreService.TOAST_ERROR
       );
-      this.modalCtrl.dismiss();
+
       return true;
     }
   }
@@ -267,13 +276,13 @@ export class EditProfilePage implements OnInit {
         "age of user must be greater than 18",
         this.coreService.TOAST_ERROR
       );
-      this.modalCtrl.dismiss();
+
       return true;
     }
   }
 
   cancelEditProfile() {
-    if (!this.isUserProfileComplete) {
+    if (this.isUserProfileComplete) {
       this.router.navigate(["/tabs/profile"]);
     } else {
       this.logout();

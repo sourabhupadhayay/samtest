@@ -3,11 +3,12 @@
     <div class="title-part">
       <ion-item lines="none">
         <ion-icon
-          *ngIf="!isUserProfileComplete"
+          *ngIf="isUserProfileComplete"
           routerLink="/tabs/profile"
           slot="start"
           name="arrow-back-outline"
         ></ion-icon>
+
         <ion-label>
           <ion-grid class="logo-head">
             <img src="assets/images/single-logo.svg" />
@@ -218,12 +219,12 @@
     <ion-button (click)=" cancelEditProfile()" class="white-btn">
       <img src="assets/icon/close-icon.png" />
     </ion-button>
-    <ion-button id="edit-modal" class="white-btn">
+    <ion-button (click)="presentModal()" class="white-btn">
       <img src="assets/icon/right-icon.png" />
     </ion-button>
   </ion-toolbar>
 </ion-footer>
-<ion-modal trigger="edit-modal" class="small-modal">
+<ion-modal #editModal class="small-modal">
   <ng-template>
     <ion-header mode="md">
       <h3>Edit Profile</h3>
