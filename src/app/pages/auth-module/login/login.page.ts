@@ -54,7 +54,6 @@ export class LoginPage implements OnInit {
   ionViewWillEnter() {
     this.returnUrl =
       this.route.snapshot.queryParams["returnUrl"] || "/tabs/home";
-    console.log(this.returnUrl);
   }
 
   showPasswordToggle() {
