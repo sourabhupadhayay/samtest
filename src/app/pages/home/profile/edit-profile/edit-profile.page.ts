@@ -287,7 +287,7 @@ export class EditProfilePage implements OnInit {
     if (this.isUserProfileComplete) {
       this.router.navigate(["/tabs/profile"]);
     } else {
-      this.logout();
+      this.deleteAccount();
     }
   }
 
@@ -341,6 +341,30 @@ export class EditProfilePage implements OnInit {
           localStorage.removeItem("authDetail");
           this.router.navigate(["/auth/login"]);
         });
+      } else {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_ERROR
+        );
+      }
+    });
+  }
+  deleteAccount() {
+    let request: Request = {
+      path: "auth/users/manage/delete/" + this.loggedInUserData.id,
+      isAuth: true,
+    };
+
+    this.coreService.presentLoader(this.constantService.WAIT);
+    this.apiService.get(request).subscribe((response: Response) => {
+      this.coreService.dismissLoader();
+      if (response.status.code === this.constantService.STATUS_OK) {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_SUCCESS
+        );
+        this.modalCtrl.dismiss();
+        this.logout();
       } else {
         this.coreService.showToastMessage(
           response.status.description,
