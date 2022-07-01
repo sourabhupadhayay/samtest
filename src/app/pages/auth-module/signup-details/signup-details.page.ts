@@ -47,9 +47,7 @@ export class SignupDetailsPage implements OnInit {
     private constantService: ConstantService,
     private router: Router,
     private common: AuthModuleService
-  ) {
-    console.log("working");
-  }
+  ) {}
 
   ngOnInit() {
     this.initForm();
@@ -65,10 +63,7 @@ export class SignupDetailsPage implements OnInit {
 
   initForm() {
     this.signUpDetailsForm = this.formBuilder.group({
-      fullName: [
-        null,
-        [Validators.required, Validators.pattern("^[a-zA-Z ]*$")],
-      ],
+      fullName: [null, [Validators.required]],
       email: [{ value: null, disabled: true }],
       password: [null, Validators.required],
       birthDate: [null, Validators.required],
