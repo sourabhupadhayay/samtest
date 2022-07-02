@@ -9,7 +9,7 @@
         <img src="assets/icon/tabs-main.png" />
       </ion-tab-button>
 
-      <ion-tab-button tab="profile" class="profile" mode="md">
+      <ion-tab-button data-cy="profile" tab="profile" class="profile" mode="md">
         <span *ngIf="userData?.profileUrl !==''">
           <img [src]="userData?.profileUrl | profile" />
         </span>

@@ -17,6 +17,14 @@ Cypress.Commands.add("login", (email: string, password) => {
   cy.get("input[type=password]").type(password);
   cy.get("#submitBtn").click();
 });
+Cypress.Commands.add("logout", () => {
+  cy.visit("/tabs/profile");
+
+  cy.get('[data-cy="logout-modal"]').click();
+
+  cy.get('[data-cy="logout"]').click();
+  cy.visit("/auth/login");
+});
 //
 //
 // -- This is a child command --

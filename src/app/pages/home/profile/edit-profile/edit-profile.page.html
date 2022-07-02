@@ -76,7 +76,11 @@
             <ion-label position="stacked"
               >Full name <span class="red">*</span>
             </ion-label>
-            <ion-input formControlName="fullName" type="text"></ion-input>
+            <ion-input
+              data-cy="fullName"
+              formControlName="fullName"
+              type="text"
+            ></ion-input>
           </ion-item>
           <div
             *ngIf="isFormSubmitted && fanProfileForm.controls.fullName.invalid"
@@ -90,6 +94,7 @@
           <ion-item lines="none">
             <ion-label position="stacked">Phone no.</ion-label>
             <ion-input
+              data-cy="phone"
               type="text"
               appPhoneMask
               formControlName="phone"
@@ -144,19 +149,31 @@
         <div class="input-box">
           <ion-item lines="none">
             <ion-label position="stacked">Team</ion-label>
-            <ion-input formControlName="teamName" type="text"></ion-input>
+            <ion-input
+              data-cy="team"
+              formControlName="teamName"
+              type="text"
+            ></ion-input>
           </ion-item>
         </div>
         <div class="input-box">
           <ion-item lines="none">
             <ion-label position="stacked">Country</ion-label>
-            <ion-input formControlName="country" type="text"></ion-input>
+            <ion-input
+              data-cy="country"
+              formControlName="country"
+              type="text"
+            ></ion-input>
           </ion-item>
         </div>
         <div class="input-box">
           <ion-item lines="none">
             <ion-label position="stacked">Team state</ion-label>
-            <ion-input formControlName="teamState" type="text"></ion-input>
+            <ion-input
+              data-cy="state"
+              formControlName="teamState"
+              type="text"
+            ></ion-input>
           </ion-item>
         </div>
       </div>
@@ -227,7 +244,11 @@
     <ion-button (click)=" cancelEditProfile()" class="white-btn">
       <img src="assets/icon/close-icon.png" />
     </ion-button>
-    <ion-button (click)="presentModal()" class="white-btn">
+    <ion-button
+      data-cy="submit-info"
+      (click)="presentModal()"
+      class="white-btn"
+    >
       <img src="assets/icon/right-icon.png" />
     </ion-button>
   </ion-toolbar>
@@ -249,7 +270,11 @@
         <ion-button class="white-btn" (click)="onclick_cancel()">
           <img src="assets/icon/close-icon.png" />
         </ion-button>
-        <ion-button (click)="onSubmit()" class="white-btn">
+        <ion-button
+          data-cy="submit-modal"
+          (click)="onSubmit()"
+          class="white-btn"
+        >
           <img src="assets/icon/right-icon.png" />
         </ion-button>
       </ion-toolbar>

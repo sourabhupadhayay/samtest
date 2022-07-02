@@ -7,5 +7,6 @@ declare namespace Cypress {
      * @example cy.clickOnMyJourneyInCandidateCabinet()
      */
     login(email, password): void;
+    logout(): void;
   }
 }

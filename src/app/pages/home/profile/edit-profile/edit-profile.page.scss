@@ -200,6 +200,7 @@ ion-content {
             margin: 0 0 6px;
           }
           ion-input {
+            pointer-events: all;
             --background: var(--white-clr);
             border-radius: 10px;
             border: 1px solid var(--theme-one-bg);
@@ -254,7 +255,8 @@ ion-content {
 
 ion-footer {
   background: transparent;
-  ion-toolbar {padding-bottom: 3px;
+  ion-toolbar {
+    padding-bottom: 3px;
     --border-width: 0;
     --padding-start: 10px;
     --padding-end: 10px;
