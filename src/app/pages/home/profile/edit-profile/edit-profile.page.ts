@@ -285,8 +285,6 @@ export class EditProfilePage implements OnInit {
   }
 
   cancelEditProfile() {
-    console.log(this.isUserProfileComplete);
-    debugger;
     if (this.isUserProfileComplete) {
       this.router.navigate(["/tabs/profile"]);
     } else {
