@@ -66,21 +66,21 @@ export class ViewProfilePage implements OnInit {
       path: "auth/users/currentUser",
       isAuth: true,
     };
-    this.coreService.presentLoader(this.constantService.WAIT);
-
-    this.apiService.get(request).subscribe((response: Response) => {
-      this.coreService.dismissLoader().then(() => {
-        if (response.status.code === this.constantService.STATUS_OK) {
-          this.userData = response.data;
-          this.nameInitials = this.commonService.getInitials(
-            this.userData.fullName
-          );
-        } else {
-          this.coreService.showToastMessage(
-            response.status.description,
-            this.coreService.TOAST_ERROR
-          );
-        }
+    this.coreService.presentLoader(this.constantService.WAIT).then(() => {
+      this.apiService.get(request).subscribe((response: Response) => {
+        this.coreService.dismissLoader().then(() => {
+          if (response.status.code === this.constantService.STATUS_OK) {
+            this.userData = response.data;
+            this.nameInitials = this.commonService.getInitials(
+              this.userData.fullName
+            );
+          } else {
+            this.coreService.showToastMessage(
+              response.status.description,
+              this.coreService.TOAST_ERROR
+            );
+          }
+        });
       });
     });
   }
