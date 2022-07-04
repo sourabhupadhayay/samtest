@@ -83,12 +83,11 @@ export class CoreService {
 
   async dismissLoader() {
     this.isLoading = false;
-    return await this.loadingController.dismiss();
-    // this.loadingController.getTop().then(async (value) => {
-    //   console.log(value);
-    //   if (value) {
-    //   }
-    // });
+    this.loadingController.getTop().then(async (value) => {
+      if (value) {
+        return await this.loadingController.dismiss();
+      }
+    });
     // console.log(topLoader);
     // if (topLoader) {
     //   return await this.loadingController.dismiss();
