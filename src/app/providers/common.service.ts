@@ -7,6 +7,7 @@ import { Subject } from "rxjs";
 })
 export class CommonService {
   public $profileSubject: Subject<null> = new Subject();
+  profileUrl: string = "";
 
   constructor() {}
 

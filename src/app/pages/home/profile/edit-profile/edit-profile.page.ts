@@ -25,7 +25,6 @@ export class EditProfilePage implements OnInit {
   fanProfileForm: FormGroup;
   athleteProfileForm: FormGroup;
   currentDate: string = new Date().toISOString();
-  profileUrl: string = "";
   isFormSubmitted: boolean = false;
   // ProfileImageBlob: SafeUrl | null | string = null;
   selectedImage: Photo | null = null;
@@ -40,8 +39,7 @@ export class EditProfilePage implements OnInit {
     private constantService: ConstantService,
     private router: Router,
     private formBuilder: FormBuilder,
-    private commonService: CommonService,
-    public actionSheetController: ActionSheetController,
+    public commonService: CommonService,
     private cd: ChangeDetectorRef,
     private route: ActivatedRoute
   ) {}
@@ -59,6 +57,7 @@ export class EditProfilePage implements OnInit {
     this.currentUserRole = this.commonService.getUserType(
       this.loggedInUserData.roles
     );
+
     this.initForm();
     this.getCurrentUserDetails();
   }
@@ -116,7 +115,7 @@ export class EditProfilePage implements OnInit {
         this.nameInitials = this.commonService.getInitials(
           response.data.fullName
         );
-        this.profileUrl = response.data.profileUrl;
+        this.commonService.profileUrl = response.data.profileUrl;
         this.patchFormData(response.data);
       } else {
         this.coreService.showToastMessage(
@@ -136,46 +135,8 @@ export class EditProfilePage implements OnInit {
     }
   }
 
-  async selectImage() {
-    this.selectedImage = await this.coreService.captureImage();
-
-    let blob = await fetch(this.selectedImage.webPath).then((r) => r.blob());
-
-    let imageSize = this.coreService.formatBytes(blob.size);
-    if (imageSize > 5) {
-      this.coreService.showToastMessage(
-        "please upload image that is under 5 mb ",
-        this.coreService.TOAST_WARNING
-      );
-      this.selectedImage = null;
-      return;
-    }
-
-    this.uploadImageToServer(blob, this.selectedImage.format);
-  }
-
-  async getImageFromGallery() {
-    let photosArray = await this.coreService.pickImage();
-    let image = photosArray.photos[0];
-    let blob = await fetch(image.webPath).then((r) => r.blob());
-    let imageSize = this.coreService.formatBytes(blob.size);
-    if (imageSize > 5) {
-      this.coreService.showToastMessage(
-        "please upload image that is under 5 mb ",
-        this.coreService.TOAST_WARNING
-      );
-      return;
-    }
-    console.log(blob);
-    console.log(image);
-    this.uploadImageToServer(blob, image.format);
-  }
-
   removeImage() {
-    this.selectedImage = null;
-    // this.ProfileImageBlob = null;
-    this.profileUrl = "";
-    this.cd.detectChanges();
+    this.coreService.removeImage();
   }
 
   uploadImageToServer(imageBlob: Blob, imageFormat: string) {
@@ -193,7 +154,7 @@ export class EditProfilePage implements OnInit {
     this.coreService.presentLoader(this.constantService.WAIT);
     this.apiService.postImage(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
-      this.profileUrl = response.data.url;
+      this.commonService.profileUrl = response.data.url;
       this.cd.detectChanges();
     });
   }
@@ -238,7 +199,7 @@ export class EditProfilePage implements OnInit {
       data: {
         ...signUpResponse,
         birthDate: new Date(birthDate).toISOString(),
-        profileUrl: this.profileUrl,
+        profileUrl: this.commonService.profileUrl,
       },
       isAuth: true,
     };
@@ -259,8 +220,7 @@ export class EditProfilePage implements OnInit {
       path: "auth/users/update",
       data: {
         ...this.athleteProfileForm.value,
-
-        profileUrl: this.profileUrl,
+        profileUrl: this.commonService.profileUrl,
       },
       isAuth: true,
     };
@@ -308,42 +268,7 @@ export class EditProfilePage implements OnInit {
   }
 
   async presentProfileActionSheet() {
-    const actionSheet = await this.actionSheetController.create({
-      header: "Change profile pic",
-      animated: true,
-      buttons: [
-        {
-          text: "Choose profile picture",
-          icon: "camera-outline",
-          handler: () => {
-            this.selectImage();
-          },
-        },
-        {
-          text: "Choose from gallery",
-          icon: "image-outline",
-          handler: () => {
-            this.getImageFromGallery();
-          },
-        },
-        {
-          text: "Remove profile picture",
-          role: "destructive",
-
-          icon: "trash",
-          handler: () => {
-            this.removeImage();
-          },
-        },
-        {
-          text: "Cancel",
-          icon: "close",
-          role: "cancel",
-        },
-      ],
-    });
-
-    await actionSheet.present();
+    this.coreService.changeProfile();
   }
 
   onclick_cancel(): void {

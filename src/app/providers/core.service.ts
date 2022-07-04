@@ -16,7 +16,7 @@ import {
 import { LoadingOptions, ToastOptions } from "@ionic/core";
 import { CommonService } from "./common.service";
 import { ConstantService } from "./constant.service";
-import { DataService } from "./data.service";
+import { DataService, Request, Response } from "./data.service";
 import { Subject, Subscription } from "rxjs";
 @Injectable({
   providedIn: "root",
@@ -39,7 +39,8 @@ export class CoreService {
     private actionSheetCtrl: ActionSheetController,
     private commonService: CommonService,
     private dataService: DataService,
-    private constant: ConstantService
+    private constant: ConstantService,
+    private actionSheetController: ActionSheetController
   ) {}
 
   async showToast(message: string): Promise<void> {
@@ -142,26 +143,79 @@ export class CoreService {
   }
 
   async changeProfile() {
-    const actionSheet: HTMLIonActionSheetElement = await this.actionSheetCtrl.create(
-      {
-        header: "Select Option",
-        buttons: [
-          {
-            text: "Load from Library",
-            handler: (): void => {
-              this.pickImage();
-            },
+    const actionSheet = await this.actionSheetController.create({
+      header: "Change profile pic",
+      animated: true,
+      buttons: [
+        {
+          text: "Choose profile picture",
+          icon: "camera-outline",
+          handler: () => {
+            this.selectImage();
           },
-          {
-            text: "Use Camera",
-            handler: (): void => {
-              this.captureImage();
-            },
+        },
+        {
+          text: "Choose from gallery",
+          icon: "image-outline",
+          handler: () => {
+            this.getImageFromGallery();
           },
-        ],
-      }
-    );
-    await actionSheet.present();
+        },
+        {
+          text: "Remove profile picture",
+          role: "destructive",
+
+          icon: "trash",
+          handler: () => {
+            this.removeImage();
+          },
+        },
+        {
+          text: "Cancel",
+          icon: "close",
+          role: "cancel",
+        },
+      ],
+    });
+
+    return await actionSheet.present();
+  }
+
+  removeImage() {
+    this.commonService.profileUrl = "";
+  }
+
+  async selectImage() {
+    let image = await this.captureImage();
+
+    let blob = await fetch(image.webPath).then((r) => r.blob());
+
+    let imageSize = this.formatBytes(blob.size);
+    if (imageSize > 5) {
+      this.showToastMessage(
+        "please upload image that is under 5 mb ",
+        this.TOAST_WARNING
+      );
+
+      return;
+    }
+
+    this.uploadImageToServer(blob, image.format);
+  }
+  async getImageFromGallery() {
+    let photosArray = await this.pickImage();
+    let image = photosArray.photos[0];
+    let blob = await fetch(image.webPath).then((r) => r.blob());
+    let imageSize = this.formatBytes(blob.size);
+    if (imageSize > 5) {
+      this.showToastMessage(
+        "please upload image that is under 5 mb ",
+        this.TOAST_WARNING
+      );
+      return;
+    }
+
+    this.uploadImageToServer(blob, image.format);
   }
   b6toBlob(b64Data: string): Blob {
     let contentType = "";
@@ -262,12 +316,23 @@ export class CoreService {
   //     });
   // }
 
-  async getCameraPermission() {
-    let permissionStatus = await Camera.checkPermissions();
-    if (permissionStatus.photos == "limited") {
-      await Camera.requestPermissions();
+  uploadImageToServer(imageBlob: Blob, imageFormat: string) {
+    if (!imageBlob) {
+      return;
     }
-    await Camera.requestPermissions();
+    let imageFormData: FormData = new FormData();
+    imageFormData.append("file", imageBlob, `profile.${imageFormat}`);
+
+    let request: Request = {
+      path: "auth/file/upload/profile",
+      data: imageFormData,
+      isAuth: true,
+    };
+    this.presentLoader(this.constant.WAIT);
+    this.dataService.postImage(request).subscribe((response: Response) => {
+      this.dismissLoader();
+      this.commonService.profileUrl = response.data.url;
+    });
   }
 
   formatBytes(bytes, decimals = 2) {
