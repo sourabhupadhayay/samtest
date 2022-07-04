@@ -37,7 +37,7 @@ export class CoreService {
     private loadingController: LoadingController,
     public alertController: AlertController,
     private actionSheetCtrl: ActionSheetController,
-
+    private commonService: CommonService,
     private dataService: DataService,
     private constant: ConstantService
   ) {}
@@ -246,7 +246,7 @@ export class CoreService {
   //     .imgUpload(this.constant.PROFILE_PICTURE_UPLOAD, params)
   //     .subscribe((response: any) => {
   //       if (response.status.code == this.constant.STATUS_OK) {
-  //         this.common.profileUrl = response.data;
+  // this.common.profileUrl = response.data;
   //         this.dismissLoader();
   //         this.showToastMessage(
   //           response.status.description,

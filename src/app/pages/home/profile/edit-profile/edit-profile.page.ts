@@ -28,7 +28,7 @@ export class EditProfilePage implements OnInit {
   profileUrl: string = "";
   isFormSubmitted: boolean = false;
   // ProfileImageBlob: SafeUrl | null | string = null;
-  selectedImage: Photo | GalleryPhotos | null = null;
+  selectedImage: Photo | null = null;
   loggedInUserData: any;
   nameInitials: string;
   currentUserRole: "fan" | "athlete";
