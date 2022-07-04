@@ -23,8 +23,8 @@
         </div>
       </ion-item>
     </div>
-    <div *ngIf="profileUrl !== ''" class="profile-part">
-      <img [src]="profileUrl | profile" />
+    <div *ngIf="commonService.profileUrl !== ''" class="profile-part">
+      <img [src]="commonService.profileUrl | profile" />
 
       <div class="edit-btn">
         <ion-button (click)="presentProfileActionSheet()">
@@ -35,8 +35,7 @@
         </ion-button>
       </div>
     </div>
-    <div *ngIf="profileUrl ==''" class="profile-part">
-      <!-- <img [src]="profileUrl | profile" /> -->
+    <div *ngIf="commonService.profileUrl ==''" class="profile-part">
       <div class="inital">
         <span class="initial__span">
           {{nameInitials}}
