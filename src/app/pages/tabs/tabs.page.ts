@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { CommonService } from "src/app/providers/common.service";
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
@@ -14,7 +15,8 @@ export class TabsPage implements OnInit {
   constructor(
     private coreService: CoreService,
     private apiService: DataService,
-    private constantService: ConstantService
+    private constantService: ConstantService,
+    public commonService: CommonService
   ) {}
 
   ngOnInit() {}
@@ -27,19 +29,20 @@ export class TabsPage implements OnInit {
       path: "auth/users/currentUser",
       isAuth: true,
     };
-    this.coreService.presentLoader(this.constantService.WAIT).then(() => {
-      this.apiService.get(request).subscribe((response: Response) => {
-        this.coreService.dismissLoader();
-        if (response.status.code === this.constantService.STATUS_OK) {
-          this.userData = response.data;
-          this.getInitials(this.userData.fullName);
-        } else {
-          this.coreService.showToastMessage(
-            response.status.description,
-            this.coreService.TOAST_ERROR
-          );
-        }
-      });
+    this.coreService.presentLoader(this.constantService.WAIT);
+
+    this.apiService.get(request).subscribe((response: Response) => {
+      this.coreService.dismissLoader();
+      if (response.status.code === this.constantService.STATUS_OK) {
+        this.userData = response.data;
+        this.getInitials(this.userData.fullName);
+        this.commonService.$profileSubject.next(response.data);
+      } else {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_ERROR
+        );
+      }
     });
   }
 

@@ -38,8 +38,11 @@ export class ViewProfilePage implements OnInit {
 
   isProfileUpdated() {
     this.profileSubscription = this.commonService.$profileSubject.subscribe(
-      () => {
-        this.getCurrentUserDetails();
+      (userData) => {
+        this.userData = userData;
+        this.nameInitials = this.commonService.getInitials(
+          this.userData.fullName
+        );
       }
     );
   }
