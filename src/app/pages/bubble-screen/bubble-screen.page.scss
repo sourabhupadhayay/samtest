@@ -1,4 +1,4 @@
-ion-content {
+ion-content {position: relative;
   .main-screen-bg {
     ion-header {
       ion-toolbar {
@@ -728,6 +728,37 @@ ion-content {
       font-weight: 700;
       margin-top: 25px;
       display: inline-block;
+    }
+  }
+  .login-btn{
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    display: inline-block;
+    z-index: 99;
+    width: auto;
+    text-align: center;
+    padding: 10px;
+    ion-button{
+      width: 85px;
+      height: 85px;
+      background: transparent;
+      --background: transparent;
+      border: 0;
+      --box-shadow: none;
+      outline: none;
+      margin: auto;
+      padding: 0;
+      --border-radius: 50%;
+      --padding-top: 0;
+      --padding-bottom: 0;
+      --padding-start: 0;
+      --padding-end: 0;
+      --background-activated: transparent;
+      --background-hover: transparent;
+      --background-focused: transparent;
     }
   }
 }
