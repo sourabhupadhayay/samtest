@@ -3,6 +3,8 @@ import {
   Camera,
   CameraResultType,
   CameraSource,
+  GalleryImageOptions,
+  GalleryPhotos,
   Photo,
 } from "@capacitor/camera";
 import {
@@ -94,11 +96,12 @@ export class CoreService {
 
   async dismissLoader() {
     this.isLoading = false;
-    this.loadingController.getTop().then(async (value) => {
-      if (value) {
-        return await this.loadingController.dismiss();
-      }
-    });
+    return await this.loadingController.dismiss();
+    // this.loadingController.getTop().then(async (value) => {
+    //   console.log(value);
+    //   if (value) {
+    //   }
+    // });
     // console.log(topLoader);
     // if (topLoader) {
     //   return await this.loadingController.dismiss();
@@ -219,35 +222,13 @@ export class CoreService {
     return image;
   }
 
-  async pickImage() {
-    // this.presentLoader(this.constant.UPLOADING);
-
-    const image = await Camera.getPhoto({
+  async pickImage(): Promise<GalleryPhotos> {
+    const image = await Camera.pickImages({
       quality: 90,
-      allowEditing: false,
-      resultType: CameraResultType.Base64,
-      source: CameraSource.Prompt,
+      limit: 1,
     });
 
     return image;
-    // this.camera.getPicture(options).then(
-    //   (imageData) => {
-    //     /*
-    //      * ImageData is either a base64 encoded string or a file URI
-    //      * If it's base64 (DATA_URL):
-    //      */
-
-    //     console.log(`==>>img ${imageData}`);
-    //     const img = `data:image/jpeg;base64,${imageData}`;
-    //     this.uploadImageToServer(img);
-    //     this.images = img;
-    //     console.log(`img ${imageData}`);
-    //   },
-    //   (err) => {
-    //     this.dismissLoader();
-    //     console.log(err);
-    //   }
-    // );
   }
 
   // uploadImageToServer(image) {

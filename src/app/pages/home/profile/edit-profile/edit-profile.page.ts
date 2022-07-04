@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 import { ActivatedRoute, Params, Router } from "@angular/router";
-import { Photo } from "@capacitor/camera";
+import { GalleryPhotos, Photo } from "@capacitor/camera";
 import {
   ActionSheetController,
   IonModal,
@@ -28,7 +28,7 @@ export class EditProfilePage implements OnInit {
   profileUrl: string = "";
   isFormSubmitted: boolean = false;
   // ProfileImageBlob: SafeUrl | null | string = null;
-  selectedImage: Photo | null = null;
+  selectedImage: Photo | GalleryPhotos | null = null;
   loggedInUserData: any;
   nameInitials: string;
   currentUserRole: "fan" | "athlete";
@@ -138,6 +138,7 @@ export class EditProfilePage implements OnInit {
 
   async selectImage() {
     this.selectedImage = await this.coreService.captureImage();
+
     let blob = await fetch(this.selectedImage.webPath).then((r) => r.blob());
 
     let imageSize = this.coreService.formatBytes(blob.size);
@@ -146,13 +147,28 @@ export class EditProfilePage implements OnInit {
         "please upload image that is under 5 mb ",
         this.coreService.TOAST_WARNING
       );
+      this.selectedImage = null;
       return;
     }
 
     this.uploadImageToServer(blob, this.selectedImage.format);
-    // this.ProfileImageBlob = this.DOMSanitizer.bypassSecurityTrustUrl(
-    //   this.selectedImage.webPath
-    // );
+  }
+
+  async getImageFromGallery() {
+    let photosArray = await this.coreService.pickImage();
+    let image = photosArray.photos[0];
+    let blob = await fetch(image.webPath).then((r) => r.blob());
+    let imageSize = this.coreService.formatBytes(blob.size);
+    if (imageSize > 5) {
+      this.coreService.showToastMessage(
+        "please upload image that is under 5 mb ",
+        this.coreService.TOAST_WARNING
+      );
+      return;
+    }
+    console.log(blob);
+    console.log(image);
+    this.uploadImageToServer(blob, image.format);
   }
 
   removeImage() {
@@ -163,10 +179,9 @@ export class EditProfilePage implements OnInit {
   }
 
   uploadImageToServer(imageBlob: Blob, imageFormat: string) {
-    if (!this.selectedImage) {
+    if (!imageBlob) {
       return;
     }
-
     let imageFormData: FormData = new FormData();
     imageFormData.append("file", imageBlob, `profile.${imageFormat}`);
 
@@ -299,9 +314,16 @@ export class EditProfilePage implements OnInit {
       buttons: [
         {
           text: "Choose profile picture",
-          icon: "image-outline",
+          icon: "camera-outline",
           handler: () => {
             this.selectImage();
+          },
+        },
+        {
+          text: "Choose from gallery",
+          icon: "image-outline",
+          handler: () => {
+            this.getImageFromGallery();
           },
         },
         {
