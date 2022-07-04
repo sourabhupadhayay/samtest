@@ -254,7 +254,7 @@ ion-content {
 }
 
 ion-footer {
-  background: transparent;
+  background: var(--theme-one-bg);
   ion-toolbar {
     padding-bottom: 3px;
     --border-width: 0;
