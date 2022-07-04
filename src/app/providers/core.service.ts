@@ -79,20 +79,6 @@ export class CoreService {
           }
         });
       });
-
-    // const loaderOpts: LoadingOptions = {
-    //   spinner: "crescent",
-    //   translucent: true,
-    //   cssClass: "my-loading-class",
-    //   animated: true,
-    //   keyboardClose: true,
-    //   showBackdrop: true,
-    //   backdropDismiss: false,
-    //   message,
-    // };
-    // this.loading = this.loadingController?.create(loaderOpts);
-    // (await this.loading)?.onDidDismiss().then((): any => (this.loading = null));
-    // return (await this.loading)?.present();
   }
 
   async dismissLoader() {
