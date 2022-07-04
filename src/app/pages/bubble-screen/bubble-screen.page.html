@@ -255,15 +255,16 @@
     <span>#NIL4ALL</span>
   </ion-grid>
 
-  <ion-fab vertical="bottom" horizontal="center" slot="fixed" mode="md">
-    <!-- id="trigger-button" -->
-    <ion-fab-button mode="md"
-      *ngIf="!authenticationService.isAuthenticated()"
-      routerLink="/auth/login"
-    >
+  <!-- <ion-fab vertical="bottom" horizontal="center" slot="fixed" mode="md">
+    <ion-fab-button mode="md" *ngIf="!authenticationService.isAuthenticated()" routerLink="/auth/login">
       <img src="assets/icon/login-btn.png" />
     </ion-fab-button>
-  </ion-fab>
+  </ion-fab> -->
+  <div class="login-btn">
+      <ion-button mode="md" *ngIf="!authenticationService.isAuthenticated()" routerLink="/auth/login">
+          <img src="assets/icon/login-btn.png" />
+      </ion-button>
+  </div>
 </ion-content>
 
 <!-- <ion-modal trigger="trigger-button" class="client-filter-modal">
