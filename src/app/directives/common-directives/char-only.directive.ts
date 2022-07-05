@@ -5,15 +5,16 @@ import { Directive, HostListener } from "@angular/core";
 })
 export class CharOnlyDirective {
   constructor() {}
-  @HostListener("textInput", ["$event"])
+  removeNonNumerics = (str: string) => str.replace(/[0-9]/g, "");
+  @HostListener("ionInput", ["$event"])
   onInput(event: any) {
-    var keyCode = event.data.charCodeAt(0);
     const pattern = /[A-Za-z ]/; //
-    let inputChar = String.fromCharCode(keyCode);
+    let inputChar = event.detail.data;
 
     if (!pattern.test(inputChar)) {
       // invalid character, prevent input
-      event.preventDefault();
+
+      event.target.value = this.removeNonNumerics(event.target.value);
       return false;
     }
     return true;
