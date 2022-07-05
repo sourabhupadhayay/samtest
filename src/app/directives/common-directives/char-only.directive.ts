@@ -5,12 +5,11 @@ import { Directive, HostListener } from "@angular/core";
 })
 export class CharOnlyDirective {
   constructor() {}
-  @HostListener("keypress", ["$event"])
+  @HostListener("textInput", ["$event"])
   onInput(event: any) {
+    var keyCode = event.data.charCodeAt(0);
     const pattern = /[A-Za-z ]/; //
-    let inputChar = String.fromCharCode(
-      event.which ? event.which : event.keyCode
-    );
+    let inputChar = String.fromCharCode(keyCode);
 
     if (!pattern.test(inputChar)) {
       // invalid character, prevent input
