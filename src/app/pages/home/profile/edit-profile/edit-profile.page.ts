@@ -159,8 +159,6 @@ export class EditProfilePage implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.fanProfileForm.value);
-    return;
     let request: Request;
 
     if (this.currentUserRole == "fan") {
