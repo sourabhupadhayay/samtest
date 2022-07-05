@@ -270,9 +270,11 @@ ion-footer {
       --background-hover: transparent;
       --background-activated: transparent;
       --box-shadow: none;
-      --padding-start: 0.5rem;
-      --padding-end: 0.5rem;
+      --padding-start: 0rem;
+      --padding-end: 0rem;
       margin-bottom: 10px;
+      margin-left: 8px;
+      margin-right: 8px;
       img {
         width: 40px;
         height: 40px;
