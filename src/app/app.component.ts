@@ -15,6 +15,8 @@ import { SplashScreen } from "@capacitor/splash-screen";
   styleUrls: ["app.component.scss"],
 })
 export class AppComponent implements OnInit {
+  isShowingSplashScreen = true;
+
   constructor(
     private apiservice: DataService,
     private _networkService: NetworkService,
@@ -39,11 +41,12 @@ export class AppComponent implements OnInit {
 
   hideSplashScreen() {
     this.platform.ready().then(async () => {
+      SplashScreen.hide({
+        fadeOutDuration: 1000,
+      });
       setTimeout(() => {
-        SplashScreen.hide({
-          fadeOutDuration: 1000,
-        });
-      }, 2000);
+        this.isShowingSplashScreen = false;
+      }, 5000);
     });
   }
 

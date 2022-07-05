@@ -1,3 +1,16 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-grid [hidden]="!isShowingSplashScreen" class="video-part">
+    <video
+      height="100%"
+      loop=""
+      width="100%"
+      muted
+      autoplay
+      webkit-playsinline
+      playsinline
+    >
+      <source src="../assets/video/splash.mp4" />
+    </video>
+  </ion-grid>
+  <ion-router-outlet [hidden]="isShowingSplashScreen"></ion-router-outlet>
 </ion-app>
