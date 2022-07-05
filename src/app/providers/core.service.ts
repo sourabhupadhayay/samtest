@@ -176,6 +176,7 @@ export class CoreService {
     let blob = await fetch(image.webPath).then((r) => r.blob());
 
     let imageSize = this.formatBytes(blob.size);
+
     if (imageSize > 5) {
       this.showToastMessage(
         "please upload image that is under 5 mb ",
@@ -321,13 +322,15 @@ export class CoreService {
   }
 
   formatBytes(bytes, decimals = 2) {
-    if (bytes === 0) {
-      return "0 Bytes";
-    }
-    const k = 1024;
-    const dm = decimals <= 0 ? 0 : decimals;
-    const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm));
+    return bytes / 1024 / 1024; // in MiB
+    // if (bytes === 0) return "0 Bytes";
+
+    // const k = 1024;
+    // const dm = decimals < 0 ? 0 : decimals;
+    // const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+
+    // const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+    // return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
   }
 }

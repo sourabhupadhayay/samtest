@@ -27,7 +27,7 @@ export class EditProfilePage implements OnInit {
   currentDate: string = new Date().toISOString();
   isFormSubmitted: boolean = false;
   // ProfileImageBlob: SafeUrl | null | string = null;
-  selectedImage: Photo | null = null;
+  // selectedImage: Photo | null = null;
   loggedInUserData: any;
   nameInitials: string;
   currentUserRole: "fan" | "athlete";
