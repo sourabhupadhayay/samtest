@@ -1,15 +1,9 @@
 <ion-app>
-  <ion-grid [hidden]="!isShowingSplashScreen" class="video-part">
-    <video
-      height="100%"
-      loop=""
-      width="100%"
-      muted
-      autoplay
-      webkit-playsinline
-      playsinline
-    >
-      <source src="../assets/video/splash.mp4" />
+  <ion-grid class="video-part" [hidden]="!isShowingSplashScreen">
+    <video height="100%" loop="" width="100%" muted autoplay>
+      <source src="assets/video/splash.mp4" />
+
+      <p class="warning">Your browser does not support HTML5 video.</p>
     </video>
   </ion-grid>
   <ion-router-outlet [hidden]="isShowingSplashScreen"></ion-router-outlet>
