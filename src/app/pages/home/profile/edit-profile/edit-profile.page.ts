@@ -324,13 +324,19 @@ export class EditProfilePage implements OnInit {
     });
   }
   validatePhoneFanForm() {
-    if (this.fanProfileForm.value.phone.length < 15) {
-      this.fanProfileForm.value.phone = "";
+    if (!this.fanProfileForm.controls.phone.value) {
+      return;
+    }
+    if (this.fanProfileForm.controls.phone.value < 15) {
+      this.fanProfileForm.controls.phone.patchValue("");
     }
   }
   validatePhoneAthleteForm() {
-    if (this.athleteProfileForm.value.phone.length < 15) {
-      this.athleteProfileForm.value.phone = "";
+    if (!this.athleteProfileForm.controls.phone.value) {
+      return;
+    }
+    if (this.athleteProfileForm.controls.phone.value < 15) {
+      this.athleteProfileForm.controls.phone.patchValue("");
     }
   }
 }
