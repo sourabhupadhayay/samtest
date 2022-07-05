@@ -26,8 +26,7 @@ export class EditProfilePage implements OnInit {
   athleteProfileForm: FormGroup;
   currentDate: string = new Date().toISOString();
   isFormSubmitted: boolean = false;
-  // ProfileImageBlob: SafeUrl | null | string = null;
-  // selectedImage: Photo | null = null;
+
   loggedInUserData: any;
   nameInitials: string;
   currentUserRole: "fan" | "athlete";
@@ -160,7 +159,10 @@ export class EditProfilePage implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.fanProfileForm.value);
+    return;
     let request: Request;
+
     if (this.currentUserRole == "fan") {
       request = this.fanDataRequest();
     } else {
