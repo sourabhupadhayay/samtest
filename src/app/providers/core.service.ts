@@ -133,7 +133,7 @@ export class CoreService {
       animated: true,
       buttons: [
         {
-          text: "Choose profile picture",
+          text: "Use Camera",
           icon: "camera-outline",
           handler: () => {
             this.selectImage();
