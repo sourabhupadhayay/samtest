@@ -15,7 +15,7 @@ import { SplashScreen } from "@capacitor/splash-screen";
   styleUrls: ["app.component.scss"],
 })
 export class AppComponent implements OnInit {
-  isShowingSplashScreen = true;
+  isShowingSplashScreen = false;
 
   constructor(
     private apiservice: DataService,

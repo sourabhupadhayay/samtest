@@ -79,6 +79,7 @@
               data-cy="fullName"
               formControlName="fullName"
               type="text"
+              appCharOnly
             ></ion-input>
           </ion-item>
           <div
@@ -162,6 +163,7 @@
               data-cy="country"
               formControlName="country"
               type="text"
+              appCharOnly
             ></ion-input>
           </ion-item>
         </div>
@@ -172,6 +174,7 @@
               data-cy="state"
               formControlName="teamState"
               type="text"
+              appCharOnly
             ></ion-input>
           </ion-item>
         </div>
@@ -192,20 +195,29 @@
               formControlName="teamState"
               type="text"
               value="Houston Cougars football"
+              appCharOnly
             ></ion-input>
           </ion-item>
         </div>
         <div class="input-box">
           <ion-item lines="none">
             <ion-label position="stacked">Country</ion-label>
-            <ion-input formControlName="country" type="text"></ion-input>
+            <ion-input
+              formControlName="country"
+              type="text"
+              appCharOnly
+            ></ion-input>
           </ion-item>
         </div>
 
         <div class="input-box">
           <ion-item lines="none">
             <ion-label position="stacked">School/University</ion-label>
-            <ion-input formControlName="universityName" type="text"></ion-input>
+            <ion-input
+              formControlName="universityName"
+              type="text"
+              appCharOnly
+            ></ion-input>
           </ion-item>
         </div>
 
