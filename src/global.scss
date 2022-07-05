@@ -29,7 +29,7 @@
   font-family: "Inter", sans-serif !important;
 }
 
-body {
+ion-app {
   margin-top: constant(safe-area-inset-top);
   margin-top: env(safe-area-inset-top);
 }
@@ -61,9 +61,9 @@ body {
 
 .small-modal {
   --height: auto;
-    align-items: center;
-    --background: transparent;
-    background: transparent;
+  align-items: center;
+  --background: transparent;
+  background: transparent;
   .ion-page {
     position: relative;
     display: block;

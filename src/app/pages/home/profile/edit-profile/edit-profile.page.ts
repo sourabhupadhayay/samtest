@@ -191,6 +191,8 @@ export class EditProfilePage implements OnInit {
   }
 
   fanDataRequest(): Request {
+    this.validatePhoneFanForm();
+
     let { birthDate, ...signUpResponse } = this.fanProfileForm.value;
 
     let request: Request = {
@@ -215,6 +217,7 @@ export class EditProfilePage implements OnInit {
   }
 
   athleteDataRequest(): Request {
+    this.validatePhoneAthleteForm();
     let request: Request = {
       path: "auth/users/update",
       data: {
@@ -319,5 +322,15 @@ export class EditProfilePage implements OnInit {
         );
       }
     });
+  }
+  validatePhoneFanForm() {
+    if (this.fanProfileForm.value.phone.length < 15) {
+      this.fanProfileForm.value.phone = "";
+    }
+  }
+  validatePhoneAthleteForm() {
+    if (this.athleteProfileForm.value.phone.length < 15) {
+      this.athleteProfileForm.value.phone = "";
+    }
   }
 }

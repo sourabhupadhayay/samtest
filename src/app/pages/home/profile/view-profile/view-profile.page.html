@@ -149,7 +149,7 @@
         </div>
         <div class="details-box">
           <h5>Phone no.</h5>
-          <p>{{userData?.phone ?? '-'}}</p>
+          <p>{{userData?.phone == '' ? '-' :userData?.phone }}</p>
         </div>
       </div>
     </ng-container>
