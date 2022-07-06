@@ -1,5 +1,12 @@
-ion-content {
-  .main-screen-bg {
+ion-content {position: relative; --background: url(../../../../assets/images/background-new.png) no-repeat center;
+  background-size: cover;
+  color: #333;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  width: 100%;
+  // .main-screen-bg {
     ion-header {
       ion-toolbar {
         --background: rgba(var(--black-bg-rgb), 0.2);
@@ -11,15 +18,7 @@ ion-content {
         }
       }
     }
-    background: url(../../../../assets/images/background-new.png) no-repeat
-      center;
-    background-size: cover;
-    color: #333;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-    width: 100%;
+    
 
     .user-bubble {
       #background-wrap {
@@ -28,7 +27,7 @@ ion-content {
         position: fixed;
         right: 0;
         top: 0;
-        z-index: 1;
+        z-index: 3;
       }
       /* KEYFRAMES */
 
@@ -43,8 +42,7 @@ ion-content {
         width: 150px;
         bottom: -200px;
         top: auto;
-        background: url(../../../../assets/images/overlay-bubble.png) no-repeat
-          center;
+        background: url(../../../../assets/images/bg-bubble.png) no-repeat center;
         background-size: cover;
         .new-bg {
           position: relative;
@@ -60,17 +58,32 @@ ion-content {
             z-index: -1;
           }
           .inner-data {
-            overflow: hidden;
-            position: relative;
-            height: 100%;
-            width: 100%;
-            border-radius: 50%;
-            background: transparent;
-            img {
-              max-width: 100%;
-              border-radius: 50%;
-              width: 100%;
+            // overflow: hidden;
+            // position: relative;
+            // height: 100%;
+            // width: 100%;
+            // border-radius: 50%;
+            // background: transparent;
+              position: relative;
               height: 100%;
+              width: 100%;
+              border-radius: 100%;
+              background: transparent;
+              overflow: hidden;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              background: rgba(255,255,255,0.7);
+            img {
+              // max-width: 100%;
+              // border-radius: 50%;
+              // width: 100%;
+              // height: 100%;
+              // max-width: 100%;
+              // width: 100%;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
             }
             span {
               height: 20px;
@@ -126,8 +139,8 @@ ion-content {
             }
           }
           &::after {
-            background: url(../../../../assets/images/overlay-bubble.png)
-              no-repeat center;
+            background: url(../../../../assets/images/overlay-bubble.png) no-repeat
+              center;
             content: "";
             height: 100%;
             left: 0;
@@ -706,7 +719,7 @@ ion-content {
         }
       }
     }
-  }
+  // }
 
   .logo-bg {
     position: absolute;
@@ -716,8 +729,9 @@ ion-content {
     left: 0;
     margin: auto;
     display: inline-block;
-    height: 130px;
+    height: fit-content;
     width: 130px;
+    z-index: 1;
     img {
       max-width: 100%;
     }
@@ -727,8 +741,42 @@ ion-content {
       text-transform: uppercase;
       opacity: 0.38;
       font-weight: 700;
-      margin-top: 25px;
+      margin-top: 10px;
       display: inline-block;
+    }
+  }
+  .bg-images{position: absolute; z-index: 1; left: 0; top: 0;
+    background: url(../../../../assets/images/background-new.png) no-repeat center; height: 100%; width: 100%; background-size: cover;
+  }
+  .login-btn{
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    display: inline-block;
+    z-index: 99;
+    width: auto;
+    text-align: center;
+    padding: 10px;
+    ion-button{
+      width: 85px;
+      height: 85px;
+      background: transparent;
+      --background: transparent;
+      border: 0;
+      --box-shadow: none;
+      outline: none;
+      margin: auto;
+      padding: 0;
+      --border-radius: 50%;
+      --padding-top: 0;
+      --padding-bottom: 0;
+      --padding-start: 0;
+      --padding-end: 0;
+      --background-activated: transparent;
+      --background-hover: transparent;
+      --background-focused: transparent;
     }
   }
 }
