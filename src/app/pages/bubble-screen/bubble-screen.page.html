@@ -1,14 +1,14 @@
 <ion-content [fullscreen]="true">
   <!-- <ion-grid class="main-screen-bg"> -->
-    <ion-header>
-      <ion-toolbar>
-        <img src="assets/images/single-logo.svg" />
-      </ion-toolbar>
-    </ion-header>
-    <ion-grid class="user-bubble">
-      <div id="background-wrap">
-        <!-- [ngClass]="{'customClass' : bubble1 === true }" -->
-        <!-- <div
+  <ion-header>
+    <ion-toolbar>
+      <img src="assets/images/single-logo.svg" />
+    </ion-toolbar>
+  </ion-header>
+  <ion-grid class="user-bubble">
+    <div id="background-wrap">
+      <!-- [ngClass]="{'customClass' : bubble1 === true }" -->
+      <!-- <div
           class="bubble x1"
           routerLink="auth/login"
           [ngClass]="{'pop-bubble' : bubble1 === true }"
@@ -23,24 +23,24 @@
           </div>
         </div> -->
 
-        <div
-          *ngFor="let bubble of athleteList ;let i = index"
-          class="bubble"
-          [ngClass]="'x' + (i+1)"
-          (click)="navigateToAthlete(bubble.id)"
-        >
-          <div class="new-bg">
-            <div class="bubble-toch">
-              <img src="assets/images/bubble-toch.png" />
-            </div>
-            <div class="inner-data abc">
-              <img [src]="bubble.profileUrl | profile" />
-              <span [ngClass]="bubble.online ? 'online':'offline'"></span>
-            </div>
+      <div
+        *ngFor="let bubble of athleteList ;let i = index"
+        class="bubble"
+        [ngClass]="'x' + (i+1)"
+        (click)="navigateToAthlete(bubble.id)"
+      >
+        <div class="new-bg">
+          <div class="bubble-toch">
+            <img src="assets/images/bubble-toch.png" />
+          </div>
+          <div class="inner-data abc">
+            <img [src]="bubble.profileUrl | profile" />
+            <span [ngClass]="bubble.online ? 'online':'offline'"></span>
           </div>
         </div>
+      </div>
 
-        <!-- <div class="bubble x1 show-name" (click)="playAudio('')">
+      <!-- <div class="bubble x1 show-name" (click)="playAudio('')">
           <div class="bubble-toch">
             <img src="assets/images/bubble-toch.png" />
           </div>
@@ -215,34 +215,34 @@
               </div>
           </div>
         </div> -->
-      </div>
-    </ion-grid>
+    </div>
+  </ion-grid>
 
-    <ion-grid class="bg-bubble">
-      <div class="dots-bubble">
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
+  <ion-grid class="bg-bubble">
+    <div class="dots-bubble">
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
 
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-      </div>
-    </ion-grid>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+    </div>
+  </ion-grid>
   <!-- </ion-grid> -->
 
   <!-- <audio autoplay loop src="../../assets/audio/bubbles.mp3" loop="true"
@@ -250,10 +250,8 @@
 
   <!-- <audio id="dog"  src="http://c0026106.cdn1.cloudfiles.rackspacecloud.com/2fbc94686ceb434a864c0691906bd144_dog.mp3" preload="auto"></audio> -->
 
-  <div class="bg-images">
-  
-  </div>
-  
+  <div class="bg-images"></div>
+
   <ion-grid class="logo-bg">
     <img src="assets/icon/logo-bg.png" />
     <span>#NIL4ALL</span>
@@ -265,12 +263,11 @@
     </ion-fab-button>
   </ion-fab> -->
   <div class="login-btn">
-      <ion-button mode="md" *ngIf="!authenticationService.isAuthenticated()" routerLink="/auth/login">
-          <img src="assets/icon/login-btn.png" />
-      </ion-button>
+    <ion-button mode="md" routerLink="/auth/login">
+      <img src="assets/icon/login-btn.png" />
+    </ion-button>
   </div>
 </ion-content>
-
 
 <!-- <ion-modal trigger="trigger-button" class="client-filter-modal">
   <ng-template>
