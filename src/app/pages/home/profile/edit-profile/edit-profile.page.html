@@ -166,6 +166,13 @@
               appCharOnly
             ></ion-input>
           </ion-item>
+          <div
+            *ngIf="isFormSubmitted && fanProfileForm.controls.country.invalid"
+            class="error-msg"
+            id="userNameError"
+          >
+            <p><img src="assets/icon/info-red.svg" /> Country is invalid</p>
+          </div>
         </div>
         <div class="input-box">
           <ion-item lines="none">
@@ -177,6 +184,13 @@
               appCharOnly
             ></ion-input>
           </ion-item>
+          <div
+            *ngIf="isFormSubmitted && fanProfileForm.controls.teamState.invalid"
+            class="error-msg"
+            id="userNameError"
+          >
+            <p><img src="assets/icon/info-red.svg" /> State is invalid</p>
+          </div>
         </div>
       </div>
     </ng-container>

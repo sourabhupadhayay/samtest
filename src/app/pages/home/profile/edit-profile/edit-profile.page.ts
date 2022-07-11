@@ -86,8 +86,8 @@ export class EditProfilePage implements OnInit {
       birthDate: ["", Validators.required],
       phone: [""],
       teamName: [""],
-      country: [""],
-      teamState: [""],
+      country: ["", Validators.pattern("^[a-zA-Z ]*$")],
+      teamState: ["", Validators.pattern("^[a-zA-Z ]*$")],
     });
   }
 
