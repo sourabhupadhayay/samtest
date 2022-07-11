@@ -163,6 +163,8 @@ export class CoreService {
       ],
     });
 
+    console.log("working");
+
     return await actionSheet.present();
   }
 
