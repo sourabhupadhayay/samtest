@@ -63,16 +63,19 @@ export class SignupDetailsPage implements OnInit {
 
   initForm() {
     this.signUpDetailsForm = this.formBuilder.group({
-      fullName: [null, [Validators.required]],
+      fullName: [
+        null,
+        [Validators.required, Validators.pattern("^[a-zA-Z ]*$")],
+      ],
       email: [{ value: null, disabled: true }],
       password: [null, Validators.required],
       birthDate: [null, Validators.required],
       phone: [{ value: null, disabled: false }],
       showBirthDate: [false],
       teamName: [""],
-      teamState: [""],
-      school: [""],
-      country: [""],
+      teamState: ["", Validators.pattern("^[a-zA-Z ]*$")],
+      school: ["", Validators.pattern("^[a-zA-Z ]*$")],
+      country: ["", Validators.pattern("^[a-zA-Z ]*$")],
     });
     this.getSignUpData();
   }
