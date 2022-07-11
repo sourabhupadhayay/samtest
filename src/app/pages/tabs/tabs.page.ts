@@ -1,8 +1,10 @@
 import { Component, OnInit } from "@angular/core";
+import { ModalController } from "@ionic/angular";
 import { CommonService } from "src/app/providers/common.service";
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
+import { AppereanceBookingComponent } from "./appereance-booking/appereance-booking.component";
 
 @Component({
   selector: "app-tabs",
@@ -13,6 +15,7 @@ export class TabsPage implements OnInit {
   userData: any | null = null;
   nameInitials: string;
   constructor(
+    public modalCtrl: ModalController,
     private coreService: CoreService,
     private apiService: DataService,
     private constantService: ConstantService,
@@ -22,6 +25,15 @@ export class TabsPage implements OnInit {
   ngOnInit() {}
   ionViewWillEnter() {
     this.getCurrentUserDetails();
+  }
+
+  async presentChangePasswordModal(): Promise<void> {
+    const modal: HTMLIonModalElement = await this.modalCtrl.create({
+      component: AppereanceBookingComponent,
+      cssClass: "client-filter-modal",
+    });
+
+    modal.present();
   }
 
   getCurrentUserDetails() {

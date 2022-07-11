@@ -8,6 +8,7 @@ import { TabsPageRoutingModule } from "./tabs-routing.module";
 
 import { TabsPage } from "./tabs.page";
 import { PipesModule } from "src/app/pipes/pipes.module";
+import { AppereanceBookingComponent } from "./appereance-booking/appereance-booking.component";
 
 @NgModule({
   imports: [
@@ -17,6 +18,6 @@ import { PipesModule } from "src/app/pipes/pipes.module";
     TabsPageRoutingModule,
     PipesModule,
   ],
-  declarations: [TabsPage],
+  declarations: [TabsPage, AppereanceBookingComponent],
 })
 export class TabsPageModule {}
