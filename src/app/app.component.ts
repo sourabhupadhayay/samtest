@@ -36,7 +36,10 @@ export class AppComponent implements OnInit {
     this.platform.ready().then((): void => {
       this._networkEventsListener();
       this.initFacebook();
+      
+      
     });
+    
   }
 
   hideSplashScreen() {

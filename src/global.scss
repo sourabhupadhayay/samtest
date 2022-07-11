@@ -30,8 +30,12 @@
 }
 
 body {
-  margin-top: constant(safe-area-inset-top);
-  margin-top: env(safe-area-inset-top);
+  
+    padding-top: constant(safe-area-inset-top);
+    padding-top: env(safe-area-inset-top);
+    
+  // margin-top: constant(safe-area-inset-top);
+  // margin-top: env(safe-area-inset-top);
 }
 
 .client-filter-modal {
@@ -149,3 +153,8 @@ select:-webkit-autofill:focus {
     }
   }
 }
+ion-app{
+  --ion-safe-area-top:30px;
+}
+
+
