@@ -142,9 +142,7 @@ export class LoginPage implements OnInit {
       };
 
       this.socialLogin(RequestData);
-    } catch (e) {
-      this.coreService.showToastMessage(e.error, this.coreService.TOAST_ERROR);
-    }
+    } catch (e) {}
   }
 
   //facebook login
@@ -161,8 +159,6 @@ export class LoginPage implements OnInit {
       };
 
       this.socialLogin(RequestData);
-    } catch (e) {
-      this.coreService.showToastMessage(e.error, this.coreService.TOAST_ERROR);
-    }
+    } catch (e) {}
   }
 }

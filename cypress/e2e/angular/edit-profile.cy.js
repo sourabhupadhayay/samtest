@@ -54,7 +54,7 @@ describe("edit-profile", () => {
 
     cy.get('[data-cy="submit-info"]').click();
 
-    cy.contains("Full Name is invalid");
+    cy.contains("Full name is invalid");
 
     // cy.get('[data-cy="submit-modal"]').click();
 
