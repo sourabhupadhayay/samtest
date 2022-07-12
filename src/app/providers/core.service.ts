@@ -15,6 +15,7 @@ import { ToastOptions } from "@ionic/core";
 import { CommonService } from "./common.service";
 import { ConstantService } from "./constant.service";
 import { DataService, Request, Response } from "./data.service";
+import { Storage } from "@capacitor/storage";
 
 @Injectable({
   providedIn: "root",
@@ -324,4 +325,15 @@ export class CoreService {
   formatBytes(bytes, decimals = 2) {
     return bytes / 1024 / 1024; // in MiB
   }
+
+  async getUserDataFromStorage(): Promise<userRole> {
+    const { value } = await Storage.get({ key: "userDetails" });
+    let userData = JSON.parse(value);
+    return this.commonService.getUserType(userData.roles);
+  }
 }
+
+export interface UserRole {
+  userRole: userRole;
+}
+export type userRole = "fan" | "athlete";

@@ -23,25 +23,39 @@
     </div>
   </ion-grid>
 
-  <div class="profile">
+  <div *ngIf="userData " class="profile">
     <div class="profile__top">
       <div class="profile__image">
         <img src="../../../assets/images/profile.png" alt="" />
         <span class="online"></span>
       </div>
       <div class="profile__details">
-        <h2 class="profile__name">Hi John Mark</h2>
-        <p>Houston Cougars football</p>
-        <p>Texas / USA</p>
+        <h2 class="profile__name">Hi {{userData?.fullName}}</h2>
+        <ng-container *ngIf="userRole == 'fan'">
+          <p>{{userData?.teamName}}</p>
+          <p>{{userData?.teamState}} / {{userData?.teamName}}</p>
+        </ng-container>
+        <ng-container *ngIf="userRole == 'athlete'">
+          <p>{{userData?.teamName}}</p>
+        </ng-container>
       </div>
     </div>
 
     <div class="profile__border"></div>
 
-    <div class="profile__bottom">
+    <div *ngIf="userRole == 'fan'" class="profile__bottom">
       <h4 class="profile__opp">Opportunities on <span>Bubble App</span></h4>
       <h6>
-        $5500
+        ${{userData?.totalEventAmount}}
+      </h6>
+    </div>
+
+    <div *ngIf="userRole == 'athlete'" class="profile__bottom">
+      <h4 class="profile__opp">
+        Your Bubble Bills Earning On <span>Bubble App</span>
+      </h4>
+      <h6>
+        ${{userData?.totalEarning}}
       </h6>
     </div>
   </div>
