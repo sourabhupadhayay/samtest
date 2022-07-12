@@ -96,12 +96,13 @@
             --display: inline-block;
             width: fit-content;
           }
-          ion-input, ion-textarea {
+          ion-input,
+          ion-textarea {
             margin-top: 0px;
             color: var(--text-black);
             --color: var(--text-black);
             font-size: 0.875rem;
-            --placeholder-color:var(--text-gray);
+            --placeholder-color: var(--text-gray);
           }
           img {
             margin: 0;
@@ -109,9 +110,13 @@
           }
         }
       }
-      .radio-btn{
-        ion-item{--padding-start:0; --inner-padding-end:0;
-          ion-radio{margin: 0;}
+      .radio-btn {
+        ion-item {
+          --padding-start: 0;
+          --inner-padding-end: 0;
+          ion-radio {
+            margin: 0;
+          }
         }
       }
     }
@@ -382,4 +387,31 @@
 
 .hide-text {
   display: none;
+}
+.dateModal {
+  --background: rgba(44, 39, 45, 0.2);
+  &::part(content) {
+    backdrop-filter: blur(6px);
+  }
+
+  ion-content {
+    --background: transparent;
+    --padding-top: 30vh;
+    --padding-start: 20px;
+    --padding-end: 20px;
+  }
+  ion-datetime {
+    border-radius: 8px;
+  }
+}
+.without_ampm::-webkit-datetime-edit-ampm-field {
+  display: none !important;
+}
+input[type="time"]::-webkit-clear-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  margin: -10px;
 }

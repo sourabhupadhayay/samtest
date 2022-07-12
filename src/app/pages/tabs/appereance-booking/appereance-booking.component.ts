@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ModalController } from "@ionic/angular";
+import { CommonService } from "src/app/providers/common.service";
 
 @Component({
   selector: "app-appereance-booking",
@@ -7,7 +9,64 @@ import { ModalController } from "@ionic/angular";
   styleUrls: ["./appereance-booking.component.scss"],
 })
 export class AppereanceBookingComponent implements OnInit {
-  constructor(public modalCtrl: ModalController) {}
+  athleteForm: FormGroup;
+  isFormSubmitted = false;
+  constructor(
+    public modalCtrl: ModalController,
+    private fb: FormBuilder,
+    private commonService: CommonService
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.initAppearanceForm();
+  }
+
+  initAppearanceForm() {
+    this.athleteForm = this.fb.group({
+      startDate: ["", [Validators.required]],
+      duration: ["", [Validators.required]],
+      minBid: ["", [Validators.required]],
+      description: ["", [Validators.required]],
+      eventName: ["", [Validators.required]],
+    });
+  }
+
+  onclick_cancel() {
+    this.modalCtrl.dismiss();
+  }
+
+  onSubmit() {
+    this.isFormSubmitted = true;
+    console.log(this.athleteForm);
+  }
+
+  patchDateValue(date: string) {
+    if (!date) {
+      return;
+    }
+    let formattedDate = this.commonService.formatDateTime(date);
+    this.athleteForm.controls.startDate.patchValue(formattedDate);
+  }
+
+  patchTime(time: string) {
+    let formattedTime = this.commonService.formatTime(time);
+
+    var timeParts = formattedTime.split(":");
+
+    let hour = timeParts[0];
+    let min = timeParts[1];
+
+    if (hour == "00") {
+      this.athleteForm.controls.duration.patchValue(`${min.trim()}m`);
+    } else {
+      this.athleteForm.controls.duration.patchValue(`${hour}h ${min.trim()}m`);
+    }
+
+    let totalMin = this.convertTimeToMinute(hour, min);
+    console.log(totalMin);
+  }
+
+  convertTimeToMinute(hour: string, min: string) {
+    return Number(hour) * 60 + Number(min);
+  }
 }
