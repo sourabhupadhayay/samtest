@@ -11,7 +11,7 @@
     border: 0;
     .icon-header {
       text-align: center;
-      padding: 0px 15px 30px 15px;
+      padding: 0px 15px 15px 15px;
       background: #fff;
       border-radius: 55px 55px 0 0;
       margin-top: 0px;
@@ -66,7 +66,7 @@
     .main-screen {
       padding: 0 15px;
       .input-box {
-        padding: 10px 0 15px;
+        padding: 2px 0 2px;
         ion-item {
           --padding-start: 10px;
           --inner-padding-end: 10px;
@@ -92,18 +92,26 @@
             -webkit-transform: translate3d(0, -12px, 0) !important;
             transform: translate3d(0, -12px, 0) !important;
             z-index: 9999;
-            background: #fff;
+            background: var(--white-bg);
             --display: inline-block;
             width: fit-content;
           }
-          ion-input {
-            margin-top: -21px;
-            color: #000;
+          ion-input, ion-textarea {
+            margin-top: 0px;
+            color: var(--text-black);
+            --color: var(--text-black);
+            font-size: 0.875rem;
+            --placeholder-color:var(--text-gray);
           }
           img {
             margin: 0;
             width: 22px;
           }
+        }
+      }
+      .radio-btn{
+        ion-item{--padding-start:0; --inner-padding-end:0;
+          ion-radio{margin: 0;}
         }
       }
     }
@@ -147,7 +155,7 @@
       height: 100%;
       z-index: inherit;
       overflow: hidden;
-      top: 5px;
+      top: 58px;
       left: 0;
       border-top-left-radius: 50px;
       border-top-right-radius: 50px;
