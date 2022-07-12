@@ -48,7 +48,7 @@ body {
     contain: content;
     border-radius: 55px 55px 0px 0px;
     .inner-content {
-      max-height: 70vh;
+      max-height: calc(100vh - 225px);
       overflow: auto;
     }
   }
