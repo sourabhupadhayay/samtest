@@ -31,6 +31,14 @@ export class CommonService {
   formatDate(value: string) {
     return format(parseISO(value), "MM/dd/yyyy");
   }
+
+  formatDateTime(value: string) {
+    return format(parseISO(value), " MMM dd,yyyy, hh:mm aaaaa'm'");
+  }
+  formatTime(value: string) {
+    return format(parseISO(value), "HH:mm ");
+  }
+
   getUserType(userRole: string[]): "athlete" | "fan" {
     let isAthlete = userRole.some((role) => role === "ATHLETE");
     if (isAthlete) {
