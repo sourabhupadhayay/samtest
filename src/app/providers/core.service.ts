@@ -2,8 +2,6 @@ import { Injectable } from "@angular/core";
 import {
   Camera,
   CameraResultType,
-  CameraSource,
-  GalleryImageOptions,
   GalleryPhotos,
   Photo,
 } from "@capacitor/camera";
@@ -13,11 +11,11 @@ import {
   LoadingController,
   ToastController,
 } from "@ionic/angular";
-import { LoadingOptions, ToastOptions } from "@ionic/core";
+import { ToastOptions } from "@ionic/core";
 import { CommonService } from "./common.service";
 import { ConstantService } from "./constant.service";
 import { DataService, Request, Response } from "./data.service";
-import { Subject, Subscription } from "rxjs";
+
 @Injectable({
   providedIn: "root",
 })

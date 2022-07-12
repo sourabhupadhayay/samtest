@@ -1,9 +1,48 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>schedule</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
+  <ion-grid class="top-card">
+    <div class="title-part">
+      <ion-item lines="none">
+        <ion-icon
+          routerLink="/tabs/home"
+          slot="start"
+          name="arrow-back-outline"
+        ></ion-icon>
+        <ion-label>
+          <ion-grid class="logo-head">
+            <img src="assets/images/single-logo.svg" />
+            <div class="nil4all">
+              <span>#NIL4ALL</span>
+            </div>
+          </ion-grid>
+        </ion-label>
+        <div class="notification" slot="end">
+          <img src="assets/icon/notification.svg" />
+          <span></span>
+        </div>
+      </ion-item>
+    </div>
+  </ion-grid>
 
+  <div class="profile">
+    <div class="profile__top">
+      <div class="profile__image">
+        <img src="../../../assets/images/profile.png" alt="" />
+        <span class="online"></span>
+      </div>
+      <div class="profile__details">
+        <h2 class="profile__name">Hi John Mark</h2>
+        <p>Houston Cougars football</p>
+        <p>Texas / USA</p>
+      </div>
+    </div>
+
+    <div class="profile__border"></div>
+
+    <div class="profile__bottom">
+      <h4 class="profile__opp">Opportunities on <span>Bubble App</span></h4>
+      <h6>
+        $5500
+      </h6>
+    </div>
+  </div>
 </ion-content>

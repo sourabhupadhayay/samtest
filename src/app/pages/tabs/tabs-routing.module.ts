@@ -24,6 +24,13 @@ const routes: Routes = [
             (m) => m.ViewProfilePageModule
           ),
       },
+      {
+        path: "schedule",
+        loadChildren: () =>
+          import("../schedule/schedule.module").then(
+            (m) => m.SchedulePageModule
+          ),
+      },
     ],
   },
 ];
