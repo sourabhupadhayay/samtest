@@ -30,7 +30,7 @@ export class TabsPage implements OnInit {
 
   async presentChangePasswordModal(): Promise<void> {
     const modal: HTMLIonModalElement = await this.modalCtrl.create({
-      component: PaymentComponent,
+      component: AppereanceBookingComponent,
       cssClass: "client-filter-modal",
     });
 
