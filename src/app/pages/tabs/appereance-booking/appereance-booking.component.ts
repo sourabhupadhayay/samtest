@@ -10,8 +10,6 @@ import { ModalController } from "@ionic/angular";
 import { CommonService } from "src/app/providers/common.service";
 import { CoreService } from "src/app/providers/core.service";
 
-import { CoreService } from "src/app/providers/core.service";
-
 @Component({
   selector: "app-appereance-booking",
   templateUrl: "./appereance-booking.component.html",
