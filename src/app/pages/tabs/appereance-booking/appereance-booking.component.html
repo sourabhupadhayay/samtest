@@ -29,7 +29,11 @@
       <ion-row [formGroup]="athleteForm">
         <ion-col size="12">
           <div class="input-box">
-            <ion-item lines="none" class="ion-align-items-center">
+            <ion-item
+              [ngClass]="validAthleteInputBorder('startDate')"
+              lines="none"
+              class="ion-align-items-center"
+            >
               <ion-input
                 id="open-modal"
                 formControlName="startDate"
@@ -60,7 +64,11 @@
 
         <ion-col size="12">
           <div class="input-box">
-            <ion-item lines="none" class="ion-align-items-center">
+            <ion-item
+              [ngClass]="validAthleteInputBorder('duration')"
+              lines="none"
+              class="ion-align-items-center"
+            >
               <ion-input
                 id="date-time"
                 formControlName="duration"
@@ -81,6 +89,7 @@
                     hourCycle="h23"
                     #dateTime
                     [showDefaultButtons]="true"
+                    value="00:00"
                     (ionChange)="patchTime(dateTime.value)"
                   >
                     <span slot="title">Select start time</span></ion-datetime
@@ -92,7 +101,11 @@
         </ion-col>
         <ion-col size="12">
           <div class="input-box">
-            <ion-item lines="none" class="ion-align-items-center">
+            <ion-item
+              [ngClass]="validAthleteInputBorder('eventName')"
+              lines="none"
+              class="ion-align-items-center"
+            >
               <ion-input
                 formControlName="eventName"
                 placeholder="Event Name"
@@ -107,11 +120,15 @@
         </ion-col>
         <ion-col size="12">
           <div class="input-box">
-            <ion-item lines="none" class="ion-align-items-center">
+            <ion-item
+              [ngClass]="validAthleteInputBorder('minBid')"
+              lines="none"
+              class="ion-align-items-center"
+            >
               <ion-input
                 formControlName="minBid"
                 placeholder="Minimum Bid"
-                type=""
+                appThousandSeparateDirective
               ></ion-input>
               <img
                 class="ion-align-items-center"
@@ -124,7 +141,11 @@
 
         <ion-col size="12">
           <div class="input-box">
-            <ion-item lines="none" class="ion-align-items-center">
+            <ion-item
+              [ngClass]="validAthleteInputBorder('description')"
+              lines="none"
+              class="ion-align-items-center"
+            >
               <ion-textarea
                 formControlName="description"
                 placeholder="Message For Fans"

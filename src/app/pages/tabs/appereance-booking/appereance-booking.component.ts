@@ -6,6 +6,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { ModalController } from "@ionic/angular";
+import { hr } from "date-fns/locale";
 import { CommonService } from "src/app/providers/common.service";
 
 import { CoreService } from "src/app/providers/core.service";
