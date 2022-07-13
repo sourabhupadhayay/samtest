@@ -9,10 +9,10 @@
     </div>
   </ion-header>
 
-  <div *ngIf="false" class="inner-content">
+  <div *ngIf="userRole == 'athlete'" class="inner-content">
     <div class="main-screen">
       <div class="radio-btn">
-        <ion-radio-group value="biff" mode="md">
+        <ion-radio-group value="VIDEO" mode="md">
           <ion-row>
             <ion-col size="4">
               Select Appearance Type
@@ -20,7 +20,7 @@
             <ion-col size="4">
               <ion-item lines="none">
                 <ion-label>Video</ion-label>
-                <ion-radio mode="md" slot="start" value="griff"></ion-radio>
+                <ion-radio mode="md" slot="start" value="VIDEO"></ion-radio>
               </ion-item>
             </ion-col>
           </ion-row>
@@ -161,7 +161,7 @@
       </ion-row>
     </div>
   </div>
-  <div class="inner-content">
+  <div *ngIf="userRole == 'fan'" class="inner-content">
     <div class="main-screen">
       <div class="radio-btn">
         <ion-radio-group
@@ -201,9 +201,12 @@
       <ion-row [formGroup]="fanForm">
         <ion-col size="12">
           <div class="input-box">
-            <ion-item lines="none" class="ion-align-items-center">
+            <ion-item
+              [ngClass]="validFanInputBorder('startDate')"
+              lines="none"
+              class="ion-align-items-center"
+            >
               <ion-input
-                [ngClass]="validFanInputBorder('startDate')"
                 id="open-date"
                 formControlName="startDate"
                 placeholder="Select Date"
@@ -233,10 +236,13 @@
 
         <ion-col size="12">
           <div class="input-box">
-            <ion-item lines="none" class="ion-align-items-center">
+            <ion-item
+              [ngClass]="validFanInputBorder('duration')"
+              lines="none"
+              class="ion-align-items-center"
+            >
               <ion-input
                 id="duration"
-                [ngClass]="validFanInputBorder('duration')"
                 formControlName="duration"
                 placeholder="Duration"
               ></ion-input>
@@ -267,9 +273,12 @@
         </ion-col>
         <ion-col size="12">
           <div class="input-box">
-            <ion-item lines="none" class="ion-align-items-center">
+            <ion-item
+              [ngClass]="validFanInputBorder('eventName')"
+              lines="none"
+              class="ion-align-items-center"
+            >
               <ion-input
-                [ngClass]="validFanInputBorder('eventName')"
                 formControlName="eventName"
                 placeholder="Event Name"
               ></ion-input>
@@ -283,12 +292,17 @@
         </ion-col>
         <ion-col size="12">
           <div class="input-box">
-            <ion-item lines="none" class="ion-align-items-center">
+            <ion-item
+              [ngClass]="validFanInputBorder('selectedAthleteName')"
+              lines="none"
+              class="ion-align-items-center"
+            >
               <input
                 matInput
                 [matAutocomplete]="auto"
                 formControlName="selectedAthleteName"
-                placeholder="Select Athlete" class="transparent-input"
+                placeholder="Select Athlete"
+                class="transparent-input"
               />
               <img
                 class="ion-align-items-center"
@@ -297,16 +311,20 @@
               />
             </ion-item>
             <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let option of options" [value]="option">
+              <mat-option
+                (click)="selectedAthlete(option)"
+                *ngFor="let option of $athletes | async"
+                [value]="option.fullName"
+              >
                 <div class="list-data">
-                    <ion-list>
-                        <ion-item lines="none">
-                            <img slot="start" src="assets/images/upload-img.png">
-                            <ion-label>
-                                <h5>Blake Shapen</h5>
-                            </ion-label>
-                        </ion-item>
-                    </ion-list>
+                  <ion-list>
+                    <ion-item lines="none">
+                      <img slot="start" [src]="option.profileUrl | profile" />
+                      <ion-label>
+                        <h5>{{option.fullName }}</h5>
+                      </ion-label>
+                    </ion-item>
+                  </ion-list>
                 </div>
               </mat-option>
             </mat-autocomplete>
@@ -314,8 +332,15 @@
         </ion-col>
         <ion-col size="12">
           <div class="input-box">
-            <ion-item lines="none" class="ion-align-items-center">
-              <ion-input placeholder="Appearance Fee ($)"></ion-input>
+            <ion-item
+              [ngClass]="validFanInputBorder('duration')"
+              lines="none"
+              class="ion-align-items-center"
+            >
+              <ion-input
+                formControlName="minBid"
+                placeholder="Appearance Fee ($)"
+              ></ion-input>
               <img
                 class="ion-align-items-center"
                 slot="end"
@@ -324,11 +349,15 @@
             </ion-item>
           </div>
         </ion-col>
-        <ng-container *ngIf="fanEventType == 'IN_PERSON'">
-          <ion-row formGroupName="EventAddress">
+        <ng-container *ngIf="fanEventType === 'IN_PERSON'">
+          <ion-row formGroupName="eventAddress">
             <ion-col size="12">
               <div class="input-box">
-                <ion-item lines="none" class="ion-align-items-center">
+                <ion-item
+                  [ngClass]="validFanAddressInputBorder('addressLine1')"
+                  lines="none"
+                  class="ion-align-items-center"
+                >
                   <ion-textarea
                     formControlName="addressLine1"
                     placeholder="Address"
@@ -343,7 +372,11 @@
             </ion-col>
             <ion-col size="6">
               <div class="input-box">
-                <ion-item lines="none" class="ion-align-items-center">
+                <ion-item
+                  [ngClass]="validFanAddressInputBorder('state')"
+                  lines="none"
+                  class="ion-align-items-center"
+                >
                   <ion-input
                     formControlName="state"
                     placeholder="State"
@@ -353,7 +386,11 @@
             </ion-col>
             <ion-col size="6">
               <div class="input-box">
-                <ion-item lines="none" class="ion-align-items-center">
+                <ion-item
+                  [ngClass]="validFanAddressInputBorder('city')"
+                  lines="none"
+                  class="ion-align-items-center"
+                >
                   <ion-input
                     formControlName="city"
                     placeholder="City"
@@ -363,7 +400,11 @@
             </ion-col>
             <ion-col size="12">
               <div class="input-box">
-                <ion-item lines="none" class="ion-align-items-center">
+                <ion-item
+                  [ngClass]="validFanAddressInputBorder('zipcode')"
+                  lines="none"
+                  class="ion-align-items-center"
+                >
                   <ion-input
                     formControlName="zipcode"
                     placeholder="Zip Code"
@@ -374,7 +415,7 @@
           </ion-row>
         </ng-container>
         <ion-col size="12">
-          <div class="input-box">
+          <div [ngClass]="validFanInputBorder('duration')" class="input-box">
             <ion-item lines="none" class="ion-align-items-center">
               <ion-textarea
                 formControlName="description"

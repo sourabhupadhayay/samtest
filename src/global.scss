@@ -30,10 +30,9 @@
 }
 
 body {
-  
-    padding-top: constant(safe-area-inset-top);
-    padding-top: env(safe-area-inset-top);
-    
+  padding-top: constant(safe-area-inset-top);
+  padding-top: env(safe-area-inset-top);
+
   // margin-top: constant(safe-area-inset-top);
   // margin-top: env(safe-area-inset-top);
 }
@@ -116,8 +115,13 @@ ion-radio, ion-checkbox{
           img{width: 25px !important; height: 25px; border-radius: 25px; margin: 0 10px 0 0;}
         }
       }
+      img {
+        width: 25px !important;
+        height: 25px;
+        border-radius: 25px;
+        margin: 0 10px 0 0;
+      }
     }
-  
 
 
 input:-webkit-autofill,
@@ -181,8 +185,6 @@ select:-webkit-autofill:focus {
     }
   }
 }
-ion-app{
-  --ion-safe-area-top:30px;
+ion-app {
+  --ion-safe-area-top: 30px;
 }
-
-
