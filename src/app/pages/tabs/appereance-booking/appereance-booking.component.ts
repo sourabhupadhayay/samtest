@@ -8,6 +8,7 @@ import {
 import { ModalController } from "@ionic/angular";
 
 import { CommonService } from "src/app/providers/common.service";
+import { CoreService } from "src/app/providers/core.service";
 
 @Component({
   selector: "app-appereance-booking",
@@ -18,20 +19,22 @@ export class AppereanceBookingComponent implements OnInit {
   athleteForm: FormGroup;
   fanForm: FormGroup;
   isFormSubmitted = false;
-  eventType: string = "VIDEO";
+  fanEventType: string = "VIDEO";
   constructor(
     public modalCtrl: ModalController,
     private fb: FormBuilder,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private coreService: CoreService
   ) {}
 
   ngOnInit() {
     this.initAppearanceForm();
     this.eventTypeSelected();
   }
+  getUserRole() {}
 
   eventTypeSelected() {
-    console.log(this.eventType);
+    console.log(this.fanEventType);
   }
 
   initAppearanceForm() {
@@ -44,7 +47,6 @@ export class AppereanceBookingComponent implements OnInit {
       eventName: ["", [Validators.required]],
     });
     this.fanForm = this.fb.nonNullable.group({
-      eventType: ["VIDEO"],
       startDate: ["", [Validators.required]],
       duration: ["", [Validators.required]],
       minBid: ["", [Validators.required]],
