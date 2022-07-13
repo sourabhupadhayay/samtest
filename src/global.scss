@@ -92,7 +92,19 @@ body {
   }
 }
 
-
+ion-item{
+  --ripple-color: none;
+  --background-activated: none;
+  --background-focused: none;
+  --background-hover: none;
+  --background-activated-opacity: 1;
+  --background-focused-opacity: 1;
+  --background-hover-opacity: 1;
+  --ripple-color: none;
+}
+ion-radio, ion-checkbox{
+  --ripple-color: none;
+}
  
     .list-data{
       ion-list{margin: 0; padding: 0;
