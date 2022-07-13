@@ -8,6 +8,150 @@
       <img src="assets/images/modal-tope.png" />
     </div>
   </ion-header>
+  
+  <div class="inner-content">
+    <div class="main-screen">
+      <div class="radio-btn">
+        <ion-radio-group value="biff" mode="md">
+          <ion-row>
+            <ion-col size="4">
+              Select Appearance Type
+            </ion-col>
+            <ion-col size="4">
+                <ion-item lines="none">
+                  <ion-label>Video</ion-label>
+                  <ion-radio mode="md" slot="start" value="griff"></ion-radio>
+                </ion-item>
+            </ion-col>
+            <ion-col size="4">
+              <ion-item lines="none">
+                <ion-label>In-Person</ion-label>
+                <ion-radio mode="md" slot="start" value="griff1"></ion-radio>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-radio-group>
+      </div>
+      <ion-row>
+        <ion-col size="12">
+          <div class="input-box">
+            <ion-item lines="none" class="ion-align-items-center">
+              <ion-input placeholder="Select Date"></ion-input>
+              <img
+                class="ion-align-items-center"
+                slot="end"
+                src="assets/icon/calendar.svg"
+              />
+            </ion-item>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <div class="input-box">
+            <ion-item lines="none" class="ion-align-items-center">
+              <ion-input placeholder="Start Time"></ion-input>
+              <img
+                class="ion-align-items-center"
+                slot="end"
+                src="assets/icon/time-circle.svg"
+              />
+            </ion-item>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <div class="input-box">
+            <ion-item lines="none" class="ion-align-items-center">
+              <ion-input placeholder="Duration"></ion-input>
+              <img
+                class="ion-align-items-center"
+                slot="end"
+                src="assets/icon/duration.svg"
+              />
+            </ion-item>
+          </div>
+        </ion-col>
+        <ion-col size="12">
+          <div class="input-box">
+            <ion-item lines="none" class="ion-align-items-center">
+              <ion-input placeholder="Event Name"></ion-input>
+              <img
+                class="ion-align-items-center"
+                slot="end"
+                src="assets/icon/event-name.svg"
+              />
+            </ion-item>
+          </div>
+        </ion-col>
+        <ion-col size="12">
+          <div class="input-box">
+            <ion-item lines="none" class="ion-align-items-center">
+              <ion-input placeholder="Minimum Bid"></ion-input>
+              <img
+                class="ion-align-items-center"
+                slot="end"
+                src="assets/icon/dolor.svg"
+              />
+            </ion-item>
+          </div>
+        </ion-col>
+        <ion-col size="12">
+          <div class="input-box">
+            <ion-item lines="none" class="ion-align-items-center">
+              <ion-textarea placeholder="Address"></ion-textarea>
+              <img
+                class="ion-align-items-center"
+                slot="end"
+                src="assets/icon/location.svg"
+              />
+            </ion-item>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <div class="input-box">
+            <ion-item lines="none" class="ion-align-items-center">
+              <ion-input placeholder="State"></ion-input>
+            </ion-item>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <div class="input-box">
+            <ion-item lines="none" class="ion-align-items-center">
+              <ion-input placeholder="City"></ion-input>
+            </ion-item>
+          </div>
+        </ion-col>
+        <ion-col size="12">
+          <div class="input-box">
+            <ion-item lines="none" class="ion-align-items-center">
+              <ion-input placeholder="Zip Code"></ion-input>
+            </ion-item>
+          </div>
+        </ion-col>
+        <ion-col size="12">
+          <div class="input-box">
+            <ion-item lines="none" class="ion-align-items-center">
+              <ion-textarea placeholder="Message For Fans"></ion-textarea>
+              <img
+                class="ion-align-items-center"
+                slot="end"
+                src="assets/icon/chat.svg"
+              />
+            </ion-item>
+          </div>
+        </ion-col>
+      </ion-row>
+    </div>
+  </div>
+
+  <ion-footer mode="ios">
+    <ion-toolbar mode="ios">
+      <ion-button class="white-btn" (click)="onclick_cancel()">
+        <img src="assets/icon/close-icon.png" />
+      </ion-button>
+      <ion-button data-cy="logout" (click)="logout()" class="white-btn">
+        <img src="assets/icon/right-icon.png" />
+      </ion-button>
+    </ion-toolbar>
+  </ion-footer>
 
   <div style="display: none;" class="inner-content">
     <div class="main-screen">
