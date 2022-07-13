@@ -1,0 +1,173 @@
+ion-content {
+  --background: #6bbde9;
+  position: relative;
+  padding: 15px 0;
+  margin: 0;
+  --background: #6bbde9; /* Old browsers */
+  --background: -moz-radial-gradient(
+    60.17% 29.84% at 50% 50%,
+    #6bbde9 0%,
+    #2099da 100%
+  );
+  --background: -webkit-radial-gradient(
+    60.17% 29.84% at 50% 50%,
+    #6bbde9 0%,
+    #2099da 100%
+  );
+  --background: radial-gradient(
+    60.17% 29.84% at 50% 50%,
+    #6bbde9 0%,
+    #2099da 100%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6bbde9', endColorstr='#2099da',GradientType=1 );
+
+  --box-shadow: 0px -6px 7px #2d94c9;
+  .top-card {
+    // background: url(../../../assets/images/card-bg.png) no-repeat top center;
+    margin: 0;
+    padding: 0;
+    border-radius: 0 0 25px 25px;
+
+    padding: 35px 0 5px;
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+    .title-part {
+      ion-item {
+        --padding-start: 15px;
+        --inner-padding-end: 15px;
+        align-items: flex-start;
+        --background: transparent;
+        --background-activated: transparent;
+        --background-focused: transparent;
+        --background-hover: transparent;
+
+        ion-icon {
+          color: var(--white-clr);
+          font-size: 2rem;
+          margin: 0;
+          padding: 0;
+        }
+        ion-label {
+          margin: 0;
+          padding: 0;
+          .logo-head {
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            .nil4all span {
+              font-size: 0.875rem;
+              color: var(--white-clr);
+              text-transform: uppercase;
+              opacity: 1;
+              font-weight: 500;
+              margin-top: 0px;
+              display: inline-block;
+              font-style: italic;
+            }
+          }
+        }
+        .notification {
+          margin: 0;
+          padding: 0;
+          position: relative;
+          margin-top: 5px;
+          img {
+            width: 20px;
+          }
+          span {
+            height: 10px;
+            width: 10px;
+            border-radius: 10px;
+            border: 1px solid var(--white-clr);
+            position: absolute;
+            right: -2px;
+            top: -4px;
+            background: var(--red-bg);
+          }
+        }
+      }
+    }
+  }
+
+  .profile {
+    background: url("../../../assets/images/card-bg.png") no-repeat;
+    margin: 0 15px 15px;
+    padding: 10px;
+    border-radius: 10px;
+    background-size: cover;
+
+    &__top {
+      display: flex;
+      gap: 10px;
+    }
+    &__image {
+      position: relative;
+      & img {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+      }
+      & span {
+        height: 10px;
+        right: 0;
+        width: 10px;
+        border-radius: 15px;
+        position: absolute;
+        top: 26px;
+        display: inline-block;
+        z-index: 99;
+        border: 2px solid var(--white-clr);
+        &.online {
+          background: var(--online);
+        }
+        &.busy {
+          background: #ff2929;
+        }
+        &.offline {
+          background: var(--offline);
+        }
+      }
+    }
+
+    &__details {
+      & p {
+        font-size: 14px;
+        margin: 0;
+        padding-bottom: 5px;
+        font-weight: 400;
+        opacity: 0.5;
+      }
+    }
+
+    &__name {
+      font-size: 18px;
+      margin: 0;
+
+      font-weight: 600;
+    }
+
+    &__border {
+      margin-top: 10px;
+      height: 1px;
+      background-color: #fff;
+      opacity: 0.2;
+    }
+    &__bottom {
+      display: flex;
+      justify-content: space-between;
+      & h6 {
+        font-size: 18px;
+        font-weight: 700;
+      }
+    }
+    &__opp {
+      font-size: 12px;
+      font-weight: 500;
+      font-style: italic;
+      & span {
+        font-weight: 700;
+      }
+    }
+  }
+}

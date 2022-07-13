@@ -1,0 +1,62 @@
+<ion-content>
+  <ion-grid class="top-card">
+    <div class="title-part">
+      <ion-item lines="none">
+        <ion-icon
+          routerLink="/tabs/home"
+          slot="start"
+          name="arrow-back-outline"
+        ></ion-icon>
+        <ion-label>
+          <ion-grid class="logo-head">
+            <img src="assets/images/single-logo.svg" />
+            <div class="nil4all">
+              <span>#NIL4ALL</span>
+            </div>
+          </ion-grid>
+        </ion-label>
+        <div class="notification" slot="end">
+          <img src="assets/icon/notification.svg" />
+          <span></span>
+        </div>
+      </ion-item>
+    </div>
+  </ion-grid>
+
+  <div *ngIf="userData " class="profile">
+    <div class="profile__top">
+      <div class="profile__image">
+        <img src="../../../assets/images/profile.png" alt="" />
+        <span class="online"></span>
+      </div>
+      <div class="profile__details">
+        <h2 class="profile__name">Hi {{userData?.fullName}}</h2>
+        <ng-container *ngIf="userRole == 'fan'">
+          <p>{{userData?.teamName}}</p>
+          <p>{{userData?.teamState}} / {{userData?.teamName}}</p>
+        </ng-container>
+        <ng-container *ngIf="userRole == 'athlete'">
+          <p>{{userData?.teamName}}</p>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="profile__border"></div>
+
+    <div *ngIf="userRole == 'fan'" class="profile__bottom">
+      <h4 class="profile__opp">Opportunities on <span>Bubble App</span></h4>
+      <h6>
+        ${{userData?.totalEventAmount}}
+      </h6>
+    </div>
+
+    <div *ngIf="userRole == 'athlete'" class="profile__bottom">
+      <h4 class="profile__opp">
+        Your Bubble Bills Earning On <span>Bubble App</span>
+      </h4>
+      <h6>
+        ${{userData?.totalEarning}}
+      </h6>
+    </div>
+  </div>
+</ion-content>

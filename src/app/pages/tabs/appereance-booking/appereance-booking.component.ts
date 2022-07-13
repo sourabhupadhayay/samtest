@@ -6,8 +6,13 @@ import {
   Validators,
 } from "@angular/forms";
 import { ModalController } from "@ionic/angular";
-import { hr } from "date-fns/locale";
+
 import { CommonService } from "src/app/providers/common.service";
+import {
+  CoreService,
+  UserRole,
+  userRole,
+} from "src/app/providers/core.service";
 
 @Component({
   selector: "app-appereance-booking",
@@ -16,24 +21,56 @@ import { CommonService } from "src/app/providers/common.service";
 })
 export class AppereanceBookingComponent implements OnInit {
   athleteForm: FormGroup;
-  isFormSubmitted = false;
+  fanForm: FormGroup;
+  isAthleteFormSubmitted = false;
+  isFanFormSubmitted = false;
+  fanEventType: string = "VIDEO";
+  userRole: userRole;
+
   constructor(
     public modalCtrl: ModalController,
     private fb: FormBuilder,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private coreService: CoreService
   ) {}
 
   ngOnInit() {
     this.initAppearanceForm();
+    this.getUserRole();
+    this.eventTypeSelected();
+    this.selectedAthlete();
+  }
+  async getUserRole() {
+    this.userRole = await this.coreService.getUserDataFromStorage();
+  }
+
+  eventTypeSelected() {
+    console.log(this.fanEventType);
   }
 
   initAppearanceForm() {
     this.athleteForm = this.fb.nonNullable.group({
+      eventType: ["VIDEO"],
       startDate: ["", [Validators.required]],
       duration: ["", [Validators.required]],
       minBid: ["", [Validators.required]],
       description: ["", [Validators.required]],
       eventName: ["", [Validators.required]],
+    });
+
+    this.fanForm = this.fb.nonNullable.group({
+      startDate: ["", [Validators.required]],
+      duration: ["", [Validators.required]],
+      minBid: ["", [Validators.required]],
+      description: ["", [Validators.required]],
+      eventName: ["", [Validators.required]],
+      selectedAthleteName: ["", Validators.required],
+      EventAddress: this.fb.group({
+        addressLine1: ["", [Validators.required]],
+        city: ["", [Validators.required]],
+        state: ["", [Validators.required]],
+        zipcode: ["", [Validators.required]],
+      }),
     });
   }
 
@@ -42,8 +79,7 @@ export class AppereanceBookingComponent implements OnInit {
   }
 
   onSubmit() {
-    this.isFormSubmitted = true;
-    console.log(this.athleteForm);
+    console.log(this.fanForm);
   }
 
   patchDateValue(date: string) {
@@ -51,13 +87,29 @@ export class AppereanceBookingComponent implements OnInit {
       return;
     }
     let formattedDate = this.commonService.formatDateTime(date);
-    this.athleteForm.controls.startDate.patchValue(formattedDate);
+
+    if (this.userRole == "athlete") {
+      this.athleteForm.controls.startDate.patchValue(formattedDate);
+    } else {
+      this.fanForm.controls.startDate.patchValue(formattedDate);
+    }
+  }
+
+  selectedAthlete() {
+    this.fanForm.controls.selectedAthleteName.valueChanges.subscribe(
+      (value) => {
+        console.log(value);
+      }
+    );
   }
 
   patchTime(time: string) {
-    let formattedTime = this.commonService.formatTime(time);
+    // console.log(time);
+    // let formattedTime = this.commonService.formatTime(time);
 
-    var timeParts = formattedTime.split(":");
+    var timeParts = time.split(":");
+
+    console.log(timeParts);
 
     let hour = timeParts[0];
     let min = timeParts[1];
@@ -65,11 +117,20 @@ export class AppereanceBookingComponent implements OnInit {
     if (hour.trim() === "00" && min.trim() === "00") {
       return;
     }
-
-    if (hour == "00") {
-      this.athleteForm.controls.duration.patchValue(`${min.trim()}m`);
+    if (this.userRole == "athlete") {
+      if (hour == "00") {
+        this.athleteForm.controls.duration.patchValue(`${min.trim()}m`);
+      } else {
+        this.athleteForm.controls.duration.patchValue(
+          `${hour}h ${min.trim()}m`
+        );
+      }
     } else {
-      this.athleteForm.controls.duration.patchValue(`${hour}h ${min.trim()}m`);
+      if (hour == "00") {
+        this.fanForm.controls.duration.patchValue(`${min.trim()}m`);
+      } else {
+        this.fanForm.controls.duration.patchValue(`${hour}h ${min.trim()}m`);
+      }
     }
 
     let totalMin = this.commonService.convertTimeToMinute(hour, min);
@@ -78,7 +139,17 @@ export class AppereanceBookingComponent implements OnInit {
   validAthleteInputBorder(formControlName: string): string {
     if (
       this.athleteForm.controls[formControlName].invalid &&
-      this.isFormSubmitted
+      this.isAthleteFormSubmitted
+    ) {
+      return "error-input";
+    } else {
+      return "";
+    }
+  }
+  validFanInputBorder(formControlName: string): string {
+    if (
+      this.athleteForm.controls[formControlName].invalid &&
+      this.isFanFormSubmitted
     ) {
       return "error-input";
     } else {

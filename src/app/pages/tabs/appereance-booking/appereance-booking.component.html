@@ -9,7 +9,7 @@
     </div>
   </ion-header>
 
-  <div class="inner-content">
+  <div *ngIf="false" class="inner-content">
     <div class="main-screen">
       <div class="radio-btn">
         <ion-radio-group value="biff" mode="md">
@@ -92,7 +92,7 @@
                     value="00:00"
                     (ionChange)="patchTime(dateTime.value)"
                   >
-                    <span slot="title">Select start time</span></ion-datetime
+                    <span slot="title">Select duration</span></ion-datetime
                   >
                 </ion-content>
               </ng-template>
@@ -161,10 +161,14 @@
       </ion-row>
     </div>
   </div>
-  <div style="display: none;" class="inner-content">
+  <div class="inner-content">
     <div class="main-screen">
       <div class="radio-btn">
-        <ion-radio-group value="biff" mode="md">
+        <ion-radio-group
+          [(ngModel)]="fanEventType"
+          (ngModelChange)="eventTypeSelected()"
+          mode="md"
+        >
           <ion-row>
             <ion-col size="4">
               Select Appearance Type
@@ -172,48 +176,103 @@
             <ion-col size="4">
               <ion-item lines="none">
                 <ion-label>Video</ion-label>
-                <ion-radio mode="md" slot="start" value="griff"></ion-radio>
+                <ion-radio
+                  mode="md"
+                  name="video"
+                  slot="start"
+                  value="VIDEO"
+                ></ion-radio>
               </ion-item>
             </ion-col>
             <ion-col size="4">
               <ion-item lines="none">
                 <ion-label>In-Person</ion-label>
-                <ion-radio mode="md" slot="start" value="griff1"></ion-radio>
+                <ion-radio
+                  mode="md"
+                  slot="start"
+                  name="video"
+                  value="IN_PERSON"
+                ></ion-radio>
               </ion-item>
             </ion-col>
           </ion-row>
         </ion-radio-group>
       </div>
-      <ion-row>
+      <ion-row [formGroup]="fanForm">
         <ion-col size="12">
           <div class="input-box">
             <ion-item lines="none" class="ion-align-items-center">
-              <ion-input placeholder="Select Date"></ion-input>
+              <ion-input
+                [ngClass]="validFanInputBorder('startDate')"
+                id="open-date"
+                formControlName="startDate"
+                placeholder="Select Date"
+              ></ion-input>
               <img
                 class="ion-align-items-center"
                 slot="end"
                 src="assets/icon/calendar.svg"
               />
             </ion-item>
+            <ion-modal class="dateModal" trigger="open-date" mode="ios">
+              <ng-template>
+                <ion-content>
+                  <ion-datetime
+                    mode="ios"
+                    #dateTime
+                    [showDefaultButtons]="true"
+                    (ionChange)="patchDateValue(dateTime.value)"
+                  >
+                    <span slot="title">Select start time</span></ion-datetime
+                  >
+                </ion-content>
+              </ng-template>
+            </ion-modal>
           </div>
         </ion-col>
-        <!-- <ion-col size="6"> </ion-col> -->
+
         <ion-col size="12">
           <div class="input-box">
             <ion-item lines="none" class="ion-align-items-center">
-              <ion-input placeholder="Duration"></ion-input>
+              <ion-input
+                id="duration"
+                [ngClass]="validFanInputBorder('duration')"
+                formControlName="duration"
+                placeholder="Duration"
+              ></ion-input>
               <img
                 class="ion-align-items-center"
                 slot="end"
                 src="assets/icon/duration.svg"
               />
             </ion-item>
+            <ion-modal class="dateModal" trigger="duration" mode="ios">
+              <ng-template>
+                <ion-content>
+                  <ion-datetime
+                    mode="ios"
+                    presentation="time"
+                    hourCycle="h23"
+                    #dateTime
+                    [showDefaultButtons]="true"
+                    value="00:00"
+                    (ionChange)="patchTime(dateTime.value)"
+                  >
+                    <span slot="title">Select duration</span></ion-datetime
+                  >
+                </ion-content>
+              </ng-template>
+            </ion-modal>
           </div>
         </ion-col>
         <ion-col size="12">
           <div class="input-box">
             <ion-item lines="none" class="ion-align-items-center">
-              <ion-input placeholder="Event Name"></ion-input>
+              <ion-input
+                [ngClass]="validFanInputBorder('eventName')"
+                formControlName="eventName"
+                placeholder="Event Name"
+              ></ion-input>
               <img
                 class="ion-align-items-center"
                 slot="end"
@@ -225,7 +284,22 @@
         <ion-col size="12">
           <div class="input-box">
             <ion-item lines="none" class="ion-align-items-center">
-              <ion-input placeholder="Minimum Bid"></ion-input>
+              <ion-input
+                formControlName="selectedAthleteName"
+                placeholder="Select Athlete"
+              ></ion-input>
+              <img
+                class="ion-align-items-center"
+                slot="end"
+                src="assets/icon/event-name.svg"
+              />
+            </ion-item>
+          </div>
+        </ion-col>
+        <ion-col size="12">
+          <div class="input-box">
+            <ion-item lines="none" class="ion-align-items-center">
+              <ion-input placeholder="Appearance Fee ($)"></ion-input>
               <img
                 class="ion-align-items-center"
                 slot="end"
@@ -234,43 +308,62 @@
             </ion-item>
           </div>
         </ion-col>
+        <ng-container *ngIf="fanEventType == 'IN_PERSON'">
+          <ion-row formGroupName="EventAddress">
+            <ion-col size="12">
+              <div class="input-box">
+                <ion-item lines="none" class="ion-align-items-center">
+                  <ion-textarea
+                    formControlName="addressLine1"
+                    placeholder="Address"
+                  ></ion-textarea>
+                  <img
+                    class="ion-align-items-center"
+                    slot="end"
+                    src="assets/icon/location.svg"
+                  />
+                </ion-item>
+              </div>
+            </ion-col>
+            <ion-col size="6">
+              <div class="input-box">
+                <ion-item lines="none" class="ion-align-items-center">
+                  <ion-input
+                    formControlName="state"
+                    placeholder="State"
+                  ></ion-input>
+                </ion-item>
+              </div>
+            </ion-col>
+            <ion-col size="6">
+              <div class="input-box">
+                <ion-item lines="none" class="ion-align-items-center">
+                  <ion-input
+                    formControlName="city"
+                    placeholder="City"
+                  ></ion-input>
+                </ion-item>
+              </div>
+            </ion-col>
+            <ion-col size="12">
+              <div class="input-box">
+                <ion-item lines="none" class="ion-align-items-center">
+                  <ion-input
+                    formControlName="zipcode"
+                    placeholder="Zip Code"
+                  ></ion-input>
+                </ion-item>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ng-container>
         <ion-col size="12">
           <div class="input-box">
             <ion-item lines="none" class="ion-align-items-center">
-              <ion-textarea placeholder="Address"></ion-textarea>
-              <img
-                class="ion-align-items-center"
-                slot="end"
-                src="assets/icon/location.svg"
-              />
-            </ion-item>
-          </div>
-        </ion-col>
-        <ion-col size="6">
-          <div class="input-box">
-            <ion-item lines="none" class="ion-align-items-center">
-              <ion-input placeholder="State"></ion-input>
-            </ion-item>
-          </div>
-        </ion-col>
-        <ion-col size="6">
-          <div class="input-box">
-            <ion-item lines="none" class="ion-align-items-center">
-              <ion-input placeholder="City"></ion-input>
-            </ion-item>
-          </div>
-        </ion-col>
-        <ion-col size="12">
-          <div class="input-box">
-            <ion-item lines="none" class="ion-align-items-center">
-              <ion-input placeholder="Zip Code"></ion-input>
-            </ion-item>
-          </div>
-        </ion-col>
-        <ion-col size="12">
-          <div class="input-box">
-            <ion-item lines="none" class="ion-align-items-center">
-              <ion-textarea placeholder="Message For Fans"></ion-textarea>
+              <ion-textarea
+                formControlName="description"
+                placeholder="Message For Fans"
+              ></ion-textarea>
               <img
                 class="ion-align-items-center"
                 slot="end"

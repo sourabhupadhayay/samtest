@@ -29,9 +29,16 @@ export class BubbleScreenPage implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.isUserLoggedIn();
     this.getAthletes();
     this.audio.src = "assets/audio/bubble-bursting.mp3";
     this.audio.load();
+  }
+
+  isUserLoggedIn() {
+    if (this.authenticationService.isAuthenticated()) {
+      this.router.navigate(["/tabs/home"]);
+    }
   }
 
   getAthletes() {
