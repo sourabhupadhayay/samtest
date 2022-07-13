@@ -297,18 +297,25 @@
                 matInput
                 [matAutocomplete]="auto"
                 formControlName="selectedAthleteName"
-                placeholder="Select Athlete"
+                placeholder="Select Athlete" class="transparent-input"
               />
               <img
                 class="ion-align-items-center"
                 slot="end"
-                src="assets/icon/event-name.svg"
+                src="assets/icon/arrow-down.svg"
               />
             </ion-item>
             <mat-autocomplete #auto="matAutocomplete">
               <mat-option *ngFor="let option of options" [value]="option">
-                <div class="">
-                  hello
+                <div class="list-data">
+                    <ion-list>
+                        <ion-item lines="none">
+                            <img slot="start" src="assets/images/upload-img.png">
+                            <ion-label>
+                                <h5>Blake Shapen</h5>
+                            </ion-label>
+                        </ion-item>
+                    </ion-list>
                 </div>
               </mat-option>
             </mat-autocomplete>
