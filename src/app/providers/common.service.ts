@@ -47,4 +47,13 @@ export class CommonService {
       return "fan";
     }
   }
+
+  removeCommaFromString(value: string) {
+    let converted = parseFloat(value.replace(/,/g, ""));
+
+    return converted;
+  }
+  convertTimeToMinute(hour: string, min: string) {
+    return Number(hour) * 60 + Number(min);
+  }
 }
