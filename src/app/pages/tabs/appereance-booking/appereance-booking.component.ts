@@ -6,7 +6,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { ModalController } from "@ionic/angular";
-import { hr } from "date-fns/locale";
+
 import { CommonService } from "src/app/providers/common.service";
 
 @Component({
@@ -16,7 +16,9 @@ import { CommonService } from "src/app/providers/common.service";
 })
 export class AppereanceBookingComponent implements OnInit {
   athleteForm: FormGroup;
+  fanForm: FormGroup;
   isFormSubmitted = false;
+  eventType: string = "VIDEO";
   constructor(
     public modalCtrl: ModalController,
     private fb: FormBuilder,
@@ -25,10 +27,24 @@ export class AppereanceBookingComponent implements OnInit {
 
   ngOnInit() {
     this.initAppearanceForm();
+    this.eventTypeSelected();
+  }
+
+  eventTypeSelected() {
+    console.log(this.eventType);
   }
 
   initAppearanceForm() {
     this.athleteForm = this.fb.nonNullable.group({
+      eventType: ["VIDEO"],
+      startDate: ["", [Validators.required]],
+      duration: ["", [Validators.required]],
+      minBid: ["", [Validators.required]],
+      description: ["", [Validators.required]],
+      eventName: ["", [Validators.required]],
+    });
+    this.fanForm = this.fb.nonNullable.group({
+      eventType: ["VIDEO"],
       startDate: ["", [Validators.required]],
       duration: ["", [Validators.required]],
       minBid: ["", [Validators.required]],
