@@ -9,7 +9,7 @@
     </div>
   </ion-header>
 
-  <div class="inner-content">
+  <div style="display: none;" class="inner-content">
     <div class="main-screen">
       <div class="radio-btn">
         <ion-radio-group value="biff" mode="md">
@@ -161,10 +161,10 @@
       </ion-row>
     </div>
   </div>
-  <div style="display: none;" class="inner-content">
-    <div class="main-screen">
+  <div class="inner-content">
+    <div [formGroup]="athleteForm" class="main-screen">
       <div class="radio-btn">
-        <ion-radio-group value="biff" mode="md">
+        <ion-radio-group formControlName="eventType" mode="md">
           <ion-row>
             <ion-col size="4">
               Select Appearance Type
@@ -172,13 +172,13 @@
             <ion-col size="4">
               <ion-item lines="none">
                 <ion-label>Video</ion-label>
-                <ion-radio mode="md" slot="start" value="griff"></ion-radio>
+                <ion-radio mode="md" slot="start" value="VIDEO"></ion-radio>
               </ion-item>
             </ion-col>
             <ion-col size="4">
               <ion-item lines="none">
                 <ion-label>In-Person</ion-label>
-                <ion-radio mode="md" slot="start" value="griff1"></ion-radio>
+                <ion-radio mode="md" slot="start" value="IN_PERSON"></ion-radio>
               </ion-item>
             </ion-col>
           </ion-row>
@@ -225,7 +225,19 @@
         <ion-col size="12">
           <div class="input-box">
             <ion-item lines="none" class="ion-align-items-center">
-              <ion-input placeholder="Minimum Bid"></ion-input>
+              <ion-input placeholder="Select Athlete"></ion-input>
+              <img
+                class="ion-align-items-center"
+                slot="end"
+                src="assets/icon/event-name.svg"
+              />
+            </ion-item>
+          </div>
+        </ion-col>
+        <ion-col size="12">
+          <div class="input-box">
+            <ion-item lines="none" class="ion-align-items-center">
+              <ion-input placeholder="Appearance Fee ($)"></ion-input>
               <img
                 class="ion-align-items-center"
                 slot="end"
