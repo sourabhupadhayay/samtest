@@ -26,6 +26,7 @@ export class AppereanceBookingComponent implements OnInit {
   isFanFormSubmitted = false;
   fanEventType: string = "VIDEO";
   userRole: userRole;
+  options: string[] = ["One", "Two", "Three"];
 
   constructor(
     public modalCtrl: ModalController,

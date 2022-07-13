@@ -284,16 +284,25 @@
         <ion-col size="12">
           <div class="input-box">
             <ion-item lines="none" class="ion-align-items-center">
-              <ion-input
+              <input
+                matInput
+                [matAutocomplete]="auto"
                 formControlName="selectedAthleteName"
                 placeholder="Select Athlete"
-              ></ion-input>
+              />
               <img
                 class="ion-align-items-center"
                 slot="end"
                 src="assets/icon/event-name.svg"
               />
             </ion-item>
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let option of options" [value]="option">
+                <div class="">
+                  hello
+                </div>
+              </mat-option>
+            </mat-autocomplete>
           </div>
         </ion-col>
         <ion-col size="12">

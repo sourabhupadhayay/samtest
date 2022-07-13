@@ -10,6 +10,8 @@ import { TabsPage } from "./tabs.page";
 import { PipesModule } from "src/app/pipes/pipes.module";
 import { AppereanceBookingComponent } from "./appereance-booking/appereance-booking.component";
 import { CommonDirectiveModule } from "src/app/directives/common-directive.module";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatInputModule } from "@angular/material/input";
 
 @NgModule({
   imports: [
@@ -20,6 +22,8 @@ import { CommonDirectiveModule } from "src/app/directives/common-directive.modul
     PipesModule,
     ReactiveFormsModule,
     CommonDirectiveModule,
+    MatAutocompleteModule,
+    MatInputModule,
   ],
   declarations: [TabsPage, AppereanceBookingComponent],
 })
