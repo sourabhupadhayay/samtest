@@ -5,6 +5,7 @@ import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { AppereanceBookingComponent } from "./appereance-booking/appereance-booking.component";
+import { PaymentComponent } from "./payment/payment.component";
 
 @Component({
   selector: "app-tabs",
@@ -29,7 +30,7 @@ export class TabsPage implements OnInit {
 
   async presentChangePasswordModal(): Promise<void> {
     const modal: HTMLIonModalElement = await this.modalCtrl.create({
-      component: AppereanceBookingComponent,
+      component: PaymentComponent,
       cssClass: "client-filter-modal",
     });
 

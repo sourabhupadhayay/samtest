@@ -1,3 +1,70 @@
-<p>
-  payment works!
-</p>
+<div class="client-filter-modal payment-flow">
+  <ion-header mode="ios">
+    <div class="icon-header">
+      <img src="assets/icon/header-bubble.png" />
+      <h3>Select Payment Option</h3>
+    </div>
+    <div class="top-noch">
+      <img src="assets/images/modal-tope.png" />
+    </div>
+  </ion-header>
+
+  <div class="inner-content">
+    <div class="main-screen">
+        <div class="payment-select">
+          <ion-radio-group value="biff" mode="md">
+              <div class="select-item">
+                <ion-item lines="none" mode="md">
+                  <ion-radio slot="start" value="biff"></ion-radio>
+                  <ion-label>
+                    <h5>Apple Pay</h5>
+                    <p>Balance : <span>$500</span></p>
+                  </ion-label>
+                  <img slot="end" src="assets/images/apple-pay.svg">
+                </ion-item>
+              </div>
+
+              <div class="select-item">
+                <ion-item lines="none" mode="md">
+                  <ion-radio slot="start" value="biff1"></ion-radio>
+                  <ion-label>
+                    <h5>Credit Card</h5>
+                  </ion-label>
+                  <img slot="end" src="assets/images/card-icn.svg">
+                </ion-item>
+              </div>
+             
+          </ion-radio-group>
+        </div>
+    </div>
+  </div>
+
+  <ion-footer mode="ios">
+    <ion-toolbar mode="ios">
+      <ion-button class="white-btn" (click)="onclick_cancel()">
+        <img src="assets/icon/close-icon.png" />
+      </ion-button>
+      <ion-button class="white-btn">
+        <img src="assets/icon/right-icon.png" />
+      </ion-button>
+      <div class="nil4all">
+          <span>#NIL4ALL</span>
+       </div>
+    </ion-toolbar>
+  </ion-footer>
+
+  <ion-grid class="bg-bubble">
+    <div class="dots-bubble">
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+    </div>
+  </ion-grid>
+</div>
