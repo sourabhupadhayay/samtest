@@ -9,10 +9,10 @@
     </div>
   </ion-header>
 
-  <div *ngIf="false" class="inner-content">
+  <div *ngIf="userRole == 'athlete'" class="inner-content">
     <div class="main-screen">
       <div class="radio-btn">
-        <ion-radio-group value="biff" mode="md">
+        <ion-radio-group value="VIDEO" mode="md">
           <ion-row>
             <ion-col size="4">
               Select Appearance Type
@@ -20,7 +20,7 @@
             <ion-col size="4">
               <ion-item lines="none">
                 <ion-label>Video</ion-label>
-                <ion-radio mode="md" slot="start" value="griff"></ion-radio>
+                <ion-radio mode="md" slot="start" value="VIDEO"></ion-radio>
               </ion-item>
             </ion-col>
           </ion-row>
@@ -161,7 +161,7 @@
       </ion-row>
     </div>
   </div>
-  <div class="inner-content">
+  <div *ngIf="userRole == 'fan'" class="inner-content">
     <div class="main-screen">
       <div class="radio-btn">
         <ion-radio-group
@@ -292,12 +292,17 @@
         </ion-col>
         <ion-col size="12">
           <div class="input-box">
-            <ion-item lines="none" class="ion-align-items-center">
+            <ion-item
+              [ngClass]="validFanInputBorder('selectedAthleteName')"
+              lines="none"
+              class="ion-align-items-center"
+            >
               <input
                 matInput
                 [matAutocomplete]="auto"
                 formControlName="selectedAthleteName"
-                placeholder="Select Athlete" class="transparent-input"
+                placeholder="Select Athlete"
+                class="transparent-input"
               />
               <img
                 class="ion-align-items-center"
@@ -306,16 +311,20 @@
               />
             </ion-item>
             <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let option of options" [value]="option">
+              <mat-option
+                (click)="selectedAthlete(option)"
+                *ngFor="let option of $athletes | async"
+                [value]="option.fullName"
+              >
                 <div class="list-data">
-                    <ion-list>
-                        <ion-item lines="none">
-                            <img slot="start" src="assets/images/upload-img.png">
-                            <ion-label>
-                                <h5>Blake Shapen</h5>
-                            </ion-label>
-                        </ion-item>
-                    </ion-list>
+                  <ion-list>
+                    <ion-item lines="none">
+                      <img slot="start" [src]="option.profileUrl | profile" />
+                      <ion-label>
+                        <h5>{{option.fullName }}</h5>
+                      </ion-label>
+                    </ion-item>
+                  </ion-list>
                 </div>
               </mat-option>
             </mat-autocomplete>
@@ -341,7 +350,7 @@
           </div>
         </ion-col>
         <ng-container *ngIf="fanEventType === 'IN_PERSON'">
-          <ion-row formGroupName="EventAddress">
+          <ion-row formGroupName="eventAddress">
             <ion-col size="12">
               <div class="input-box">
                 <ion-item
