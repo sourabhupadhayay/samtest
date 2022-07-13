@@ -9,6 +9,7 @@ import { TabsPageRoutingModule } from "./tabs-routing.module";
 import { TabsPage } from "./tabs.page";
 import { PipesModule } from "src/app/pipes/pipes.module";
 import { AppereanceBookingComponent } from "./appereance-booking/appereance-booking.component";
+import { CommonDirectiveModule } from "src/app/directives/common-directive.module";
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { AppereanceBookingComponent } from "./appereance-booking/appereance-book
     TabsPageRoutingModule,
     PipesModule,
     ReactiveFormsModule,
+    CommonDirectiveModule,
   ],
   declarations: [TabsPage, AppereanceBookingComponent],
 })

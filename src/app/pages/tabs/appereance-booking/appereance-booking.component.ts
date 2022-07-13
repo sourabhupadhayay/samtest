@@ -1,6 +1,12 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { ModalController } from "@ionic/angular";
+import { hr } from "date-fns/locale";
 import { CommonService } from "src/app/providers/common.service";
 
 @Component({
@@ -22,7 +28,7 @@ export class AppereanceBookingComponent implements OnInit {
   }
 
   initAppearanceForm() {
-    this.athleteForm = this.fb.group({
+    this.athleteForm = this.fb.nonNullable.group({
       startDate: ["", [Validators.required]],
       duration: ["", [Validators.required]],
       minBid: ["", [Validators.required]],
@@ -56,17 +62,27 @@ export class AppereanceBookingComponent implements OnInit {
     let hour = timeParts[0];
     let min = timeParts[1];
 
+    if (hour.trim() === "00" && min.trim() === "00") {
+      return;
+    }
+
     if (hour == "00") {
       this.athleteForm.controls.duration.patchValue(`${min.trim()}m`);
     } else {
       this.athleteForm.controls.duration.patchValue(`${hour}h ${min.trim()}m`);
     }
 
-    let totalMin = this.convertTimeToMinute(hour, min);
-    console.log(totalMin);
+    let totalMin = this.commonService.convertTimeToMinute(hour, min);
   }
 
-  convertTimeToMinute(hour: string, min: string) {
-    return Number(hour) * 60 + Number(min);
+  validAthleteInputBorder(formControlName: string): string {
+    if (
+      this.athleteForm.controls[formControlName].invalid &&
+      this.isFormSubmitted
+    ) {
+      return "error-input";
+    } else {
+      return "";
+    }
   }
 }
