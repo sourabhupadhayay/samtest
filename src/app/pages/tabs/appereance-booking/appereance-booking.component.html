@@ -14,10 +14,10 @@
       <div class="radio-btn">
         <ion-radio-group value="VIDEO" mode="md">
           <ion-row>
-            <ion-col size="4">
+            <ion-col size="6">
               Select Appearance Type
             </ion-col>
-            <ion-col size="4">
+            <ion-col size="6">
               <ion-item lines="none">
                 <ion-label>Video</ion-label>
                 <ion-radio mode="md" slot="start" value="VIDEO"></ion-radio>
@@ -169,11 +169,11 @@
           (ngModelChange)="eventTypeSelected()"
           mode="md"
         >
-          <ion-row>
-            <ion-col size="4">
-              Select Appearance Type
-            </ion-col>
-            <ion-col size="4">
+          <div class="radio-main">
+            <div class="radio-text">
+              <h5>Select Appearance Type</h5>
+            </div>
+            <div class="radio-data">
               <ion-item lines="none">
                 <ion-label>Video</ion-label>
                 <ion-radio
@@ -183,8 +183,8 @@
                   value="VIDEO"
                 ></ion-radio>
               </ion-item>
-            </ion-col>
-            <ion-col size="4">
+            </div>
+            <div class="radio-data">
               <ion-item lines="none">
                 <ion-label>In-Person</ion-label>
                 <ion-radio
@@ -194,8 +194,8 @@
                   value="IN_PERSON"
                 ></ion-radio>
               </ion-item>
-            </ion-col>
-          </ion-row>
+            </div>
+          </div>
         </ion-radio-group>
       </div>
       <ion-row [formGroup]="fanForm">
@@ -430,6 +430,14 @@
           </div>
         </ion-col>
       </ion-row>
+
+      <div class="save-card">
+        <ion-item lines="none" mode="ios">
+          <ion-label>Accept<span>Terms & Conditions</span></ion-label>
+          <ion-checkbox slot="start" mode="ios"></ion-checkbox>
+        </ion-item>
+      </div>
+
     </div>
   </div>
 
@@ -441,6 +449,9 @@
       <ion-button (click)="onSubmit()" class="white-btn">
         <img src="assets/icon/right-icon.png" />
       </ion-button>
+      <div class="nil4all">
+        <span>#NIL4ALL</span>
+      </div>
     </ion-toolbar>
   </ion-footer>
 

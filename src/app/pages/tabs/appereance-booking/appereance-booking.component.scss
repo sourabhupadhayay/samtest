@@ -126,11 +126,53 @@
         }
       }
       .radio-btn {
-        ion-item {
+        .radio-main{display: flex;
+            .radio-text{flex: 1; align-self: center;
+              h5{font-size: 0.875rem; color: var(--text-black); margin: 0; font-weight: 400;}
+            }
+            .radio-data{margin: 0 5px;
+              ion-item { --padding-start: 0; --inner-padding-end: 0;
+                ion-label{font-size: 0.875rem; color: var(--theme-one-clr); margin: 0; font-weight: 400;}
+                ion-radio {margin: 0; width: 16px; height: 16px; --color-checked: var(--theme-one-clr); --color:var(--text-gray); margin-right: 5px;}
+              }
+            }
+        }
+      }
+      .save-card{padding: 5px;
+        ion-item{
+          --padding-start:15px; --inner-padding-end:15px; --background: var(--white-bg); border-radius: 8px; box-shadow: none;
           --padding-start: 0;
-          --inner-padding-end: 0;
-          ion-radio {
+          --innerpadding-end: 0;
+          --background: transparent;
+          --ripple-color: none;
+          --background-activated: none;
+          --background-focused: none;
+          --background-hover: none;
+          --background-activated-opacity: 1;
+          --background-focused-opacity: 1;
+          --background-hover-opacity: 1;
+          --ripple-color: none;
+          --min-height: 35px;
+          ion-checkbox{
+            --ripple-color: none;
             margin: 0;
+            margin-right: 5px;
+            --size: 17px;
+            --border-color: var(--theme-one-clr);
+            --background-checked: transparent;
+            --background: transparent;
+            --border-width: 2px;
+            --checkmark-width: 3px;
+            --border-color-checked: var(--theme-one-clr);
+            --ripple-color: none;
+            --border-radius: 50px;
+            --checkmark-color: var(--theme-one-clr);
+          }
+          ion-label{
+            word-break: break-word;
+            white-space: normal;
+            font-size: 0.75rem; color: var(--text-black); font-weight: 500;
+            span{font-weight: 800; display: inline-block; position: relative; z-index: 9; margin-left: 5px; color: var(--theme-one-clr);}
           }
         }
       }
@@ -162,6 +204,16 @@
         &.button-disabled {
           opacity: 0.5;
         }
+      }
+      .nil4all span {
+        font-size: 0.875rem;
+        color: var(--theme-one-clr);
+        text-transform: uppercase;
+        opacity: 1;
+        font-weight: 700;
+        margin-top: 0px;
+        display: inline-block;
+        font-style: italic;
       }
     }
   }
