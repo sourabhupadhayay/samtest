@@ -74,8 +74,23 @@
         </ion-segment-button>
       </ion-segment>
     </ion-grid>
-    <div class=""><h6>SCHEDULE</h6></div>
+    <div class="schedule">
+      <h6>SCHEDULE</h6>
+      <div class="">
+        <ion-select selectedText="All">
+          <ion-select-option value="apples">All</ion-select-option>
+          <ion-select-option value="Created by Me"
+            >Created by Me</ion-select-option
+          >
+          <ion-select-option value="oranges"
+            >Created by Athletes</ion-select-option
+          >
+          <ion-select-option value="bananas">Sponsored by</ion-select-option>
+        </ion-select>
+      </div>
+    </div>
     <div class="">
+      <schedule-card></schedule-card>
       <schedule-card></schedule-card>
     </div>
   </ion-grid>
