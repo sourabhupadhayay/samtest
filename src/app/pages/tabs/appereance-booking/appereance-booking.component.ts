@@ -43,6 +43,7 @@ export class AppereanceBookingComponent implements OnInit {
   selectedAthleteName: string = "";
   totalAthleteDuration: number = 0;
   totalFanDuration: number = 0;
+  isTermsAndConditionAccepted: boolean = false;
 
   constructor(
     public modalCtrl: ModalController,

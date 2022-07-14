@@ -159,6 +159,16 @@
           </div>
         </ion-col>
       </ion-row>
+      <div class="save-card">
+        <ion-item lines="none" mode="ios">
+          <ion-label>Accept<span>Terms & Conditions</span></ion-label>
+          <ion-checkbox
+            [(ngModel)]="isTermsAndConditionAccepted"
+            slot="start"
+            mode="ios"
+          ></ion-checkbox>
+        </ion-item>
+      </div>
     </div>
   </div>
   <div *ngIf="userRole == 'fan'" class="inner-content">
@@ -415,8 +425,12 @@
           </ion-row>
         </ng-container>
         <ion-col size="12">
-          <div [ngClass]="validFanInputBorder('duration')" class="input-box">
-            <ion-item lines="none" class="ion-align-items-center">
+          <div class="input-box">
+            <ion-item
+              [ngClass]="validFanInputBorder('duration')"
+              lines="none"
+              class="ion-align-items-center"
+            >
               <ion-textarea
                 formControlName="description"
                 placeholder="Message For Fans"
@@ -434,10 +448,13 @@
       <div class="save-card">
         <ion-item lines="none" mode="ios">
           <ion-label>Accept<span>Terms & Conditions</span></ion-label>
-          <ion-checkbox slot="start" mode="ios"></ion-checkbox>
+          <ion-checkbox
+            [(ngModel)]="isTermsAndConditionAccepted"
+            slot="start"
+            mode="ios"
+          ></ion-checkbox>
         </ion-item>
       </div>
-
     </div>
   </div>
 
@@ -446,7 +463,11 @@
       <ion-button class="white-btn" (click)="onclick_cancel()">
         <img src="assets/icon/close-icon.png" />
       </ion-button>
-      <ion-button (click)="onSubmit()" class="white-btn">
+      <ion-button
+        [disabled]="!isTermsAndConditionAccepted"
+        (click)="onSubmit()"
+        class="white-btn"
+      >
         <img src="assets/icon/right-icon.png" />
       </ion-button>
       <div class="nil4all">
