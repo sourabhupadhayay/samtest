@@ -52,7 +52,7 @@
                     mode="ios"
                     #dateTime
                     [showDefaultButtons]="true"
-                    (ionChange)="patchDateValue(dateTime.value)"
+                    (ionChange)="setDateValue(dateTime.value)"
                   >
                     <span slot="title">Select start time</span></ion-datetime
                   >
@@ -224,7 +224,7 @@
                     mode="ios"
                     #dateTime
                     [showDefaultButtons]="true"
-                    (ionChange)="patchDateValue(dateTime.value)"
+                    (ionChange)="setDateValue(dateTime.value)"
                   >
                     <span slot="title">Select start time</span></ion-datetime
                   >

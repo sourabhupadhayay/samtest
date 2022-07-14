@@ -5,6 +5,7 @@ import { Observable } from "rxjs";
 import {
   debounceTime,
   distinctUntilChanged,
+  filter,
   map,
   startWith,
   switchMap,
@@ -32,7 +33,7 @@ export class AppereanceBookingComponent implements OnInit {
   fanEventType: "VIDEO" | "IN_PERSON" = "VIDEO";
   userRole: userRole;
   $athletes: Observable<any>;
-  selectedAthleteId: string;
+  selectedAthleteId: string = "";
   validationType = {
     addressLine1: [Validators.required],
     city: [Validators.required],
@@ -117,7 +118,7 @@ export class AppereanceBookingComponent implements OnInit {
       this.fanForm.reset();
       this.isFanFormSubmitted = false;
     }
-    this.modalCtrl.dismiss();
+    this.modalCtrl.dismiss(true);
   }
 
   onSubmit() {
@@ -180,7 +181,7 @@ export class AppereanceBookingComponent implements OnInit {
     return request;
   }
 
-  patchDateValue(date: string) {
+  setDateValue(date: string) {
     if (!date) {
       return;
     }
@@ -196,8 +197,10 @@ export class AppereanceBookingComponent implements OnInit {
   getSelectedAthlete() {
     this.$athletes = this.fanForm.controls.selectedAthleteName.valueChanges.pipe(
       startWith(""),
+      map((search: string) => search.trim()),
       debounceTime(1000),
       distinctUntilChanged(),
+
       switchMap((value) => {
         let request: Request = {
           path: "auth/users/manage/filter/list",
@@ -223,7 +226,7 @@ export class AppereanceBookingComponent implements OnInit {
           map((response: Response) => {
             this.coreService.dismissLoader();
             if (response.status.code == this.constant.STATUS_OK) {
-              this.isSelectedAthleteValid(value);
+              this.selectedAthleteId = "";
               return response.data;
             } else {
               this.coreService.showToastMessage(
@@ -241,15 +244,13 @@ export class AppereanceBookingComponent implements OnInit {
     this.selectedAthleteId = athlete.id;
     this.selectedAthleteName = athlete.fullName;
   }
-  isSelectedAthleteValid(textFieldValue: string) {
-    if (textFieldValue !== this.selectedAthleteName) {
-      this.selectedAthleteId == "";
-      this.selectedAthleteName = "";
-      this.fanForm.controls.selectedAthleteName.reset();
+  isSelectedAthleteValid() {
+    if (this.selectedAthleteId == "") {
       this.coreService.showToastMessage(
         "Please select valid athlete",
         this.coreService.TOAST_ERROR
       );
+      return false;
     }
   }
 
