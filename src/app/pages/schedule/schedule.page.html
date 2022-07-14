@@ -59,4 +59,24 @@
       </h6>
     </div>
   </div>
+
+  <ion-grid class="content-part">
+    <ion-grid class="tabs-design">
+      <ion-segment [(ngModel)]="selectedIndex" mode="ios">
+        <ion-segment-button value="Upcoming">
+          <ion-label>Upcoming</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="Past">
+          <ion-label>Past</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="appearances">
+          <ion-label>Appearances</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-grid>
+    <div class=""><h6>SCHEDULE</h6></div>
+    <div class="">
+      <schedule-card></schedule-card>
+    </div>
+  </ion-grid>
 </ion-content>

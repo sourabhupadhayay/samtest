@@ -17,7 +17,7 @@ export class SchedulePage implements OnInit {
   userData: any | null = null;
   userRole: userRole;
   nameInitials: string;
-
+  selectedIndex: string = "Upcoming";
   constructor(
     private coreService: CoreService,
     private apiService: DataService,
