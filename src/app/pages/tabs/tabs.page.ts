@@ -30,10 +30,23 @@ export class TabsPage implements OnInit {
 
   async presentChangePasswordModal(): Promise<void> {
     const modal: HTMLIonModalElement = await this.modalCtrl.create({
-      component: PaymentComponent,
+      component: AppereanceBookingComponent,
       cssClass: "client-filter-modal",
     });
 
+    modal.present();
+
+    const { data, role } = await modal.onDidDismiss();
+    if (data) {
+      this.presentPaymentModal();
+    }
+  }
+
+  async presentPaymentModal() {
+    const modal: HTMLIonModalElement = await this.modalCtrl.create({
+      component: PaymentComponent,
+      cssClass: "client-filter-modal",
+    });
     modal.present();
   }
 
