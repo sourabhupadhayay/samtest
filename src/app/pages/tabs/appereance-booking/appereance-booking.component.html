@@ -18,7 +18,7 @@
               Select Appearance Type
             </ion-col>
             <ion-col size="6">
-              <ion-item lines="none">
+              <ion-item lines="none" mode="ios">
                 <ion-label>Video</ion-label>
                 <ion-radio mode="md" slot="start" value="VIDEO"></ion-radio>
               </ion-item>
@@ -326,14 +326,14 @@
                 [value]="option.fullName"
               >
                 <div class="list-data">
-                  <ion-list>
+                  <!-- <ion-list> -->
                     <ion-item lines="none">
                       <img slot="start" [src]="option.profileUrl | profile" />
                       <ion-label>
                         <h5>{{option.fullName }}</h5>
                       </ion-label>
                     </ion-item>
-                  </ion-list>
+                  <!-- </ion-list> -->
                 </div>
               </mat-option>
             </mat-autocomplete>
