@@ -119,6 +119,7 @@ export class AppereanceBookingComponent implements OnInit {
       this.fanForm.reset();
       this.isFanFormSubmitted = false;
     }
+
     this.modalCtrl.dismiss(false);
   }
 
@@ -129,10 +130,11 @@ export class AppereanceBookingComponent implements OnInit {
     } else {
       request = this.fanDataRequest();
     }
+    if (!request) {
+      return;
+    }
 
-    setTimeout(() => {
-      this.modalCtrl.dismiss(true);
-    }, 2000);
+    this.modalCtrl.dismiss(true);
 
     console.log(request);
   }
@@ -163,6 +165,10 @@ export class AppereanceBookingComponent implements OnInit {
     if (this.fanForm.invalid) {
       return;
     }
+    if (this.isSelectedAthleteValid()) {
+      return;
+    }
+
     let {
       selectedAthleteName,
       startDate,
@@ -207,6 +213,7 @@ export class AppereanceBookingComponent implements OnInit {
       distinctUntilChanged(),
 
       switchMap((value) => {
+        this.selectedAthleteId = "";
         let request: Request = {
           path: "auth/users/manage/filter/list",
           data: {
@@ -231,7 +238,6 @@ export class AppereanceBookingComponent implements OnInit {
           map((response: Response) => {
             this.coreService.dismissLoader();
             if (response.status.code == this.constant.STATUS_OK) {
-              this.selectedAthleteId = "";
               return response.data;
             } else {
               this.coreService.showToastMessage(
@@ -255,8 +261,9 @@ export class AppereanceBookingComponent implements OnInit {
         "Please select valid athlete",
         this.coreService.TOAST_ERROR
       );
-      return false;
+      return true;
     }
+    return false;
   }
 
   patchTime(time: string) {
