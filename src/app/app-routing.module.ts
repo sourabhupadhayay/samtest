@@ -51,7 +51,11 @@ const routes: Routes = [
           ),
       },
     ],
+  },  {
+    path: 'welcome-screen',
+    loadChildren: () => import('./pages/welcome-screen/welcome-screen.module').then( m => m.WelcomeScreenPageModule)
   },
+
 ];
 
 @NgModule({

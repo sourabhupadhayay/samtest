@@ -1,0 +1,39 @@
+ion-content {
+  position: relative;
+  --background: url(../../../assets/images/background-new.png) no-repeat center;
+  background-size: cover;
+  color: #333;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  width: 100%;
+}
+ion-slides {
+  height: 100%;
+  --bullet-background: rgba(255, 255, 255, 0.462);
+  --bullet-background-active: #fff;
+}
+ion-slide {
+  height: 70%;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+}
+.image-container {
+  & img {
+    border-bottom-left-radius: 100%;
+    border-left: 5px solid #fff;
+    border-bottom: 5px solid #fff;
+  }
+}
+
+.details {
+  text-align: left;
+  padding: 10px 15px;
+  & h2 {
+    font-size: 20px;
+    font-weight: 700;
+  }
+}
