@@ -90,7 +90,10 @@ export class AppereanceBookingComponent implements OnInit {
       eventType: ["VIDEO"],
       startDate: ["", [Validators.required]],
       duration: ["", [Validators.required]],
-      minBid: ["", [Validators.required]],
+      minBid: [
+        "",
+        [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)],
+      ],
       description: ["", [Validators.required]],
       eventName: ["", [Validators.required]],
     });

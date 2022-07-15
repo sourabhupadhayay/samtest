@@ -17,11 +17,17 @@ export class ThousandSeparateDirective {
       this.subscription = control.valueChanges
         .pipe(
           map((value) => {
-            if (value) {
-              const parts = value.toString().split(".");
-              parts[0] = this.decimal.transform(parts[0].replace(/,/g, ""));
-              return parts.join(".");
+            const pattern = /[A-Za-z ]/; //
+            if (pattern.test(value)) {
+              return;
             }
+
+            if (typeof value)
+              if (value) {
+                const parts = value.toString().split(".");
+                parts[0] = this.decimal.transform(parts[0].replace(/,/g, ""));
+                return parts.join(".");
+              }
           })
         )
         .subscribe((v) => control.patchValue(v, { emitEvent: false }));
