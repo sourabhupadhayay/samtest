@@ -9,6 +9,8 @@ ion-item-sliding {
   color: black;
   padding: 5px 15px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  position: relative;
+  border-right: 4px solid #056ea6;
 
   &__container {
     --padding-start: 0;
@@ -17,6 +19,12 @@ ion-item-sliding {
     --background: none;
     overflow: inherit;
     --inner-border-width: 0;
+  }
+  &__slideIcon {
+    position: absolute;
+    right: -2px;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   &__eventType {
@@ -67,6 +75,7 @@ ion-item-sliding {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
     color: var(--theme-one-clr);
     text-align: center;
+    margin-right: 6px;
     & h3 {
       font-size: 16px;
       font-weight: 700;
@@ -135,11 +144,20 @@ ion-item-sliding {
     }
   }
   &__cta {
-    --background: #55cd89;
     & p {
       margin: 0;
       padding-bottom: 2px;
       font-size: 12px;
+      padding-left: 2px;
+    }
+
+    &--green {
+      --background-activated: #55cd89;
+      --background: #55cd89;
+    }
+    &--blue {
+      --background-activated: var(--theme-one-clr);
+      --background: var(--theme-one-clr);
     }
   }
 }

@@ -1,4 +1,9 @@
-import { Component, OnInit } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from "@angular/core";
 import { CommonService } from "src/app/providers/common.service";
 import { ConstantService } from "src/app/providers/constant.service";
 import {
@@ -12,6 +17,7 @@ import { DataService, Request, Response } from "src/app/providers/data.service";
   selector: "app-schedule",
   templateUrl: "./schedule.page.html",
   styleUrls: ["./schedule.page.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SchedulePage implements OnInit {
   userData: any | null = null;
@@ -22,7 +28,8 @@ export class SchedulePage implements OnInit {
     private coreService: CoreService,
     private apiService: DataService,
     private constantService: ConstantService,
-    public commonService: CommonService
+    public commonService: CommonService,
+    private cd: ChangeDetectorRef
   ) {}
 
   ionViewWillEnter() {
@@ -51,6 +58,7 @@ export class SchedulePage implements OnInit {
         this.nameInitials = this.commonService.getInitials(
           this.userData.fullName
         );
+        this.cd.detectChanges();
       } else {
         this.coreService.showToastMessage(
           response.status.description,

@@ -2,6 +2,9 @@
   <div class="container">
     <ion-item class="card__container">
       <div class="card">
+        <div class="card__slideIcon">
+          <img src="../../../../assets/icon/blue-notch.svg" alt="" />
+        </div>
         <div class="card__eventType">
           <img src="../../../../assets/icon/video.svg" alt="" />
           <h6>Video</h6>
@@ -52,7 +55,7 @@
               <h5>Casey Rodgers</h5>
             </div>
           </div>
-          <ion-button size="small" class="card__cta">
+          <ion-button disabled="" size="small" class="card__cta--blue">
             <span
               ><img src="../../../../assets/icon/join-video.svg" alt=""
             /></span>
@@ -65,14 +68,14 @@
   <ion-item-options>
     <ion-item-option color="primary">
       <ion-icon
-        slot="end"
+        slot="top"
         ios="ellipsis-horizontal"
         md="ellipsis-vertical"
       ></ion-icon>
       More
     </ion-item-option>
     <ion-item-option color="secondary">
-      <ion-icon slot="end" name="archive"></ion-icon>
+      <ion-icon slot="top" name="archive"></ion-icon>
       Archive
     </ion-item-option>
   </ion-item-options>
