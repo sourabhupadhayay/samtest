@@ -98,7 +98,10 @@ export class AppereanceBookingComponent implements OnInit {
     this.fanForm = this.fb.nonNullable.group({
       startDate: ["", [Validators.required]],
       duration: ["", [Validators.required]],
-      minBid: ["", [Validators.required]],
+      minBid: [
+        "",
+        [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)],
+      ],
       description: ["", [Validators.required]],
       eventName: ["", [Validators.required]],
       selectedAthleteName: ["", Validators.required],
@@ -162,6 +165,7 @@ export class AppereanceBookingComponent implements OnInit {
 
   fanDataRequest() {
     this.isFanFormSubmitted = true;
+    console.log(this.fanForm);
     if (this.fanForm.invalid) {
       return;
     }
