@@ -165,11 +165,11 @@ export class AppereanceBookingComponent implements OnInit {
 
   fanDataRequest() {
     this.isFanFormSubmitted = true;
-    console.log(this.fanForm);
-    if (this.fanForm.invalid) {
+
+    if (this.isSelectedAthleteValid()) {
       return;
     }
-    if (this.isSelectedAthleteValid()) {
+    if (this.fanForm.invalid) {
       return;
     }
 
@@ -217,7 +217,8 @@ export class AppereanceBookingComponent implements OnInit {
       distinctUntilChanged(),
 
       switchMap((value) => {
-        this.selectedAthleteId = "";
+        this.resetSelectedAthleteId();
+
         let request: Request = {
           path: "auth/users/manage/filter/list",
           data: {
@@ -268,6 +269,12 @@ export class AppereanceBookingComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  resetSelectedAthleteId(value: string) {
+    if (value !== this.selectedAthleteName) {
+      this.selectedAthleteId = "";
+    }
   }
 
   patchTime(time: string) {
