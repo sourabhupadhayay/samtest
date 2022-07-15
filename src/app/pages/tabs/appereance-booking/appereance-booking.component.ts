@@ -217,7 +217,7 @@ export class AppereanceBookingComponent implements OnInit {
       distinctUntilChanged(),
 
       switchMap((value) => {
-        this.resetSelectedAthleteId();
+        this.resetSelectedAthleteId(value);
 
         let request: Request = {
           path: "auth/users/manage/filter/list",
