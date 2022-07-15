@@ -119,7 +119,7 @@ export class AppereanceBookingComponent implements OnInit {
       this.fanForm.reset();
       this.isFanFormSubmitted = false;
     }
-    this.modalCtrl.dismiss(true);
+    this.modalCtrl.dismiss(false);
   }
 
   onSubmit() {
@@ -129,6 +129,10 @@ export class AppereanceBookingComponent implements OnInit {
     } else {
       request = this.fanDataRequest();
     }
+
+    setTimeout(() => {
+      this.modalCtrl.dismiss(true);
+    }, 2000);
 
     console.log(request);
   }
