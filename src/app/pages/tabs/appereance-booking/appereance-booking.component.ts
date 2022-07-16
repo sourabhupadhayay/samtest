@@ -209,7 +209,7 @@ export class AppereanceBookingComponent implements OnInit {
     } = this.fanForm.value;
 
     let request: Request = {
-      path: "core/create",
+      path: "/core/event/create",
       data: {
         ...signUpResponse,
         startDate: new Date(startDate).toISOString(),
