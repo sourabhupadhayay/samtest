@@ -51,7 +51,11 @@ const routes: Routes = [
           ),
       },
     ],
+  },  {
+    path: 'invoice',
+    loadChildren: () => import('./pages/invoice/invoice.module').then( m => m.InvoicePageModule)
   },
+
 ];
 
 @NgModule({
