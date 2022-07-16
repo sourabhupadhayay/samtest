@@ -91,7 +91,7 @@ export class AppereanceBookingComponent implements OnInit {
       startDate: ["", [Validators.required]],
       duration: ["", [Validators.required]],
       minBid: [
-        "",
+        null,
         [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)],
       ],
       description: ["", [Validators.required]],
@@ -102,7 +102,7 @@ export class AppereanceBookingComponent implements OnInit {
       startDate: ["", [Validators.required]],
       duration: ["", [Validators.required]],
       minBid: [
-        "",
+        null,
         [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)],
       ],
       description: ["", [Validators.required]],
@@ -131,6 +131,7 @@ export class AppereanceBookingComponent implements OnInit {
 
   onSubmit() {
     let request: Request;
+    console.log(this.fanForm);
     if (this.userRole == "athlete") {
       request = this.athleteDataRequest();
     } else {
@@ -140,9 +141,18 @@ export class AppereanceBookingComponent implements OnInit {
       return;
     }
 
-    this.modalCtrl.dismiss(true);
-
-    console.log(request);
+    this.coreService.presentLoader(this.constant.WAIT);
+    this.apiService.post(request).subscribe((response: Response) => {
+      this.coreService.dismissLoader();
+      if (response.status.code == this.constant.STATUS_OK) {
+        this.modalCtrl.dismiss(true);
+      } else {
+        this.coreService.showToastMessage(
+          response["status"]["description"],
+          this.coreService.TOAST_ERROR
+        );
+      }
+    });
   }
 
   athleteDataRequest() {
@@ -155,7 +165,7 @@ export class AppereanceBookingComponent implements OnInit {
     let { startDate, duration, ...athletePayload } = this.athleteForm.value;
 
     let request: Request = {
-      path: "auth/users/update",
+      path: "core/create",
       data: {
         ...athletePayload,
         startDate: new Date(startDate).toISOString(),
@@ -180,19 +190,20 @@ export class AppereanceBookingComponent implements OnInit {
       selectedAthleteName,
       startDate,
       duration,
+
       eventAddress,
       ...signUpResponse
     } = this.fanForm.value;
 
     let request: Request = {
-      path: "auth/users/update",
+      path: "core/create",
       data: {
         ...signUpResponse,
         startDate: new Date(startDate).toISOString(),
         duration: this.totalFanDuration,
         athleteId: this.selectedAthleteId,
         eventType: this.fanEventType,
-        eventAddress: this.fanEventType == "IN_PERSON" ? eventAddress : "",
+        eventAddress: this.fanEventType == "IN_PERSON" ? eventAddress : {},
       },
       isAuth: true,
     };
