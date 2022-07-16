@@ -352,6 +352,7 @@
               <ion-input
                 appConverStringToInt
                 formControlName="minBid"
+                inputmode="numeric"
                 placeholder="Appearance Fee ($)"
               ></ion-input>
               <img
@@ -400,6 +401,7 @@
             <ion-col size="6">
               <div class="input-box">
                 <ion-item
+                  inputmode=""
                   [ngClass]="validFanAddressInputBorder('city')"
                   lines="none"
                   class="ion-align-items-center"
@@ -419,6 +421,7 @@
                   class="ion-align-items-center"
                 >
                   <ion-input
+                    type="number"
                     formControlName="zipcode"
                     placeholder="Zip Code"
                   ></ion-input>

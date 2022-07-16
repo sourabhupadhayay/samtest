@@ -119,8 +119,8 @@ export class AppereanceBookingComponent implements OnInit {
       selectedAthleteName: ["", Validators.required],
       eventAddress: this.fb.group({
         addressLine1: ["", [Validators.required]],
-        city: ["", [Validators.required]],
-        state: ["", [Validators.required]],
+        city: ["", [Validators.required, Validators.pattern("^[a-zA-Z ]*$")]],
+        state: ["", [Validators.required, Validators.pattern("^[a-zA-Z ]*$")]],
         zipcode: ["", [Validators.required]],
       }),
     });
@@ -188,10 +188,14 @@ export class AppereanceBookingComponent implements OnInit {
   fanDataRequest() {
     this.isFanFormSubmitted = true;
 
-    if (this.isSelectedAthleteValid()) {
+    if (this.fanForm.invalid) {
+      this.coreService.showToastMessage(
+        "Please enter valid details",
+        this.coreService.TOAST_ERROR
+      );
       return;
     }
-    if (this.fanForm.invalid) {
+    if (this.isSelectedAthleteValid()) {
       return;
     }
 
