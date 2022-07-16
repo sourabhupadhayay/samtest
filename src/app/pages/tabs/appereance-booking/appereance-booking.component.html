@@ -427,12 +427,12 @@
             </ion-col>
           </ion-row>
         </ng-container>
-        <ion-col size="12">
+        <ion-col *ngIf="fanEventType === 'VIDEO'" size="12">
           <div class="input-box">
             <ion-item lines="none" class="ion-align-items-center">
               <ion-textarea
                 formControlName="description"
-                placeholder="Message For Fans"
+                placeholder="Event Description"
               ></ion-textarea>
               <img
                 class="ion-align-items-center"
