@@ -19,6 +19,7 @@ import {
   userRole,
 } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
+import { TermsConditionsComponent } from "../terms-conditions/terms-conditions.component";
 
 @Component({
   selector: "app-appereance-booking",
@@ -83,6 +84,14 @@ export class AppereanceBookingComponent implements OnInit {
       form.get(key).setValidators(this.validationType[key]);
       form.get(key).updateValueAndValidity();
     }
+  }
+
+  async presentTermsAndConditions() {
+    const modal: HTMLIonModalElement = await this.modalCtrl.create({
+      component: TermsConditionsComponent,
+      cssClass: "tandc-modal",
+    });
+    modal.present();
   }
 
   initAppearanceForm() {

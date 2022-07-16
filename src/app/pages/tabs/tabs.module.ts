@@ -13,6 +13,7 @@ import { CommonDirectiveModule } from "src/app/directives/common-directive.modul
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatInputModule } from "@angular/material/input";
 import { PaymentComponent } from "./payment/payment.component";
+import { TermsConditionsComponent } from "./terms-conditions/terms-conditions.component";
 
 @NgModule({
   imports: [
@@ -26,6 +27,11 @@ import { PaymentComponent } from "./payment/payment.component";
     MatAutocompleteModule,
     MatInputModule,
   ],
-  declarations: [TabsPage, AppereanceBookingComponent, PaymentComponent],
+  declarations: [
+    TabsPage,
+    AppereanceBookingComponent,
+    PaymentComponent,
+    TermsConditionsComponent,
+  ],
 })
 export class TabsPageModule {}

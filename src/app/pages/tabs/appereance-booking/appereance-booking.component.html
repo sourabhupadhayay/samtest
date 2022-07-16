@@ -162,7 +162,11 @@
       </ion-row>
       <div class="save-card">
         <ion-item lines="none" mode="ios">
-          <ion-label>Accept<span>Terms & Conditions</span></ion-label>
+          <ion-label
+            >Accept<span (click)="presentTermsAndConditions()"
+              >Terms & Conditions</span
+            ></ion-label
+          >
           <ion-checkbox
             [(ngModel)]="isTermsAndConditionAccepted"
             slot="start"
@@ -449,7 +453,11 @@
 
       <div class="save-card">
         <ion-item lines="none" mode="ios">
-          <ion-label>Accept<span>Terms & Conditions</span></ion-label>
+          <ion-label
+            >Accept<span (click)="presentTermsAndConditions()"
+              >Terms & Conditions</span
+            ></ion-label
+          >
           <ion-checkbox
             [(ngModel)]="isTermsAndConditionAccepted"
             slot="start"
