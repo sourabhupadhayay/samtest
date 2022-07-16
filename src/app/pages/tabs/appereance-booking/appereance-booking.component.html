@@ -17,7 +17,7 @@
             <div class="radio-text">
               <h5>Select Appearance Type</h5>
             </div>
-          
+
             <div class="radio-data">
               <ion-item lines="none" mode="ios">
                 <ion-label>Video</ion-label>
@@ -26,8 +26,6 @@
             </div>
           </div>
         </ion-radio-group>
-        
-        
       </div>
       <ion-row [formGroup]="athleteForm">
         <ion-col size="12">
@@ -145,11 +143,7 @@
 
         <ion-col size="12">
           <div class="input-box">
-            <ion-item
-              [ngClass]="validAthleteInputBorder('description')"
-              lines="none"
-              class="ion-align-items-center"
-            >
+            <ion-item lines="none" class="ion-align-items-center">
               <ion-textarea
                 formControlName="description"
                 placeholder="Message For Fans"
@@ -435,11 +429,7 @@
         </ng-container>
         <ion-col size="12">
           <div class="input-box">
-            <ion-item
-              [ngClass]="validFanInputBorder('description')"
-              lines="none"
-              class="ion-align-items-center"
-            >
+            <ion-item lines="none" class="ion-align-items-center">
               <ion-textarea
                 formControlName="description"
                 placeholder="Message For Fans"

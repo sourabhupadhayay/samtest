@@ -103,7 +103,7 @@ export class AppereanceBookingComponent implements OnInit {
         null,
         [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)],
       ],
-      description: ["", [Validators.required]],
+      description: [""],
       eventName: ["", [Validators.required]],
     });
 
@@ -114,7 +114,7 @@ export class AppereanceBookingComponent implements OnInit {
         null,
         [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)],
       ],
-      description: ["", [Validators.required]],
+      description: [""],
       eventName: ["", [Validators.required]],
       selectedAthleteName: ["", Validators.required],
       eventAddress: this.fb.group({
