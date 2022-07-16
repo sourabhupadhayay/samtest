@@ -13,17 +13,18 @@
     <div class="main-screen">
       <div class="radio-btn">
         <ion-radio-group value="VIDEO" mode="md">
-          <ion-row>
-            <ion-col size="6">
-              Select Appearance Type
-            </ion-col>
-            <ion-col size="6">
-              <ion-item lines="none">
+          <div class="radio-main">
+            <div class="radio-text">
+              <h5>Select Appearance Type</h5>
+            </div>
+
+            <div class="radio-data">
+              <ion-item lines="none" mode="ios">
                 <ion-label>Video</ion-label>
                 <ion-radio mode="md" slot="start" value="VIDEO"></ion-radio>
               </ion-item>
-            </ion-col>
-          </ion-row>
+            </div>
+          </div>
         </ion-radio-group>
       </div>
       <ion-row [formGroup]="athleteForm">
@@ -126,6 +127,8 @@
               class="ion-align-items-center"
             >
               <ion-input
+                appConverStringToInt
+                inputmode="numeric"
                 formControlName="minBid"
                 placeholder="Minimum Bid"
               ></ion-input>
@@ -140,11 +143,7 @@
 
         <ion-col size="12">
           <div class="input-box">
-            <ion-item
-              [ngClass]="validAthleteInputBorder('description')"
-              lines="none"
-              class="ion-align-items-center"
-            >
+            <ion-item lines="none" class="ion-align-items-center">
               <ion-textarea
                 formControlName="description"
                 placeholder="Message For Fans"
@@ -160,7 +159,11 @@
       </ion-row>
       <div class="save-card">
         <ion-item lines="none" mode="ios">
-          <ion-label>Accept<span>Terms & Conditions</span></ion-label>
+          <ion-label
+            >Accept<span (click)="presentTermsAndConditions()"
+              >Terms & Conditions</span
+            ></ion-label
+          >
           <ion-checkbox
             [(ngModel)]="isTermsAndConditionAccepted"
             slot="start"
@@ -183,7 +186,7 @@
               <h5>Select Appearance Type</h5>
             </div>
             <div class="radio-data">
-              <ion-item lines="none">
+              <ion-item lines="none" mode="ios">
                 <ion-label>Video</ion-label>
                 <ion-radio
                   mode="md"
@@ -326,14 +329,14 @@
                 [value]="option.fullName"
               >
                 <div class="list-data">
-                  <ion-list>
-                    <ion-item lines="none">
-                      <img slot="start" [src]="option.profileUrl | profile" />
-                      <ion-label>
-                        <h5>{{option.fullName }}</h5>
-                      </ion-label>
-                    </ion-item>
-                  </ion-list>
+                  <!-- <ion-list> -->
+                  <ion-item lines="none">
+                    <img slot="start" [src]="option.profileUrl | profile" />
+                    <ion-label>
+                      <h5>{{option.fullName }}</h5>
+                    </ion-label>
+                  </ion-item>
+                  <!-- </ion-list> -->
                 </div>
               </mat-option>
             </mat-autocomplete>
@@ -347,7 +350,7 @@
               class="ion-align-items-center"
             >
               <ion-input
-                inputmode="decimal"
+                appConverStringToInt
                 formControlName="minBid"
                 placeholder="Appearance Fee ($)"
               ></ion-input>
@@ -424,16 +427,12 @@
             </ion-col>
           </ion-row>
         </ng-container>
-        <ion-col size="12">
+        <ion-col *ngIf="fanEventType === 'VIDEO'" size="12">
           <div class="input-box">
-            <ion-item
-              [ngClass]="validFanInputBorder('description')"
-              lines="none"
-              class="ion-align-items-center"
-            >
+            <ion-item lines="none" class="ion-align-items-center">
               <ion-textarea
                 formControlName="description"
-                placeholder="Message For Fans"
+                placeholder="Event Description"
               ></ion-textarea>
               <img
                 class="ion-align-items-center"
@@ -447,7 +446,11 @@
 
       <div class="save-card">
         <ion-item lines="none" mode="ios">
-          <ion-label>Accept<span>Terms & Conditions</span></ion-label>
+          <ion-label
+            >Accept<span (click)="presentTermsAndConditions()"
+              >Terms & Conditions</span
+            ></ion-label
+          >
           <ion-checkbox
             [(ngModel)]="isTermsAndConditionAccepted"
             slot="start"
