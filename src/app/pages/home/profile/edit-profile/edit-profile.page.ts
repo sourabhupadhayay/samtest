@@ -327,7 +327,8 @@ export class EditProfilePage implements OnInit {
     if (!this.fanProfileForm.controls.phone.value) {
       return;
     }
-    if (this.fanProfileForm.controls.phone.value < 15) {
+    debugger;
+    if (this.fanProfileForm.controls.phone.value.length < 15) {
       this.fanProfileForm.controls.phone.patchValue("");
     }
   }
@@ -335,7 +336,7 @@ export class EditProfilePage implements OnInit {
     if (!this.athleteProfileForm.controls.phone.value) {
       return;
     }
-    if (this.athleteProfileForm.controls.phone.value < 15) {
+    if (this.athleteProfileForm.controls.phone.value.length < 15) {
       this.athleteProfileForm.controls.phone.patchValue("");
     }
   }
