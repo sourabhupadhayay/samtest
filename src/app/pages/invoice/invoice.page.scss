@@ -1,0 +1,460 @@
+ion-header {
+    ion-toolbar {
+      --background: transparent;
+      --border-width: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 9;
+      .title-part {
+        // position: sticky;
+        // top: 0;
+        // z-index: 999 ;
+        ion-item {
+          --padding-start: 15px;
+          --inner-padding-end: 15px;
+          align-items: flex-start;
+          --background: transparent;
+          --background-activated: transparent;
+          --background-focused: transparent;
+          --background-hover: transparent;
+  
+          ion-icon {
+            color: var(--white-clr);
+            font-size: 2rem;
+            margin: 0;
+            padding: 0;
+          }
+          ion-label {
+            margin: 0;
+            padding: 0;
+            .logo-head {
+              margin: 0;
+              padding: 0;
+              text-align: center;
+              img{max-width: 100%; width: 140px;}
+              .nil4all span {
+                font-size: 0.675rem;
+                color: var(--white-clr);
+                text-transform: uppercase;
+                opacity: 1;
+                font-weight: 500;
+                margin-top: 0px;
+                display: inline-block;
+                font-style: italic;
+              }
+            }
+          }
+          .notification {
+            margin: 0;
+            padding: 0;
+            position: relative;
+            margin-top: 5px;
+            img {
+              width: 20px;
+            }
+            span {
+              height: 10px;
+              width: 10px;
+              border-radius: 10px;
+              border: 1px solid var(--white-clr);
+              position: absolute;
+              right: -2px;
+              top: -4px;
+              background: var(--red-bg);
+            }
+          }
+        }
+      }
+    }
+    
+}
+
+ion-content {
+    --background: #6bbde9;
+    position: relative;
+    .main-screen {
+      display: flex;
+      flex-flow: column;
+      height: 100%;
+      .top-screen {min-height: 280px; padding-top: 90px; background: url(../../../assets/images/invoice.jpg) no-repeat top center; background-size: cover;
+       
+        .summry-head{
+            ion-item {
+                --padding-start: 15px;
+                --inner-padding-end: 15px;
+                align-items: flex-start;
+                --background: transparent;
+                --background-activated: transparent;
+                --background-focused: transparent;
+                --background-hover: transparent;
+                align-items: center;
+                ion-label{
+                    h5{font-size: 0.75rem; color: var(--white-clr); margin: 0;font-weight: 400;} 
+                    p{font-size: 0.75rem; color: var(--white-clr); margin: 0;font-weight: 400;} 
+                }
+                ion-text{font-size: 0.75rem; color: var(--white-clr); margin: 0;font-weight: 400;}
+            }
+            .ammount{text-align: center;
+                h4{font-size: 1.375rem; color: var(--white-clr); margin: 0;font-weight: 700; text-align: center;}
+                span{font-size: 0.75rem; color: var(--white-clr); margin: 0;font-weight: 400; text-align: center;}
+            }
+        }
+        
+      }
+  
+      .content-part {
+        padding: 15px 0;
+        margin: 0;
+        // background: var(--theme-one-bg);
+  
+        background: #6bbde9; /* Old browsers */
+        background: -moz-radial-gradient(
+            60.17% 29.84% at 50% 50%,
+            #6bbde9 0%,
+            #2099da 100%
+        );
+        background: -webkit-radial-gradient(
+            60.17% 29.84% at 50% 50%,
+            #6bbde9 0%,
+            #2099da 100%
+        );
+        background: radial-gradient(
+            60.17% 29.84% at 50% 50%,
+            #6bbde9 0%,
+            #2099da 100%
+        );
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6bbde9', endColorstr='#2099da',GradientType=1 );
+
+        box-shadow: 0px -6px 7px #196087;
+  
+        margin-top: -48px;
+        position: relative;
+        z-index: 99;
+        border-top-left-radius: 50px;
+        border-top-right-radius: 50px;
+        .main-part {
+          position: relative;
+          z-index: 1;
+          .invoice-data{
+            .head{padding: 10px 15px;
+                h3{font-size: 1.25rem; color: var(--white-clr); margin: 0; font-weight: 700;}
+            }
+            .invoice-table{padding: 0 15px;
+                .table-head{margin: 10px 0;
+                    ion-item {
+                        --padding-start: 0px;
+                        --inner-padding-end: 0px;
+                        align-items: flex-start;
+                        --background: transparent;
+                        --background-activated: transparent;
+                        --background-focused: transparent;
+                        --background-hover: transparent;
+                        align-items: center;
+                        ion-label{
+                            h4{font-size: 1.375rem; font-weight: 600; color: var(--white-clr); margin: 5px 0 0px;}
+                            span{font-size: 0.875rem; font-weight: 400; color: var(--white-clr); margin: 0;}
+                        }
+                        ion-text{text-align: right;
+                            h4{font-size: 1.375rem; font-weight: 600; color: var(--white-clr); margin: 5px 0 0px;}
+                            span{font-size: 0.875rem; font-weight: 400; color: var(--white-clr); margin: 0;}
+                        }
+                    }
+                }
+                .table-tlt{border-top: 1px solid var(--white-clr); border-bottom: 1px solid var(--white-clr); margin: 10px 0;
+                    ion-item {
+                        --padding-start: 0px;
+                        --inner-padding-end: 0px;
+                        align-items: flex-start;
+                        --background: transparent;
+                        --background-activated: transparent;
+                        --background-focused: transparent;
+                        --background-hover: transparent;
+                        align-items: center;
+                        i{font-style: normal; font-size: 1rem; font-weight: 700; color: var(--white-clr); margin: 0 10px 0px 0;}
+                        ion-label{
+                            h4{font-size: 1rem; font-weight: 700; color: var(--white-clr); margin: 0px 0 0px;}
+                        }
+                        ion-text{text-align: right;
+                            h4{font-size: 1rem; font-weight: 700; color: var(--white-clr); margin: 0px 0 0px;}
+                        }
+                    }
+                }
+                .table-data{margin: 10px 0;
+                    ion-item {
+                        padding-top: 5px;
+                        padding-bottom: 5px;
+                        --min-height: 21px;
+                        --padding-start: 0px;
+                        --inner-padding-end: 0px;
+                        align-items: flex-start;
+                        --background: transparent;
+                        --background-activated: transparent;
+                        --background-focused: transparent;
+                        --background-hover: transparent;
+                        align-items: center;
+                        i{font-style: normal; font-size: 1rem; font-weight: 400; color: var(--white-clr); margin: 0 10px 0px 0; align-self: flex-start;}
+                        ion-label{word-break: break-word; white-space: normal; margin: 0;
+                            h4{font-size: 1rem; font-weight: 400; color: var(--white-clr); margin: 0px 0 0px;}
+                            span{color: #004F79; font-size: 0.75rem; font-weight: 600;}
+                        }
+                        ion-text{text-align: right;
+                            h4{font-size: 1rem; font-weight: 400; color: var(--white-clr); margin: 0px 0 0px;}
+                        }
+                    }
+                }
+                .table-totle{border-top: 1px solid var(--white-clr); border-bottom: 1px solid var(--white-clr); margin: 10px 0;
+                    ion-item {--min-height: 36px;
+                        --padding-start: 0px;
+                        --inner-padding-end: 0px;
+                        align-items: flex-start;
+                        --background: transparent;
+                        --background-activated: transparent;
+                        --background-focused: transparent;
+                        --background-hover: transparent;
+                        align-items: center;
+                        i{font-style: normal; font-size: 1rem; font-weight: 700; color: var(--white-clr); margin: 0 10px 0px 0;}
+                        ion-label{margin: 0;
+                            h4{font-size: 1rem; font-weight: 700; color: var(--white-clr); margin: 0px 0 0px;}
+                        }
+                        ion-text{text-align: right;
+                            h4{font-size: 1rem; font-weight: 700; color: var(--white-clr); margin: 0px 0 0px;}
+                        }
+                    }
+                }
+            }
+          }
+        }
+        
+  
+        .buble-part {
+          margin: 0;
+          padding: 0;
+          .dots-bubble {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: inherit;
+            overflow: hidden;
+            top: 5px;
+            left: 0;
+            border-top-left-radius: 50px;
+            border-top-right-radius: 50px;
+          }
+          .dots {
+            position: absolute;
+            bottom: -100px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: rise 2s infinite ease-in;
+            z-index: 99;
+          }
+          .dots:nth-child(1) {
+            width: 25px;
+            height: 25px;
+            left: 10%;
+            animation-duration: 9s;
+            box-shadow: 0px 4px 5px rgb(0 0 0 / 20%),
+              inset 0px 0px 14px 5px #9ce5ff;
+          }
+          .dots:nth-child(2) {
+            width: 15px;
+            height: 15px;
+            left: 20%;
+            animation-duration: 9s;
+            animation-delay: 1s;
+            border: 2px solid #fff;
+          }
+          .dots:nth-child(3) {
+            width: 35px;
+            height: 35px;
+            left: 35%;
+            animation-duration: 12s;
+            animation-delay: 2s;
+            box-shadow: 0px 4px 5px rgb(0 0 0 / 20%),
+              inset 0px 0px 14px 5px #9ce5ff;
+          }
+          .dots:nth-child(4) {
+            width: 30px;
+            height: 30px;
+            left: 50%;
+            animation-duration: 15s;
+            animation-delay: 0s;
+            border: 2px solid #fff;
+          }
+          .dots:nth-child(5) {
+            width: 25px;
+            height: 25px;
+            left: 55%;
+            animation-duration: 10s;
+            animation-delay: 1s;
+            box-shadow: 0px 4px 5px rgb(0 0 0 / 20%),
+              inset 0px 0px 14px 5px #9ce5ff;
+          }
+          .dots:nth-child(6) {
+            width: 30px;
+            height: 30px;
+            left: 65%;
+            animation-duration: 12s;
+            animation-delay: 3s;
+            border: 2px solid #fff;
+          }
+          .dots:nth-child(7) {
+            width: 35px;
+            height: 35px;
+            left: 70%;
+            animation-duration: 16s;
+            animation-delay: 2s;
+            box-shadow: 0px 4px 5px rgb(0 0 0 / 20%),
+              inset 0px 0px 14px 5px #9ce5ff;
+          }
+          .dots:nth-child(8) {
+            width: 20px;
+            height: 20px;
+            left: 80%;
+            animation-duration: 10s;
+            animation-delay: 2s;
+            border: 2px solid #fff;
+          }
+          .dots:nth-child(9) {
+            width: 10px;
+            height: 10px;
+            left: 70%;
+            animation-duration: 9s;
+            animation-delay: 3s;
+            box-shadow: 0px 4px 5px rgb(0 0 0 / 20%),
+              inset 0px 0px 14px 5px #9ce5ff;
+          }
+          .dots:nth-child(10) {
+            width: 30px;
+            height: 30px;
+            left: 25%;
+            animation-duration: 13s;
+            animation-delay: 4s;
+            border: 2px solid #fff;
+          }
+  
+          .dots:nth-child(20) {
+            width: 10px;
+            height: 10px;
+            left: 20%;
+            animation-duration: 12s;
+            box-shadow: 0px 4px 5px rgb(0 0 0 / 20%),
+              inset 0px 0px 14px 5px #9ce5ff;
+          }
+          .dots:nth-child(19) {
+            width: 25px;
+            height: 25px;
+            left: 50%;
+            animation-duration: 9s;
+            animation-delay: 1s;
+            border: 2px solid #fff;
+          }
+          .dots:nth-child(18) {
+            width: 25px;
+            height: 25px;
+            left: 17%;
+            animation-duration: 11s;
+            animation-delay: 2s;
+            box-shadow: 0px 4px 5px rgb(0 0 0 / 20%),
+              inset 0px 0px 14px 5px #9ce5ff;
+          }
+          .dots:nth-child(17) {
+            width: 20px;
+            height: 20px;
+            left: 25%;
+            animation-duration: 15s;
+            animation-delay: 0s;
+            border: 2px solid #fff;
+          }
+          .dots:nth-child(16) {
+            width: 10px;
+            height: 10px;
+            left: 27%;
+            animation-duration: 10s;
+            animation-delay: 1s;
+            box-shadow: 0px 4px 5px rgb(0 0 0 / 20%),
+              inset 0px 0px 14px 5px #9ce5ff;
+          }
+          .dots:nth-child(15) {
+            width: 5px;
+            height: 5px;
+            left: 32%;
+            animation-duration: 12s;
+            animation-delay: 1s;
+            border: 2px solid #fff;
+          }
+          .dots:nth-child(14) {
+            width: 20px;
+            height: 20px;
+            left: 35%;
+            animation-duration: 16s;
+            animation-delay: 2s;
+            box-shadow: 0px 4px 5px rgb(0 0 0 / 20%),
+              inset 0px 0px 14px 5px #9ce5ff;
+          }
+          .dots:nth-child(13) {
+            width: 8px;
+            height: 8px;
+            left: 40%;
+            animation-duration: 10s;
+            animation-delay: 3s;
+            border: 2px solid #fff;
+          }
+          .dots:nth-child(12) {
+            width: 27px;
+            height: 27px;
+            left: 35%;
+            animation-duration: 9s;
+            animation-delay: 2s;
+            box-shadow: 0px 4px 5px rgb(0 0 0 / 20%),
+              inset 0px 0px 14px 5px #9ce5ff;
+          }
+          .dots:nth-child(11) {
+            width: 32px;
+            height: 32px;
+            left: 10%;
+            animation-duration: 14s;
+            animation-delay: 3s;
+            border: 2px solid #fff;
+          }
+  
+          @keyframes rise {
+            0% {
+              bottom: -100px;
+              transform: translateX(0);
+            }
+            50% {
+              transform: translate(100px);
+            }
+            100% {
+              bottom: 1080px;
+              transform: translateX(-200px);
+            }
+          }
+        }
+      }
+    }
+}
+
+ion-footer{background: var(--theme-one-clr); --background: var(--theme-one-clr);
+    ion-toolbar{background: var(--theme-one-clr); --background: var(--theme-one-clr);
+        .footer-btn{text-align: center;
+            p{margin: 0;}
+            img{max-width: 100%; width: 100px;}
+            ion-button{
+                font-size: 1rem; color: var(--white-clr); margin: 10px 0; padding: 0;
+                --background: var(--green-clr);
+                --background-focused: var(--green-clr);
+                --background-hover: var(--green-clr);
+                --background-activated: var(--green-clr);
+                --box-shadow: none;
+                --padding-start: 10px;
+                --padding-end: 10px;
+                text-transform: capitalize;
+            }
+        }
+    }
+}

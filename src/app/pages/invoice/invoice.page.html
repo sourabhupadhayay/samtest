@@ -1,0 +1,168 @@
+<ion-header class="ion-no-border" [translucent]="true">
+  <ion-toolbar>
+    <div class="title-part">
+      <ion-item lines="none">
+        <ion-icon
+          routerLink="/tabs/profile"
+          slot="start"
+          name="arrow-back-outline"
+        ></ion-icon>
+
+        <ion-label>
+          <ion-grid class="logo-head">
+            <img src="assets/images/logo.svg" />
+            <div class="nil4all">
+              <span>#NIL4ALL</span>
+            </div>
+          </ion-grid>
+        </ion-label>
+
+        <div class="notification" slot="end">
+          <img src="assets/icon/notification.svg" />
+          <span></span>
+        </div>
+      </ion-item>
+    </div>
+  </ion-toolbar>
+ 
+</ion-header>
+
+<ion-content>
+  <div class="main-screen">
+    <div class="top-screen">
+      <div class="summry-head">
+        <ion-item lines="none">
+            <ion-label>
+              <h5>Casey Rodgers’s</h5>
+                <p>Bubble Cash</p>
+            </ion-label>
+            <ion-text slot="end">
+              Jul 01, 2022
+            </ion-text>
+        </ion-item>
+        <div class="ammount">
+            <h4>$5375.39</h4>
+            <span>Total Bubble Cash</span>
+        </div>
+      </div>
+
+      
+
+      <ion-grid class="overlay-bg"></ion-grid>
+    </div>
+
+    <ion-grid class="content-part">
+      <div class="main-part">
+          <div class="invoice-data">
+              <div class="head">
+                  <h3>Payment Summery</h3>
+              </div>
+              <div class="invoice-table">
+                  <div class="table-head">
+                    <ion-item lines="none">
+                      <ion-label>
+                        <span>INVOICE</span>
+                        <h4>#2891</h4>
+                      </ion-label>
+                      <ion-text>
+                          <span>DATE</span>
+                          <h4>Jul 01, 2022</h4>
+                      </ion-text>
+                    </ion-item>
+                  </div>
+                  <div class="table-tlt">
+                    
+                      <ion-item lines="none">
+                        <i slot="start">#</i>
+                        <ion-label>
+                          <h4>DESCTIPTION</h4>
+                        </ion-label>
+                        <ion-text>
+                            <h4>CHARGE</h4>
+                        </ion-text>
+                      </ion-item>
+                    
+                  </div>
+                  <div class="table-data">
+                    <ion-item lines="none">
+                      <i slot="start">1</i>
+                      <ion-label>
+                        <h4>Payment Amount</h4>
+                      </ion-label>
+                      <ion-text>
+                          <h4>$ 5000</h4>
+                      </ion-text>
+                    </ion-item>
+
+                    <ion-item lines="none">
+                      <i slot="start">2</i>
+                      <ion-label>
+                        <h4>Processing Fees <span>(3.9%)</span></h4>
+                      </ion-label>
+                      <ion-text>
+                          <h4>$ 125.39</h4>
+                      </ion-text>
+                    </ion-item>
+
+                    <ion-item lines="none">
+                      <i slot="start">3</i>
+                      <ion-label>
+                        <h4>Bubble App Service Fees <span>(5%)</span></h4>
+                      </ion-label>
+                      <ion-text>
+                          <h4>$ 250.00</h4>
+                      </ion-text>
+                    </ion-item>
+
+                    <ion-item lines="none">
+                      <i slot="start">4</i>
+                      <ion-label>
+                        <h4>Bank Transaction Feeds <span>(5%)</span></h4>
+                      </ion-label>
+                      <ion-text>
+                          <h4>$ 250.00</h4>
+                      </ion-text>
+                    </ion-item>
+                  </div>
+
+                  <div class="table-totle">
+                    <ion-item lines="none">
+                      
+                      <ion-label>
+                        <h4>Total Amount</h4>
+                      </ion-label>
+                      <ion-text>
+                          <h4>$5375.39</h4>
+                      </ion-text>
+                    </ion-item>
+                </div>
+
+              </div>
+          </div>
+      </div>
+      <ion-grid class="buble-part">
+        <div class="dots-bubble">
+          <div class="dots"></div>
+          <div class="dots"></div>
+          <div class="dots"></div>
+          <div class="dots"></div>
+          <div class="dots"></div>
+          <div class="dots"></div>
+          <div class="dots"></div>
+          <div class="dots"></div>
+          <div class="dots"></div>
+          <div class="dots"></div>
+        </div>
+      </ion-grid>
+    </ion-grid>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+    <ion-toolbar>
+        <div class="footer-btn">
+            <p><img src="assets/images/bb-to-home.png"></p>
+            <ion-button>Bubble Cash to Bank</ion-button>
+        </div>
+    </ion-toolbar>
+</ion-footer>
