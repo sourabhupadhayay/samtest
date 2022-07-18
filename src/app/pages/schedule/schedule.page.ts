@@ -44,6 +44,24 @@ export class SchedulePage implements OnInit {
     this.getCurrentUserDetails();
   }
 
+  getScheduleDetails() {
+    let request: Request = {
+      path: "auth/users/manage/filter/list",
+      data: {
+        filter: {},
+        page: {
+          pageLimit: 1,
+          pageNumber: 0,
+        },
+        sort: {
+          orderBy: "ASC",
+          sortBy: "FIRST_NAME",
+        },
+      },
+      isAuth: false,
+    };
+  }
+
   getCurrentUserDetails() {
     let request: Request = {
       path: "auth/users/currentUser",
