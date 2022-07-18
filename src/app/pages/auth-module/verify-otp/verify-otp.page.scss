@@ -160,6 +160,7 @@ ion-content {
               border-radius: 8px;
               border: 1px solid transparent;
               color: var(--black-clr);
+              --color: var(--black-clr);
               &.has-value {
                 border-color: var(--black-clr);
               }
