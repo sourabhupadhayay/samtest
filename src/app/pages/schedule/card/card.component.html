@@ -3,7 +3,10 @@
     <ion-item class="card__container">
       <div class="card">
         <div class="card__slideIcon">
-          <img src="../../../../assets/icon/blue-notch.svg" alt="" />
+          <img src="assets/images/blue-notch.png" alt="" />
+          <span class="arrow-move">
+            <img src="assets/icon/arrow-left.svg">
+          </span>
         </div>
         <div class="card__eventType">
           <img src="../../../../assets/icon/video.svg" alt="" />
@@ -69,16 +72,14 @@
   </div>
   <ion-item-options>
     <ion-item-option color="primary">
-      <ion-icon
-        slot="top"
-        ios="ellipsis-horizontal"
-        md="ellipsis-vertical"
-      ></ion-icon>
-      More
+        <img src="assets/icon/share-icon.svg">
     </ion-item-option>
-    <ion-item-option color="secondary">
-      <ion-icon slot="top" name="archive"></ion-icon>
-      Archive
+    <ion-item-option color="primary">
+      <img src="assets/icon/calendar-card.svg">
     </ion-item-option>
-  </ion-item-options>
+    <ion-item-option color="primary" class="delete">
+      <img src="assets/icon/delete.svg">
+    </ion-item-option>
+    </ion-item-options>
+    
 </ion-item-sliding>
