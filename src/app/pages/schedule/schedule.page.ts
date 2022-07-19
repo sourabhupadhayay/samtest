@@ -23,7 +23,10 @@ export class SchedulePage implements OnInit {
   userData: any | null = null;
   userRole: userRole;
   nameInitials: string;
-  selectedIndex: string = "Upcoming";
+  eventState: string = "APPROVED";
+  eventFilter: string = "All";
+  userId: String;
+  scheduleData: any[] = [];
   constructor(
     private coreService: CoreService,
     private apiService: DataService,
@@ -39,27 +42,54 @@ export class SchedulePage implements OnInit {
   ngOnInit() {}
 
   async getUserDataFromStorage() {
-    let userRole = await this.coreService.getUserDataFromStorage();
-    this.userRole = userRole;
+    this.userRole = await this.coreService.getUserDataFromStorage();
+    let userData = await this.coreService.getUserData();
+    this.userId = userData.id;
+
     this.getCurrentUserDetails();
+    this.getScheduleDetails();
   }
 
   getScheduleDetails() {
     let request: Request = {
-      path: "auth/users/manage/filter/list",
+      path: "core/event/getEvents",
       data: {
-        filter: {},
+        filter: {
+          athleteIds: [this.userId],
+          eventState: "UPCOMING",
+          eventStatuses: [this.eventState],
+        },
+
         page: {
-          pageLimit: 1,
+          pageLimit: 10,
           pageNumber: 0,
         },
         sort: {
           orderBy: "ASC",
-          sortBy: "FIRST_NAME",
+          sortBy: "START_DATE",
         },
       },
-      isAuth: false,
+      isAuth: true,
     };
+
+    if (this.eventState == "PENDING") {
+      delete request.data.filter.eventState;
+    }
+
+    this.coreService.presentLoader(this.constantService.WAIT);
+    this.apiService.post(request).subscribe((response: Response) => {
+      this.coreService.dismissLoader();
+
+      if (response.status.code === this.constantService.STATUS_OK) {
+        this.scheduleData = response.data.content;
+        this.cd.detectChanges();
+      } else {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_ERROR
+        );
+      }
+    });
   }
 
   getCurrentUserDetails() {
@@ -67,10 +97,8 @@ export class SchedulePage implements OnInit {
       path: "auth/users/currentUser",
       isAuth: true,
     };
-    this.coreService.presentLoader(this.constantService.WAIT);
 
     this.apiService.get(request).subscribe((response: Response) => {
-      this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
         this.userData = response.data;
         this.nameInitials = this.commonService.getInitials(

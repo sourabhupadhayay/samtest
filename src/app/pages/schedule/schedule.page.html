@@ -62,14 +62,18 @@
 
   <ion-grid class="content-part">
     <ion-grid class="tabs-design">
-      <ion-segment [(ngModel)]="selectedIndex" mode="ios">
-        <ion-segment-button value="Upcoming">
+      <ion-segment
+        [(ngModel)]="eventState"
+        (ngModelChange)=" getScheduleDetails() "
+        mode="ios"
+      >
+        <ion-segment-button value="APPROVED">
           <ion-label>Upcoming</ion-label>
         </ion-segment-button>
-        <ion-segment-button value="Past">
+        <ion-segment-button value="PAST">
           <ion-label>Past</ion-label>
         </ion-segment-button>
-        <ion-segment-button value="appearances">
+        <ion-segment-button value="PENDING">
           <ion-label>Appearances</ion-label>
         </ion-segment-button>
       </ion-segment>
@@ -77,21 +81,36 @@
     <div class="schedule">
       <h6>SCHEDULE</h6>
       <div class="">
-        <ion-select selectedText="All">
-          <ion-select-option value="apples">All</ion-select-option>
+        <ion-select [(ngModel)]="eventFilter" interface="popover">
+          <ion-select-option value="All">All</ion-select-option>
           <ion-select-option value="Created by Me"
             >Created by Me</ion-select-option
           >
-          <ion-select-option value="oranges"
-            >Created by Athletes</ion-select-option
+          <ion-select-option *ngIf="userRole == 'athlete'" value="oranges"
+            >Created by fan</ion-select-option
           >
-          <ion-select-option value="bananas">Sponsored by</ion-select-option>
+
+          <!-- <ion-select-option value="bananas">Sponsored by</ion-select-option> -->
         </ion-select>
       </div>
     </div>
-    <div class="">
-      <schedule-card></schedule-card>
-      <schedule-card></schedule-card>
+    <div *ngIf="eventState == 'APPROVED'" class="">
+      <schedule-card
+        *ngFor="let data of scheduleData"
+        [cardData]="data"
+      ></schedule-card>
+    </div>
+    <div *ngIf="eventState == 'PAST'" class="">
+      <schedule-card
+        *ngFor="let data of scheduleData"
+        [cardData]="data"
+      ></schedule-card>
+    </div>
+    <div *ngIf="eventState == 'PENDING'" class="">
+      <schedule-card
+        *ngFor="let data of scheduleData"
+        [cardData]="data"
+      ></schedule-card>
     </div>
   </ion-grid>
 </ion-content>
