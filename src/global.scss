@@ -219,3 +219,7 @@ select:-webkit-autofill:focus {
 @media only screen and (max-width: 374px) {
   html{font-size: 84%;}
 }
+
+input:-internal-autofill-selected {
+  background: transparent !important; color: var(--text-black) !important; --color: var(--text-black) !important;
+}
