@@ -213,3 +213,9 @@ select:-webkit-autofill:focus {
 // ion-app {
 //   --ion-safe-area-top: 30px;
 // }
+
+
+
+@media only screen and (max-width: 374px) {
+  html{font-size: 84%;}
+}

@@ -132,7 +132,7 @@ ion-content {
 
     &__details {
       & p {
-        font-size: 14px;
+        font-size: 0.875rem;
         margin: 0;
         padding-bottom: 5px;
         font-weight: 400;
@@ -141,7 +141,7 @@ ion-content {
     }
 
     &__name {
-      font-size: 18px;
+      font-size: 1.125rem;
       margin: 0;
 
       font-weight: 600;
@@ -157,12 +157,12 @@ ion-content {
       display: flex;
       justify-content: space-between;
       & h6 {
-        font-size: 18px;
+        font-size: 1.125rem;
         font-weight: 700;
       }
     }
     &__opp {
-      font-size: 12px;
+      font-size: 0.75rem;
       font-weight: 500;
       font-style: italic;
       & span {
