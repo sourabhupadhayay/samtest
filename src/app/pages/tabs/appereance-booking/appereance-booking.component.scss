@@ -128,6 +128,7 @@
       .radio-btn {
         .radio-main {
           display: flex;
+          align-items: center;
           .radio-text {
             flex: 1;
             align-self: center;
@@ -154,6 +155,7 @@
               --background-focused-opacity: 1;
               --background-hover-opacity: 1;
               --ripple-color: none;
+              --min-height: 26px;
               ion-label {
                 font-size: 0.875rem;
                 color: var(--theme-one-clr);
