@@ -36,10 +36,7 @@ export class AppComponent implements OnInit {
     this.platform.ready().then((): void => {
       this._networkEventsListener();
       this.initFacebook();
-      
-      
     });
-    
   }
 
   hideSplashScreen() {
@@ -55,7 +52,7 @@ export class AppComponent implements OnInit {
 
   //integrate facebook login
   private async initFacebook() {
-    await FacebookLogin.initialize({ appId: "439680364461644" });
+    await FacebookLogin.initialize({ appId: "2063922043815263" });
   }
 
   private _networkEventsListener(): void {
