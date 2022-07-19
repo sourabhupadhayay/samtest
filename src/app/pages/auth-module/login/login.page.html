@@ -10,7 +10,6 @@
 <ion-content [fullscreen]="true">
   <div class="main-screen">
     <div class="top-screen">
-      <!-- <ion-icon slot="start" name="arrow-back-outline"></ion-icon> -->
       <ion-grid class="video-part">
         <video
           height="100%"
@@ -19,7 +18,8 @@
           loop=""
           muted
           autoplay
-          webkit-playsinline playsinline
+          webkit-playsinline
+          playsinline
         >
           <source src="assets/video/video.mp4" />
           <source src="assets/video/video.webm" />
@@ -41,7 +41,7 @@
       <div class="main-part">
         <div class="auth-title sticky-top">
           <img src="assets/images/auth-img.png" />
-          <h4>Login </h4>
+          <h4>Login</h4>
           <p>Welcome! Login to your account.</p>
         </div>
 
@@ -59,7 +59,7 @@
                 type="email"
               ></ion-input>
               <img
-                *ngIf="!isFormSubmitted"
+                *ngIf="loginForm.controls.email.invalid"
                 class="ion-align-self-center"
                 slot="end"
                 src="assets/icon/email.svg"
