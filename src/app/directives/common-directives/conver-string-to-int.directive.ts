@@ -11,8 +11,6 @@ export class ConvertStringToIntDirective implements OnInit {
   ngOnInit(): void {
     const control = this.ngControl.control;
 
-    console.log(control);
-
     if (!control) {
       return;
     }
