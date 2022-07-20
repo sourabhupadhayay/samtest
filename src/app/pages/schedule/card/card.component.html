@@ -94,18 +94,19 @@
 
         <div class="card__invite">
           <div class="profile">
-            <img [src]="cardData.userProfilePicture | profile" alt="" />
-            <!-- <span *ngIf="userData?.profileUrl !==''">
-              <img [src]="userData?.profileUrl | profile" />
-            </span>
-     -->
-            <!-- <div *ngIf="userData?.profileUrl ==''" class="inital">
+            <img
+              *ngIf="cardData?.userProfilePicture !==''"
+              [src]="cardData.userProfilePicture | profile"
+              alt=""
+            />
+
+            <div *ngIf="cardData?.userProfilePicture ==''" class="inital">
               <span class="initial__span">
-                {{nameInitials}}  
+                {{nameInitials}}
               </span>
-            </div> -->
+            </div>
             <div class="profile__detail">
-              <h6>Invited to</h6>
+              <h6>Invited by</h6>
               <h5>{{cardData.userName}}</h5>
             </div>
           </div>

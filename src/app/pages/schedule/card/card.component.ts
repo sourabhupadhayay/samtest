@@ -23,6 +23,7 @@ export class CardComponent implements OnInit {
   @Output() changeStatus: EventEmitter<null> = new EventEmitter();
   @Input() cardData;
   @Input() eventState: String;
+  nameInitials: string;
 
   liveTime: any;
   counter: any;
@@ -40,6 +41,8 @@ export class CardComponent implements OnInit {
 
   ngOnInit() {
     this.dateFormat();
+
+    this.nameInitials = this.commonService.getInitials(this.cardData.userName);
   }
 
   changeEventStatus(eventState: EventStatus) {
