@@ -81,12 +81,14 @@
     <div class="schedule">
       <h6>SCHEDULE</h6>
       <div class="">
-        <ion-select [(ngModel)]="eventFilter" interface="popover">
+        <ion-select
+          [(ngModel)]="eventFilter"
+          (ngModelChange)="getScheduleDetails()"
+          interface="popover"
+        >
           <ion-select-option value="All">All</ion-select-option>
-          <ion-select-option value="Created by Me"
-            >Created by Me</ion-select-option
-          >
-          <ion-select-option *ngIf="userRole == 'athlete'" value="oranges"
+          <ion-select-option value="me">Created by Me</ion-select-option>
+          <ion-select-option *ngIf="userRole == 'athlete'" value="fan"
             >Created by fan</ion-select-option
           >
 

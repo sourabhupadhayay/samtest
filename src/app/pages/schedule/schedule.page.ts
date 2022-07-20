@@ -58,6 +58,7 @@ export class SchedulePage implements OnInit {
           athleteIds: [this.userId],
           eventState: "UPCOMING",
           eventStatuses: [this.eventState],
+          selfCreated: false,
         },
 
         page: {
@@ -71,9 +72,16 @@ export class SchedulePage implements OnInit {
       },
       isAuth: true,
     };
-
+    //event state filters
     if (this.eventState == "PENDING") {
       delete request.data.filter.eventState;
+    }
+
+    //event
+    if (this.eventFilter == "fan") {
+      request.data.filter.creatorPersonas = ["USER"];
+    } else if (this.eventFilter == "me") {
+      request.data.filter.selfCreated = true;
     }
 
     this.coreService.presentLoader(this.constantService.WAIT);
