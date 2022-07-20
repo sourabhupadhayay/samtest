@@ -57,6 +57,10 @@ export class SchedulePage implements OnInit {
       request = this.athleteScheduleRequest();
     }
 
+    if (!request) {
+      return;
+    }
+
     this.coreService.presentLoader(this.constantService.WAIT);
     this.apiService.post(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
