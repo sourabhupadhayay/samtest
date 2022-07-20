@@ -51,6 +51,29 @@ export class SchedulePage implements OnInit {
   }
 
   getScheduleDetails() {
+    let request: Request;
+
+    if (this.userRole == "athlete") {
+      request = this.athleteScheduleRequest();
+    }
+
+    this.coreService.presentLoader(this.constantService.WAIT);
+    this.apiService.post(request).subscribe((response: Response) => {
+      this.coreService.dismissLoader();
+
+      if (response.status.code === this.constantService.STATUS_OK) {
+        this.scheduleData = response.data.content;
+        this.cd.detectChanges();
+      } else {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_ERROR
+        );
+      }
+    });
+  }
+
+  athleteScheduleRequest(): Request {
     let request: Request = {
       path: "core/event/getEvents",
       data: {
@@ -84,20 +107,34 @@ export class SchedulePage implements OnInit {
       request.data.filter.selfCreated = true;
     }
 
-    this.coreService.presentLoader(this.constantService.WAIT);
-    this.apiService.post(request).subscribe((response: Response) => {
-      this.coreService.dismissLoader();
+    return request;
+  }
 
-      if (response.status.code === this.constantService.STATUS_OK) {
-        this.scheduleData = response.data.content;
-        this.cd.detectChanges();
-      } else {
-        this.coreService.showToastMessage(
-          response.status.description,
-          this.coreService.TOAST_ERROR
-        );
-      }
-    });
+  fanScheduleRequest(): Request {
+    let request: Request = {
+      path: "core/event/getEvents",
+      data: {
+        filter: {
+          creatorPersonas: ["USER", "ATHLETE", "ADMIN"],
+
+          eventState: "UPCOMING",
+
+          eventStatuses: ["APPROVED"],
+
+          selfCreated: true,
+        },
+        page: {
+          pageLimit: 10,
+          pageNumber: 0,
+        },
+        sort: {
+          orderBy: "ASC",
+          sortBy: "START_DATE",
+        },
+      },
+      isAuth: true,
+    };
+    return request;
   }
 
   getCurrentUserDetails() {

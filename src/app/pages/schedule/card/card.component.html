@@ -19,10 +19,12 @@
           <img src="../../../../assets/icon/in-person.svg" alt="" />
           <h6>In-person</h6>
         </div>
-        <h6 class="card__time">
-                    <span>{{this.timer.days}}</span> {{this.timer.title_days}} : <span>{{this.timer?.hours}}</span> {{this.timer?.title_hours}} : <span>{{this.timer?.minutes}}</span> {{this.timer?.title_min}}
+        <h6 *ngIf="timer" class="card__time">
+          <span>{{this.timer.days}}</span> {{this.timer.title_days}} :
+          <span>{{this.timer?.hours}}</span> {{this.timer?.title_hours}} :
+          <span>{{this.timer?.minutes}}</span> {{this.timer?.title_min}}
 
-<!--          <span>0</span> days : <span>0</span> hours : <span>0</span> mins-->
+          <!--          <span>0</span> days : <span>0</span> hours : <span>0</span> mins-->
         </h6>
         <div class="card__body">
           <div class="card__details">
@@ -40,7 +42,7 @@
               /></span>
               <h6>{{cardData.createdDate | date:'shortTime'}}</h6>
               <img src="../../../../assets/icon/duration-small.svg" alt="" />
-              <h6>0h 25m</h6>
+              <h6>{{timeConvert(cardData.duration)}}</h6>
             </div>
             <div class="card__detail">
               <ng-container *ngIf="cardData.eventType !== 'IN_PERSON'">
@@ -82,7 +84,7 @@
             <img src="../../../../assets/images/profile.png" alt="" />
             <div class="profile__detail">
               <h6>Invited to</h6>
-              <h5>Casey Rodgers</h5>
+              <h5>{{cardData.userName}}</h5>
             </div>
           </div>
           <ion-button disabled="" size="small" class="card__cta--blue">
