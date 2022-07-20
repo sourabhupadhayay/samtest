@@ -11,6 +11,9 @@ ion-item-sliding {
       &.delete{
         background: var(--red-bg);
       }
+      &.approve{
+        background: var(--green-clr);
+      }
     }
   }
   &.item-sliding-active-slide{
