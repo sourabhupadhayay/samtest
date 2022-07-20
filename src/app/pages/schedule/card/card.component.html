@@ -20,7 +20,9 @@
           <h6>In-person</h6>
         </div>
         <h6 class="card__time">
-          <span>0</span> days : <span>0</span> hours : <span>0</span> mins
+                    <span>{{this.timer.days}}</span> {{this.timer.title_days}} : <span>{{this.timer?.hours}}</span> {{this.timer?.title_hours}} : <span>{{this.timer?.minutes}}</span> {{this.timer?.title_min}}
+
+<!--          <span>0</span> days : <span>0</span> hours : <span>0</span> mins-->
         </h6>
         <div class="card__body">
           <div class="card__details">
