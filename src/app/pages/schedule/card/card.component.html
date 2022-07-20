@@ -19,16 +19,21 @@
           <img src="../../../../assets/icon/in-person.svg" alt="" />
           <h6>In-person</h6>
         </div>
-        <h6 *ngIf="timer" class="card__time">
-          <span>{{this.timer.days}}</span> {{this.timer.title_days}} :
-          <span>{{this.timer?.hours}}</span> {{this.timer?.title_hours}} :
-          <span>{{this.timer?.minutes}}</span> {{this.timer?.title_min}}
+        <div *ngIf="eventState !== 'PAST'" class="">
+          <h6 *ngIf="timer" class="card__time">
+            <span>{{this.timer.days ?? 0}}</span> {{this.timer.title_days}} :
+            <span>{{this.timer.hours}}</span> {{this.timer?.title_hours}} :
+            <span>{{this.timer.minutes}}</span> {{this.timer?.title_min}}
+          </h6>
+        </div>
 
-          <!--          <span>0</span> days : <span>0</span> hours : <span>0</span> mins-->
+        <h6 *ngIf="eventState == 'PAST'" class="card__time disabled-text">
+          <span>0</span> days : <span>0</span> hours : <span>0</span> mins
         </h6>
+
         <div class="card__body">
           <div class="card__details">
-            <h6 class="card__heading">Birthday Surprise</h6>
+            <h6 class="card__heading">{{cardData.eventName}}</h6>
 
             <div class="card__date">
               <span
@@ -68,7 +73,10 @@
             </div>
           </div>
 
-          <div class="card__opp">
+          <div
+            [ngClass]="eventState == 'PAST' ? 'card__opp--disabled' :''"
+            class="card__opp"
+          >
             <h3>
               ${{cardData.minBid}}
             </h3>
@@ -77,44 +85,81 @@
             </h6>
           </div>
         </div>
-        <div class="card__border"></div>
+        <!-- <div class="card__border"></div> -->
 
         <div class="card__invite">
           <div class="profile">
             <img src="../../../../assets/images/profile.png" alt="" />
+            <!-- <span *ngIf="userData?.profileUrl !==''">
+              <img [src]="userData?.profileUrl | profile" />
+            </span>
+     -->
+            <!-- <div *ngIf="userData?.profileUrl ==''" class="inital">
+              <span class="initial__span">
+                {{nameInitials}}
+              </span>
+            </div> -->
             <div class="profile__detail">
               <h6>Invited to</h6>
               <h5>{{cardData.userName}}</h5>
             </div>
           </div>
-          <ion-button disabled="" size="small" class="card__cta--blue">
-            <span
-              ><img src="../../../../assets/icon/join-video.svg" alt=""
-            /></span>
-            <p>Join Now</p>
-          </ion-button>
+          <ng-container
+            *ngIf="eventState !== 'PAST' && eventState !== 'PENDING'"
+          >
+            <ion-button
+              *ngIf="cardData.eventType !== 'IN_PERSON'"
+              [disabled]="this.timer.minutes > 10"
+              size="small"
+              class="card__cta--blue"
+            >
+              <span
+                ><img src="../../../../assets/icon/join-video.svg" alt=""
+              /></span>
+              <p>Join Now</p>
+            </ion-button>
+            <ion-button
+              *ngIf="cardData.eventType == 'IN_PERSON'"
+              [disabled]="this.timer.minutes > 10"
+              size="small"
+              class="card__cta--green"
+            >
+              <p class="card__cta--password">****</p>
+            </ion-button>
+          </ng-container>
+          <h6 *ngIf="eventState == 'PAST'" class="card__completed">
+            COMPLETED
+          </h6>
         </div>
       </div>
     </ion-item>
   </div>
-  <ion-item-options>
-    <ion-item-option color="primary">
+  <ion-item-options *ngIf="eventState == 'APPROVED'">
+    <ion-item-option (click)="presentAlert()" color="primary">
       <img src="assets/icon/share-icon.svg" />
     </ion-item-option>
-    <ion-item-option color="primary">
+    <ion-item-option (click)="presentAlert()" color="primary">
       <img src="assets/icon/calendar-card.svg" />
     </ion-item-option>
-    <ion-item-option color="primary" class="delete">
+    <ion-item-option (click)="presentAlert()" color="primary" class="delete">
       <img src="assets/icon/delete.svg" />
     </ion-item-option>
-
-    <ion-item-option color="primary" class="approve">
-      <img src="assets/icon/approve-icon.svg">
+  </ion-item-options>
+  <ion-item-options *ngIf="eventState == 'PENDING'">
+    <ion-item-option
+      (click)="changeEventStatus('APPROVED')"
+      color="primary"
+      class="approve"
+    >
+      <img src="assets/icon/approve-icon.svg" />
     </ion-item-option>
 
-    <ion-item-option color="primary" class="delete">
-      <img src="assets/icon/reject-icon.svg">
+    <ion-item-option
+      (click)="changeEventStatus('REJECTED')"
+      color="primary"
+      class="delete"
+    >
+      <img src="assets/icon/reject-icon.svg" />
     </ion-item-option>
-    </ion-item-options>
-    
+  </ion-item-options>
 </ion-item-sliding>

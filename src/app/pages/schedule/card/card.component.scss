@@ -27,7 +27,7 @@ ion-item-sliding {
       &.delete {
         background: var(--red-bg);
       }
-      &.approve{
+      &.approve {
         background: var(--green-clr);
       }
     }
@@ -146,6 +146,12 @@ ion-item-sliding {
       font-weight: 300;
       margin: 0;
     }
+    &--disabled {
+      color: #bbbbbb;
+      box-shadow: none;
+      background: #f7f7f7;
+      border: 1px solid #efefef;
+    }
   }
   &__date {
     padding-bottom: 5px;
@@ -176,6 +182,7 @@ ion-item-sliding {
     margin: 2px 0;
   }
   &__invite {
+    margin-top: 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -219,5 +226,27 @@ ion-item-sliding {
       --background-activated: var(--theme-one-clr);
       --background: var(--theme-one-clr);
     }
+    &--password {
+      margin: 0;
+      font-size: 25px;
+      letter-spacing: 4px;
+      padding-top: 8px;
+    }
   }
+  &__completed {
+    margin: 0;
+    color: #55cd89;
+    font-weight: 700;
+    font-size: 12px;
+  }
+}
+.disabled-text {
+  color: #bbbbbb;
+  span {
+    color: #bbbbbb;
+  }
+}
+ion-button.button-disabled {
+  --background-activated: #bbbbbb;
+  --background: #bbbbbb;
 }

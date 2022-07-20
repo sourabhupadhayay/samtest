@@ -27,6 +27,7 @@
     <div class="profile__top">
       <div class="profile__image">
         <img [src]="userData.profileUrl | profile" alt="" />
+
         <span class="online"></span>
       </div>
       <div class="profile__details">
@@ -98,18 +99,23 @@
     </div>
     <div *ngIf="eventState == 'APPROVED'" class="">
       <schedule-card
+        (changeStatus)="getScheduleDetails()"
+        [eventState]="eventState"
         *ngFor="let data of scheduleData"
         [cardData]="data"
       ></schedule-card>
     </div>
     <div *ngIf="eventState == 'PAST'" class="">
       <schedule-card
+        [eventState]="eventState"
         *ngFor="let data of scheduleData"
         [cardData]="data"
       ></schedule-card>
     </div>
     <div *ngIf="eventState == 'PENDING'" class="">
       <schedule-card
+        (changeStatus)="getScheduleDetails()"
+        [eventState]="eventState"
         *ngFor="let data of scheduleData"
         [cardData]="data"
       ></schedule-card>

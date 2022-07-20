@@ -1,4 +1,18 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from "@angular/core";
+import { AlertController } from "@ionic/angular";
+import { CommonService } from "src/app/providers/common.service";
+import { ConstantService } from "src/app/providers/constant.service";
+import { CoreService } from "src/app/providers/core.service";
+import { DataService, Request, Response } from "src/app/providers/data.service";
+
+type EventStatus = "PENDING" | "APPROVED" | "REJECTED" | "CANCELLED";
 
 @Component({
   selector: "schedule-card",
@@ -6,15 +20,61 @@ import { ChangeDetectorRef, Component, Input, OnInit } from "@angular/core";
   styleUrls: ["./card.component.scss"],
 })
 export class CardComponent implements OnInit {
+  @Output() changeStatus: EventEmitter<null> = new EventEmitter();
   @Input() cardData;
+  @Input() eventState: String;
+
   liveTime: any;
   counter: any;
   timer: any = null;
   interval;
-  constructor(private cd: ChangeDetectorRef) {}
+
+  constructor(
+    private cd: ChangeDetectorRef,
+    private coreService: CoreService,
+    private apiService: DataService,
+    private constantService: ConstantService,
+    public commonService: CommonService,
+    private alertController: AlertController
+  ) {}
 
   ngOnInit() {
     this.dateFormat();
+  }
+
+  changeEventStatus(eventState: EventStatus) {
+    let request: Request = {
+      path: `core/event/changeStatus/${this.cardData.id}?event=${eventState}&sendMail=false`,
+      isAuth: true,
+    };
+
+    this.coreService.presentLoader(this.constantService.WAIT);
+    this.apiService.get(request).subscribe((response: Response) => {
+      this.coreService.dismissLoader();
+
+      if (response.status.code === this.constantService.STATUS_OK) {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_SUCCESS
+        );
+        this.changeStatus.emit();
+      } else {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_ERROR
+        );
+      }
+    });
+  }
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: "Coming soon",
+
+      message: "This feature is coming soon stay tuned",
+      buttons: ["OK"],
+    });
+
+    await alert.present();
   }
 
   timeConvert(n: number) {

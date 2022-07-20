@@ -80,7 +80,7 @@ export class SchedulePage implements OnInit {
         filter: {
           athleteIds: [this.userId],
           eventState: "UPCOMING",
-          eventStatuses: [this.eventState],
+          eventStatuses: ["APPROVED"],
           selfCreated: false,
         },
 
@@ -95,12 +95,19 @@ export class SchedulePage implements OnInit {
       },
       isAuth: true,
     };
-    //event state filters
-    if (this.eventState == "PENDING") {
-      delete request.data.filter.eventState;
+
+    //event state filter
+    if (this.eventState == "PAST") {
+      request.data.filter.eventStatuses = ["APPROVED"];
+      delete request.data.filter.selfCreated;
+      request.data.filter.eventState = "PAST";
+    } else if (this.eventState == "PENDING") {
+      request.data.filter.eventStatuses = ["PENDING"];
+      delete request.data.filter.selfCreated;
+      request.data.filter.eventState = "UPCOMING";
     }
 
-    //event
+    //event filter
     if (this.eventFilter == "fan") {
       request.data.filter.creatorPersonas = ["USER"];
     } else if (this.eventFilter == "me") {
