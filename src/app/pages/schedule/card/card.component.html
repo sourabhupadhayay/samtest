@@ -115,7 +115,7 @@
           >
             <ion-button
               *ngIf="cardData.eventType !== 'IN_PERSON' "
-              [disabled]="this.timer.minutes > 10"
+              [disabled]="canJoinEvent()"
               size="small"
               class="card__cta--blue"
             >
@@ -126,7 +126,7 @@
             </ion-button>
             <ion-button
               *ngIf="cardData.eventType == 'IN_PERSON'"
-              [disabled]="timer.minutes > 10"
+              [disabled]="canJoinEvent()"
               size="small"
               class="card__cta--green"
             >
