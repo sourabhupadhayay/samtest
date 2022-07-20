@@ -21,8 +21,13 @@
         </div>
         <div *ngIf="eventState !== 'PAST'" class="">
           <h6 *ngIf="timer" class="card__time">
-            <span>{{this.timer.days ?? 0}}</span> {{this.timer.title_days}} :
-            <span>{{this.timer.hours}}</span> {{this.timer?.title_hours}} :
+            <ng-container *ngIf="this.timer.days">
+              <span>{{this.timer.days }}</span> {{this.timer.title_days}} :
+            </ng-container>
+            <ng-container *ngIf="this.timer.hours">
+              <span>{{this.timer.hours }}</span>
+              {{this.timer?.title_hours}} :
+            </ng-container>
             <span>{{this.timer.minutes}}</span> {{this.timer?.title_min}}
           </h6>
         </div>
@@ -89,14 +94,14 @@
 
         <div class="card__invite">
           <div class="profile">
-            <img src="../../../../assets/images/profile.png" alt="" />
+            <img [src]="cardData.userProfilePicture | profile" alt="" />
             <!-- <span *ngIf="userData?.profileUrl !==''">
               <img [src]="userData?.profileUrl | profile" />
             </span>
      -->
             <!-- <div *ngIf="userData?.profileUrl ==''" class="inital">
               <span class="initial__span">
-                {{nameInitials}}
+                {{nameInitials}}  
               </span>
             </div> -->
             <div class="profile__detail">
@@ -108,7 +113,7 @@
             *ngIf="eventState !== 'PAST' && eventState !== 'PENDING'"
           >
             <ion-button
-              *ngIf="cardData.eventType !== 'IN_PERSON'"
+              *ngIf="cardData.eventType !== 'IN_PERSON' "
               [disabled]="this.timer.minutes > 10"
               size="small"
               class="card__cta--blue"
@@ -120,23 +125,18 @@
             </ion-button>
             <ion-button
               *ngIf="cardData.eventType == 'IN_PERSON'"
-              [disabled]="this.timer.minutes > 10"
+              [disabled]="timer.minutes > 10"
               size="small"
               class="card__cta--green"
             >
               <p class="card__cta--password">****</p>
             </ion-button>
-            <!-- <ion-button disabled size="small" class="card__cta--blue join-now">
-              <span
-                ><img src="../../../../assets/icon/join-video.svg" alt=""
-              /></span>
-              <p>Join Now</p>
-            </ion-button> -->
 
             <!-- <div class="fans-bided-event">
-              <p><span>38</span> Fans bided
-                on your event</p>
-              <ion-button><img src="assets/icon/join-video.svg"> Go</ion-button>
+              <p><span>38</span> Fans bided on your event</p>
+              <ion-button
+                ><img src="assets/icon/join-video.svg" /> Go</ion-button
+              >
             </div> -->
           </ng-container>
           <h6 *ngIf="eventState == 'PAST'" class="card__completed">
