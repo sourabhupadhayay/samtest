@@ -24,7 +24,10 @@
       </ion-item>
     </div>
     <div *ngIf="commonService.profileUrl !== ''" class="profile-part">
-      <img [src]="commonService.profileUrl | profile" />
+      <div class="upload-img">
+        <img [src]="commonService.profileUrl | profile" />
+      </div>
+      
 
       <div class="edit-btn">
         <ion-button (click)="presentProfileActionSheet()">
