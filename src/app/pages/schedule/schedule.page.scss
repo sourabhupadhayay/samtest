@@ -215,6 +215,8 @@ ion-content {
   & h6 {
     font-size: 0.875rem;
     margin: 0;
+    color: var(--white-clr);
+    font-weight: 500;
   }
 }
 ion-select {
@@ -222,6 +224,9 @@ ion-select {
   --padding-bottom: 5px;
   --padding-start: 5px;
   background-color: rgba(255, 255, 255, 0.519);
-  color: #000;
+  color: var(--black-clr);
   border-radius: 6px;
+  ion-item{
+    ion-label{color: var(--black-clr);}
+  }
 }
