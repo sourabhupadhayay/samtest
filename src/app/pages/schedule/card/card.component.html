@@ -5,15 +5,24 @@
         <div class="card__slideIcon">
           <img src="assets/images/blue-notch.png" alt="" />
           <span class="arrow-move">
-            <img src="assets/icon/arrow-left.svg">
+            <img src="assets/icon/arrow-left.svg" />
           </span>
         </div>
-        <div class="card__eventType">
+        <div *ngIf="cardData.eventType !=='IN_PERSON'" class="card__eventType">
           <img src="../../../../assets/icon/video.svg" alt="" />
           <h6>Video</h6>
         </div>
+        <div
+          *ngIf="cardData.eventType =='IN_PERSON'"
+          class="card__eventType inPersonEvent"
+        >
+          <img src="../../../../assets/icon/in-person.svg" alt="" />
+          <h6>In-person</h6>
+        </div>
         <h6 class="card__time">
-          <span>0</span> days : <span>0</span> hours : <span>0</span> mins
+                    <span>{{this.timer.days}}</span> {{this.timer.title_days}} : <span>{{this.timer?.hours}}</span> {{this.timer?.title_hours}} : <span>{{this.timer?.minutes}}</span> {{this.timer?.title_min}}
+
+<!--          <span>0</span> days : <span>0</span> hours : <span>0</span> mins-->
         </h6>
         <div class="card__body">
           <div class="card__details">
@@ -23,27 +32,43 @@
               <span
                 ><img src="../../../../assets/icon/calender-blue.svg" alt=""
               /></span>
-              <h6>Jun 30, 2022</h6>
+              <h6>{{cardData.createdDate | date:'MMM dd, YYYY'}}</h6>
             </div>
             <div class="card__detail">
               <span
                 ><img src="../../../../assets/icon/clock.svg" alt=""
               /></span>
-              <h6>10:00 AM</h6>
+              <h6>{{cardData.createdDate | date:'shortTime'}}</h6>
               <img src="../../../../assets/icon/duration-small.svg" alt="" />
               <h6>0h 25m</h6>
             </div>
             <div class="card__detail">
-              <span><img src="../../../../assets/icon/chat.svg" alt="" /></span>
-              <h6>
-                I would like to invite you for my wife's surprise birthday party
-              </h6>
+              <ng-container *ngIf="cardData.eventType !== 'IN_PERSON'">
+                <span
+                  ><img src="../../../../assets/icon/chat.svg" alt=""
+                /></span>
+
+                <h6 *ngIf="cardData.description !== ''">
+                  {{cardData.description }}
+                </h6>
+              </ng-container>
+              <ng-container *ngIf="cardData.eventType == 'IN_PERSON'">
+                <span
+                  ><img src="../../../../assets/icon/location.svg" alt=""
+                /></span>
+                <h6>
+                  {{cardData.eventAddress?.addressLine1}},
+                  {{cardData.eventAddress?.city}},
+                  {{cardData.eventAddress?.state}},
+                  {{cardData.eventAddress?.zipCode}}
+                </h6>
+              </ng-container>
             </div>
           </div>
 
           <div class="card__opp">
             <h3>
-              $200
+              ${{cardData.minBid}}
             </h3>
             <h6>
               Opportunity
@@ -72,13 +97,13 @@
   </div>
   <ion-item-options>
     <ion-item-option color="primary">
-        <img src="assets/icon/share-icon.svg">
+      <img src="assets/icon/share-icon.svg" />
     </ion-item-option>
     <ion-item-option color="primary">
-      <img src="assets/icon/calendar-card.svg">
+      <img src="assets/icon/calendar-card.svg" />
     </ion-item-option>
     <ion-item-option color="primary" class="delete">
-      <img src="assets/icon/delete.svg">
+      <img src="assets/icon/delete.svg" />
     </ion-item-option>
 
     <ion-item-option color="primary" class="approve">

@@ -1,14 +1,30 @@
 ion-item-sliding {
   margin: 30px 0;
   overflow: visible;
-  ion-item-options{flex-flow: column; align-items: flex-end; background: var(--dark-blue); border-top-right-radius: 20px; border-bottom-right-radius: 20px;
-    ion-item-option{height: inherit; background: var(--dark-blue); width: 90px; border-bottom: 1px solid rgba(var(--white-clr-rgb),0.5);
-      button{display: inline-block;
+  ion-item-options {
+    flex-flow: column;
+    align-items: flex-end;
+    background: var(--dark-blue);
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    ion-item-option {
+      height: inherit;
+      background: var(--dark-blue);
+      width: 90px;
+      border-bottom: 1px solid rgba(var(--white-clr-rgb), 0.5);
+      button {
+        display: inline-block;
         text-align: right;
-        width: auto;}
-      &:last-child{border-bottom: 0; border-bottom-right-radius: 20px;}
-      &:first-child{border-top-right-radius: 20px;}
-      &.delete{
+        width: auto;
+      }
+      &:last-child {
+        border-bottom: 0;
+        border-bottom-right-radius: 20px;
+      }
+      &:first-child {
+        border-top-right-radius: 20px;
+      }
+      &.delete {
         background: var(--red-bg);
       }
       &.approve{
@@ -16,9 +32,11 @@ ion-item-sliding {
       }
     }
   }
-  &.item-sliding-active-slide{
-    span{
-      img{transform: rotate(0deg);}
+  &.item-sliding-active-slide {
+    span {
+      img {
+        transform: rotate(0deg);
+      }
     }
   }
 }
@@ -31,6 +49,7 @@ ion-item-sliding {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   position: relative;
   border-right: 4px solid #056ea6;
+  width: 100%;
 
   &__container {
     --padding-start: 0;
@@ -45,9 +64,23 @@ ion-item-sliding {
     right: -2px;
     top: 50%;
     transform: translateY(-50%);
-    img{max-width: 100%;}
-    span{position: absolute; right: 0; top: 0; bottom: 0; margin: auto; width: 15px; height: fit-content;
-      img{max-width: 100%; width: 15px; transform: rotate(180deg); transition: all 0.2s;}
+    img {
+      max-width: 100%;
+    }
+    span {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      width: 15px;
+      height: fit-content;
+      img {
+        max-width: 100%;
+        width: 15px;
+        transform: rotate(180deg);
+        transition: all 0.2s;
+      }
     }
   }
 
@@ -61,7 +94,7 @@ ion-item-sliding {
     top: -18px;
     left: 20px;
     background-color: #55cd89;
-    min-width: 90px;
+    min-width: 100px;
     border-radius: 20px;
 
     & h6 {
@@ -70,6 +103,9 @@ ion-item-sliding {
       color: white;
       font-size: 12px;
     }
+  }
+  .inPersonEvent {
+    background-color: var(--theme-one-clr);
   }
 
   &__time {
