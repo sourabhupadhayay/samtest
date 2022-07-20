@@ -84,7 +84,7 @@
         <ion-select
           [(ngModel)]="eventFilter"
           (ngModelChange)="getScheduleDetails()"
-          interface="popover" mode="md"
+          interface="popover" mode="ios" [interfaceOptions]="{'cssClass': 'mycomponent-wider-popover'}"
         >
           <ion-select-option value="All">All</ion-select-option>
           <ion-select-option value="me">Created by Me</ion-select-option>
