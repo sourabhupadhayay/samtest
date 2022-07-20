@@ -271,3 +271,5 @@ input:-internal-autofill-selected {
     }
   }
 }
+
+input, ion-input, ion-textarea{caret-color: var(--text-black);}
