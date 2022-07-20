@@ -154,7 +154,11 @@ export class AppereanceBookingComponent implements OnInit {
     this.apiService.post(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
       if (response.status.code == this.constant.STATUS_OK) {
-        this.modalCtrl.dismiss(true);
+        if (this.userRole == "fan") {
+          this.modalCtrl.dismiss(true);
+        } else {
+          this.modalCtrl.dismiss(false);
+        }
       } else {
         this.coreService.showToastMessage(
           response["status"]["description"],
@@ -174,7 +178,7 @@ export class AppereanceBookingComponent implements OnInit {
     let { startDate, duration, ...athletePayload } = this.athleteForm.value;
 
     let request: Request = {
-      path: "core/create",
+      path: "core/event/create",
       data: {
         ...athletePayload,
         startDate: new Date(startDate).toISOString(),

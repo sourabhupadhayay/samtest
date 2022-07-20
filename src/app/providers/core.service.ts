@@ -331,6 +331,11 @@ export class CoreService {
     let userData = JSON.parse(value);
     return this.commonService.getUserType(userData.roles);
   }
+  async getUserData(): Promise<any> {
+    const { value } = await Storage.get({ key: "userDetails" });
+    let userData = JSON.parse(value);
+    return userData;
+  }
 }
 
 export interface UserRole {
