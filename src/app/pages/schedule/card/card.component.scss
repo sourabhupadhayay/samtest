@@ -187,6 +187,14 @@ ion-item-sliding {
     align-items: center;
     justify-content: space-between;
   }
+  .fans-bided-event{display: flex; align-items: center; background: var(--bg-gray); border-radius: 6px; max-width: 152px;
+    p{margin: 0; padding: 0 10px; font-size: 0.75rem; color: var(--light-gray); font-weight: 500;
+      span{font-weight: 700;}
+    }
+    ion-button{margin: 0; box-shadow: none; height: 2.6em; --padding-end: 13px; --padding-start: 13px; --background: rgba(var(--black-bg-rgb), 0.25); font-weight: 700; font-size: 0.75rem; color: var(--white-clr); text-transform: uppercase; vertical-align: middle;
+      img{margin-right: 5px; width: 20px;}
+    }
+  }
   .profile {
     display: flex;
     gap: 5px;
