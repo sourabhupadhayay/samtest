@@ -174,7 +174,7 @@ export class AppereanceBookingComponent implements OnInit {
     let { startDate, duration, ...athletePayload } = this.athleteForm.value;
 
     let request: Request = {
-      path: "core/create",
+      path: "core/event/create",
       data: {
         ...athletePayload,
         startDate: new Date(startDate).toISOString(),
