@@ -228,7 +228,22 @@ ion-select {
   font-size: 0.75rem;
   font-weight: 600;
   border-radius: 6px;
-  ion-item{
-    ion-label{color: var(--black-clr);}
+  ion-item {
+    ion-label {
+      color: var(--black-clr);
+    }
+  }
+}
+.no-data-found {
+  text-align: center;
+  max-width: 100%;
+  padding: 15px;
+  p {
+    color: var(--white-clr);
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: capitalize;
+    margin: 20px 0;
+    letter-spacing: 1px;
   }
 }

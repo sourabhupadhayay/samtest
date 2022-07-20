@@ -42,6 +42,10 @@ export class CardComponent implements OnInit {
   ngOnInit() {
     this.dateFormat();
 
+    this.getInitials();
+  }
+
+  getInitials() {
     this.nameInitials = this.commonService.getInitials(this.cardData.userName);
   }
 
@@ -78,6 +82,18 @@ export class CardComponent implements OnInit {
     });
 
     await alert.present();
+  }
+
+  canJoinEvent(): boolean {
+    if (this.timer.hours) {
+      return true;
+    }
+
+    if (this.timer.minutes < 10) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   timeConvert(n: number) {
