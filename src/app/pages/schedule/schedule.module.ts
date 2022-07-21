@@ -10,6 +10,7 @@ import { SchedulePage } from "./schedule.page";
 import { CardComponent } from "./card/card.component";
 import { CommonDirectiveModule } from "src/app/directives/common-directive.module";
 import { PipesModule } from "src/app/pipes/pipes.module";
+import { DismissmodalComponent } from "./dismissmodal/dismissmodal.component";
 
 @NgModule({
   imports: [
@@ -20,6 +21,6 @@ import { PipesModule } from "src/app/pipes/pipes.module";
     CommonDirectiveModule,
     PipesModule,
   ],
-  declarations: [SchedulePage, CardComponent],
+  declarations: [SchedulePage, CardComponent, DismissmodalComponent],
 })
 export class SchedulePageModule {}

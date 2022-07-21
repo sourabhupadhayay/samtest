@@ -92,13 +92,15 @@
             </div>
             <div class="card__detail">
               <ng-container *ngIf="cardData.eventType !== 'IN_PERSON'">
-                <span
-                  ><img src="../../../../assets/icon/chat.svg" alt=""
-                /></span>
+                <ng-container *ngIf="cardData.description !== ''">
+                  <span
+                    ><img src="../../../../assets/icon/chat.svg" alt=""
+                  /></span>
 
-                <h6 *ngIf="cardData.description !== ''">
-                  {{cardData.description }}
-                </h6>
+                  <h6>
+                    {{cardData.description }}
+                  </h6>
+                </ng-container>
               </ng-container>
               <ng-container *ngIf="cardData.eventType == 'IN_PERSON'">
                 <span
@@ -121,7 +123,12 @@
             <h3>
               ${{cardData.minBid}}
             </h3>
-            <h6>
+            <h6
+              *ngIf="cardData.creatorPersona == 'ATHLETE' || cardData.creatorPersona == 'ADMIN'"
+            >
+              Minimum Bid
+            </h6>
+            <h6 *ngIf="cardData.creatorPersona == 'USER'">
               Opportunity
             </h6>
           </div>
@@ -129,23 +136,97 @@
         <!-- <div class="card__border"></div> -->
 
         <div class="card__invite">
-          <div class="profile">
-            <img
-              *ngIf="cardData?.userProfilePicture !==''"
-              [src]="cardData.userProfilePicture | profile"
-              alt=""
-            />
+          <ng-container *ngIf="userRole == 'fan'">
+            <ng-container
+              *ngIf="cardData.creatorPersona == 'ATHLETE' || cardData.creatorPersona == 'ADMIN'"
+            >
+              <div class="profile">
+                <img
+                  *ngIf="cardData?.userProfilePicture !==''"
+                  [src]="cardData.userProfilePicture | profile"
+                  alt=""
+                />
 
-            <div *ngIf="cardData?.userProfilePicture ==''" class="inital">
-              <span class="initial__span">
-                {{nameInitials}}
-              </span>
-            </div>
-            <div class="profile__detail">
-              <h6>{{invitedText()}}</h6>
-              <h5>{{cardData.userName}}</h5>
-            </div>
-          </div>
+                <div *ngIf="cardData?.userProfilePicture ==''" class="inital">
+                  <span class="initial__span">
+                    {{nameInitials}}
+                  </span>
+                </div>
+                <div class="profile__detail">
+                  <h6>{{invitedText()}}</h6>
+                  <h5>{{cardData.userName}}</h5>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="cardData.creatorPersona == 'USER'">
+              <div class="profile">
+                <img
+                  *ngIf="cardData?.athleteProfilePicture !==''"
+                  [src]="cardData.athleteProfilePicture | profile"
+                  alt=""
+                />
+
+                <div
+                  *ngIf="cardData?.athleteProfilePicture ==''"
+                  class="inital"
+                >
+                  <span class="initial__span">
+                    {{nameInitials}}
+                  </span>
+                </div>
+                <div class="profile__detail">
+                  <h6>{{invitedText()}}</h6>
+                  <h5>{{cardData.athleteName}}</h5>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+          <ng-container *ngIf="userRole == 'athlete'">
+            <ng-container
+              *ngIf="cardData.creatorPersona == 'ATHLETE' || cardData.creatorPersona == 'ADMIN'"
+            >
+              <div class="profile">
+                <img
+                  *ngIf="cardData?.athleteProfilePicture !==''"
+                  [src]="cardData.athleteProfilePicture | profile"
+                  alt=""
+                />
+
+                <div
+                  *ngIf="cardData?.athleteProfilePicture ==''"
+                  class="inital"
+                >
+                  <span class="initial__span">
+                    {{nameInitials}}
+                  </span>
+                </div>
+                <div class="profile__detail">
+                  <h6>{{invitedText()}}</h6>
+                  <h5>{{cardData.athleteName}}</h5>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="cardData.creatorPersona == 'USER'">
+              <div class="profile">
+                <img
+                  *ngIf="cardData?.userProfilePicture !==''"
+                  [src]="cardData.userProfilePicture | profile"
+                  alt=""
+                />
+
+                <div *ngIf="cardData?.userProfilePicture ==''" class="inital">
+                  <span class="initial__span">
+                    {{nameInitials}}
+                  </span>
+                </div>
+                <div class="profile__detail">
+                  <h6>{{invitedText()}}</h6>
+                  <h5>{{cardData.userName}}</h5>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+
           <ng-container *ngIf="userRole == 'athlete'">
             <ng-container
               *ngIf="eventState !== 'PAST' && eventState !== 'PENDING'"
@@ -184,6 +265,7 @@
           <ng-container *ngIf="userRole == 'fan'">
             <ng-container *ngIf="eventState == 'APPROVED'">
               <ion-button
+                [disabled]="canJoinEvent()"
                 *ngIf="cardData.creatorPersona == 'ATHLETE' || cardData.creatorPersona == 'ADMIN'   "
                 size="small"
                 class="card__cta--blue"
@@ -194,19 +276,20 @@
                 <p>Bid now</p>
               </ion-button>
               <ion-button
+                [disabled]="canJoinEvent()"
                 *ngIf="cardData.creatorPersona == 'USER' "
                 size="small"
                 class="card__cta--green"
               >
                 <span
-                  ><img src="../../../../assets/icon/bid-dollar.svg" alt=""
+                  ><img src="../../../../assets/icon/join-video.svg" alt=""
                 /></span>
                 <p>Join now</p>
               </ion-button>
             </ng-container>
             <ng-container *ngIf="eventState == 'PENDING' ">
               <ion-button
-                id="cancelAppearance"
+                (click)="presentDismissModal()"
                 size="small"
                 class="card__cta card__cta--cancel"
               >
@@ -264,33 +347,12 @@
       <ion-item-option (click)="presentAlert()" color="primary">
         <img src="assets/icon/calendar-card.svg" />
       </ion-item-option>
-      <ion-item-option (click)="presentAlert()" color="primary" class="delete">
+      <ion-item-option
+        (click)="presentDismissModal()"
+        color="primary"
+        class="delete"
+      >
         <img src="assets/icon/delete.svg" />
       </ion-item-option> </ion-item-options
   ></ng-container>
 </ion-item-sliding>
-
-<ion-modal trigger="cancelAppearance" class="small-modal">
-  <ng-template>
-    <ion-header mode="md">
-      <h3>Cancel Confirmation</h3>
-    </ion-header>
-
-    <div class="inner-content">
-      <div class="main-screen">
-        <p>Are you sure, you want to cancel appearance?</p>
-      </div>
-    </div>
-
-    <ion-footer mode="ios">
-      <ion-toolbar mode="ios">
-        <ion-button (click)="dismissModal()" class="white-btn">
-          <img src="assets/icon/close-icon.png" />
-        </ion-button>
-        <ion-button (click)="changeEventStatus('REJECTED')" class="white-btn">
-          <img src="assets/icon/right-icon.png" />
-        </ion-button>
-      </ion-toolbar>
-    </ion-footer>
-  </ng-template>
-</ion-modal>

@@ -13,6 +13,8 @@ import {
 } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 
+type eventState = "APPROVED" | "PENDING" | "PAST";
+
 @Component({
   selector: "app-schedule",
   templateUrl: "./schedule.page.html",
@@ -23,7 +25,7 @@ export class SchedulePage implements OnInit {
   userData: any | null = null;
   userRole: userRole;
   nameInitials: string = "";
-  eventState: string = "APPROVED";
+  eventState: eventState = "APPROVED";
   eventFilter: string = "All";
   userId: String;
   scheduleData: any[] = [];
@@ -187,5 +189,20 @@ export class SchedulePage implements OnInit {
         );
       }
     });
+  }
+
+  listHeading(): string {
+    if (this.userRole == "athlete") {
+      return "SCHEDULE";
+    } else {
+      switch (this.eventState) {
+        case "APPROVED":
+          return "SCHEDULE";
+        case "PAST":
+          return "COMPLETED ";
+        case "PENDING":
+          return "REQUEST";
+      }
+    }
   }
 }
