@@ -184,24 +184,25 @@
           <ng-container *ngIf="userRole == 'fan'">
             <ng-container *ngIf="eventState == 'APPROVED'">
               <ion-button
-                *ngIf="cardData.eventType !== 'IN_PERSON' "
-                [disabled]="canJoinEvent()"
+                *ngIf="cardData.creatorPersona == 'ATHLETE' || cardData.creatorPersona == 'ADMIN'   "
                 size="small"
                 class="card__cta--blue"
               >
                 <span
-                  ><img src="../../../../assets/icon/join-video.svg" alt=""
+                  ><img src="../../../../assets/icon/bid-dollar.svg" alt=""
                 /></span>
-                <p>Join Now</p>
+                <p>Bid now</p>
               </ion-button>
-              <!-- <ion-button
-              *ngIf="cardData.eventType == 'IN_PERSON'"
-              [disabled]="canJoinEvent()"
-              size="small"
-              class="card__cta--green"
-            >
-              <p class="card__cta--password">****</p>
-            </ion-button> -->
+              <ion-button
+                *ngIf="cardData.creatorPersona == 'USER' "
+                size="small"
+                class="card__cta--green"
+              >
+                <span
+                  ><img src="../../../../assets/icon/bid-dollar.svg" alt=""
+                /></span>
+                <p>Join now</p>
+              </ion-button>
             </ng-container>
             <ng-container *ngIf="eventState == 'PENDING' ">
               <ion-button
