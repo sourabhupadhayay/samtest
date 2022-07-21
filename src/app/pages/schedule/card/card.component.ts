@@ -93,6 +93,9 @@ export class CardComponent implements OnInit {
     if (this.timer.hours) {
       return true;
     }
+    if (this.timer.days) {
+      return true;
+    }
 
     if (this.timer.minutes < 10) {
       return false;
