@@ -15,11 +15,11 @@ import { DataService, Request, Response } from "src/app/providers/data.service";
 type EventStatus = "PENDING" | "APPROVED" | "REJECTED" | "CANCELLED";
 
 @Component({
-  selector: "schedule-card",
-  templateUrl: "./card.component.html",
-  styleUrls: ["./card.component.scss"],
+  selector: "app-appearance-card",
+  templateUrl: "./appearance-card.component.html",
+  styleUrls: ["./appearance-card.component.scss"],
 })
-export class CardComponent implements OnInit {
+export class AppearanceCardComponent implements OnInit {
   @Output() changeStatus: EventEmitter<null> = new EventEmitter();
   @Input() cardData;
   @Input() eventState: String;
@@ -219,20 +219,5 @@ export class CardComponent implements OnInit {
       this.timer = this.counter;
       this.cd.detectChanges();
     }, 60000);
-  }
-
-  invitedText(): String {
-    if (
-      this.cardData.creatorPersona == "ADMIN" ||
-      this.cardData.creatorPersona == "ATHLETE"
-    ) {
-      return "Created by";
-    } else {
-      return "Invited by";
-    }
-  }
-
-  ionViewDidLeave() {
-    clearInterval(this.interval);
   }
 }
