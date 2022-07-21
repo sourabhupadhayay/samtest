@@ -25,11 +25,18 @@
 
   <div *ngIf="userData " class="profile">
     <div class="profile__top">
-      <div class="profile__image">
+      <div *ngIf="userData.profileUrl !== ''" class="profile__image">
         <img [src]="userData.profileUrl | profile" alt="" />
-
         <span class="online"></span>
       </div>
+      <ng-container *ngIf="userData.profileUrl == ''">
+        <div class="initials">
+          <span class="initials__span">
+            {{nameInitials}}
+          </span>
+          <span class="initials__online online"></span>
+        </div>
+      </ng-container>
       <div class="profile__details">
         <h2 class="profile__name">Hi {{userData?.fullName}}</h2>
         <ng-container *ngIf="userRole == 'fan'">
@@ -94,6 +101,9 @@
           <ion-select-option *ngIf="userRole == 'athlete'" value="fan"
             >Created by fan</ion-select-option
           >
+          <ion-select-option *ngIf="userRole == 'fan'" value="athlete"
+            >Created by athlete</ion-select-option
+          >
 
           <!-- <ion-select-option value="bananas">Sponsored by</ion-select-option> -->
         </ion-select>
@@ -104,6 +114,7 @@
         <p>No upcoming event found</p>
       </div>
       <schedule-card
+        [userRole]="userRole"
         (changeStatus)="getScheduleDetails()"
         [eventState]="eventState"
         *ngFor="let data of scheduleData"
@@ -115,6 +126,7 @@
         <p>No past event found</p>
       </div>
       <schedule-card
+        [userRole]="userRole"
         [eventState]="eventState"
         *ngFor="let data of scheduleData"
         [cardData]="data"
@@ -125,6 +137,7 @@
         <p>No upcoming appearances</p>
       </div>
       <schedule-card
+        [userRole]="userRole"
         (changeStatus)="getScheduleDetails()"
         [eventState]="eventState"
         *ngFor="let data of scheduleData"

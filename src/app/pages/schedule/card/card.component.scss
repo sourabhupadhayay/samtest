@@ -48,7 +48,7 @@ ion-item-sliding {
   padding: 5px 15px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   position: relative;
-  border-right: 4px solid #056ea6;
+
   width: 100%;
 
   &__container {
@@ -260,6 +260,10 @@ ion-item-sliding {
       --background-activated: var(--theme-one-clr);
       --background: var(--theme-one-clr);
     }
+    &--cancel {
+      --background-activated: #f74444;
+      --background: #f74444;
+    }
     &--password {
       margin: 0;
       font-size: 25px;
@@ -279,6 +283,9 @@ ion-item-sliding {
   span {
     color: #bbbbbb;
   }
+}
+.disabled-text-light {
+  color: #585858;
 }
 ion-button.button-disabled {
   --background-activated: #bbbbbb;
@@ -300,5 +307,78 @@ ion-button.button-disabled {
     font-size: 10px;
     text-transform: uppercase;
     border: 1px solid white;
+  }
+}
+.card-border {
+  border-right: 4px solid #056ea6;
+}
+ion-modal.small-modal {
+  .modal-wrapper {
+    max-width: 70%;
+  }
+  ion-header {
+    --background: transparent;
+    background: transparent;
+    position: relative;
+    padding: 0;
+    padding: 15px;
+    z-index: 5;
+    box-shadow: none;
+    border: 0;
+    text-align: center;
+
+    h3 {
+      color: var(--black-clr);
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    &::after {
+      display: none;
+    }
+  }
+  .inner-content {
+    --background: var(--white-bg);
+    .main-screen {
+      padding: 0 15px;
+      text-align: center;
+      p {
+        font-size: 0.875rem;
+        color: var(--black-clr);
+        font-weight: 400;
+        margin: 0;
+        line-height: 22px;
+      }
+    }
+  }
+
+  ion-footer {
+    background: var(--white-bg);
+    ion-toolbar {
+      --border-width: 0;
+      --padding-start: 10px;
+      --padding-end: 10px;
+      --padding-top: 0px;
+      --padding-bottom: 10px;
+      --background: var(--white-bg);
+      text-align: center;
+      ion-button {
+        --background: transparent;
+        --background-focused: transparent;
+        --background-hover: transparent;
+        --background-activated: transparent;
+        --box-shadow: none;
+        --padding-start: 0.5rem;
+        --padding-end: 0.5rem;
+        img {
+          width: 40px;
+          height: 40px;
+        }
+        &.button-disabled {
+          opacity: 0.5;
+        }
+      }
+    }
   }
 }

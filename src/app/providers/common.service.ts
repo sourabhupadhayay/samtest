@@ -18,7 +18,8 @@ export class CommonService {
     return Math.abs(ageDate.getUTCFullYear() - 1970);
   }
   getInitials(fullName: String): string {
-    let splitName = fullName.split(" ");
+    let trimmedName = fullName.trim();
+    let splitName = trimmedName.split(" ");
     let firstName = splitName[0];
     let lastName = splitName[1];
     if (lastName) {

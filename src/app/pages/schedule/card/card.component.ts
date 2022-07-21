@@ -9,7 +9,7 @@ import {
 import { AlertController } from "@ionic/angular";
 import { CommonService } from "src/app/providers/common.service";
 import { ConstantService } from "src/app/providers/constant.service";
-import { CoreService } from "src/app/providers/core.service";
+import { CoreService, userRole } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 
 type EventStatus = "PENDING" | "APPROVED" | "REJECTED" | "CANCELLED";
@@ -23,6 +23,7 @@ export class CardComponent implements OnInit {
   @Output() changeStatus: EventEmitter<null> = new EventEmitter();
   @Input() cardData;
   @Input() eventState: String;
+  @Input() userRole: userRole;
   nameInitials: string;
 
   liveTime: any;
@@ -229,6 +230,16 @@ export class CardComponent implements OnInit {
       return "Created by";
     } else {
       return "Invited by";
+    }
+  }
+
+  cardBorderClass(): string {
+    if (this.userRole == "athlete") {
+      return "card-border";
+    } else {
+      if (this.eventState == "APPROVED") {
+        return "card-border";
+      }
     }
   }
 

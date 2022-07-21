@@ -22,7 +22,7 @@ import { DataService, Request, Response } from "src/app/providers/data.service";
 export class SchedulePage implements OnInit {
   userData: any | null = null;
   userRole: userRole;
-  nameInitials: string;
+  nameInitials: string = "";
   eventState: string = "APPROVED";
   eventFilter: string = "All";
   userId: String;
@@ -44,6 +44,8 @@ export class SchedulePage implements OnInit {
   async getUserDataFromStorage() {
     this.userRole = await this.coreService.getUserDataFromStorage();
     let userData = await this.coreService.getUserData();
+    this.nameInitials = this.commonService.getInitials(userData.fullName);
+
     this.userId = userData.id;
 
     this.getCurrentUserDetails();
@@ -55,6 +57,8 @@ export class SchedulePage implements OnInit {
 
     if (this.userRole == "athlete") {
       request = this.athleteScheduleRequest();
+    } else {
+      request = this.fanScheduleRequest();
     }
 
     if (!request) {
@@ -128,11 +132,8 @@ export class SchedulePage implements OnInit {
       data: {
         filter: {
           creatorPersonas: ["USER", "ATHLETE", "ADMIN"],
-
           eventState: "UPCOMING",
-
           eventStatuses: ["APPROVED"],
-
           selfCreated: true,
         },
         page: {
@@ -146,6 +147,25 @@ export class SchedulePage implements OnInit {
       },
       isAuth: true,
     };
+    //event state filter
+    if (this.eventState == "PAST") {
+      request.data.filter.eventStatuses = ["APPROVED"];
+      request.data.filter.eventState = "PAST";
+    } else if (this.eventState == "PENDING") {
+      request.data.filter.creatorPersonas = ["USER"];
+      request.data.filter.eventStatuses = ["PENDING"];
+      request.data.filter.eventState = "UPCOMING";
+    }
+
+    //event creator  filter
+    if (this.eventFilter == "athlete") {
+      request.data.filter.creatorPersonas = ["ATHLETE", "ADMIN"];
+      request.data.filter.eventStatuses = ["APPROVED"];
+    } else if (this.eventFilter == "me") {
+      request.data.filter.selfCreated = true;
+      request.data.filter.creatorPersonas = ["USER"];
+    }
+
     return request;
   }
 
@@ -158,9 +178,7 @@ export class SchedulePage implements OnInit {
     this.apiService.get(request).subscribe((response: Response) => {
       if (response.status.code === this.constantService.STATUS_OK) {
         this.userData = response.data;
-        this.nameInitials = this.commonService.getInitials(
-          this.userData.fullName
-        );
+
         this.cd.detectChanges();
       } else {
         this.coreService.showToastMessage(

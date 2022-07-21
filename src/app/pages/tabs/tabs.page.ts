@@ -61,7 +61,9 @@ export class TabsPage implements OnInit {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
         this.userData = response.data;
-        this.getInitials(this.userData.fullName);
+        this.nameInitials = this.commonService.getInitials(
+          this.userData.fullName
+        );
         this.commonService.$profileSubject.next(response.data);
       } else {
         this.coreService.showToastMessage(
@@ -70,16 +72,5 @@ export class TabsPage implements OnInit {
         );
       }
     });
-  }
-
-  getInitials(fullName: String) {
-    let splitName = fullName.split(" ");
-    let firstName = splitName[0];
-    let lastName = splitName[1];
-    if (lastName) {
-      this.nameInitials = firstName[0] + lastName[0];
-    } else {
-      this.nameInitials = firstName[0];
-    }
   }
 }
