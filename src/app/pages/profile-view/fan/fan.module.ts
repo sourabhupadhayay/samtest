@@ -8,6 +8,7 @@ import { fanPageRoutingModule } from "./fan-routing.module";
 
 import { fanPage } from "./fan.page";
 import { PipesModule } from "src/app/pipes/pipes.module";
+import { AppearanceCardComponent } from "./appearance-card/appearance-card.component";
 
 @NgModule({
   imports: [
@@ -17,6 +18,6 @@ import { PipesModule } from "src/app/pipes/pipes.module";
     fanPageRoutingModule,
     PipesModule,
   ],
-  declarations: [fanPage],
+  declarations: [fanPage, AppearanceCardComponent],
 })
 export class fanPageModule {}

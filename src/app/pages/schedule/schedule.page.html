@@ -26,7 +26,8 @@
   <div *ngIf="userData " class="profile">
     <div class="profile__top">
       <div class="profile__image">
-        <img src="../../../assets/images/profile.png" alt="" />
+        <img [src]="userData.profileUrl | profile" alt="" />
+
         <span class="online"></span>
       </div>
       <div class="profile__details">
@@ -59,4 +60,76 @@
       </h6>
     </div>
   </div>
+
+  <ion-grid class="content-part">
+    <ion-grid class="tabs-design">
+      <ion-segment
+        [(ngModel)]="eventState"
+        (ngModelChange)=" getScheduleDetails() "
+        mode="ios"
+      >
+        <ion-segment-button value="APPROVED">
+          <ion-label>Upcoming</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="PAST">
+          <ion-label>Past</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="PENDING">
+          <ion-label>Appearances</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-grid>
+    <div class="schedule">
+      <h6>SCHEDULE</h6>
+      <div class="">
+        <ion-select
+          [(ngModel)]="eventFilter"
+          (ngModelChange)="getScheduleDetails()"
+          interface="popover"
+          mode="ios"
+          [interfaceOptions]="{'cssClass': 'mycomponent-wider-popover'}"
+        >
+          <ion-select-option value="All">All</ion-select-option>
+          <ion-select-option value="me">Created by Me</ion-select-option>
+          <ion-select-option *ngIf="userRole == 'athlete'" value="fan"
+            >Created by fan</ion-select-option
+          >
+
+          <!-- <ion-select-option value="bananas">Sponsored by</ion-select-option> -->
+        </ion-select>
+      </div>
+    </div>
+    <div *ngIf="eventState == 'APPROVED'" class="">
+      <div *ngIf="scheduleData.length == 0" class="no-data-found">
+        <p>No upcoming event found</p>
+      </div>
+      <schedule-card
+        (changeStatus)="getScheduleDetails()"
+        [eventState]="eventState"
+        *ngFor="let data of scheduleData"
+        [cardData]="data"
+      ></schedule-card>
+    </div>
+    <div *ngIf="eventState == 'PAST'" class="">
+      <div *ngIf="scheduleData.length == 0" class="no-data-found">
+        <p>No past event found</p>
+      </div>
+      <schedule-card
+        [eventState]="eventState"
+        *ngFor="let data of scheduleData"
+        [cardData]="data"
+      ></schedule-card>
+    </div>
+    <div *ngIf="eventState == 'PENDING'" class="">
+      <div *ngIf="scheduleData.length == 0" class="no-data-found">
+        <p>No upcoming appearances</p>
+      </div>
+      <schedule-card
+        (changeStatus)="getScheduleDetails()"
+        [eventState]="eventState"
+        *ngFor="let data of scheduleData"
+        [cardData]="data"
+      ></schedule-card>
+    </div>
+  </ion-grid>
 </ion-content>
