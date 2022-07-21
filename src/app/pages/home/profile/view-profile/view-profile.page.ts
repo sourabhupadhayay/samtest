@@ -16,7 +16,7 @@ import { CommonService } from "src/app/providers/common.service";
 })
 export class ViewProfilePage implements OnInit {
   currentUserRole: "fan" | "athlete";
-  loggedInUserData: any | null = null;
+
   userData: any | null = null;
   nameInitials: string;
   profileSubscription: Subscription;
@@ -32,17 +32,14 @@ export class ViewProfilePage implements OnInit {
   ngOnInit() {}
   ionViewWillEnter() {
     this.isProfileUpdated();
-    this.getCurrentUserDetails();
+    // this.getCurrentUserDetails();
     this.getUserDataFromStorage();
   }
 
   isProfileUpdated() {
     this.profileSubscription = this.commonService.$profileSubject.subscribe(
-      (userData) => {
-        this.userData = userData;
-        this.nameInitials = this.commonService.getInitials(
-          this.userData.fullName
-        );
+      () => {
+        this.getCurrentUserDetails();
       }
     );
   }
@@ -53,10 +50,12 @@ export class ViewProfilePage implements OnInit {
 
   async getUserDataFromStorage() {
     const { value } = await Storage.get({ key: "userDetails" });
-    this.loggedInUserData = JSON.parse(value);
+    let loggedInUserData = JSON.parse(value);
     this.currentUserRole = this.commonService.getUserType(
-      this.loggedInUserData.roles
+      loggedInUserData.roles
     );
+    this.userData = loggedInUserData;
+    this.nameInitials = this.commonService.getInitials(this.userData.fullName);
   }
 
   onclick_cancel(): void {
@@ -76,6 +75,10 @@ export class ViewProfilePage implements OnInit {
           this.nameInitials = this.commonService.getInitials(
             this.userData.fullName
           );
+          Storage.set({
+            key: "userDetails",
+            value: JSON.stringify(response.data),
+          });
         } else {
           this.coreService.showToastMessage(
             response.status.description,

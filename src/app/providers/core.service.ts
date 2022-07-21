@@ -326,12 +326,12 @@ export class CoreService {
     return bytes / 1024 / 1024; // in MiB
   }
 
-  async getUserDataFromStorage(): Promise<userRole> {
+  async getUserRoleFromStorage(): Promise<userRole> {
     const { value } = await Storage.get({ key: "userDetails" });
     let userData = JSON.parse(value);
     return this.commonService.getUserType(userData.roles);
   }
-  async getUserData(): Promise<any> {
+  async getUserDataFromStorage(): Promise<any> {
     const { value } = await Storage.get({ key: "userDetails" });
     let userData = JSON.parse(value);
     return userData;

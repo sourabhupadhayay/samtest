@@ -62,7 +62,7 @@ export class AppereanceBookingComponent implements OnInit {
     this.getSelectedAthlete();
   }
   async getUserRole() {
-    this.userRole = await this.coreService.getUserDataFromStorage();
+    this.userRole = await this.coreService.getUserRoleFromStorage();
   }
 
   eventTypeSelected() {

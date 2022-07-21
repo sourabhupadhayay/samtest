@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, HostListener, OnInit, ViewChild } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 import { ActivatedRoute, Params, Router } from "@angular/router";
@@ -49,8 +55,6 @@ export class EditProfilePage implements OnInit {
     this.getUserDataFromStorage();
     this.isUserFromSocialLogIn();
   }
-
-
 
   async getUserDataFromStorage() {
     const { value } = await Storage.get({ key: "userDetails" });
@@ -181,6 +185,7 @@ export class EditProfilePage implements OnInit {
           response.status.description,
           this.coreService.TOAST_SUCCESS
         );
+        this.commonService.$profileSubject.next();
         this.router.navigateByUrl("/tabs/profile");
         this.isUserProfileComplete = true;
       } else {

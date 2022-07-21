@@ -6,11 +6,7 @@ import {
 } from "@angular/core";
 import { CommonService } from "src/app/providers/common.service";
 import { ConstantService } from "src/app/providers/constant.service";
-import {
-  CoreService,
-  UserRole,
-  userRole,
-} from "src/app/providers/core.service";
+import { CoreService, userRole } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 
 type eventState = "APPROVED" | "PENDING" | "PAST";
@@ -44,13 +40,12 @@ export class SchedulePage implements OnInit {
   ngOnInit() {}
 
   async getUserDataFromStorage() {
-    this.userRole = await this.coreService.getUserDataFromStorage();
-    let userData = await this.coreService.getUserData();
+    this.userRole = await this.coreService.getUserRoleFromStorage();
+    let userData = await this.coreService.getUserDataFromStorage();
     this.nameInitials = this.commonService.getInitials(userData.fullName);
-
+    this.userData = userData;
     this.userId = userData.id;
 
-    this.getCurrentUserDetails();
     this.getScheduleDetails();
   }
 
@@ -171,25 +166,25 @@ export class SchedulePage implements OnInit {
     return request;
   }
 
-  getCurrentUserDetails() {
-    let request: Request = {
-      path: "auth/users/currentUser",
-      isAuth: true,
-    };
+  // getCurrentUserDetails() {
+  //   let request: Request = {
+  //     path: "auth/users/currentUser",
+  //     isAuth: true,
+  //   };
 
-    this.apiService.get(request).subscribe((response: Response) => {
-      if (response.status.code === this.constantService.STATUS_OK) {
-        this.userData = response.data;
+  //   this.apiService.get(request).subscribe((response: Response) => {
+  //     if (response.status.code === this.constantService.STATUS_OK) {
+  //       this.userData = response.data;
 
-        this.cd.detectChanges();
-      } else {
-        this.coreService.showToastMessage(
-          response.status.description,
-          this.coreService.TOAST_ERROR
-        );
-      }
-    });
-  }
+  //       this.cd.detectChanges();
+  //     } else {
+  //       this.coreService.showToastMessage(
+  //         response.status.description,
+  //         this.coreService.TOAST_ERROR
+  //       );
+  //     }
+  //   });
+  // }
 
   listHeading(): string {
     if (this.userRole == "athlete") {
