@@ -182,9 +182,7 @@
             </h6>
           </ng-container>
           <ng-container *ngIf="userRole == 'fan'">
-            <ng-container
-              *ngIf="eventState !== 'PAST' && eventState !== 'PENDING'"
-            >
+            <ng-container *ngIf="eventState == 'APPROVED'">
               <ion-button
                 *ngIf="cardData.eventType !== 'IN_PERSON' "
                 [disabled]="canJoinEvent()"
@@ -216,6 +214,11 @@
                 /></span>
                 <p>Cancel</p>
               </ion-button>
+            </ng-container>
+            <ng-container>
+              <h6 *ngIf="eventState == 'PAST'" class="card__completed">
+                <img src="../../../../assets/icon/check-green.svg" alt="" />
+              </h6>
             </ng-container>
           </ng-container>
         </div>
