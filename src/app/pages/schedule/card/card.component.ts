@@ -5,8 +5,9 @@ import {
   Input,
   OnInit,
   Output,
+  ViewChild,
 } from "@angular/core";
-import { AlertController } from "@ionic/angular";
+import { AlertController, IonModal, ModalController } from "@ionic/angular";
 import { CommonService } from "src/app/providers/common.service";
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService, userRole } from "src/app/providers/core.service";
@@ -20,6 +21,7 @@ type EventStatus = "PENDING" | "APPROVED" | "REJECTED" | "CANCELLED";
   styleUrls: ["./card.component.scss"],
 })
 export class CardComponent implements OnInit {
+  @ViewChild(IonModal) modal: IonModal;
   @Output() changeStatus: EventEmitter<null> = new EventEmitter();
   @Input() cardData;
   @Input() eventState: String;
@@ -37,7 +39,8 @@ export class CardComponent implements OnInit {
     private apiService: DataService,
     private constantService: ConstantService,
     public commonService: CommonService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    public modalCtrl: ModalController
   ) {}
 
   ngOnInit() {
@@ -65,6 +68,7 @@ export class CardComponent implements OnInit {
           response.status.description,
           this.coreService.TOAST_SUCCESS
         );
+        this.modalCtrl.dismiss();
         this.changeStatus.emit();
       } else {
         this.coreService.showToastMessage(
@@ -77,7 +81,6 @@ export class CardComponent implements OnInit {
   async presentAlert() {
     const alert = await this.alertController.create({
       header: "Coming soon",
-
       message: "This feature is coming soon stay tuned",
       buttons: ["OK"],
     });
@@ -245,5 +248,9 @@ export class CardComponent implements OnInit {
 
   ionViewDidLeave() {
     clearInterval(this.interval);
+  }
+
+  dismissModal() {
+    this.modal.dismiss();
   }
 }

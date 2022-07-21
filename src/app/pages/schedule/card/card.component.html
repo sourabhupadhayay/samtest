@@ -280,10 +280,10 @@
 
     <ion-footer mode="ios">
       <ion-toolbar mode="ios">
-        <ion-button class="white-btn">
+        <ion-button (click)="dismissModal()" class="white-btn">
           <img src="assets/icon/close-icon.png" />
         </ion-button>
-        <ion-button class="white-btn">
+        <ion-button (click)="changeEventStatus('REJECTED')" class="white-btn">
           <img src="assets/icon/right-icon.png" />
         </ion-button>
       </ion-toolbar>
