@@ -84,6 +84,13 @@ export class AthletePage implements OnInit {
             },
             isAuth: true,
           };
+
+          if (this.eventFilter == "past") {
+            request.data.filter.eventState = "PAST";
+          } else if (this.eventFilter == "upcoming") {
+            request.data.filter.eventState = "UPCOMING";
+          }
+
           this.coreService.presentLoader(this.constantService.WAIT);
           return this.apiService.post(request);
         })
