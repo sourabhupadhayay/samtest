@@ -110,6 +110,8 @@ export class SchedulePage implements OnInit {
       request.data.filter.eventStatuses = ["PENDING"];
       delete request.data.filter.selfCreated;
       request.data.filter.eventState = "UPCOMING";
+    } else if (this.eventFilter == "sponsor") {
+      request.data.filter.creatorPersonas = ["ADMIN"];
     }
 
     //event filter
@@ -161,6 +163,9 @@ export class SchedulePage implements OnInit {
     } else if (this.eventFilter == "me") {
       request.data.filter.selfCreated = true;
       request.data.filter.creatorPersonas = ["USER"];
+    } else if (this.eventFilter == "sponsor") {
+      request.data.filter.eventStatuses = ["APPROVED"];
+      request.data.filter.creatorPersonas = ["ADMIN"];
     }
 
     return request;
