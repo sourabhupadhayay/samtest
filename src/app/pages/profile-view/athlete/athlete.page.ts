@@ -17,7 +17,7 @@ export class AthletePage implements OnInit {
   athleteData: any | null = null;
   selectedIndex: string = "profile";
   scheduleData: any[] = [];
-  eventFilter: string = "All";
+  eventFilter: "past" | "upcoming" | "All" = "All";
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
