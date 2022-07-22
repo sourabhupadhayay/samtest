@@ -1,11 +1,10 @@
-
 <!--ion-header>No header </ion-header-->
 <ion-content [fullscreen]="true">
   <ion-grid class="top-card">
     <div class="title-part">
       <ion-item lines="none">
         <ion-icon
-          routerLink="/tabs/home"
+          routerLink="/tabs/schedule"
           slot="start"
           name="arrow-back-outline"
         ></ion-icon>
@@ -42,7 +41,11 @@
 
   <ion-grid class="content-part">
     <ion-grid class="tabs-design">
-      <ion-segment [(ngModel)]="selectedindex" mode="ios">
+      <ion-segment
+        [(ngModel)]="selectedIndex"
+        (ngModelChange)="getAppearanceData()"
+        mode="ios"
+      >
         <ion-segment-button value="profile">
           <ion-label>Profile</ion-label>
         </ion-segment-button>
@@ -52,7 +55,7 @@
       </ion-segment>
     </ion-grid>
 
-    <div class="profile-tab" *ngIf="selectedindex == 'profile'">
+    <div class="profile-tab" *ngIf="selectedIndex == 'profile'">
       <div class="details-part">
         <div class="details-box">
           <h5>Biography</h5>
@@ -95,11 +98,36 @@
       </div>
     </div>
 
-    <div class="appearances-tab" *ngIf="selectedindex == 'appearances'">
-      <div class="no-data-found">
-        <!-- <img src="assets/icon/medications-nodata.svg"> -->
+    <div class="appearances-tab" *ngIf="selectedIndex == 'appearances'">
+      <div class="schedule">
+        <h6>SCHEDULE</h6>
+        <ng-container>
+          <div class="">
+            <ion-select
+              [(ngModel)]="eventFilter"
+              (ngModelChange)="getAthleteAppearances()"
+              interface="popover"
+              mode="ios"
+              [interfaceOptions]="{'cssClass': 'mycomponent-wider-popover'}"
+            >
+              <ion-select-option value="All">All</ion-select-option>
+              <ion-select-option value="upcoming"
+                >Upcoming event</ion-select-option
+              >
+              <ion-select-option value="past">Past event</ion-select-option>
+            </ion-select>
+          </div>
+        </ng-container>
+      </div>
+      <div *ngIf="scheduleData.length ==0" class="no-data-found">
         <p>No upcoming appearances</p>
       </div>
+
+      <athlete-card
+        [eventFilter]="eventFilter"
+        *ngFor="let data of scheduleData"
+        [cardData]="data"
+      ></athlete-card>
     </div>
   </ion-grid>
   <ion-grid class="buble-part">

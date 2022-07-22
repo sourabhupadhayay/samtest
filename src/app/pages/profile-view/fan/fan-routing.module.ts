@@ -5,7 +5,7 @@ import { fanPage } from "./fan.page";
 
 const routes: Routes = [
   {
-    path: "",
+    path: ":id",
     component: fanPage,
   },
 ];

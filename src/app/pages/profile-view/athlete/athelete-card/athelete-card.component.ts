@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   EventEmitter,
@@ -6,23 +7,23 @@ import {
   OnInit,
   Output,
 } from "@angular/core";
-import { AlertController } from "@ionic/angular";
+import { AlertController, ModalController } from "@ionic/angular";
 import { CommonService } from "src/app/providers/common.service";
 import { ConstantService } from "src/app/providers/constant.service";
-import { CoreService } from "src/app/providers/core.service";
-import { DataService, Request, Response } from "src/app/providers/data.service";
-
-type EventStatus = "PENDING" | "APPROVED" | "REJECTED" | "CANCELLED";
+import { CoreService, userRole } from "src/app/providers/core.service";
+import { DataService } from "src/app/providers/data.service";
 
 @Component({
-  selector: "app-appearance-card",
-  templateUrl: "./appearance-card.component.html",
-  styleUrls: ["./appearance-card.component.scss"],
+  selector: "athlete-card",
+  templateUrl: "./athelete-card.component.html",
+  styleUrls: ["./athelete-card.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppearanceCardComponent implements OnInit {
+export class AtheleteCardComponent implements OnInit {
   @Output() changeStatus: EventEmitter<null> = new EventEmitter();
   @Input() cardData;
-  @Input() eventState: String;
+  @Input() eventFilter: "past" | "upcoming" | "All";
+
   nameInitials: string;
 
   liveTime: any;
@@ -36,7 +37,8 @@ export class AppearanceCardComponent implements OnInit {
     private apiService: DataService,
     private constantService: ConstantService,
     public commonService: CommonService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    public modalCtrl: ModalController
   ) {}
 
   ngOnInit() {
@@ -49,34 +51,9 @@ export class AppearanceCardComponent implements OnInit {
     this.nameInitials = this.commonService.getInitials(this.cardData.userName);
   }
 
-  changeEventStatus(eventState: EventStatus) {
-    let request: Request = {
-      path: `core/event/changeStatus/${this.cardData.id}?event=${eventState}&sendMail=false`,
-      isAuth: true,
-    };
-
-    this.coreService.presentLoader(this.constantService.WAIT);
-    this.apiService.get(request).subscribe((response: Response) => {
-      this.coreService.dismissLoader();
-
-      if (response.status.code === this.constantService.STATUS_OK) {
-        this.coreService.showToastMessage(
-          response.status.description,
-          this.coreService.TOAST_SUCCESS
-        );
-        this.changeStatus.emit();
-      } else {
-        this.coreService.showToastMessage(
-          response.status.description,
-          this.coreService.TOAST_ERROR
-        );
-      }
-    });
-  }
   async presentAlert() {
     const alert = await this.alertController.create({
       header: "Coming soon",
-
       message: "This feature is coming soon stay tuned",
       buttons: ["OK"],
     });
@@ -86,6 +63,9 @@ export class AppearanceCardComponent implements OnInit {
 
   canJoinEvent(): boolean {
     if (this.timer.hours) {
+      return true;
+    }
+    if (this.timer.days) {
       return true;
     }
 
@@ -219,5 +199,30 @@ export class AppearanceCardComponent implements OnInit {
       this.timer = this.counter;
       this.cd.detectChanges();
     }, 60000);
+  }
+
+  invitedText(): String {
+    if (
+      this.cardData.creatorPersona == "ADMIN" ||
+      this.cardData.creatorPersona == "ATHLETE"
+    ) {
+      return "Created by";
+    } else {
+      return "Invited by";
+    }
+  }
+
+  // cardBorderClass(): string {
+  //   if (this.userRole == "athlete") {
+  //     return "card-border";
+  //   } else {
+  //     if (this.eventState == "APPROVED") {
+  //       return "card-border";
+  //     }
+  //   }
+  // }
+
+  ionViewDidLeave() {
+    clearInterval(this.interval);
   }
 }

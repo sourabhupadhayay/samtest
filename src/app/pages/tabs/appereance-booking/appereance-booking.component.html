@@ -31,12 +31,12 @@
         <ion-col size="12">
           <div class="input-box">
             <ion-item
+              id="open-modal"
               [ngClass]="validAthleteInputBorder('startDate')"
               lines="none"
               class="ion-align-items-center"
             >
               <ion-input
-                id="open-modal"
                 formControlName="startDate"
                 placeholder="Select Date"
               ></ion-input>
@@ -50,6 +50,7 @@
               <ng-template>
                 <ion-content>
                   <ion-datetime
+                    [min]="currentDate"
                     mode="ios"
                     #dateTime
                     [showDefaultButtons]="true"
@@ -214,12 +215,12 @@
         <ion-col size="12">
           <div class="input-box">
             <ion-item
+              id="open-date"
               [ngClass]="validFanInputBorder('startDate')"
               lines="none"
               class="ion-align-items-center"
             >
               <ion-input
-                id="open-date"
                 formControlName="startDate"
                 placeholder="Select Date"
               ></ion-input>
@@ -233,6 +234,7 @@
               <ng-template>
                 <ion-content>
                   <ion-datetime
+                    [min]="currentDate"
                     mode="ios"
                     #dateTime
                     [showDefaultButtons]="true"
@@ -421,6 +423,7 @@
                   class="ion-align-items-center"
                 >
                   <ion-input
+                    maxlength="5"
                     type="number"
                     formControlName="zipCode"
                     placeholder="Zip Code"

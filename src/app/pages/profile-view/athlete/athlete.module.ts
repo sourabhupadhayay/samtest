@@ -8,6 +8,7 @@ import { AthletePageRoutingModule } from "./athlete-routing.module";
 
 import { AthletePage } from "./athlete.page";
 import { PipesModule } from "src/app/pipes/pipes.module";
+import { AtheleteCardComponent } from "./athelete-card/athelete-card.component";
 
 @NgModule({
   imports: [
@@ -17,6 +18,6 @@ import { PipesModule } from "src/app/pipes/pipes.module";
     AthletePageRoutingModule,
     PipesModule,
   ],
-  declarations: [AthletePage],
+  declarations: [AthletePage, AtheleteCardComponent],
 })
 export class AthletePageModule {}
