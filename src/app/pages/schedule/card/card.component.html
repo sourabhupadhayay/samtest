@@ -145,26 +145,29 @@
             <ng-container
               *ngIf="cardData.creatorPersona == 'ATHLETE' || cardData.creatorPersona == 'ADMIN'"
             >
-              <div class="profile">
+              <div (click)="openProfilePage('athlete')" class="profile">
                 <img
-                  *ngIf="cardData?.userProfilePicture !==''"
-                  [src]="cardData.userProfilePicture | profile"
+                  *ngIf="cardData?.athleteProfilePicture !==''"
+                  [src]="cardData.athleteProfilePicture | profile"
                   alt=""
                 />
 
-                <div *ngIf="cardData?.userProfilePicture ==''" class="inital">
+                <div
+                  *ngIf="cardData?.athleteProfilePicture ==''"
+                  class="inital"
+                >
                   <span class="initial__span">
                     {{nameInitials}}
                   </span>
                 </div>
                 <div class="profile__detail">
                   <h6>{{invitedText()}}</h6>
-                  <h5>{{cardData.userName}}</h5>
+                  <h5>{{cardData.athleteName}}</h5>
                 </div>
               </div>
             </ng-container>
             <ng-container *ngIf="cardData.creatorPersona == 'USER'">
-              <div class="profile">
+              <div (click)="openProfilePage('athlete')" class="profile">
                 <img
                   *ngIf="cardData?.athleteProfilePicture !==''"
                   [src]="cardData.athleteProfilePicture | profile"
@@ -190,7 +193,7 @@
             <ng-container
               *ngIf="cardData.creatorPersona == 'ATHLETE' || cardData.creatorPersona == 'ADMIN'"
             >
-              <div class="profile">
+              <div (click)="openProfilePage('athlete')" class="profile">
                 <img
                   *ngIf="cardData?.athleteProfilePicture !==''"
                   [src]="cardData.athleteProfilePicture | profile"
@@ -212,7 +215,7 @@
               </div>
             </ng-container>
             <ng-container *ngIf="cardData.creatorPersona == 'USER'">
-              <div class="profile">
+              <div (click)="openProfilePage('fan')" class="profile">
                 <img
                   *ngIf="cardData?.userProfilePicture !==''"
                   [src]="cardData.userProfilePicture | profile"

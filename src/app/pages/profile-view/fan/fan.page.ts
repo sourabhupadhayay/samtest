@@ -34,8 +34,7 @@ export class fanPage implements OnInit {
         switchMap((params: ParamMap) => {
           this.coreService.presentLoader(this.constantService.WAIT);
           let request: Request = {
-            // path: "auth/users/currentUser?userId=" + params.get("id"),
-            path: "auth/users/currentUser",
+            path: "auth/users/currentUser?userId=" + params.get("id"),
           };
 
           return this.apiService.get(request);
