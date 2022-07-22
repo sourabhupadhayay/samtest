@@ -39,7 +39,7 @@ export class AppereanceBookingComponent implements OnInit {
     addressLine1: [Validators.required],
     city: [Validators.required],
     state: [Validators.required],
-    zipcode: [Validators.required],
+    zipCode: [Validators.required],
   };
   selectedAthleteName: string = "";
   totalAthleteDuration: number = 0;
@@ -121,7 +121,7 @@ export class AppereanceBookingComponent implements OnInit {
         addressLine1: ["", [Validators.required]],
         city: ["", [Validators.required, Validators.pattern("^[a-zA-Z ]*$")]],
         state: ["", [Validators.required, Validators.pattern("^[a-zA-Z ]*$")]],
-        zipcode: ["", [Validators.required]],
+        zipCode: ["", [Validators.required]],
       }),
     });
   }

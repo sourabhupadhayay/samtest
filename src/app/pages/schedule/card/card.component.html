@@ -2,6 +2,7 @@
   <div class="container">
     <ion-item class="card__container">
       <div class="card" [ngClass]="cardBorderClass()">
+        <!-- arrow and border css class start  -->
         <ng-container *ngIf="userRole == 'athlete'">
           <div class="card__slideIcon">
             <img src="assets/images/blue-notch.png" alt="" />
@@ -18,6 +19,8 @@
             </span>
           </div>
         </ng-container>
+        <!-- arrow and border css class end  -->
+        <!-- video and in person event icons start  -->
         <div *ngIf="cardData.eventType !=='IN_PERSON'" class="card__eventType">
           <img src="../../../../assets/icon/video.svg" alt="" />
           <h6>Video</h6>
@@ -29,6 +32,8 @@
           <img src="../../../../assets/icon/in-person.svg" alt="" />
           <h6>In-person</h6>
         </div>
+        <!-- video and in person event icons end  -->
+        <!-- event timing countdown start  -->
         <ng-container *ngIf="userRole == 'athlete'">
           <div *ngIf="eventState !== 'PAST'" class="">
             <h6 *ngIf="timer" class="card__time">
@@ -46,7 +51,6 @@
             <span>0</span> days : <span>0</span> hours : <span>0</span> mins
           </h6>
         </ng-container>
-
         <ng-container *ngIf="userRole == 'fan'">
           <div *ngIf="eventState == 'APPROVED'" class="">
             <h6 *ngIf="timer" class="card__time">
@@ -71,7 +75,7 @@
             class="card__time disabled-text-light"
           ></h6>
         </ng-container>
-
+        <!-- event timing countdown end  -->
         <div class="card__body">
           <div class="card__details">
             <h6 class="card__heading">{{cardData.eventName}}</h6>
@@ -136,6 +140,7 @@
         <!-- <div class="card__border"></div> -->
 
         <div class="card__invite">
+          <!-- invited and created by name and pic start  -->
           <ng-container *ngIf="userRole == 'fan'">
             <ng-container
               *ngIf="cardData.creatorPersona == 'ATHLETE' || cardData.creatorPersona == 'ADMIN'"
@@ -226,6 +231,7 @@
               </div>
             </ng-container>
           </ng-container>
+          <!-- invited and created by name and pic end  -->
 
           <ng-container *ngIf="userRole == 'athlete'">
             <ng-container
