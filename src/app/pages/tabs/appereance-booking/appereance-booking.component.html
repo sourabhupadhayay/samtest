@@ -2,7 +2,7 @@
   <ion-header mode="ios">
     <div class="icon-header">
       <img src="assets/icon/header-bubble.png" />
-      <h3>Add Availability</h3>
+      <h3>Add Appearance</h3>
     </div>
     <div class="top-noch">
       <img src="assets/images/modal-tope.png" />
@@ -31,12 +31,12 @@
         <ion-col size="12">
           <div class="input-box">
             <ion-item
+              id="open-modal"
               [ngClass]="validAthleteInputBorder('startDate')"
               lines="none"
               class="ion-align-items-center"
             >
               <ion-input
-                id="open-modal"
                 formControlName="startDate"
                 placeholder="Select Date"
               ></ion-input>
@@ -50,6 +50,7 @@
               <ng-template>
                 <ion-content>
                   <ion-datetime
+                    [min]="currentDate"
                     mode="ios"
                     #dateTime
                     [showDefaultButtons]="true"
@@ -233,6 +234,7 @@
               <ng-template>
                 <ion-content>
                   <ion-datetime
+                    [min]="currentDate"
                     mode="ios"
                     #dateTime
                     [showDefaultButtons]="true"
@@ -421,6 +423,7 @@
                   class="ion-align-items-center"
                 >
                   <ion-input
+                    maxlength="5"
                     type="number"
                     formControlName="zipCode"
                     placeholder="Zip Code"
