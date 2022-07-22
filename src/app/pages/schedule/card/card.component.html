@@ -357,6 +357,7 @@
         <img src="assets/icon/calendar-card.svg" />
       </ion-item-option>
       <ion-item-option
+        *ngIf="cardData.creatorPersona == 'USER' ||  (cardData.athleteId == cardData.userId)"
         (click)="presentDismissModal()"
         color="primary"
         class="delete"
