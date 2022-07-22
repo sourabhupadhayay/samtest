@@ -84,13 +84,13 @@
               <span
                 ><img src="../../../../assets/icon/calender-blue.svg" alt=""
               /></span>
-              <h6>{{cardData.createdDate | date:'MMM dd, YYYY'}}</h6>
+              <h6>{{cardData.startDate | date:'MMM dd, YYYY'}}</h6>
             </div>
             <div class="card__detail">
               <span
                 ><img src="../../../../assets/icon/clock.svg" alt=""
               /></span>
-              <h6>{{cardData.createdDate | date:'shortTime'}}</h6>
+              <h6>{{cardData.startDate | date:'shortTime'}}</h6>
               <img src="../../../../assets/icon/duration-small.svg" alt="" />
               <h6>{{timeConvert(cardData.duration)}}</h6>
             </div>
