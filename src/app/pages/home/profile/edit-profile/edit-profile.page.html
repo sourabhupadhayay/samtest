@@ -27,7 +27,6 @@
       <div class="upload-img">
         <img [src]="commonService.profileUrl | profile" />
       </div>
-      
 
       <div class="edit-btn">
         <ion-button (click)="presentProfileActionSheet()">
@@ -57,7 +56,7 @@
   </ion-grid>
 
   <ion-grid class="content-part">
-    <div  class="athlete-bio">
+    <div *ngIf="currentUserRole =='athlete'" class="athlete-bio">
       <svg
         width="25"
         height="25"
