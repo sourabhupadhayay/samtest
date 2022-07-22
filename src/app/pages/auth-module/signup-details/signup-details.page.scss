@@ -102,7 +102,7 @@ ion-content {
       }
       .auth-title {
         text-align: center;
-        padding: 5px 15px 15px;
+        padding: 15px 15px 15px;
         border-top-left-radius: 50px;
         border-top-right-radius: 50px;
         // position: sticky;
@@ -140,7 +140,7 @@ ion-content {
             height: 97px;
             width: 97px;
             border-radius: 97px;
-            line-height: 97px;
+            line-height: 100px;
             text-align: center;
             display: inline-block;
             background: rgba(var(--white-bg-rgb), 0.7);
@@ -364,6 +364,7 @@ ion-content {
           height: 80px;
           width: 80px;
           border-radius: 50%;
+          --border-radius: 50%;
           box-shadow: 0px 3px 9px #3e3e3e;
           img {
             height: 80px;
@@ -627,4 +628,12 @@ ion-content {
   ion-datetime {
     border-radius: 8px;
   }
+}
+
+
+@media only screen and (max-width: 374px) {
+  ion-content .main-screen .content-part .auth-form{max-height: 200px !important;}
+  ion-content .main-screen .content-part .auth-title{padding: 5px 15px 10px !important;}
+  ion-content .main-screen .content-part .auth-title img{width: 40px !important;}
+  ion-content .main-screen .content-part .auth-title h4{font-size: 1.575rem !important;}
 }

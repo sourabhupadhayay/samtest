@@ -199,6 +199,7 @@ ion-content {
           color: var(--black-clr);
           --background: transparent;
           background: transparent;
+          --border-width: 0px;
           ion-label {
             font-size: 0.875rem;
             font-weight: 600;
