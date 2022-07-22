@@ -752,3 +752,30 @@ ion-footer {
     letter-spacing: 1px;
   }
 }
+.schedule {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  & h6 {
+    font-size: 0.875rem;
+    margin: 0;
+    color: var(--white-clr);
+    font-weight: 500;
+  }
+}
+ion-select {
+  --padding-top: 5px;
+  --padding-bottom: 5px;
+  --padding-start: 5px;
+  background-color: rgba(255, 255, 255, 0.519);
+  color: var(--black-clr);
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 6px;
+  ion-item {
+    ion-label {
+      color: var(--black-clr);
+    }
+  }
+}

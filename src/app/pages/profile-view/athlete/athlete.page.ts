@@ -15,7 +15,9 @@ import { DataService, Request, Response } from "src/app/providers/data.service";
 })
 export class AthletePage implements OnInit {
   athleteData: any | null = null;
-  selectedindex:any;
+  selectedIndex: string = "profile";
+  scheduleData: any[] = [];
+  eventFilter: string = "All";
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -23,15 +25,19 @@ export class AthletePage implements OnInit {
     private route: ActivatedRoute,
     private constantService: ConstantService,
     private commonService: AuthModuleService
-  ) {
-    this.selectedindex = "profile";
-  }
+  ) {}
 
   ngOnInit() {
-    this.getUserIdFromParams();
+    this.getAthleteData();
   }
 
-  getUserIdFromParams() {
+  getAppearanceData() {
+    if (this.selectedIndex == "appearances") {
+      this.getAthleteAppearances();
+    }
+  }
+
+  getAthleteData() {
     this.route.paramMap
       .pipe(
         switchMap((params: ParamMap) => {
@@ -39,7 +45,6 @@ export class AthletePage implements OnInit {
           let request: Request = {
             path: "auth/users/currentUser?userId=" + params.get("id"),
           };
-
           return this.apiService.get(request);
         })
       )
@@ -47,6 +52,46 @@ export class AthletePage implements OnInit {
         this.coreService.dismissLoader();
         if (response.status.code === this.constantService.STATUS_OK) {
           this.athleteData = response.data;
+        } else {
+          this.coreService.showToastMessage(
+            response.status.description,
+            this.coreService.TOAST_ERROR
+          );
+        }
+      });
+  }
+  getAthleteAppearances() {
+    this.route.paramMap
+      .pipe(
+        switchMap((params: ParamMap) => {
+          let request: Request = {
+            path: "core/event/getEvents",
+            data: {
+              filter: {
+                athleteIds: [params.get("id")],
+                eventStatuses: ["APPROVED"],
+                creatorPersonas: ["ATHLETE", "USER", "ADMIN"],
+                selfCreated: true,
+              },
+              page: {
+                pageLimit: 10,
+                pageNumber: 0,
+              },
+              sort: {
+                orderBy: "ASC",
+                sortBy: "START_DATE",
+              },
+            },
+            isAuth: true,
+          };
+          this.coreService.presentLoader(this.constantService.WAIT);
+          return this.apiService.post(request);
+        })
+      )
+      .subscribe((response: Response) => {
+        this.coreService.dismissLoader();
+        if (response.status.code === this.constantService.STATUS_OK) {
+          this.scheduleData = response.data.content;
         } else {
           this.coreService.showToastMessage(
             response.status.description,

@@ -9,7 +9,7 @@ import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService, userRole } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 
-type eventState = "APPROVED" | "PENDING" | "PAST";
+export type eventState = "APPROVED" | "PENDING" | "PAST";
 
 @Component({
   selector: "app-schedule",
