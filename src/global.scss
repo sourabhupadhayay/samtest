@@ -188,3 +188,6 @@ select:-webkit-autofill:focus {
 ion-app {
   --ion-safe-area-top: 30px;
 }
+app-welcome-screen{
+  .swiper-wrapper{z-index: 9999;}
+}
