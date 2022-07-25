@@ -73,7 +73,7 @@
       <ion-grid class="tabs-design">
         <ion-segment
           [(ngModel)]="eventState"
-          (ngModelChange)=" getScheduleDetails() "
+          (ngModelChange)=" resetAndGetMoreData()"
           mode="ios"
         >
           <ion-segment-button value="APPROVED">
@@ -93,7 +93,7 @@
           <div class="">
             <ion-select
               [(ngModel)]="eventFilter"
-              (ngModelChange)="getScheduleDetails()"
+              (ngModelChange)="resetAndGetMoreData()"
               interface="popover"
               mode="ios"
               [interfaceOptions]="{'cssClass': 'mycomponent-wider-popover'}"
@@ -112,7 +112,7 @@
           <div *ngIf="eventState !== 'PENDING'" class="">
             <ion-select
               [(ngModel)]="eventFilter"
-              (ngModelChange)="getScheduleDetails()"
+              (ngModelChange)="resetAndGetMoreData()"
               interface="popover"
               mode="ios"
               [interfaceOptions]="{'cssClass': 'mycomponent-wider-popover'}"
@@ -167,6 +167,17 @@
         [cardData]="data"
       ></schedule-card>
     </div>
+    <ion-infinite-scroll
+      [disabled]="isScrollDisabled"
+      threshold="100px"
+      (ionInfinite)="loadMoreEvents($event)"
+    >
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Loading more data..."
+      >
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
   </ion-grid>
 
   <ion-grid class="bg-bubble">

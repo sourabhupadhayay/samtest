@@ -29,6 +29,9 @@ export class SchedulePage implements OnInit {
   userId: String;
   scheduleData: any[] = [];
   isClassAdded: boolean = false;
+  pageNumber: number = 0;
+  totalElements: number = 0;
+  isScrollDisabled: boolean = false;
   constructor(
     private coreService: CoreService,
     private apiService: DataService,
@@ -86,7 +89,15 @@ export class SchedulePage implements OnInit {
       this.coreService.dismissLoader();
 
       if (response.status.code === this.constantService.STATUS_OK) {
-        this.scheduleData = response.data.content;
+        if (this.pageNumber == 0) {
+          this.scheduleData = response.data.content;
+        } else {
+          response.data.content.forEach((element) => {
+            this.scheduleData.push(element);
+          });
+        }
+
+        this.totalElements = response.data.totalElements;
         this.cd.detectChanges();
       } else {
         this.coreService.showToastMessage(
@@ -110,7 +121,7 @@ export class SchedulePage implements OnInit {
 
         page: {
           pageLimit: 10,
-          pageNumber: 0,
+          pageNumber: this.pageNumber,
         },
         sort: {
           orderBy: "ASC",
@@ -156,7 +167,7 @@ export class SchedulePage implements OnInit {
         },
         page: {
           pageLimit: 10,
-          pageNumber: 0,
+          pageNumber: this.pageNumber,
         },
         sort: {
           orderBy: "ASC",
@@ -191,38 +202,44 @@ export class SchedulePage implements OnInit {
     return request;
   }
 
-  // getCurrentUserDetails() {
-  //   let request: Request = {
-  //     path: "auth/users/currentUser",
-  //     isAuth: true,
-  //   };
+  resetAndGetMoreData() {
+    this.totalElements = 0;
+    this.pageNumber = 0;
+    this.isScrollDisabled = false;
+    this.scheduleData = [];
+    this.getScheduleDetails();
+  }
 
-  //   this.apiService.get(request).subscribe((response: Response) => {
-  //     if (response.status.code === this.constantService.STATUS_OK) {
-  //       this.userData = response.data;
+  loadMoreEvents(event) {
+    this.pageNumber++;
+    this.getScheduleDetails();
+    event.target.complete();
 
-  //       this.cd.detectChanges();
-  //     } else {
-  //       this.coreService.showToastMessage(
-  //         response.status.description,
-  //         this.coreService.TOAST_ERROR
-  //       );
-  //     }
-  //   });
-  // }
+    if (this.totalElements <= this.scheduleData.length) {
+      this.isScrollDisabled = true;
+    }
+  }
 
   listHeading(): string {
-    if (this.userRole == "athlete") {
-      return "SCHEDULE";
-    } else {
-      switch (this.eventState) {
-        case "APPROVED":
-          return "SCHEDULE";
-        case "PAST":
-          return "COMPLETED ";
-        case "PENDING":
-          return "REQUEST";
-      }
+    switch (this.eventState) {
+      case "APPROVED":
+        return "SCHEDULE";
+      case "PAST":
+        return "COMPLETED ";
+      case "PENDING":
+        return "REQUEST";
     }
+    // if (this.userRole == "athlete") {
+
+    // } else {
+    //   switch (this.eventState) {
+    //     case "APPROVED":
+    //       return "SCHEDULE";
+    //     case "PAST":
+    //       return "COMPLETED ";
+    //     case "PENDING":
+    //       return "REQUEST";
+    //   }
+    // }
   }
 }
