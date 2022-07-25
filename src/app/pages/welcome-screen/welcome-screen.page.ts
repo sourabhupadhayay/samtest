@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
+import { Router } from "@angular/router";
 import { IonSlides } from "@ionic/angular";
-
+import { Storage } from "@capacitor/storage";
 @Component({
   selector: "app-welcome-screen",
   templateUrl: "./welcome-screen.page.html",
@@ -9,14 +10,19 @@ import { IonSlides } from "@ionic/angular";
 export class WelcomeScreenPage implements OnInit {
   @ViewChild(IonSlides) slides: IonSlides;
   slideOpts = {
-    initialSlide: 1,
+    initialSlide: 0,
     speed: 400,
   };
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit() {}
 
-  isEnd() {
-    console.log("working");
+  async nextSlide() {
+    await this.slides.slideNext();
+  }
+
+  async skip() {
+    await Storage.set({ key: "first_time", value: "no" });
+    this.router.navigate(["/"], { replaceUrl: true });
   }
 }

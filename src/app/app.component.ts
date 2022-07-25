@@ -8,6 +8,8 @@ import { CoreService } from "./providers/core.service";
 import { DataService, Request } from "./providers/data.service";
 import { NetworkService } from "./providers/network.service";
 import { SplashScreen } from "@capacitor/splash-screen";
+import { Storage } from "@capacitor/storage";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-root",
@@ -22,7 +24,7 @@ export class AppComponent implements OnInit {
     private _networkService: NetworkService,
     private platform: Platform,
     private core: CoreService,
-
+    private router: Router,
     private _location: Location
   ) {
     this.initializeApp();
@@ -36,10 +38,8 @@ export class AppComponent implements OnInit {
     this.platform.ready().then((): void => {
       this._networkEventsListener();
       this.initFacebook();
-      
-      
+      this.isUserLoggedInFirstTime();
     });
-    
   }
 
   hideSplashScreen() {
@@ -87,6 +87,14 @@ export class AppComponent implements OnInit {
         App.exitApp();
       } else {
         this._location.back();
+      }
+    });
+  }
+
+  isUserLoggedInFirstTime() {
+    Storage.get({ key: "first_time" }).then(({ value }) => {
+      if (!value) {
+        this.router.navigate(["/welcome-screen"]);
       }
     });
   }

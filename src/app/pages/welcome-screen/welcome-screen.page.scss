@@ -20,6 +20,7 @@ ion-slide {
 .container {
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 .image-container {
   & img {
@@ -35,5 +36,15 @@ ion-slide {
   & h2 {
     font-size: 20px;
     font-weight: 700;
+  }
+}
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  & ion-button {
+    font-size: 1.25rem;
+    font-weight: 400;
+    --background: transparent;
+    --background-activated: transparent;
   }
 }
