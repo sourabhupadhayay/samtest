@@ -71,7 +71,7 @@
     <ion-grid class="tabs-design">
       <ion-segment
         [(ngModel)]="eventState"
-        (ngModelChange)=" getScheduleDetails() "
+        (ngModelChange)="resetAndGetMoreData()"
         mode="ios"
       >
         <ion-segment-button value="APPROVED">
@@ -91,7 +91,7 @@
         <div class="">
           <ion-select
             [(ngModel)]="eventFilter"
-            (ngModelChange)="getScheduleDetails()"
+            (ngModelChange)="resetAndGetMoreData()"
             interface="popover"
             mode="ios"
             [interfaceOptions]="{'cssClass': 'mycomponent-wider-popover'}"
@@ -110,7 +110,7 @@
         <div *ngIf="eventState !== 'PENDING'" class="">
           <ion-select
             [(ngModel)]="eventFilter"
-            (ngModelChange)="getScheduleDetails()"
+            (ngModelChange)="resetAndGetMoreData()"
             interface="popover"
             mode="ios"
             [interfaceOptions]="{'cssClass': 'mycomponent-wider-popover'}"
