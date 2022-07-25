@@ -171,60 +171,90 @@ ion-content {
 
     @-webkit-keyframes animateBubble {
       0% {
+        // margin-top: 1000px;
         -webkit-transform: scale(0);
         -moz-transform: scale(0);
         transform: scale(0);
+        // transition: all 0.3s;
+        // opacity: 0.1;
+
         bottom: -200px;
       }
       30% {
         -webkit-transform: scale(1);
         -moz-transform: scale(1);
         transform: scale(1);
+        // transition: all 0.3s;
+        // opacity: 1;
       }
       100% {
+        // margin-top: -100%;
         -webkit-transform: scale(0);
         -moz-transform: scale(0);
         transform: scale(0);
+        // transition: all 0.3s;
+        // opacity: 0.1;
+
         bottom: 110%;
       }
     }
 
     @-moz-keyframes animateBubble {
       0% {
+        // margin-top: 1000px;
         -webkit-transform: scale(0);
         -moz-transform: scale(0);
         transform: scale(0);
+        // transition: all 0.3s;
+        // opacity: 0.1;
+
         bottom: -200px;
       }
       30% {
         -webkit-transform: scale(1);
         -moz-transform: scale(1);
         transform: scale(1);
+        // transition: all 0.3s;
+        // opacity: 1;
       }
       100% {
+        // margin-top: -100%;
         -webkit-transform: scale(0);
         -moz-transform: scale(0);
         transform: scale(0);
+        // transition: all 0.3s;
+        // opacity: 0.1;
+
         bottom: 110%;
       }
     }
 
     @keyframes animateBubble {
       0% {
+        // margin-top: 1000px;
         -webkit-transform: scale(0);
         -moz-transform: scale(0);
         transform: scale(0);
+        // transition: all 0.3s;
+        // opacity: 0.1;
+
         bottom: -200px;
       }
       30% {
         -webkit-transform: scale(1);
         -moz-transform: scale(1);
         transform: scale(1);
+        // transition: all 0.3s;
+        // opacity: 1;
       }
       100% {
+        // margin-top: -100%;
         -webkit-transform: scale(0);
         -moz-transform: scale(0);
         transform: scale(0);
+        // transition: all 0.3s;
+        // opacity: 0.1;
+
         bottom: 110%;
       }
     }
@@ -266,7 +296,7 @@ ion-content {
       animation: animateBubble forwards 20s infinite,
         sideWays 2s ease-in-out infinite alternate;
 
-      animation-delay: 0.7s;
+      animation-delay: 2s;
       left: -5%;
     }
 

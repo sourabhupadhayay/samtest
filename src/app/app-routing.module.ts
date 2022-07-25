@@ -51,11 +51,19 @@ const routes: Routes = [
           ),
       },
     ],
-  },  {
-    path: 'invoice',
-    loadChildren: () => import('./pages/invoice/invoice.module').then( m => m.InvoicePageModule)
   },
-
+  {
+    path: "welcome-screen",
+    loadChildren: () =>
+      import("./pages/welcome-screen/welcome-screen.module").then(
+        (m) => m.WelcomeScreenPageModule
+      ),
+  },
+  {
+    path: "invoice",
+    loadChildren: () =>
+      import("./pages/invoice/invoice.module").then((m) => m.InvoicePageModule),
+  },
 ];
 
 @NgModule({
