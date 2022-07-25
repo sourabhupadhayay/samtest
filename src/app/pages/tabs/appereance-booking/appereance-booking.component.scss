@@ -194,7 +194,7 @@
           --background-focused-opacity: 1;
           --background-hover-opacity: 1;
           --ripple-color: none;
-          --min-height: 35px;
+          --min-height: 15px;
           ion-checkbox {
             --ripple-color: none;
             margin: 0;
@@ -216,6 +216,7 @@
             font-size: 0.75rem;
             color: var(--text-black);
             font-weight: 500;
+            margin: 0;
             span {
               font-weight: 800;
               display: inline-block;

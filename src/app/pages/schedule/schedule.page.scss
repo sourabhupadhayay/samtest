@@ -173,8 +173,17 @@ ion-content {
   }
 }
 
+.sticky-div{
+  position: sticky;
+    top: 92px;
+    z-index: 999;
+    // background: #000;
+    padding: 10px 0;
+    border-radius: 10px;
+}
+
 .content-part {
-  padding: 6px 15px 50px;
+  padding: 6px 15px 70px;
 }
 .tabs-design {
   background: rgba(var(--theme-one-clr), 0.3);
@@ -213,7 +222,7 @@ ion-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 0px;
   & h6 {
     font-size: 0.875rem;
     margin: 0;
@@ -225,6 +234,7 @@ ion-select {
   --padding-top: 5px;
   --padding-bottom: 5px;
   --padding-start: 5px;
+  --padding-end: 5px;
   background-color: rgba(255, 255, 255, 0.519);
   color: var(--black-clr);
   font-size: 0.75rem;

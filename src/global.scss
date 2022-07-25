@@ -273,3 +273,9 @@ input:-internal-autofill-selected {
 }
 
 input, ion-input, ion-textarea{caret-color: var(--text-black);}
+
+.schedule{
+  ion-select::part(icon) {
+    content: url('./assets/icon/arrow-down-black.svg'); opacity: 1; width: 11px; height: 11px; margin-left: 5px
+  }
+}

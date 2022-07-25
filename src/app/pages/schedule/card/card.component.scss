@@ -164,6 +164,9 @@ ion-item-sliding {
       color: var(--theme-one-clr);
       font-weight: 600;
     }
+    & span{height: 17px; width: 17px;
+      img{height: 17px; width: 17px;}
+    }
   }
   &__detail {
     padding-bottom: 5px;
@@ -171,9 +174,12 @@ ion-item-sliding {
     gap: 5px;
     align-items: center;
     & h6 {
-      font-size: 12px;
+      font-size: 0.75rem;
       margin: 0;
       font-weight: 400;
+    }
+    & span{height: 17px; width: 17px;
+      img{height: 17px; width: 17px;}
     }
   }
   &__border {
@@ -233,13 +239,13 @@ ion-item-sliding {
       & h6 {
         color: #bbbbbb;
         font-weight: 300;
-        font-size: 12px;
+        font-size: 0.75rem;
         margin: 0;
       }
       & h5 {
         color: var(--theme-one-clr);
         font-weight: 700;
-        font-size: 12px;
+        font-size: 0.75rem;
         margin: 0;
       }
     }
@@ -248,7 +254,7 @@ ion-item-sliding {
     & p {
       margin: 0;
       padding-bottom: 2px;
-      font-size: 12px;
+      font-size: 0.75rem;
       padding-left: 2px;
     }
 
