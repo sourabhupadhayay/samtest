@@ -9,7 +9,7 @@ import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService, userRole } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 
-type eventState = "APPROVED" | "PENDING" | "PAST";
+export type eventState = "APPROVED" | "PENDING" | "PAST";
 
 @Component({
   selector: "app-schedule",
@@ -110,6 +110,8 @@ export class SchedulePage implements OnInit {
       request.data.filter.eventStatuses = ["PENDING"];
       delete request.data.filter.selfCreated;
       request.data.filter.eventState = "UPCOMING";
+    } else if (this.eventFilter == "sponsored") {
+      request.data.filter.creatorPersonas = ["ADMIN"];
     }
 
     //event filter
@@ -153,14 +155,18 @@ export class SchedulePage implements OnInit {
       request.data.filter.eventStatuses = ["PENDING"];
       request.data.filter.eventState = "UPCOMING";
     }
-
-    //event creator  filter
-    if (this.eventFilter == "athlete") {
-      request.data.filter.creatorPersonas = ["ATHLETE", "ADMIN"];
-      request.data.filter.eventStatuses = ["APPROVED"];
-    } else if (this.eventFilter == "me") {
-      request.data.filter.selfCreated = true;
-      request.data.filter.creatorPersonas = ["USER"];
+    if (this.eventState !== "PENDING") {
+      //event creator  filter
+      if (this.eventFilter == "athlete") {
+        request.data.filter.creatorPersonas = ["ATHLETE", "ADMIN"];
+        request.data.filter.eventStatuses = ["APPROVED"];
+      } else if (this.eventFilter == "me") {
+        request.data.filter.selfCreated = true;
+        request.data.filter.creatorPersonas = ["USER"];
+      } else if (this.eventFilter == "sponsored") {
+        request.data.filter.eventStatuses = ["APPROVED"];
+        request.data.filter.creatorPersonas = ["ADMIN"];
+      }
     }
 
     return request;

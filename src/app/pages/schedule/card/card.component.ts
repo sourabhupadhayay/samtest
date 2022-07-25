@@ -7,10 +7,15 @@ import {
   Output,
   ViewChild,
 } from "@angular/core";
+import { Router } from "@angular/router";
 import { AlertController, IonModal, ModalController } from "@ionic/angular";
 import { CommonService } from "src/app/providers/common.service";
 import { ConstantService } from "src/app/providers/constant.service";
-import { CoreService, userRole } from "src/app/providers/core.service";
+import {
+  CoreService,
+  UserRole,
+  userRole,
+} from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { DismissmodalComponent } from "../dismissmodal/dismissmodal.component";
 
@@ -41,7 +46,8 @@ export class CardComponent implements OnInit {
     private constantService: ConstantService,
     public commonService: CommonService,
     private alertController: AlertController,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -258,6 +264,14 @@ export class CardComponent implements OnInit {
       if (this.eventState == "APPROVED") {
         return "card-border";
       }
+    }
+  }
+
+  openProfilePage(userRole: userRole) {
+    if (userRole == "fan") {
+      this.router.navigate([`profile/fan/${this.cardData.userId}`]);
+    } else {
+      this.router.navigate([`profile/athlete/${this.cardData.athleteId}`]);
     }
   }
 

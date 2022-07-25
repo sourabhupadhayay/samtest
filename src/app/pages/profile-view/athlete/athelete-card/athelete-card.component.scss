@@ -48,7 +48,7 @@ ion-item-sliding {
   padding: 5px 15px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   position: relative;
-  border-right: 4px solid #056ea6;
+
   width: 100%;
 
   &__container {
@@ -260,6 +260,10 @@ ion-item-sliding {
       --background-activated: var(--theme-one-clr);
       --background: var(--theme-one-clr);
     }
+    &--cancel {
+      --background-activated: #f74444;
+      --background: #f74444;
+    }
     &--password {
       margin: 0;
       font-size: 25px;
@@ -279,6 +283,9 @@ ion-item-sliding {
   span {
     color: #bbbbbb;
   }
+}
+.disabled-text-light {
+  color: #585858;
 }
 ion-button.button-disabled {
   --background-activated: #bbbbbb;
@@ -301,4 +308,7 @@ ion-button.button-disabled {
     text-transform: uppercase;
     border: 1px solid white;
   }
+}
+.card-border {
+  border-right: 4px solid #056ea6;
 }
