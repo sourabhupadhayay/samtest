@@ -175,10 +175,10 @@ ion-content {
 
 .sticky-div {
   position: sticky;
-  top: 92px;
+  top: 90px;
   z-index: 999;
   // background: #000;
-  padding: 10px 0;
+  padding: 10px 15px;
 
   &.add-bg {
     background: var(--theme-one-bg);
