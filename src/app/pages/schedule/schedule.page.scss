@@ -173,13 +173,16 @@ ion-content {
   }
 }
 
-.sticky-div{
+.sticky-div {
   position: sticky;
-    top: 92px;
-    z-index: 999;
-    // background: #000;
-    padding: 10px 0;
-    border-radius: 10px;
+  top: 92px;
+  z-index: 999;
+  // background: #000;
+  padding: 10px 0;
+
+  &.add-bg {
+    background: var(--theme-one-bg);
+  }
 }
 
 .content-part {
@@ -495,5 +498,3 @@ ion-select {
     }
   }
 }
-
-

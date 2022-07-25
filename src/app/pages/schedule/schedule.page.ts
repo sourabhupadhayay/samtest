@@ -3,7 +3,9 @@ import {
   ChangeDetectorRef,
   Component,
   OnInit,
+  ViewChild,
 } from "@angular/core";
+import { IonContent } from "@ionic/angular";
 import { CommonService } from "src/app/providers/common.service";
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService, userRole } from "src/app/providers/core.service";
@@ -18,6 +20,7 @@ export type eventState = "APPROVED" | "PENDING" | "PAST";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SchedulePage implements OnInit {
+  @ViewChild(IonContent) content: IonContent;
   userData: any | null = null;
   userRole: userRole;
   nameInitials: string = "";
@@ -25,6 +28,7 @@ export class SchedulePage implements OnInit {
   eventFilter: string = "All";
   userId: String;
   scheduleData: any[] = [];
+  isClassAdded: boolean = false;
   constructor(
     private coreService: CoreService,
     private apiService: DataService,
@@ -36,8 +40,23 @@ export class SchedulePage implements OnInit {
   ionViewWillEnter() {
     this.getUserDataFromStorage();
   }
+  ionViewDidEnter() {
+    this.addClassOnScroll();
+  }
 
   ngOnInit() {}
+
+  addClassOnScroll() {
+    this.content.ionScroll.subscribe((data) => {
+      if (data.detail.scrollTop > 50) {
+        this.isClassAdded = true;
+        this.cd.detectChanges();
+      } else if (data.detail.scrollTop < 50) {
+        this.isClassAdded = false;
+        this.cd.detectChanges();
+      }
+    });
+  }
 
   async getUserDataFromStorage() {
     this.userRole = await this.coreService.getUserRoleFromStorage();
