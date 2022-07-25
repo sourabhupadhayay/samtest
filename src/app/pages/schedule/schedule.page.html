@@ -67,71 +67,71 @@
       </h6>
     </div>
   </div>
-
-  <ion-grid class="content-part">
-    <div class="sticky-div" [ngClass]="isClassAdded ? 'add-bg':''">
-      <ion-grid class="tabs-design">
-        <ion-segment
-          [(ngModel)]="eventState"
-          (ngModelChange)=" getScheduleDetails() "
-          mode="ios"
-        >
-          <ion-segment-button value="APPROVED">
-            <ion-label>Upcoming</ion-label>
-          </ion-segment-button>
-          <ion-segment-button value="PAST">
-            <ion-label>Past</ion-label>
-          </ion-segment-button>
-          <ion-segment-button value="PENDING">
-            <ion-label>Appearances</ion-label>
-          </ion-segment-button>
-        </ion-segment>
-      </ion-grid>
-      <div class="schedule">
-        <h6>{{listHeading()}}</h6>
-        <ng-container *ngIf="userRole == 'athlete'">
-          <div class="">
-            <ion-select
-              [(ngModel)]="eventFilter"
-              (ngModelChange)="getScheduleDetails()"
-              interface="popover"
-              mode="ios"
-              [interfaceOptions]="{'cssClass': 'mycomponent-wider-popover'}"
+  <div class="sticky-div" [ngClass]="isClassAdded ? 'add-bg':''">
+    <ion-grid class="tabs-design">
+      <ion-segment
+        [(ngModel)]="eventState"
+        (ngModelChange)=" getScheduleDetails() "
+        mode="ios"
+      >
+        <ion-segment-button value="APPROVED">
+          <ion-label>Upcoming</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="PAST">
+          <ion-label>Past</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="PENDING">
+          <ion-label>Appearances</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-grid>
+    <div class="schedule">
+      <h6>{{listHeading()}}</h6>
+      <ng-container *ngIf="userRole == 'athlete'">
+        <div class="">
+          <ion-select
+            [(ngModel)]="eventFilter"
+            (ngModelChange)="getScheduleDetails()"
+            interface="popover"
+            mode="ios"
+            [interfaceOptions]="{'cssClass': 'mycomponent-wider-popover'}"
+          >
+            <ion-select-option value="All">All</ion-select-option>
+            <ion-select-option value="me">Created by me</ion-select-option>
+            <ion-select-option value="fan">Created by fan</ion-select-option>
+            <ion-select-option value="sponsored"
+              >Sponsored by</ion-select-option
             >
-              <ion-select-option value="All">All</ion-select-option>
-              <ion-select-option value="me">Created by me</ion-select-option>
-              <ion-select-option value="fan">Created by fan</ion-select-option>
-              <ion-select-option value="sponsored"
-                >Sponsored by</ion-select-option
-              >
-            </ion-select>
-          </div>
-        </ng-container>
+          </ion-select>
+        </div>
+      </ng-container>
 
-        <ng-container *ngIf="userRole == 'fan'">
-          <div *ngIf="eventState !== 'PENDING'" class="">
-            <ion-select
-              [(ngModel)]="eventFilter"
-              (ngModelChange)="getScheduleDetails()"
-              interface="popover"
-              mode="ios"
-              [interfaceOptions]="{'cssClass': 'mycomponent-wider-popover'}"
+      <ng-container *ngIf="userRole == 'fan'">
+        <div *ngIf="eventState !== 'PENDING'" class="">
+          <ion-select
+            [(ngModel)]="eventFilter"
+            (ngModelChange)="getScheduleDetails()"
+            interface="popover"
+            mode="ios"
+            [interfaceOptions]="{'cssClass': 'mycomponent-wider-popover'}"
+          >
+            <ion-select-option value="All">All</ion-select-option>
+            <ion-select-option value="me">Created by me</ion-select-option>
+
+            <ion-select-option value="athlete"
+              >Created by athlete</ion-select-option
             >
-              <ion-select-option value="All">All</ion-select-option>
-              <ion-select-option value="me">Created by me</ion-select-option>
 
-              <ion-select-option value="athlete"
-                >Created by athlete</ion-select-option
-              >
-
-              <ion-select-option value="sponsored"
-                >Sponsored by</ion-select-option
-              >
-            </ion-select>
-          </div>
-        </ng-container>
-      </div>
+            <ion-select-option value="sponsored"
+              >Sponsored by</ion-select-option
+            >
+          </ion-select>
+        </div>
+      </ng-container>
     </div>
+  </div>
+  <ion-grid class="content-part">
+    
     <div *ngIf="eventState == 'APPROVED'" class="">
       <div *ngIf="scheduleData.length == 0" class="no-data-found">
         <p>No upcoming event found</p>
