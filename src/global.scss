@@ -278,6 +278,14 @@ ion-textarea {
   caret-color: var(--text-black);
 }
 
+app-bid-payment{
+  .input-part{
+    ion-input{caret-color: var(--white-clr);}
+    input{caret-color: var(--white-clr)}
+  }
+}
+
+
 .schedule {
   ion-select::part(icon) {
     content: url("./assets/icon/arrow-down-black.svg");

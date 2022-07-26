@@ -63,7 +63,11 @@ const routes: Routes = [
     path: "invoice",
     loadChildren: () =>
       import("./pages/invoice/invoice.module").then((m) => m.InvoicePageModule),
+  },  {
+    path: 'bid-payment',
+    loadChildren: () => import('./pages/profile-view/bid-payment/bid-payment.module').then( m => m.BidPaymentPageModule)
   },
+
 ];
 
 @NgModule({
