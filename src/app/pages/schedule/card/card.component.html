@@ -357,12 +357,21 @@
         <img src="assets/icon/calendar-card.svg" />
       </ion-item-option>
       <ion-item-option
-        *ngIf="cardData.creatorPersona == 'USER' ||  (cardData.athleteId == cardData.userId)"
+        *ngIf="(cardData.creatorPersona == 'USER'  ||  cardData.athleteId != cardData.userId) && (userRole == 'fan') "
         (click)="presentDismissModal()"
         color="primary"
         class="delete"
       >
         <img src="assets/icon/delete.svg" />
-      </ion-item-option> </ion-item-options
+      </ion-item-option>
+      <ion-item-option
+        *ngIf="userRole == 'athlete' "
+        (click)="presentDismissModal()"
+        color="primary"
+        class="delete"
+      >
+        <img src="assets/icon/delete.svg" />
+      </ion-item-option>
+    </ion-item-options
   ></ng-container>
 </ion-item-sliding>
