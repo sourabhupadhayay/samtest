@@ -324,7 +324,7 @@
                 src="assets/icon/arrow-down.svg"
               />
             </ion-item>
-            <mat-autocomplete #auto="matAutocomplete">
+            <mat-autocomplete #auto="matAutocomplete" class="custom-class">
               <mat-option
                 (click)="selectedAthlete(option)"
                 *ngFor="let option of $athletes | async"
