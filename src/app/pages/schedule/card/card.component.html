@@ -244,17 +244,19 @@
             <ng-container
               *ngIf="eventState !== 'PAST' && eventState !== 'PENDING'"
             >
-              <ion-button
-                *ngIf="cardData.eventType !== 'IN_PERSON' "
-                [disabled]="canJoinEvent()"
-                size="small"
-                class="card__cta--blue"
-              >
-                <span
-                  ><img src="../../../../assets/icon/join-video.svg" alt=""
-                /></span>
-                <p>Join Now</p>
-              </ion-button>
+              <ng-container *ngIf="cardData.creatorPersona == 'USER'    ">
+                <ion-button
+                  *ngIf="cardData.eventType !== 'IN_PERSON' "
+                  [disabled]="canJoinEvent()"
+                  size="small"
+                  class="card__cta--blue"
+                >
+                  <span
+                    ><img src="../../../../assets/icon/join-video.svg" alt=""
+                  /></span>
+                  <p>Join Now</p>
+                </ion-button>
+              </ng-container>
               <ion-button
                 *ngIf="cardData.eventType == 'IN_PERSON'"
                 [disabled]="canJoinEvent()"
@@ -263,13 +265,19 @@
               >
                 <p class="card__cta--password">****</p>
               </ion-button>
-
-              <!-- <div class="fans-bided-event">
-              <p><span>38</span> Fans bided on your event</p>
-              <ion-button
-                ><img src="assets/icon/join-video.svg" /> Go</ion-button
+              <ng-container
+                *ngIf="cardData.creatorPersona == 'ATHLETE' || cardData.creatorPersona == 'ADMIN'   "
               >
-            </div> -->
+                <div
+                  *ngIf="cardData.eventType !== 'IN_PERSON' "
+                  class="fans-bided-event"
+                >
+                  <p><span>38</span> Fans bided on your event</p>
+                  <ion-button [disabled]="canJoinEvent()"
+                    ><img src="assets/icon/join-video.svg" /> Go</ion-button
+                  >
+                </div>
+              </ng-container>
             </ng-container>
             <h6 *ngIf="eventState == 'PAST'" class="card__completed">
               COMPLETED
@@ -278,7 +286,6 @@
           <ng-container *ngIf="userRole == 'fan'">
             <ng-container *ngIf="eventState == 'APPROVED'">
               <ion-button
-                [disabled]="canJoinEvent()"
                 *ngIf="cardData.creatorPersona == 'ATHLETE' || cardData.creatorPersona == 'ADMIN'   "
                 size="small"
                 class="card__cta--blue"
@@ -375,7 +382,6 @@
         class="delete"
       >
         <img src="assets/icon/delete.svg" />
-      </ion-item-option>
-    </ion-item-options
+      </ion-item-option> </ion-item-options
   ></ng-container>
 </ion-item-sliding>

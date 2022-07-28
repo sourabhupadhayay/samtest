@@ -63,7 +63,11 @@ const routes: Routes = [
     path: "invoice",
     loadChildren: () =>
       import("./pages/invoice/invoice.module").then((m) => m.InvoicePageModule),
+  },  {
+    path: 'bubble-screen-list',
+    loadChildren: () => import('./pages/bubble-screen-list/bubble-screen-list.module').then( m => m.BubbleScreenListPageModule)
   },
+
 ];
 
 @NgModule({
