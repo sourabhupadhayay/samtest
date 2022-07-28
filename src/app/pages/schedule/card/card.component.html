@@ -36,7 +36,7 @@
         <!-- event timing countdown start  -->
         <ng-container *ngIf="userRole == 'athlete'">
           <div *ngIf="eventState !== 'PAST'" class="">
-            <h6 *ngIf="timer" class="card__time">
+            <h6 *ngIf="timer.minutes > 0" class="card__time">
               <ng-container *ngIf="this.timer.days">
                 <span>{{this.timer.days }}</span> {{this.timer.title_days}} :
               </ng-container>
@@ -46,10 +46,14 @@
               </ng-container>
               <span>{{this.timer.minutes}}</span> {{this.timer?.title_min}}
             </h6>
+            <h6 *ngIf="timer.minutes <=  0" class="card__time">
+              <span>0</span> days: <span>0</span> hours : <span>0 </span>minutes
+            </h6>
           </div>
-          <h6 *ngIf="eventState == 'PAST'" class="card__time disabled-text">
-            <span>0</span> days : <span>0</span> hours : <span>0</span> mins
-          </h6>
+          <h6
+            *ngIf="eventState == 'PAST'"
+            class="card__time disabled-text"
+          ></h6>
         </ng-container>
         <ng-container *ngIf="userRole == 'fan'">
           <div *ngIf="eventState == 'APPROVED'" class="">
@@ -332,7 +336,7 @@
     </ion-item-options>
     <ion-item-options *ngIf="eventState == 'PENDING'">
       <ion-item-option
-        (click)="changeEventStatus('APPROVED')"
+        (click)="approveRequestModal()"
         color="primary"
         class="approve"
       >
@@ -340,7 +344,7 @@
       </ion-item-option>
 
       <ion-item-option
-        (click)="changeEventStatus('REJECTED')"
+        (click)="presentRefuseModal()"
         color="primary"
         class="delete"
       >
@@ -357,12 +361,21 @@
         <img src="assets/icon/calendar-card.svg" />
       </ion-item-option>
       <ion-item-option
-        *ngIf="cardData.creatorPersona == 'USER' ||  (cardData.athleteId == cardData.userId)"
+        *ngIf="(cardData.creatorPersona == 'USER'  ||  cardData.athleteId != cardData.userId) && (userRole == 'fan') "
         (click)="presentDismissModal()"
         color="primary"
         class="delete"
       >
         <img src="assets/icon/delete.svg" />
-      </ion-item-option> </ion-item-options
+      </ion-item-option>
+      <ion-item-option
+        *ngIf="userRole == 'athlete' "
+        (click)="presentDismissModal()"
+        color="primary"
+        class="delete"
+      >
+        <img src="assets/icon/delete.svg" />
+      </ion-item-option>
+    </ion-item-options
   ></ng-container>
 </ion-item-sliding>

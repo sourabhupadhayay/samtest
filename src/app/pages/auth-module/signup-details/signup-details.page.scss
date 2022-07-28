@@ -26,6 +26,7 @@ ion-content {
       position: sticky;
       overflow: hidden;
       top: 0;
+      min-height: 132px;
       ion-icon {
         color: var(--white-clr);
         font-size: 2rem;
@@ -309,6 +310,34 @@ ion-content {
               font-size: 0.875rem;
               color: var(--black-clr);
               font-weight: 400;
+            }
+          }
+        }
+
+        .age-requeird{
+          margin-bottom: 0px;
+          margin-top: 10px;
+          ion-item{
+            --padding-start: 0;
+            --innerpadding-end: 0;
+            --background: transparent;
+            --ripple-color: none;
+            --background-activated: none;
+            --background-focused: none;
+            --background-hover: none;
+            --background-activated-opacity: 1;
+            --background-focused-opacity: 1;
+            --background-hover-opacity: 1;
+            --ripple-color: none;
+            --min-height: 17px;
+            img{width: 20px; margin: 0 3px 0 0;}
+            ion-label {
+              word-break: break-word;
+              white-space: normal;
+              font-size: 0.875rem;
+              color: var(--white-clr);
+              font-weight: 400;
+              margin: 0;
             }
           }
         }
