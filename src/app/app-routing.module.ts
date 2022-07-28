@@ -67,6 +67,10 @@ const routes: Routes = [
     path: 'bid-payment',
     loadChildren: () => import('./pages/profile-view/bid-payment/bid-payment.module').then( m => m.BidPaymentPageModule)
   },
+  {
+    path: 'fan-waitlist',
+    loadChildren: () => import('./pages/waitlist/fan-waitlist/fan-waitlist.module').then( m => m.FanWaitlistPageModule)
+  },
 
 ];
 
