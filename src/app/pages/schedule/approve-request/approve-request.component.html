@@ -1,0 +1,25 @@
+<div class="small-modal">
+  <ion-header mode="md">
+    <h3>Approve Request</h3>
+  </ion-header>
+
+  <div class="inner-content">
+    <div class="main-screen">
+      <p>
+        Are you sure, you want to Approve {{eventType | titlecase
+        }}({{eventName}}) Request from {{creatorName | titlecase}}?
+      </p>
+    </div>
+  </div>
+
+  <ion-footer mode="ios">
+    <ion-toolbar mode="ios">
+      <ion-button (click)="modalCtrl.dismiss(false)" class="white-btn">
+        <img src="assets/icon/close-icon.png" />
+      </ion-button>
+      <ion-button (click)="modalCtrl.dismiss(true)" class="white-btn">
+        <img src="assets/icon/right-icon.png" />
+      </ion-button>
+    </ion-toolbar>
+  </ion-footer>
+</div>

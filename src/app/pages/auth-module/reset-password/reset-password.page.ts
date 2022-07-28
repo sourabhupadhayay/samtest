@@ -124,4 +124,25 @@ export class ResetPasswordPage implements OnInit {
       }
     });
   }
+
+  confirmPasswordError(): string {
+    if (
+      this.passwordFormGroup.controls.confirmPassword.invalid &&
+      this.isFormSubmitted
+    ) {
+      return "error-border";
+    } else {
+      return "";
+    }
+  }
+  passwordError(): string {
+    if (
+      this.passwordFormGroup.controls.password.invalid &&
+      this.isFormSubmitted
+    ) {
+      return "error-border";
+    } else {
+      return "";
+    }
+  }
 }

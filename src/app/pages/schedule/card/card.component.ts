@@ -9,6 +9,7 @@ import {
 } from "@angular/core";
 import { Router } from "@angular/router";
 import { AlertController, IonModal, ModalController } from "@ionic/angular";
+
 import { CommonService } from "src/app/providers/common.service";
 import { ConstantService } from "src/app/providers/constant.service";
 import {
@@ -17,6 +18,9 @@ import {
   userRole,
 } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
+import { ApproveRequestComponent } from "../approve-request/approve-request.component";
+import { CancelMessageModalComponent } from "../cancel-message-modal/cancel-message-modal.component";
+import { CancelRequestModalComponent } from "../cancel-request-modal/cancel-request-modal.component";
 import { DismissmodalComponent } from "../dismissmodal/dismissmodal.component";
 
 type EventStatus = "PENDING" | "APPROVED" | "REJECTED" | "CANCELLED";
@@ -33,7 +37,6 @@ export class CardComponent implements OnInit {
   @Input() eventState: String;
   @Input() userRole: userRole;
   nameInitials: string;
-
   liveTime: any;
   counter: any;
   timer: any = null;
@@ -60,11 +63,20 @@ export class CardComponent implements OnInit {
     this.nameInitials = this.commonService.getInitials(this.cardData.userName);
   }
 
-  changeEventStatus(eventState: EventStatus) {
-    let request: Request = {
-      path: `core/event/changeStatus/${this.cardData.id}?event=${eventState}&sendMail=false`,
-      isAuth: true,
-    };
+  changeEventStatus(eventState: EventStatus, rejectionMessage?: string) {
+    let request: Request;
+
+    if (rejectionMessage) {
+      request = {
+        path: `core/event/changeStatus/${this.cardData.id}?event=${eventState}&reason=${rejectionMessage}&sendMail=false`,
+        isAuth: true,
+      };
+    } else {
+      request = {
+        path: `core/event/changeStatus/${this.cardData.id}?event=${eventState}&sendMail=false`,
+        isAuth: true,
+      };
+    }
 
     this.coreService.presentLoader(this.constantService.WAIT);
     this.apiService.get(request).subscribe((response: Response) => {
@@ -230,6 +242,7 @@ export class CardComponent implements OnInit {
           };
         }
       }
+
       this.timer = this.counter;
       this.cd.detectChanges();
     }, 60000);
@@ -283,8 +296,60 @@ export class CardComponent implements OnInit {
     modal.present();
     const { data, role } = await modal.onDidDismiss();
 
+    if (!data) {
+      return;
+    }
     if (data) {
-      this.changeEventStatus("CANCELLED");
+      this.presentMessageModal();
+    }
+  }
+  async presentRefuseModal() {
+    const modal: HTMLIonModalElement = await this.modalCtrl.create({
+      component: CancelRequestModalComponent,
+      cssClass: "small-modal",
+    });
+    modal.present();
+    const { data, role } = await modal.onDidDismiss();
+
+    if (data) {
+      this.presentMessageModal();
+    }
+  }
+  async presentMessageModal() {
+    const modal: HTMLIonModalElement = await this.modalCtrl.create({
+      component: CancelMessageModalComponent,
+      cssClass: "small-modal",
+    });
+    modal.present();
+    const { data, role } = await modal.onDidDismiss();
+
+    if (!data) {
+      return;
+    }
+
+    if (this.userRole == "fan") {
+      this.changeEventStatus("CANCELLED", data);
+    } else {
+      this.changeEventStatus("REJECTED", data);
+    }
+  }
+  async approveRequestModal() {
+    let eventData = {
+      eventType: this.cardData.eventType,
+      createdBy: this.cardData.userName,
+      eventName: this.cardData.eventName,
+    };
+    const modal: HTMLIonModalElement = await this.modalCtrl.create({
+      component: ApproveRequestComponent,
+      componentProps: eventData,
+      cssClass: "small-modal",
+    });
+    modal.present();
+
+    const { data, role } = await modal.onDidDismiss();
+
+    if (data) {
+      this.changeEventStatus("APPROVED");
     }
   }
 

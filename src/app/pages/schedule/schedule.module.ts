@@ -11,6 +11,9 @@ import { CardComponent } from "./card/card.component";
 import { CommonDirectiveModule } from "src/app/directives/common-directive.module";
 import { PipesModule } from "src/app/pipes/pipes.module";
 import { DismissmodalComponent } from "./dismissmodal/dismissmodal.component";
+import { CancelRequestModalComponent } from "./cancel-request-modal/cancel-request-modal.component";
+import { CancelMessageModalComponent } from "./cancel-message-modal/cancel-message-modal.component";
+import { ApproveRequestComponent } from "./approve-request/approve-request.component";
 
 @NgModule({
   imports: [
@@ -21,6 +24,13 @@ import { DismissmodalComponent } from "./dismissmodal/dismissmodal.component";
     CommonDirectiveModule,
     PipesModule,
   ],
-  declarations: [SchedulePage, CardComponent, DismissmodalComponent],
+  declarations: [
+    SchedulePage,
+    CardComponent,
+    DismissmodalComponent,
+    CancelRequestModalComponent,
+    CancelMessageModalComponent,
+    ApproveRequestComponent,
+  ],
 })
 export class SchedulePageModule {}
