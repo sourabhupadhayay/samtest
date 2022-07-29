@@ -239,7 +239,7 @@ input:-internal-autofill-selected {
     --background-activated-opacity: 1;
     --background-focused-opacity: 1;
     --background-hover-opacity: 1;
-    --min-height: 35px;
+    --min-height: 33px;
     --padding-start: 10px;
     --inner-padding-end: 10px;
     ion-label {
@@ -318,6 +318,9 @@ input:-internal-autofill-selected {
     }
   }
   .popover-arrow{display: none !important;}
+  :host::ng-deep ngb-popover-window::ng-deep .arrow{
+    display: none !important;
+ }
 }
 
 .search-bar{
