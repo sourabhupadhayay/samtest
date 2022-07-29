@@ -71,6 +71,10 @@ const routes: Routes = [
     path: 'fan-waitlist',
     loadChildren: () => import('./pages/waitlist/fan-waitlist/fan-waitlist.module').then( m => m.FanWaitlistPageModule)
   },
+  {
+    path: 'athlete-waitlist',
+    loadChildren: () => import('./pages/waitlist/athlete-waitlist/athlete-waitlist.module').then( m => m.AthleteWaitlistPageModule)
+  },
 
 ];
 
