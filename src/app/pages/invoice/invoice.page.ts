@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { IonModal, ModalController } from "@ionic/angular";
 
 @Component({
   selector: 'app-invoice',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InvoicePage implements OnInit {
 
-  constructor() { }
+  constructor(public modalCtrl: ModalController) { }
 
   ngOnInit() {
+  }
+
+  onClickCancel() {
+    this.modalCtrl.dismiss();
   }
 
 }
