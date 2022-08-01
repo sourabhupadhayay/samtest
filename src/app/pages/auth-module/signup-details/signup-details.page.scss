@@ -137,19 +137,24 @@ ion-content {
         text-align: center;
         .images-upload {
           text-align: center;
+          padding: 0 10px 10px;
           .upload-icon {
             height: 97px;
             width: 97px;
             border-radius: 97px;
-            line-height: 100px;
+            // line-height: 100px;
             text-align: center;
-            display: inline-block;
+            // display: inline-block;
+            display: inline-flex;
             background: rgba(var(--white-bg-rgb), 0.7);
             position: relative;
             overflow: hidden;
+            align-items: center;
+            justify-content: center;
             img {
               max-width: 100%;
               opacity: 0.5;
+              width: 25px;
             }
             input,
             ion-input {
@@ -168,9 +173,12 @@ ion-content {
               height: 97px;
               width: 97px;
               border-radius: 97px;
-              display: inline-block;
+              // display: inline-block;
+              display: inline-flex;
               margin: 0 auto;
               position: relative;
+              align-items: center;
+              justify-content: center;
               img {
                 width: 100%;
                 height: 100%;
@@ -218,6 +226,7 @@ ion-content {
               font-size: 0.875rem;
               color: var(--text-black);
               font-weight: 400;
+              opacity: 1 !important;
               span.red {
                 color: var(--red-clr);
               }
@@ -274,8 +283,8 @@ ion-content {
           }
         }
         .check-box {
-          margin-bottom: 0px;
-          margin-top: 12px;
+          margin-bottom: 2px;
+          margin-top: 5px;
 
           ion-item {
             --padding-start: 0;
@@ -294,7 +303,7 @@ ion-content {
               --ripple-color: none;
               margin: 0;
               margin-right: 5px;
-              --size: 20px;
+              --size: 18px;
               --border-color: var(--black-clr);
               --background-checked: transparent;
               --background: transparent;
@@ -315,8 +324,8 @@ ion-content {
         }
 
         .age-requeird{
-          margin-bottom: 0px;
-          margin-top: 10px;
+          margin-bottom: 2px;
+          margin-top: 5px;
           ion-item{
             --padding-start: 0;
             --innerpadding-end: 0;
