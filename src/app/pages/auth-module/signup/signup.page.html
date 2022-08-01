@@ -19,7 +19,8 @@
           loop=""
           muted
           autoplay
-          webkit-playsinline playsinline
+          webkit-playsinline
+          playsinline
         >
           <source src="assets/video/video.mp4" />
           <source src="assets/video/video.webm" />
@@ -64,13 +65,13 @@
                 class="ion-align-self-center"
                 slot="end"
                 src="assets/icon/email.svg"
-                *ngIf="!isFormSubmitted"
+                *ngIf="signUpForm.controls.email.invalid"
               />
               <img
                 class="ion-align-self-center"
                 slot="end"
                 src="assets/icon/right-green.svg"
-                *ngIf="isFormSubmitted && signUpForm.controls.email.valid"
+                *ngIf=" signUpForm.controls.email.valid"
               />
             </ion-item>
             <div
