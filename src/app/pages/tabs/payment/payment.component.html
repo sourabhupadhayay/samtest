@@ -52,18 +52,42 @@
             </ion-item>
             <div class="card-details">
               <ion-row>
-                <h2>Pay with a Credit Card</h2>
-                <label for="sq-card-number">Card Number:</label>
-                <div id="sq-card-number"></div>
-                <label for="sq-cvv">CVV:</label>
-                <div id="sq-cvv"></div>
-                <label for="sq-expiration-date">Expiration Date:</label>
-                <div id="sq-expiration-date"></div>
-                <label for="sq-postal-code">Postal Code:</label>
-                <div id="sq-postal-code"></div>
+                
 
-                <button id="sq-creditcard" class="btn-main button-credit-card"
-                        (click)="requestCardNonce($event)">Pay with card</button>
+                <ion-col size="12" class="plr-0">
+                  <div class="box-sq">
+                      <label for="sq-card-number" class="sq-label">Card Number:</label>
+                      <div id="sq-card-number" class="sq-input-box"></div>
+                      <img class="icon-input" src="assets/icon/card-new.svg">
+                  </div>
+                </ion-col>
+
+                <ion-col size="12" class="plr-0">
+                  <div class="box-sq">
+                      <label for="sq-cvv" class="sq-label">CVV:</label>
+                      <div id="sq-cvv" class="sq-input-box"></div>
+                      <img class="icon-input" src="assets/icon/cvv-new.svg">
+                  </div>
+                </ion-col>
+
+                <ion-col size="6" class="pl-0">
+                    <div class="box-sq">
+                        <label for="sq-expiration-date" class="sq-label">Expiration Date:</label>
+                        <div id="sq-expiration-date" class="sq-input-box"></div>
+                        <img class="icon-input" src="assets/icon/calendar-new.svg">
+                    </div>
+                </ion-col>
+
+                <ion-col size="6" class="pr-0">
+                  <div class="box-sq">
+                      <label for="sq-postal-code" class="sq-label">Postal Code:</label>
+                      <div id="sq-postal-code" class="sq-input-box"></div>
+                      <img class="icon-input" src="assets/icon/cvv-new.svg">
+                  </div>
+                </ion-col>
+
+                <!-- <button id="sq-creditcard" class="btn-main button-credit-card"
+                        (click)="requestCardNonce($event)">Pay with card</button> -->
 <!--                <ion-col size="12">-->
 <!--                  <div class="input-box">-->
 <!--                    <ion-label position="stacked">Card Holder Name</ion-label>-->

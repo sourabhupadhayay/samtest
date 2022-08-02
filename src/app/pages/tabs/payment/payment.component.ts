@@ -35,11 +35,12 @@ export class PaymentComponent implements OnInit {
       autoBuild: false,
       // Customize the CSS for SqPaymentForm iframe elements
       inputStyles: [{
-        fontSize: '16px',
-        lineHeight: '24px',
-        padding: '16px',
-        placeholderColor: '#a0a0a0',
+        fontSize: '14px',
+        lineHeight: '16px',
+        padding: '5px',
+        placeholderColor: '#949494',
         backgroundColor: 'transparent',
+        
       }],
       // Initialize the credit card placeholders
       cardNumber: {
