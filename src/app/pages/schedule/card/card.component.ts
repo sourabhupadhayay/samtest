@@ -68,12 +68,12 @@ export class CardComponent implements OnInit {
 
     if (rejectionMessage) {
       request = {
-        path: `core/event/changeStatus/${this.cardData.id}?event=${eventState}&reason=${rejectionMessage}&sendMail=false`,
+        path: `core/event/changeStatus/${this.cardData.id}?eventStatus=${eventState}&reason=${rejectionMessage}&sendMail=false`,
         isAuth: true,
       };
     } else {
       request = {
-        path: `core/event/changeStatus/${this.cardData.id}?event=${eventState}&sendMail=false`,
+        path: `core/event/changeStatus/${this.cardData.id}?eventStatus=${eventState}&sendMail=false`,
         isAuth: true,
       };
     }
