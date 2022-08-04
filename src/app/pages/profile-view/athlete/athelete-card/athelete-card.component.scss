@@ -194,10 +194,12 @@ ion-item-sliding {
     margin: 2px 0;
   }
   &__invite {
-    margin-top: 10px;
+    margin-top: 5px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border-top: 1px solid #f5f5f5;
+    padding-top: 5px;
   }
   .fans-bided-event {
     display: flex;
