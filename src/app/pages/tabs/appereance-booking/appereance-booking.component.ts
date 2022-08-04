@@ -156,7 +156,7 @@ export class AppereanceBookingComponent implements OnInit {
 
   onSubmit() {
     let request: Request;
-    console.log(this.fanForm);
+
     if (this.userRole == "athlete") {
       request = this.athleteDataRequest();
     } else {
@@ -165,9 +165,6 @@ export class AppereanceBookingComponent implements OnInit {
     if (!request) {
       return;
     }
-
-    console.log(request);
-    return;
 
     this.coreService.presentLoader(this.constant.WAIT);
     this.apiService.post(request).subscribe((response: Response) => {
@@ -227,7 +224,6 @@ export class AppereanceBookingComponent implements OnInit {
       selectedAthleteName,
       startDate,
       duration,
-
       eventAddress,
       ...signUpResponse
     } = this.fanForm.value;
@@ -329,7 +325,6 @@ export class AppereanceBookingComponent implements OnInit {
   }
 
   patchTime(time: string) {
-    // console.log(time);
     // let formattedTime = this.commonService.formatTime(time);
 
     var timeParts = time.split(":");
