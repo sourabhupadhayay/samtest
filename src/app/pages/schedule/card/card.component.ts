@@ -34,7 +34,7 @@ export class CardComponent implements OnInit {
   @ViewChild(IonModal) modal: IonModal;
   @Output() changeStatus: EventEmitter<null> = new EventEmitter();
   @Input() cardData;
-  @Input() eventState: String;
+  @Input() eventState: "APPROVED" | "PAST" | "PENDING" = "APPROVED";
   @Input() userRole: userRole;
   nameInitials: string;
   liveTime: any;
@@ -55,7 +55,6 @@ export class CardComponent implements OnInit {
 
   ngOnInit() {
     this.dateFormat();
-
     this.getInitials();
   }
 
@@ -299,7 +298,10 @@ export class CardComponent implements OnInit {
     if (!data) {
       return;
     }
-    if (data) {
+
+    if (this.eventState == "PENDING") {
+      this.changeEventStatus("CANCELLED");
+    } else {
       this.presentMessageModal();
     }
   }
@@ -318,6 +320,10 @@ export class CardComponent implements OnInit {
   async presentMessageModal() {
     const modal: HTMLIonModalElement = await this.modalCtrl.create({
       component: CancelMessageModalComponent,
+      componentProps: {
+        eventState: this.eventState,
+      },
+
       cssClass: "small-modal",
     });
     modal.present();
@@ -326,12 +332,7 @@ export class CardComponent implements OnInit {
     if (!data) {
       return;
     }
-
-    if (this.userRole == "fan") {
-      this.changeEventStatus("CANCELLED", data);
-    } else {
-      this.changeEventStatus("REJECTED", data);
-    }
+    this.changeEventStatus("REJECTED", data);
   }
   async approveRequestModal() {
     let eventData = {
