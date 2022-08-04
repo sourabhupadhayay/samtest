@@ -34,11 +34,11 @@ spec:
           protocol: TCP
         readinessProbe:
             tcpSocket:
-              port: 8115
+              port: 8114
             initialDelaySeconds: 60
             periodSeconds: 30
         livenessProbe:
             tcpSocket:
-              port: 8115
+              port: 8114
             initialDelaySeconds: 60
             periodSeconds: 30
