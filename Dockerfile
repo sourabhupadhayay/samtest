@@ -4,7 +4,7 @@ MAINTAINER gourav.s@techroversolutions.com
 LABEL ENV=development
 LABEL PROJECT=BUBBLEAPP
 EXPOSE 8114
-COPY www /usr/share/nginx/html/
+COPY www/ /usr/share/nginx/html/
 COPY default.conf /etc/nginx/nginx.conf
 RUN chown -R nginx:nginx /usr/share/nginx/html/ && chmod -R 755 /usr/share/nginx/html/ && \
         chown -R nginx:nginx /var/cache/nginx && \
