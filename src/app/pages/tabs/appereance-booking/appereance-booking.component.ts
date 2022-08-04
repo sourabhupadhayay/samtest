@@ -37,9 +37,9 @@ export class AppereanceBookingComponent implements OnInit {
   selectedAthleteId: string = "";
   validationType = {
     addressLine1: [Validators.required],
-    city: [Validators.required],
-    state: [Validators.required],
-    zipCode: [Validators.required],
+    city: [Validators.required, Validators.pattern("^[a-zA-Z ]*$")],
+    state: [Validators.required, Validators.pattern("^[a-zA-Z ]*$")],
+    zipCode: [Validators.required, Validators.minLength(5)],
   };
   selectedAthleteName: string = "";
   totalAthleteDuration: number = 0;
@@ -64,9 +64,24 @@ export class AppereanceBookingComponent implements OnInit {
   }
   async getUserRole() {
     this.userRole = await this.coreService.getUserRoleFromStorage();
+    this.setDuration();
+  }
+
+  setDuration() {
+    if (this.userRole !== "fan") {
+      return;
+    }
+    if (this.fanEventType !== "VIDEO") {
+      this.fanForm.controls.duration.reset();
+      return;
+    }
+
+    this.fanForm.controls.duration.patchValue("00h:03m");
+    this.totalFanDuration = 3;
   }
 
   eventTypeSelected() {
+    this.setDuration();
     if (this.fanEventType == "VIDEO") {
       this.removeValidators(this.fanForm.controls.eventAddress as FormGroup);
     } else {
@@ -151,6 +166,9 @@ export class AppereanceBookingComponent implements OnInit {
       return;
     }
 
+    console.log(request);
+    return;
+
     this.coreService.presentLoader(this.constant.WAIT);
     this.apiService.post(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
@@ -200,6 +218,7 @@ export class AppereanceBookingComponent implements OnInit {
       );
       return;
     }
+
     if (this.isSelectedAthleteValid()) {
       return;
     }

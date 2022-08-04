@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ModalController } from "@ionic/angular";
+import { ModalController, NavParams } from "@ionic/angular";
 import { CoreService } from "src/app/providers/core.service";
 
 @Component({
@@ -8,10 +8,14 @@ import { CoreService } from "src/app/providers/core.service";
   styleUrls: ["./cancel-message-modal.component.scss"],
 })
 export class CancelMessageModalComponent implements OnInit {
+  eventState: "APPROVED" | "PAST" | "PENDING" = this.navParams.get(
+    "eventState"
+  );
   cancelMessage: String;
   constructor(
     public modalCtrl: ModalController,
-    private coreService: CoreService
+    private coreService: CoreService,
+    public navParams: NavParams
   ) {}
 
   ngOnInit() {}

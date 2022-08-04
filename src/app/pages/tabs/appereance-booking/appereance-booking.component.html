@@ -257,6 +257,7 @@
               class="ion-align-items-center"
             >
               <ion-input
+                [disabled]="fanEventType == 'VIDEO'"
                 formControlName="duration"
                 placeholder="Duration"
               ></ion-input>
