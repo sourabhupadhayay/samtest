@@ -101,7 +101,7 @@ ion-item-sliding {
       margin: 0;
       padding: 8px 0;
       color: white;
-      font-size: 12px;
+      font-size: 0.75rem;
     }
   }
   .inPersonEvent {
@@ -110,8 +110,9 @@ ion-item-sliding {
 
   &__time {
     margin-top: 5px;
-    font-size: 12px;
+    font-size: 0.75rem;
     text-align: right;
+    min-height: 14px;
     & span {
       color: var(--theme-one-clr);
     }
@@ -123,11 +124,12 @@ ion-item-sliding {
     align-items: flex-start;
   }
   &__heading {
-    font-size: 17px;
+    font-size: 1rem;
     font-weight: 700;
     margin: 0;
     color: var(--theme-one-clr);
     padding-bottom: 10px;
+    text-transform: capitalize;
   }
   &__opp {
     padding: 10px;
@@ -137,12 +139,12 @@ ion-item-sliding {
     text-align: center;
     margin-right: 6px;
     & h3 {
-      font-size: 16px;
+      font-size: 1rem;
       font-weight: 700;
       margin: 0;
     }
     & h6 {
-      font-size: 12px;
+      font-size: 0.75rem;
       font-weight: 300;
       margin: 0;
     }
@@ -159,7 +161,7 @@ ion-item-sliding {
     gap: 5px;
     align-items: center;
     & h6 {
-      font-size: 12px;
+      font-size: 0.75rem;
       margin: 0;
       color: var(--theme-one-clr);
       font-weight: 600;
@@ -186,9 +188,13 @@ ion-item-sliding {
     & span {
       height: 17px;
       width: 17px;
+      min-width: 17px;
+      min-height: 17px;
       img {
         height: 17px;
         width: 17px;
+        min-width: 17px;
+        min-height: 17px;
       }
     }
   }
@@ -198,10 +204,12 @@ ion-item-sliding {
     margin: 2px 0;
   }
   &__invite {
-    margin-top: 10px;
+    margin-top: 5px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border-top: 1px solid #f5f5f5;
+    padding-top: 5px;
   }
   .fans-bided-event {
     display: flex;
@@ -263,9 +271,21 @@ ion-item-sliding {
   &__cta {
     & p {
       margin: 0;
-      padding-bottom: 2px;
+      padding-bottom: 0;
       font-size: 0.75rem;
       padding-left: 2px;
+      display: inline-block;
+      vertical-align: middle;
+      text-transform: capitalize;
+    }
+
+    & span{
+      display: inline-block;
+      vertical-align: middle;
+      margin: 0;
+      height: 18px;
+      width: 18px;
+      img{width: 18px;}
     }
 
     &--green {
@@ -279,10 +299,18 @@ ion-item-sliding {
     &--cancel {
       --background-activated: #f74444;
       --background: #f74444;
+      /* margin: 0; */
+      /* --padding: 0; */
+      align-items: center;
+      text-transform: capitalize;
+      justify-items: center;
+      justify-content: center;
+      --padding-start: 0.7em;
+      --padding-end: 0.7em;
     }
     &--password {
       margin: 0;
-      font-size: 25px;
+      font-size: 1.5625rem;
       letter-spacing: 4px;
       padding-top: 8px;
     }
@@ -291,7 +319,7 @@ ion-item-sliding {
     margin: 0;
     color: #55cd89;
     font-weight: 700;
-    font-size: 12px;
+    font-size: 0.75rem;
   }
 }
 .disabled-text {
@@ -320,7 +348,7 @@ ion-button.button-disabled {
     color: #fff;
     display: grid !important;
     place-items: center;
-    font-size: 10px;
+    font-size: 0.625rem;
     text-transform: uppercase;
     border: 1px solid white;
   }

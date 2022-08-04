@@ -171,9 +171,21 @@ ion-item-sliding {
     gap: 5px;
     align-items: center;
     & h6 {
-      font-size: 12px;
+      font-size: 0.75rem;
       margin: 0;
       font-weight: 400;
+    }
+    & span {
+      height: 17px;
+      width: 17px;
+      min-width: 17px;
+      min-height: 17px;
+      img {
+        height: 17px;
+        width: 17px;
+        min-width: 17px;
+        min-height: 17px;
+      }
     }
   }
   &__border {
@@ -255,14 +267,26 @@ ion-item-sliding {
     &--green {
       --background-activated: #55cd89;
       --background: #55cd89;
+      --padding-start: 0.4rem;
+      --padding-end: 0.4rem;
     }
     &--blue {
       --background-activated: var(--theme-one-clr);
       --background: var(--theme-one-clr);
+      --padding-start: 0.4rem;
+      --padding-end: 0.4rem;
+      p{margin: 0;}
+      span{display: inline-block; margin: 0 3px 0 0;}
     }
     &--cancel {
       --background-activated: #f74444;
       --background: #f74444;
+      align-items: center;
+      text-transform: capitalize;
+      justify-items: center;
+      justify-content: center;
+      --padding-start: 0.7em;
+      --padding-end: 0.7em;
     }
     &--password {
       margin: 0;
@@ -290,6 +314,8 @@ ion-item-sliding {
 ion-button.button-disabled {
   --background-activated: #bbbbbb;
   --background: #bbbbbb;
+  --padding-start: 0.4rem;
+  --padding-end: 0.4rem;
 }
 .initial {
   position: relative;

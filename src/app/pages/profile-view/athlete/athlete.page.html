@@ -119,15 +119,18 @@
           </div>
         </ng-container>
       </div>
-      <div *ngIf="scheduleData.length ==0" class="no-data-found">
-        <p>No upcoming appearances</p>
+      <div class="scroll-part">
+        <div *ngIf="scheduleData.length ==0" class="no-data-found">
+          <p>No upcoming appearances</p>
+        </div>
+  
+        <athlete-card
+          [eventFilter]="eventFilter"
+          *ngFor="let data of scheduleData"
+          [cardData]="data"
+        ></athlete-card>
       </div>
-
-      <athlete-card
-        [eventFilter]="eventFilter"
-        *ngFor="let data of scheduleData"
-        [cardData]="data"
-      ></athlete-card>
+      
     </div>
   </ion-grid>
   <ion-grid class="buble-part">
