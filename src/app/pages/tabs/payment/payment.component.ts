@@ -22,6 +22,7 @@ export class PaymentComponent implements OnInit {
   }
   async onSubmit() {
     this.sqPaymentForm.requestCardNonce();
+
     await this.cancel();
     this.onClickCancel();
   }
