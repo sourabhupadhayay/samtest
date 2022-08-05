@@ -35,7 +35,7 @@ export class TabsPage implements OnInit {
     this.nameInitials = this.commonService.getInitials(this.userData.fullName);
   }
 
-  async presentChangePasswordModal(): Promise<void> {
+  async presentAppearanceBookingModal(): Promise<void> {
     const modal: HTMLIonModalElement = await this.modalCtrl.create({
       component: AppereanceBookingComponent,
       cssClass: "client-filter-modal",
@@ -46,6 +46,7 @@ export class TabsPage implements OnInit {
     const { data, role } = await modal.onDidDismiss();
     if (data) {
       this.presentPaymentModal();
+      console.log(data);
     }
   }
 
