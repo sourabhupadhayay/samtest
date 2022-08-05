@@ -56,6 +56,9 @@ export class TabsPage implements OnInit {
       cssClass: "client-filter-modal",
     });
     modal.present();
+    const { data, role } = await modal.onDidDismiss();
+
+    console.log(data);
   }
 
   // getCurrentUserDetails() {
