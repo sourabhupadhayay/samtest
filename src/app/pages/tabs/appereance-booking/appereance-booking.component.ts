@@ -164,7 +164,7 @@ export class AppereanceBookingComponent implements OnInit {
         }
       });
     } else {
-      this.modalCtrl.dismiss({ request });
+      this.modalCtrl.dismiss(request);
     }
   }
 
@@ -207,13 +207,12 @@ export class AppereanceBookingComponent implements OnInit {
       selectedAthleteName,
       startDate,
       duration,
-
       eventAddress,
       ...signUpResponse
     } = this.fanForm.value;
 
     let request: Request = {
-      path: "/core/event/create",
+      path: "core/event/create",
       data: {
         ...signUpResponse,
         startDate: new Date(startDate).toISOString(),

@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
 import { IonModal, ModalController } from "@ionic/angular";
+import { CoreService } from "src/app/providers/core.service";
 declare var SqPaymentForm: any;
 //magic to allow us to access the SquarePaymentForm lib
 @Component({
@@ -9,10 +10,16 @@ declare var SqPaymentForm: any;
 })
 export class PaymentComponent implements OnInit {
   @ViewChild(IonModal) modal: IonModal;
+  @ViewChild("CreateAppearance") ConfirmModal: IonModal;
+  errors: any[] = [];
+  nonce: string;
+  paymentType: "square" | "apple" = "square";
 
-  constructor(public modalCtrl: ModalController) {}
+  constructor(
+    public modalCtrl: ModalController,
+    private coreService: CoreService
+  ) {}
   sqPaymentForm: any; //this is our payment form object
-  nonce: string | null = null;
 
   onClickCancel() {
     this.modalCtrl.dismiss();
@@ -21,10 +28,23 @@ export class PaymentComponent implements OnInit {
     await this.modal.dismiss();
   }
   async onSubmit() {
+    await this.cancel();
+    this.modalCtrl.dismiss({
+      nonce: this.nonce,
+      paymentType: this.paymentType,
+    });
+  }
+
+  openCreateModal() {
     this.sqPaymentForm.requestCardNonce();
 
-    await this.cancel();
-    this.onClickCancel();
+    setTimeout(() => {
+      if (this.errors.length > 0) {
+        return;
+      }
+
+      this.ConfirmModal.present();
+    }, 1000);
   }
 
   ngOnInit() {
@@ -72,14 +92,14 @@ export class PaymentComponent implements OnInit {
         cardNonceResponseReceived: (errors, nonce, cardData) => {
           if (errors) {
             // Log errors from nonce generation to the browser developer console.
-            console.error("Encountered errors:");
+            this.errors = errors;
             errors.forEach(function (error) {
               console.error("  " + error.message);
             });
-            this.nonce = null;
+
             return;
           }
-
+          this.errors = [];
           this.nonce = nonce;
           //TODO: Replace alert with code in step 2.1
         },

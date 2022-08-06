@@ -16,6 +16,7 @@ import { Storage } from "@capacitor/storage";
 export class TabsPage implements OnInit {
   userData: any | null = null;
   nameInitials: string;
+  createEventRequest: Request;
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -44,10 +45,13 @@ export class TabsPage implements OnInit {
     modal.present();
 
     const { data, role } = await modal.onDidDismiss();
-    if (data) {
-      this.presentPaymentModal();
-      console.log(data);
+    if (!data) {
+      return;
     }
+
+    this.createEventRequest = data;
+
+    this.presentPaymentModal();
   }
 
   async presentPaymentModal() {
@@ -59,6 +63,31 @@ export class TabsPage implements OnInit {
     const { data, role } = await modal.onDidDismiss();
 
     console.log(data);
+
+    this.createEventRequest.data = {
+      ...this.createEventRequest.data,
+      ...data,
+    };
+
+    this.createEventForFan();
+  }
+
+  createEventForFan() {
+    this.coreService.presentLoader(this.constantService.WAIT);
+    this.apiService
+      .post(this.createEventRequest)
+      .subscribe((response: Response) => {
+        this.coreService.dismissLoader();
+        if (response.status.code === this.constantService.STATUS_OK) {
+          console.log(response);
+          // this.commonService.$profileSubject.next(response.data);
+        } else {
+          this.coreService.showToastMessage(
+            response.status.description,
+            this.coreService.TOAST_ERROR
+          );
+        }
+      });
   }
 
   // getCurrentUserDetails() {
