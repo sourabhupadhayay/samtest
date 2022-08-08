@@ -30,15 +30,15 @@ spec:
         name: bubbleapp-web
         imagePullPolicy: Always
         ports:
-        - containerPort: 8114
+        - containerPort: 6510
           protocol: TCP
         readinessProbe:
             tcpSocket:
-              port: 8114
+              port: 6510
             initialDelaySeconds: 60
             periodSeconds: 30
         livenessProbe:
             tcpSocket:
-              port: 8114
+              port: 6510
             initialDelaySeconds: 60
             periodSeconds: 30
