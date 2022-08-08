@@ -13,8 +13,8 @@ export class PaymentComponent implements OnInit {
   @ViewChild("CreateAppearance") ConfirmModal: IonModal;
   errors: any[] = [];
   nonce: string;
-  paymentType: "square" | "apple" = "square";
-
+  paymentType: "SQUARE_PAYMENT" | "apple" = "SQUARE_PAYMENT";
+  errorMsg:any;
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService
@@ -48,6 +48,7 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit() {
+    let toastMsg;
     var applicationId = "sandbox-sq0idb-r92A0oxpvi6g0Y1wHRzYwA";
     this.sqPaymentForm = new SqPaymentForm({
       // Initialize the payment form elements
@@ -93,21 +94,24 @@ export class PaymentComponent implements OnInit {
           if (errors) {
             // Log errors from nonce generation to the browser developer console.
             this.errors = errors;
-            errors.forEach(function (error) {
-              console.error("  " + error.message);
+            errors.slice().reverse().forEach(function (error) {
+              toastMsg =error.message
             });
-
-            return;
-          }
+            this.coreService.showToastMessage(
+              toastMsg,
+              this.coreService.TOAST_ERROR
+            );
+            return
+          } else {
           this.errors = [];
           this.nonce = nonce;
+        }
           //TODO: Replace alert with code in step 2.1
         },
       },
     });
     //TODO: paste code from step 1.1.4
     this.sqPaymentForm.build();
-    console.log("foram", this.sqPaymentForm);
   }
   // requestCardNonce(event) {
   //   // Don't submit the form until SqPaymentForm returns with a nonce
