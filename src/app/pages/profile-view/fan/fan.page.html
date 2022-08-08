@@ -49,7 +49,7 @@
         <h5>Email</h5>
         <p>{{fanData?.email}}</p>
       </div>
-      <div class="details-box">
+      <div class="details-box" *ngIf="fanData?.showBirthDate ==true">
         <h5>Birthday</h5>
         <p>{{fanData?.birthDate | date:'MMM d, y'}}</p>
       </div>

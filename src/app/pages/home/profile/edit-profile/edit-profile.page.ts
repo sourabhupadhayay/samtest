@@ -198,8 +198,6 @@ export class EditProfilePage implements OnInit {
   }
 
   fanDataRequest(): Request {
-    this.validatePhoneFanForm();
-
     let { birthDate, ...signUpResponse } = this.fanProfileForm.value;
 
     let request: Request = {
@@ -219,6 +217,7 @@ export class EditProfilePage implements OnInit {
       this.isFormSubmitted = true;
       if (this.isFormValid()) return;
       if (this.validateAge()) return;
+      if (this.validatePhoneFanForm()) return;
     }
     this.modal.present();
   }
@@ -251,7 +250,6 @@ export class EditProfilePage implements OnInit {
         "Please enter valid details",
         this.coreService.TOAST_ERROR
       );
-
       return true;
     }
   }
@@ -330,13 +328,18 @@ export class EditProfilePage implements OnInit {
       }
     });
   }
-  validatePhoneFanForm() {
-    if (!this.fanProfileForm.controls.phone.value) {
-      return;
-    }
+  validatePhoneFanForm() :boolean {
 
-    if (this.fanProfileForm.controls.phone.value.length < 14) {
+    if (this.fanProfileForm.controls.phone.value!="" && this.fanProfileForm.controls.phone.value.length < 14) {
+      this.coreService.showToastMessage(
+        "Please enter valid phone number",
+        this.coreService.TOAST_ERROR
+      );
       this.fanProfileForm.controls.phone.patchValue("");
+      return true;
+    }
+    if (!this.fanProfileForm.controls.phone.value) {
+      this.fanProfileForm.controls.phone.patchValue(this.fanProfileForm.controls.phone.value);
     }
   }
   validatePhoneAthleteForm() {
