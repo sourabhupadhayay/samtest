@@ -10,6 +10,7 @@ export class AthleteWaitlistPage implements OnInit {
   constructor(private socket: Socket) {}
 
   ngOnInit() {
+    this.socket.emit("fan-connect", "kalph");
     this.getConnectedAthletes();
   }
 

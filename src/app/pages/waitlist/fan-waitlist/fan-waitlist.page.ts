@@ -9,7 +9,5 @@ import { Socket } from "ngx-socket-io";
 export class FanWaitlistPage implements OnInit {
   constructor(private socket: Socket) {}
 
-  ngOnInit() {
-    this.socket.emit("fan-connect", "kalph");
-  }
+  ngOnInit() {}
 }
