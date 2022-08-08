@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: bubbleapp-dev  
-  name: bubbleapp-dev-website
+  name: bubbleapp-web
   labels:
    env: dev
    project-name: bubbleapp
@@ -11,7 +11,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: bubbleapp-dev-website
+      app: bubbleapp-web
   minReadySeconds: 10
   strategy:
     rollingUpdate:
@@ -20,17 +20,17 @@ spec:
     type: RollingUpdate
   template:
     metadata:
-      name: bubbleapp-dev-website
+      name: bubbleapp-web
       labels:
-        app: bubbleapp-dev-website
+        app: bubbleapp-web
     spec:
       terminationGracePeriodSeconds: 30
       containers:
       - image: CONTAINER_IMAGE
-        name: bubbleapp-dev-website
+        name: bubbleapp-web
         imagePullPolicy: Always
         ports:
-        - containerPort: 8115
+        - containerPort: 8114
           protocol: TCP
         readinessProbe:
             tcpSocket:
