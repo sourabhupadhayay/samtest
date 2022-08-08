@@ -1,3 +1,4 @@
-<!-- <fan-waitlist></fan-waitlist> -->
-
-<athlete-waitlist></athlete-waitlist>
+<ion-content>
+  <athlete-waitlist *ngIf="userRole == 'athlete'"></athlete-waitlist>
+  <fan-waitlist *ngIf="userRole == 'fan'"></fan-waitlist>
+</ion-content>

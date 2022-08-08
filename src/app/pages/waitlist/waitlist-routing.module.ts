@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
+import { FanWaitlistPage } from "./fan-waitlist/fan-waitlist.page";
 
 import { WaitlistPage } from "./waitlist.page";
 

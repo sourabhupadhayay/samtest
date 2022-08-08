@@ -9,16 +9,19 @@ import { CoreService, userRole } from "src/app/providers/core.service";
 })
 export class WaitlistPage implements OnInit {
   userRole: userRole;
+  userData: any;
   constructor(private socket: Socket, private coreService: CoreService) {}
   ngOnInit() {
-    this.getUserRole();
-    // // this.socket.emit("fan-connect", "alok");
-    // this.getConnectedAthletes();
+    this.getUserDataAndRole();
+
+    this.getConnectedAthletes();
   }
 
-  async getUserRole() {
+  async getUserDataAndRole() {
     this.userRole = await this.coreService.getUserRoleFromStorage();
-    console.log(this.userRole);
+    this.userData = await this.coreService.getUserDataFromStorage();
+
+    this.socket.emit("fan-connect", this.userData);
   }
 
   getConnectedAthletes() {
