@@ -335,6 +335,8 @@ ion-textarea {
   caret-color: var(--text-black);
 }
 
+
+
 .schedule {
   ion-select::part(icon) {
     content: url("./assets/icon/arrow-down-black.svg");
@@ -356,4 +358,20 @@ schedule-card{
   &:first-child{
     ion-item-sliding{margin-top: 10px;}
   }
+}
+
+.sq-input-box{
+    color: var(--black-clr) !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    border: 1px solid #2099da !important;
+    background: transparent !important;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    padding: 6px;
+    border-radius: 8px;
+    height: 40px;
+    margin: 5px 0 5px;
 }

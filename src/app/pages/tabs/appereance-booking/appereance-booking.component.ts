@@ -165,23 +165,22 @@ export class AppereanceBookingComponent implements OnInit {
     if (!request) {
       return;
     }
-
-    this.coreService.presentLoader(this.constant.WAIT);
-    this.apiService.post(request).subscribe((response: Response) => {
-      this.coreService.dismissLoader();
-      if (response.status.code == this.constant.STATUS_OK) {
-        if (this.userRole == "fan") {
-          this.modalCtrl.dismiss(true);
-        } else {
+    if (this.userRole == "athlete") {
+      this.coreService.presentLoader(this.constant.WAIT);
+      this.apiService.post(request).subscribe((response: Response) => {
+        this.coreService.dismissLoader();
+        if (response.status.code == this.constant.STATUS_OK) {
           this.modalCtrl.dismiss(false);
+        } else {
+          this.coreService.showToastMessage(
+            response["status"]["description"],
+            this.coreService.TOAST_ERROR
+          );
         }
-      } else {
-        this.coreService.showToastMessage(
-          response["status"]["description"],
-          this.coreService.TOAST_ERROR
-        );
-      }
-    });
+      });
+    } else {
+      this.modalCtrl.dismiss(request);
+    }
   }
 
   athleteDataRequest() {
@@ -229,7 +228,7 @@ export class AppereanceBookingComponent implements OnInit {
     } = this.fanForm.value;
 
     let request: Request = {
-      path: "/core/event/create",
+      path: "core/event/create",
       data: {
         ...signUpResponse,
         startDate: new Date(startDate).toISOString(),
