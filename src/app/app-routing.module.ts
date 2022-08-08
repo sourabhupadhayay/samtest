@@ -63,19 +63,22 @@ const routes: Routes = [
     path: "invoice",
     loadChildren: () =>
       import("./pages/invoice/invoice.module").then((m) => m.InvoicePageModule),
-  },  {
-    path: 'bid-payment',
-    loadChildren: () => import('./pages/profile-view/bid-payment/bid-payment.module').then( m => m.BidPaymentPageModule)
   },
   {
-    path: 'fan-waitlist',
-    loadChildren: () => import('./pages/waitlist/fan-waitlist/fan-waitlist.module').then( m => m.FanWaitlistPageModule)
-  },
-  {
-    path: 'athlete-waitlist',
-    loadChildren: () => import('./pages/waitlist/athlete-waitlist/athlete-waitlist.module').then( m => m.AthleteWaitlistPageModule)
+    path: "bid-payment",
+    loadChildren: () =>
+      import("./pages/profile-view/bid-payment/bid-payment.module").then(
+        (m) => m.BidPaymentPageModule
+      ),
   },
 
+  {
+    path: "waitlist",
+    loadChildren: () =>
+      import("./pages/waitlist/waitlist.module").then(
+        (m) => m.WaitlistPageModule
+      ),
+  },
 ];
 
 @NgModule({
