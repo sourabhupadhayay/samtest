@@ -10,23 +10,24 @@ import { CoreService, userRole } from "src/app/providers/core.service";
 export class WaitlistPage implements OnInit {
   userRole: userRole;
   userData: any;
+  connectedFans: any[] = [];
   constructor(private socket: Socket, private coreService: CoreService) {}
   ngOnInit() {
     this.getUserDataAndRole();
 
-    this.getConnectedAthletes();
+    this.getConnectedFans();
   }
 
   async getUserDataAndRole() {
     this.userRole = await this.coreService.getUserRoleFromStorage();
     this.userData = await this.coreService.getUserDataFromStorage();
 
-    this.socket.emit("fan-connect", this.userData);
+    this.socket.emit("connect-event", this.userData);
   }
 
-  getConnectedAthletes() {
+  getConnectedFans() {
     this.socket.fromEvent("fans").subscribe((response) => {
-      console.log(response);
+      this.connectedFans = response as [];
     });
   }
 }
