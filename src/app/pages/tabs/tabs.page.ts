@@ -62,7 +62,9 @@ export class TabsPage implements OnInit {
     modal.present();
     const { data, role } = await modal.onDidDismiss();
 
-    console.log(data);
+    if (!data) {
+      return;
+    }
 
     this.createEventRequest.data = {
       ...this.createEventRequest.data,
