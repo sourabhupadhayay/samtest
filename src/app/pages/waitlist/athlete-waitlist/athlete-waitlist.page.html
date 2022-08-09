@@ -64,7 +64,12 @@
                 <h5>{{fan.fullName}}</h5>
                 <p>${{fan.bid.toFixed()}}</p>
               </ion-label>
-              <img class="video" slot="end" src="assets/icon/video-icon.png" />
+              <img
+                (click)="callFan(i)"
+                class="video"
+                slot="end"
+                src="assets/icon/video-icon.png"
+              />
             </ion-item>
           </div>
         </div>
