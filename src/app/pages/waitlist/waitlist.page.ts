@@ -22,6 +22,7 @@ export class WaitlistPage implements OnInit {
     this.userRole = await this.coreService.getUserRoleFromStorage();
     this.userData = await this.coreService.getUserDataFromStorage();
 
+    // this.socket.emit("connect-event", this.userData);
     this.socket.emit("connect-event", this.userData);
   }
 
