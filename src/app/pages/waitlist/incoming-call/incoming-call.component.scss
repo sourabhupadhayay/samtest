@@ -1,0 +1,53 @@
+ion-content {
+    position: relative;
+    --background: url(../../../../assets/images/background-new.png) no-repeat center;
+    background-size: cover;
+    ion-header {
+      position: fixed;
+      top: 0;
+      z-index: 99;
+      ion-toolbar {
+        --background: rgba(var(--black-clr-rgb),0.42);
+        text-align: center;
+        --border-width: 0;
+        --min-height: 70px;
+        --padding-start: 10px;
+        --padding-end: 10px;
+        img {
+          max-width: 100%;
+        }
+        span.time{background: var(--green-clr); color: var(--white-clr); padding: 2px 7px; border-radius: 50px; font-size: 0.75rem; font-weight: 500; position: absolute; right: 15px;}
+      }
+    }
+
+    .caller-name{display: flex; align-items: center; justify-content: center; text-align: center; flex-flow: column; height: 100%; z-index: 6; position: relative;
+        h4{font-size: 1.875rem; font-weight: 700; color: var(--white-clr); margin: 0;}
+        p{font-size: 1.25rem; font-weight: 500; color: var(--white-clr); margin: 10px 0 0;}
+    }
+
+    .caller-img{position: absolute; top: 0; right: 0; left: 0; margin: auto; height: 100%; width: 100%; overflow: hidden;z-index: 3;
+        img{height: 100%; width: 100%;}
+    }
+
+    .overlay-bg{position: absolute; top: 0; right: 0; left: 0; margin: auto; height: 100%; width: 100%; z-index: 4; background: rgba(var(--theme-one-bg-rgb),0.87);}
+
+    .call-buttons{position: fixed; bottom: 20px; left: 0; right: 0; margin: auto; text-align: center; z-index: 5;
+        ion-button{
+            cursor: pointer;
+          --background: transparent;
+          --background-focused: transparent;
+          --background-hover: transparent;
+          --background-activated: transparent;
+          --box-shadow: none;
+          --padding-start: 0rem;
+          --padding-end: 0rem;
+          height: 68px;
+          width: 68px;
+          box-shadow: none;
+          border-radius: 50%;
+          --border-radius: 50%;
+          margin: 10px 25px;
+          img{height: 68px; width: 68px;}
+        }
+    }
+}
