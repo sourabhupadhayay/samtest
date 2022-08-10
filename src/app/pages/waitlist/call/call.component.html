@@ -45,5 +45,11 @@
         <p>flip</p>
       </div>
     </ion-button>
+    <ion-button (click)="disconnectCall()" *ngIf="userRole == 'athlete'">
+      <div class="btn-data end-call">
+        <span><img src="assets/icon/end-call.svg" /></span>
+        <p>End</p>
+      </div>
+    </ion-button>
   </div>
 </ion-content>

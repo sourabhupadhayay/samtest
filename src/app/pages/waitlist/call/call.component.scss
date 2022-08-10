@@ -93,7 +93,7 @@ ion-content {
       box-shadow: none;
       border-radius: 50%;
       --border-radius: 0;
-      margin: 10px 15px;
+      margin: 10px 8px;
       .btn-data {
         span {
           height: 58px;
@@ -119,5 +119,10 @@ ion-content {
         }
       }
     }
+  }
+}
+.end-call {
+  & span {
+    background-color: red !important;
   }
 }

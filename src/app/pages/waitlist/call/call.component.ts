@@ -5,6 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
+import { Router } from "@angular/router";
 import {
   initPublisher,
   initSession,
@@ -12,6 +13,11 @@ import {
   Session,
   Subscriber,
 } from "@opentok/client";
+import {
+  CoreService,
+  userRole,
+  UserRole,
+} from "src/app/providers/core.service";
 import { DataService } from "src/app/providers/data.service";
 
 @Component({
@@ -22,6 +28,7 @@ import { DataService } from "src/app/providers/data.service";
 export class CallComponent implements OnInit, AfterViewInit {
   @ViewChild("athleteContainer") athleteElement: ElementRef;
   @ViewChild("fanContainer") fanElement: ElementRef;
+  userRole: userRole;
   session: Session;
   subscribe: Subscriber;
   apiKey: string = "47513031";
@@ -30,11 +37,21 @@ export class CallComponent implements OnInit, AfterViewInit {
   token: string =
     "T1==cGFydG5lcl9pZD00NzUxMzAzMSZzaWc9NWY0NDlkYTA5ZGZmOTdhMTY3ZDQ4NDY5ZTcxNWVlMjNiNjM0ZjUxZTpzZXNzaW9uX2lkPTJfTVg0ME56VXhNekF6TVg1LU1UWTJNREV4TVRBME16WXhPWDR4ZDNWeE1YaHhSSEZQUjBNNE9GaFVOSGw0WVZnNWNuZC1mZyZjcmVhdGVfdGltZT0xNjYwMTExMDQ0Jm5vbmNlPTAuNzQyNTk4ODA5OTExODExOSZyb2xlPW1vZGVyYXRvciZleHBpcmVfdGltZT0xNjYwNzE1ODQ0JmluaXRpYWxfbGF5b3V0X2NsYXNzX2xpc3Q9";
 
-  constructor(private apiService: DataService) {}
+  constructor(
+    private apiService: DataService,
+    private coreService: CoreService,
+    private router: Router
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getUserDataAndRole();
+  }
   ngAfterViewInit(): void {
     this.getSession();
+  }
+  async getUserDataAndRole() {
+    this.userRole = await this.coreService.getUserRoleFromStorage();
+    // this.userData = await this.coreService.getUserDataFromStorage();
   }
 
   getSession() {
@@ -74,6 +91,7 @@ export class CallComponent implements OnInit, AfterViewInit {
     });
 
     publisher.on("streamDestroyed", function (event) {
+      this.router.navigate(["/"]);
       console.log("Stream stopped. Reason: " + event.reason);
     });
 
@@ -84,5 +102,10 @@ export class CallComponent implements OnInit, AfterViewInit {
     if (error) {
       alert(error.message);
     }
+  }
+
+  disconnectCall() {
+    this.session.disconnect();
+    this.router.navigate(["/waitlist"]);
   }
 }
