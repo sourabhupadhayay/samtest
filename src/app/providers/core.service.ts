@@ -178,9 +178,9 @@ export class CoreService {
 
     let imageSize = this.formatBytes(blob.size);
 
-    if (imageSize > 5) {
+    if (imageSize > this.commonService.publicInfo.imageMaxSize) {
       this.showToastMessage(
-        "please upload image that is under 5 mb ",
+        "please upload image that is under "+this.commonService.publicInfo.imageMaxSize+" mb ",
         this.TOAST_WARNING
       );
 

@@ -1,15 +1,18 @@
+import { Component, OnInit } from "@angular/core";
 import { Injectable } from "@angular/core";
 import { format, parseISO } from "date-fns";
 import { Subject } from "rxjs";
+import { DataService, Request, Response } from "./data.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class CommonService {
+  public publicInfo: any;
   public $profileSubject: Subject<any> = new Subject();
   profileUrl: string = "";
 
-  constructor() {}
+  constructor(private apiService: DataService) {}
 
   public _calculateAge(birthday: Date) {
     // birthday is a date
@@ -47,6 +50,15 @@ export class CommonService {
     } else {
       return "fan";
     }
+  }
+  getPublicInfo() {
+    let request: Request = {
+      path: "core/configuration/publicInfo",
+      isAuth: true,
+    };
+    this.apiService.get(request).subscribe((response: Response) => {
+      this.publicInfo = response.data;
+    });
   }
 
   removeCommaFromString(value: string) {
