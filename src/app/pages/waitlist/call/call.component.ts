@@ -91,7 +91,10 @@ export class CallComponent implements OnInit, AfterViewInit {
     });
 
     publisher.on("streamDestroyed", (event) => {
-      this.router.navigate(["/"]);
+      if (this.userRole == "fan") {
+        this.router.navigate(["/"]);
+      }
+
       console.log("Stream stopped. Reason: " + event.reason);
     });
 
