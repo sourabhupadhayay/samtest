@@ -76,8 +76,8 @@ export class AppereanceBookingComponent implements OnInit {
       return;
     }
 
-    this.fanForm.controls.duration.patchValue("00h:03m");
-    this.totalFanDuration = 3;
+    this.fanForm.controls.duration.patchValue(this.commonService.publicInfo.defaultDurationOfFanEvent+"min");
+    this.totalFanDuration = this.commonService.publicInfo.defaultDurationOfFanEvent;
   }
 
   eventTypeSelected() {
