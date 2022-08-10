@@ -53,11 +53,11 @@ export class CommonService {
   }
   getPublicInfo() {
     let request: Request = {
-      path: "auth/configuration/publicInfo",
+      path: "core/configuration/publicInfo",
       isAuth: true,
     };
     this.apiService.get(request).subscribe((response: Response) => {
-      this.publicInfo = response;
+      this.publicInfo = response.data;
     });
   }
 
