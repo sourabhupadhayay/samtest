@@ -1,0 +1,74 @@
+ion-content {
+    position: relative;
+    --background: url(../../../../assets/images/background-new.png) no-repeat center;
+    background-size: cover;
+    ion-header {
+      position: fixed;
+      top: 0;
+      z-index: 99;
+      ion-toolbar {
+        --background: rgba(var(--black-clr-rgb),0.42);
+        text-align: center;
+        --border-width: 0;
+        --min-height: 70px;
+        --padding-start: 10px;
+        --padding-end: 10px;
+        img {
+          max-width: 100%;
+        }
+        span.time{background: var(--green-clr); color: var(--white-clr); padding: 2px 7px; border-radius: 50px; font-size: 0.75rem; font-weight: 500; position: absolute; right: 15px;}
+      }
+    }
+
+    // .caller-name{display: flex; align-items: center; justify-content: center; text-align: center; flex-flow: column; height: 100%; z-index: 6; position: relative;
+    //     h4{font-size: 1.875rem; font-weight: 700; color: var(--white-clr); margin: 0;}
+    //     p{font-size: 1.25rem; font-weight: 500; color: var(--white-clr); margin: 10px 0 0;}
+    // }
+
+    .caller-img{position: absolute; top: 0; right: 0; left: 0; margin: auto; height: 100%; width: 100%; overflow: hidden;z-index: 3;
+        img, video{height: 100%; width: 100%;}
+    }
+
+    .video-box{
+        position: absolute;
+        top: 105px;
+        right: 15px;
+        z-index: 7;
+        width: 110px;
+        height: 150px;
+        border-radius: 10px;
+        img, video{
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+        }
+    }
+
+    // .overlay-bg{position: absolute; top: 0; right: 0; left: 0; margin: auto; height: 100%; width: 100%; z-index: 4; background: rgba(var(--theme-one-bg-rgb),0.87);}
+
+    .call-buttons{position: fixed; bottom: 20px; left: 0; right: 0; margin: auto; text-align: center; z-index: 5;
+        ion-button{
+            cursor: pointer;
+            --ripple-color: transparent;
+          --background: transparent;
+          --background-focused: transparent;
+          --background-hover: transparent;
+          --background-activated: transparent;
+          --box-shadow: none;
+          --padding-start: 0rem;
+          --padding-end: 0rem;
+          height: 90px;
+          width: 68px;
+          box-shadow: none;
+          border-radius: 50%;
+          --border-radius: 0;
+          margin: 10px 15px;
+          .btn-data{
+            span{height: 58px; width: 58px; border-radius: 58px; background: rgba(var(--black-bg-rgb),0.42); border: 2px solid rgba(var(--white-clr-rgb),0.42); display: flex; text-align: center; justify-content: center; align-items: center;
+                img{width: 30px; height: 30px;}
+            }
+            p{margin: 10px 0 0; padding: 0; font-size: 0.875rem; color: var(--white-clr); font-weight: 500;}
+          }
+        }
+    }
+}
