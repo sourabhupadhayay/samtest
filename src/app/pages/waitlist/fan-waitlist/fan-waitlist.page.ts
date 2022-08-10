@@ -5,6 +5,7 @@ import {
   OnInit,
   SimpleChanges,
 } from "@angular/core";
+import { Router } from "@angular/router";
 import { Socket } from "ngx-socket-io";
 import { CoreService } from "src/app/providers/core.service";
 
@@ -17,7 +18,11 @@ export class FanWaitlistPage implements OnInit {
   @Input() connectedFans: any[] | null = null;
   userData;
   currentPosition: number;
-  constructor(private coreService: CoreService, private socket: Socket) {}
+  constructor(
+    private coreService: CoreService,
+    private socket: Socket,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.getUserData();
@@ -27,7 +32,7 @@ export class FanWaitlistPage implements OnInit {
   athleteCallingSubscription() {
     this.socket.fromEvent("athlete-call").subscribe((fanId) => {
       if (fanId == this.userData.id) {
-        console.log("athlete is calling phone uthao");
+        this.router.navigate(["/waitlist/incoming-call"]);
       }
     });
   }

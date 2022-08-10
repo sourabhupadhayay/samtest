@@ -5,6 +5,7 @@ import {
   OnInit,
   SimpleChanges,
 } from "@angular/core";
+import { Router } from "@angular/router";
 import { Socket } from "ngx-socket-io";
 
 @Component({
@@ -14,7 +15,7 @@ import { Socket } from "ngx-socket-io";
 })
 export class AthleteWaitlistPage implements OnInit, OnChanges {
   @Input() connectedFans: any[] | null = null;
-  constructor(private socket: Socket) {}
+  constructor(private socket: Socket, private router: Router) {}
 
   ngOnInit() {}
   ngOnChanges(changes: SimpleChanges): void {
@@ -22,6 +23,7 @@ export class AthleteWaitlistPage implements OnInit, OnChanges {
   }
 
   callFan(index: number) {
+    this.router.navigate(["waitlist/call"]);
     this.socket.emit("fan-call", this.connectedFans[index].id);
   }
 

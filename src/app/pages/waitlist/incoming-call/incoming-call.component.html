@@ -1,6 +1,6 @@
 <ion-content [fullscreen]="true">
   <ion-header mode="ios">
-    <ion-toolbar  mode="ios">
+    <ion-toolbar mode="ios">
       <img src="assets/images/single-logo.svg" />
       <!-- <span class="time" slot="end">
         03 m : 00 s
@@ -9,23 +9,22 @@
   </ion-header>
 
   <div class="caller-name">
-      <h4>Casey Rodgers</h4>
-      <p>Incoming Video Call</p>
+    <h4>Casey Rodgers</h4>
+    <p>Incoming Video Call</p>
   </div>
 
   <div class="caller-img">
-      <img src="assets/images/bg-img.png">
+    <img src="assets/images/bg-img.png" />
   </div>
 
   <div class="overlay-bg"></div>
-  
-  <div class="call-buttons">
-      <ion-button>
-          <img src="assets/images/call-green.svg">
-      </ion-button>
-      <ion-button>
-        <img src="assets/images/call-red.svg">
-      </ion-button>
-  </div>
 
+  <div class="call-buttons">
+    <ion-button (click)="joinCall()">
+      <img src="assets/images/call-green.svg" />
+    </ion-button>
+    <ion-button>
+      <img src="assets/images/call-red.svg" />
+    </ion-button>
+  </div>
 </ion-content>
