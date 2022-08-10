@@ -1,16 +1,22 @@
+import { Component, OnInit } from "@angular/core";
 import { Injectable } from "@angular/core";
 import { format, parseISO } from "date-fns";
 import { Subject } from "rxjs";
+import {DataService, Request, Response} from "./data.service";
 
 @Injectable({
   providedIn: "root",
 })
-export class CommonService {
+export class CommonService implements OnInit {
   public $profileSubject: Subject<any> = new Subject();
   profileUrl: string = "";
 
-  constructor() {}
-
+  constructor(private apiService: DataService) {
+    console.log("df")
+  }
+  ngOnInit(){
+    console.log("fg");
+  }
   public _calculateAge(birthday: Date) {
     // birthday is a date
     var ageDifMs = Date.now() - birthday.getTime();
@@ -47,6 +53,14 @@ export class CommonService {
     } else {
       return "fan";
     }
+  }
+  getPublicInfo(){
+    let request: Request = {
+      path: "auth/configuration/publicInfo",
+      isAuth: true,
+    };
+    this.apiService.get(request).subscribe((response: Response) => {
+    });
   }
 
   removeCommaFromString(value: string) {
