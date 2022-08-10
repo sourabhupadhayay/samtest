@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, OnInit } from "@angular/core";
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 import {
   initPublisher,
   initSession,
@@ -14,6 +20,8 @@ import { DataService } from "src/app/providers/data.service";
   styleUrls: ["./call.component.scss"],
 })
 export class CallComponent implements OnInit, AfterViewInit {
+  @ViewChild("athleteContainer") athleteElement: ElementRef;
+  @ViewChild("fanContainer") fanElement: ElementRef;
   session: Session;
   subscribe: Subscriber;
   apiKey: string = "47513031";
@@ -40,13 +48,17 @@ export class CallComponent implements OnInit, AfterViewInit {
         this.session.publish(publisher, (error) => {});
       }
     });
-
+    let element = this.fanElement.nativeElement;
     this.session.on("streamCreated", (event) => {
-      this.subscribe = this.session.subscribe(event.stream);
-
-      this.session.signal({ type: "String", data: "heyyyy" }, (err) => {
-        console.log("heyyyyy", err.message, err.name);
+      this.subscribe = this.session.subscribe(event.stream, element, {
+        width: "100%",
+        height: "100%",
+        insertMode: "replace",
       });
+
+      // this.session.signal({ type: "String", data: "heyyyy" }, (err) => {
+      //   console.log("heyyyyy", err.message, err.name);
+      // });
     });
 
     this.session.on("streamDestroyed", function (event) {
@@ -55,7 +67,11 @@ export class CallComponent implements OnInit, AfterViewInit {
   }
 
   createPublisher(): Publisher {
-    var publisher = initPublisher();
+    var publisher = initPublisher(this.athleteElement.nativeElement, {
+      width: "100%",
+      height: "100%",
+      insertMode: "replace",
+    });
 
     publisher.on("streamDestroyed", function (event) {
       console.log("Stream stopped. Reason: " + event.reason);

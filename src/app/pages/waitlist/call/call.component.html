@@ -1,6 +1,6 @@
 <ion-content [fullscreen]="true">
   <ion-header mode="ios">
-    <ion-toolbar  mode="ios">
+    <ion-toolbar mode="ios">
       <img src="assets/images/single-logo.svg" />
       <span class="time" slot="end">
         03 m : 00 s
@@ -14,36 +14,36 @@
   </div> -->
 
   <div class="video-box">
-    <img src="assets/images/small-video.png">
+    <div #athleteContainer class=""></div>
   </div>
 
   <div class="caller-img">
-      <img src="assets/images/video-screen.png">
+    <div #fanContainer class=""></div>
+    <img src="assets/images/video-screen.png" />
   </div>
 
   <!-- <div class="overlay-bg"></div> -->
-  
-  <div class="call-buttons">
-      <ion-button>
-          <div class="btn-data">
-            <span>
-              <img src="assets/icon/voice.svg">
-            </span>
-            <p>Mute</p>
-          </div>
-      </ion-button>
-      <ion-button>
-        <div class="btn-data">
-          <span><img src="assets/icon/video-call.svg"></span>
-          <p>video</p>
-        </div>
-      </ion-button>
-      <ion-button>
-        <div class="btn-data">
-          <span><img src="assets/icon/flip-camara.svg"></span>
-          <p>flip</p>
-        </div>
-      </ion-button>
-  </div>
 
+  <div class="call-buttons">
+    <ion-button>
+      <div class="btn-data">
+        <span>
+          <img src="assets/icon/voice.svg" />
+        </span>
+        <p>Mute</p>
+      </div>
+    </ion-button>
+    <ion-button>
+      <div class="btn-data">
+        <span><img src="assets/icon/video-call.svg" /></span>
+        <p>video</p>
+      </div>
+    </ion-button>
+    <ion-button>
+      <div class="btn-data">
+        <span><img src="assets/icon/flip-camara.svg" /></span>
+        <p>flip</p>
+      </div>
+    </ion-button>
+  </div>
 </ion-content>

@@ -14,7 +14,8 @@ import { AthleteWaitlistPage } from "./athlete-waitlist/athlete-waitlist.page";
 import { IncomingCallComponent } from "./incoming-call/incoming-call.component";
 import { CallComponent } from "./call/call.component";
 const config: SocketIoConfig = {
-  url: "https://dev-apis.bubbleapp.com/video",
+  url: "https://dev-video-apis.bubbleapp.com",
+  options: {},
 };
 
 @NgModule({
