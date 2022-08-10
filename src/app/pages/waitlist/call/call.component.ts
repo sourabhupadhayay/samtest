@@ -90,7 +90,7 @@ export class CallComponent implements OnInit, AfterViewInit {
       insertMode: "replace",
     });
 
-    publisher.on("streamDestroyed", function (event) {
+    publisher.on("streamDestroyed", (event) => {
       this.router.navigate(["/"]);
       console.log("Stream stopped. Reason: " + event.reason);
     });
