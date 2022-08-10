@@ -10,6 +10,7 @@ import { NetworkService } from "./providers/network.service";
 import { SplashScreen } from "@capacitor/splash-screen";
 import { Storage } from "@capacitor/storage";
 import { Router } from "@angular/router";
+import { CommonService } from "./providers/common.service";
 
 @Component({
   selector: "app-root",
@@ -25,11 +26,13 @@ export class AppComponent implements OnInit {
     private platform: Platform,
     private core: CoreService,
     private router: Router,
-    private _location: Location
+    private _location: Location,
+    private commonService: CommonService
   ) {
     this.initializeApp();
     this.backButton();
     this.hideSplashScreen();
+    this.getPublicInfo();
   }
 
   ngOnInit(): void {}
@@ -56,6 +59,11 @@ export class AppComponent implements OnInit {
   //integrate facebook login
   private async initFacebook() {
     await FacebookLogin.initialize({ appId: "2063922043815263" });
+  }
+
+  //get common public info
+  getPublicInfo() {
+    this.commonService.getPublicInfo();
   }
 
   private _networkEventsListener(): void {
