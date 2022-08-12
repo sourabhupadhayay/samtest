@@ -1,6 +1,8 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
 import { IonModal, ModalController } from "@ionic/angular";
 import { CoreService } from "src/app/providers/core.service";
+import {CommonService} from "../../../providers/common.service";
+
 declare var SqPaymentForm: any;
 //magic to allow us to access the SquarePaymentForm lib
 @Component({
@@ -17,7 +19,8 @@ export class PaymentComponent implements OnInit {
   errorMsg:any;
   constructor(
     public modalCtrl: ModalController,
-    private coreService: CoreService
+    private coreService: CoreService,
+    private commonService: CommonService,
   ) {}
   sqPaymentForm: any; //this is our payment form object
 
@@ -49,7 +52,7 @@ export class PaymentComponent implements OnInit {
 
   ngOnInit() {
     let toastMsg;
-    var applicationId = "sandbox-sq0idb-r92A0oxpvi6g0Y1wHRzYwA";
+    var applicationId = this.commonService.publicInfo.squareAppId;
     this.sqPaymentForm = new SqPaymentForm({
       // Initialize the payment form elements
 

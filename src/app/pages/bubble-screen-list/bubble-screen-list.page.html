@@ -54,9 +54,16 @@
       <ion-col *ngFor="let athlete of athleteList ;let i = index" size="6">
         <div (click)="navigateToAthlete(athlete.id)" class="athlete-details">
           <div class="athlete-img">
-            <div class="img-set">
+            <div class="img-set" *ngIf="athlete.profileUrl !== '' ">
               <img [src]="athlete.profileUrl | profile" />
             </div>
+            <ng-container *ngIf="athlete.profileUrl == '' ">
+              <div class="inital">
+              <span class="initial__span">
+                {{athlete.nameInitials}}
+              </span>
+              </div>
+            </ng-container>
             <span
               [ngClass]="athlete.online ? 'online' :'offline'"
               class="status"

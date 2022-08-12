@@ -12,6 +12,7 @@ import {
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
+import {CommonService} from "../../providers/common.service";
 
 @Component({
   selector: "app-bubble-screen-list",
@@ -26,12 +27,14 @@ export class BubbleScreenListPage implements OnInit {
   pageNumber: number = 0;
   totalElements: number = 0;
   isScrollDisabled: boolean = false;
+  nameInitials: string;
   constructor(
     private apiService: DataService,
     private coreService: CoreService,
     private constant: ConstantService,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private commonService: CommonService
   ) {}
   isOpen = false;
   ngOnInit() {
@@ -97,7 +100,10 @@ export class BubbleScreenListPage implements OnInit {
             this.athleteList.push(element);
           });
         }
-
+        this.athleteList.forEach((element,index) => {
+          this.athleteList[index]['nameInitials']= this.commonService.getInitials(element.fullName
+          );
+        });
         this.totalElements = response.data.totalElements;
       } else {
         this.coreService.showToastMessage(

@@ -24,8 +24,15 @@
     </div>
     <div class="profile-part">
       <ion-item lines="none">
-        <ion-avatar slot="start">
+        <ion-avatar slot="start" *ngIf="athleteData?.profileUrl !== '' ">
           <img [src]="athleteData?.profileUrl | profile" />
+        </ion-avatar>
+        <ion-avatar *ngIf="athleteData?.profileUrl == '' ">
+          <div class="inital">
+              <span class="initial__span">
+                {{nameInitials}}
+              </span>
+          </div>
         </ion-avatar>
         <ion-label>
           <h5>{{athleteData?.fullName}}</h5>
@@ -123,14 +130,14 @@
         <div *ngIf="scheduleData.length ==0" class="no-data-found">
           <p>No upcoming appearances</p>
         </div>
-  
+
         <athlete-card
           [eventFilter]="eventFilter"
           *ngFor="let data of scheduleData"
           [cardData]="data"
         ></athlete-card>
       </div>
-      
+
     </div>
   </ion-grid>
   <ion-grid class="buble-part">
