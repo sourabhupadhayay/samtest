@@ -1101,3 +1101,32 @@ ion-modal {
     }
   }
 }
+
+
+.inital{height: 100%;
+  width: 100%;}
+.initial {
+  position: relative;
+  &__span {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50% !important;
+    background-color: var(--theme-one-clr);
+    margin-left: 0 !important;
+    color: var(--white-clr);
+    display: grid !important;
+    place-items: center;
+    font-size: 1.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    border: 0 !important;
+    margin: 0;
+    right: 0 !important;
+    left: 0;
+    bottom: 0 !important;
+    position: relative !important;
+    z-index: 3 !important;
+  }
+}

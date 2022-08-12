@@ -23,6 +23,12 @@
             <div class="inner-data abc">
               <img [src]="bubble.profileUrl | profile" />
               <span [ngClass]="bubble.online ? 'online':'offline'"></span>
+
+              <div class="inital" hidden>
+                <span class="initial__span">
+                  HA
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -72,3 +78,5 @@
     </ion-fab-button>
   </ion-fab> -->
 </ion-content>
+
+

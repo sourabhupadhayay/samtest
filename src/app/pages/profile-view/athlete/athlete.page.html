@@ -27,13 +27,13 @@
         <ion-avatar slot="start" *ngIf="athleteData?.profileUrl !== '' ">
           <img [src]="athleteData?.profileUrl | profile" />
         </ion-avatar>
-        <ng-container *ngIf="athleteData?.profileUrl == '' ">
+        <ion-avatar *ngIf="athleteData?.profileUrl == '' ">
           <div class="inital">
               <span class="initial__span">
                 {{nameInitials}}
               </span>
           </div>
-        </ng-container>
+        </ion-avatar>
         <ion-label>
           <h5>{{athleteData?.fullName}}</h5>
           <div class="live-status live">

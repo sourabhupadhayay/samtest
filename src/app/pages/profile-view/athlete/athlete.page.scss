@@ -784,3 +784,24 @@ ion-select {
 
 .scroll-part{    max-height: calc(100vh - 341px);
   overflow: auto;}
+
+  .inital{position: absolute; top: 0; left: 0px;}
+.initial {
+  position: relative;
+  &__span {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 10px;
+    background-color: #1b4b64;
+    margin-left: 9px;
+    color: var(--white-clr);
+    display: grid;
+    place-items: center;
+    font-size: 2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    border: 1px solid white;margin: 0;
+  }
+}
