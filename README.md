@@ -14,7 +14,6 @@ also athlete can add his availability and fan can join their video call .
 * Ionic
 * HTML
 * Bootstrap/CSS
-* JQuery
 
 ## Ecosystem
 
