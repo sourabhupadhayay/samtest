@@ -384,4 +384,7 @@ schedule-card{
 @media screen and (min-width:1024px) {
   .slider-data{display: flex;}
   ion-router-outlet{width: 50%; margin: auto 0 auto auto;}
+  app-tabs{width: 100%;
+    ion-router-outlet{width: 100%;}
+  }
 }
