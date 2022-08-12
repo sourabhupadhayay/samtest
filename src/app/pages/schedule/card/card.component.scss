@@ -387,7 +387,7 @@ ion-button.button-disabled {
     border-radius: 50%;
     background-color: #1b4b64;
 
-    color: #fff;
+    color: var(--white-clr);
     display: grid !important;
     place-items: center;
     font-size: 0.625rem;
