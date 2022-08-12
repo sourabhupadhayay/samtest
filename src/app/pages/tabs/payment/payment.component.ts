@@ -49,7 +49,7 @@ export class PaymentComponent implements OnInit {
 
   ngOnInit() {
     let toastMsg;
-    var applicationId = "sandbox-sq0idb-r92A0oxpvi6g0Y1wHRzYwA";
+    var applicationId = "sandbox-sq0idb--jUTL9ol4pYjfaCzy2FtpQ";
     this.sqPaymentForm = new SqPaymentForm({
       // Initialize the payment form elements
 
