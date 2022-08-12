@@ -2,36 +2,36 @@
 
 ## Bubble App Mobile
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.1.2.
+This project was generated with [Ionic CLI](https://ionicframework.com/docs/intro/cli) version 6.19.1.
 
-# Project Description
+# About the Project
 
-RiskRelease is an insurance platform, where riskrelease provide insurance to residents who has no policy.
+Bubble App is the communication between fan and athlete. In which fan can video call or meet-up with direct their favourite athlete.
+also athlete can add his availability and fan can join their video call .
 
 ## Build with
 
-* Angular
+* Ionic
 * HTML
 * Bootstrap/CSS
 * JQuery
 
 ## Ecosystem
 
-    Angular Command Line (CLI)
-    Angular Material
-    
+    Ionic Command Line (CLI)
+
 ## Prerequisites
 
- To setUp Angular For RiskRelease follwing things are needed
+ To setUp Ionic For BubbleApp follwing things are needed
  * Download & install Nodejs from https://nodejs.org/en/download/
- * For install angular in system  follow this link https://angular.io/guide/setup-local
- * To run riskrelease locally enter npm install and then ng serve command
+ * For install ionic in system  follow this link https://ionicframework.com/docs/intro/cli
+ * To run bubbleApp locally enter npm install and then ionic serve/ionic s command
  * Now it's Done go to browser it will on localhost:4200.
  
 
 ## Getting Started
    * Clone the repo
-     git clone https://git-codecommit.us-east-2.amazonaws.com/v1/repos/riskrelease_nextgen
+     git clone https://git-codecommit.us-west-2.amazonaws.com/v1/repos/BubbleApp-Mobile
     
    * Checkout to your specific branch
      git checkout <branch_name>
@@ -41,27 +41,24 @@ RiskRelease is an insurance platform, where riskrelease provide insurance to res
      npm install
 
     * Run project in local system
-      ng serve OR ng s 
-      default port - localhost:4200
+      ionic serve OR ionic s 
+      default port - localhost:8100
 
     * Build app locally
-      ng build     
+      ionic build     
 
 
 ## Login Credentails
-  * Development environment
-    email: developer@techroversolutions.com
-    password: Test@123       
+  * Development environment (Athlete)
+    email: foram.s@techroversolutions.com
+    password: Test@1234   
 
-  * QA environment  
-    email: developer@techroversolutions.com
-    password: Tech@2021
 
 # Usage
 
 ## Documentation
 
-* Link for documentation is here https://ancubate.sharepoint.com/:w:/s/RiskRelease/ERaq6_kiDH9LslImOMXtQMEBqAQArkCQOkWC0Qxho1MCQg?e=ZNPnAR
+* Link for documentation is here https://ancubate.sharepoint.com/:w:/r/sites/BubbleApp-TechRoverinternal/_layouts/15/Doc.aspx?action=edit&sourcedoc=%7Ba6ddc7ac-094b-477b-85af-51772d855a86%7D&wdOrigin=TEAMS-ELECTRON.teamsSdk.openFilePreview&wdExp=TEAMS-CONTROL
 
 ## RoadMap
 
@@ -89,26 +86,22 @@ RiskRelease is an insurance platform, where riskrelease provide insurance to res
 
 # Branches
 
-* development (For Dev env) - https://rr-dev-portal.riskrelease.com/dashboard
+* development - web (For Dev env) - https://dev.bubbleapp.com/
 
-* qa_04 (For Qa env) - https://qa-portal.riskrelease.com/dashboard
-
-* pre-prod (For Pre-Prod env) - https://preprod-portal.riskrelease.com/auth/login
-
-* prod (For Production env) - https://portal.riskrelease.com/auth/login
 
 # Contact
 
-* Name : Pradip Kor
-* Email: pradip.k@techroversolutions.com
+* Name : Foram Sidpara
+* Email: foram.s@techroversolutions.com
 
-* Project Link : https://git-codecommit.us-east-2.amazonaws.com/v1/repos/riskrelease_nextgen
-* Latest Code Branch : RNP2/SPRINT1
+* Project Link : git clone https://git-codecommit.us-west-2.amazonaws.com/v1/repos/BubbleApp-Mobile
+* Latest Code Branch for App : release-1.2
+* Latest Code Branch for Web : website
 
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `ionic serve` for a dev server. Navigate to `http://localhost:8100/`. The app will automatically reload if you change any of the source files.
 
 ## Code scaffolding
 
