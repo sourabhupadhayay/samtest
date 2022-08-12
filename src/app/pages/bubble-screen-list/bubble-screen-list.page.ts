@@ -98,11 +98,12 @@ export class BubbleScreenListPage implements OnInit {
         } else {
           response.data.content.forEach((element) => {
             this.athleteList.push(element);
-            this.nameInitials = this.commonService.getInitials(element.fullName
-            );
           });
         }
-
+        this.athleteList.forEach((element,index) => {
+          this.athleteList[index]['nameInitials']= this.commonService.getInitials(element.fullName
+          );
+        });
         this.totalElements = response.data.totalElements;
       } else {
         this.coreService.showToastMessage(
