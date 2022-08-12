@@ -14,7 +14,6 @@ also athlete can add his availability and fan can join their video call .
 * Ionic
 * HTML
 * Bootstrap/CSS
-* JQuery
 
 ## Ecosystem
 
@@ -29,7 +28,7 @@ also athlete can add his availability and fan can join their video call .
  * Now it's Done go to browser it will on localhost:4200.
  
 
-## Getting Started
+## Start The Project
    * Clone the repo
      git clone https://git-codecommit.us-west-2.amazonaws.com/v1/repos/BubbleApp-Mobile
     
@@ -44,9 +43,12 @@ also athlete can add his availability and fan can join their video call .
       ionic serve OR ionic s 
       default port - localhost:8100
 
-    * Build app locally
-      ionic build     
-
+    * Build app Android
+      ionic build android    
+      
+    * Build app IOS
+      ionic build ios
+    *In order for you to build an iOS app, you need to run on MacOS.
 
 ## Login Credentails
   * Development environment (Athlete)
@@ -64,25 +66,23 @@ also athlete can add his availability and fan can join their video call .
 
 ### Functionality List
 
-* Dashboard
-* Upload
-* Accounting
-* Admin
-    i) Portfolio
-    ii) Users
+* Login with Fb or google 
+* One to one video call
+* Meet-up
+* Calender 
+* Event Share
 
 ## Contributing
 
 ### For the project
 * Mihir Rughani - Project Manager
-* Pradip Kor - Team Lead
-* Nilesh Bhadeliya - Back-End Lead
-* Ankita Kachalia  - Support Developer
-* Alfaz vahora - Angular Developer
-* Sarthak Jain - Back-End Developer
-* Dinesh Gujar - Front-End Developer
-* Prashant Rabadiya- UI/UX Developer
-* Chhaya Dobariya - QA
+* Foram Sidpara - Team Lead
+* Nilesh Bhadeliya  - Back-End Lead
+* Kalph Upadhyay - Ionic Developer
+* Dev Vaghasiya/Arnav - Back-End Developer
+* Hardik Adrola - Front-End Developer
+* Prashant Rabadiya /Ramiz Mirza- UI/UX Developer
+* Rubina Shaikh/Himanshu Pithadia - QA
 
 # Branches
 
@@ -109,19 +109,11 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Run `ionic build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
 ## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+To get more help on the Ionic CLI use `ionic help` or go check out the [ionic CLI Overview and Command Reference](https://ionicframework.com/docs/cli) page.
 
 [contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
 [contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
