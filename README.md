@@ -1,6 +1,6 @@
-### Pradip kor Edited 10-08-2022
+### Foram Sidpara Edited 12-08-2022
 
-# Risk Release
+## Bubble App Mobile
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.1.2.
 
