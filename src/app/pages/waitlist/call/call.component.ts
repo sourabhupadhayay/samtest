@@ -67,6 +67,7 @@ export class CallComponent implements OnInit, AfterViewInit {
         console.log(error);
       } else {
         this.createPublisher();
+        this.publisher.publishAudio(!this.isAudioMuted);
         this.session.publish(this.publisher, (error) => {});
       }
     });
@@ -98,7 +99,7 @@ export class CallComponent implements OnInit, AfterViewInit {
       height: "100%",
       insertMode: "replace",
     });
-    this.publisher.publishAudio(!this.isAudioMuted);
+
     this.publisher.on("streamDestroyed", (event) => {
       console.log("Stream stopped. Reason: " + event.reason);
     });
