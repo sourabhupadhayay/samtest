@@ -29,6 +29,8 @@ import { DataService } from "src/app/providers/data.service";
 export class CallComponent implements OnInit, AfterViewInit {
   @ViewChild("athleteContainer") athleteElement: ElementRef;
   @ViewChild("fanContainer") fanElement: ElementRef;
+  isAudioMuted: boolean = false;
+  publisher: Publisher;
   userRole: userRole;
   userData: any;
   session: Session;
@@ -64,8 +66,8 @@ export class CallComponent implements OnInit, AfterViewInit {
       if (error) {
         console.log(error);
       } else {
-        let publisher = this.createPublisher();
-        this.session.publish(publisher, (error) => {});
+        this.createPublisher();
+        this.session.publish(this.publisher, (error) => {});
       }
     });
     let element = this.fanElement.nativeElement;
@@ -90,24 +92,27 @@ export class CallComponent implements OnInit, AfterViewInit {
     });
   }
 
-  createPublisher(): Publisher {
-    var publisher = initPublisher(this.athleteElement.nativeElement, {
+  createPublisher() {
+    this.publisher = initPublisher(this.athleteElement.nativeElement, {
       width: "100%",
       height: "100%",
       insertMode: "replace",
     });
 
-    publisher.on("streamDestroyed", (event) => {
+    this.publisher.on("streamDestroyed", (event) => {
       console.log("Stream stopped. Reason: " + event.reason);
     });
-
-    return publisher;
   }
 
   handleError(error) {
     if (error) {
       alert(error.message);
     }
+  }
+
+  toggleMuteButton() {
+    this.isAudioMuted = !this.isAudioMuted;
+    this.publisher.publishAudio(this.isAudioMuted);
   }
 
   disconnectCall() {

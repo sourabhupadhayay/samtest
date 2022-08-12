@@ -25,12 +25,12 @@
   <!-- <div class="overlay-bg"></div> -->
 
   <div class="call-buttons">
-    <ion-button>
+    <ion-button (click)="toggleMuteButton()">
       <div class="btn-data">
         <span>
           <img src="assets/icon/voice.svg" />
         </span>
-        <p>Mute</p>
+        <p>{{isAudioMuted ? 'Unmute' : 'Mute' }}</p>
       </div>
     </ion-button>
     <ion-button>
