@@ -113,7 +113,8 @@ export class CallComponent implements OnInit, AfterViewInit {
 
   toggleMuteButton() {
     this.isAudioMuted = !this.isAudioMuted;
-    this.publisher.publishAudio(this.isAudioMuted);
+    console.log(!this.isAudioMuted);
+    this.publisher.publishAudio(!this.isAudioMuted);
   }
 
   disconnectCall() {
