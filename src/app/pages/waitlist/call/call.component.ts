@@ -98,7 +98,7 @@ export class CallComponent implements OnInit, AfterViewInit {
       height: "100%",
       insertMode: "replace",
     });
-
+    this.publisher.publishAudio(this.isAudioMuted);
     this.publisher.on("streamDestroyed", (event) => {
       console.log("Stream stopped. Reason: " + event.reason);
     });
