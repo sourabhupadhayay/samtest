@@ -67,7 +67,7 @@ export class CallComponent implements OnInit, AfterViewInit {
         console.log(error);
       } else {
         this.createPublisher();
-        this.publisher.publishAudio(!this.isAudioMuted);
+        this.publisher.publishAudio(this.isAudioMuted);
         this.session.publish(this.publisher, (error) => {});
       }
     });
