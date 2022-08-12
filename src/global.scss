@@ -375,3 +375,13 @@ schedule-card{
     height: 40px;
     margin: 5px 0 5px;
 }
+
+
+.slider-data{display: flex; flex-flow: column; height: 100%; align-items: center; justify-content: center; width: 50%; display: none;
+  h5{margin: 0; padding: 0; font-size: 1.1rem; color: var(--text-gray); font-weight: 500;}
+}
+
+@media screen and (min-width:1024px) {
+  .slider-data{display: flex;}
+  ion-router-outlet{width: 50%; margin: auto 0 auto auto;}
+}
