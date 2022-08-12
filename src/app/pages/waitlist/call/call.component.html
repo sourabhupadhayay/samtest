@@ -33,13 +33,13 @@
         <p>{{isAudioMuted ? ' Unmute' : 'Mute' }}</p>
       </div>
     </ion-button>
-    <ion-button>
+    <ion-button (click)="toggleVideoButton()">
       <div class="btn-data">
         <span><img src="assets/icon/video-call.svg" /></span>
-        <p>video</p>
+        <p>{{isVideoOn ? 'video on ' : 'video off' }}</p>
       </div>
     </ion-button>
-    <ion-button>
+    <ion-button (click)="switchCameraSource()">
       <div class="btn-data">
         <span><img src="assets/icon/flip-camara.svg" /></span>
         <p>flip</p>

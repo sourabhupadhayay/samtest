@@ -30,6 +30,7 @@ export class CallComponent implements OnInit, AfterViewInit {
   @ViewChild("athleteContainer") athleteElement: ElementRef;
   @ViewChild("fanContainer") fanElement: ElementRef;
   isAudioMuted: boolean = false;
+  isVideoOn: boolean = true;
   publisher: Publisher;
   userRole: userRole;
   userData: any;
@@ -98,6 +99,7 @@ export class CallComponent implements OnInit, AfterViewInit {
       width: "100%",
       height: "100%",
       insertMode: "replace",
+      name: this.userData.fullName,
     });
 
     this.publisher.on("streamDestroyed", (event) => {
@@ -113,8 +115,15 @@ export class CallComponent implements OnInit, AfterViewInit {
 
   toggleMuteButton() {
     this.isAudioMuted = !this.isAudioMuted;
-    console.log(!this.isAudioMuted);
     this.publisher.publishAudio(!this.isAudioMuted);
+  }
+  toggleVideoButton() {
+    this.isVideoOn = !this.isVideoOn;
+    this.publisher.publishVideo(this.isVideoOn);
+  }
+
+  async switchCameraSource() {
+    await this.publisher.cycleVideo();
   }
 
   disconnectCall() {
