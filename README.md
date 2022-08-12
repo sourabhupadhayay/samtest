@@ -29,7 +29,7 @@ also athlete can add his availability and fan can join their video call .
  * Now it's Done go to browser it will on localhost:4200.
  
 
-## Getting Started
+## Start The Project
    * Clone the repo
      git clone https://git-codecommit.us-west-2.amazonaws.com/v1/repos/BubbleApp-Mobile
     
@@ -44,9 +44,12 @@ also athlete can add his availability and fan can join their video call .
       ionic serve OR ionic s 
       default port - localhost:8100
 
-    * Build app locally
-      ionic build     
-
+    * Build app Android
+      ionic build android    
+      
+    * Build app IOS
+      ionic build ios
+## In order for you to build an iOS app, you need to run on MacOS.
 
 ## Login Credentails
   * Development environment (Athlete)
