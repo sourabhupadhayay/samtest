@@ -49,7 +49,7 @@ also athlete can add his availability and fan can join their video call .
       
     * Build app IOS
       ionic build ios
-## In order for you to build an iOS app, you need to run on MacOS.
+    *In order for you to build an iOS app, you need to run on MacOS.
 
 ## Login Credentails
   * Development environment (Athlete)
@@ -67,12 +67,11 @@ also athlete can add his availability and fan can join their video call .
 
 ### Functionality List
 
-* Dashboard
-* Upload
-* Accounting
-* Admin
-    i) Portfolio
-    ii) Users
+* Login with Fb or google 
+* One to one video call
+* Meet-up
+* Calender 
+* Event Share
 
 ## Contributing
 
