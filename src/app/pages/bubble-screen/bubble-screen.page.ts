@@ -6,6 +6,7 @@ import { AuthenticationService } from "src/app/providers/authentication.service"
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
+import {CommonService} from "../../providers/common.service";
 
 @Component({
   selector: "app-bubble-screen",
@@ -18,6 +19,7 @@ export class BubbleScreenPage implements OnInit {
   athleteList: any[] = [];
   audio = new Audio();
   isLoggedIn: boolean = false;
+  nameInitials:any;
   constructor(
     public modalCtrl: ModalController,
     public routerOutLet: IonRouterOutlet,
@@ -25,7 +27,9 @@ export class BubbleScreenPage implements OnInit {
     private coreService: CoreService,
     private constant: ConstantService,
     public authenticationService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private commonService: CommonService
+
   ) {}
 
   ngOnInit() {
@@ -63,6 +67,10 @@ export class BubbleScreenPage implements OnInit {
     this.apiService.post(request).subscribe((response: Response) => {
       if (response.status.code == this.constant.STATUS_OK) {
         this.athleteList = response.data;
+        this.athleteList.forEach((element,index) => {
+          this.athleteList[index]['nameInitials']= this.commonService.getInitials(element.fullName
+          );
+        });
       } else {
         this.coreService.showToastMessage(
           response["status"]["description"],

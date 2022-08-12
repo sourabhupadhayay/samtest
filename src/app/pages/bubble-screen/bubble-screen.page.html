@@ -37,11 +37,13 @@
             <img src="assets/images/bubble-toch.png" />
           </div>
           <div class="inner-data abc">
+            <div *ngIf="bubble?.profileUrl !== '' ">
             <img [src]="bubble.profileUrl | profile" />
+            </div>
             <span [ngClass]="bubble.online ? 'online':'offline'"></span>
-            <div class="inital" hidden>
+            <div class="inital"  *ngIf="bubble?.profileUrl == '' ">
               <span class="initial__span">
-                HA
+                {{bubble.nameInitials}}
               </span>
             </div>
           </div>
