@@ -13,6 +13,7 @@ import {
   Session,
   Subscriber,
 } from "@opentok/client";
+import { Socket } from "ngx-socket-io";
 import {
   CoreService,
   userRole,
@@ -29,6 +30,7 @@ export class CallComponent implements OnInit, AfterViewInit {
   @ViewChild("athleteContainer") athleteElement: ElementRef;
   @ViewChild("fanContainer") fanElement: ElementRef;
   userRole: userRole;
+  userData: any;
   session: Session;
   subscribe: Subscriber;
   apiKey: string = "47513031";
@@ -40,7 +42,8 @@ export class CallComponent implements OnInit, AfterViewInit {
   constructor(
     private apiService: DataService,
     private coreService: CoreService,
-    private router: Router
+    private router: Router,
+    private socket: Socket
   ) {}
 
   ngOnInit() {
@@ -51,7 +54,7 @@ export class CallComponent implements OnInit, AfterViewInit {
   }
   async getUserDataAndRole() {
     this.userRole = await this.coreService.getUserRoleFromStorage();
-    // this.userData = await this.coreService.getUserDataFromStorage();
+    this.userData = await this.coreService.getUserDataFromStorage();
   }
 
   getSession() {
@@ -78,7 +81,11 @@ export class CallComponent implements OnInit, AfterViewInit {
       // });
     });
 
-    this.session.on("streamDestroyed", function (event) {
+    this.session.on("streamDestroyed", (event) => {
+      if (this.userRole == "fan") {
+        this.socket.emit("cut-call", this.userData);
+      }
+      this.router.navigate(["/tabs/home"]);
       console.log("Stream stopped. Reason: " + event.reason);
     });
   }
