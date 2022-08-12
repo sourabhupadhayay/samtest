@@ -18,6 +18,7 @@ import {
   PasswordStrength,
 } from "src/app/utility/passwordValidator";
 import { AuthModuleService } from "../auth-module.service";
+import {CommonService} from "../../../providers/common.service";
 
 @Component({
   selector: "app-signup-details",
@@ -46,7 +47,7 @@ export class SignupDetailsPage implements OnInit {
     private apiService: DataService,
     private constantService: ConstantService,
     private router: Router,
-    private common: AuthModuleService
+    private common: AuthModuleService,public commonService: CommonService,
   ) {}
 
   ngOnInit() {
@@ -156,9 +157,9 @@ export class SignupDetailsPage implements OnInit {
     let blob = await fetch(this.selectedImage.webPath).then((r) => r.blob());
 
     let imageSize = this.coreService.formatBytes(blob.size);
-    if (imageSize > 5) {
+    if (imageSize > this.commonService.publicInfo.imageMaxSize) {
       this.coreService.showToastMessage(
-        "please upload image that is under 5 mb ",
+        "please upload image that is under "+ this.commonService.publicInfo.imageMaxSize+" mb ",
         this.coreService.TOAST_WARNING
       );
       return;

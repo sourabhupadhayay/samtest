@@ -310,7 +310,7 @@
             <ion-item
               [ngClass]="validFanInputBorder('selectedAthleteName')"
               lines="none"
-              class="ion-align-items-center"
+              class="ion-align-items-center" mode="md"
             >
               <input
                 matInput
@@ -325,7 +325,7 @@
                 src="assets/icon/arrow-down.svg"
               />
             </ion-item>
-            <mat-autocomplete #auto="matAutocomplete" class="custom-class">
+            <mat-autocomplete #auto="matAutocomplete" class="custom-class" mode="md">
               <mat-option
                 (click)="selectedAthlete(option)"
                 *ngFor="let option of $athletes | async"

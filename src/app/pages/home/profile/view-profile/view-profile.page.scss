@@ -117,7 +117,7 @@ ion-content {
             position: absolute;
             top: 0;
             z-index: 99;
-            max-height: 155px;
+            max-height: 142px;
           }
         }
         .athlete-money {
@@ -205,7 +205,7 @@ ion-content {
           height: fit-content;
           width: 100%;
           padding: 0 6px;
-          line-height: 18px;
+          text-align: center;
           svg {
             stroke: var(--white-clr);
             height: 25px;
@@ -224,7 +224,7 @@ ion-content {
   }
 
   .content-part {
-    padding: 60px 15px 84px;
+    padding: 75px 15px 84px;
     position: relative;
     z-index: 999;
     .details-part {
@@ -977,11 +977,12 @@ ion-modal.small-modal {
     }
   }
 }
+.inital{position: absolute; top: 0; left: 15px;}
 .initial {
   position: relative;
   &__span {
-    width: 120px;
-    height: 120px;
+    width: 142px;
+    height: 142px;
     object-fit: cover;
     object-position: center;
     border-radius: 10px;
@@ -992,6 +993,6 @@ ion-modal.small-modal {
     place-items: center;
     font-size: 24px;
     text-transform: uppercase;
-    border: 1px solid white;
+    border: 1px solid white;margin: 0;
   }
 }
