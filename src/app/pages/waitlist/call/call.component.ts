@@ -19,7 +19,7 @@ import {
   userRole,
   UserRole,
 } from "src/app/providers/core.service";
-import { DataService } from "src/app/providers/data.service";
+import { DataService, Request } from "src/app/providers/data.service";
 
 @Component({
   selector: "app-call",
@@ -52,8 +52,21 @@ export class CallComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.getUserDataAndRole();
   }
+
+  getVideoSessionAndToken() {
+    let request: Request = {
+      path: "session",
+      isAuth: false,
+    };
+    this.apiService.getVideoSession(request).subscribe((response) => {
+      this.sessionId = response.session;
+      this.token = response.token;
+      this.getSession();
+    });
+  }
+
   ngAfterViewInit(): void {
-    this.getSession();
+    this.getVideoSessionAndToken();
   }
   async getUserDataAndRole() {
     this.userRole = await this.coreService.getUserRoleFromStorage();

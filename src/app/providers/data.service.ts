@@ -29,6 +29,7 @@ export interface Response {
 })
 export class DataService {
   BASE_URL = configuration.BASE_URL;
+
   response: any[] = [];
   headers: any;
   constructor(
@@ -66,6 +67,34 @@ export class DataService {
             };
             this.authService.setAuth(data);
           }
+          return res;
+        }),
+        retry(1),
+        catchError(this.handleError.bind(this))
+      );
+  }
+
+  getVideoSession(request: Request) {
+    return this.http
+      .get<any>(`${configuration.VIDEO_URL + "" + request.path}`, {
+        headers: this.getHeader(request.isAuth),
+      })
+      .pipe(
+        takeWhile((): boolean => this._isOnline()),
+        catchError((err) => {
+          console.log(err);
+          return err;
+        }),
+        map((res: any) => {
+          // if (res["token"]) {
+          //   let data = this.authService.getAuthDetail();
+          //   data = {
+          //     ...data,
+          //     token: res["token"],
+          //     isLoggedIn: true,
+          //   };
+          //   this.authService.setAuth(data);
+          // }
           return res;
         }),
         retry(1),
