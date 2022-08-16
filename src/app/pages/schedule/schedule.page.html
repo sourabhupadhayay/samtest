@@ -41,7 +41,7 @@
         <h2 class="profile__name">Hi {{userData?.fullName}}</h2>
         <ng-container *ngIf="userRole == 'fan'">
           <p>{{userData?.teamName}}</p>
-          <p>{{userData?.teamState}} / {{userData?.teamName}}</p>
+          <p>{{userData?.teamState}} / {{userData?.country}}</p>
         </ng-container>
         <ng-container *ngIf="userRole == 'athlete'">
           <p>{{userData?.teamName}}</p>
