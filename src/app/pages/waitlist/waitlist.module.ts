@@ -8,7 +8,6 @@ import { WaitlistPageRoutingModule } from "./waitlist-routing.module";
 
 import { WaitlistPage } from "./waitlist.page";
 
-import { SocketIoModule, SocketIoConfig } from "ngx-socket-io";
 import { FanWaitlistPage } from "./fan-waitlist/fan-waitlist.page";
 import { AthleteWaitlistPage } from "./athlete-waitlist/athlete-waitlist.page";
 import { IncomingCallComponent } from "./incoming-call/incoming-call.component";
@@ -17,19 +16,9 @@ import { CallComponent } from "./call/call.component";
 //   url: "http://localhost:7010/",
 //   options: {},
 // };
-const config: SocketIoConfig = {
-  url: "https://dev-video-apis.bubbleapp.com",
-  options: {},
-};
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    WaitlistPageRoutingModule,
-    SocketIoModule.forRoot(config),
-  ],
+  imports: [CommonModule, FormsModule, IonicModule, WaitlistPageRoutingModule],
   declarations: [
     WaitlistPage,
     FanWaitlistPage,
