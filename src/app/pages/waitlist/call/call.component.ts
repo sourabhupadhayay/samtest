@@ -37,10 +37,8 @@ export class CallComponent implements OnInit, AfterViewInit {
   session: Session;
   subscribe: Subscriber;
   apiKey: string = "47513031";
-  sessionId: string =
-    "2_MX40NzUxMzAzMX5-MTY2MDExMTA0MzYxOX4xd3VxMXhxRHFPR0M4OFhUNHl4YVg5cnd-fg";
-  token: string =
-    "T1==cGFydG5lcl9pZD00NzUxMzAzMSZzaWc9NWY0NDlkYTA5ZGZmOTdhMTY3ZDQ4NDY5ZTcxNWVlMjNiNjM0ZjUxZTpzZXNzaW9uX2lkPTJfTVg0ME56VXhNekF6TVg1LU1UWTJNREV4TVRBME16WXhPWDR4ZDNWeE1YaHhSSEZQUjBNNE9GaFVOSGw0WVZnNWNuZC1mZyZjcmVhdGVfdGltZT0xNjYwMTExMDQ0Jm5vbmNlPTAuNzQyNTk4ODA5OTExODExOSZyb2xlPW1vZGVyYXRvciZleHBpcmVfdGltZT0xNjYwNzE1ODQ0JmluaXRpYWxfbGF5b3V0X2NsYXNzX2xpc3Q9";
+  sessionId: string;
+  token: string;
 
   constructor(
     private apiService: DataService,
