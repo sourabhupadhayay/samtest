@@ -28,8 +28,8 @@
     <ion-button (click)="toggleMuteButton()">
       <div class="btn-data">
         <span>
-          <img src="assets/icon/voice.svg" />
-          <img src="assets/icon/voice-off.svg" />
+          <img *ngIf="!isAudioMuted" src="assets/icon/voice.svg" />
+          <img *ngIf="isAudioMuted" src="assets/icon/voice-off.svg" />
         </span>
         <p>{{isAudioMuted ? ' Unmute' : 'Mute' }}</p>
       </div>
@@ -37,8 +37,8 @@
     <ion-button (click)="toggleVideoButton()">
       <div class="btn-data">
         <span>
-          <img src="assets/icon/video-call.svg" />
-          <img src="assets/icon/video-call-off.svg" />
+          <img *ngIf="isVideoOn" src="assets/icon/video-call.svg" />
+          <img *ngIf="!isVideoOn" src="assets/icon/video-call-off.svg" />
         </span>
         <p>{{isVideoOn ? 'video on ' : 'video off' }}</p>
       </div>
