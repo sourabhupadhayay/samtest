@@ -123,6 +123,6 @@ ion-content {
 }
 .end-call {
   & span {
-    background-color: red !important;
+    background-color: var(--busy) !important;
   }
 }
