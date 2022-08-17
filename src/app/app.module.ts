@@ -13,6 +13,10 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatIconModule } from "@angular/material/icon";
 import { HomeModule } from "./pages/home/home.module";
 import { SocketIoModule, SocketIoConfig } from "ngx-socket-io";
+// const config: SocketIoConfig = {
+//   url: "http://localhost:7010",
+//   options: {},
+// };
 const config: SocketIoConfig = {
   url: "https://dev-video-apis.bubbleapp.com",
   options: {},
