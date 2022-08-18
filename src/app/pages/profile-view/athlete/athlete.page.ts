@@ -7,7 +7,7 @@ import { AuthModuleService } from "src/app/pages/auth-module/auth-module.service
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
-import {CommonService} from "../../../providers/common.service";
+import { CommonService } from "../../../providers/common.service";
 
 @Component({
   selector: "app-athlete",
@@ -19,16 +19,16 @@ export class AthletePage implements OnInit {
   selectedIndex: string = "profile";
   scheduleData: any[] = [];
   eventFilter: "past" | "upcoming" | "All" = "All";
-  nameInitials:any;
+  nameInitials: string;
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
     private apiService: DataService,
     private route: ActivatedRoute,
+    private router: Router,
     private constantService: ConstantService,
-    private commonService: AuthModuleService,
-    private commonService1: CommonService
 
+    private commonService: CommonService
   ) {}
 
   ngOnInit() {
@@ -56,7 +56,9 @@ export class AthletePage implements OnInit {
         this.coreService.dismissLoader();
         if (response.status.code === this.constantService.STATUS_OK) {
           this.athleteData = response.data;
-          this.nameInitials = this.commonService1.getInitials(this.athleteData.fullName);
+          this.nameInitials = this.commonService.getInitials(
+            this.athleteData.fullName
+          );
         } else {
           this.coreService.showToastMessage(
             response.status.description,
@@ -115,5 +117,10 @@ export class AthletePage implements OnInit {
 
   async getAmountOpened(event: any) {
     let number = await event.target.getOpenAmount();
+    //convert negative to positive number
+    number = Math.abs(number);
+    if (number > 150) {
+      this.router.navigate(["/bid-payment/" + this.athleteData.id]);
+    }
   }
 }

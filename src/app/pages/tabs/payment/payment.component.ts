@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
 import { IonModal, ModalController } from "@ionic/angular";
 import { CoreService } from "src/app/providers/core.service";
-import {CommonService} from "../../../providers/common.service";
+import { CommonService } from "../../../providers/common.service";
 
 declare var SqPaymentForm: any;
 //magic to allow us to access the SquarePaymentForm lib
@@ -16,11 +16,11 @@ export class PaymentComponent implements OnInit {
   errors: any[] = [];
   nonce: string;
   paymentType: "SQUARE_PAYMENT" | "apple" = "SQUARE_PAYMENT";
-  errorMsg:any;
+  errorMsg: any;
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
-    private commonService: CommonService,
+    private commonService: CommonService
   ) {}
   sqPaymentForm: any; //this is our payment form object
 
@@ -53,6 +53,7 @@ export class PaymentComponent implements OnInit {
   ngOnInit() {
     let toastMsg;
     var applicationId = this.commonService.publicInfo.squareAppId;
+
     this.sqPaymentForm = new SqPaymentForm({
       // Initialize the payment form elements
 
@@ -97,18 +98,22 @@ export class PaymentComponent implements OnInit {
           if (errors) {
             // Log errors from nonce generation to the browser developer console.
             this.errors = errors;
-            errors.slice().reverse().forEach(function (error) {
-              toastMsg =error.message
-            });
+
+            errors
+              .slice()
+              .reverse()
+              .forEach(function (error) {
+                toastMsg = error.message;
+              });
             this.coreService.showToastMessage(
               toastMsg,
               this.coreService.TOAST_ERROR
             );
-            return
+            return;
           } else {
-          this.errors = [];
-          this.nonce = nonce;
-        }
+            this.errors = [];
+            this.nonce = nonce;
+          }
           //TODO: Replace alert with code in step 2.1
         },
       },

@@ -29,9 +29,9 @@
         </ion-avatar>
         <ion-avatar *ngIf="athleteData?.profileUrl == '' ">
           <div class="inital">
-              <span class="initial__span">
-                {{nameInitials}}
-              </span>
+            <span class="initial__span">
+              {{nameInitials}}
+            </span>
           </div>
         </ion-avatar>
         <ion-label>
@@ -137,7 +137,6 @@
           [cardData]="data"
         ></athlete-card>
       </div>
-
     </div>
   </ion-grid>
   <ion-grid class="buble-part">
@@ -194,7 +193,7 @@
       <p>Wanna Bubble Up? Increase your Bid</p>
     </div>
 
-    <div class="bid-submitted">
+    <!-- <div class="bid-submitted">
         <ion-item lines="none">
             <ion-label>
                 <h5>Bid Submitted</h5>
@@ -213,6 +212,6 @@
               </ion-button>
             </div>
         </ion-item>
-    </div>
+    </div> -->
   </ion-toolbar>
 </ion-footer>

@@ -1,11 +1,10 @@
 <ion-content [fullscreen]="true">
-  
   <div class="main-screen">
     <ion-grid class="top-card">
       <div class="title-part">
         <ion-item lines="none">
           <ion-icon
-            routerLink="/tabs/schedule"
+            [routerLink]="'/profile/athlete/' + this.athleteData?.id "
             slot="start"
             name="arrow-back-outline"
           ></ion-icon>
@@ -25,42 +24,57 @@
       </div>
       <div class="profile-part">
         <ion-item lines="none">
-          <ion-avatar slot="start">
-            <img src="assets/images/profile.png" />
+          <ion-avatar slot="start" *ngIf="athleteData?.profileUrl !== '' ">
+            <img [src]="athleteData?.profileUrl | profile" />
+          </ion-avatar>
+          <ion-avatar *ngIf="athleteData?.profileUrl == '' ">
+            <div class="initial">
+              <span class="initial__span">
+                {{nameInitials}}
+              </span>
+            </div>
           </ion-avatar>
           <ion-label>
-            <h5>Casey Rodgers</h5>
+            <h5>{{athleteData?.fullName}}</h5>
             <p>Min Bid : <span>$50</span></p>
           </ion-label>
         </ion-item>
       </div>
     </ion-grid>
-  
+
     <ion-grid class="content-part">
-        <div class="bid-part">
-            <h3>Top Bid in the waitlist : <span>$225</span></h3>
-            <h4>Your Previous Bid is 
-              <span>$200</span>
-            </h4>
-            <div class="input-part">
-                <span>$</span>
-                <ion-input placeholder="200" type="number"></ion-input>
-            </div>
-            <div class="select-payment">
-                <ion-item lines="none" id="Payment-modal">
-                    <img src="assets/images/pay-icon.png">
-                    <img src="assets/images/cc-img.png">
-                    <ion-label>Apple Pay</ion-label>
-                    <ion-icon slot="end" name="chevron-down-outline"></ion-icon>
-                </ion-item>
-            </div>
-            <div class="auth-btn">
-              <ion-button>
-                <img src="assets/images/button-auth.png" />
-                <span>Pay<br>Now</span>
-              </ion-button>
-            </div>
+      <div class="bid-part">
+        <h3 *ngIf="bidAmount < 50">
+          Please enter more than <span>$50</span> for bid.
+        </h3>
+        <!-- <h3>Top Bid in the waitlist : <span>$225</span></h3> -->
+        <!-- <h4>
+          Your Previous Bid is
+          <span>$200</span>
+        </h4> -->
+        <div class="input-part">
+          <span>$</span>
+          <ion-input
+            [(ngModel)]="bidAmount"
+            placeholder="200"
+            type="number"
+          ></ion-input>
         </div>
+        <div class="select-payment">
+          <ion-item lines="none" (click)="presentPaymentModal()">
+            <img src="assets/images/pay-icon.png" />
+            <!-- <img src="assets/images/cc-img.png" /> -->
+            <ion-label>Apple Pay</ion-label>
+            <ion-icon slot="end" name="chevron-down-outline"></ion-icon>
+          </ion-item>
+        </div>
+        <div class="auth-btn">
+          <ion-button>
+            <img src="assets/images/button-auth.png" />
+            <span>Pay<br />Now</span>
+          </ion-button>
+        </div>
+      </div>
     </ion-grid>
   </div>
 
@@ -79,7 +93,6 @@
     </div>
   </ion-grid>
 </ion-content>
-
 
 <ion-modal trigger="Payment-modal" class="client-filter-modal">
   <ng-template>
@@ -139,7 +152,9 @@
                   <ion-row>
                     <ion-col size="12">
                       <div class="input-box">
-                        <ion-label position="stacked">Card Holder Name</ion-label>
+                        <ion-label position="stacked"
+                          >Card Holder Name</ion-label
+                        >
                         <ion-item lines="none" class="ion-align-items-center">
                           <ion-input placeholder="Card Holder Name"></ion-input>
                           <img
@@ -185,7 +200,10 @@
                       <div class="input-box">
                         <ion-label position="stacked">CVV Number</ion-label>
                         <ion-item lines="none" class="ion-align-items-center">
-                          <ion-input type="number" placeholder="XXX"></ion-input>
+                          <ion-input
+                            type="number"
+                            placeholder="XXX"
+                          ></ion-input>
                           <img
                             class="ion-align-items-center"
                             slot="end"
@@ -264,5 +282,3 @@
     </ion-footer>
   </ng-template>
 </ion-modal>
-
-
