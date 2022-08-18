@@ -1,0 +1,10 @@
+<ion-content>
+  <athlete-waitlist
+    [connectedFans]="connectedFans"
+    *ngIf="userRole == 'athlete'"
+  ></athlete-waitlist>
+  <fan-waitlist
+    [connectedFans]="connectedFans"
+    *ngIf="userRole == 'fan'"
+  ></fan-waitlist>
+</ion-content>

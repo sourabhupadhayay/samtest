@@ -1,0 +1,268 @@
+<ion-content [fullscreen]="true">
+  
+  <div class="main-screen">
+    <ion-grid class="top-card">
+      <div class="title-part">
+        <ion-item lines="none">
+          <ion-icon
+            routerLink="/tabs/schedule"
+            slot="start"
+            name="arrow-back-outline"
+          ></ion-icon>
+          <ion-label>
+            <ion-grid class="logo-head">
+              <img src="assets/images/single-logo.svg" />
+              <div class="nil4all">
+                <span>#NIL4ALL</span>
+              </div>
+            </ion-grid>
+          </ion-label>
+          <div class="notification" slot="end">
+            <img src="assets/icon/notification.svg" />
+            <span></span>
+          </div>
+        </ion-item>
+      </div>
+      <div class="profile-part">
+        <ion-item lines="none">
+          <ion-avatar slot="start">
+            <img src="assets/images/profile.png" />
+          </ion-avatar>
+          <ion-label>
+            <h5>Casey Rodgers</h5>
+            <p>Min Bid : <span>$50</span></p>
+          </ion-label>
+        </ion-item>
+      </div>
+    </ion-grid>
+  
+    <ion-grid class="content-part">
+        <div class="bid-part">
+            <h3>Top Bid in the waitlist : <span>$225</span></h3>
+            <h4>Your Previous Bid is 
+              <span>$200</span>
+            </h4>
+            <div class="input-part">
+                <span>$</span>
+                <ion-input placeholder="200" type="number"></ion-input>
+            </div>
+            <div class="select-payment">
+                <ion-item lines="none" id="Payment-modal">
+                    <img src="assets/images/pay-icon.png">
+                    <img src="assets/images/cc-img.png">
+                    <ion-label>Apple Pay</ion-label>
+                    <ion-icon slot="end" name="chevron-down-outline"></ion-icon>
+                </ion-item>
+            </div>
+            <div class="auth-btn">
+              <ion-button>
+                <img src="assets/images/button-auth.png" />
+                <span>Pay<br>Now</span>
+              </ion-button>
+            </div>
+        </div>
+    </ion-grid>
+  </div>
+
+  <ion-grid class="buble-part">
+    <div class="dots-bubble">
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+    </div>
+  </ion-grid>
+</ion-content>
+
+
+<ion-modal trigger="Payment-modal" class="client-filter-modal">
+  <ng-template>
+    <div class="client-filter-modal payment-flow">
+      <ion-header mode="ios">
+        <div class="icon-header">
+          <img src="assets/icon/header-bubble.png" />
+          <h3>Select Payment Option</h3>
+        </div>
+        <div class="top-noch">
+          <img src="assets/images/modal-tope.png" />
+        </div>
+      </ion-header>
+
+      <div class="inner-content">
+        <div class="main-screen">
+          <div class="payment-select">
+            <ion-radio-group value="biff" mode="md">
+              <div class="select-item">
+                <ion-item lines="none" mode="md">
+                  <ion-radio slot="start" value="biff"></ion-radio>
+                  <ion-label>
+                    <h5>Apple Pay</h5>
+                    <p>Balance : <span>$500</span></p>
+                  </ion-label>
+                  <img
+                    slot="end"
+                    class="checked"
+                    src="assets/images/apple-pay.svg"
+                  />
+                  <img
+                    slot="end"
+                    class="unchecked"
+                    src="assets/images/apple-pay-gray.svg"
+                  />
+                </ion-item>
+              </div>
+
+              <div class="select-item">
+                <ion-item lines="none" mode="md">
+                  <ion-radio slot="start" value="biff1"></ion-radio>
+                  <ion-label>
+                    <h5>Credit Card</h5>
+                  </ion-label>
+                  <img
+                    slot="end"
+                    class="checked"
+                    src="assets/images/card-icn-white.svg"
+                  />
+                  <img
+                    slot="end"
+                    class="unchecked"
+                    src="assets/images/card-icn.svg"
+                  />
+                </ion-item>
+                <div class="card-details">
+                  <ion-row>
+                    <ion-col size="12">
+                      <div class="input-box">
+                        <ion-label position="stacked">Card Holder Name</ion-label>
+                        <ion-item lines="none" class="ion-align-items-center">
+                          <ion-input placeholder="Card Holder Name"></ion-input>
+                          <img
+                            class="ion-align-items-center"
+                            slot="end"
+                            src="assets/icon/profile.svg"
+                          />
+                        </ion-item>
+                      </div>
+                    </ion-col>
+                    <ion-col size="12">
+                      <div class="input-box">
+                        <ion-label position="stacked">Card Number</ion-label>
+                        <ion-item lines="none" class="ion-align-items-center">
+                          <ion-input
+                            type="number"
+                            placeholder="0000 - 0000 - 0000 - 00"
+                          ></ion-input>
+                          <img
+                            class="ion-align-items-center"
+                            slot="end"
+                            src="assets/icon/card-number.svg"
+                          />
+                        </ion-item>
+                      </div>
+                    </ion-col>
+                    <ion-col size="6">
+                      <div class="input-box">
+                        <ion-label position="stacked"
+                          >Expiration Date (mm/yy)</ion-label
+                        >
+                        <ion-item lines="none" class="ion-align-items-center">
+                          <ion-input placeholder="MM/YY"></ion-input>
+                          <img
+                            class="ion-align-items-center"
+                            slot="end"
+                            src="assets/icon/calendar-new.svg"
+                          />
+                        </ion-item>
+                      </div>
+                    </ion-col>
+                    <ion-col size="6">
+                      <div class="input-box">
+                        <ion-label position="stacked">CVV Number</ion-label>
+                        <ion-item lines="none" class="ion-align-items-center">
+                          <ion-input type="number" placeholder="XXX"></ion-input>
+                          <img
+                            class="ion-align-items-center"
+                            slot="end"
+                            src="assets/icon/cvv.svg"
+                          />
+                        </ion-item>
+                      </div>
+                    </ion-col>
+                  </ion-row>
+                  <div class="save-card">
+                    <ion-item lines="none" mode="ios">
+                      <ion-label>Save Card</ion-label>
+                      <ion-checkbox slot="start" mode="ios"></ion-checkbox>
+                    </ion-item>
+                  </div>
+                </div>
+              </div>
+            </ion-radio-group>
+          </div>
+        </div>
+      </div>
+
+      <ion-footer mode="ios">
+        <ion-toolbar mode="ios">
+          <ion-button class="white-btn" (click)="onClickCancel()">
+            <img src="assets/icon/close-icon.png" />
+          </ion-button>
+          <ion-button class="white-btn" id="CreateAppearance">
+            <img src="assets/icon/right-icon.png" />
+          </ion-button>
+          <div class="nil4all">
+            <span>#NIL4ALL</span>
+          </div>
+        </ion-toolbar>
+      </ion-footer>
+
+      <ion-grid class="bg-bubble">
+        <div class="dots-bubble">
+          <div class="dots"></div>
+          <div class="dots"></div>
+          <div class="dots"></div>
+          <div class="dots"></div>
+          <div class="dots"></div>
+          <div class="dots"></div>
+          <div class="dots"></div>
+          <div class="dots"></div>
+          <div class="dots"></div>
+          <div class="dots"></div>
+        </div>
+      </ion-grid>
+    </div>
+  </ng-template>
+</ion-modal>
+
+<ion-modal trigger="CreateAppearance" class="small-modal">
+  <ng-template>
+    <ion-header mode="md">
+      <h3>Create Appearance</h3>
+    </ion-header>
+
+    <div class="inner-content">
+      <div class="main-screen">
+        <p>Are you sure, you want to Create Appearance?</p>
+      </div>
+    </div>
+
+    <ion-footer mode="ios">
+      <ion-toolbar mode="ios">
+        <ion-button class="white-btn">
+          <img src="assets/icon/close-icon.png" />
+        </ion-button>
+        <ion-button class="white-btn">
+          <img src="assets/icon/right-icon.png" />
+        </ion-button>
+      </ion-toolbar>
+    </ion-footer>
+  </ng-template>
+</ion-modal>
+
+
