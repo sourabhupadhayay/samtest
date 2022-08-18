@@ -69,7 +69,7 @@
           </ion-item>
         </div>
         <div class="auth-btn">
-          <ion-button>
+          <ion-button id="bidSubmitted">
             <img src="assets/images/button-auth.png" />
             <span>Pay<br />Now</span>
           </ion-button>
@@ -278,6 +278,41 @@
         <ion-button class="white-btn">
           <img src="assets/icon/right-icon.png" />
         </ion-button>
+      </ion-toolbar>
+    </ion-footer>
+  </ng-template>
+</ion-modal>
+
+<ion-modal trigger="bidSubmitted" class="small-modal bid-submitted">
+  <ng-template>
+    <ion-header mode="md">
+        <ion-item lines="none">
+          <ion-label>
+            <h3>Highest Bid</h3>
+          </ion-label>
+          <ion-text slot="end">12</ion-text>
+        </ion-item>
+    </ion-header>
+
+    <div class="inner-content">
+      <div class="main-screen">
+        <h2>$ 200</h2>
+        <p>Bid Submitted!</p>
+      </div>
+    </div>
+
+    <ion-footer mode="ios">
+      <ion-toolbar mode="ios">
+        <div class="auth-btn">
+          <ion-button>
+            <img src="assets/images/button-auth-red.png" />
+            <span><img src="assets/icon/close-btn.svg"></span>
+          </ion-button>
+          <ion-button>
+            <img src="assets/images/button-auth-green.png" />
+            <span>Go</span>
+          </ion-button>
+        </div>
       </ion-toolbar>
     </ion-footer>
   </ng-template>
