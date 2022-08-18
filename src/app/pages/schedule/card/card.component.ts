@@ -334,6 +334,11 @@ export class CardComponent implements OnInit {
     }
     this.changeEventStatus("REJECTED", data);
   }
+
+  bidAthleteEvent(id: string) {
+    this.router.navigate(["profile/athlete/" + id]);
+  }
+
   async approveRequestModal() {
     let eventData = {
       eventType: this.cardData.eventType,
