@@ -110,9 +110,10 @@ ion-item-sliding {
 
   &__time {
     margin-top: 5px;
+    margin-bottom: 5px;
     font-size: 0.75rem;
     text-align: right;
-    min-height: 14px;
+    min-height: 7px;
     & span {
       color: var(--theme-one-clr);
     }
@@ -150,7 +151,7 @@ ion-item-sliding {
     }
     &--disabled {
       color: #bbbbbb;
-      box-shadow: none;
+      // box-shadow: none;
       background: #f7f7f7;
       border: 1px solid #efefef;
     }
@@ -398,3 +399,6 @@ ion-button.button-disabled {
 .card-border {
   border-right: 4px solid #056ea6;
 }
+
+.popover-arrow{display: none !important;}
+.popover.bottom .arrow {visibility:hidden;}
