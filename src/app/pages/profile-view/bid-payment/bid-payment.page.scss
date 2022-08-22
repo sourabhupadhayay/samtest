@@ -126,15 +126,18 @@ ion-content {
               font-size: 1.5rem;
               color: var(--white-clr);
               font-weight: 700;
-              margin: 0 0 10px;
+              margin: 0 0 5px;
             }
             p {
-              font-size: 1rem;
+              font-size: 0.875rem;
               color: var(--white-clr);
               font-weight: 500;
               margin: 0;
+              padding-bottom: 5px;
+              display: flex;
               span {
-                font-weight: 700;
+                padding-left: 5px;
+                font-size: 0.75rem;
               }
             }
           }
@@ -1063,7 +1066,6 @@ ion-modal.small-modal {
           opacity: 0.5;
         }
       }
-      
     }
   }
 }
@@ -1083,10 +1085,10 @@ ion-modal.small-modal.bid-submitted {
     border: 0;
     text-align: center;
 
-    ion-item{
+    ion-item {
       --padding-start: 10px;
       --inner-padding-end: 10px;
-      --background: #B1DBF2;
+      --background: #b1dbf2;
       --background-activated: none;
       --background-focused: none;
       --background-hover: none;
@@ -1096,7 +1098,7 @@ ion-modal.small-modal.bid-submitted {
       --ripple-color: none;
       --border-radius: 18px 18px 0px 0px;
       border-radius: 18px 18px 0px 0px;
-      ion-label{
+      ion-label {
         h3 {
           color: var(--theme-one-clr);
           font-size: 0.875rem;
@@ -1104,7 +1106,12 @@ ion-modal.small-modal.bid-submitted {
           margin: 0;
         }
       }
-      ion-text{margin: 0; color: var(--black-clr); font-size: 0.875rem; font-weight: 700; }
+      ion-text {
+        margin: 0;
+        color: var(--black-clr);
+        font-size: 0.875rem;
+        font-weight: 700;
+      }
     }
 
     &::after {
@@ -1116,11 +1123,13 @@ ion-modal.small-modal.bid-submitted {
     .main-screen {
       padding: 15px 15px 10px;
       text-align: center;
-      h2{font-size: 1.5rem;
+      h2 {
+        font-size: 1.5rem;
         color: var(--black-clr);
         font-weight: 700;
         margin: 0 0 10px;
-        line-height: 26px;}
+        line-height: 26px;
+      }
       p {
         font-size: 1rem;
         color: var(--black-clr);
@@ -1141,7 +1150,7 @@ ion-modal.small-modal.bid-submitted {
       --padding-bottom: 10px;
       --background: var(--white-bg);
       text-align: center;
-      
+
       ion-button {
         cursor: pointer;
         --background: transparent;
@@ -1177,8 +1186,10 @@ ion-modal.small-modal.bid-submitted {
           text-transform: capitalize;
           font-size: 1.25rem;
           line-height: 21px;
-          img{
-            width: 20px; height: 20px; margin-top: 4px;
+          img {
+            width: 20px;
+            height: 20px;
+            margin-top: 4px;
           }
         }
         &.button-disabled {

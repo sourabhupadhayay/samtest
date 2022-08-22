@@ -4,7 +4,7 @@
       <div class="title-part">
         <ion-item lines="none">
           <ion-icon
-            [routerLink]="'/profile/athlete/' + this.athleteData?.id "
+            [routerLink]="'/profile/athlete/' + this.eventData?.athleteId "
             slot="start"
             name="arrow-back-outline"
           ></ion-icon>
@@ -24,10 +24,13 @@
       </div>
       <div class="profile-part">
         <ion-item lines="none">
-          <ion-avatar slot="start" *ngIf="athleteData?.profileUrl !== '' ">
-            <img [src]="athleteData?.profileUrl | profile" />
+          <ion-avatar
+            slot="start"
+            *ngIf="eventData?.userProfilePicture !== '' "
+          >
+            <img [src]="eventData?.userProfilePicture | profile" />
           </ion-avatar>
-          <ion-avatar *ngIf="athleteData?.profileUrl == '' ">
+          <ion-avatar *ngIf="eventData?.userProfilePicture == '' ">
             <div class="initial">
               <span class="initial__span">
                 {{nameInitials}}
@@ -35,8 +38,13 @@
             </div>
           </ion-avatar>
           <ion-label>
-            <h5>{{athleteData?.fullName}}</h5>
-            <p>Min Bid : <span>$50</span></p>
+            <h5>{{eventData?.athleteName | titlecase}}</h5>
+
+            <p>{{eventData?.eventName}}</p>
+            <p>
+              <img src="assets/icon/calendar-white-small.svg" alt="" />
+              <span>{{eventData?.startDate | date:'MMM dd, YYYY'}}</span>
+            </p>
           </ion-label>
         </ion-item>
       </div>
@@ -44,8 +52,8 @@
 
     <ion-grid class="content-part">
       <div class="bid-part">
-        <h3 *ngIf="bidAmount < 50">
-          Please enter more than <span>$50</span> for bid.
+        <h3>
+          Please enter more than <span>${{eventData?.minBid}}</span> for bid.
         </h3>
         <!-- <h3>Top Bid in the waitlist : <span>$225</span></h3> -->
         <!-- <h4>
@@ -286,12 +294,12 @@
 <ion-modal trigger="bidSubmitted" class="small-modal bid-submitted">
   <ng-template>
     <ion-header mode="md">
-        <ion-item lines="none">
-          <ion-label>
-            <h3>Highest Bid</h3>
-          </ion-label>
-          <ion-text slot="end">12</ion-text>
-        </ion-item>
+      <ion-item lines="none">
+        <ion-label>
+          <h3>Highest Bid</h3>
+        </ion-label>
+        <ion-text slot="end">12</ion-text>
+      </ion-item>
     </ion-header>
 
     <div class="inner-content">
@@ -306,7 +314,7 @@
         <div class="auth-btn">
           <ion-button>
             <img src="assets/images/button-auth-red.png" />
-            <span><img src="assets/icon/close-btn.svg"></span>
+            <span><img src="assets/icon/close-btn.svg" /></span>
           </ion-button>
           <ion-button>
             <img src="assets/images/button-auth-green.png" />

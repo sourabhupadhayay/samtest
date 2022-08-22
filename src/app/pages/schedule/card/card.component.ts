@@ -336,7 +336,7 @@ export class CardComponent implements OnInit {
   }
 
   bidAthleteEvent(id: string) {
-    this.router.navigate(["profile/athlete/" + id]);
+    this.router.navigate(["bid-payment/" + id]);
   }
 
   async approveRequestModal() {

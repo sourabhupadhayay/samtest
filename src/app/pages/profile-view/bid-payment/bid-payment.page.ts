@@ -14,9 +14,10 @@ import { PaymentComponent } from "../../tabs/payment/payment.component";
   styleUrls: ["./bid-payment.page.scss"],
 })
 export class BidPaymentPage implements OnInit {
-  athleteData: any | null = null;
+  eventData: any | null = null;
   nameInitials: string;
   bidAmount: number;
+  eventId: string;
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -30,7 +31,7 @@ export class BidPaymentPage implements OnInit {
 
   ngOnInit() {
     this.squarePaymentScript();
-    this.getAthleteData();
+    this.getEventDataFromParams();
   }
 
   squarePaymentScript() {
@@ -69,31 +70,60 @@ export class BidPaymentPage implements OnInit {
     }
   }
 
-  getAthleteData() {
+  getEventDataFromParams() {
     this.route.paramMap
       .pipe(
         switchMap((params: ParamMap) => {
+          this.eventId = params.get("id");
           this.coreService.presentLoader(this.constantService.WAIT);
+
           let request: Request = {
-            path: "auth/users/currentUser?userId=" + params.get("id"),
+            path: "core/event/details/" + params.get("id"),
           };
           return this.apiService.get(request);
         })
       )
       .subscribe((response: Response) => {
         this.coreService.dismissLoader();
-        if (response.status.code === this.constantService.STATUS_OK) {
-          this.athleteData = response.data;
-          this.nameInitials = this.commonService.getInitials(
-            this.athleteData.fullName
-          );
-        } else {
-          this.coreService.showToastMessage(
-            response.status.description,
-            this.coreService.TOAST_ERROR
-          );
-        }
+        this.eventData = response.data;
+        console.log(this.eventData);
+        this.nameInitials = this.commonService.getInitials(
+          this.eventData.athleteName
+        );
+        this.getMaximumBidForEvent();
+        // if (response.status.code === this.constantService.STATUS_OK) {
+        //   this.eventData = response.data;
+        //   console.log(this.eventData);
+        //   this.nameInitials = this.commonService.getInitials(
+        //     this.eventData.athleteName
+        //   );
+        // } else {
+        //   this.coreService.showToastMessage(
+        //     response.status.description,
+        //     this.coreService.TOAST_ERROR
+        //   );
+        // }
       });
+  }
+
+  getMaximumBidForEvent() {
+    let request: Request = {
+      path: "core/event/bid/max/" + this.eventId,
+      isAuth: true,
+    };
+
+    this.coreService.presentLoader(this.constantService.WAIT);
+    this.apiService.get(request).subscribe((response: Response) => {
+      this.coreService.dismissLoader();
+      if (response.status.code === this.constantService.STATUS_OK) {
+        console.log(response);
+      } else {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_ERROR
+        );
+      }
+    });
   }
 
   onPayment() {
@@ -107,7 +137,7 @@ export class BidPaymentPage implements OnInit {
     let request: Request = {
       path: "core/event/bid/save",
       data: {
-        eventId: "",
+        eventId: this.eventId,
         nonce: "",
         paymentType: "",
         totalAmount: this.bidAmount,
