@@ -92,7 +92,7 @@
         </div>
       </div>
 
-      <div class="highest-bid">
+      <!-- <div class="highest-bid">
         <ion-item lines="none">
           <ion-avatar slot="start">
             <img src="assets/icon/highest-bid.svg" />
@@ -102,7 +102,7 @@
             <span>$100</span>
           </ion-label>
         </ion-item>
-      </div>
+      </div> -->
     </div>
 
     <div class="appearances-tab" *ngIf="selectedIndex == 'appearances'">
@@ -157,43 +157,62 @@
 
 <ion-footer mode="ios" *ngIf="selectedIndex == 'profile'">
   <ion-toolbar mode="ios">
-    <div class="buttons-swipe">
-      <div class="buttons-data">
-        <ion-item-sliding (ionDrag)="getAmountOpened($event)">
-          <ion-item-options side="start">
-            <ion-item-option color="danger"></ion-item-option>
-          </ion-item-options>
-          <ion-item lines="none">
-            <ion-button slot="start">
-              <img src="assets/images/button-auth.png" />
-              <span
-                >Bid <br />
-                Now</span
-              >
-            </ion-button>
-          </ion-item>
-        </ion-item-sliding>
-      </div>
-
-      <div class="swipe-data">
+    <div class="footer-part">
+      <div class="highest-bid">
         <ion-item lines="none">
+          <ion-avatar slot="start">
+            <img src="assets/icon/highest-bid.svg" />
+          </ion-avatar>
           <ion-label>
-            <img class="one" src="assets/icon/arrow-right.svg" />
-            <img class="two" src="assets/icon/arrow-right.svg" />
-            <img class="three" src="assets/icon/arrow-right.svg" />
+            <p>Highest Bid for upcoming event
+                <span>National Championship</span>
+            </p>
           </ion-label>
-          <ion-text slot="end">
-            <p>Min Bid</p>
-            <span>$50</span>
-          </ion-text>
+          <ion-text slot="end">$100</ion-text>
         </ion-item>
       </div>
+      <div class="buttons-swipe">
+        <div class="buttons-data">
+          <ion-item-sliding (ionDrag)="getAmountOpened($event)">
+            <ion-item-options side="start">
+              <ion-item-option color="danger"></ion-item-option>
+            </ion-item-options>
+            <ion-item lines="none">
+              <ion-button slot="start">
+                <img src="assets/images/button-auth.png" />
+                <span
+                  >Bid <br />
+                  Now</span
+                >
+              </ion-button>
+            </ion-item>
+          </ion-item-sliding>
+        </div>
+  
+        <div class="swipe-data">
+          <ion-item lines="none">
+            <ion-label>
+              <img class="one" src="assets/icon/arrow-right.svg" />
+              <img class="two" src="assets/icon/arrow-right.svg" />
+              <img class="three" src="assets/icon/arrow-right.svg" />
+            </ion-label>
+            <ion-text slot="end">
+              <p>Min Bid</p>
+              <span>$50</span>
+            </ion-text>
+          </ion-item>
+        </div>
+      </div>
+      <div class="wanna-bubble">
+        <p>Wanna Bubble Up? Increase your Bid</p>
+      </div>
     </div>
-    <div class="wanna-bubble">
-      <p>Wanna Bubble Up? Increase your Bid</p>
-    </div>
+  </ion-toolbar>
+</ion-footer>
 
-    <!-- <div class="bid-submitted">
+
+
+<!-- <div class="bid-submitted">
         <ion-item lines="none">
             <ion-label>
                 <h5>Bid Submitted</h5>
@@ -213,5 +232,3 @@
             </div>
         </ion-item>
     </div> -->
-  </ion-toolbar>
-</ion-footer>
