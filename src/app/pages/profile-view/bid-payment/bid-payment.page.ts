@@ -50,9 +50,9 @@ export class BidPaymentPage implements OnInit {
   }
 
   async presentPaymentModal() {
-    if (this.bidAmount < 50 || !this.bidAmount) {
+    if (this.bidAmount <= this.eventData?.minBid || !this.bidAmount) {
       this.coreService.showToastMessage(
-        "Please enter bid amount greater than 50$",
+        `Please enter bid amount greater than ${this.eventData?.minBid}$`,
         this.coreService.TOAST_ERROR
       );
       return;
@@ -116,7 +116,6 @@ export class BidPaymentPage implements OnInit {
     this.apiService.get(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
-        console.log(response);
       } else {
         this.coreService.showToastMessage(
           response.status.description,
@@ -127,9 +126,9 @@ export class BidPaymentPage implements OnInit {
   }
 
   onPayment() {
-    if (this.bidAmount < 50 || !this.bidAmount) {
+    if (this.bidAmount < this.eventData?.minBid || !this.bidAmount) {
       this.coreService.showToastMessage(
-        "Please enter bid amount greater than 50$",
+        `Please enter bid amount greater than ${this.eventData?.minBid}$`,
         this.coreService.TOAST_ERROR
       );
       return;
