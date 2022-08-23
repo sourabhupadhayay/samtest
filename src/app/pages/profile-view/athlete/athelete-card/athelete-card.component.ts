@@ -7,6 +7,7 @@ import {
   OnInit,
   Output,
 } from "@angular/core";
+import { Router } from "@angular/router";
 import { AlertController, ModalController } from "@ionic/angular";
 import { CommonService } from "src/app/providers/common.service";
 import { ConstantService } from "src/app/providers/constant.service";
@@ -33,12 +34,11 @@ export class AtheleteCardComponent implements OnInit {
 
   constructor(
     private cd: ChangeDetectorRef,
-    private coreService: CoreService,
-    private apiService: DataService,
-    private constantService: ConstantService,
+
     public commonService: CommonService,
     private alertController: AlertController,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -211,7 +211,9 @@ export class AtheleteCardComponent implements OnInit {
       return "Invited by";
     }
   }
-
+  bidAthleteEvent(id: string) {
+    this.router.navigate(["bid-payment/" + id]);
+  }
   // cardBorderClass(): string {
   //   if (this.userRole == "athlete") {
   //     return "card-border";
