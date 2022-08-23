@@ -19,6 +19,8 @@ export class BidPaymentPage implements OnInit {
   nameInitials: string;
   bidAmount: number;
   eventId: string;
+  paymentType: "SQUARE_PAYMENT" | "apple" = "SQUARE_PAYMENT";
+  paymentData: paymentData | null = null;
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -55,7 +57,7 @@ export class BidPaymentPage implements OnInit {
   }
 
   async presentPaymentModal() {
-    if (this.bidAmount <= this.eventData?.minBid || !this.bidAmount) {
+    if (this.bidAmount < this.eventData?.minBid || !this.bidAmount) {
       this.coreService.showToastMessage(
         `Please enter bid amount greater than ${this.eventData?.minBid}$`,
         this.coreService.TOAST_ERROR
@@ -69,7 +71,8 @@ export class BidPaymentPage implements OnInit {
     });
     modal.present();
     const { data, role } = await modal.onDidDismiss();
-    console.log(data);
+    this.paymentData = data;
+    this.paymentType = this.paymentData.paymentType;
     if (!data) {
       return;
     }
@@ -90,24 +93,20 @@ export class BidPaymentPage implements OnInit {
       )
       .subscribe((response: Response) => {
         this.coreService.dismissLoader();
-        this.eventData = response.data;
-        console.log(this.eventData);
-        this.nameInitials = this.commonService.getInitials(
-          this.eventData.athleteName
-        );
-        this.getMaximumBidForEvent();
-        // if (response.status.code === this.constantService.STATUS_OK) {
-        //   this.eventData = response.data;
-        //   console.log(this.eventData);
-        //   this.nameInitials = this.commonService.getInitials(
-        //     this.eventData.athleteName
-        //   );
-        // } else {
-        //   this.coreService.showToastMessage(
-        //     response.status.description,
-        //     this.coreService.TOAST_ERROR
-        //   );
-        // }
+
+        if (response.status.code === this.constantService.STATUS_OK) {
+          this.eventData = response.data;
+
+          this.nameInitials = this.commonService.getInitials(
+            this.eventData.athleteName
+          );
+          this.getMaximumBidForEvent();
+        } else {
+          this.coreService.showToastMessage(
+            response.status.description,
+            this.coreService.TOAST_ERROR
+          );
+        }
       });
   }
 
@@ -131,25 +130,56 @@ export class BidPaymentPage implements OnInit {
   }
 
   onPayment() {
-    if (this.bidAmount < this.eventData?.minBid || !this.bidAmount) {
-      this.coreService.showToastMessage(
-        `Please enter bid amount greater than ${this.eventData?.minBid}$`,
-        this.coreService.TOAST_ERROR
-      );
-      return;
-    }
+    if (this.checkIsBidEntered()) return;
+    if (this.checkPaymentData()) return;
+
     let request: Request = {
       path: "core/event/bid/save",
       data: {
         eventId: this.eventId,
-        nonce: "",
-        paymentType: "",
+        nonce: this.paymentData.nonce,
+        paymentType: this.paymentData.paymentType,
         totalAmount: this.bidAmount,
       },
       isAuth: true,
     };
 
     this.coreService.presentLoader(this.constantService.WAIT);
-    this.apiService.post(request).subscribe(() => {});
+    this.apiService.post(request).subscribe((response: Response) => {
+      this.coreService.dismissLoader();
+      if (response.status.code === this.constantService.STATUS_OK) {
+      } else {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_ERROR
+        );
+      }
+    });
   }
+
+  checkPaymentData(): boolean {
+    if (!this.paymentData) {
+      this.coreService.showToastMessage(
+        `Please enter valid payment details`,
+        this.coreService.TOAST_ERROR
+      );
+      return true;
+    }
+    return false;
+  }
+
+  checkIsBidEntered(): boolean {
+    if (this.bidAmount < this.eventData?.minBid || !this.bidAmount) {
+      this.coreService.showToastMessage(
+        `Please enter bid amount greater than ${this.eventData?.minBid}$`,
+        this.coreService.TOAST_ERROR
+      );
+      return true;
+    }
+    return false;
+  }
+}
+interface paymentData {
+  nonce: string;
+  paymentType: "SQUARE_PAYMENT" | "apple";
 }
