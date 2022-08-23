@@ -145,7 +145,7 @@ export class AthletePage implements OnInit {
     //convert negative to positive number
     number = Math.abs(number);
     if (number > 150) {
-      this.router.navigate(["/bid-payment/" + this.athleteData.id]);
+      this.router.navigate(["/bid-payment/" + this.latestAthleteEvent.id]);
     }
   }
 }
