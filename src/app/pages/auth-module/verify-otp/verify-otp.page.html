@@ -36,7 +36,7 @@
     <ion-grid class="content-part">
       <div class="main-part">
         <div class="auth-title sticky-top">
-          <img src="assets/images/auth-img.png" />
+          <img src="assets/images/auth-img.svg" />
           <h4>Verify OTP</h4>
           <p>
             To verify your email,<br />
@@ -58,7 +58,7 @@
 
         <div *ngIf="timeLeft ==0" class="resend-text">
           <p>
-            Didn’t recieve the verification code?
+            Didn’t recieve the one time password?
             <span (click)="resendOtp()">Resend</span>
           </p>
         </div>

@@ -40,7 +40,7 @@
     <ion-grid class="content-part">
       <div class="main-part">
         <div class="auth-title sticky-top">
-          <img src="assets/images/auth-img.png" />
+          <img src="assets/images/auth-img.svg" />
           <h4>Login</h4>
           <p>Welcome! Login to your account.</p>
         </div>
@@ -66,8 +66,8 @@
               />
               <img
                 *ngIf="isFormSubmitted && loginForm.controls.email.valid"
-                class="ion-align-self-center"
-                slot="end"
+                class="ion-align-self-center" style="opacity: 1;"
+                slot="end" 
                 src="assets/icon/right-green.svg"
               />
             </ion-item>

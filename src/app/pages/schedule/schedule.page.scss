@@ -164,6 +164,7 @@ ion-content {
         font-weight: 700;
         color: var(--white-clr);
         margin: 0;
+        font-style: italic;
       }
     }
     &__opp {
@@ -293,7 +294,7 @@ ion-select {
     top: 23px;
     display: inline-block;
     z-index: 99;
-    border: 2px solid var(--white-clr);
+    border: 1px solid var(--white-clr);
     &.online {
       background: var(--online);
     }

@@ -248,6 +248,7 @@ input:-internal-autofill-selected {
       font-weight: 500;
       padding-left: 30px;
       position: absolute;
+      margin: 0;
     }
     ion-radio {
       height: 20px;
@@ -292,13 +293,14 @@ input:-internal-autofill-selected {
     --background-activated-opacity: 1;
     --background-focused-opacity: 1;
     --background-hover-opacity: 1;
-    --min-height: 35px;
+    --min-height: 34px;
     --padding-start: 10px;
     --inner-padding-end: 10px;
     ion-label {
       color: var(--text-gray) !important;
       font-size: 0.875rem !important;
       font-weight: 500;
+      margin: 0;
     }
     ion-radio {
       height: 20px;
@@ -431,3 +433,5 @@ schedule-card {
     }
   }
 }
+
+.modal-wrapper{box-shadow: none;}

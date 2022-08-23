@@ -112,7 +112,8 @@
               id="open-modal"
               formControlName="birthDate"
               type="text"
-            ></ion-input>
+            ><img class="date-icon" slot="end" src="assets/icon/calendar.svg"></ion-input>
+            
           </ion-item>
           <div
             *ngIf="isFormSubmitted && fanProfileForm.controls.birthDate.invalid"
