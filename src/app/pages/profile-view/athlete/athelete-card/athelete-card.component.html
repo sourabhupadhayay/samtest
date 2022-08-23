@@ -205,6 +205,7 @@
           <ng-container *ngIf="eventFilter =='upcoming' || eventFilter =='All'">
             <ng-container>
               <ion-button
+                (click)="bidAthleteEvent(cardData.id)"
                 [disabled]="canJoinEvent()"
                 *ngIf="cardData.creatorPersona == 'ATHLETE' || cardData.creatorPersona == 'ADMIN'   "
                 size="small"

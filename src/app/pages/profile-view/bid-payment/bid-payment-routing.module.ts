@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { Routes, RouterModule } from "@angular/router";
 
-import { BidPaymentPage } from './bid-payment.page';
+import { BidPaymentPage } from "./bid-payment.page";
 
 const routes: Routes = [
   {
-    path: '',
-    component: BidPaymentPage
-  }
+    path: ":id",
+    component: BidPaymentPage,
+  },
 ];
 
 @NgModule({

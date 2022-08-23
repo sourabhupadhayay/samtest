@@ -29,9 +29,9 @@
         </ion-avatar>
         <ion-avatar *ngIf="athleteData?.profileUrl == '' ">
           <div class="inital">
-              <span class="initial__span">
-                {{nameInitials}}
-              </span>
+            <span class="initial__span">
+              {{nameInitials}}
+            </span>
           </div>
         </ion-avatar>
         <ion-label>
@@ -92,7 +92,7 @@
         </div>
       </div>
 
-      <div class="highest-bid">
+      <!-- <div class="highest-bid">
         <ion-item lines="none">
           <ion-avatar slot="start">
             <img src="assets/icon/highest-bid.svg" />
@@ -102,7 +102,7 @@
             <span>$100</span>
           </ion-label>
         </ion-item>
-      </div>
+      </div> -->
     </div>
 
     <div class="appearances-tab" *ngIf="selectedIndex == 'appearances'">
@@ -137,7 +137,6 @@
           [cardData]="data"
         ></athlete-card>
       </div>
-
     </div>
   </ion-grid>
   <ion-grid class="buble-part">
@@ -158,43 +157,61 @@
 
 <ion-footer mode="ios" *ngIf="selectedIndex == 'profile'">
   <ion-toolbar mode="ios">
-    <div class="buttons-swipe">
-      <div class="buttons-data">
-        <ion-item-sliding (ionDrag)="getAmountOpened($event)">
-          <ion-item-options side="start">
-            <ion-item-option color="danger"></ion-item-option>
-          </ion-item-options>
-          <ion-item lines="none">
-            <ion-button slot="start">
-              <img src="assets/images/button-auth.png" />
-              <span
-                >Bid <br />
-                Now</span
-              >
-            </ion-button>
-          </ion-item>
-        </ion-item-sliding>
-      </div>
-
-      <div class="swipe-data">
+    <div *ngIf="latestAthleteEvent" class="footer-part">
+      <div class="highest-bid">
         <ion-item lines="none">
+          <ion-avatar slot="start">
+            <img src="assets/icon/highest-bid.svg" />
+          </ion-avatar>
           <ion-label>
-            <img class="one" src="assets/icon/arrow-right.svg" />
-            <img class="two" src="assets/icon/arrow-right.svg" />
-            <img class="three" src="assets/icon/arrow-right.svg" />
+            <p>
+              Highest Bid for upcoming event
+              <span>{{latestAthleteEvent.eventName}}</span>
+            </p>
           </ion-label>
-          <ion-text slot="end">
-            <p>Min Bid</p>
-            <span>$50</span>
-          </ion-text>
+          <ion-text slot="end">$100</ion-text>
         </ion-item>
       </div>
-    </div>
-    <div class="wanna-bubble">
-      <p>Wanna Bubble Up? Increase your Bid</p>
-    </div>
+      <div class="buttons-swipe">
+        <div class="buttons-data">
+          <ion-item-sliding (ionDrag)="getAmountOpened($event)">
+            <ion-item-options side="start">
+              <ion-item-option color="danger"></ion-item-option>
+            </ion-item-options>
+            <ion-item lines="none">
+              <ion-button slot="start">
+                <img src="assets/images/button-auth.png" />
+                <span
+                  >Bid <br />
+                  Now</span
+                >
+              </ion-button>
+            </ion-item>
+          </ion-item-sliding>
+        </div>
 
-    <div class="bid-submitted">
+        <div class="swipe-data">
+          <ion-item lines="none">
+            <ion-label>
+              <img class="one" src="assets/icon/arrow-right.svg" />
+              <img class="two" src="assets/icon/arrow-right.svg" />
+              <img class="three" src="assets/icon/arrow-right.svg" />
+            </ion-label>
+            <ion-text slot="end">
+              <p>Min Bid</p>
+              <span>${{latestAthleteEvent.minBid}}</span>
+            </ion-text>
+          </ion-item>
+        </div>
+      </div>
+      <div class="wanna-bubble">
+        <p>Wanna Bubble Up? Increase your Bid</p>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-footer>
+
+<!-- <div class="bid-submitted">
         <ion-item lines="none">
             <ion-label>
                 <h5>Bid Submitted</h5>
@@ -213,6 +230,4 @@
               </ion-button>
             </div>
         </ion-item>
-    </div>
-  </ion-toolbar>
-</ion-footer>
+    </div> -->
