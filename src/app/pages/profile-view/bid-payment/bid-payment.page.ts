@@ -148,6 +148,8 @@ export class BidPaymentPage implements OnInit {
     this.apiService.post(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
+        this.modalCtrl.dismiss();
+        this.router.navigate(["waitlist"]);
       } else {
         this.coreService.showToastMessage(
           response.status.description,
