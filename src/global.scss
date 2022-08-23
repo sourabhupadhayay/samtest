@@ -28,8 +28,14 @@
 * {
   font-family: "Inter", sans-serif !important;
 }
+
+  .plt-android:root {
+    --ion-safe-area-top: 0px !important;
+  }
+
 :root {
   --ion-safe-area-top: 20px;
+  --ion-default-font: "Inter", sans-serif !important;
 }
 
 body {
