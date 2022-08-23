@@ -20,6 +20,8 @@ export class AthletePage implements OnInit {
   scheduleData: any[] = [];
   eventFilter: "past" | "upcoming" | "All" = "All";
   nameInitials: string;
+  athleteId: string;
+  latestAthleteEvent: any | null = null;
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -46,9 +48,11 @@ export class AthletePage implements OnInit {
       .pipe(
         switchMap((params: ParamMap) => {
           this.coreService.presentLoader(this.constantService.WAIT);
+          this.athleteId = params.get("id");
           let request: Request = {
             path: "auth/users/currentUser?userId=" + params.get("id"),
           };
+
           return this.apiService.get(request);
         })
       )
@@ -59,6 +63,7 @@ export class AthletePage implements OnInit {
           this.nameInitials = this.commonService.getInitials(
             this.athleteData.fullName
           );
+          this.getLatestAthleteEvent();
         } else {
           this.coreService.showToastMessage(
             response.status.description,
@@ -113,6 +118,26 @@ export class AthletePage implements OnInit {
           );
         }
       });
+  }
+
+  getLatestAthleteEvent() {
+    this.coreService.presentLoader(this.constantService.WAIT);
+
+    let request: Request = {
+      path: "core/event/athlete/latest/" + this.athleteId,
+      isAuth: true,
+    };
+    this.apiService.get(request).subscribe((response: Response) => {
+      this.coreService.dismissLoader();
+      if (response.status.code === this.constantService.STATUS_OK) {
+        this.latestAthleteEvent = response.data;
+      } else {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_ERROR
+        );
+      }
+    });
   }
 
   async getAmountOpened(event: any) {

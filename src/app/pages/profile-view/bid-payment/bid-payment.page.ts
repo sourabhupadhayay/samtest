@@ -1,3 +1,4 @@
+import { Location } from "@angular/common";
 import { Component, OnInit, Renderer2 } from "@angular/core";
 import { ActivatedRoute, ParamMap, Route, Router } from "@angular/router";
 import { ModalController } from "@ionic/angular";
@@ -26,7 +27,8 @@ export class BidPaymentPage implements OnInit {
     private router: Router,
     private constantService: ConstantService,
     private commonService: CommonService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private _location: Location
   ) {}
 
   ngOnInit() {
@@ -47,6 +49,9 @@ export class BidPaymentPage implements OnInit {
 
   onClickCancel() {
     this.modalCtrl.dismiss(false);
+  }
+  goBack() {
+    this._location.back();
   }
 
   async presentPaymentModal() {

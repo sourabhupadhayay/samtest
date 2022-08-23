@@ -157,15 +157,16 @@
 
 <ion-footer mode="ios" *ngIf="selectedIndex == 'profile'">
   <ion-toolbar mode="ios">
-    <div class="footer-part">
+    <div *ngIf="latestAthleteEvent" class="footer-part">
       <div class="highest-bid">
         <ion-item lines="none">
           <ion-avatar slot="start">
             <img src="assets/icon/highest-bid.svg" />
           </ion-avatar>
           <ion-label>
-            <p>Highest Bid for upcoming event
-                <span>National Championship</span>
+            <p>
+              Highest Bid for upcoming event
+              <span>{{latestAthleteEvent.eventName}}</span>
             </p>
           </ion-label>
           <ion-text slot="end">$100</ion-text>
@@ -188,7 +189,7 @@
             </ion-item>
           </ion-item-sliding>
         </div>
-  
+
         <div class="swipe-data">
           <ion-item lines="none">
             <ion-label>
@@ -198,7 +199,7 @@
             </ion-label>
             <ion-text slot="end">
               <p>Min Bid</p>
-              <span>$50</span>
+              <span>${{latestAthleteEvent.minBid}}</span>
             </ion-text>
           </ion-item>
         </div>
@@ -209,8 +210,6 @@
     </div>
   </ion-toolbar>
 </ion-footer>
-
-
 
 <!-- <div class="bid-submitted">
         <ion-item lines="none">
