@@ -120,6 +120,13 @@ export class CardComponent implements OnInit {
       return true;
     }
   }
+  canBidForEvent() {
+    if (this.timer.days <= 5) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 
   timeConvert(n: number) {
     var num = n;
