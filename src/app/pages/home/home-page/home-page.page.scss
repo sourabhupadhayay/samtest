@@ -102,7 +102,7 @@ ion-content {position: relative; --background: url(../../../../assets/images/bac
               right: 29px;
               display: inline-block;
               z-index: 99;
-              border: 2px solid var(--white-clr);
+              border: 1px solid var(--white-clr);
               &.online {
                 background: var(--online);
               }

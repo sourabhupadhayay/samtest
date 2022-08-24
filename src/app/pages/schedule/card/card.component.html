@@ -286,6 +286,8 @@
           <ng-container *ngIf="userRole == 'fan'">
             <ng-container *ngIf="eventState == 'APPROVED'">
               <ion-button
+                [disabled]="canBidForEvent()"
+                (click)="bidAthleteEvent(cardData.id)"
                 *ngIf="cardData.creatorPersona == 'ATHLETE' || cardData.creatorPersona == 'ADMIN'   "
                 size="small"
                 class="card__cta--blue"

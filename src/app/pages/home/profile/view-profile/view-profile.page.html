@@ -44,7 +44,7 @@
               <h6>
                 Bubble bills - <span>${{userData?.totalEventAmount}}</span>
               </h6>
-              <p>{{userData?.totalEventCount}} appearances held</p>
+              <p>{{userData?.totalEventCount}} Appearances held</p>
             </div>
           </ng-container>
           <ng-container *ngIf="currentUserRole =='athlete'">
@@ -105,7 +105,7 @@
         </div>
 
         <div class="details-box">
-          <h5>Born</h5>
+          <h5>Birthdate</h5>
           <p>{{userData?.birthDate | date:'MMM d, y'}}</p>
         </div>
 
@@ -157,7 +157,7 @@
     <div class="change-pass-logout">
       <ion-item lines="none" (click)="presentChangePasswordModal()">
         <ion-avatar slot="start">
-          <img src="assets/icon/lock.svg" />
+          <img src="assets/icon/lock-black.svg" />
         </ion-avatar>
         <ion-label>Change Password</ion-label>
         <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
@@ -181,20 +181,22 @@
     </div>
 
     <div class="notifications-data" hidden>
-        <div class="top-part">
-            <ion-row>
-                <ion-col size="6">
-                    <h5>Meet up</h5>
-                </ion-col>
-                <ion-col size="6">
-                  <p>with <span>Casey Rodgers</span></p>
-                </ion-col>
-            </ion-row>
-        </div>
-        <div class="data-part">
-            <p>“Let’s Get in Touch”, be ready for
-              <u>Meet up</u> event with <span>Casey Rodgers</span> will start in just 10 min.</p>
-        </div>
+      <div class="top-part">
+        <ion-row>
+          <ion-col size="6">
+            <h5>Meet up</h5>
+          </ion-col>
+          <ion-col size="6">
+            <p>with <span>Casey Rodgers</span></p>
+          </ion-col>
+        </ion-row>
+      </div>
+      <div class="data-part">
+        <p>
+          “Let’s Get in Touch”, be ready for <u>Meet up</u> event with
+          <span>Casey Rodgers</span> will start in just 10 min.
+        </p>
+      </div>
     </div>
   </ion-grid>
   <ion-grid class="buble-part">

@@ -1,0 +1,173 @@
+<ion-content [fullscreen]="true">
+  <div class="main-screen">
+    <ion-grid class="top-card">
+      <div class="title-part">
+        <ion-item lines="none">
+          <ion-icon
+            (click)="goBack()"
+            slot="start"
+            name="arrow-back-outline"
+          ></ion-icon>
+          <ion-label>
+            <ion-grid class="logo-head">
+              <img src="assets/images/single-logo.svg" />
+              <div class="nil4all">
+                <span>#NIL4ALL</span>
+              </div>
+            </ion-grid>
+          </ion-label>
+          <div class="notification" slot="end">
+            <img src="assets/icon/notification.svg" />
+            <span></span>
+          </div>
+        </ion-item>
+      </div>
+      <div class="profile-part">
+        <ion-item lines="none">
+          <ion-avatar
+            slot="start"
+            *ngIf="eventData?.userProfilePicture !== '' "
+          >
+            <img [src]="eventData?.userProfilePicture | profile" />
+          </ion-avatar>
+          <ion-avatar *ngIf="eventData?.userProfilePicture == '' ">
+            <div class="initial">
+              <span class="initial__span">
+                {{nameInitials}}
+              </span>
+            </div>
+          </ion-avatar>
+          <ion-label>
+            <h5>{{eventData?.athleteName | titlecase}}</h5>
+
+            <p>{{eventData?.eventName}}</p>
+            <p>
+              <img src="assets/icon/calendar-white-small.svg" alt="" />
+              <span>{{eventData?.startDate | date:'MMM dd, YYYY'}}</span>
+            </p>
+          </ion-label>
+        </ion-item>
+      </div>
+    </ion-grid>
+
+    <ion-grid class="content-part">
+      <div class="bid-part">
+        <h3>
+          Please enter more than <span>${{eventData?.minBid}}</span> for bid.
+        </h3>
+        <!-- <h3>Top Bid in the waitlist : <span>$225</span></h3> -->
+        <!-- <h4>
+          Your Previous Bid is
+          <span>$200</span>
+        </h4> -->
+        <div class="input-part">
+          <span>$</span>
+          <ion-input
+            [(ngModel)]="bidAmount"
+            placeholder="200"
+            type="number"
+          ></ion-input>
+        </div>
+        <div class="select-payment">
+          <ion-item lines="none" (click)="presentPaymentModal()">
+            <img
+              *ngIf="paymentType == 'apple'"
+              src="assets/images/pay-icon.png"
+            />
+            <img
+              *ngIf="paymentType !== 'apple'"
+              src="assets/images/cc-img.png"
+            />
+            <ion-label *ngIf="paymentType == 'apple'">Apple Pay</ion-label>
+            <ion-label *ngIf="paymentType !== 'apple'">Credit card</ion-label>
+            <ion-icon slot="end" name="chevron-down-outline"></ion-icon>
+          </ion-item>
+        </div>
+        <div class="auth-btn">
+          <ion-button
+            [disabled]="!paymentData || !bidAmount "
+            id="bidSubmitted"
+          >
+            <img src="assets/images/button-auth.png" />
+            <span>Pay<br />Now</span>
+          </ion-button>
+        </div>
+      </div>
+    </ion-grid>
+  </div>
+
+  <ion-grid class="buble-part">
+    <div class="dots-bubble">
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+    </div>
+  </ion-grid>
+</ion-content>
+
+<ion-modal trigger="CreateAppearance" class="small-modal">
+  <ng-template>
+    <ion-header mode="md">
+      <h3>Create Appearance</h3>
+    </ion-header>
+
+    <div class="inner-content">
+      <div class="main-screen">
+        <p>Are you sure, you want to Create Appearance?</p>
+      </div>
+    </div>
+
+    <ion-footer mode="ios">
+      <ion-toolbar mode="ios">
+        <ion-button class="white-btn">
+          <img src="assets/icon/close-icon.png" />
+        </ion-button>
+        <ion-button class="white-btn">
+          <img src="assets/icon/right-icon.png" />
+        </ion-button>
+      </ion-toolbar>
+    </ion-footer>
+  </ng-template>
+</ion-modal>
+
+<ion-modal trigger="bidSubmitted" class="small-modal bid-submitted">
+  <ng-template>
+    <ion-header mode="md">
+      <ion-item lines="none">
+        <ion-label>
+          <h3>Highest Bid</h3>
+        </ion-label>
+        <ion-text slot="end">12</ion-text>
+      </ion-item>
+    </ion-header>
+
+    <div class="inner-content">
+      <div class="main-screen">
+        <h2>${{bidAmount}}</h2>
+        <p>Bid Submitted!</p>
+      </div>
+    </div>
+
+    <ion-footer mode="ios">
+      <ion-toolbar mode="ios">
+        <div class="auth-btn">
+          <ion-button (click)="onClickCancel()">
+            <img src="assets/images/button-auth-red.png" />
+            <span><img src="assets/icon/close-btn.svg" /></span>
+          </ion-button>
+          <ion-button (click)="onPayment()">
+            <img src="assets/images/button-auth-green.png" />
+            <span>Go</span>
+          </ion-button>
+        </div>
+      </ion-toolbar>
+    </ion-footer>
+  </ng-template>
+</ion-modal>

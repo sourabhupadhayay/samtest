@@ -164,6 +164,7 @@ ion-content {
         font-weight: 700;
         color: var(--white-clr);
         margin: 0;
+        font-style: italic;
       }
     }
     &__opp {
@@ -181,7 +182,7 @@ ion-content {
 
 .sticky-div {
   position: sticky;
-  top: 90px;
+  top: 85px;
   z-index: 999;
   // background: #000;
   padding: 10px 15px;
@@ -293,7 +294,7 @@ ion-select {
     top: 23px;
     display: inline-block;
     z-index: 99;
-    border: 2px solid var(--white-clr);
+    border: 1px solid var(--white-clr);
     &.online {
       background: var(--online);
     }

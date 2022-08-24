@@ -120,6 +120,13 @@ export class CardComponent implements OnInit {
       return true;
     }
   }
+  canBidForEvent() {
+    if (this.timer.days <= 5) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 
   timeConvert(n: number) {
     var num = n;
@@ -334,6 +341,11 @@ export class CardComponent implements OnInit {
     }
     this.changeEventStatus("REJECTED", data);
   }
+
+  bidAthleteEvent(id: string) {
+    this.router.navigate(["bid-payment/" + id]);
+  }
+
   async approveRequestModal() {
     let eventData = {
       eventType: this.cardData.eventType,

@@ -41,7 +41,7 @@
         <h2 class="profile__name">Hi {{userData?.fullName}}</h2>
         <ng-container *ngIf="userRole == 'fan'">
           <p>{{userData?.teamName}}</p>
-          <p>{{userData?.teamState}} / {{userData?.teamName}}</p>
+          <p>{{userData?.teamState}} / {{userData?.country}}</p>
         </ng-container>
         <ng-container *ngIf="userRole == 'athlete'">
           <p>{{userData?.teamName}}</p>
@@ -56,6 +56,7 @@
       <h6>
         ${{userData?.totalEventAmount}}
       </h6>
+      <ion-button routerLink="/waitlist">join</ion-button>
     </div>
 
     <div *ngIf="userRole == 'athlete'" class="profile__bottom">
@@ -65,6 +66,7 @@
       <h6>
         ${{userData?.totalEarning}}
       </h6>
+      <ion-button routerLink="/waitlist">join</ion-button>
     </div>
   </div>
   <div class="sticky-div" [ngClass]="isClassAdded ? 'add-bg':''">
@@ -94,7 +96,7 @@
             (ngModelChange)="resetAndGetMoreData()"
             interface="popover"
             mode="ios"
-            [interfaceOptions]="{'cssClass': 'mycomponent-wider-popover'}"
+            [interfaceOptions]="{'cssClass': 'mycomponent-wider-popover' }"
           >
             <ion-select-option value="All">All</ion-select-option>
             <ion-select-option value="me">Created by me</ion-select-option>
