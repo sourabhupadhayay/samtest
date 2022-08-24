@@ -418,14 +418,50 @@ schedule-card {
   justify-content: center;
   width: 50%;
   display: none;
-  h5 {
-    margin: 0;
-    padding: 0;
-    font-size: 1.1rem;
-    color: var(--text-gray);
-    font-weight: 500;
+
+  .image-part{padding: 0px;position: relative; display: inline-block; border-radius: 0px; width: 100%; height: 100%;
+    // img{max-width: 100%;  border-radius: 30px;}
+    .video-part-football{ height: 100%;
+      iframe{width: 100%; height: 100%;}
+      video {
+        width: 100%;
+        height: auto;
+      }
+    }
+    .text-part{position: absolute; top: 0px; padding: 40px; height: 100%; display: flex; flex-flow: column; justify-content: space-between; z-index: 2;
+      .logo-top{
+        img{max-width: 100%;}
+      }
+      .buttom-text{
+        h2{font-size: 3rem; color: var(--white-clr); font-weight: 600; margin: 0 0 10px;
+          span{font-weight: 800;}
+        }
+        p{font-size: 1.375rem; color: var(--white-clr); font-weight: 500; margin: 0 0 10px;}
+      }
+    }
+    .overlay-part{background: rgba(var(--theme-one-bg-rgb), 0.75); position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 1; margin: 0; padding: 0;}
   }
 }
+
+
+  // h5 {
+  //   margin: 0;
+  //   padding: 0;
+  //   font-size: 1.1rem;
+  //   color: var(--text-gray);
+  //   font-weight: 500;
+  // }
+
+
+
+@media only screen and (min-width: 1024px) and (max-width:1199px) {
+  .slider-data .image-part .text-part .buttom-text h2{font-size: 2rem; margin: 0 0 6px;
+    span{font-weight: 800;}
+  }
+
+  .slider-data .image-part .text-part .buttom-text p{font-size: 1rem;  margin: 0 0 6px;}
+  }
+
 
 @media screen and (min-width: 1024px) {
   .slider-data {
