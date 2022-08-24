@@ -89,11 +89,12 @@ ion-content {
       --padding-start: 0rem;
       --padding-end: 0rem;
       height: 90px;
-      width: 68px;
+      width: 72px;
       box-shadow: none;
       border-radius: 50%;
       --border-radius: 0;
       margin: 10px 8px;
+      text-transform: capitalize;
       .btn-data {
         span {
           height: 58px;
@@ -105,6 +106,7 @@ ion-content {
           text-align: center;
           justify-content: center;
           align-items: center;
+          margin: auto;
           img {
             width: 30px;
             height: 30px;
