@@ -56,7 +56,7 @@
       <h6>
         ${{userData?.totalEventAmount}}
       </h6>
-      <ion-button routerLink="/waitlist">join</ion-button>
+<!--      <ion-button routerLink="/waitlist">Test Video call</ion-button>-->
     </div>
 
     <div *ngIf="userRole == 'athlete'" class="profile__bottom">
@@ -66,9 +66,9 @@
       <h6>
         ${{userData?.totalEarning}}
       </h6>
-      <ion-button routerLink="/waitlist">join</ion-button>
     </div>
   </div>
+
   <div class="sticky-div" [ngClass]="isClassAdded ? 'add-bg':''">
     <ion-grid class="tabs-design">
       <ion-segment
@@ -89,6 +89,7 @@
     </ion-grid>
     <div class="schedule">
       <h6>{{listHeading()}}</h6>
+
       <ng-container *ngIf="userRole == 'athlete'">
         <div class="">
           <ion-select
@@ -131,6 +132,10 @@
         </div>
       </ng-container>
     </div>
+    <div class="test-btn">
+    <ion-button routerLink="/waitlist" class="">Test Video call</ion-button>
+    </div>
+
   </div>
   <ion-grid class="content-part">
     <div *ngIf="eventState == 'APPROVED'" class="">
