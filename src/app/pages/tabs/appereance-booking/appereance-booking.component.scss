@@ -127,7 +127,10 @@
         }
       }
       .radio-btn {
-        position: sticky; top: 0; background: var(--white-bg); z-index: 99; 
+        position: sticky;
+        top: 0;
+        background: var(--white-bg);
+        z-index: 99;
         .radio-main {
           display: flex;
           align-items: center;
@@ -559,5 +562,25 @@
         }
       }
     }
+  }
+}
+.initial {
+  position: relative;
+
+  &__span {
+    width: 25px !important;
+    height: 25px !important;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50%;
+    background-color: #1b4b64;
+    margin-right: 10px;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    text-transform: uppercase;
+    border: 1px solid white;
   }
 }
