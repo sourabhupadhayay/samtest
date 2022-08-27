@@ -22,6 +22,7 @@ import { ApproveRequestComponent } from "../approve-request/approve-request.comp
 import { CancelMessageModalComponent } from "../cancel-message-modal/cancel-message-modal.component";
 import { CancelRequestModalComponent } from "../cancel-request-modal/cancel-request-modal.component";
 import { DismissmodalComponent } from "../dismissmodal/dismissmodal.component";
+import { Share } from "@capacitor/share";
 
 type EventStatus = "PENDING" | "APPROVED" | "REJECTED" | "CANCELLED";
 
@@ -252,6 +253,15 @@ export class CardComponent implements OnInit {
       this.timer = this.counter;
       this.cd.detectChanges();
     }, 60000);
+  }
+
+  async shareEvent() {
+    await Share.share({
+      title: "See cool stuff",
+      text: "Really awesome thing you need to see right meow",
+      url: "http://ionicframework.com/",
+      dialogTitle: "Share with buddies",
+    });
   }
 
   invitedText(): String {

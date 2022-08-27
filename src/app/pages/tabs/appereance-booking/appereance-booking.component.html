@@ -310,7 +310,8 @@
             <ion-item
               [ngClass]="validFanInputBorder('selectedAthleteName')"
               lines="none"
-              class="ion-align-items-center" mode="md"
+              class="ion-align-items-center"
+              mode="md"
             >
               <input
                 matInput
@@ -325,7 +326,11 @@
                 src="assets/icon/arrow-down.svg"
               />
             </ion-item>
-            <mat-autocomplete #auto="matAutocomplete" class="custom-class" mode="md">
+            <mat-autocomplete
+              #auto="matAutocomplete"
+              class="custom-class"
+              mode="md"
+            >
               <mat-option
                 (click)="selectedAthlete(option)"
                 *ngFor="let option of $athletes | async"
@@ -334,7 +339,16 @@
                 <div class="list-data">
                   <!-- <ion-list> -->
                   <ion-item lines="none">
-                    <img slot="start" [src]="option.profileUrl | profile" />
+                    <img
+                      slot="start"
+                      *ngIf=" option.profileUrl !==''"
+                      [src]="option.profileUrl | profile"
+                    />
+                    <div *ngIf="option?.profileUrl ==''" class="inital">
+                      <span class="initial__span">
+                        {{getInitials(option.fullName) | titlecase }}
+                      </span>
+                    </div>
                     <ion-label>
                       <h5>{{option.fullName }}</h5>
                     </ion-label>

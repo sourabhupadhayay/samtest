@@ -1,7 +1,7 @@
 <ion-content [scrollEvents]="true">
   <ion-grid class="top-card">
     <div class="title-part">
-      <ion-item routerLink="/" lines="none">
+      <ion-item routerLink="/tabs/home" lines="none">
         <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
         <ion-label>
           <ion-grid class="logo-head">
@@ -55,10 +55,10 @@
         </div>
         <div class="content-part">
           <p>Your approximate wait time is <span>6</span> minutes</p>
-          <p>
+          <!-- <p>
             Top Bid in the waitlist :
             <span>${{connectedFans[0]?.bid.toFixed()}}</span>
-          </p>
+          </p> -->
 
           <h4 hidden><span>Casey Rodgers</span> will connect with you soon</h4>
 
@@ -67,13 +67,14 @@
             <div class="bg-white-box">
               <ion-item lines="none">
                 <ion-avatar slot="start">
-                  <img src="assets/images/profile.png" />
+                  <!-- <img src="assets/images/profile.png" /> -->
                 </ion-avatar>
                 <ion-label>
-                  <h5>{{userData?.fullName}}</h5>
-                  <p>${{connectedFans[currentPosition]?.bid.toFixed()}}</p>
+                  <!-- <h5>{{userData?.fullName}}</h5>
+                  <p>${{connectedFans[currentPosition]?.bid.toFixed()}}</p> -->
+                  <h5>Work in progress</h5>
                 </ion-label>
-                <img class="edit" slot="end" src="assets/icon/edit-green.png" />
+                <!-- <img class="edit" slot="end" src="assets/icon/edit-green.png" /> -->
               </ion-item>
               <div class="increase-your-bid">
                 <div class="main-text">
