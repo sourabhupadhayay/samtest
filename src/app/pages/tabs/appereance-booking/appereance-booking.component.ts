@@ -128,10 +128,7 @@ export class AppereanceBookingComponent implements OnInit {
       eventType: ["VIDEO"],
       startDate: ["", [Validators.required]],
       duration: ["", [Validators.required]],
-      minBid: [
-        null,
-        [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)],
-      ],
+      minBid: [null, [Validators.required]],
       description: [""],
       eventName: ["", [Validators.required]],
     });
@@ -139,10 +136,7 @@ export class AppereanceBookingComponent implements OnInit {
     this.fanForm = this.fb.nonNullable.group({
       startDate: ["", [Validators.required]],
       duration: ["", [Validators.required]],
-      minBid: [
-        null,
-        [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)],
-      ],
+      minBid: [null, [Validators.required]],
       description: [""],
       eventName: ["", [Validators.required]],
       selectedAthleteName: ["", Validators.required],
@@ -231,6 +225,7 @@ export class AppereanceBookingComponent implements OnInit {
     this.fanForm.controls.minBid.patchValue(
       this.parseStringToFloat(this.fanForm.controls.minBid.value)
     );
+    console.log(this.fanForm);
 
     if (this.fanForm.invalid) {
       this.coreService.showToastMessage(
