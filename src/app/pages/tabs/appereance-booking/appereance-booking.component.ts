@@ -1,4 +1,4 @@
-import {Component, OnInit, Renderer2} from "@angular/core";
+import { Component, OnInit, Renderer2 } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ModalController } from "@ionic/angular";
 import { Observable } from "rxjs";
@@ -53,14 +53,15 @@ export class AppereanceBookingComponent implements OnInit {
     private commonService: CommonService,
     private coreService: CoreService,
     private apiService: DataService,
-    private constant: ConstantService,private renderer: Renderer2
+    private constant: ConstantService,
+    private renderer: Renderer2
   ) {}
 
   ngOnInit() {
-    const script = this.renderer.createElement('script');
-    if(this.commonService.publicInfo.squareEnvironment == 'PRODUCTION'){
+    const script = this.renderer.createElement("script");
+    if (this.commonService.publicInfo.squareEnvironment == "PRODUCTION") {
       script.src = `https://js.squareup.com/v2/paymentform`;
-    }else{
+    } else {
       script.src = `https://js.squareupsandbox.com/v2/paymentform`;
     }
     this.renderer.appendChild(document.head, script);
@@ -83,7 +84,9 @@ export class AppereanceBookingComponent implements OnInit {
       return;
     }
 
-    this.fanForm.controls.duration.patchValue(this.commonService.publicInfo.defaultDurationOfFanEvent+"min");
+    this.fanForm.controls.duration.patchValue(
+      this.commonService.publicInfo.defaultDurationOfFanEvent + "min"
+    );
     this.totalFanDuration = this.commonService.publicInfo.defaultDurationOfFanEvent;
   }
 
@@ -393,5 +396,9 @@ export class AppereanceBookingComponent implements OnInit {
     } else {
       return "";
     }
+  }
+
+  getInitials(name: string): string {
+    return this.commonService.getInitials(name);
   }
 }
