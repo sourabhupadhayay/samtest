@@ -26,7 +26,7 @@ export class FanWaitlistPage implements OnInit {
 
   ngOnInit() {
     this.getUserData();
-    // this.athleteCallingSubscription();
+     this.athleteCallingSubscription();
   }
 
   athleteCallingSubscription() {
