@@ -170,8 +170,6 @@ export class AppereanceBookingComponent implements OnInit {
       request = this.fanDataRequest();
     }
 
-    console.log(request);
-
     if (!request) {
       return;
     }
@@ -225,7 +223,6 @@ export class AppereanceBookingComponent implements OnInit {
     this.fanForm.controls.minBid.patchValue(
       this.parseStringToFloat(this.fanForm.controls.minBid.value)
     );
-    console.log(this.fanForm);
 
     if (this.fanForm.invalid) {
       this.coreService.showToastMessage(
