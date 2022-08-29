@@ -86,7 +86,10 @@
               class="error-msg"
               id="userNameError"
             >
-              <p><img src="assets/icon/info-red.svg" /> Please enter valid full name</p>
+              <p>
+                <img src="assets/icon/info-red.svg" /> Please enter valid full
+                name
+              </p>
             </div>
           </div>
 
@@ -101,7 +104,7 @@
               <img
                 class="ion-align-self-center"
                 slot="end"
-                src="assets/icon/email.svg"
+                src="assets/icon/right-green.svg"
               />
             </ion-item>
             <!-- <div
@@ -129,14 +132,14 @@
                 *ngIf="isShowingPassword"
                 class="ion-align-self-center"
                 slot="end"
-                src="assets/icon/hide.svg"
+                src="assets/icon/show.svg"
               />
               <img
                 (click)="showPassword()"
                 *ngIf="!isShowingPassword"
                 class="ion-align-self-center"
                 slot="end"
-                src="assets/icon/show.svg"
+                src="assets/icon/hide.svg"
               />
             </ion-item>
             <div
@@ -354,7 +357,7 @@
           </div>
           <div class="age-requeird">
             <ion-item lines="none" mode="ios">
-              <img slot="start" src="assets/icon/info-white.svg">
+              <img slot="start" src="assets/icon/info-white.svg" />
               <ion-label>Required age is 18+</ion-label>
             </ion-item>
           </div>
