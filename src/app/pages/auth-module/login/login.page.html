@@ -66,8 +66,9 @@
               />
               <img
                 *ngIf="isFormSubmitted && loginForm.controls.email.valid"
-                class="ion-align-self-center" style="opacity: 1;"
-                slot="end" 
+                class="ion-align-self-center"
+                style="opacity: 1;"
+                slot="end"
                 src="assets/icon/right-green.svg"
               />
             </ion-item>
@@ -99,14 +100,14 @@
                 (click)="showPasswordToggle()"
                 class="ion-align-self-center"
                 slot="end"
-                src="assets/icon/hide.svg"
+                src="assets/icon/show.svg"
               />
               <img
                 *ngIf="!isShowingPassword"
                 (click)="showPasswordToggle()"
                 class="ion-align-self-center"
                 slot="end"
-                src="assets/icon/show.svg"
+                src="assets/icon/hide.svg"
               />
             </ion-item>
             <div
