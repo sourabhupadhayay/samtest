@@ -1,3 +1,4 @@
+import { CurrencyPipe } from "@angular/common";
 import { Component, OnInit, Renderer2 } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ModalController } from "@ionic/angular";
@@ -25,6 +26,7 @@ import { TermsConditionsComponent } from "../terms-conditions/terms-conditions.c
   selector: "app-appereance-booking",
   templateUrl: "./appereance-booking.component.html",
   styleUrls: ["./appereance-booking.component.scss"],
+  providers: [CurrencyPipe],
 })
 export class AppereanceBookingComponent implements OnInit {
   athleteForm: FormGroup;
@@ -54,7 +56,8 @@ export class AppereanceBookingComponent implements OnInit {
     private coreService: CoreService,
     private apiService: DataService,
     private constant: ConstantService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private currencyPipe: CurrencyPipe
   ) {}
 
   ngOnInit() {
@@ -125,10 +128,7 @@ export class AppereanceBookingComponent implements OnInit {
       eventType: ["VIDEO"],
       startDate: ["", [Validators.required]],
       duration: ["", [Validators.required]],
-      minBid: [
-        null,
-        [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)],
-      ],
+      minBid: [null, [Validators.required]],
       description: [""],
       eventName: ["", [Validators.required]],
     });
@@ -136,10 +136,7 @@ export class AppereanceBookingComponent implements OnInit {
     this.fanForm = this.fb.nonNullable.group({
       startDate: ["", [Validators.required]],
       duration: ["", [Validators.required]],
-      minBid: [
-        null,
-        [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)],
-      ],
+      minBid: [null, [Validators.required]],
       description: [""],
       eventName: ["", [Validators.required]],
       selectedAthleteName: ["", Validators.required],
@@ -172,6 +169,7 @@ export class AppereanceBookingComponent implements OnInit {
     } else {
       request = this.fanDataRequest();
     }
+
     if (!request) {
       return;
     }
@@ -195,6 +193,11 @@ export class AppereanceBookingComponent implements OnInit {
 
   athleteDataRequest() {
     this.isAthleteFormSubmitted = true;
+
+    this.athleteForm.controls.minBid.patchValue(
+      this.parseStringToFloat(this.athleteForm.controls.minBid.value)
+    );
+
     if (this.athleteForm.invalid) {
       return;
     }
@@ -217,6 +220,10 @@ export class AppereanceBookingComponent implements OnInit {
   fanDataRequest() {
     this.isFanFormSubmitted = true;
 
+    this.fanForm.controls.minBid.patchValue(
+      this.parseStringToFloat(this.fanForm.controls.minBid.value)
+    );
+
     if (this.fanForm.invalid) {
       this.coreService.showToastMessage(
         "Please enter valid details",
@@ -234,6 +241,7 @@ export class AppereanceBookingComponent implements OnInit {
       startDate,
       duration,
       eventAddress,
+
       ...signUpResponse
     } = this.fanForm.value;
 
@@ -245,6 +253,7 @@ export class AppereanceBookingComponent implements OnInit {
         duration: this.totalFanDuration,
         athleteId: this.selectedAthleteId,
         eventType: this.fanEventType,
+
         eventAddress: this.fanEventType == "IN_PERSON" ? eventAddress : {},
       },
       isAuth: true,
@@ -400,5 +409,43 @@ export class AppereanceBookingComponent implements OnInit {
 
   getInitials(name: string): string {
     return this.commonService.getInitials(name);
+  }
+
+  setInputCurrency() {
+    let bidAmount: string | null = null;
+    if (this.userRole == "fan") {
+      bidAmount = this.fanForm.controls.minBid.value;
+    } else {
+      bidAmount = this.athleteForm.controls.minBid.value;
+    }
+
+    if (!bidAmount) {
+      return;
+    }
+    if (bidAmount.includes("$")) {
+      bidAmount = bidAmount.replace("$", "");
+    }
+    if (bidAmount.includes(",")) {
+      bidAmount = bidAmount.replace(",", "");
+    }
+
+    let convertedAmount = this.currencyPipe.transform(bidAmount, "$");
+
+    if (this.userRole == "fan") {
+      this.fanForm.controls.minBid.patchValue(convertedAmount);
+    } else {
+      this.athleteForm.controls.minBid.patchValue(convertedAmount);
+    }
+  }
+
+  parseStringToFloat(bidAmount: string): number {
+    if (bidAmount.includes("$")) {
+      bidAmount = bidAmount.replace("$", "");
+    }
+    if (bidAmount.includes(",")) {
+      bidAmount = bidAmount.replace(",", "");
+    }
+
+    return parseFloat(bidAmount);
   }
 }

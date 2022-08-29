@@ -1,4 +1,4 @@
-import { Location } from "@angular/common";
+import { DecimalPipe, formatNumber, Location } from "@angular/common";
 import { Component, OnInit, Renderer2 } from "@angular/core";
 import { ActivatedRoute, ParamMap, Route, Router } from "@angular/router";
 import { ModalController } from "@ionic/angular";
@@ -13,11 +13,12 @@ import { PaymentComponent } from "../../tabs/payment/payment.component";
   selector: "app-bid-payment",
   templateUrl: "./bid-payment.page.html",
   styleUrls: ["./bid-payment.page.scss"],
+  providers: [DecimalPipe],
 })
 export class BidPaymentPage implements OnInit {
   eventData: any | null = null;
   nameInitials: string;
-  bidAmount: number;
+  bidAmount: string;
   eventId: string;
   paymentType: "SQUARE_PAYMENT" | "apple" = "SQUARE_PAYMENT";
   paymentData: paymentData | null = null;
@@ -30,7 +31,8 @@ export class BidPaymentPage implements OnInit {
     private constantService: ConstantService,
     private commonService: CommonService,
     private renderer: Renderer2,
-    private _location: Location
+    private _location: Location,
+    private decimalPipe: DecimalPipe
   ) {}
 
   ngOnInit() {
@@ -110,6 +112,13 @@ export class BidPaymentPage implements OnInit {
       });
   }
 
+  convertNumberToDecimal() {
+    if (!this.bidAmount) {
+      return;
+    }
+    this.bidAmount = this.decimalPipe.transform(this.bidAmount, "1.2-2");
+  }
+
   getMaximumBidForEvent() {
     let request: Request = {
       path: "core/event/bid/max/" + this.eventId,
@@ -139,7 +148,7 @@ export class BidPaymentPage implements OnInit {
         eventId: this.eventId,
         nonce: this.paymentData.nonce,
         paymentType: this.paymentData.paymentType,
-        totalAmount: this.bidAmount,
+        totalAmount: parseFloat(this.bidAmount),
       },
       isAuth: true,
     };
