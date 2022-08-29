@@ -64,6 +64,7 @@
           <span>$</span>
           <ion-input
             [(ngModel)]="bidAmount"
+            (ionBlur)="convertNumberToDecimal()"
             placeholder="200"
             type="number"
           ></ion-input>

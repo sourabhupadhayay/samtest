@@ -19,11 +19,12 @@ export class ConvertStringToIntDirective implements OnInit {
       .pipe(
         map((value) => {
           const pattern = /[A-Za-z ]/; //
+
           if (pattern.test(value)) {
             return;
           }
 
-          return +value;
+          return value;
         })
       )
       .subscribe((v) => control.patchValue(v, { emitEvent: false }));

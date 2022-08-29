@@ -130,6 +130,7 @@
               <ion-input
                 appConverStringToInt
                 inputmode="numeric"
+                (ionBlur)="setInputCurrency()"
                 formControlName="minBid"
                 placeholder="Minimum Bid"
               ></ion-input>
@@ -368,6 +369,7 @@
             >
               <ion-input
                 appConverStringToInt
+                (ionBlur)="setInputCurrency()"
                 formControlName="minBid"
                 inputmode="numeric"
                 placeholder="Appearance Fee ($)"
