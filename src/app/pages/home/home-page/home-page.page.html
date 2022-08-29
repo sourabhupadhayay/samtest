@@ -24,7 +24,7 @@
               <div  *ngIf="bubble?.profileUrl !== '' ">
               <img [src]="bubble.profileUrl | profile" />
               </div>
-              <span [ngClass]="bubble.online ? 'online':'offline'"></span>
+              
 
               <div class="inital"  *ngIf="bubble?.profileUrl == '' ">
                 <span class="initial__span">
@@ -32,6 +32,7 @@
                 </span>
               </div>
             </div>
+            <span [ngClass]="bubble.online ? 'online':'offline'"></span>
           </div>
         </div>
       </div>
