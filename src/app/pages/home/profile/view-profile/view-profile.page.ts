@@ -133,7 +133,7 @@ export class ViewProfilePage implements OnInit {
       this.modalCtrl.dismiss();
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
-        Storage.clear().then(() => {
+        Storage.remove({ key: "userDetails" }).then(() => {
           localStorage.removeItem("authDetail");
           this.router.navigate(["/auth/login"]);
         });
