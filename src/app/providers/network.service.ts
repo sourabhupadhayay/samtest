@@ -1,16 +1,16 @@
 import { Injectable } from "@angular/core";
 import { Network } from "@capacitor/network";
 
-import { BehaviorSubject, Observable, Subject } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { distinctUntilChanged } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root",
 })
 export class NetworkService {
-  private readonly _didInternetWentOffline: Subject<boolean> = new Subject<
+  private readonly _didInternetWentOffline: BehaviorSubject<
     boolean
-  >();
+  > = new BehaviorSubject<boolean>(true);
 
   private readonly _didInternetWentOffline$: Observable<
     boolean
@@ -30,10 +30,6 @@ export class NetworkService {
   }
 
   get isOnline(): boolean {
-    let isOnline = false;
-    this._didInternetWentOffline.subscribe((value) => {
-      isOnline = value;
-    });
-    return isOnline;
+    return this._didInternetWentOffline.value;
   }
 }
