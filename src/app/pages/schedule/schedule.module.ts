@@ -14,6 +14,8 @@ import { DismissmodalComponent } from "./dismissmodal/dismissmodal.component";
 import { CancelRequestModalComponent } from "./cancel-request-modal/cancel-request-modal.component";
 import { CancelMessageModalComponent } from "./cancel-message-modal/cancel-message-modal.component";
 import { ApproveRequestComponent } from "./approve-request/approve-request.component";
+import { ShowOtpComponent } from "./show-otp/show-otp.component";
+import { EnterOtpComponent } from "./enter-otp/enter-otp.component";
 
 @NgModule({
   imports: [
@@ -31,6 +33,8 @@ import { ApproveRequestComponent } from "./approve-request/approve-request.compo
     CancelRequestModalComponent,
     CancelMessageModalComponent,
     ApproveRequestComponent,
+    ShowOtpComponent,
+    EnterOtpComponent,
   ],
 })
 export class SchedulePageModule {}
