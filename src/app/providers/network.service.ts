@@ -17,12 +17,18 @@ export class NetworkService {
   > = this._didInternetWentOffline.asObservable();
   constructor() {
     this._networkInit();
+    this.logCurrentNetworkStatus();
   }
 
   private _networkInit(): void {
     Network.addListener("networkStatusChange", (status) => {
       this._didInternetWentOffline.next(status.connected);
     });
+  }
+  async logCurrentNetworkStatus() {
+    const status = await Network.getStatus();
+
+    this._didInternetWentOffline.next(status.connected);
   }
 
   networkListener(): Observable<boolean> {
