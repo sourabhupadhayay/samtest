@@ -29,9 +29,10 @@
   font-family: "Inter", sans-serif !important;
 }
 
-  .plt-android:root, .plt-desktop:root {
-    --ion-safe-area-top: 0px !important;
-  }
+.plt-android:root,
+.plt-desktop:root {
+  --ion-safe-area-top: 0px !important;
+}
 
 :root {
   --ion-safe-area-top: 20px;
@@ -98,8 +99,10 @@ body {
       background: var(--white-bg);
     }
   }
-  &.bid-submitted{
-    .ion-page {max-width: 76%;}
+  &.bid-submitted {
+    .ion-page {
+      max-width: 76%;
+    }
   }
 }
 
@@ -425,38 +428,85 @@ schedule-card {
   //   color: var(--text-gray);
   //   font-weight: 500;
   // }
-  .image-part{padding: 0px;position: relative; display: inline-block; border-radius: 0px; width: 100%; height: 100%;
-      // img{max-width: 100%;  border-radius: 30px;}
-      .video-part-football{ height: 100%;
-        iframe{width: 100%; height: 100%;}
-        video {
-          width: 100%;
-          height: auto;
+  .image-part {
+    padding: 0px;
+    position: relative;
+    display: inline-block;
+    border-radius: 0px;
+    width: 100%;
+    height: 100%;
+    // img{max-width: 100%;  border-radius: 30px;}
+    .video-part-football {
+      height: 100%;
+      iframe {
+        width: 100%;
+        height: 100%;
+      }
+      video {
+        width: 100%;
+        height: auto;
+      }
+    }
+    .text-part {
+      position: absolute;
+      top: 0px;
+      padding: 40px;
+      height: 100%;
+      display: flex;
+      flex-flow: column;
+      justify-content: space-between;
+      z-index: 2;
+      .logo-top {
+        img {
+          max-width: 100%;
         }
       }
-      .text-part{position: absolute; top: 0px; padding: 40px; height: 100%; display: flex; flex-flow: column; justify-content: space-between; z-index: 2;
-          .logo-top{
-              img{max-width: 100%;}
+      .buttom-text {
+        h2 {
+          font-size: 3rem;
+          color: var(--white-clr);
+          font-weight: 600;
+          margin: 0 0 10px;
+          span {
+            font-weight: 800;
           }
-          .buttom-text{
-              h2{font-size: 3rem; color: var(--white-clr); font-weight: 600; margin: 0 0 10px;
-                  span{font-weight: 800;}
-              }
-              p{font-size: 1.375rem; color: var(--white-clr); font-weight: 500; margin: 0 0 10px;}
-          }
+        }
+        p {
+          font-size: 1.375rem;
+          color: var(--white-clr);
+          font-weight: 500;
+          margin: 0 0 10px;
+        }
       }
-      .overlay-part{background: rgba(var(--theme-one-bg-rgb), 0.75); position: absolute; width: 100%; height: 100%; top: 0; left: 0; z-index: 1; margin: 0; padding: 0;}
+    }
+    .overlay-part {
+      background: rgba(var(--theme-one-bg-rgb), 0.75);
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      margin: 0;
+      padding: 0;
+    }
   }
 }
 
-@media only screen and (min-width: 1024px) and (max-width:1199px) {
-  .slider-data .image-part .text-part .buttom-text h2{font-size: 2rem; margin: 0 0 6px;
-    span{font-weight: 800;}
+@media only screen and (min-width: 1024px) and (max-width: 1199px) {
+  .slider-data .image-part .text-part .buttom-text h2 {
+    font-size: 2rem;
+    margin: 0 0 6px;
+    span {
+      font-weight: 800;
+    }
   }
 
-  .slider-data .image-part .text-part .buttom-text p{font-size: 1rem;  margin: 0 0 6px;}
+  .slider-data .image-part .text-part .buttom-text p {
+    font-size: 1rem;
+    margin: 0 0 6px;
   }
-
+}
 
 @media screen and (min-width: 1024px) {
   .slider-data {
@@ -474,8 +524,53 @@ schedule-card {
   }
 }
 
-.modal-wrapper{box-shadow: none;}
+.modal-wrapper {
+  box-shadow: none;
+}
 
-.test-btn{text-align: right; margin-top: 5px;
-  ion-button{padding: 5px 7px; font-size: 0.875rem; color: var(--white-clr); background: var(--theme-one-bg); margin: 0; border-radius:4px}
+.test-btn {
+  text-align: right;
+  margin-top: 5px;
+  ion-button {
+    padding: 5px 7px;
+    font-size: 0.875rem;
+    color: var(--white-clr);
+    background: var(--theme-one-bg);
+    margin: 0;
+    border-radius: 4px;
+  }
+}
+
+.meet-up__otp {
+  ng-otp-input {
+    .optInputContainer {
+      display: flex;
+      justify-content: center;
+      input {
+        margin-top: 0px;
+        text-align: center;
+        padding: 0;
+        font-size: 1rem;
+        color: var(--text-black);
+        background: rgba(var(--white-bg-rgb), 0.7);
+        border-radius: 4px;
+        border: 1px solid black;
+        padding: 5px;
+        max-width: 40px;
+        width: 100%;
+        height: 40px;
+        &:focus,
+        &:focus-visible {
+          outline: none;
+          box-shadow: none;
+        }
+        &.otp-input.otpInput.ng-valid.ng-dirty.ng-touched {
+          border: 1px solid transparent;
+        }
+        &.otp-input.otpInput.ng-valid.ng-dirty.ng-touched {
+          border-color: var(--black-clr);
+        }
+      }
+    }
+  }
 }

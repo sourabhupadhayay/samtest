@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { IonicModule } from "@ionic/angular";
 
@@ -14,8 +14,8 @@ import { DismissmodalComponent } from "./dismissmodal/dismissmodal.component";
 import { CancelRequestModalComponent } from "./cancel-request-modal/cancel-request-modal.component";
 import { CancelMessageModalComponent } from "./cancel-message-modal/cancel-message-modal.component";
 import { ApproveRequestComponent } from "./approve-request/approve-request.component";
-import { ShowOtpComponent } from "./show-otp/show-otp.component";
-import { EnterOtpComponent } from "./enter-otp/enter-otp.component";
+import { MeetOtpComponent } from "./meet-otp/meet-otp.component";
+import { NgOtpInputModule } from "ng-otp-input";
 
 @NgModule({
   imports: [
@@ -25,6 +25,8 @@ import { EnterOtpComponent } from "./enter-otp/enter-otp.component";
     SchedulePageRoutingModule,
     CommonDirectiveModule,
     PipesModule,
+    ReactiveFormsModule,
+    NgOtpInputModule,
   ],
   declarations: [
     SchedulePage,
@@ -33,8 +35,7 @@ import { EnterOtpComponent } from "./enter-otp/enter-otp.component";
     CancelRequestModalComponent,
     CancelMessageModalComponent,
     ApproveRequestComponent,
-    ShowOtpComponent,
-    EnterOtpComponent,
+    MeetOtpComponent,
   ],
 })
 export class SchedulePageModule {}
