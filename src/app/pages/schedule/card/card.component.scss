@@ -7,10 +7,11 @@ ion-item-sliding {
     background: var(--dark-blue);
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
+    border: 0;
     ion-item-option {
       height: inherit;
       background: var(--dark-blue);
-      width: 90px;
+      width: 60px;
       border-bottom: 1px solid rgba(var(--white-clr-rgb), 0.5);
       button {
         display: inline-block;
@@ -131,6 +132,7 @@ ion-item-sliding {
     color: var(--theme-one-clr);
     padding-bottom: 10px;
     text-transform: capitalize;
+    word-wrap: break-word;
   }
   &__opp {
     padding: 10px;
@@ -185,6 +187,7 @@ ion-item-sliding {
       font-size: 0.75rem;
       margin: 0;
       font-weight: 400;
+      word-break: break-word;
     }
     & span {
       height: 17px;

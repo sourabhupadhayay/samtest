@@ -46,7 +46,7 @@ export class DataService {
     return !val || !this._networkService.isOnline;
   }
 
-  get(request: Request) {
+  get(request: Request, isTokenTemporary = false) {
     return this.http
       .get<any>(`${this.BASE_URL + "" + request.path}`, {
         headers: this.getHeader(request.isAuth),
@@ -63,7 +63,7 @@ export class DataService {
             data = {
               ...data,
               token: res["token"],
-              isLoggedIn: true,
+              isLoggedIn: isTokenTemporary ? false : true,
             };
             this.authService.setAuth(data);
           }
@@ -196,25 +196,6 @@ export class DataService {
         catchError(this.handleError.bind(this))
       );
   }
-
-  // put(request: Request, isByPass = false): Observable<any> {
-  //   return this.http
-  //     .put(this.BASE_URL + request.path, request.data, {
-  //       headers: this.getHeader(isByPass),
-  //     })
-  //     .pipe(
-  //       takeWhile((): boolean => this._isOnline()),
-  //       catchError((err) => {
-  //         return err;
-  //       }),
-  //       map((res: any) => {
-  //         if (res["token"]) {
-  //           localStorage.setItem(this.constant.ACCESS_TOKEN, res.token);
-  //         }
-  //         return res;
-  //       })
-  //     );
-  // }
 
   downLoadFile(data: any, type: string, filename: string, fileExe: string) {
     var a = document.createElement("a");

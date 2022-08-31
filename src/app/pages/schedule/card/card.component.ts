@@ -23,6 +23,7 @@ import { CancelMessageModalComponent } from "../cancel-message-modal/cancel-mess
 import { CancelRequestModalComponent } from "../cancel-request-modal/cancel-request-modal.component";
 import { DismissmodalComponent } from "../dismissmodal/dismissmodal.component";
 import { Share } from "@capacitor/share";
+import { MeetOtpComponent } from "../meet-otp/meet-otp.component";
 
 type EventStatus = "PENDING" | "APPROVED" | "REJECTED" | "CANCELLED";
 
@@ -123,6 +124,8 @@ export class CardComponent implements OnInit {
   }
   canBidForEvent() {
     if (this.timer.days <= 5) {
+      return false;
+    } else if (!this.timer.days) {
       return false;
     } else {
       return true;
@@ -382,5 +385,21 @@ export class CardComponent implements OnInit {
 
   dismissModal() {
     this.modal.dismiss();
+  }
+
+  async openOtpModel() {
+    let eventData = {
+      eventName: this.cardData.eventName,
+      userRole: this.userRole,
+      eventId: this.cardData.id,
+      athleteName: this.cardData.athleteName,
+      fanName: this.cardData.userName,
+    };
+    const modal: HTMLIonModalElement = await this.modalCtrl.create({
+      component: MeetOtpComponent,
+      componentProps: eventData,
+      cssClass: "small-modal",
+    });
+    modal.present();
   }
 }

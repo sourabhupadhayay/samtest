@@ -194,7 +194,7 @@ ion-content {
       width: calc(100% - 30px);
       left: 0;
       background: #4fabdc;
-      margin: 0 auto;
+      margin: 5px auto;
       right: 0;
       z-index: 9;
       ion-segment {
@@ -901,6 +901,7 @@ ion-footer {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
+  padding-top: 60px;
   & h6 {
     font-size: 0.875rem;
     margin: 0;
