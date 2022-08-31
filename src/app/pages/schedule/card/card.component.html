@@ -260,6 +260,7 @@
               <ion-button
                 *ngIf="cardData.eventType == 'IN_PERSON'"
                 [disabled]="canJoinEvent()"
+                (click)="openOtpModel() "
                 size="small"
                 class="card__cta--green"
               >
@@ -299,7 +300,7 @@
               </ion-button>
               <ion-button
                 [disabled]="canJoinEvent()"
-                *ngIf="cardData.creatorPersona == 'USER' "
+                *ngIf="cardData.creatorPersona == 'USER'  && cardData.eventType !== 'IN_PERSON'  "
                 size="small"
                 class="card__cta--green"
               >
@@ -307,6 +308,18 @@
                   ><img src="../../../../assets/icon/join-video.svg" alt=""
                 /></span>
                 <p>Join now</p>
+              </ion-button>
+              <ion-button
+                [disabled]="canJoinEvent()"
+                (click)="openOtpModel() "
+                *ngIf="cardData.creatorPersona == 'USER' && cardData.eventType == 'IN_PERSON'  "
+                size="small"
+                class="card__cta--green"
+              >
+                <span
+                  ><img src="../../../../assets/icon/meet-up.svg" alt=""
+                /></span>
+                <p>meet-up</p>
               </ion-button>
             </ng-container>
             <ng-container *ngIf="eventState == 'PENDING' ">

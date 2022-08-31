@@ -1,0 +1,57 @@
+<div *ngIf="userRole == 'fan'" class="small-modal">
+  <ion-header mode="md">
+    <h3>Authentication Code</h3>
+  </ion-header>
+
+  <div class="inner-content">
+    <div class="main-screen">
+      <p>
+        Your authentication code for this {{eventName}} is :
+      </p>
+      <h6 *ngIf="otp" class="otp-fan">
+        {{otp}}
+      </h6>
+    </div>
+  </div>
+
+  <ion-footer mode="ios">
+    <ion-toolbar mode="ios">
+      <ion-button (click)="modalCtrl.dismiss()" class="white-btn">
+        <img src="assets/icon/close-icon.png" />
+      </ion-button>
+      <ion-button (click)="modalCtrl.dismiss()" class="white-btn">
+        <img src="assets/icon/right-icon.png" />
+      </ion-button>
+    </ion-toolbar>
+  </ion-footer>
+</div>
+<div *ngIf="userRole !== 'fan'" class="small-modal">
+  <ion-header mode="md">
+    <h3>Authentication Code</h3>
+  </ion-header>
+
+  <div class="inner-content">
+    <div class="main-screen">
+      <p>
+        Enter Your authentication code for Approval of {{eventName}} :
+      </p>
+      <div class="meet-up__otp">
+        <ng-otp-input
+          [formCtrl]="otpFormControl"
+          [config]="otpInputConfig"
+        ></ng-otp-input>
+      </div>
+    </div>
+  </div>
+
+  <ion-footer mode="ios">
+    <ion-toolbar mode="ios">
+      <!-- <ion-button (click)="modalCtrl.dismiss(false)" class="white-btn">
+        <img src="assets/icon/close-icon.png" />
+      </ion-button> -->
+      <ion-button (click)=" verifyOtp()" class="white-btn">
+        <img src="assets/icon/right-icon.png" />
+      </ion-button>
+    </ion-toolbar>
+  </ion-footer>
+</div>
