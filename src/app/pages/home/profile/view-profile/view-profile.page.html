@@ -155,7 +155,11 @@
     </ng-container>
 
     <div class="change-pass-logout">
-      <ion-item lines="none" (click)="presentChangePasswordModal()">
+      <ion-item
+        *ngIf="!userData?.socialLoginType"
+        lines="none"
+        (click)="presentChangePasswordModal()"
+      >
         <ion-avatar slot="start">
           <img src="assets/icon/lock-black.svg" />
         </ion-avatar>
