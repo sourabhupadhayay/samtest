@@ -6,7 +6,8 @@
   <div class="inner-content">
     <div class="main-screen">
       <p>
-        Your authentication code for this {{eventName}} is :
+        Authentication code to share only with
+        <span>{{athleteName | titlecase}}</span> for <span>{{eventName}}</span>.
       </p>
       <h6 *ngIf="otp" class="otp-fan">
         {{otp}}
@@ -33,7 +34,9 @@
   <div class="inner-content">
     <div class="main-screen">
       <p>
-        Enter Your authentication code for Approval of {{eventName}} :
+        Collect & enter Your authentication code from
+        <span>{{fanName | titlecase}}</span> for Approval of
+        <span>{{eventName}}</span>.
       </p>
       <div class="meet-up__otp">
         <ng-otp-input

@@ -16,6 +16,8 @@ export class MeetOtpComponent implements OnInit {
   userRole: userRole = this.navParams.get("userRole");
   eventName: string = this.navParams.get("eventName");
   eventId: string = this.navParams.get("eventId");
+  athleteName: string = this.navParams.get("athleteName");
+  fanName: string = this.navParams.get("fanName");
   otpFormControl: FormControl = new FormControl<number | null>(null, [
     Validators.required,
     Validators.minLength(6),
@@ -43,6 +45,7 @@ export class MeetOtpComponent implements OnInit {
     if (this.userRole == "fan") {
       this.getOtp();
     }
+    console.log(this.athleteName);
   }
 
   getOtp() {

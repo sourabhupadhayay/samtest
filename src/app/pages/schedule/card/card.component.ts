@@ -392,6 +392,8 @@ export class CardComponent implements OnInit {
       eventName: this.cardData.eventName,
       userRole: this.userRole,
       eventId: this.cardData.id,
+      athleteName: this.cardData.athleteName,
+      fanName: this.cardData.userName,
     };
     const modal: HTMLIonModalElement = await this.modalCtrl.create({
       component: MeetOtpComponent,
