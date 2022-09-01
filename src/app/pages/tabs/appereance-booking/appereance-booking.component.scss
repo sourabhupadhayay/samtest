@@ -519,12 +519,19 @@
 
   ion-content {
     --background: transparent;
-    --padding-top: 30vh;
-    --padding-start: 20px;
-    --padding-end: 20px;
+    // --padding-top: 30vh;
+    // --padding-start: 20px;
+    // --padding-end: 20px;
   }
   ion-datetime {
     border-radius: 8px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    margin: auto;
+    height: fit-content;
   }
 }
 .error-input {

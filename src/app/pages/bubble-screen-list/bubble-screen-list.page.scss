@@ -21,11 +21,11 @@ ion-content {
 
   .search-bar {
     position: sticky;
-    top: 76px;
+    top: 65px;
     background: #2586ba;
     z-index: 99;
     margin: 0;
-    padding: 0px 15px 10px;
+    padding:10px 15px 10px;
     ion-searchbar {
       width: 100%;
       color: var(--black-clr);
