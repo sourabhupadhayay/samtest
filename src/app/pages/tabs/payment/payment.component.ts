@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
+import {AfterViewInit, Component, OnInit, Renderer2, ViewChild} from "@angular/core";
 import { IonModal, ModalController } from "@ionic/angular";
 import { CoreService } from "src/app/providers/core.service";
 import { CommonService } from "../../../providers/common.service";
@@ -20,7 +20,7 @@ export class PaymentComponent implements OnInit {
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
-    private commonService: CommonService
+    private commonService: CommonService,
   ) {}
   sqPaymentForm: any; //this is our payment form object
 
@@ -51,76 +51,78 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit() {
-    let toastMsg;
-    var applicationId = this.commonService.publicInfo.squareAppId;
-
-    this.sqPaymentForm = new SqPaymentForm({
-      // Initialize the payment form elements
-
-      //TODO: Replace with your sandbox application ID
-      applicationId: applicationId,
-      inputClass: "sq-input",
-      autoBuild: false,
-      // Customize the CSS for SqPaymentForm iframe elements
-      inputStyles: [
-        {
-          fontSize: "14px",
-          lineHeight: "16px",
-          padding: "5px",
-          placeholderColor: "#949494",
-          backgroundColor: "transparent",
-        },
-      ],
-      // Initialize the credit card placeholders
-      cardNumber: {
-        elementId: "sq-card-number",
-        placeholder: "Card Number",
-      },
-      cvv: {
-        elementId: "sq-cvv",
-        placeholder: "CVV",
-      },
-      expirationDate: {
-        elementId: "sq-expiration-date",
-        placeholder: "MM/YY",
-      },
-      postalCode: {
-        elementId: "sq-postal-code",
-        placeholder: "Postal",
-      },
-      // SqPaymentForm callback functions
-      callbacks: {
-        /*
-         * callback function: cardNonceResponseReceived
-         * Triggered when: SqPaymentForm completes a card nonce request
-         */
-        cardNonceResponseReceived: (errors, nonce, cardData) => {
-          if (errors) {
-            // Log errors from nonce generation to the browser developer console.
-            this.errors = errors;
-
-            errors
-              .slice()
-              .reverse()
-              .forEach(function (error) {
-                toastMsg = error.message;
-              });
-            this.coreService.showToastMessage(
-              toastMsg,
-              this.coreService.TOAST_ERROR
-            );
-            return;
-          } else {
-            this.errors = [];
-            this.nonce = nonce;
-          }
-          //TODO: Replace alert with code in step 2.1
-        },
-      },
-    });
-    //TODO: paste code from step 1.1.4
-    this.sqPaymentForm.build();
+   this.showPayment();
   }
+   showPayment(){
+     let toastMsg;
+     var applicationId = this.commonService.publicInfo.squareAppId;
+     this.sqPaymentForm = new SqPaymentForm({
+       // Initialize the payment form elements
+
+       //TODO: Replace with your sandbox application ID
+       applicationId: applicationId,
+       inputClass: "sq-input",
+       autoBuild: false,
+       // Customize the CSS for SqPaymentForm iframe elements
+       inputStyles: [
+         {
+           fontSize: "14px",
+           lineHeight: "16px",
+           padding: "5px",
+           placeholderColor: "#949494",
+           backgroundColor: "transparent",
+         },
+       ],
+       // Initialize the credit card placeholders
+       cardNumber: {
+         elementId: "sq-card-number",
+         placeholder: "Card Number",
+       },
+       cvv: {
+         elementId: "sq-cvv",
+         placeholder: "CVV",
+       },
+       expirationDate: {
+         elementId: "sq-expiration-date",
+         placeholder: "MM/YY",
+       },
+       postalCode: {
+         elementId: "sq-postal-code",
+         placeholder: "Postal",
+       },
+       // SqPaymentForm callback functions
+       callbacks: {
+         /*
+          * callback function: cardNonceResponseReceived
+          * Triggered when: SqPaymentForm completes a card nonce request
+          */
+         cardNonceResponseReceived: (errors, nonce, cardData) => {
+           if (errors) {
+             // Log errors from nonce generation to the browser developer console.
+             this.errors = errors;
+
+             errors
+               .slice()
+               .reverse()
+               .forEach(function (error) {
+                 toastMsg = error.message;
+               });
+             this.coreService.showToastMessage(
+               toastMsg,
+               this.coreService.TOAST_ERROR
+             );
+             return;
+           } else {
+             this.errors = [];
+             this.nonce = nonce;
+           }
+           //TODO: Replace alert with code in step 2.1
+         },
+       },
+     });
+     //TODO: paste code from step 1.1.4
+     console.log("bfhf",this.sqPaymentForm);
+     this.sqPaymentForm.build();   }
   // requestCardNonce(event) {
   //   // Don't submit the form until SqPaymentForm returns with a nonce
   //   event.preventDefault();
