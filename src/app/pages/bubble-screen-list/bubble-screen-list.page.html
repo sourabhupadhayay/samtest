@@ -1,9 +1,14 @@
 <ion-content [fullscreen]="true">
   <ion-header>
     <ion-toolbar>
-      <span (click)="goBack()" class="back-arow" slot="start"
+      <ion-icon (click)="goBack()" class="back-arow"
+      slot="start"
+      name="arrow-back-outline"
+      routerLink="/bubble-screen"
+    ></ion-icon>
+      <!-- <span  slot="start"
         ><img src="assets/icon/arrow-back.svg"
-      /></span>
+      /></span> -->
       <img src="assets/images/single-logo.svg" />
       <span class="filter-icon" slot="end">
         <img

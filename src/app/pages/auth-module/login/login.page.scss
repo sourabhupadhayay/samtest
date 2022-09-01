@@ -8,7 +8,7 @@ ion-header {
     z-index: 9;
     ion-icon {
       color: var(--white-clr);
-      font-size: 2rem;
+      font-size: 1.5rem;
       margin-left: 7px;
       margin-top: 10px;
     }
@@ -113,6 +113,7 @@ ion-content {
         // background: #6bbde9;
         img {
           max-width: 100%;
+          width: 52px; height: 74px;
         }
         h4 {
           color: var(--white-clr);

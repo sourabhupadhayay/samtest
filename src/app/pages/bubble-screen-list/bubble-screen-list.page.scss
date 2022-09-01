@@ -7,6 +7,10 @@ ion-content {
     top: 0;
     z-index: 99;
     ion-toolbar {
+      ion-icon {
+        color: var(--white-clr);
+        font-size: 1.5rem;
+      }
       --background: #2586ba;
       text-align: center;
       --border-width: 0;
@@ -21,7 +25,7 @@ ion-content {
 
   .search-bar {
     position: sticky;
-    top: 65px;
+    top: 68px;
     background: #2586ba;
     z-index: 99;
     margin: 0;
