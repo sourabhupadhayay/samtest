@@ -49,6 +49,7 @@ export class AppComponent implements OnInit {
       this._networkEventsListener();
       this.initFacebook();
       this.isUserLoggedInFirstTime();
+      // this.registerNotification();
     });
   }
 
@@ -130,6 +131,7 @@ export class AppComponent implements OnInit {
     // On success, we should be able to receive notifications
     PushNotifications.addListener("registration", (token: Token) => {
       alert("Push registration success, token: " + token.value);
+      console.log(token.value);
     });
 
     // Some issue with our setup and push will not work
