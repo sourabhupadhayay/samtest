@@ -14,7 +14,13 @@ export class WaitlistPage implements OnInit {
   constructor(private socket: Socket, private coreService: CoreService) {}
   ngOnInit() {
     this.getUserDataAndRole();
-    this.getConnectedFans();
+    // this.getConnectedFans();
+  }
+
+  testSocket() {
+    this.socket.fromEvent("eventName").subscribe((response) => {
+      console.log(response);
+    });
   }
 
   async getUserDataAndRole() {
