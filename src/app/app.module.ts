@@ -18,8 +18,10 @@ import { SocketIoModule, SocketIoConfig } from "ngx-socket-io";
 //   options: {},
 // };
 const config: SocketIoConfig = {
-  url: "https://dev-video-apis.bubbleapp.com",
-  options: {},
+  url: "https://dev-apis.bubbleapp.com",
+  options: {
+    path: "/core/greeting",
+  },
 };
 
 @NgModule({

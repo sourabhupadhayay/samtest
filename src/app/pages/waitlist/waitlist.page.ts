@@ -15,10 +15,13 @@ export class WaitlistPage implements OnInit {
   ngOnInit() {
     this.getUserDataAndRole();
     // this.getConnectedFans();
+    this.testSocket();
   }
 
   testSocket() {
-    this.socket.fromEvent("eventName").subscribe((response) => {
+    this.socket.emit("/syncTestDeal");
+
+    this.socket.fromEvent("/topic/testDeal").subscribe((response) => {
       console.log(response);
     });
   }
@@ -28,7 +31,7 @@ export class WaitlistPage implements OnInit {
     this.userData = await this.coreService.getUserDataFromStorage();
 
     // this.socket.emit("connect-event", this.userData);
-    this.socket.emit("connect-event", this.userData);
+    // this.socket.emit("connect-event", this.userData);
   }
 
   getConnectedFans() {
