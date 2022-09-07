@@ -6,7 +6,7 @@ import {
   SimpleChanges,
 } from "@angular/core";
 import { Router } from "@angular/router";
-import { Socket } from "ngx-socket-io";
+// import { Socket } from "ngx-socket-io";
 import { CoreService } from "src/app/providers/core.service";
 
 @Component({
@@ -20,22 +20,22 @@ export class FanWaitlistPage implements OnInit {
   currentPosition: number;
   constructor(
     private coreService: CoreService,
-    private socket: Socket,
+
     private router: Router
   ) {}
 
   ngOnInit() {
     this.getUserData();
-     this.athleteCallingSubscription();
+    //  this.athleteCallingSubscription();
   }
 
-  athleteCallingSubscription() {
-    this.socket.fromEvent("athlete-call").subscribe((fanId) => {
-      if (fanId == this.userData.id) {
-        this.router.navigate(["/waitlist/incoming-call"]);
-      }
-    });
-  }
+  // athleteCallingSubscription() {
+  //   this.socket.fromEvent("athlete-call").subscribe((fanId) => {
+  //     if (fanId == this.userData.id) {
+  //       this.router.navigate(["/waitlist/incoming-call"]);
+  //     }
+  //   });
+  // }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.connectedFans.sort(this.compare_bid);

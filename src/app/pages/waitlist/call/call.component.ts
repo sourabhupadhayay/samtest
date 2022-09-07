@@ -13,7 +13,7 @@ import {
   Session,
   Subscriber,
 } from "@opentok/client";
-import { Socket } from "ngx-socket-io";
+// import { Socket } from "ngx-socket-io";
 import {
   CoreService,
   userRole,
@@ -43,8 +43,7 @@ export class CallComponent implements OnInit, AfterViewInit {
   constructor(
     private apiService: DataService,
     private coreService: CoreService,
-    private router: Router,
-    private socket: Socket
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -96,13 +95,7 @@ export class CallComponent implements OnInit, AfterViewInit {
       // });
     });
 
-    this.session.on("streamDestroyed", (event) => {
-      if (this.userRole == "fan") {
-        this.socket.emit("cut-call", this.userData);
-      }
-      this.router.navigate(["/tabs/home"]);
-      console.log("Stream stopped. Reason: " + event.reason);
-    });
+    this.session.on("streamDestroyed", (event) => {});
   }
 
   createPublisher() {
