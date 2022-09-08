@@ -19,7 +19,7 @@ export class AthleteWaitlistPage implements OnInit, OnChanges {
 
   ngOnInit() {}
   ngOnChanges(changes: SimpleChanges): void {
-    this.connectedFans.sort(this.compare_bid);
+    // this.connectedFans.sort(this.compare_bid);
   }
 
   // callFan(index: number) {
