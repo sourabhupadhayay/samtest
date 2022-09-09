@@ -1,10 +1,7 @@
 <ion-content>
   <athlete-waitlist
-    [connectedFans]="connectedFans"
+    [eventId]="eventId"
     *ngIf="userRole == 'athlete'"
   ></athlete-waitlist>
-  <fan-waitlist
-    [connectedFans]="connectedFans"
-    *ngIf="userRole == 'fan'"
-  ></fan-waitlist>
+  <fan-waitlist [eventId]="eventId" *ngIf="userRole == 'fan'"></fan-waitlist>
 </ion-content>

@@ -12,6 +12,7 @@ import { FanWaitlistPage } from "./fan-waitlist/fan-waitlist.page";
 import { AthleteWaitlistPage } from "./athlete-waitlist/athlete-waitlist.page";
 import { IncomingCallComponent } from "./incoming-call/incoming-call.component";
 import { CallComponent } from "./call/call.component";
+import { PipesModule } from "src/app/pipes/pipes.module";
 
 // const config: SocketIoConfig = {
 //   url: "http://localhost:7010/",
@@ -19,7 +20,13 @@ import { CallComponent } from "./call/call.component";
 // };
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, WaitlistPageRoutingModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    WaitlistPageRoutingModule,
+    PipesModule,
+  ],
   declarations: [
     WaitlistPage,
     FanWaitlistPage,
