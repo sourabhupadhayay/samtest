@@ -82,7 +82,12 @@
                   <!-- <p>${{connectedFans[currentPosition]?.bid.toFixed()}}</p> -->
                   <h5>Work in progress</h5>
                 </ion-label>
-                <img class="edit" slot="end" src="assets/icon/edit-green.png" />
+                <img
+                  (click)="updateBid()"
+                  class="edit"
+                  slot="end"
+                  src="assets/icon/edit-green.png"
+                />
               </ion-item>
               <div class="increase-your-bid">
                 <div class="main-text">

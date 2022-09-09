@@ -72,7 +72,7 @@ export class FanWaitlistPage implements OnInit {
   }
 
   updateBid() {
-    this.router.navigate([""]);
+    this.router.navigate(["bid-payment/" + this.eventId]);
   }
 
   compare_bid(a, b) {
