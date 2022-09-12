@@ -23,6 +23,7 @@ export class FanWaitlistPage implements OnInit {
   currentPosition: number;
   maxBid: number;
   nameInitials: string;
+  userBidDetails: null | any = null;
   constructor(
     private coreService: CoreService,
     private apiService: DataService,
@@ -55,7 +56,8 @@ export class FanWaitlistPage implements OnInit {
     this.apiService.get(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
-        this.maxBid = response.data.totalAmount;
+        this.maxBid = response.data.maxBid.totalAmount;
+        this.userBidDetails = response.data.currentBid;
       } else {
         this.coreService.showToastMessage(
           response.status.description,

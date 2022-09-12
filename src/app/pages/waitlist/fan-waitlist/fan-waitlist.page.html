@@ -43,7 +43,7 @@
       <div class="wait-part">
         <div class="head">
           <h5 *ngIf="currentPosition !== 0">
-            {{currentPosition }} people in wait list ahead of you
+            2 people in wait list ahead of you
           </h5>
           <p *ngIf="currentPosition == 0">
             You are 1st in the wait list,<br />
@@ -79,8 +79,8 @@
                 </ng-container>
                 <ion-label>
                   <h5>{{userData?.fullName}}</h5>
-                  <!-- <p>${{connectedFans[currentPosition]?.bid.toFixed()}}</p> -->
-                  <h5>Work in progress</h5>
+                  <p>${{userBidDetails?.totalAmount}}</p>
+                  <!-- <h5>Work in progress</h5> -->
                 </ion-label>
                 <img
                   (click)="updateBid()"
