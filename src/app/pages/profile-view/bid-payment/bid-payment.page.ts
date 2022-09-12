@@ -22,6 +22,8 @@ export class BidPaymentPage implements OnInit {
   eventId: string;
   paymentType: "SQUARE_PAYMENT" | "apple" = "SQUARE_PAYMENT";
   paymentData: paymentData | null = null;
+  currentBidAmount: string ='';
+  MaxAmount: string ='';
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -129,6 +131,11 @@ export class BidPaymentPage implements OnInit {
     this.apiService.get(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
+        if(response.data.currentBid !=null && response.data.maxBid!=null) {
+          this.currentBidAmount = response.data.currentBid.totalAmount
+          this.MaxAmount = response.data.maxBid.totalAmount
+        }
+        console.log(this.currentBidAmount,this.MaxAmount)
       } else {
         this.coreService.showToastMessage(
           response.status.description,
