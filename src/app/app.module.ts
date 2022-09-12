@@ -12,18 +12,6 @@ import { ErrorInterceptor } from "./interceptor/error.interceptor";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatIconModule } from "@angular/material/icon";
 import { HomeModule } from "./pages/home/home.module";
-// import { SocketIoModule, SocketIoConfig } from "ngx-socket-io";
-
-// const config: SocketIoConfig = {
-//   url: "http://localhost:7010",
-//   options: {},
-// };
-// const config: SocketIoConfig = {
-//   url: "https://dev-apis.bubbleapp.com",
-//   options: {
-//     path: "/core/greeting",
-//   },
-// };
 
 @NgModule({
   declarations: [AppComponent],
@@ -36,7 +24,6 @@ import { HomeModule } from "./pages/home/home.module";
     BrowserAnimationsModule,
     MatIconModule,
     HomeModule,
-    // SocketIoModule.forRoot(config),
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
