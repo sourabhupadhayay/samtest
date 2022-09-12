@@ -3,7 +3,9 @@ import { ActivatedRoute, ParamMap, Params } from "@angular/router";
 import { NavParams } from "@ionic/angular";
 
 import { CoreService, userRole } from "src/app/providers/core.service";
-
+import { Stomp } from "@stomp/stompjs";
+import * as SockJS from "sockjs-client";
+import { configuration } from "../../configuration";
 @Component({
   selector: "app-waitlist",
   templateUrl: "./waitlist.page.html",
@@ -13,7 +15,8 @@ export class WaitlistPage implements OnInit {
   userRole: userRole;
   userData: any;
   eventId: string;
-
+  connectedFans: any[] = [];
+  socket: any;
   constructor(
     private coreService: CoreService,
     private route: ActivatedRoute
@@ -21,6 +24,44 @@ export class WaitlistPage implements OnInit {
   ngOnInit() {
     this.getUserDataAndRole();
     this.getEventIdFromParam();
+    this.getConnectedFans();
+  }
+
+  getConnectedFans() {
+    this.socket = Stomp.over(
+      () => new SockJS(configuration.BASE_URL + "core/greeting")
+    );
+
+    this.socket.reconnect_delay = 5000;
+
+    let that = this;
+
+    this.socket.connect(
+      {},
+      function (frame) {
+        that.socket.subscribe("/errors", function (message) {
+          alert("Error " + message.body);
+        });
+        that.send();
+        that.socket.subscribe("/topic/testDeal", function (message) {
+          let data = JSON.parse(message.body);
+
+          let contentData = JSON.parse(data.content);
+          that.connectedFans.push(contentData);
+        });
+      },
+      function (error) {
+        console.log("STOMP error " + error);
+      }
+    );
+  }
+
+  send() {
+    let data = JSON.stringify({
+      eventId: this.eventId,
+    });
+
+    this.socket.send("/app/syncTestDeal", {}, data);
   }
 
   getEventIdFromParam() {

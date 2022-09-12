@@ -19,11 +19,13 @@ import { DataService, Request, Response } from "src/app/providers/data.service";
 })
 export class FanWaitlistPage implements OnInit {
   @Input() eventId: null | string = null;
+  @Input() connectedFans: any[] = [];
   userData;
   currentPosition: number;
   maxBid: number;
   nameInitials: string;
   userBidDetails: null | any = null;
+
   constructor(
     private coreService: CoreService,
     private apiService: DataService,
@@ -35,16 +37,22 @@ export class FanWaitlistPage implements OnInit {
   ngOnInit() {
     this.getUserData();
     this.getMaximumBidForEvent();
-    //  this.athleteCallingSubscription();
   }
 
-  // athleteCallingSubscription() {
-  //   this.socket.fromEvent("athlete-call").subscribe((fanId) => {
-  //     if (fanId == this.userData.id) {
-  //       this.router.navigate(["/waitlist/incoming-call"]);
-  //     }
-  //   });
-  // }
+  ngDoCheck() {
+    if (this.connectedFans.length !== 0) {
+      this.calculateUserPosition();
+      console.log(this.connectedFans);
+    }
+  }
+
+  calculateUserPosition() {
+    for (let index = 0; index < this.connectedFans.length; index++) {
+      if (this.connectedFans[index].userId == this.userData.id) {
+        this.currentPosition = index + 1;
+      }
+    }
+  }
 
   getMaximumBidForEvent() {
     let request: Request = {
@@ -70,7 +78,6 @@ export class FanWaitlistPage implements OnInit {
   async getUserData() {
     this.userData = await this.coreService.getUserDataFromStorage();
     this.nameInitials = this.commonService.getInitials(this.userData.fullName);
-    console.log(this.userData);
   }
 
   updateBid() {

@@ -43,7 +43,7 @@
       <div class="wait-part">
         <div class="head">
           <h5 *ngIf="currentPosition !== 0">
-            2 people in wait list ahead of you
+            {{currentPosition}} people in wait list ahead of you
           </h5>
           <p *ngIf="currentPosition == 0">
             You are 1st in the wait list,<br />
