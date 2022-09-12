@@ -42,7 +42,6 @@ export class FanWaitlistPage implements OnInit {
   ngDoCheck() {
     if (this.connectedFans.length !== 0) {
       this.calculateUserPosition();
-      console.log(this.connectedFans);
     }
   }
 

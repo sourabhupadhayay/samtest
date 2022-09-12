@@ -45,15 +45,22 @@ export class WaitlistPage implements OnInit {
         that.send();
         that.socket.subscribe("/topic/testDeal", function (message) {
           let data = JSON.parse(message.body);
-
           let contentData = JSON.parse(data.content);
           that.connectedFans.push(contentData);
+
+          that.connectedFans = that.getUniqueListBy(that.connectedFans, "id");
+          console.log(that.connectedFans);
+          // that.connectedFans.push(contentData);
         });
       },
       function (error) {
         console.log("STOMP error " + error);
       }
     );
+  }
+
+  getUniqueListBy(arr, key) {
+    return [...new Map(arr.map((item) => [item[key], item])).values()];
   }
 
   send() {
