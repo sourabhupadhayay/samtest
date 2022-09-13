@@ -55,10 +55,12 @@
         <h3>
           Please enter more than <span>${{eventData?.minBid}}</span> for bid.
         </h3>
-         <h3 *ngIf="this.MaxAmount !=''">Top Bid in the waitlist : <span>${{this.MaxAmount}}</span></h3>
+        <h3 *ngIf="this.MaxAmount !=''">
+          Top Bid in the waitlist : <span>${{this.MaxAmount}}</span>
+        </h3>
         <h4 *ngIf="this.currentBidAmount !=''">
           Your Previous Bid is
-          <span >${{this.currentBidAmount}}</span>
+          <span>${{this.currentBidAmount}}</span>
         </h4>
         <div class="input-part">
           <span>$</span>
@@ -145,7 +147,7 @@
         <ion-label>
           <h3>Highest Bid</h3>
         </ion-label>
-        <ion-text slot="end">12</ion-text>
+        <ion-text slot="end">{{MaxAmount}}</ion-text>
       </ion-item>
     </ion-header>
 
