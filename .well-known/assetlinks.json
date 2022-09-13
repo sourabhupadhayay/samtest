@@ -1,12 +1,8 @@
+
 [
   {
-    "relation": ["delegate_permission/common.handle_all_urls"],
-    "target": {
-      "namespace": "android_app",
-      "package_name": "com.bubble.app",
-      "sha256_cert_fingerprints": [
-        "5B:C6:EC:CF:2E:BF:DB:B8:D4:01:BA:5B:E9:FF:16:6F:54:11:9A:DD:41:9F:C4:41:04:1A:98:FE:7A:6D:24:EB"
-      ]
-    }
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target" : { "namespace": "android_app", "package_name": "com.bubble.app",
+    "sha256_cert_fingerprints": ["82:F6:C8:E5:DF:51:AC:17:C3:8F:92:8C:B1:83:83:E1:04:79:24:8F:56:68:D4:B2:4A:B4:9E:3F:EB:30:DA:1B"] }
   }
 ]
