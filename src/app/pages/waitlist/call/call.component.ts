@@ -52,12 +52,12 @@ export class CallComponent implements OnInit, AfterViewInit {
 
   getVideoSessionAndToken() {
     let request: Request = {
-      path: "session",
+      path: "videocall",
       isAuth: false,
     };
     this.apiService.getVideoSession(request).subscribe((response) => {
-      this.sessionId = response.session;
-      this.token = response.token;
+      this.sessionId = response.data.sessionId;
+      this.token = response.data.token;
       this.getSession();
     });
   }
@@ -72,7 +72,7 @@ export class CallComponent implements OnInit, AfterViewInit {
 
   getSession() {
     this.session = initSession(this.apiKey, this.sessionId);
-
+    console.log(this.session);
     this.session.connect(this.token, (error) => {
       if (error) {
         console.log(error);

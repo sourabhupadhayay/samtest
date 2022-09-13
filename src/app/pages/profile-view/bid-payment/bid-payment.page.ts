@@ -165,7 +165,7 @@ export class BidPaymentPage implements OnInit {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
         this.modalCtrl.dismiss();
-        this.router.navigate(["waitlist/" + this.eventId]);
+        this.router.navigate(["waitlist/event/" + this.eventId]);
       } else {
         this.coreService.showToastMessage(
           response.status.description,
