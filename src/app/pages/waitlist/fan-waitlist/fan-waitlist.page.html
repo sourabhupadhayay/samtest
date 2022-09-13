@@ -42,10 +42,10 @@
       </div>
       <div class="wait-part">
         <div class="head">
-          <h5 *ngIf="currentPosition !== 0">
+          <h5 *ngIf="currentPosition !== 1">
             {{currentPosition}} people in wait list ahead of you
           </h5>
-          <p *ngIf="currentPosition == 0">
+          <p *ngIf="currentPosition == 1">
             You are 1st in the wait list,<br />
             Athlete will call you soon.
           </p>
