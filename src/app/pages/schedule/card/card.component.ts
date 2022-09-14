@@ -259,7 +259,7 @@ export class CardComponent implements OnInit {
     await Share.share({
       title: "Bubble app event",
       text: this.cardData.eventName,
-      url: "https://dev.bubbleapp.com/tabs/schedule",
+      url: this.commonService.publicInfo.webLink+"/tabs/schedule",
     });
   }
 
