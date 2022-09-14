@@ -6,6 +6,7 @@ import { CoreService, userRole } from "src/app/providers/core.service";
 import { Stomp } from "@stomp/stompjs";
 import * as SockJS from "sockjs-client";
 import { configuration } from "../../configuration";
+import { ConstantService } from "src/app/providers/constant.service";
 @Component({
   selector: "app-waitlist",
   templateUrl: "./waitlist.page.html",
@@ -19,7 +20,8 @@ export class WaitlistPage implements OnInit {
   socket: any;
   constructor(
     private coreService: CoreService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private constantService: ConstantService
   ) {}
   ngOnInit() {
     this.getUserDataAndRole();
@@ -28,6 +30,7 @@ export class WaitlistPage implements OnInit {
   }
 
   getConnectedFans() {
+    this.coreService.presentLoader(this.constantService.WAIT);
     this.socket = Stomp.over(
       () => new SockJS(configuration.BASE_URL + "core/greeting")
     );
@@ -43,7 +46,9 @@ export class WaitlistPage implements OnInit {
           alert("Error " + message.body);
         });
         that.send();
+
         that.socket.subscribe("/topic/testDeal", function (message) {
+          that.coreService.dismissLoader();
           let data = JSON.parse(message.body);
           let contentData = JSON.parse(data.content);
           that.connectedFans.push(contentData);
