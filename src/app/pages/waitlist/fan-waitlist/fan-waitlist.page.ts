@@ -21,10 +21,11 @@ export class FanWaitlistPage implements OnInit {
   @Input() eventId: null | string = null;
   @Input() connectedFans: any[] = [];
   userData;
-  currentPosition: number;
+  currentPosition: number = 0;
   maxBid: number;
   nameInitials: string;
-  userBidDetails: null | any = null;
+  // userBidDetails: null | any = null;
+  userIndex: number = 0;
 
   constructor(
     private coreService: CoreService,
@@ -36,7 +37,7 @@ export class FanWaitlistPage implements OnInit {
 
   ngOnInit() {
     this.getUserData();
-    this.getMaximumBidForEvent();
+    // this.getMaximumBidForEvent();
   }
 
   ngDoCheck() {
@@ -48,31 +49,32 @@ export class FanWaitlistPage implements OnInit {
   calculateUserPosition() {
     for (let index = 0; index < this.connectedFans.length; index++) {
       if (this.connectedFans[index].userId == this.userData.id) {
+        this.userIndex = index;
         this.currentPosition = index + 1;
       }
     }
   }
 
-  getMaximumBidForEvent() {
-    let request: Request = {
-      path: "core/event/bid/max/" + this.eventId,
-      isAuth: true,
-    };
+  // getMaximumBidForEvent() {
+  //   let request: Request = {
+  //     path: "core/event/bid/max/" + this.eventId,
+  //     isAuth: true,
+  //   };
 
-    this.coreService.presentLoader(this.constantService.WAIT);
-    this.apiService.get(request).subscribe((response: Response) => {
-      this.coreService.dismissLoader();
-      if (response.status.code === this.constantService.STATUS_OK) {
-        this.maxBid = response.data.maxBid.totalAmount;
-        this.userBidDetails = response.data.currentBid;
-      } else {
-        this.coreService.showToastMessage(
-          response.status.description,
-          this.coreService.TOAST_ERROR
-        );
-      }
-    });
-  }
+  //   this.coreService.presentLoader(this.constantService.WAIT);
+  //   this.apiService.get(request).subscribe((response: Response) => {
+  //     this.coreService.dismissLoader();
+  //     if (response.status.code === this.constantService.STATUS_OK) {
+  //       this.maxBid = response.data.maxBid.totalAmount;
+  //       this.userBidDetails = response.data.currentBid;
+  //     } else {
+  //       this.coreService.showToastMessage(
+  //         response.status.description,
+  //         this.coreService.TOAST_ERROR
+  //       );
+  //     }
+  //   });
+  // }
 
   async getUserData() {
     this.userData = await this.coreService.getUserDataFromStorage();

@@ -60,7 +60,7 @@
           </p>
           <p>
             Top Bid in the waitlist :
-            <span>${{maxBid}}</span>
+            <span>${{connectedFans[0]?.totalAmount}}</span>
           </p>
 
           <h4 hidden><span>Casey Rodgers</span> will connect with you soon</h4>
@@ -82,7 +82,7 @@
                 </ng-container>
                 <ion-label>
                   <h5>{{userData?.fullName}}</h5>
-                  <p>${{userBidDetails?.totalAmount}}</p>
+                  <p>${{connectedFans[userIndex]?.totalAmount}}</p>
                   <!-- <h5>Work in progress</h5> -->
                 </ion-label>
                 <img

@@ -20,13 +20,13 @@ export class AthleteWaitlistPage implements OnInit {
 
   ngOnInit() {}
 
-  compare_bid(a, b) {
-    if (a.bid > b.bid) {
-      return -1;
-    }
-    if (a.bid < b.bid) {
-      return 1;
-    }
-    return 0;
-  }
+  // compare_bid(a, b) {
+  //   if (a.bid > b.bid) {
+  //     return -1;
+  //   }
+  //   if (a.bid < b.bid) {
+  //     return 1;
+  //   }
+  //   return 0;
+  // }
 }
