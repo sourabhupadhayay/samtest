@@ -257,10 +257,9 @@ export class CardComponent implements OnInit {
 
   async shareEvent() {
     await Share.share({
-      title: "See cool stuff",
-      text: "Really awesome thing you need to see right meow",
-      url: "http://ionicframework.com/",
-      dialogTitle: "Share with buddies",
+      title: "Bubble app event",
+      text: this.cardData.eventName,
+      url: "https://dev.bubbleapp.com/tabs/schedule",
     });
   }
 

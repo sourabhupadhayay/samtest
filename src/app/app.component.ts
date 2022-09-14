@@ -78,7 +78,7 @@ export class AppComponent implements OnInit {
   deepLinking() {
     App.addListener("appUrlOpen", (event: URLOpenListenerEvent) => {
       this.zone.run(() => {
-        const domain = "bubbleapp.com";
+        const domain = "dev.bubbleapp.com";
 
         const pathArray = event.url.split(domain);
 
