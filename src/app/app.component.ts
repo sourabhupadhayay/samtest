@@ -1,7 +1,7 @@
 import { Location } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { Component, NgZone, OnInit } from "@angular/core";
 import { FacebookLogin } from "@capacitor-community/facebook-login";
-import { App } from "@capacitor/app";
+import { App, URLOpenListener, URLOpenListenerEvent } from "@capacitor/app";
 
 import { Platform } from "@ionic/angular";
 import { CoreService } from "./providers/core.service";
@@ -34,12 +34,14 @@ export class AppComponent implements OnInit {
     private core: CoreService,
     private router: Router,
     private _location: Location,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private zone: NgZone
   ) {
     this.initializeApp();
     this.backButton();
     this.hideSplashScreen();
     this.getPublicInfo();
+    this.deepLinking();
   }
 
   ngOnInit(): void {}
@@ -72,6 +74,21 @@ export class AppComponent implements OnInit {
   //get common public info
   getPublicInfo() {
     this.commonService.getPublicInfo();
+  }
+
+  deepLinking() {
+    App.addListener("appUrlOpen", (event: URLOpenListenerEvent) => {
+      this.zone.run(() => {
+        const domain = "dev.bubbleapp.com";
+
+        const pathArray = event.url.split(domain);
+
+        const appPath = pathArray.pop();
+        if (appPath) {
+          this.router.navigateByUrl(appPath);
+        }
+      });
+    });
   }
 
   private _networkEventsListener(): void {
