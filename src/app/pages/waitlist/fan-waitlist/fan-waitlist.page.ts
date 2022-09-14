@@ -49,7 +49,6 @@ export class FanWaitlistPage implements OnInit {
     for (let index = 0; index < this.connectedFans.length; index++) {
       if (this.connectedFans[index].userId == this.userData.id) {
         this.currentPosition = index + 1;
-        console.log(this.currentPosition);
       }
     }
   }

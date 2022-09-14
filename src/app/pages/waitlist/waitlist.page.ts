@@ -49,8 +49,10 @@ export class WaitlistPage implements OnInit {
           that.connectedFans.push(contentData);
 
           that.connectedFans = that.getUniqueListBy(that.connectedFans, "id");
+          that.connectedFans.sort((a, b) => {
+            return b.totalAmount - a.totalAmount;
+          });
           console.log(that.connectedFans);
-          // that.connectedFans.push(contentData);
         });
       },
       function (error) {

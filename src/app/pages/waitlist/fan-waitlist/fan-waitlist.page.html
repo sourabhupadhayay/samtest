@@ -54,7 +54,10 @@
           <p>Unfortunately, call was not received</p>
         </div>
         <div class="content-part">
-          <p>Your approximate wait time is <span>6</span> minutes</p>
+          <p *ngIf="currentPosition !== 1">
+            Your approximate wait time is
+            <span>{{currentPosition * 3}}</span> minutes
+          </p>
           <p>
             Top Bid in the waitlist :
             <span>${{maxBid}}</span>
