@@ -882,3 +882,40 @@ ion-footer{background: var(--theme-one-clr); --background: var(--theme-one-clr);
     }
   }
 }
+
+
+ion-modal.tandc-modal{
+  ion-header{
+    ion-toolbar{position: relative;
+        ion-title{align-items: center; padding: 0 15px; font-size: 1rem; color: var(--theme-one-clr);
+          
+        }
+         ion-icon{color: var(--text-black);}
+        
+    }
+  }
+  ion-content{
+    --background: #fff;
+    ion-grid{margin: 0; padding: 15px;
+      p{font-size: 0.875rem; color: var(--text-black); margin: 0 0 10px; font-weight: 400; text-align: justify; line-height: 21px;}
+    }
+  }
+}
+
+ion-modal.privacy-policy-modal{
+  ion-header{
+    ion-toolbar{position: relative;
+        ion-title{align-items: center; padding: 0 15px; font-size: 1rem; color: var(--theme-one-clr);
+          
+        }
+         ion-icon{color: var(--text-black);}
+        
+    }
+  }
+  ion-content{
+    --background: #fff;
+    ion-grid{margin: 0; padding: 15px;
+      p{font-size: 0.875rem; color: var(--text-black); margin: 0 0 10px; font-weight: 400; text-align: justify; line-height: 21px;}
+    }
+  }
+}

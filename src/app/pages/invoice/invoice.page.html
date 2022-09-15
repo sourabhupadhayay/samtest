@@ -228,7 +228,7 @@
             ></ion-checkbox>
           </ion-item>
           <ion-item lines="none" mode="ios">
-            <ion-label>By clicking this you are agree to our <span>Terms of Service</span> and <span>Privacy Policy</span>, as well as our partner Dwolla’s <span>Terms of Service</span> and <span>Privacy Policy</span>. </ion-label>
+            <ion-label>By clicking this you are agree to our <span id="TermsOfUse">Terms of Service</span> and <span id="TermsOfUse">Privacy Policy</span>, as well as our partner Dwolla’s <span id="TermsOfUse">Terms of Service</span> and <span id="TermsOfUse">Privacy Policy</span>. </ion-label>
             <ion-checkbox
               slot="start"
               mode="ios"
@@ -243,7 +243,7 @@
         <ion-button class="white-btn" (click)="onClickCancel()">
           <img src="assets/icon/close-icon.png" />
         </ion-button>
-        <ion-button class="white-btn">
+        <ion-button class="white-btn" id="termsofuse">
           <img src="assets/icon/right-icon.png" />
         </ion-button>
         <div class="nil4all">
@@ -265,5 +265,63 @@
         <div class="dots"></div>
       </div>
     </ion-grid>
+  </ng-template>
+</ion-modal>
+
+
+<!-- Modal T&C -->
+<ion-modal trigger="TermsOfUse" class="tandc-modal">
+  <ng-template>
+    <ion-header mode="ios">
+      <ion-toolbar>
+        <ion-title>Terms of Use</ion-title>
+        <ion-icon
+          slot="end"
+          name="close-outline"
+          (click)="onClickCancel()"
+        ></ion-icon>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+      <ion-grid class="content-part">
+        <p>
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry. Lorem Ipsum has been the industry's standard dummy text ever
+          since the 1500s, when an unknown printer took a galley of type and
+          scrambled it to make a type specimen book. It has survived not only
+          five centuries, but also the leap into electronic typesetting,
+          remaining essentially unchanged. It was popularised in the 1960s with
+          the release of Letraset sheets containing Lorem Ipsum passages, and
+          more recently with desktop publishing software like Aldus PageMaker
+          including versions of Lorem Ipsum.
+        </p>
+        <p>
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry. Lorem Ipsum has been the industry's standard dummy text ever
+          since the 1500s, when an unknown printer took a galley of type and
+          scrambled it to make a type specimen book. It has survived not only
+          five centuries, but also the leap into electronic typesetting,
+          remaining essentially unchanged. It was popularised in the 1960s with
+          the release of Letraset sheets containing Lorem Ipsum passages, and
+          more recently with desktop publishing software like Aldus PageMaker
+          including versions of Lorem Ipsum.
+        </p>
+        <p>
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry.
+        </p>
+        <p>
+          Lorem Ipsum has been the industry's standard dummy text ever since the
+          1500s, when an unknown printer took a galley of type and scrambled it
+          to make a type specimen book. It has survived not only five centuries,
+          but also the leap into electronic typesetting, remaining essentially
+          unchanged. It was popularised in the 1960s with the release of
+          Letraset sheets containing Lorem Ipsum passages, and more recently
+          with desktop publishing software like Aldus PageMaker including
+          versions of Lorem Ipsum.
+        </p>
+      </ion-grid>
+    </ion-content>
   </ng-template>
 </ion-modal>
