@@ -629,6 +629,9 @@ ion-footer{background: var(--theme-one-clr); --background: var(--theme-one-clr);
             --border-radius: 50px;
             --checkmark-color: var(--white-clr);
             --border-color-checked: var(--theme-one-clr);
+            align-self: flex-start;
+            margin-top: 10px;
+        
           }
           ion-label{
             word-break: break-word;
