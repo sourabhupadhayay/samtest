@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { InvoicePageRoutingModule } from './invoice-routing.module';
 
 import { InvoicePage } from './invoice.page';
+import { TermsOfServiceComponent } from './terms-of-service/terms-of-service.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { InvoicePage } from './invoice.page';
     IonicModule,
     InvoicePageRoutingModule
   ],
-  declarations: [InvoicePage]
+  declarations: [InvoicePage, TermsOfServiceComponent]
 })
 export class InvoicePageModule {}
