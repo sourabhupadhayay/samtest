@@ -1,0 +1,93 @@
+<ion-content [scrollEvents]="true">
+  <ion-grid class="top-card">
+    <div class="title-part">
+      <ion-item routerLink="/tabs/home" lines="none">
+        <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+        <ion-label>
+          <ion-grid class="logo-head">
+            <img src="assets/images/single-logo.svg" />
+            <div class="nil4all">
+              <span>#NIL4ALL</span>
+            </div>
+          </ion-grid>
+        </ion-label>
+        <!-- <div class="notification" slot="end">
+          <img src="assets/icon/notification.svg" />
+          <span></span>
+        </div> -->
+      </ion-item>
+    </div>
+  </ion-grid>
+
+  <div class="main-screen">
+    <div class="video-box">
+      <video
+        height="100%"
+        width="100%"
+        poster="assets/video/poster-img.png"
+        loop=""
+        autoplay
+        muted
+        webkit-playsinline
+        playsinline
+      >
+        <source src="../../../../assets/video/video-free.mp4" />
+        <source src="../../../../assets/video/video-free.webm" />
+        <p class="warning">Your browser does not support HTML5 video.</p>
+      </video>
+    </div>
+    <div class="bottom-part">
+      <div class="live-green">
+        <p>Casey Rodgers is <span>LIVE</span> For Next 30 minutes</p>
+      </div>
+      <div class="wait-part">
+        <div class="head">
+          <h5 *ngIf="currentPosition !== 0">
+            {{currentPosition }} people in wait list ahead of you
+          </h5>
+          <p *ngIf="currentPosition == 0">
+            You are 1st in the wait list,<br />
+            Athlete will call you soon.
+          </p>
+        </div>
+        <div class="head-red" hidden>
+          <p>Unfortunately, call was not received</p>
+        </div>
+        <div class="content-part">
+          <p>Your approximate wait time is <span>6</span> minutes</p>
+          <!-- <p>
+            Top Bid in the waitlist :
+            <span>${{connectedFans[0]?.bid.toFixed()}}</span>
+          </p> -->
+
+          <h4 hidden><span>Casey Rodgers</span> will connect with you soon</h4>
+
+          <div class="bid-edit">
+            <!-- add class "bid-top" in bid-edit -->
+            <div class="bg-white-box">
+              <ion-item lines="none">
+                <ion-avatar slot="start">
+                  <!-- <img src="assets/images/profile.png" /> -->
+                </ion-avatar>
+                <ion-label>
+                   <h5>{{userData?.fullName}}</h5>
+                  <p>${{connectedFans[currentPosition]?.bid.toFixed()}}</p>
+                  <h5>Work in progress</h5>
+                </ion-label>
+                 <img class="edit" slot="end" src="assets/icon/edit-green.png" />
+              </ion-item>
+              <div class="increase-your-bid">
+                <div class="main-text">
+                  <span class="line"></span>
+                  <p>Wanna Bubble Up? Increase your Bid</p>
+                  <span class="line"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="overlay-bg"></div>
+</ion-content>

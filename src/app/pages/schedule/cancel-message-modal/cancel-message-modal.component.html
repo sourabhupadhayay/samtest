@@ -1,0 +1,19 @@
+<div class="small-modal">
+  <ion-header mode="md">
+    <h3>{{ eventState == 'APPROVED' ? 'Cancellation': 'Refusal' }} Reason</h3>
+  </ion-header>
+
+  <div class="inner-content">
+    <div class="main-screen">
+      <textarea [(ngModel)]="cancelMessage" name="" id=""></textarea>
+    </div>
+  </div>
+
+  <ion-footer mode="ios">
+    <ion-toolbar mode="ios">
+      <ion-button (click)="onSubmit()" class="white-btn">
+        <img src="assets/images/send-icon.png" />
+      </ion-button>
+    </ion-toolbar>
+  </ion-footer>
+</div>

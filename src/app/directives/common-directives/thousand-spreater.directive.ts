@@ -22,12 +22,11 @@ export class ThousandSeparateDirective {
               return;
             }
 
-            if (typeof value)
-              if (value) {
-                const parts = value.toString().split(".");
-                parts[0] = this.decimal.transform(parts[0].replace(/,/g, ""));
-                return parts.join(".");
-              }
+            if (value) {
+              const parts = value.toString().split(".");
+              parts[0] = this.decimal.transform(parts[0].replace(/,/g, ""));
+              return parts.join(".");
+            }
           })
         )
         .subscribe((v) => control.patchValue(v, { emitEvent: false }));

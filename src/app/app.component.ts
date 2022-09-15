@@ -1,13 +1,23 @@
 import { Location } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { Component, NgZone, OnInit } from "@angular/core";
 import { FacebookLogin } from "@capacitor-community/facebook-login";
-import { App } from "@capacitor/app";
+import { App, URLOpenListener, URLOpenListenerEvent } from "@capacitor/app";
 
 import { Platform } from "@ionic/angular";
 import { CoreService } from "./providers/core.service";
 import { DataService, Request } from "./providers/data.service";
 import { NetworkService } from "./providers/network.service";
 import { SplashScreen } from "@capacitor/splash-screen";
+import { Storage } from "@capacitor/storage";
+import { Router } from "@angular/router";
+import { CommonService } from "./providers/common.service";
+
+import {
+  ActionPerformed,
+  PushNotificationSchema,
+  PushNotifications,
+  Token,
+} from "@capacitor/push-notifications";
 
 @Component({
   selector: "app-root",
@@ -22,12 +32,16 @@ export class AppComponent implements OnInit {
     private _networkService: NetworkService,
     private platform: Platform,
     private core: CoreService,
-
-    private _location: Location
+    private router: Router,
+    private _location: Location,
+    private commonService: CommonService,
+    private zone: NgZone
   ) {
     this.initializeApp();
     this.backButton();
     this.hideSplashScreen();
+    this.getPublicInfo();
+    this.deepLinking();
   }
 
   ngOnInit(): void {}
@@ -36,10 +50,9 @@ export class AppComponent implements OnInit {
     this.platform.ready().then((): void => {
       this._networkEventsListener();
       this.initFacebook();
-      
-      
+      this.isUserLoggedInFirstTime();
+      // this.registerNotification();
     });
-    
   }
 
   hideSplashScreen() {
@@ -55,7 +68,27 @@ export class AppComponent implements OnInit {
 
   //integrate facebook login
   private async initFacebook() {
-    await FacebookLogin.initialize({ appId: "439680364461644" });
+    await FacebookLogin.initialize({ appId: "2063922043815263" });
+  }
+
+  //get common public info
+  getPublicInfo() {
+    this.commonService.getPublicInfo();
+  }
+
+  deepLinking() {
+    App.addListener("appUrlOpen", (event: URLOpenListenerEvent) => {
+      this.zone.run(() => {
+        const domain = "dev.bubbleapp.com";
+
+        const pathArray = event.url.split(domain);
+
+        const appPath = pathArray.pop();
+        if (appPath) {
+          this.router.navigateByUrl(appPath);
+        }
+      });
+    });
   }
 
   private _networkEventsListener(): void {
@@ -89,5 +122,54 @@ export class AppComponent implements OnInit {
         this._location.back();
       }
     });
+  }
+
+  isUserLoggedInFirstTime() {
+    Storage.get({ key: "first_time" }).then(({ value }) => {
+      if (!value) {
+        this.router.navigate(["/welcome-screen"]);
+      }
+    });
+  }
+
+  registerNotification() {
+    // Request permission to use push notifications
+    // iOS will prompt user and return if they granted permission or not
+    // Android will just grant without prompting
+    PushNotifications.requestPermissions().then((result) => {
+      if (result.receive === "granted") {
+        // Register with Apple / Google to receive push via APNS/FCM
+        PushNotifications.register();
+      } else {
+        // Show some error
+      }
+    });
+
+    // On success, we should be able to receive notifications
+    PushNotifications.addListener("registration", (token: Token) => {
+      alert("Push registration success, token: " + token.value);
+      console.log(token.value);
+    });
+
+    // Some issue with our setup and push will not work
+    PushNotifications.addListener("registrationError", (error: any) => {
+      alert("Error on registration: " + JSON.stringify(error));
+    });
+
+    // Show us the notification payload if the app is open on our device
+    PushNotifications.addListener(
+      "pushNotificationReceived",
+      (notification: PushNotificationSchema) => {
+        alert("Push received: " + JSON.stringify(notification));
+      }
+    );
+
+    // Method called when tapping on a notification
+    PushNotifications.addListener(
+      "pushNotificationActionPerformed",
+      (notification: ActionPerformed) => {
+        alert("Push action performed: " + JSON.stringify(notification));
+      }
+    );
   }
 }

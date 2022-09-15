@@ -19,7 +19,8 @@
           loop=""
           muted
           autoplay
-          webkit-playsinline playsinline
+          webkit-playsinline
+          playsinline
         >
           <source src="assets/video/video.mp4" />
           <source src="assets/video/video.webm" />
@@ -40,7 +41,7 @@
     <ion-grid class="content-part">
       <div class="main-part">
         <div class="auth-title sticky-top">
-          <img src="assets/images/auth-img.png" />
+          <img src="assets/images/auth-img.svg" />
           <h4>Signup</h4>
           <p>Complete details to your account.</p>
         </div>
@@ -64,13 +65,13 @@
                 class="ion-align-self-center"
                 slot="end"
                 src="assets/icon/email.svg"
-                *ngIf="!isFormSubmitted"
+                *ngIf="signUpForm.controls.email.invalid"
               />
               <img
                 class="ion-align-self-center"
                 slot="end"
-                src="assets/icon/right-green.svg"
-                *ngIf="isFormSubmitted && signUpForm.controls.email.valid"
+                src="assets/icon/right-green.svg" style="opacity: 1;"
+                *ngIf=" signUpForm.controls.email.valid"
               />
             </ion-item>
             <div

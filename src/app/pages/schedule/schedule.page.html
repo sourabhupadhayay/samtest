@@ -1,4 +1,4 @@
-<ion-content>
+<ion-content [scrollEvents]="true">
   <ion-grid class="top-card">
     <div class="title-part">
       <ion-item lines="none">
@@ -25,15 +25,23 @@
 
   <div *ngIf="userData " class="profile">
     <div class="profile__top">
-      <div class="profile__image">
-        <img src="../../../assets/images/profile.png" alt="" />
+      <div *ngIf="userData.profileUrl !== ''" class="profile__image">
+        <img [src]="userData.profileUrl | profile" alt="" />
         <span class="online"></span>
       </div>
+      <ng-container *ngIf="userData.profileUrl == ''">
+        <div class="initials">
+          <span class="initials__span">
+            {{nameInitials}}
+          </span>
+          <span class="initials__online online"></span>
+        </div>
+      </ng-container>
       <div class="profile__details">
         <h2 class="profile__name">Hi {{userData?.fullName}}</h2>
         <ng-container *ngIf="userRole == 'fan'">
           <p>{{userData?.teamName}}</p>
-          <p>{{userData?.teamState}} / {{userData?.teamName}}</p>
+          <p>{{userData?.teamState}} / {{userData?.country}}</p>
         </ng-container>
         <ng-container *ngIf="userRole == 'athlete'">
           <p>{{userData?.teamName}}</p>
@@ -48,6 +56,7 @@
       <h6>
         ${{userData?.totalEventAmount}}
       </h6>
+      <!--      <ion-button routerLink="/waitlist">Test Video call</ion-button>-->
     </div>
 
     <div *ngIf="userRole == 'athlete'" class="profile__bottom">
@@ -57,6 +66,139 @@
       <h6>
         ${{userData?.totalEarning}}
       </h6>
+
+      <!-- <ion-button routerLink="/waitlist">join</ion-button> -->
     </div>
   </div>
+
+  <div class="sticky-div" [ngClass]="isClassAdded ? 'add-bg':''">
+    <ion-grid class="tabs-design">
+      <ion-segment
+        [(ngModel)]="eventState"
+        (ngModelChange)="resetAndGetMoreData()"
+        mode="ios"
+      >
+        <ion-segment-button value="APPROVED">
+          <ion-label>Upcoming</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="PAST">
+          <ion-label>Past</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="PENDING">
+          <ion-label>Appearances</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-grid>
+    <div class="schedule">
+      <h6>{{listHeading()}}</h6>
+
+      <ng-container *ngIf="userRole == 'athlete'">
+        <div class="">
+          <ion-select
+            [(ngModel)]="eventFilter"
+            (ngModelChange)="resetAndGetMoreData()"
+            interface="popover"
+            mode="ios"
+            [interfaceOptions]="{'cssClass': 'mycomponent-wider-popover' }"
+          >
+            <ion-select-option value="All">All</ion-select-option>
+            <ion-select-option value="me">Created by me</ion-select-option>
+            <ion-select-option value="fan">Created by fan</ion-select-option>
+            <ion-select-option value="sponsored"
+              >Sponsored by</ion-select-option
+            >
+          </ion-select>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="userRole == 'fan'">
+        <div *ngIf="eventState !== 'PENDING'" class="">
+          <ion-select
+            [(ngModel)]="eventFilter"
+            (ngModelChange)="resetAndGetMoreData()"
+            interface="popover"
+            mode="ios"
+            [interfaceOptions]="{'cssClass': 'mycomponent-wider-popover'}"
+          >
+            <ion-select-option value="All">All</ion-select-option>
+            <ion-select-option value="me">Created by me</ion-select-option>
+
+            <ion-select-option value="athlete"
+              >Created by athlete</ion-select-option
+            >
+
+            <ion-select-option value="sponsored"
+              >Sponsored by</ion-select-option
+            >
+          </ion-select>
+        </div>
+      </ng-container>
+    </div>
+    <div class="test-btn">
+      <ion-button routerLink="/waitlist" class="">Test Video call</ion-button>
+    </div>
+  </div>
+  <ion-grid class="content-part">
+    <div *ngIf="eventState == 'APPROVED'" class="">
+      <div *ngIf="scheduleData.length == 0" class="no-data-found">
+        <p>No upcoming event found</p>
+      </div>
+      <schedule-card
+        [userRole]="userRole"
+        (changeStatus)=" resetAndGetMoreData()"
+        [eventState]="eventState"
+        *ngFor="let data of scheduleData"
+        [cardData]="data"
+      ></schedule-card>
+    </div>
+    <div *ngIf="eventState == 'PAST'" class="">
+      <div *ngIf="scheduleData.length == 0" class="no-data-found">
+        <p>No past event found</p>
+      </div>
+      <schedule-card
+        [userRole]="userRole"
+        [eventState]="eventState"
+        *ngFor="let data of scheduleData"
+        [cardData]="data"
+      ></schedule-card>
+    </div>
+    <div *ngIf="eventState == 'PENDING'" class="">
+      <div *ngIf="scheduleData.length == 0" class="no-data-found">
+        <p>No upcoming appearances</p>
+      </div>
+      <schedule-card
+        [userRole]="userRole"
+        (changeStatus)=" resetAndGetMoreData()"
+        [eventState]="eventState"
+        *ngFor="let data of scheduleData"
+        [cardData]="data"
+      ></schedule-card>
+    </div>
+    <ion-infinite-scroll
+      [disabled]="isScrollDisabled"
+      threshold="100px"
+      (ionInfinite)="loadMoreEvents($event)"
+    >
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Loading more data..."
+      >
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </ion-grid>
+
+  <ion-grid class="bg-bubble">
+    <div class="dots-bubble">
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+    </div>
+  </ion-grid>
 </ion-content>

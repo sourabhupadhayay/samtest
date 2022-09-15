@@ -3,6 +3,9 @@
     <ion-header>
       <ion-toolbar>
         <img src="assets/images/single-logo.svg" />
+        <span class="list-icon" slot="end" routerLink="/bubble-screen-list">
+          <img src="assets/icon/list-icon.svg">
+        </span>
       </ion-toolbar>
     </ion-header>
     <ion-grid class="user-bubble">
@@ -18,9 +21,18 @@
               <img src="assets/images/bubble-toch.png" />
             </div>
             <div class="inner-data abc">
+              <div  *ngIf="bubble?.profileUrl !== '' ">
               <img [src]="bubble.profileUrl | profile" />
-              <span [ngClass]="bubble.online ? 'online':'offline'"></span>
+              </div>
+              
+
+              <div class="inital"  *ngIf="bubble?.profileUrl == '' ">
+                <span class="initial__span">
+                  {{bubble.nameInitials}}
+                </span>
+              </div>
             </div>
+            <span [ngClass]="bubble.online ? 'online':'offline'"></span>
           </div>
         </div>
       </div>
@@ -53,7 +65,7 @@
     </ion-grid>
   <!-- </ion-grid> -->
 <div class="bg-images">
-  
+
 </div>
   <ion-grid class="logo-bg">
     <img src="assets/icon/logo-bg.png" />
@@ -69,3 +81,5 @@
     </ion-fab-button>
   </ion-fab> -->
 </ion-content>
+
+

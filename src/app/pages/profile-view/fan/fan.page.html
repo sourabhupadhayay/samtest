@@ -3,7 +3,7 @@
     <div class="title-part">
       <ion-item lines="none" mode="ios">
         <ion-icon
-          routerLink="/tabs/home"
+          routerLink="/tabs/schedule"
           slot="start"
           name="arrow-back-outline"
         ></ion-icon>
@@ -11,7 +11,7 @@
           <ion-grid class="logo-head">
             <img src="assets/images/single-logo.svg" />
             <div class="nil4all">
-              <span>#NIL4ALL</span>
+              <span>#NIL4ALLs</span>
             </div>
           </ion-grid>
         </ion-label>
@@ -49,7 +49,7 @@
         <h5>Email</h5>
         <p>{{fanData?.email}}</p>
       </div>
-      <div class="details-box">
+      <div class="details-box" *ngIf="fanData?.showBirthDate ==true">
         <h5>Birthday</h5>
         <p>{{fanData?.birthDate | date:'MMM d, y'}}</p>
       </div>

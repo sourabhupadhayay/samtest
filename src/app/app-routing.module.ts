@@ -51,11 +51,41 @@ const routes: Routes = [
           ),
       },
     ],
-  },  {
-    path: 'invoice',
-    loadChildren: () => import('./pages/invoice/invoice.module').then( m => m.InvoicePageModule)
+  },
+  {
+    path: "welcome-screen",
+    loadChildren: () =>
+      import("./pages/welcome-screen/welcome-screen.module").then(
+        (m) => m.WelcomeScreenPageModule
+      ),
+  },
+  {
+    path: "invoice",
+    loadChildren: () =>
+      import("./pages/invoice/invoice.module").then((m) => m.InvoicePageModule),
+  },
+  {
+    path: "bid-payment",
+    loadChildren: () =>
+      import("./pages/profile-view/bid-payment/bid-payment.module").then(
+        (m) => m.BidPaymentPageModule
+      ),
   },
 
+  {
+    path: "waitlist",
+    loadChildren: () =>
+      import("./pages/waitlist/waitlist.module").then(
+        (m) => m.WaitlistPageModule
+      ),
+  },
+  {
+    path: "bubble-screen-list",
+    loadChildren: () =>
+      import("./pages/bubble-screen-list/bubble-screen-list.module").then(
+        (m) => m.BubbleScreenListPageModule
+      ),
+  },
 ];
 
 @NgModule({

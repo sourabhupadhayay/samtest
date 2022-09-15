@@ -2,7 +2,7 @@
   <ion-header mode="ios">
     <div class="icon-header">
       <img src="assets/icon/header-bubble.png" />
-      <h3>Add Availability</h3>
+      <h3>Add Appearance</h3>
     </div>
     <div class="top-noch">
       <img src="assets/images/modal-tope.png" />
@@ -13,29 +13,30 @@
     <div class="main-screen">
       <div class="radio-btn">
         <ion-radio-group value="VIDEO" mode="md">
-          <ion-row>
-            <ion-col size="6">
-              Select Appearance Type
-            </ion-col>
-            <ion-col size="6">
-              <ion-item lines="none">
+          <div class="radio-main">
+            <div class="radio-text">
+              <h5>Select Appearance Type</h5>
+            </div>
+
+            <div class="radio-data">
+              <ion-item lines="none" mode="ios">
                 <ion-label>Video</ion-label>
                 <ion-radio mode="md" slot="start" value="VIDEO"></ion-radio>
               </ion-item>
-            </ion-col>
-          </ion-row>
+            </div>
+          </div>
         </ion-radio-group>
       </div>
       <ion-row [formGroup]="athleteForm">
         <ion-col size="12">
           <div class="input-box">
             <ion-item
+              id="open-modal"
               [ngClass]="validAthleteInputBorder('startDate')"
               lines="none"
               class="ion-align-items-center"
             >
               <ion-input
-                id="open-modal"
                 formControlName="startDate"
                 placeholder="Select Date"
               ></ion-input>
@@ -49,6 +50,7 @@
               <ng-template>
                 <ion-content>
                   <ion-datetime
+                    [min]="currentDate"
                     mode="ios"
                     #dateTime
                     [showDefaultButtons]="true"
@@ -65,12 +67,12 @@
         <ion-col size="12">
           <div class="input-box">
             <ion-item
+              id="date-time"
               [ngClass]="validAthleteInputBorder('duration')"
               lines="none"
               class="ion-align-items-center"
             >
               <ion-input
-                id="date-time"
                 formControlName="duration"
                 placeholder="Duration"
               ></ion-input>
@@ -126,6 +128,9 @@
               class="ion-align-items-center"
             >
               <ion-input
+                appConverStringToInt
+                inputmode="numeric"
+                (ionBlur)="setInputCurrency()"
                 formControlName="minBid"
                 placeholder="Minimum Bid"
               ></ion-input>
@@ -140,11 +145,7 @@
 
         <ion-col size="12">
           <div class="input-box">
-            <ion-item
-              [ngClass]="validAthleteInputBorder('description')"
-              lines="none"
-              class="ion-align-items-center"
-            >
+            <ion-item lines="none" class="ion-align-items-center">
               <ion-textarea
                 formControlName="description"
                 placeholder="Message For Fans"
@@ -152,7 +153,7 @@
               <img
                 class="ion-align-items-center"
                 slot="end"
-                src="assets/icon/chat.svg"
+                src="assets/icon/chat-black.svg"
               />
             </ion-item>
           </div>
@@ -160,7 +161,11 @@
       </ion-row>
       <div class="save-card">
         <ion-item lines="none" mode="ios">
-          <ion-label>Accept<span>Terms & Conditions</span></ion-label>
+          <ion-label
+            >Accept<span (click)="presentTermsAndConditions()"
+              >Terms & Conditions</span
+            ></ion-label
+          >
           <ion-checkbox
             [(ngModel)]="isTermsAndConditionAccepted"
             slot="start"
@@ -183,7 +188,7 @@
               <h5>Select Appearance Type</h5>
             </div>
             <div class="radio-data">
-              <ion-item lines="none">
+              <ion-item lines="none" mode="ios">
                 <ion-label>Video</ion-label>
                 <ion-radio
                   mode="md"
@@ -194,7 +199,7 @@
               </ion-item>
             </div>
             <div class="radio-data">
-              <ion-item lines="none">
+              <ion-item lines="none" mode="ios">
                 <ion-label>In-Person</ion-label>
                 <ion-radio
                   mode="md"
@@ -211,12 +216,12 @@
         <ion-col size="12">
           <div class="input-box">
             <ion-item
+              id="open-date"
               [ngClass]="validFanInputBorder('startDate')"
               lines="none"
               class="ion-align-items-center"
             >
               <ion-input
-                id="open-date"
                 formControlName="startDate"
                 placeholder="Select Date"
               ></ion-input>
@@ -230,6 +235,7 @@
               <ng-template>
                 <ion-content>
                   <ion-datetime
+                    [min]="currentDate"
                     mode="ios"
                     #dateTime
                     [showDefaultButtons]="true"
@@ -246,12 +252,13 @@
         <ion-col size="12">
           <div class="input-box">
             <ion-item
+              id="duration"
               [ngClass]="validFanInputBorder('duration')"
               lines="none"
               class="ion-align-items-center"
             >
               <ion-input
-                id="duration"
+                [disabled]="fanEventType == 'VIDEO'"
                 formControlName="duration"
                 placeholder="Duration"
               ></ion-input>
@@ -305,6 +312,7 @@
               [ngClass]="validFanInputBorder('selectedAthleteName')"
               lines="none"
               class="ion-align-items-center"
+              mode="md"
             >
               <input
                 matInput
@@ -319,21 +327,34 @@
                 src="assets/icon/arrow-down.svg"
               />
             </ion-item>
-            <mat-autocomplete #auto="matAutocomplete">
+            <mat-autocomplete
+              #auto="matAutocomplete"
+              class="custom-class"
+              mode="md"
+            >
               <mat-option
                 (click)="selectedAthlete(option)"
                 *ngFor="let option of $athletes | async"
                 [value]="option.fullName"
               >
                 <div class="list-data">
-                  <ion-list>
-                    <ion-item lines="none">
-                      <img slot="start" [src]="option.profileUrl | profile" />
-                      <ion-label>
-                        <h5>{{option.fullName }}</h5>
-                      </ion-label>
-                    </ion-item>
-                  </ion-list>
+                  <!-- <ion-list> -->
+                  <ion-item lines="none">
+                    <img
+                      slot="start"
+                      *ngIf=" option.profileUrl !==''"
+                      [src]="option.profileUrl | profile"
+                    />
+                    <div *ngIf="option?.profileUrl ==''" class="inital">
+                      <span class="initial__span">
+                        {{getInitials(option.fullName) | titlecase }}
+                      </span>
+                    </div>
+                    <ion-label>
+                      <h5>{{option.fullName }}</h5>
+                    </ion-label>
+                  </ion-item>
+                  <!-- </ion-list> -->
                 </div>
               </mat-option>
             </mat-autocomplete>
@@ -347,8 +368,10 @@
               class="ion-align-items-center"
             >
               <ion-input
-                inputmode="decimal"
+                appConverStringToInt
+                (ionBlur)="setInputCurrency()"
                 formControlName="minBid"
+                inputmode="numeric"
                 placeholder="Appearance Fee ($)"
               ></ion-input>
               <img
@@ -397,6 +420,7 @@
             <ion-col size="6">
               <div class="input-box">
                 <ion-item
+                  inputmode=""
                   [ngClass]="validFanAddressInputBorder('city')"
                   lines="none"
                   class="ion-align-items-center"
@@ -411,34 +435,37 @@
             <ion-col size="12">
               <div class="input-box">
                 <ion-item
-                  [ngClass]="validFanAddressInputBorder('zipcode')"
+                  [ngClass]="validFanAddressInputBorder('zipCode')"
                   lines="none"
                   class="ion-align-items-center"
                 >
                   <ion-input
-                    formControlName="zipcode"
+                    maxlength="5"
+                    type="number"
+                    formControlName="zipCode"
                     placeholder="Zip Code"
                   ></ion-input>
+                  <img
+                    class="ion-align-items-center"
+                    slot="end"
+                    src="assets/icon/location.svg"
+                  />
                 </ion-item>
               </div>
             </ion-col>
           </ion-row>
         </ng-container>
-        <ion-col size="12">
+        <ion-col *ngIf="fanEventType === 'VIDEO'" size="12">
           <div class="input-box">
-            <ion-item
-              [ngClass]="validFanInputBorder('description')"
-              lines="none"
-              class="ion-align-items-center"
-            >
+            <ion-item lines="none" class="ion-align-items-center">
               <ion-textarea
                 formControlName="description"
-                placeholder="Message For Fans"
+                placeholder="Event Description"
               ></ion-textarea>
               <img
                 class="ion-align-items-center"
                 slot="end"
-                src="assets/icon/chat.svg"
+                src="assets/icon/chat-black.svg"
               />
             </ion-item>
           </div>
@@ -447,7 +474,11 @@
 
       <div class="save-card">
         <ion-item lines="none" mode="ios">
-          <ion-label>Accept<span>Terms & Conditions</span></ion-label>
+          <ion-label
+            >Accept<span (click)="presentTermsAndConditions()"
+              >Terms & Conditions</span
+            ></ion-label
+          >
           <ion-checkbox
             [(ngModel)]="isTermsAndConditionAccepted"
             slot="start"

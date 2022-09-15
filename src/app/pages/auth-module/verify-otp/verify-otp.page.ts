@@ -100,18 +100,14 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
     };
 
     this.coreService.presentLoader(this.constantService.WAIT);
-    this.apiService.get(request).subscribe((response: Response) => {
+    this.apiService.get(request, true).subscribe((response: Response) => {
       this.coreService.dismissLoader();
       if (response["status"]["code"] === this.constantService.STATUS_OK) {
         this.coreService.showToastMessage(
           response.status.description,
           this.coreService.TOAST_SUCCESS
         );
-        if (this.mode == "signup") {
-          this.router.navigate(["auth/signup-details"]);
-        } else {
-          this.router.navigate(["auth/reset-password"]);
-        }
+        this.routeToNextPage();
       } else {
         this.coreService.showToastMessage(
           response.status.description,
@@ -125,6 +121,14 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
 
   stopTimer() {
     clearInterval(this.interval);
+  }
+
+  routeToNextPage() {
+    if (this.mode == "signup") {
+      this.router.navigate(["auth/signup-details"]);
+    } else {
+      this.router.navigate(["auth/reset-password"]);
+    }
   }
 
   ngOnDestroy(): void {

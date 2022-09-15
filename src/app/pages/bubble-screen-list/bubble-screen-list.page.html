@@ -1,0 +1,128 @@
+<ion-content [fullscreen]="true">
+  <ion-header>
+    <ion-toolbar>
+      <ion-icon (click)="goBack()" class="back-arow"
+      slot="start"
+      name="arrow-back-outline"
+      routerLink="/bubble-screen"
+    ></ion-icon>
+      <!-- <span  slot="start"
+        ><img src="assets/icon/arrow-back.svg"
+      /></span> -->
+      <img src="assets/images/single-logo.svg" />
+      <span class="filter-icon" slot="end">
+        <img
+          (click)="presentPopover($event)"
+          src="assets/icon/filter-icon.svg"
+        />
+        <ion-popover
+          #popover
+          [isOpen]="isOpen"
+          (didDismiss)="isOpen = false"
+          class="list-options"
+          mode="ios"
+        >
+          <ng-template>
+            <ion-radio-group value="biff">
+              <ion-item mode="ios" lines="none">
+                <ion-radio slot="start" value="All"></ion-radio>
+                <ion-label>All</ion-label>
+              </ion-item>
+              <ion-item mode="ios" lines="none">
+                <ion-radio slot="start" value="Online"></ion-radio>
+                <ion-label>Online Athlete</ion-label>
+              </ion-item>
+              <ion-item mode="ios" lines="none">
+                <ion-radio slot="start" value="Offline"></ion-radio>
+                <ion-label>Offline Athlete</ion-label>
+              </ion-item>
+            </ion-radio-group>
+          </ng-template>
+        </ion-popover>
+      </span>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-grid class="search-bar">
+    <ion-searchbar
+      [formControl]="searchControl"
+      mode="ios"
+      placeholder="Search your favourite"
+    ></ion-searchbar>
+  </ion-grid>
+  <ion-grid class="bubble-list">
+    <ion-row>
+      <ion-col *ngIf="athleteList.length == 0" size="12">
+        <h6 class="text-center">Athlete not found</h6>
+      </ion-col>
+
+      <ion-col *ngFor="let athlete of athleteList ;let i = index" size="6">
+        <div (click)="navigateToAthlete(athlete.id)" class="athlete-details">
+          <div class="athlete-img">
+            <div class="img-set" *ngIf="athlete.profileUrl !== '' ">
+              <img [src]="athlete.profileUrl | profile" />
+            </div>
+            <ng-container *ngIf="athlete.profileUrl == '' ">
+              <div class="inital">
+              <span class="initial__span">
+                {{athlete.nameInitials}}
+              </span>
+              </div>
+            </ng-container>
+            <span
+              [ngClass]="athlete.online ? 'online' :'offline'"
+              class="status"
+            ></span>
+          </div>
+          <div class="athlete-info">
+            <h5>{{athlete?.fullName}}</h5>
+            <p>
+              {{athlete.universityName}}
+              <span *ngIf="isShowingSeparator(i)">||</span> {{athlete.teamName}}
+            </p>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid class="bg-bubble">
+    <div class="dots-bubble">
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+    </div>
+  </ion-grid>
+
+  <!-- <div class="bg-images"></div> -->
+
+  <ion-infinite-scroll
+    threshold="50px"
+    [disabled]="isScrollDisabled"
+    (ionInfinite)="loadData($event)"
+  >
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data..."
+    >
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

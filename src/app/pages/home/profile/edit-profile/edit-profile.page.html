@@ -1,6 +1,6 @@
 <ion-content [fullscreen]="true">
   <ion-grid class="top-card">
-    <div class="title-part">
+    <div class="title-part 1212">
       <ion-item lines="none">
         <ion-icon
           *ngIf="isUserProfileComplete"
@@ -24,7 +24,9 @@
       </ion-item>
     </div>
     <div *ngIf="commonService.profileUrl !== ''" class="profile-part">
-      <img [src]="commonService.profileUrl | profile" />
+      <div class="upload-img">
+        <img [src]="commonService.profileUrl | profile" />
+      </div>
 
       <div class="edit-btn">
         <ion-button (click)="presentProfileActionSheet()">
@@ -54,7 +56,7 @@
   </ion-grid>
 
   <ion-grid class="content-part">
-    <div *ngIf="currentUserRole == 'athlete'" class="athlete-bio">
+    <div *ngIf="currentUserRole =='athlete'" class="athlete-bio">
       <svg
         width="25"
         height="25"
@@ -87,7 +89,7 @@
             class="error-msg"
             id="userNameError"
           >
-            <p><img src="assets/icon/info-red.svg" /> Full name is invalid</p>
+            <p><img src="assets/icon/info-red.svg" /> Please enter valid full name</p>
           </div>
         </div>
         <div class="input-box">
@@ -104,19 +106,20 @@
         <div class="input-box">
           <ion-item lines="none">
             <ion-label position="stacked"
-              >Birthday <span class="red">*</span></ion-label
+              >Birthdate <span class="red">*</span></ion-label
             >
             <ion-input
               id="open-modal"
               formControlName="birthDate"
               type="text"
-            ></ion-input>
+            ><img class="date-icon" slot="end" src="assets/icon/calendar.svg"></ion-input>
+            
           </ion-item>
           <div
             *ngIf="isFormSubmitted && fanProfileForm.controls.birthDate.invalid"
             class="error-msg"
           >
-            <p><img src="assets/icon/info-red.svg" /> Birth date is required</p>
+            <p><img src="assets/icon/info-red.svg" /> Birthdate is required</p>
           </div>
         </div>
         <ion-modal class="dateModal" trigger="open-modal" mode="ios">
@@ -130,7 +133,7 @@
                 [showDefaultButtons]="true"
                 (ionChange)="patchDateValue(dateTime.value)"
               >
-                <span slot="title">Select Birth date</span></ion-datetime
+                <span slot="title">Select Birthdate</span></ion-datetime
               >
             </ion-content>
           </ng-template>
@@ -143,7 +146,7 @@
               mode="md"
               slot="start"
             ></ion-checkbox>
-            <ion-label>make my birthday visible to all users</ion-label>
+            <ion-label>Make my birthday visible to all users</ion-label>
           </ion-item>
         </div>
         <div class="input-box">
@@ -248,6 +251,7 @@
       </div>
     </ng-container>
   </ion-grid>
+
   <ion-grid class="buble-part">
     <div class="dots-bubble">
       <div class="dots"></div>
@@ -278,6 +282,7 @@
     </ion-button>
   </ion-toolbar>
 </ion-footer>
+
 <ion-modal #editModal class="small-modal">
   <ng-template>
     <ion-header mode="md">

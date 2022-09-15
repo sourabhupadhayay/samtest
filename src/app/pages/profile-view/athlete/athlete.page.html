@@ -1,11 +1,10 @@
-
 <!--ion-header>No header </ion-header-->
 <ion-content [fullscreen]="true">
   <ion-grid class="top-card">
     <div class="title-part">
       <ion-item lines="none">
         <ion-icon
-          routerLink="/tabs/home"
+          routerLink="/tabs/schedule"
           slot="start"
           name="arrow-back-outline"
         ></ion-icon>
@@ -25,8 +24,15 @@
     </div>
     <div class="profile-part">
       <ion-item lines="none">
-        <ion-avatar slot="start">
+        <ion-avatar slot="start" *ngIf="athleteData?.profileUrl !== '' ">
           <img [src]="athleteData?.profileUrl | profile" />
+        </ion-avatar>
+        <ion-avatar *ngIf="athleteData?.profileUrl == '' ">
+          <div class="inital">
+            <span class="initial__span">
+              {{nameInitials}}
+            </span>
+          </div>
         </ion-avatar>
         <ion-label>
           <h5>{{athleteData?.fullName}}</h5>
@@ -42,7 +48,11 @@
 
   <ion-grid class="content-part">
     <ion-grid class="tabs-design">
-      <ion-segment [(ngModel)]="selectedindex" mode="ios">
+      <ion-segment
+        [(ngModel)]="selectedIndex"
+        (ngModelChange)="getAppearanceData()"
+        mode="ios"
+      >
         <ion-segment-button value="profile">
           <ion-label>Profile</ion-label>
         </ion-segment-button>
@@ -52,7 +62,7 @@
       </ion-segment>
     </ion-grid>
 
-    <div class="profile-tab" *ngIf="selectedindex == 'profile'">
+    <div class="profile-tab" *ngIf="selectedIndex == 'profile'">
       <div class="details-part">
         <div class="details-box">
           <h5>Biography</h5>
@@ -82,7 +92,7 @@
         </div>
       </div>
 
-      <div class="highest-bid">
+      <!-- <div class="highest-bid">
         <ion-item lines="none">
           <ion-avatar slot="start">
             <img src="assets/icon/highest-bid.svg" />
@@ -92,15 +102,43 @@
             <span>$100</span>
           </ion-label>
         </ion-item>
-      </div>
+      </div> -->
     </div>
 
-    <div class="appearances-tab" *ngIf="selectedindex == 'appearances'">
-      <div class="no-data-found">
-        <!-- <img src="assets/icon/medications-nodata.svg"> -->
-        <p>No upcoming appearances</p>
+    <div class="appearances-tab" *ngIf="selectedIndex == 'appearances'">
+      <div class="schedule">
+        <h6>SCHEDULE</h6>
+        <ng-container>
+          <div class="">
+            <ion-select
+              [(ngModel)]="eventFilter"
+              (ngModelChange)="getAthleteAppearances()"
+              interface="popover"
+              mode="ios"
+              [interfaceOptions]="{'cssClass': 'mycomponent-wider-popover'}"
+            >
+              <ion-select-option value="All">All</ion-select-option>
+              <ion-select-option value="upcoming"
+                >Upcoming event</ion-select-option
+              >
+              <ion-select-option value="past">Past event</ion-select-option>
+            </ion-select>
+          </div>
+        </ng-container>
+      </div>
+      <div class="scroll-part">
+        <div *ngIf="scheduleData.length ==0" class="no-data-found">
+          <p>No upcoming appearances</p>
+        </div>
+
+        <athlete-card
+          [eventFilter]="eventFilter"
+          *ngFor="let data of scheduleData"
+          [cardData]="data"
+        ></athlete-card>
       </div>
     </div>
+    
   </ion-grid>
   <ion-grid class="buble-part">
     <div class="dots-bubble">
@@ -118,42 +156,79 @@
   </ion-grid>
 </ion-content>
 
-<ion-footer mode="ios">
+<ion-footer mode="ios" *ngIf="selectedIndex == 'profile'">
   <ion-toolbar mode="ios">
-    <div class="buttons-swipe">
-      <div class="buttons-data">
-        <ion-item-sliding (ionDrag)="getAmountOpened($event)">
-          <ion-item-options side="start">
-            <ion-item-option color="danger"></ion-item-option>
-          </ion-item-options>
-          <ion-item lines="none">
-            <ion-button slot="start">
-              <img src="assets/images/button-auth.png" />
-              <span
-                >Bid <br />
-                Now</span
-              >
-            </ion-button>
-          </ion-item>
-        </ion-item-sliding>
-      </div>
-
-      <div class="swipe-data">
+    <div *ngIf="latestAthleteEvent" class="footer-part">
+      <div class="highest-bid">
         <ion-item lines="none">
+          <ion-avatar slot="start">
+            <img src="assets/icon/highest-bid.svg" />
+          </ion-avatar>
           <ion-label>
-            <img class="one" src="assets/icon/arrow-right.svg" />
-            <img class="two" src="assets/icon/arrow-right.svg" />
-            <img class="three" src="assets/icon/arrow-right.svg" />
+            <p>
+              Highest Bid for upcoming event
+              <span>{{latestAthleteEvent.eventName}}</span>
+            </p>
           </ion-label>
-          <ion-text slot="end">
-            <p>Min Bid</p>
-            <span>$50</span>
-          </ion-text>
+          <ion-text slot="end">$100</ion-text>
         </ion-item>
       </div>
-    </div>
-    <div class="wanna-bubble">
-      <p>Wanna Bubble Up? Increase your Bid</p>
+      <div class="buttons-swipe">
+        <div class="buttons-data">
+          <ion-item-sliding (ionDrag)="getAmountOpened($event)">
+            <ion-item-options side="start">
+              <ion-item-option color="danger"></ion-item-option>
+            </ion-item-options>
+            <ion-item lines="none">
+              <ion-button slot="start">
+                <img src="assets/images/button-auth.png" />
+                <span
+                  >Bid <br />
+                  Now</span
+                >
+              </ion-button>
+            </ion-item>
+          </ion-item-sliding>
+        </div>
+
+        <div class="swipe-data">
+          <ion-item lines="none">
+            <ion-label>
+              <img class="one" src="assets/icon/arrow-right.svg" />
+              <img class="two" src="assets/icon/arrow-right.svg" />
+              <img class="three" src="assets/icon/arrow-right.svg" />
+            </ion-label>
+            <ion-text slot="end">
+              <p>Min Bid</p>
+              <span>${{latestAthleteEvent.minBid}}</span>
+            </ion-text>
+          </ion-item>
+        </div>
+      </div>
+      <div class="wanna-bubble">
+        <p>Wanna Bubble Up? Increase your Bid</p>
+      </div>
     </div>
   </ion-toolbar>
 </ion-footer>
+
+<!-- <div class="bid-submitted">
+        <ion-item lines="none">
+            <ion-label>
+                <h5>Bid Submitted</h5>
+                <span>$200</span>
+            </ion-label>
+            <div class="auth-btn" slot="end">
+              <ion-button routerLink="/fan-waitlist">
+                <img src="assets/images/button-auth-green.png" />
+                <span>Go</span>
+              </ion-button>
+            </div>
+            <div class="auth-btn" slot="end">
+              <ion-button>
+                <img src="assets/images/button-auth-red.png" />
+                <span><img src="assets/icon/close-btn.svg"></span>
+              </ion-button>
+            </div>
+        </ion-item>
+    </div> -->

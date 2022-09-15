@@ -10,7 +10,6 @@
 <ion-content [fullscreen]="true">
   <div class="main-screen">
     <div class="top-screen">
-      <!-- <ion-icon slot="start" name="arrow-back-outline"></ion-icon> -->
       <ion-grid class="video-part">
         <video
           height="100%"
@@ -19,7 +18,8 @@
           loop=""
           muted
           autoplay
-          webkit-playsinline playsinline
+          webkit-playsinline
+          playsinline
         >
           <source src="assets/video/video.mp4" />
           <source src="assets/video/video.webm" />
@@ -40,8 +40,8 @@
     <ion-grid class="content-part">
       <div class="main-part">
         <div class="auth-title sticky-top">
-          <img src="assets/images/auth-img.png" />
-          <h4>Login </h4>
+          <img src="assets/images/auth-img.svg" />
+          <h4>Login</h4>
           <p>Welcome! Login to your account.</p>
         </div>
 
@@ -59,7 +59,7 @@
                 type="email"
               ></ion-input>
               <img
-                *ngIf="!isFormSubmitted"
+                *ngIf="loginForm.controls.email.invalid"
                 class="ion-align-self-center"
                 slot="end"
                 src="assets/icon/email.svg"
@@ -67,6 +67,7 @@
               <img
                 *ngIf="isFormSubmitted && loginForm.controls.email.valid"
                 class="ion-align-self-center"
+                style="opacity: 1;"
                 slot="end"
                 src="assets/icon/right-green.svg"
               />
@@ -99,14 +100,14 @@
                 (click)="showPasswordToggle()"
                 class="ion-align-self-center"
                 slot="end"
-                src="assets/icon/hide.svg"
+                src="assets/icon/show.svg"
               />
               <img
                 *ngIf="!isShowingPassword"
                 (click)="showPasswordToggle()"
                 class="ion-align-self-center"
                 slot="end"
-                src="assets/icon/show.svg"
+                src="assets/icon/hide.svg"
               />
             </ion-item>
             <div
@@ -140,10 +141,10 @@
 
         <div class="social-media">
           <ion-button (click)="faceBookSignIn()">
-            <img src="assets/images/facebook.png" />
+            <img src="assets/images/facebook.svg" />
           </ion-button>
           <ion-button (click)="googleSignIn()">
-            <img src="assets/images/google.png" />
+            <img src="assets/images/google.svg" />
           </ion-button>
         </div>
 

@@ -6,6 +6,7 @@ import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { AppereanceBookingComponent } from "./appereance-booking/appereance-booking.component";
 import { PaymentComponent } from "./payment/payment.component";
+import { Storage } from "@capacitor/storage";
 
 @Component({
   selector: "app-tabs",
@@ -15,6 +16,7 @@ import { PaymentComponent } from "./payment/payment.component";
 export class TabsPage implements OnInit {
   userData: any | null = null;
   nameInitials: string;
+  createEventRequest: Request;
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -25,10 +27,16 @@ export class TabsPage implements OnInit {
 
   ngOnInit() {}
   ionViewWillEnter() {
-    this.getCurrentUserDetails();
+    this.getUserDataFromStorage();
   }
 
-  async presentChangePasswordModal(): Promise<void> {
+  async getUserDataFromStorage() {
+    const { value } = await Storage.get({ key: "userDetails" });
+    this.userData = JSON.parse(value);
+    this.nameInitials = this.commonService.getInitials(this.userData.fullName);
+  }
+
+  async presentAppearanceBookingModal(): Promise<void> {
     const modal: HTMLIonModalElement = await this.modalCtrl.create({
       component: AppereanceBookingComponent,
       cssClass: "client-filter-modal",
@@ -37,9 +45,13 @@ export class TabsPage implements OnInit {
     modal.present();
 
     const { data, role } = await modal.onDidDismiss();
-    if (data) {
-      this.presentPaymentModal();
+    if (!data) {
+      return;
     }
+
+    this.createEventRequest = data;
+
+    this.presentPaymentModal();
   }
 
   async presentPaymentModal() {
@@ -48,38 +60,62 @@ export class TabsPage implements OnInit {
       cssClass: "client-filter-modal",
     });
     modal.present();
-  }
+    const { data, role } = await modal.onDidDismiss();
 
-  getCurrentUserDetails() {
-    let request: Request = {
-      path: "auth/users/currentUser",
-      isAuth: true,
-    };
-    this.coreService.presentLoader(this.constantService.WAIT);
-
-    this.apiService.get(request).subscribe((response: Response) => {
-      this.coreService.dismissLoader();
-      if (response.status.code === this.constantService.STATUS_OK) {
-        this.userData = response.data;
-        this.getInitials(this.userData.fullName);
-        this.commonService.$profileSubject.next(response.data);
-      } else {
-        this.coreService.showToastMessage(
-          response.status.description,
-          this.coreService.TOAST_ERROR
-        );
-      }
-    });
-  }
-
-  getInitials(fullName: String) {
-    let splitName = fullName.split(" ");
-    let firstName = splitName[0];
-    let lastName = splitName[1];
-    if (lastName) {
-      this.nameInitials = firstName[0] + lastName[0];
-    } else {
-      this.nameInitials = firstName[0];
+    if (!data) {
+      return;
     }
+
+    this.createEventRequest.data = {
+      ...this.createEventRequest.data,
+      ...data,
+    };
+
+    this.createEventForFan();
   }
+
+  createEventForFan() {
+    this.coreService.presentLoader(this.constantService.WAIT);
+    this.apiService
+      .post(this.createEventRequest)
+      .subscribe((response: Response) => {
+        this.coreService.dismissLoader();
+        if (response.status.code === this.constantService.STATUS_OK) {
+          this.coreService.showToastMessage(
+            response.status.description,
+            this.coreService.TOAST_SUCCESS
+          );
+        } else {
+          this.coreService.showToastMessage(
+            response.status.description,
+            this.coreService.TOAST_ERROR
+          );
+        }
+      });
+  }
+
+  // getCurrentUserDetails() {
+  //   let request: Request = {
+  //     path: "auth/users/currentUser",
+  //     isAuth: true,
+  //   };
+  //   this.coreService.presentLoader(this.constantService.WAIT);
+
+  //   this.apiService.get(request).subscribe((response: Response) => {
+  //     this.coreService.dismissLoader();
+  //     if (response.status.code === this.constantService.STATUS_OK) {
+  //       this.userData = response.data;
+  //       this.nameInitials = this.commonService.getInitials(
+  //         this.userData.fullName
+  //       );
+  //       // this.commonService.$profileSubject.next(response.data);
+
+  //     } else {
+  //       this.coreService.showToastMessage(
+  //         response.status.description,
+  //         this.coreService.TOAST_ERROR
+  //       );
+  //     }
+  //   });
+  // }
 }

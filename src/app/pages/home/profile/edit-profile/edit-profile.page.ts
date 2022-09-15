@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 import { ActivatedRoute, Params, Router } from "@angular/router";
@@ -179,7 +185,13 @@ export class EditProfilePage implements OnInit {
           response.status.description,
           this.coreService.TOAST_SUCCESS
         );
+
+        Storage.set({
+          key: "userDetails",
+          value: JSON.stringify(response.data),
+        });
         this.router.navigateByUrl("/tabs/profile");
+        this.commonService.$profileSubject.next();
         this.isUserProfileComplete = true;
       } else {
         this.coreService.showToastMessage(
@@ -191,8 +203,6 @@ export class EditProfilePage implements OnInit {
   }
 
   fanDataRequest(): Request {
-    this.validatePhoneFanForm();
-
     let { birthDate, ...signUpResponse } = this.fanProfileForm.value;
 
     let request: Request = {
@@ -212,6 +222,7 @@ export class EditProfilePage implements OnInit {
       this.isFormSubmitted = true;
       if (this.isFormValid()) return;
       if (this.validateAge()) return;
+      if (this.validatePhoneFanForm()) return;
     }
     this.modal.present();
   }
@@ -244,7 +255,6 @@ export class EditProfilePage implements OnInit {
         "Please enter valid details",
         this.coreService.TOAST_ERROR
       );
-
       return true;
     }
   }
@@ -323,19 +333,25 @@ export class EditProfilePage implements OnInit {
       }
     });
   }
-  validatePhoneFanForm() {
-    if (!this.fanProfileForm.controls.phone.value) {
-      return;
-    }
-    if (this.fanProfileForm.controls.phone.value < 15) {
+  validatePhoneFanForm() :boolean {
+
+    if (this.fanProfileForm.controls.phone.value!="" && this.fanProfileForm.controls.phone.value.length < 14) {
+      this.coreService.showToastMessage(
+        "Please enter valid phone number",
+        this.coreService.TOAST_ERROR
+      );
       this.fanProfileForm.controls.phone.patchValue("");
+      return true;
+    }
+    if (!this.fanProfileForm.controls.phone.value) {
+      this.fanProfileForm.controls.phone.patchValue(this.fanProfileForm.controls.phone.value);
     }
   }
   validatePhoneAthleteForm() {
     if (!this.athleteProfileForm.controls.phone.value) {
       return;
     }
-    if (this.athleteProfileForm.controls.phone.value < 15) {
+    if (this.athleteProfileForm.controls.phone.value.length < 14) {
       this.athleteProfileForm.controls.phone.patchValue("");
     }
   }

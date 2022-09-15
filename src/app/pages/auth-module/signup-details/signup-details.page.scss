@@ -8,7 +8,9 @@ ion-header {
     z-index: 9;
     ion-icon {
       color: var(--white-clr);
-      font-size: 2rem;
+      font-size: 1.5rem;
+      margin-left: 7px;
+      margin-top: 10px;
     }
   }
 }
@@ -26,6 +28,7 @@ ion-content {
       position: sticky;
       overflow: hidden;
       top: 0;
+      min-height: 132px;
       ion-icon {
         color: var(--white-clr);
         font-size: 2rem;
@@ -102,7 +105,7 @@ ion-content {
       }
       .auth-title {
         text-align: center;
-        padding: 5px 15px 15px;
+        padding: 15px 15px 15px;
         border-top-left-radius: 50px;
         border-top-right-radius: 50px;
         // position: sticky;
@@ -111,6 +114,7 @@ ion-content {
         // background: #6bbde9;
         img {
           max-width: 100%;
+          width: 52px; height: 74px;
         }
         h4 {
           color: var(--white-clr);
@@ -133,22 +137,27 @@ ion-content {
       }
 
       .profile-image {
-        text-align: center;
+        text-align: center; padding: 0 0 10px;
         .images-upload {
           text-align: center;
+          padding: 0 10px 10px;
           .upload-icon {
             height: 97px;
             width: 97px;
             border-radius: 97px;
-            line-height: 97px;
+            // line-height: 100px;
             text-align: center;
-            display: inline-block;
+            // display: inline-block;
+            display: inline-flex;
             background: rgba(var(--white-bg-rgb), 0.7);
             position: relative;
             overflow: hidden;
+            align-items: center;
+            justify-content: center;
             img {
               max-width: 100%;
               opacity: 0.5;
+              width: 25px;
             }
             input,
             ion-input {
@@ -167,9 +176,12 @@ ion-content {
               height: 97px;
               width: 97px;
               border-radius: 97px;
-              display: inline-block;
+              // display: inline-block;
+              display: inline-flex;
               margin: 0 auto;
               position: relative;
+              align-items: center;
+              justify-content: center;
               img {
                 width: 100%;
                 height: 100%;
@@ -217,6 +229,7 @@ ion-content {
               font-size: 0.875rem;
               color: var(--text-black);
               font-weight: 400;
+              opacity: 1 !important;
               span.red {
                 color: var(--red-clr);
               }
@@ -273,8 +286,8 @@ ion-content {
           }
         }
         .check-box {
-          margin-bottom: -12px;
-          margin-top: 7px;
+          margin-bottom: 2px;
+          margin-top: 5px;
 
           ion-item {
             --padding-start: 0;
@@ -293,7 +306,7 @@ ion-content {
               --ripple-color: none;
               margin: 0;
               margin-right: 5px;
-              --size: 20px;
+              --size: 18px;
               --border-color: var(--black-clr);
               --background-checked: transparent;
               --background: transparent;
@@ -313,6 +326,34 @@ ion-content {
           }
         }
 
+        .age-requeird{
+          margin-bottom: 2px;
+          margin-top: 5px;
+          ion-item{
+            --padding-start: 0;
+            --innerpadding-end: 0;
+            --background: transparent;
+            --ripple-color: none;
+            --background-activated: none;
+            --background-focused: none;
+            --background-hover: none;
+            --background-activated-opacity: 1;
+            --background-focused-opacity: 1;
+            --background-hover-opacity: 1;
+            --ripple-color: none;
+            --min-height: 17px;
+            img{width: 20px; margin: 0 3px 0 0;}
+            ion-label {
+              word-break: break-word;
+              white-space: normal;
+              font-size: 0.875rem;
+              color: var(--white-clr);
+              font-weight: 400;
+              margin: 0;
+            }
+          }
+        }
+
         .password-text {
           padding: 5px 20px;
           ion-item {
@@ -320,10 +361,10 @@ ion-content {
             --inner-padding-end: 0;
             --background: transparent;
             --background-activated: transparent;
-            --min-height: 27px;
-            margin-top: 3px;
+            --min-height: 17px;
+            margin-top: 1px;
             img {
-              width: 20px;
+              width: 17px;
               margin: 0;
               margin-right: 10px;
             }
@@ -335,7 +376,7 @@ ion-content {
               font-size: 0.8125rem;
               color: var(--white-clr);
               font-weight: 400;
-              margin: 5px 0;
+              margin: 3px 0;
             }
             &.red-text {
               ion-label {
@@ -358,13 +399,14 @@ ion-content {
           --background-focused: transparent;
           --background-hover: transparent;
           --background-activated: transparent;
-          --box-shadow: none;
+          // --box-shadow: none;
           --padding-start: 0rem;
           --padding-end: 0rem;
           height: 80px;
           width: 80px;
           border-radius: 50%;
-          box-shadow: 0 5px 7px #225889;
+          --border-radius: 50%;
+          box-shadow: 0px 4px 4px #5a829b, inset 0px 4px 4px #9bd9ff;
           img {
             height: 80px;
             width: 80px;
@@ -387,9 +429,9 @@ ion-content {
             opacity: 1;
             filter: grayscale(1);
           }
-          &.ion-focusable {
-            box-shadow: none;
-          }
+          // &.ion-focusable {
+          //   box-shadow: none;
+          // }
         }
       }
 
@@ -402,7 +444,7 @@ ion-content {
           height: 100%;
           z-index: inherit;
           overflow: hidden;
-          top: 5px;
+          top: 0px;
           left: 0;
           border-top-left-radius: 50px;
           border-top-right-radius: 50px;
@@ -627,4 +669,12 @@ ion-content {
   ion-datetime {
     border-radius: 8px;
   }
+}
+
+
+@media only screen and (max-width: 374px) {
+  ion-content .main-screen .content-part .auth-form{max-height: 200px !important;}
+  ion-content .main-screen .content-part .auth-title{padding: 5px 15px 10px !important;}
+  ion-content .main-screen .content-part .auth-title img{width: 40px !important;}
+  ion-content .main-screen .content-part .auth-title h4{font-size: 1.575rem !important;}
 }

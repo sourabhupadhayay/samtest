@@ -14,8 +14,15 @@ ion-content {position: relative; --background: url(../../../../assets/images/bac
         --border-width: 0;
         --min-height: 70px;
          //padding-top:25px ;
+         --padding-start: 15px;
+         --padding-end: 15px;
         img {
           max-width: 100%;
+        }
+        .list-icon{margin: 0;
+          position: absolute;
+          right: 15px;
+          img{width: 20px; height: 20px;}
         }
       }
     }
@@ -86,25 +93,26 @@ ion-content {position: relative; --background: url(../../../../assets/images/bac
                 height: 100%;
                 object-fit: cover;
             }
-            span {
-              height: 20px;
-              width: 20px;
-              border-radius: 15px;
-              position: absolute;
-              bottom: 10px;
-              right: 29px;
-              display: inline-block;
-              z-index: 99;
-              border: 2px solid var(--white-clr);
-              &.online {
-                background: var(--online);
-              }
-              &.busy {
-                background: #ff2929;
-              }
-              &.offline {
-                background: var(--offline);
-              }
+            
+          }
+          span {
+            height: 20px;
+            width: 20px;
+            border-radius: 15px;
+            position: absolute;
+            bottom: 4px;
+            right: 26px;
+            display: inline-block;
+            z-index: 99;
+            border: 1px solid var(--white-clr);
+            &.online {
+              background: var(--online);
+            }
+            &.busy {
+              background: #ff2929;
+            }
+            &.offline {
+              background: var(--offline);
             }
           }
           .name-user {
@@ -170,90 +178,60 @@ ion-content {position: relative; --background: url(../../../../assets/images/bac
 
       @-webkit-keyframes animateBubble {
         0% {
-          // margin-top: 1000px;
           -webkit-transform: scale(0);
           -moz-transform: scale(0);
           transform: scale(0);
-          // transition: all 0.3s;
-          // opacity: 0.1;
-
           bottom: -200px;
         }
         30% {
           -webkit-transform: scale(1);
           -moz-transform: scale(1);
           transform: scale(1);
-          // transition: all 0.3s;
-          // opacity: 1;
         }
         100% {
-          // margin-top: -100%;
           -webkit-transform: scale(0);
           -moz-transform: scale(0);
           transform: scale(0);
-          // transition: all 0.3s;
-          // opacity: 0.1;
-
           bottom: 110%;
         }
       }
 
       @-moz-keyframes animateBubble {
         0% {
-          // margin-top: 1000px;
           -webkit-transform: scale(0);
           -moz-transform: scale(0);
           transform: scale(0);
-          // transition: all 0.3s;
-          // opacity: 0.1;
-
           bottom: -200px;
         }
         30% {
           -webkit-transform: scale(1);
           -moz-transform: scale(1);
           transform: scale(1);
-          // transition: all 0.3s;
-          // opacity: 1;
         }
         100% {
-          // margin-top: -100%;
           -webkit-transform: scale(0);
           -moz-transform: scale(0);
           transform: scale(0);
-          // transition: all 0.3s;
-          // opacity: 0.1;
-
           bottom: 110%;
         }
       }
 
       @keyframes animateBubble {
         0% {
-          // margin-top: 1000px;
           -webkit-transform: scale(0);
           -moz-transform: scale(0);
           transform: scale(0);
-          // transition: all 0.3s;
-          // opacity: 0.1;
-
           bottom: -200px;
         }
         30% {
           -webkit-transform: scale(1);
           -moz-transform: scale(1);
           transform: scale(1);
-          // transition: all 0.3s;
-          // opacity: 1;
         }
         100% {
-          // margin-top: -100%;
           -webkit-transform: scale(0);
           -moz-transform: scale(0);
           transform: scale(0);
-          // transition: all 0.3s;
-          // opacity: 0.1;
-
           bottom: 110%;
         }
       }
@@ -1122,5 +1100,34 @@ ion-modal {
         transform: translateX(-200px);
       }
     }
+  }
+}
+
+
+.inital{height: 100%;
+  width: 100%;}
+.initial {
+  position: relative;
+  &__span {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50% !important;
+    background-color: var(--theme-one-clr);
+    margin-left: 0 !important;
+    color: var(--white-clr);
+    display: grid !important;
+    place-items: center;
+    font-size: 1.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    border: 0 !important;
+    margin: 0;
+    right: 0 !important;
+    left: 0;
+    bottom: 0 !important;
+    position: relative !important;
+    z-index: 3 !important;
   }
 }

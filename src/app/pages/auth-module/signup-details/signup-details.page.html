@@ -38,7 +38,7 @@
     <ion-grid class="content-part">
       <div class="main-part">
         <div class="auth-title sticky-top">
-          <img src="assets/images/auth-img.png" />
+          <!-- <img src="assets/images/auth-img.svg" /> -->
           <h4>Signup</h4>
           <p>Complete details to your account.</p>
         </div>
@@ -86,7 +86,10 @@
               class="error-msg"
               id="userNameError"
             >
-              <p><img src="assets/icon/info-red.svg" /> Full name is invalid</p>
+              <p>
+                <img src="assets/icon/info-red.svg" /> Please enter valid full
+                name
+              </p>
             </div>
           </div>
 
@@ -101,7 +104,7 @@
               <img
                 class="ion-align-self-center"
                 slot="end"
-                src="assets/icon/email.svg"
+                src="assets/icon/right-green.svg"
               />
             </ion-item>
             <!-- <div
@@ -129,14 +132,14 @@
                 *ngIf="isShowingPassword"
                 class="ion-align-self-center"
                 slot="end"
-                src="assets/icon/hide.svg"
+                src="assets/icon/show.svg"
               />
               <img
                 (click)="showPassword()"
                 *ngIf="!isShowingPassword"
                 class="ion-align-self-center"
                 slot="end"
-                src="assets/icon/show.svg"
+                src="assets/icon/hide.svg"
               />
             </ion-item>
             <div
@@ -281,14 +284,14 @@
                 *ngIf="isShowingConfirmPassword"
                 class="ion-align-self-center"
                 slot="end"
-                src="assets/icon/hide.svg"
+                src="assets/icon/show.svg"
               />
               <img
                 (click)="showConfirmPassword()"
                 *ngIf="!isShowingConfirmPassword"
                 class="ion-align-self-center"
                 slot="end"
-                src="assets/icon/show.svg"
+                src="assets/icon/hide.svg"
               />
             </ion-item>
             <div
@@ -304,14 +307,11 @@
           </div>
 
           <div class="input-box">
-            <ion-item lines="none">
+            <ion-item id="open-modal" lines="none">
               <ion-label position="floating"
-                >Birthday<span class="red">*</span></ion-label
+                >Birthdate<span class="red">*</span></ion-label
               >
-              <ion-input
-                id="open-modal"
-                formControlName="birthDate"
-              ></ion-input>
+              <ion-input formControlName="birthDate"></ion-input>
 
               <img
                 class="ion-align-self-center"
@@ -329,7 +329,7 @@
                       [showDefaultButtons]="true"
                       (ionChange)="patchDateValue(dateTime.value)"
                     >
-                      <span slot="title">Select Birth date</span></ion-datetime
+                      <span slot="title">Select Birthdate</span></ion-datetime
                     >
                   </ion-content>
                 </ng-template>
@@ -340,7 +340,7 @@
               class="error-msg"
             >
               <p>
-                <img src="assets/icon/info-red.svg" /> Birth date is required
+                <img src="assets/icon/info-red.svg" /> Birthdate is required
               </p>
             </div>
           </div>
@@ -352,7 +352,13 @@
                 mode="md"
                 slot="start"
               ></ion-checkbox>
-              <ion-label>make my birthday visible to all users</ion-label>
+              <ion-label>Make my birthday visible to all users</ion-label>
+            </ion-item>
+          </div>
+          <div class="age-requeird">
+            <ion-item lines="none" mode="ios">
+              <img slot="start" src="assets/icon/info-white.svg" />
+              <ion-label>Required age is 18+</ion-label>
             </ion-item>
           </div>
           <div class="input-box">

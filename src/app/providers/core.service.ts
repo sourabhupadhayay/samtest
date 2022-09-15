@@ -178,9 +178,9 @@ export class CoreService {
 
     let imageSize = this.formatBytes(blob.size);
 
-    if (imageSize > 5) {
+    if (imageSize > this.commonService.publicInfo.imageMaxSize) {
       this.showToastMessage(
-        "please upload image that is under 5 mb ",
+        "please upload image that is under "+this.commonService.publicInfo.imageMaxSize+" mb ",
         this.TOAST_WARNING
       );
 
@@ -326,10 +326,15 @@ export class CoreService {
     return bytes / 1024 / 1024; // in MiB
   }
 
-  async getUserDataFromStorage(): Promise<userRole> {
+  async getUserRoleFromStorage(): Promise<userRole> {
     const { value } = await Storage.get({ key: "userDetails" });
     let userData = JSON.parse(value);
     return this.commonService.getUserType(userData.roles);
+  }
+  async getUserDataFromStorage(): Promise<any> {
+    const { value } = await Storage.get({ key: "userDetails" });
+    let userData = JSON.parse(value);
+    return userData;
   }
 }
 

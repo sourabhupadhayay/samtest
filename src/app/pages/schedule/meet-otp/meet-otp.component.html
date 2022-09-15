@@ -1,0 +1,60 @@
+<div *ngIf="userRole == 'fan'" class="small-modal">
+  <ion-header mode="md">
+    <h3>Authentication Code</h3>
+  </ion-header>
+
+  <div class="inner-content">
+    <div class="main-screen">
+      <p>
+        Authentication code to share only with
+        <span>{{athleteName | titlecase}}</span> for <span>{{eventName}}</span>.
+      </p>
+      <h6 *ngIf="otp" class="otp-fan">
+        {{otp}}
+      </h6>
+    </div>
+  </div>
+
+  <ion-footer mode="ios">
+    <ion-toolbar mode="ios">
+      <ion-button (click)="modalCtrl.dismiss()" class="white-btn">
+        <img src="assets/icon/close-icon.png" />
+      </ion-button>
+      <ion-button (click)="modalCtrl.dismiss()" class="white-btn">
+        <img src="assets/icon/right-icon.png" />
+      </ion-button>
+    </ion-toolbar>
+  </ion-footer>
+</div>
+<div *ngIf="userRole !== 'fan'" class="small-modal">
+  <ion-header mode="md">
+    <h3>Authentication Code</h3>
+  </ion-header>
+
+  <div class="inner-content">
+    <div class="main-screen">
+      <p>
+        Collect & enter Your authentication code from
+        <span>{{fanName | titlecase}}</span> for Approval of
+        <span>{{eventName}}</span>.
+      </p>
+      <div class="meet-up__otp">
+        <ng-otp-input
+          [formCtrl]="otpFormControl"
+          [config]="otpInputConfig"
+        ></ng-otp-input>
+      </div>
+    </div>
+  </div>
+
+  <ion-footer mode="ios">
+    <ion-toolbar mode="ios">
+      <ion-button (click)="modalCtrl.dismiss()" class="white-btn">
+        <img src="assets/icon/close-icon.png" />
+      </ion-button>
+      <ion-button (click)=" verifyOtp()" class="white-btn">
+        <img src="assets/icon/right-icon.png" />
+      </ion-button>
+    </ion-toolbar>
+  </ion-footer>
+</div>
