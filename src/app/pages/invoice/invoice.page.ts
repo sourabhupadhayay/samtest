@@ -19,7 +19,7 @@ export class InvoicePage implements OnInit {
   async presentTermsAndServices() {
     const modal: HTMLIonModalElement = await this.modalCtrl.create({
       component: TermsOfServiceComponent,
-      cssClass: "tandc-modal",
+      cssClass: "tandc-modal-new",
     });
     modal.present();
   }
