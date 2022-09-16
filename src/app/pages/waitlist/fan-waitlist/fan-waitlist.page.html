@@ -38,7 +38,20 @@
     </div>
     <div class="bottom-part">
       <div class="live-green">
-        <p>Casey Rodgers is <span>LIVE</span> For Next 30 minutes</p>
+        <p *ngIf="this.eventTime?.minutes">
+          {{eventData?.athleteName | titlecase}} will be live in just
+          <ng-container *ngIf="this.eventTime?.days">
+            {{this.eventTime?.days }} {{this.eventTime?.title_days}} :
+          </ng-container>
+          <ng-container *ngIf="this.eventTime?.hours">
+            {{this.eventTime?.hours }} {{this.eventTime?.title_hours}} :
+          </ng-container>
+          {{this.eventTime?.minutes}} {{this.eventTime?.title_min}}
+        </p>
+        <!-- <p>
+          {{eventData?.athleteName | titlecase}} is <span>LIVE</span> For Next
+          30 minutes
+        </p> -->
       </div>
       <div class="wait-part">
         <div class="head">
