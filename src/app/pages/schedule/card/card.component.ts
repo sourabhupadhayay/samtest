@@ -262,7 +262,7 @@ export class CardComponent implements OnInit {
     await Share.share({
       title: "Bubble app event",
       text: this.cardData.eventName,
-      url: this.commonService.publicInfo.webLink+"/tabs/schedule",
+      url: this.commonService.publicInfo.webLink + "/tabs/schedule",
     });
   }
 
@@ -351,7 +351,7 @@ export class CardComponent implements OnInit {
     if (!data) {
       return;
     }
-    this.changeEventStatus("REJECTED", data);
+    this.changeEventStatus("CANCELLED", data);
   }
 
   bidAthleteEvent(id: string) {
