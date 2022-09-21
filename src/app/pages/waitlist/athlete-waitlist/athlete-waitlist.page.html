@@ -58,7 +58,17 @@
           >
             <ion-item lines="none">
               <ion-avatar slot="start">
-                <img src="assets/images/profile.png" />
+                <ng-container *ngIf="fan.userProfilePicture == ''">
+                  <div class="initials">
+                    <span class="initials__span">
+                      {{getInitials(fan.userName)}}
+                    </span>
+                  </div>
+                </ng-container>
+                <img
+                  *ngIf="fan.userProfilePicture !== ''"
+                  [src]="fan.userProfilePicture |profile"
+                />
               </ion-avatar>
               <ion-label>
                 <h5>{{fan.userName}}</h5>
