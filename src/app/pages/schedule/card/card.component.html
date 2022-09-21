@@ -273,11 +273,11 @@
                   *ngIf="cardData.eventType !== 'IN_PERSON' "
                   class="fans-bided-event"
                 >
-                  <p *ngIf="cardData.count !==0">
+                  <p >
                     <span >{{cardData.count}}</span>
                     Fans bided on your event
                   </p>
-                  <ion-button [disabled]="canJoinEvent()"
+                  <ion-button [disabled]="canAthleteJoinEvent(cardData.count)" (click)="athleteEvent(cardData.id)"
                     ><img src="assets/icon/join-video.svg" /> Go</ion-button
                   >
                 </div>
