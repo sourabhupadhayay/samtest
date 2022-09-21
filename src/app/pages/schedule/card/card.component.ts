@@ -260,10 +260,9 @@ export class CardComponent implements OnInit {
 
   async shareEvent() {
     await Share.share({
-      title: "See cool stuff",
-      text: "Really awesome thing you need to see right meow",
-      url: "http://ionicframework.com/",
-      dialogTitle: "Share with buddies",
+      title: "Bubble app event",
+      text: this.cardData.eventName,
+      url: this.commonService.publicInfo.webLink + "/tabs/schedule",
     });
   }
 
@@ -352,11 +351,15 @@ export class CardComponent implements OnInit {
     if (!data) {
       return;
     }
-    this.changeEventStatus("REJECTED", data);
+    this.changeEventStatus("CANCELLED", data);
   }
 
   bidAthleteEvent(id: string) {
-    this.router.navigate(["bid-payment/" + id]);
+    if (this.cardData.bidSubmitted) {
+      this.router.navigate(["waitlist/event/" + id]);
+    } else {
+      this.router.navigate(["bid-payment/" + id]);
+    }
   }
 
   async approveRequestModal() {

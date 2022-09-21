@@ -1,7 +1,7 @@
 import { Location } from "@angular/common";
-import { Component, OnInit } from "@angular/core";
+import { Component, NgZone, OnInit } from "@angular/core";
 import { FacebookLogin } from "@capacitor-community/facebook-login";
-import { App } from "@capacitor/app";
+import { App, URLOpenListener, URLOpenListenerEvent } from "@capacitor/app";
 
 import { Platform } from "@ionic/angular";
 import { CoreService } from "./providers/core.service";
@@ -11,7 +11,10 @@ import { SplashScreen } from "@capacitor/splash-screen";
 import { Storage } from "@capacitor/storage";
 import { Router } from "@angular/router";
 import { CommonService } from "./providers/common.service";
-
+import { Stomp } from "@stomp/stompjs";
+import * as SockJS from "sockjs-client";
+import { configuration } from "./configuration";
+import { ConstantService } from "src/app/providers/constant.service";
 import {
   ActionPerformed,
   PushNotificationSchema,
@@ -26,7 +29,8 @@ import {
 })
 export class AppComponent implements OnInit {
   isShowingSplashScreen = false;
-
+  connectedFans: any[] = [];
+  socket: any;
   constructor(
     private apiservice: DataService,
     private _networkService: NetworkService,
@@ -34,15 +38,20 @@ export class AppComponent implements OnInit {
     private core: CoreService,
     private router: Router,
     private _location: Location,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private zone: NgZone,
+    private constantService: ConstantService
   ) {
     this.initializeApp();
     this.backButton();
     this.hideSplashScreen();
     this.getPublicInfo();
+    this.deepLinking();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getConnectedFans();
+  }
 
   initializeApp(): void {
     this.platform.ready().then((): void => {
@@ -72,6 +81,21 @@ export class AppComponent implements OnInit {
   //get common public info
   getPublicInfo() {
     this.commonService.getPublicInfo();
+  }
+
+  deepLinking() {
+    App.addListener("appUrlOpen", (event: URLOpenListenerEvent) => {
+      this.zone.run(() => {
+        const domain = "dev.bubbleapp.com";
+
+        const pathArray = event.url.split(domain);
+
+        const appPath = pathArray.pop();
+        if (appPath) {
+          this.router.navigateByUrl(appPath);
+        }
+      });
+    });
   }
 
   private _networkEventsListener(): void {
@@ -152,6 +176,34 @@ export class AppComponent implements OnInit {
       "pushNotificationActionPerformed",
       (notification: ActionPerformed) => {
         alert("Push action performed: " + JSON.stringify(notification));
+      }
+    );
+  }
+
+  getConnectedFans() {
+    this.socket = Stomp.over(
+      () => new SockJS(configuration.BASE_URL + "core/greeting")
+    );
+
+    this.socket.reconnect_delay = 5000;
+
+    let that = this;
+
+    this.socket.connect(
+      {},
+      function (frame) {
+        that.socket.subscribe("/errors", function (message) {
+          alert("Error " + message.body);
+        });
+
+        that.socket.subscribe("/topic/testDeal", function (message) {
+          let data = JSON.parse(message.body);
+
+          console.log(data);
+        });
+      },
+      function (error) {
+        console.log("STOMP error " + error);
       }
     );
   }

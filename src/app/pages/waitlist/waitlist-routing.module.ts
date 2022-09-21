@@ -8,7 +8,7 @@ import { WaitlistPage } from "./waitlist.page";
 
 const routes: Routes = [
   {
-    path: "",
+    path: "event/:id",
     component: WaitlistPage,
   },
   {
