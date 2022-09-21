@@ -134,8 +134,10 @@ export class BidPaymentPage implements OnInit {
     this.apiService.get(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
-        if (response.data.currentBid != null && response.data.maxBid != null) {
+        if (response.data.currentBid != null ) {
           this.currentBidAmount = response.data.currentBid.totalAmount;
+        }
+        if(response.data.maxBid != null){
           this.MaxAmount = response.data.maxBid.totalAmount;
         }
       } else {
