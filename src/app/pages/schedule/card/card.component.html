@@ -274,7 +274,8 @@
                   class="fans-bided-event"
                 >
                   <p>
-                    <span>{{cardData.count}}</span> Fans bided on your event
+                    <span *ngIf="cardData.count !==0">{{cardData.count}}</span>
+                    Fans bided on your event
                   </p>
                   <ion-button [disabled]="canJoinEvent()"
                     ><img src="assets/icon/join-video.svg" /> Go</ion-button
