@@ -361,7 +361,14 @@ export class CardComponent implements OnInit {
       this.router.navigate(["bid-payment/" + id]);
     }
   }
-
+  athleteEvent(id){
+    this.router.navigate(["waitlist/event/" + id]);
+  }
+  canAthleteJoinEvent(count){
+    if (count ==0) {
+      return true;
+    }
+  }
   async approveRequestModal() {
     let eventData = {
       eventType: this.cardData.eventType,
