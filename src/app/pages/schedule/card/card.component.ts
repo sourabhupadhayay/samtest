@@ -355,7 +355,11 @@ export class CardComponent implements OnInit {
   }
 
   bidAthleteEvent(id: string) {
-    this.router.navigate(["bid-payment/" + id]);
+    if (this.cardData.bidSubmitted) {
+      this.router.navigate(["waitlist/event/" + id]);
+    } else {
+      this.router.navigate(["bid-payment/" + id]);
+    }
   }
 
   async approveRequestModal() {

@@ -58,6 +58,9 @@ export class TabsPage implements OnInit {
     const modal: HTMLIonModalElement = await this.modalCtrl.create({
       component: PaymentComponent,
       cssClass: "client-filter-modal",
+      componentProps: {
+        isBiddingForEvent: false,
+      },
     });
     modal.present();
     const { data, role } = await modal.onDidDismiss();

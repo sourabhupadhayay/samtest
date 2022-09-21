@@ -18,7 +18,7 @@
               <ion-radio slot="start" value="apple"></ion-radio>
               <ion-label>
                 <h5>Apple Pay</h5>
-<!--
+                <!--
                 <p>Balance : <span>$500</span></p>
 -->
               </ion-label>
@@ -52,7 +52,7 @@
                 src="assets/images/card-icn.svg"
               />
             </ion-item>
-            <div *ngIf="paymentType == 'SQUARE_PAYMENT'" class="card-details" >
+            <div *ngIf="paymentType == 'SQUARE_PAYMENT'" class="card-details">
               <ion-row>
                 <ion-col size="12" class="plr-0">
                   <div class="box-sq">
@@ -201,12 +201,18 @@
 <ion-modal #CreateAppearance class="small-modal">
   <ng-template>
     <ion-header mode="md">
-      <h3>Create Appearance</h3>
+      <h3 *ngIf="!isBiddingForEvent">Create Appearance</h3>
+      <h3 *ngIf="isBiddingForEvent">Create Bid</h3>
     </ion-header>
 
     <div class="inner-content">
       <div class="main-screen">
-        <p>Are you sure, you want to Create Appearance?</p>
+        <p *ngIf="!isBiddingForEvent">
+          Are you sure, you want to Create Appearance?
+        </p>
+        <p *ngIf="isBiddingForEvent">
+          Are you sure, you want to bid this event?
+        </p>
       </div>
     </div>
 

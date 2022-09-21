@@ -74,6 +74,7 @@ const routes: Routes = [
 
   {
     path: "waitlist",
+    canActivate: [AuthGuard],
     loadChildren: () =>
       import("./pages/waitlist/waitlist.module").then(
         (m) => m.WaitlistPageModule

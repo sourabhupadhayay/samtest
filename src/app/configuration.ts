@@ -1,8 +1,8 @@
 export class Configuration {
   BASE_URL = "";
   AUTH_KEY: string = "authDetail";
-  VIDEO_URL = "https://dev-video-apis.bubbleapp.com/video/";
-
+  //VIDEO_URL = "https://dev-video-apis.bubbleapp.com/video/";
+  VIDEO_URL = "http://192.168.0.24:8084/"
   constructor(public state: projectState) {
     if (this.state == "staging") {
       this.BASE_URL = "https://dev-apis.bubbleapp.com/";
