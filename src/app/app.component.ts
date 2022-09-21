@@ -11,7 +11,10 @@ import { SplashScreen } from "@capacitor/splash-screen";
 import { Storage } from "@capacitor/storage";
 import { Router } from "@angular/router";
 import { CommonService } from "./providers/common.service";
-
+import { Stomp } from "@stomp/stompjs";
+import * as SockJS from "sockjs-client";
+import { configuration } from "./configuration";
+import { ConstantService } from "src/app/providers/constant.service";
 import {
   ActionPerformed,
   PushNotificationSchema,
@@ -26,7 +29,8 @@ import {
 })
 export class AppComponent implements OnInit {
   isShowingSplashScreen = false;
-
+  connectedFans: any[] = [];
+  socket: any;
   constructor(
     private apiservice: DataService,
     private _networkService: NetworkService,
@@ -34,7 +38,9 @@ export class AppComponent implements OnInit {
     private core: CoreService,
     private router: Router,
     private _location: Location,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private coreService: CoreService,
+    private constantService: ConstantService
   ) {
     this.initializeApp();
     this.backButton();
@@ -42,7 +48,9 @@ export class AppComponent implements OnInit {
     this.getPublicInfo();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getConnectedFans();
+  }
 
   initializeApp(): void {
     this.platform.ready().then((): void => {
@@ -152,6 +160,34 @@ export class AppComponent implements OnInit {
       "pushNotificationActionPerformed",
       (notification: ActionPerformed) => {
         alert("Push action performed: " + JSON.stringify(notification));
+      }
+    );
+  }
+
+  getConnectedFans() {
+    this.socket = Stomp.over(
+      () => new SockJS(configuration.BASE_URL + "core/greeting")
+    );
+
+    this.socket.reconnect_delay = 5000;
+
+    let that = this;
+
+    this.socket.connect(
+      {},
+      function (frame) {
+        that.socket.subscribe("/errors", function (message) {
+          alert("Error " + message.body);
+        });
+
+        that.socket.subscribe("/topic/testDeal", function (message) {
+          let data = JSON.parse(message.body);
+
+          console.log(data);
+        });
+      },
+      function (error) {
+        console.log("STOMP error " + error);
       }
     );
   }
