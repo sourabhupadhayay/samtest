@@ -65,7 +65,7 @@
                 src="assets/icon/email.svg"
               />
               <img
-                *ngIf="isFormSubmitted && loginForm.controls.email.valid"
+                *ngIf=" loginForm.controls.email.valid"
                 class="ion-align-self-center"
                 style="opacity: 1;"
                 slot="end"
