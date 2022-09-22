@@ -181,6 +181,7 @@ export class AppComponent implements OnInit {
         });
 
         that.socket.subscribe("/topic/video/sendToCall", function (message) {
+          console.log(message);
           let data = JSON.parse(message.body);
 
           console.log(data);
