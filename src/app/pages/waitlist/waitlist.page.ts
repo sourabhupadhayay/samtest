@@ -53,7 +53,7 @@ export class WaitlistPage implements OnInit {
           let contentData = JSON.parse(data.content);
           that.connectedFans.push(contentData);
 
-          that.connectedFans = that.getUniqueListBy(that.connectedFans, "userId");
+          that.connectedFans = that.getUniqueListBy(that.connectedFans, "id");
           that.connectedFans.sort((a, b) => {
             return b.totalAmount - a.totalAmount;
           });
