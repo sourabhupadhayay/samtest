@@ -49,7 +49,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getConnectedFans();
+    // this.getConnectedFans();
   }
 
   initializeApp(): void {
@@ -180,7 +180,7 @@ export class AppComponent implements OnInit {
           alert("Error " + message.body);
         });
 
-        that.socket.subscribe("/topic/testDeal", function (message) {
+        that.socket.subscribe("/topic/video/sendToCall", function (message) {
           let data = JSON.parse(message.body);
 
           console.log(data);

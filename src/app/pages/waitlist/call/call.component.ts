@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
-import { Router } from "@angular/router";
+import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import {
   initPublisher,
   initSession,
@@ -20,6 +20,7 @@ import {
   UserRole,
 } from "src/app/providers/core.service";
 import { DataService, Request } from "src/app/providers/data.service";
+import { switchMap } from "rxjs/operators";
 
 @Component({
   selector: "app-call",
@@ -43,31 +44,45 @@ export class CallComponent implements OnInit, AfterViewInit {
   constructor(
     private apiService: DataService,
     private coreService: CoreService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
-  ngOnInit() {
-    this.getUserDataAndRole();
-  }
+  ngOnInit() {}
 
-  getVideoSessionAndToken() {
-    let request: Request = {
-      path: "videocall",
-      isAuth: false,
-    };
-    this.apiService.getVideoSession(request).subscribe((response) => {
-      this.sessionId = response.data.sessionId;
-      this.token = response.data.token;
-      this.getSession();
-    });
+  getVideoSessionAndToken(path: string) {
+    this.route.paramMap
+      .pipe(
+        switchMap((params: ParamMap) => {
+          let request: Request = {
+            path: path + params.get("id"),
+          };
+          return this.apiService.get(request);
+        })
+      )
+      .subscribe((response) => {
+        this.sessionId = response.data.sessionId;
+        this.token = response.data.token;
+        this.getSession();
+      });
   }
 
   ngAfterViewInit(): void {
-    this.getVideoSessionAndToken();
+    this.getUserDataAndRole();
   }
+
+  connectCall() {
+    if (this.userRole == "athlete") {
+      this.getVideoSessionAndToken("core/video/call/");
+    } else {
+      this.getVideoSessionAndToken("core/video/receive/");
+    }
+  }
+
   async getUserDataAndRole() {
     this.userRole = await this.coreService.getUserRoleFromStorage();
     this.userData = await this.coreService.getUserDataFromStorage();
+    this.connectCall();
   }
 
   getSession() {
