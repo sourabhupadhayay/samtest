@@ -49,7 +49,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.getConnectedFans();
+    this.callingAthlete();
   }
 
   initializeApp(): void {
@@ -164,7 +164,7 @@ export class AppComponent implements OnInit {
     );
   }
 
-  getConnectedFans() {
+  callingAthlete() {
     this.socket = Stomp.over(
       () => new SockJS(configuration.BASE_URL + "core/greeting")
     );
