@@ -104,6 +104,7 @@ ion-content {
           font-size: 0.875rem;
           color: var(--white-clr);
           margin: 0;
+          line-height: 26px;
           span {
             font-weight: 700;
             text-transform: uppercase;
@@ -288,5 +289,23 @@ ion-content {
     z-index: 2;
     height: 100%;
     background: rgba(var(--theme-one-bg-rgb), 0.6);
+  }
+}
+.initials {
+  position: relative;
+  &__span {
+    margin-right: 5px;
+    width: 34px;
+    height: 34px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50%;
+    background-color: #1b4b64;
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-size: 12px;
+    text-transform: uppercase;
+    border: 1px solid white;
   }
 }

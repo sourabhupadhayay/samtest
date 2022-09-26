@@ -38,14 +38,27 @@
     </div>
     <div class="bottom-part">
       <div class="live-green">
-        <p>Casey Rodgers is <span>LIVE</span> For Next 30 minutes</p>
+        <p *ngIf="this.eventTime?.minutes">
+          {{eventData?.athleteName | titlecase}} will be live in just
+          <ng-container *ngIf="this.eventTime?.days">
+            {{this.eventTime?.days }} {{this.eventTime?.title_days}} :
+          </ng-container>
+          <ng-container *ngIf="this.eventTime?.hours">
+            {{this.eventTime?.hours }} {{this.eventTime?.title_hours}} :
+          </ng-container>
+          {{this.eventTime?.minutes}} {{this.eventTime?.title_min}}
+        </p>
+        <!-- <p>
+          {{eventData?.athleteName | titlecase}} is <span>LIVE</span> For Next
+          30 minutes
+        </p> -->
       </div>
       <div class="wait-part">
         <div class="head">
-          <h5 *ngIf="currentPosition !== 0">
-            {{currentPosition }} people in wait list ahead of you
+          <h5 *ngIf="currentPosition !== 1">
+            {{currentPosition}} people in wait list ahead of you
           </h5>
-          <p *ngIf="currentPosition == 0">
+          <p *ngIf="currentPosition == 1">
             You are 1st in the wait list,<br />
             Athlete will call you soon.
           </p>
@@ -54,11 +67,14 @@
           <p>Unfortunately, call was not received</p>
         </div>
         <div class="content-part">
-          <p>Your approximate wait time is <span>6</span> minutes</p>
-          <!-- <p>
+          <p *ngIf="currentPosition !== 1">
+            Your approximate wait time is
+            <span>{{currentPosition * 3}}</span> minutes
+          </p>
+          <p>
             Top Bid in the waitlist :
-            <span>${{connectedFans[0]?.bid.toFixed()}}</span>
-          </p> -->
+            <span>${{connectedFans[0]?.totalAmount}}</span>
+          </p>
 
           <h4 hidden><span>Casey Rodgers</span> will connect with you soon</h4>
 
@@ -66,15 +82,28 @@
             <!-- add class "bid-top" in bid-edit -->
             <div class="bg-white-box">
               <ion-item lines="none">
-                <ion-avatar slot="start">
-                  <!-- <img src="assets/images/profile.png" /> -->
+                <ion-avatar *ngIf="userData?.profileUrl !== ''" slot="start">
+                  <img [src]="userData?.profileUrl | profile" />
                 </ion-avatar>
+                <ng-container *ngIf="userData?.profileUrl == ''">
+                  <div class="initials">
+                    <span class="initials__span">
+                      {{nameInitials}}
+                    </span>
+                    <span class="initials__online online"></span>
+                  </div>
+                </ng-container>
                 <ion-label>
-                   <h5>{{userData?.fullName}}</h5>
-                  <p>${{connectedFans[currentPosition]?.bid.toFixed()}}</p>
-                  <h5>Work in progress</h5>
+                  <h5>{{userData?.fullName}}</h5>
+                  <p>${{connectedFans[userIndex]?.totalAmount}}</p>
+                  <!-- <h5>Work in progress</h5> -->
                 </ion-label>
-                 <img class="edit" slot="end" src="assets/icon/edit-green.png" />
+                <img
+                  (click)="updateBid()"
+                  class="edit"
+                  slot="end"
+                  src="assets/icon/edit-green.png"
+                />
               </ion-item>
               <div class="increase-your-bid">
                 <div class="main-text">

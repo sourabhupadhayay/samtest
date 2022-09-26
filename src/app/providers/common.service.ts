@@ -69,4 +69,55 @@ export class CommonService {
   convertTimeToMinute(hour: string, min: string) {
     return Number(hour) * 60 + Number(min);
   }
+
+  dateFormat(startDate: Date) {
+    var countDownDate = new Date(startDate).getTime();
+    let days;
+    let hours;
+    let minutes;
+    let seconds;
+    let now;
+    let timeleft;
+
+    now = new Date().getTime();
+    timeleft = countDownDate - now;
+    days = Math.floor(timeleft / (1000 * 60 * 60 * 24));
+    hours = Math.floor((timeleft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    minutes = Math.floor((timeleft % (1000 * 60 * 60)) / (1000 * 60));
+    seconds = Math.floor((timeleft % (1000 * 60)) / 1000);
+
+    let counter;
+    if (days >= 1) {
+      counter = {
+        days: days,
+        title_days: "days",
+        hours: hours,
+        title_hours: "hours",
+        minutes: minutes,
+        title_min: "mins",
+        sec: seconds,
+        title_sec: "S",
+      };
+    } else {
+      if (days < 1 && hours < 1) {
+        counter = {
+          minutes: minutes,
+          title_min: "mins",
+          sec: seconds,
+          title_sec: "S",
+        };
+      } else {
+        counter = {
+          hours: hours,
+          title_hours: "hours",
+          minutes: minutes,
+          title_min: "mins",
+          sec: seconds,
+          title_sec: "S",
+        };
+      }
+    }
+
+    return counter;
+  }
 }

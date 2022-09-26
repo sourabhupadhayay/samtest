@@ -262,7 +262,7 @@ export class CardComponent implements OnInit {
     await Share.share({
       title: "Bubble app event",
       text: this.cardData.eventName,
-      url: this.commonService.publicInfo.webLink+"/tabs/schedule",
+      url: this.commonService.publicInfo.webLink + "/tabs/schedule",
     });
   }
 
@@ -351,13 +351,24 @@ export class CardComponent implements OnInit {
     if (!data) {
       return;
     }
-    this.changeEventStatus("REJECTED", data);
+    this.changeEventStatus("CANCELLED", data);
   }
 
   bidAthleteEvent(id: string) {
-    this.router.navigate(["bid-payment/" + id]);
+    if (this.cardData.bidSubmitted) {
+      this.router.navigate(["waitlist/event/" + id]);
+    } else {
+      this.router.navigate(["bid-payment/" + id]);
+    }
   }
-
+  athleteEvent(id){
+    this.router.navigate(["waitlist/event/" + id]);
+  }
+  canAthleteJoinEvent(count){
+    if (count ==0) {
+      return true;
+    }
+  }
   async approveRequestModal() {
     let eventData = {
       eventType: this.cardData.eventType,

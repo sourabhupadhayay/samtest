@@ -22,6 +22,8 @@ export class BidPaymentPage implements OnInit {
   eventId: string;
   paymentType: "SQUARE_PAYMENT" | "apple" = "SQUARE_PAYMENT";
   paymentData: paymentData | null = null;
+  currentBidAmount: string = "";
+  MaxAmount: string = "";
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -70,6 +72,9 @@ export class BidPaymentPage implements OnInit {
     const modal: HTMLIonModalElement = await this.modalCtrl.create({
       component: PaymentComponent,
       cssClass: "client-filter-modal",
+      componentProps: {
+        isBiddingForEvent: true,
+      },
     });
     modal.present();
     const { data, role } = await modal.onDidDismiss();
@@ -129,6 +134,12 @@ export class BidPaymentPage implements OnInit {
     this.apiService.get(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
+        if (response.data.currentBid != null ) {
+          this.currentBidAmount = response.data.currentBid.totalAmount;
+        }
+        if(response.data.maxBid != null){
+          this.MaxAmount = response.data.maxBid.totalAmount;
+        }
       } else {
         this.coreService.showToastMessage(
           response.status.description,
@@ -158,7 +169,7 @@ export class BidPaymentPage implements OnInit {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
         this.modalCtrl.dismiss();
-        this.router.navigate(["waitlist"]);
+        this.router.navigate(["waitlist/event/" + this.eventId]);
       } else {
         this.coreService.showToastMessage(
           response.status.description,
