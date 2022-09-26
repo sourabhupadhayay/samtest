@@ -28,18 +28,21 @@
       <div class="head">
         <div class="bids-available">
           <ion-item lines="none">
-            <ion-avatar slot="start">
-              <img src="assets/images/upload-img.png" />
+            <ion-avatar
+              *ngFor="let fan of connectedFans;let i =index"
+              slot="start"
+            >
+              <img
+                *ngIf="fan.userProfilePicture !== ''"
+                [src]="fan.userProfilePicture | profile"
+              />
+              <div *ngIf="fan.userProfilePicture == ''" class="initials">
+                <span class="initials__span-small">
+                  {{getInitials(fan.userName)}}
+                </span>
+              </div>
             </ion-avatar>
-            <ion-avatar slot="start">
-              <img src="assets/images/upload-img.png" />
-            </ion-avatar>
-            <ion-avatar slot="start">
-              <img src="assets/images/upload-img.png" />
-            </ion-avatar>
-            <ion-avatar slot="start" class="last">
-              <img src="assets/images/upload-img.png" />
-            </ion-avatar>
+
             <ion-label>
               {{connectedFans?.length}} Bids Available
             </ion-label>
