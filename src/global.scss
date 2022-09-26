@@ -591,3 +591,10 @@ schedule-card {
   }
 }
 .op-45{opacity: 0.45;}
+.op-65{opacity: 0.65;}
+ion-input[type=number] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+ion-modal.modal-default:not(.overlay-hidden) ~ ion-modal.modal-default{--backdrop-opacity: 0.2;}
