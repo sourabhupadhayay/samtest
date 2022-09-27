@@ -182,6 +182,9 @@ export class AppComponent implements OnInit {
 
   async callingAthlete() {
     let userRole: userRole = await this.core.getUserRoleFromStorage();
+    if (!userRole) {
+      return;
+    }
 
     if (userRole == "athlete") {
       return;
