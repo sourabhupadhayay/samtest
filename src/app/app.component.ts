@@ -182,6 +182,7 @@ export class AppComponent implements OnInit {
 
   async callingAthlete() {
     let userRole: userRole = await this.core.getUserRoleFromStorage();
+    let userDetails = await this.core.getUserDataFromStorage();
     if (!userRole) {
       return;
     }
@@ -192,7 +193,6 @@ export class AppComponent implements OnInit {
     this.socket = Stomp.over(
       () => new SockJS(configuration.BASE_URL + "core/greeting")
     );
-
     this.socket.reconnect_delay = 5000;
 
     let that = this;
@@ -203,17 +203,21 @@ export class AppComponent implements OnInit {
         that.socket.subscribe("/errors", function (message) {
           alert("Error " + message.body);
         });
+        that.send(userDetails['id']);
+        that.socket.subscribe("/topic/receiveCall", function (message) {
+          console.log("foram call ",message);
 
-        that.socket.subscribe("/topic/video/sendToCall", function (message) {
-          console.log(message);
-          let data = JSON.parse(message.body);
-
-          console.log(data);
         });
       },
       function (error) {
         console.log("STOMP error " + error);
       }
     );
+  }
+  send(id) {
+    let data = JSON.stringify({
+      userId: id,
+    });
+    this.socket.send("/app/videoBid", {},data);
   }
 }

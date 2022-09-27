@@ -48,7 +48,7 @@ export class WaitlistPage implements OnInit {
         });
         that.send();
 
-        that.socket.subscribe("/topic/testDeal", function (message) {
+        that.socket.subscribe("/topic/bidList", function (message) {
           that.coreService.dismissLoader();
           let data = JSON.parse(message.body);
           let contentData = JSON.parse(data.content);
@@ -79,7 +79,7 @@ export class WaitlistPage implements OnInit {
       eventId: this.eventId,
     });
 
-    this.socket.send("/app/syncTestDeal", {}, data);
+    this.socket.send("/app/syncBidList", {}, data);
   }
 
   getEventIdFromParam() {
