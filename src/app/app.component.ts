@@ -50,7 +50,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.getConnectedFans();
+    this.callingAthlete();
   }
 
   initializeApp(): void {
@@ -180,7 +180,7 @@ export class AppComponent implements OnInit {
     );
   }
 
-  getConnectedFans() {
+  callingAthlete() {
     this.socket = Stomp.over(
       () => new SockJS(configuration.BASE_URL + "core/greeting")
     );
@@ -196,7 +196,8 @@ export class AppComponent implements OnInit {
           alert("Error " + message.body);
         });
 
-        that.socket.subscribe("/topic/testDeal", function (message) {
+        that.socket.subscribe("/topic/video/sendToCall", function (message) {
+          console.log(message);
           let data = JSON.parse(message.body);
 
           console.log(data);

@@ -44,6 +44,9 @@ export class AthleteWaitlistPage implements OnInit, DoCheck {
     return this.commonService.getInitials(name);
   }
 
+  callFan(id: string) {
+    this.router.navigate(["waitlist/call/" + id]);
+  }
   // compare_bid(a, b) {
   //   if (a.bid > b.bid) {
   //     return -1;

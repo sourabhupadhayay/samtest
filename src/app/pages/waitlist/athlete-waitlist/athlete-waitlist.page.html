@@ -56,7 +56,7 @@
           <!-- add class "top-call" in bg-white-box -->
           <div
             *ngFor="let fan of connectedFans;let i =index"
-            [ngClass]="i==0 ?'top-call' :'' "
+            [ngClass]="i==0 ? 'top-call':'' "
             class="bg-white-box"
           >
             <ion-item lines="none">
@@ -77,7 +77,12 @@
                 <h5>{{fan.userName}}</h5>
                 <p>${{fan.totalAmount.toFixed()}}</p>
               </ion-label>
-              <!--              <img class="video" slot="end" src="assets/icon/video-icon.png" />-->
+              <img
+                class="video"
+                (click)="callFan(fan.id)"
+                slot="end"
+                src="assets/icon/video-icon.png"
+              />
             </ion-item>
           </div>
         </div>

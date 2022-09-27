@@ -16,7 +16,7 @@ const routes: Routes = [
     component: IncomingCallComponent,
   },
   {
-    path: "call",
+    path: "call/:id",
     component: CallComponent,
   },
 ];

@@ -1,11 +1,13 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
+  OnDestroy,
   OnInit,
   ViewChild,
 } from "@angular/core";
-import { Router } from "@angular/router";
+import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import {
   initPublisher,
   initSession,
@@ -20,13 +22,14 @@ import {
   UserRole,
 } from "src/app/providers/core.service";
 import { DataService, Request } from "src/app/providers/data.service";
+import { switchMap } from "rxjs/operators";
 
 @Component({
   selector: "app-call",
   templateUrl: "./call.component.html",
   styleUrls: ["./call.component.scss"],
 })
-export class CallComponent implements OnInit, AfterViewInit {
+export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild("athleteContainer") athleteElement: ElementRef;
   @ViewChild("fanContainer") fanElement: ElementRef;
   isAudioMuted: boolean = false;
@@ -39,35 +42,54 @@ export class CallComponent implements OnInit, AfterViewInit {
   apiKey: string = "47513031";
   sessionId: string;
   token: string;
+  timeLeft: number = 180;
+  interval: any;
 
   constructor(
     private apiService: DataService,
     private coreService: CoreService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
-    this.getUserDataAndRole();
+    this.startTimer();
   }
 
-  getVideoSessionAndToken() {
-    let request: Request = {
-      path: "videocall",
-      isAuth: false,
-    };
-    this.apiService.getVideoSession(request).subscribe((response) => {
-      this.sessionId = response.data.sessionId;
-      this.token = response.data.token;
-      this.getSession();
-    });
+  getVideoSessionAndToken(path: string) {
+    this.route.paramMap
+      .pipe(
+        switchMap((params: ParamMap) => {
+          let request: Request = {
+            path: path + params.get("id"),
+          };
+          return this.apiService.get(request);
+        })
+      )
+      .subscribe((response) => {
+        this.sessionId = response.data.sessionId;
+        this.token = response.data.token;
+        this.getSession();
+      });
   }
 
   ngAfterViewInit(): void {
-    this.getVideoSessionAndToken();
+    this.getUserDataAndRole();
   }
+
+  connectCall() {
+    if (this.userRole == "athlete") {
+      this.getVideoSessionAndToken("core/video/call/");
+    } else {
+      this.getVideoSessionAndToken("core/video/receive/");
+    }
+  }
+
   async getUserDataAndRole() {
     this.userRole = await this.coreService.getUserRoleFromStorage();
     this.userData = await this.coreService.getUserDataFromStorage();
+    this.connectCall();
   }
 
   getSession() {
@@ -133,5 +155,38 @@ export class CallComponent implements OnInit, AfterViewInit {
   disconnectCall() {
     this.session.disconnect();
     this.router.navigate(["/waitlist"]);
+  }
+
+  startTimer() {
+    this.interval = setInterval(() => {
+      if (this.timeLeft > 0) {
+        this.timeLeft--;
+      }
+      this.cd.detectChanges();
+    }, 1000);
+  }
+
+  secondsToHms(d: number) {
+    d = Number(d);
+
+    var m = Math.floor((d % 3600) / 60);
+    var s = Math.floor((d % 3600) % 60);
+
+    var mDisplay = m > 0 ? m + (m == 1 ? "" : "  ") : "0";
+    var sDisplay = s > 0 ? s + (s == 1 ? "" : "") : "0";
+
+    if (s < 10) {
+      sDisplay = "0" + sDisplay;
+    }
+
+    return `0${mDisplay}: ${sDisplay}s`;
+  }
+
+  stopTimer() {
+    clearInterval(this.interval);
+  }
+
+  ngOnDestroy(): void {
+    this.stopTimer();
   }
 }
