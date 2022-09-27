@@ -4,7 +4,7 @@ import { FacebookLogin } from "@capacitor-community/facebook-login";
 import { App, URLOpenListener, URLOpenListenerEvent } from "@capacitor/app";
 
 import { Platform } from "@ionic/angular";
-import { CoreService } from "./providers/core.service";
+import { CoreService, userRole, UserRole } from "./providers/core.service";
 import { DataService, Request } from "./providers/data.service";
 import { NetworkService } from "./providers/network.service";
 import { SplashScreen } from "@capacitor/splash-screen";
@@ -180,7 +180,12 @@ export class AppComponent implements OnInit {
     );
   }
 
-  callingAthlete() {
+  async callingAthlete() {
+    let userRole: userRole = await this.core.getUserRoleFromStorage();
+
+    if (userRole == "athlete") {
+      return;
+    }
     this.socket = Stomp.over(
       () => new SockJS(configuration.BASE_URL + "core/greeting")
     );
