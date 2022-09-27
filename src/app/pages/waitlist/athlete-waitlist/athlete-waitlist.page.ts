@@ -38,7 +38,6 @@ export class AthleteWaitlistPage implements OnInit, DoCheck {
     }
 
     this.fanImagesList = fansList;
-    console.log(this.fanImagesList);
   }
 
   getInitials(name: string): String {
