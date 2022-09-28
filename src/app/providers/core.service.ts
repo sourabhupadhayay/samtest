@@ -180,7 +180,9 @@ export class CoreService {
 
     if (imageSize > this.commonService.publicInfo.imageMaxSize) {
       this.showToastMessage(
-        "please upload image that is under "+this.commonService.publicInfo.imageMaxSize+" mb ",
+        "please upload image that is under " +
+          this.commonService.publicInfo.imageMaxSize +
+          " mb ",
         this.TOAST_WARNING
       );
 
@@ -329,6 +331,9 @@ export class CoreService {
   async getUserRoleFromStorage(): Promise<userRole> {
     const { value } = await Storage.get({ key: "userDetails" });
     let userData = JSON.parse(value);
+    if (!userData) {
+      return;
+    }
     return this.commonService.getUserType(userData.roles);
   }
   async getUserDataFromStorage(): Promise<any> {

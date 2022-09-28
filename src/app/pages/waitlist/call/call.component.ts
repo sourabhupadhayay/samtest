@@ -21,8 +21,9 @@ import {
   userRole,
   UserRole,
 } from "src/app/providers/core.service";
-import { DataService, Request } from "src/app/providers/data.service";
+import { DataService, Request, Response } from "src/app/providers/data.service";
 import { switchMap } from "rxjs/operators";
+import { ConstantService } from "src/app/providers/constant.service";
 
 @Component({
   selector: "app-call",
@@ -44,23 +45,24 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   token: string;
   timeLeft: number = 180;
   interval: any;
+  bidId: string;
 
   constructor(
     private apiService: DataService,
     private coreService: CoreService,
     private router: Router,
     private route: ActivatedRoute,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private constantService: ConstantService
   ) {}
 
-  ngOnInit() {
-    this.startTimer();
-  }
+  ngOnInit() {}
 
   getVideoSessionAndToken(path: string) {
     this.route.paramMap
       .pipe(
         switchMap((params: ParamMap) => {
+          this.bidId = params.get("id");
           let request: Request = {
             path: path + params.get("id"),
           };
@@ -106,6 +108,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     let element = this.fanElement.nativeElement;
     this.session.on("streamCreated", (event) => {
+      this.startTimer();
       this.subscribe = this.session.subscribe(event.stream, element, {
         width: "100%",
         height: "100%",
@@ -117,7 +120,10 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       // });
     });
 
-    this.session.on("streamDestroyed", (event) => {});
+    this.session.on("streamDestroyed", (event) => {
+      this.stopTimer();
+      this.router.navigate(["/tabs/home"]);
+    });
   }
 
   createPublisher() {
@@ -153,8 +159,28 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   disconnectCall() {
-    this.session.disconnect();
-    this.router.navigate(["/waitlist"]);
+    let request: Request = {
+      path: "core/video/updateCall/" + this.bidId,
+      data: {
+        remainingTime: this.timeLeft,
+        videoCompleted: true,
+      },
+      isAuth: true,
+    };
+    this.coreService.presentLoader(this.constantService.WAIT);
+
+    this.apiService.post(request).subscribe((response: Response) => {
+      this.coreService.dismissLoader();
+      if (response.status.code === this.constantService.STATUS_OK) {
+        this.router.navigate(["/waitlist/event/" + response.data.eventId]);
+        this.session.disconnect();
+      } else {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_ERROR
+        );
+      }
+    });
   }
 
   startTimer() {

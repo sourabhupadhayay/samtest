@@ -9,12 +9,25 @@
   </ion-header>
 
   <div class="caller-name">
-    <h4>Foram Sidpara</h4>
+    <h4>{{commonService.callingAthleteDetails?.athleteName}}</h4>
     <p>Incoming Video Call</p>
   </div>
 
   <div class="caller-img">
-    <img src="assets/images/bg-img.png" />
+    <img
+      *ngIf="commonService.callingAthleteDetails?.athleteProfilePicture !==''"
+      [src]="commonService.callingAthleteDetails?.athleteProfilePicture | profile"
+      alt=""
+    />
+    <div
+      *ngIf="commonService.callingAthleteDetails?.athleteProfilePicture  ==''"
+      class="inital"
+    >
+      <span class="initial__span">
+        {{nameInitials}}
+      </span>
+    </div>
+    <!-- <img src="assets/images/bg-img.png" /> -->
   </div>
 
   <div class="overlay-bg"></div>
@@ -24,7 +37,7 @@
       <img src="assets/images/call-green.png" />
     </ion-button>
     <ion-button>
-      <img src="assets/images/call-red.png" />
+      <img (click)="disconnectCall()" src="assets/images/call-red.png" />
     </ion-button>
   </div>
 </ion-content>

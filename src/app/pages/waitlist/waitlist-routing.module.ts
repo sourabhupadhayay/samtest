@@ -12,7 +12,7 @@ const routes: Routes = [
     component: WaitlistPage,
   },
   {
-    path: "incoming-call",
+    path: "incoming-call/:id",
     component: IncomingCallComponent,
   },
   {
