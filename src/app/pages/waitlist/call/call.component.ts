@@ -122,6 +122,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.session.on("streamDestroyed", (event) => {
       this.stopTimer();
+      this.router.navigate(["/tabs/home"]);
     });
   }
 
@@ -169,7 +170,9 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.coreService.presentLoader(this.constantService.WAIT);
 
     this.apiService.post(request).subscribe((response: Response) => {
+      this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
+        this.router.navigate(["/waitlist/event/" + response.data.eventId]);
         this.session.disconnect();
       } else {
         this.coreService.showToastMessage(
