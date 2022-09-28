@@ -57,7 +57,7 @@ ion-slide {
   justify-content: space-between;
   width: 100%;
     padding: 0px 5px;
-    position: absolute; bottom: 0px; left: 0; z-index: 999;
+    position: absolute; bottom: 15px; left: 0; z-index: 999;
   & ion-button {
     font-size: 1rem;
     font-weight: 400;
@@ -72,3 +72,5 @@ ion-slide {
     // margin: 0;
   }
 }
+
+

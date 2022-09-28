@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, ParamMap, Params } from "@angular/router";
+import { ActivatedRoute, ParamMap, Params, Router } from "@angular/router";
 import { NavParams } from "@ionic/angular";
 
 import { CoreService, userRole } from "src/app/providers/core.service";
@@ -21,7 +21,8 @@ export class WaitlistPage implements OnInit {
   constructor(
     private coreService: CoreService,
     private route: ActivatedRoute,
-    private constantService: ConstantService
+    private constantService: ConstantService,
+    private router: Router
   ) {}
   ngOnInit() {
     this.getUserDataAndRole();
@@ -47,13 +48,16 @@ export class WaitlistPage implements OnInit {
         });
         that.send();
 
-        that.socket.subscribe("/topic/testDeal", function (message) {
+        that.socket.subscribe("/topic/bidList", function (message) {
           that.coreService.dismissLoader();
           let data = JSON.parse(message.body);
           let contentData = JSON.parse(data.content);
           that.connectedFans.push(contentData);
 
-          that.connectedFans = that.getUniqueListBy(that.connectedFans, "id");
+          that.connectedFans = that.getUniqueListBy(
+            that.connectedFans,
+            "userId"
+          );
           that.connectedFans.sort((a, b) => {
             return b.totalAmount - a.totalAmount;
           });
@@ -75,7 +79,7 @@ export class WaitlistPage implements OnInit {
       eventId: this.eventId,
     });
 
-    this.socket.send("/app/syncTestDeal", {}, data);
+    this.socket.send("/app/syncBidList", {}, data);
   }
 
   getEventIdFromParam() {

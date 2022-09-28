@@ -47,7 +47,7 @@
               <span>{{this.timer.minutes}}</span> {{this.timer?.title_min}}
             </h6>
             <h6 *ngIf="timer.minutes <=  0" class="card__time">
-              <span>0</span> days: <span>0</span> hours : <span>0 </span>minutes
+              Event Started
             </h6>
           </div>
           <h6
@@ -112,7 +112,10 @@
               </ng-container>
               <ng-container *ngIf="cardData.eventType == 'IN_PERSON'">
                 <span
-                  ><img src="../../../../assets/icon/location.svg" alt=""
+                  ><img
+                    class="op-65"
+                    src="../../../../assets/icon/location.svg"
+                    alt=""
                 /></span>
                 <h6>
                   {{cardData.eventAddress?.addressLine1}},
@@ -273,11 +276,13 @@
                   *ngIf="cardData.eventType !== 'IN_PERSON' "
                   class="fans-bided-event"
                 >
-                  <p >
-                    <span >{{cardData.count}}</span>
+                  <p>
+                    <span>{{cardData.count}}</span>
                     Fans bided on your event
                   </p>
-                  <ion-button [disabled]="canAthleteJoinEvent(cardData.count)" (click)="athleteEvent(cardData.id)"
+                  <ion-button
+                    [disabled]="canAthleteJoinEvent(cardData.count)"
+                    (click)="athleteEvent(cardData.id)"
                     ><img src="assets/icon/join-video.svg" /> Go</ion-button
                   >
                 </div>

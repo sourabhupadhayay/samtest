@@ -1,8 +1,8 @@
-<ion-content [scrollEvents]="true">
+<ion-content [scrollEvents]="true" [forceOverscroll]="false">
   <div class="main-screen">
     <ion-grid class="top-card">
       <div class="title-part">
-        <ion-item routerLink="/" lines="none" mode="md">
+        <ion-item routerLink="/tabs/home" lines="none" mode="md">
           <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
           <ion-label>
             <ion-grid class="logo-head">
@@ -28,18 +28,21 @@
       <div class="head">
         <div class="bids-available">
           <ion-item lines="none">
-            <ion-avatar slot="start">
-              <img src="assets/images/upload-img.png" />
+            <ion-avatar
+              *ngFor="let fan of connectedFans;let i =index"
+              slot="start"
+            >
+              <img
+                *ngIf="fan.userProfilePicture !== ''"
+                [src]="fan.userProfilePicture | profile"
+              />
+              <div *ngIf="fan.userProfilePicture == ''" class="initials">
+                <span class="initials__span-small">
+                  {{getInitials(fan.userName)}}
+                </span>
+              </div>
             </ion-avatar>
-            <ion-avatar slot="start">
-              <img src="assets/images/upload-img.png" />
-            </ion-avatar>
-            <ion-avatar slot="start">
-              <img src="assets/images/upload-img.png" />
-            </ion-avatar>
-            <ion-avatar slot="start" class="last">
-              <img src="assets/images/upload-img.png" />
-            </ion-avatar>
+
             <ion-label>
               {{connectedFans?.length}} Bids Available
             </ion-label>
@@ -53,18 +56,33 @@
           <!-- add class "top-call" in bg-white-box -->
           <div
             *ngFor="let fan of connectedFans;let i =index"
-            [ngClass]="i==0 ?'top-call' :'' "
+            [ngClass]="i==0 ? 'top-call':'' "
             class="bg-white-box"
           >
             <ion-item lines="none">
               <ion-avatar slot="start">
-                <img src="assets/images/profile.png" />
+                <ng-container *ngIf="fan.userProfilePicture == ''">
+                  <div class="initials">
+                    <span class="initials__span">
+                      {{getInitials(fan.userName)}}
+                    </span>
+                  </div>
+                </ng-container>
+                <img
+                  *ngIf="fan.userProfilePicture !== ''"
+                  [src]="fan.userProfilePicture |profile"
+                />
               </ion-avatar>
               <ion-label>
                 <h5>{{fan.userName}}</h5>
                 <p>${{fan.totalAmount.toFixed()}}</p>
               </ion-label>
-<!--              <img class="video" slot="end" src="assets/icon/video-icon.png" />-->
+              <img
+                class="video"
+                (click)="callFan(fan.id)"
+                slot="end"
+                src="assets/icon/video-icon.png"
+              />
             </ion-item>
           </div>
         </div>

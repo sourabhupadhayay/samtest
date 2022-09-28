@@ -220,15 +220,18 @@ ion-content {
             --color: var(--black-clr);
             font-size: 0.875rem;
             background: var(--white-clr);
+            position: relative;
           }
             .date-icon{margin: 0;
               align-self: center;
               position: absolute;
               right: 10px;
-              /* top: 0; */
-              bottom: 12px;
-              /* margin: auto; */
+               top: 0; 
+              bottom: 0px;
+               margin: auto; 
               z-index: 2;
+              height: 20px;
+              width: 20px;
           }
         
         }

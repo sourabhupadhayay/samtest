@@ -4,7 +4,7 @@ import { FacebookLogin } from "@capacitor-community/facebook-login";
 import { App, URLOpenListener, URLOpenListenerEvent } from "@capacitor/app";
 
 import { Platform } from "@ionic/angular";
-import { CoreService } from "./providers/core.service";
+import { CoreService, userRole, UserRole } from "./providers/core.service";
 import { DataService, Request } from "./providers/data.service";
 import { NetworkService } from "./providers/network.service";
 import { SplashScreen } from "@capacitor/splash-screen";
@@ -50,7 +50,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getConnectedFans();
+    this.callingAthlete();
   }
 
   initializeApp(): void {
@@ -87,7 +87,6 @@ export class AppComponent implements OnInit {
     App.addListener("appUrlOpen", (event: URLOpenListenerEvent) => {
       this.zone.run(() => {
         const domain = "dev.bubbleapp.com";
-
         const pathArray = event.url.split(domain);
 
         const appPath = pathArray.pop();
@@ -180,31 +179,46 @@ export class AppComponent implements OnInit {
     );
   }
 
-  getConnectedFans() {
+  async callingAthlete() {
+    let userRole: userRole = await this.core.getUserRoleFromStorage();
+    let userDetails = await this.core.getUserDataFromStorage();
+    if (!userRole) {
+      return;
+    }
+
+    if (userRole == "athlete") {
+      return;
+    }
     this.socket = Stomp.over(
       () => new SockJS(configuration.BASE_URL + "core/greeting")
     );
-
     this.socket.reconnect_delay = 5000;
-
-    let that = this;
-
     this.socket.connect(
       {},
-      function (frame) {
-        that.socket.subscribe("/errors", function (message) {
+      (frame) => {
+        this.socket.subscribe("/errors", (message) => {
           alert("Error " + message.body);
         });
-
-        that.socket.subscribe("/topic/testDeal", function (message) {
-          let data = JSON.parse(message.body);
-
-          console.log(data);
+        this.send(userDetails["id"]);
+        this.socket.subscribe("/topic/receiveCall", (message) => {
+          let responseData = JSON.parse(message.body).content;
+          this.commonService.callingAthleteDetails = JSON.parse(responseData);
+          console.log(this.commonService.callingAthleteDetails);
+          this.router.navigate([
+            "/waitlist/incoming-call/" +
+              this.commonService.callingAthleteDetails.id,
+          ]);
         });
       },
       function (error) {
         console.log("STOMP error " + error);
       }
     );
+  }
+  send(id) {
+    let data = JSON.stringify({
+      userId: id,
+    });
+    this.socket.send("/app/videoBid", {}, data);
   }
 }
