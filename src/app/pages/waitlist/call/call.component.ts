@@ -171,15 +171,16 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.apiService.post(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
-      if (response.status.code === this.constantService.STATUS_OK) {
-        this.router.navigate(["/waitlist/event/" + response.data.eventId]);
-        this.session.disconnect();
-      } else {
-        this.coreService.showToastMessage(
-          response.status.description,
-          this.coreService.TOAST_ERROR
-        );
-      }
+      this.router.navigate(["/tabs/schedule"]);
+      // if (response.status.code === this.constantService.STATUS_OK) {
+      //   this.router.navigate(["/waitlist/event/" + response.data.eventId]);
+      //   this.session.disconnect();
+      // } else {
+      //   this.coreService.showToastMessage(
+      //     response.status.description,
+      //     this.coreService.TOAST_ERROR
+      //   );
+      // }
     });
   }
 

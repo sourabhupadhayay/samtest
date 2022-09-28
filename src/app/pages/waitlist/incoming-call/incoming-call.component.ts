@@ -54,14 +54,15 @@ export class IncomingCallComponent implements OnInit {
 
     this.apiService.post(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
-      if (response.status.code === this.constantService.STATUS_OK) {
-        this.router.navigate(["/tabs/home"]);
-      } else {
-        this.coreService.showToastMessage(
-          response.status.description,
-          this.coreService.TOAST_ERROR
-        );
-      }
+      this.router.navigate(["/tabs/schedule"]);
+      // if (response.status.code === this.constantService.STATUS_OK) {
+      //   this.router.navigate(["/tabs/home"]);
+      // } else {
+      //   this.coreService.showToastMessage(
+      //     response.status.description,
+      //     this.coreService.TOAST_ERROR
+      //   );
+      // }
     });
   }
 }
