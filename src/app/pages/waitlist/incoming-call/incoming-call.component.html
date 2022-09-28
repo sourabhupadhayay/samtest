@@ -14,6 +14,16 @@
   </div>
 
   <div class="caller-img">
+    <img
+      *ngIf="commonService.callingAthleteDetails?.athleteProfilePicture !==''"
+      [src]="commonService.callingAthleteDetails?.athleteProfilePicture | profile"
+      alt=""
+    />
+    <div *ngIf="commonService.callingAthleteDetails?.athleteProfilePicture  ==''" class="inital">
+                  <span class="initial__span">
+                    {{nameInitials}}
+                  </span>
+    </div>
     <!-- <img src="assets/images/bg-img.png" /> -->
   </div>
 

@@ -9,6 +9,7 @@ import { CommonService } from "src/app/providers/common.service";
 })
 export class IncomingCallComponent implements OnInit {
   bidId: string;
+  nameInitials: any;
   constructor(
     private router: Router,
     public commonService: CommonService,
@@ -22,6 +23,7 @@ export class IncomingCallComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.nameInitials  = this.commonService.getInitials(this.commonService.callingAthleteDetails.athleteName);
     this.getBidIdFromRoute();
     if (!this.commonService.callingAthleteDetails) {
       this.router.navigate(["/tabs/home"]);
