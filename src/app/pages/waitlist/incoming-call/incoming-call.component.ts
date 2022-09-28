@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router, Params } from "@angular/router";
+import { CommonService } from "src/app/providers/common.service";
 
 @Component({
   selector: "app-incoming-call",
@@ -7,12 +8,27 @@ import { Router } from "@angular/router";
   styleUrls: ["./incoming-call.component.scss"],
 })
 export class IncomingCallComponent implements OnInit {
-  constructor(private router: Router) {}
+  bidId: string;
+  constructor(
+    private router: Router,
+    public commonService: CommonService,
+    private route: ActivatedRoute
+  ) {}
 
-  ngOnInit() {}
+  getBidIdFromRoute() {
+    this.route.params.subscribe((params: Params) => {
+      this.bidId = params.id;
+    });
+  }
+
+  ngOnInit() {
+    this.getBidIdFromRoute();
+    if (!this.commonService.callingAthleteDetails) {
+      this.router.navigate(["/tabs/home"]);
+    }
+  }
 
   joinCall() {
-    console.log("clicked");
-    this.router.navigate(["/waitlist/call"]);
+    this.router.navigate(["/waitlist/call/" + this.bidId]);
   }
 }

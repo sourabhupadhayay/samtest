@@ -194,19 +194,21 @@ export class AppComponent implements OnInit {
       () => new SockJS(configuration.BASE_URL + "core/greeting")
     );
     this.socket.reconnect_delay = 5000;
-
-    let that = this;
-
     this.socket.connect(
       {},
-      function (frame) {
-        that.socket.subscribe("/errors", function (message) {
+      (frame) => {
+        this.socket.subscribe("/errors", (message) => {
           alert("Error " + message.body);
         });
-        that.send(userDetails['id']);
-        that.socket.subscribe("/topic/receiveCall", function (message) {
-          console.log("foram call ",message);
-
+        this.send(userDetails["id"]);
+        this.socket.subscribe("/topic/receiveCall", (message) => {
+          let responseData = JSON.parse(message.body).content;
+          this.commonService.callingAthleteDetails = JSON.parse(responseData);
+          console.log(this.commonService.callingAthleteDetails);
+          this.router.navigate([
+            "/waitlist/incoming-call/" +
+              this.commonService.callingAthleteDetails.id,
+          ]);
         });
       },
       function (error) {
@@ -218,6 +220,6 @@ export class AppComponent implements OnInit {
     let data = JSON.stringify({
       userId: id,
     });
-    this.socket.send("/app/videoBid", {},data);
+    this.socket.send("/app/videoBid", {}, data);
   }
 }
