@@ -87,7 +87,6 @@ export class AppComponent implements OnInit {
     App.addListener("appUrlOpen", (event: URLOpenListenerEvent) => {
       this.zone.run(() => {
         const domain = "dev.bubbleapp.com";
-
         const pathArray = event.url.split(domain);
 
         const appPath = pathArray.pop();
