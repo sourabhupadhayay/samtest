@@ -211,6 +211,7 @@ export class EditProfilePage implements OnInit {
         ...signUpResponse,
         birthDate: new Date(birthDate).toISOString(),
         profileUrl: this.commonService.profileUrl,
+        phone :  this.checkPhoneNumLength(this.fanProfileForm.value.phone)
       },
       isAuth: true,
     };
@@ -226,14 +227,23 @@ export class EditProfilePage implements OnInit {
     }
     this.modal.present();
   }
+  
+  checkPhoneNumLength(phone: any) {
+    if (phone?.length > 14) {
+      return phone.substring(0, 14);
+    }
+    return phone;
+  }
 
   athleteDataRequest(): Request {
     this.validatePhoneAthleteForm();
+   
     let request: Request = {
       path: "auth/users/update",
       data: {
         ...this.athleteProfileForm.value,
         profileUrl: this.commonService.profileUrl,
+        phone :  this.checkPhoneNumLength(this.athleteProfileForm.value.phone)
       },
       isAuth: true,
     };
