@@ -17,12 +17,13 @@ import { CommonService } from "src/app/providers/common.service";
 export class AthleteWaitlistPage implements OnInit, DoCheck {
   @Input() eventId: string;
   @Input() connectedFans: any[] = [];
+  @Input() pendingCallFans: any[] = [];
+  @Input() completedCallFans: any[] = [];
+
   fanImagesList: any[] = [];
   constructor(private router: Router, private commonService: CommonService) {}
 
-  ngOnInit() {
-    console.log(this.connectedFans);
-  }
+  ngOnInit() {}
 
   ngDoCheck() {
     let fansList = [];

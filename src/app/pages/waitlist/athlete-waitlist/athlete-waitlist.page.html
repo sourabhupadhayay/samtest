@@ -29,7 +29,7 @@
         <div class="bids-available">
           <ion-item lines="none">
             <ion-avatar
-              *ngFor="let fan of connectedFans;let i =index"
+              *ngFor="let fan of fanImagesList;let i =index"
               slot="start"
             >
               <img
@@ -52,10 +52,43 @@
       </div>
 
       <div class="content-part">
-        <div *ngIf="connectedFans" class="bid-list">
+        <div *ngIf="completedCallFans" class="bid-list">
           <!-- add class "top-call" in bg-white-box -->
           <div
-            *ngFor="let fan of connectedFans;let i =index"
+            *ngFor="let fan of completedCallFans;let i =index"
+            class="bg-white-box top-call"
+          >
+            <ion-item lines="none">
+              <ion-avatar slot="start">
+                <ng-container *ngIf="fan.userProfilePicture == ''">
+                  <div class="initials">
+                    <span class="initials__span">
+                      {{getInitials(fan.userName)}}
+                    </span>
+                  </div>
+                </ng-container>
+                <img
+                  *ngIf="fan.userProfilePicture !== ''"
+                  [src]="fan.userProfilePicture |profile"
+                />
+              </ion-avatar>
+              <ion-label>
+                <h5>{{fan.userName}}</h5>
+                <p>${{fan.totalAmount.toFixed()}}</p>
+              </ion-label>
+              <img
+                class="video"
+                (click)="callFan(fan.id)"
+                slot="end"
+                src="assets/icon/video-icon.png"
+              />
+            </ion-item>
+          </div>
+        </div>
+        <div *ngIf="pendingCallFans" class="bid-list">
+          <!-- add class "top-call" in bg-white-box -->
+          <div
+            *ngFor="let fan of pendingCallFans;let i =index"
             [ngClass]="i==0 ? 'top-call':'' "
             class="bg-white-box"
           >
