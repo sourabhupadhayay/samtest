@@ -18,6 +18,8 @@ export class WaitlistPage implements OnInit {
   eventId: string;
   connectedFans: any[] = [];
   socket: any;
+  pendingCallFans: any[] = [];
+  completedCallFans: any[] = [];
   constructor(
     private coreService: CoreService,
     private route: ActivatedRoute,
@@ -38,30 +40,36 @@ export class WaitlistPage implements OnInit {
 
     this.socket.reconnect_delay = 5000;
 
-    let that = this;
-
     this.socket.connect(
       {},
-      function (frame) {
-        that.socket.subscribe("/errors", function (message) {
+      (frame) => {
+        this.socket.subscribe("/errors", (message) => {
           alert("Error " + message.body);
         });
-        that.send();
+        this.send();
 
-        that.socket.subscribe("/topic/bidList", function (message) {
-          that.coreService.dismissLoader();
+        this.socket.subscribe("/topic/bidList", (message) => {
+          this.coreService.dismissLoader();
           let data = JSON.parse(message.body);
           let contentData = JSON.parse(data.content);
-          that.connectedFans.push(contentData);
 
-          that.connectedFans = that.getUniqueListBy(
-            that.connectedFans,
+          if (contentData.bidState == "PENDING") {
+            this.filterAndSortPendingFans(contentData);
+          } else if (
+            contentData.bidState !== "PENDING" &&
+            contentData.bidState !== "COMPLETED"
+          ) {
+            this.filterAndSortCompletedFans(contentData);
+          }
+          this.connectedFans.push(contentData);
+
+          this.connectedFans = this.getUniqueListBy(
+            this.connectedFans,
             "userId"
           );
-          that.connectedFans.sort((a, b) => {
-            return b.totalAmount - a.totalAmount;
-          });
-          console.log(that.connectedFans);
+          // that.connectedFans.sort((a, b) => {
+          //   return b.totalAmount - a.totalAmount;
+          // });
         });
       },
       function (error) {
@@ -72,6 +80,22 @@ export class WaitlistPage implements OnInit {
 
   getUniqueListBy(arr, key) {
     return [...new Map(arr.map((item) => [item[key], item])).values()];
+  }
+
+  filterAndSortPendingFans(fanData: any) {
+    this.pendingCallFans.push(fanData);
+    this.pendingCallFans = this.getUniqueListBy(this.pendingCallFans, "userId");
+    this.pendingCallFans.sort((a, b) => {
+      return b.totalAmount - a.totalAmount;
+    });
+  }
+  filterAndSortCompletedFans(fanData: any) {
+    this.completedCallFans.push(fanData);
+
+    this.completedCallFans = this.getUniqueListBy(
+      this.completedCallFans,
+      "userId"
+    );
   }
 
   send() {

@@ -203,11 +203,15 @@ export class AppComponent implements OnInit {
         this.socket.subscribe("/topic/receiveCall", (message) => {
           let responseData = JSON.parse(message.body).content;
           this.commonService.callingAthleteDetails = JSON.parse(responseData);
-          console.log(this.commonService.callingAthleteDetails);
-          this.router.navigate([
-            "/waitlist/incoming-call/" +
-              this.commonService.callingAthleteDetails.id,
-          ]);
+
+          if (
+            userDetails.id == this.commonService.callingAthleteDetails.userId
+          ) {
+            this.router.navigate([
+              "/waitlist/incoming-call/" +
+                this.commonService.callingAthleteDetails.id,
+            ]);
+          }
         });
       },
       function (error) {

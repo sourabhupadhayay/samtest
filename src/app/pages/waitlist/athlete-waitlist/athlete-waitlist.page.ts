@@ -13,7 +13,6 @@ import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 
-
 @Component({
   selector: "athlete-waitlist",
   templateUrl: "./athlete-waitlist.page.html",
@@ -22,31 +21,34 @@ import { DataService, Request, Response } from "src/app/providers/data.service";
 export class AthleteWaitlistPage implements OnInit, DoCheck {
   @Input() eventId: string;
   @Input() connectedFans: any[] = [];
+  @Input() pendingCallFans: any[] = [];
+  @Input() completedCallFans: any[] = [];
+
   fanImagesList: any[] = [];
   athleteList: any;
   sponsorList: any;
-   slideOpts:any = {
+  slideOpts: any = {
     slidesPerView: 3,
     initialSlide: 1,
     speed: 400,
     // loop: true,
     autoplay: {
-          delay: 2000
-    }
-  }
-  constructor(private router: Router, 
-              private commonService: CommonService,
-              private apiService: DataService,
-              private coreService: CoreService,
-              private constant: ConstantService,
-              public authenticationService: AuthenticationService
-              ) {}
+      delay: 2000,
+    },
+  };
+  constructor(
+    private router: Router,
+    private commonService: CommonService,
+    private apiService: DataService,
+    private coreService: CoreService,
+    private constant: ConstantService,
+    public authenticationService: AuthenticationService
+  ) {}
 
   ngOnInit() {
     console.log(this.connectedFans);
     this.getSponsor();
   }
-
 
   getSponsor() {
     let request: Request = {
@@ -70,10 +72,11 @@ export class AthleteWaitlistPage implements OnInit, DoCheck {
     this.apiService.post(request).subscribe((response: Response) => {
       if (response.status.code == this.constant.STATUS_OK) {
         this.athleteList = response.data;
-        console.log("ath ",this.athleteList)
-        this.athleteList.forEach((element,index) => {
-          this.athleteList[index]['nameInitials']= this.commonService.getInitials(element.fullName
-          );
+        console.log("ath ", this.athleteList);
+        this.athleteList.forEach((element, index) => {
+          this.athleteList[index][
+            "nameInitials"
+          ] = this.commonService.getInitials(element.fullName);
         });
       } else {
         this.coreService.showToastMessage(
@@ -83,10 +86,6 @@ export class AthleteWaitlistPage implements OnInit, DoCheck {
       }
     });
   }
-
- 
-
-
 
   ngDoCheck() {
     let fansList = [];
