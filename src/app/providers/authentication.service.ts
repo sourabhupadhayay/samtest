@@ -10,7 +10,7 @@ export class AuthData {
   providedIn: "root",
 })
 export class AuthenticationService {
-  private data: AuthData = new AuthData();
+  public data: AuthData = new AuthData();
   constructor() {
     if (localStorage.getItem(AUTH)) {
       this.data = <any>JSON.parse(localStorage.getItem(AUTH));

@@ -62,19 +62,11 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   async keepDeviceAwake() {
-    let isSupported = await KeepAwake.isSupported();
-
-    if (isSupported) {
-      KeepAwake.keepAwake();
-    }
+    KeepAwake.keepAwake();
   }
 
   async allowDeviceToSleep() {
-    let isSupported = await KeepAwake.isSupported();
-
-    if (isSupported) {
-      KeepAwake.allowSleep();
-    }
+    KeepAwake.allowSleep();
   }
 
   getVideoSessionAndToken(path: string) {

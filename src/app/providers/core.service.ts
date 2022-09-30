@@ -31,7 +31,7 @@ export class CoreService {
   TOAST_INFO = "TOAST_INFO";
   images!: string;
   isLoading = false;
-  allowedTypes = ['jpg','png','jpeg'];
+  allowedTypes = ["jpg", "png", "jpeg"];
   constructor(
     public toastCtrl: ToastController,
     private loadingController: LoadingController,
@@ -196,7 +196,7 @@ export class CoreService {
     let photosArray = await this.pickImage();
     let image = photosArray.photos[0];
     let imageType = image?.format;
-    if(!this.allowedTypes.includes(imageType)){
+    if (!this.allowedTypes.includes(imageType)) {
       this.showToastMessage(
         "Only JPG, JPEG or PNG images are allowed.",
         this.TOAST_WARNING
@@ -340,9 +340,7 @@ export class CoreService {
   async getUserRoleFromStorage(): Promise<userRole> {
     const { value } = await Storage.get({ key: "userDetails" });
     let userData = JSON.parse(value);
-    if (!userData) {
-      return;
-    }
+
     return this.commonService.getUserType(userData.roles);
   }
   async getUserDataFromStorage(): Promise<any> {

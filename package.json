@@ -23,7 +23,7 @@
     "@angular/platform-browser-dynamic": "^14.0.6",
     "@angular/router": "^14.0.1",
     "@capacitor-community/facebook-login": "^3.4.0",
-    "@capacitor-community/keep-awake": "^3.0.0",
+    "@capacitor-community/keep-awake": "^2.1.1",
     "@capacitor/android": "^3.6.0",
     "@capacitor/app": "1.1.1",
     "@capacitor/camera": "^1.3.1",

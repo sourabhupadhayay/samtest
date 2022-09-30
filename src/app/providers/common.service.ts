@@ -12,6 +12,7 @@ export class CommonService {
   public $profileSubject: Subject<any> = new Subject();
   profileUrl: string = "";
   callingAthleteDetails: any | null = null;
+  public $socketSubject: Subject<null> = new Subject();
 
   constructor(private apiService: DataService) {}
 

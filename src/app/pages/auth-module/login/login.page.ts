@@ -11,6 +11,7 @@ import {
   FacebookLogin,
   FacebookLoginResponse,
 } from "@capacitor-community/facebook-login";
+import { CommonService } from "src/app/providers/common.service";
 
 @Component({
   selector: "app-login",
@@ -41,7 +42,8 @@ export class LoginPage implements OnInit {
     private apiService: DataService,
     private constantService: ConstantService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private commonService: CommonService
   ) {
     GoogleAuth.initialize({
       clientId:
@@ -85,6 +87,7 @@ export class LoginPage implements OnInit {
         }).then(() => {
           this.router.navigateByUrl(this.returnUrl);
         });
+        this.commonService.$socketSubject.next();
       } else {
         this.coreService.showToastMessage(
           response.status.description,
