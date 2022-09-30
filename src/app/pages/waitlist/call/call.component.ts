@@ -24,6 +24,7 @@ import {
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { switchMap } from "rxjs/operators";
 import { ConstantService } from "src/app/providers/constant.service";
+import { KeepAwake } from "@capacitor-community/keep-awake";
 
 @Component({
   selector: "app-call",
@@ -56,7 +57,25 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     private constantService: ConstantService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.keepDeviceAwake();
+  }
+
+  async keepDeviceAwake() {
+    let isSupported = await KeepAwake.isSupported();
+
+    if (isSupported) {
+      KeepAwake.keepAwake();
+    }
+  }
+
+  async allowDeviceToSleep() {
+    let isSupported = await KeepAwake.isSupported();
+
+    if (isSupported) {
+      KeepAwake.allowSleep();
+    }
+  }
 
   getVideoSessionAndToken(path: string) {
     this.route.paramMap
@@ -215,5 +234,6 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.stopTimer();
+    this.allowDeviceToSleep();
   }
 }
