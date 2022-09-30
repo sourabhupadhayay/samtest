@@ -48,10 +48,10 @@
           </ng-container>
           {{this.eventTime?.minutes}} {{this.eventTime?.title_min}}
         </p>
-        <!-- <p>
+        <p *ngIf="!this.eventTime?.minutes">
           {{eventData?.athleteName | titlecase}} is <span>LIVE</span> For Next
           30 minutes
-        </p> -->
+        </p>
       </div>
       <div class="wait-part">
         <div class="head">

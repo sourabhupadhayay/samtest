@@ -43,7 +43,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   apiKey: string = "47513031";
   sessionId: string;
   token: string;
-  timeLeft: number = 180;
+  timeLeft: number;
   interval: any;
   bidId: string;
 
@@ -72,6 +72,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((response) => {
         this.sessionId = response.data.sessionId;
         this.token = response.data.token;
+        this.timeLeft = response.data.remainingTime;
         this.getSession();
       });
   }
@@ -121,6 +122,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     this.session.on("streamDestroyed", (event) => {
+      this.session.disconnect();
       this.stopTimer();
       this.router.navigate(["/tabs/home"]);
     });
@@ -163,7 +165,6 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       path: "core/video/updateCall/" + this.bidId,
       data: {
         remainingTime: this.timeLeft,
-        videoCompleted: true,
       },
       isAuth: true,
     };
