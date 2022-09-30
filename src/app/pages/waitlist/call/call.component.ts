@@ -24,6 +24,7 @@ import {
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { switchMap } from "rxjs/operators";
 import { ConstantService } from "src/app/providers/constant.service";
+import { KeepAwake } from "@capacitor-community/keep-awake";
 
 @Component({
   selector: "app-call",
@@ -43,7 +44,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   apiKey: string = "47513031";
   sessionId: string;
   token: string;
-  timeLeft: number = 180;
+  timeLeft: number;
   interval: any;
   bidId: string;
 
@@ -56,7 +57,17 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     private constantService: ConstantService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.keepDeviceAwake();
+  }
+
+  async keepDeviceAwake() {
+    KeepAwake.keepAwake();
+  }
+
+  async allowDeviceToSleep() {
+    KeepAwake.allowSleep();
+  }
 
   getVideoSessionAndToken(path: string) {
     this.route.paramMap
@@ -72,6 +83,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((response) => {
         this.sessionId = response.data.sessionId;
         this.token = response.data.token;
+        this.timeLeft = response.data.remainingTime;
         this.getSession();
       });
   }
@@ -121,6 +133,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     this.session.on("streamDestroyed", (event) => {
+      this.session.disconnect();
       this.stopTimer();
       this.router.navigate(["/tabs/home"]);
     });
@@ -163,7 +176,6 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       path: "core/video/updateCall/" + this.bidId,
       data: {
         remainingTime: this.timeLeft,
-        videoCompleted: true,
       },
       isAuth: true,
     };
@@ -171,16 +183,15 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.apiService.post(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
-      this.router.navigate(["/tabs/schedule"]);
-      // if (response.status.code === this.constantService.STATUS_OK) {
-      //   this.router.navigate(["/waitlist/event/" + response.data.eventId]);
-      //   this.session.disconnect();
-      // } else {
-      //   this.coreService.showToastMessage(
-      //     response.status.description,
-      //     this.coreService.TOAST_ERROR
-      //   );
-      // }
+      if (response.status.code === this.constantService.STATUS_OK) {
+        this.session.disconnect();
+        this.router.navigate(["/waitlist/event/" + response.data.eventId]);
+      } else {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_ERROR
+        );
+      }
     });
   }
 
@@ -188,6 +199,11 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.interval = setInterval(() => {
       if (this.timeLeft > 0) {
         this.timeLeft--;
+      }
+      if (this.timeLeft == 0) {
+        if (this.userRole == "athlete") {
+          this.disconnectCall();
+        }
       }
       this.cd.detectChanges();
     }, 1000);
@@ -215,5 +231,6 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.stopTimer();
+    this.allowDeviceToSleep();
   }
 }

@@ -63,7 +63,7 @@ export class BidPaymentPage implements OnInit {
   async presentPaymentModal() {
     if (this.bidAmount < this.eventData?.minBid || !this.bidAmount) {
       this.coreService.showToastMessage(
-        `Please enter bid amount greater than ${this.eventData?.minBid}$`,
+        `Please enter bid amount greater than $${this.eventData?.minBid}`,
         this.coreService.TOAST_ERROR
       );
       return;
@@ -193,7 +193,7 @@ export class BidPaymentPage implements OnInit {
   checkIsBidEntered(): boolean {
     if (this.bidAmount < this.eventData?.minBid || !this.bidAmount) {
       this.coreService.showToastMessage(
-        `Please enter bid amount greater than ${this.eventData?.minBid}$`,
+        `Please enter bid amount greater than $${this.eventData?.minBid}`,
         this.coreService.TOAST_ERROR
       );
       return true;

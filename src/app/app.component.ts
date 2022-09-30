@@ -1,5 +1,5 @@
 import { Location } from "@angular/common";
-import { Component, NgZone, OnInit } from "@angular/core";
+import { Component, NgZone, OnInit, OnDestroy } from "@angular/core";
 import { FacebookLogin } from "@capacitor-community/facebook-login";
 import { App, URLOpenListener, URLOpenListenerEvent } from "@capacitor/app";
 
@@ -21,16 +21,19 @@ import {
   PushNotifications,
   Token,
 } from "@capacitor/push-notifications";
+import { AuthenticationService } from "./providers/authentication.service";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-root",
   templateUrl: "app.component.html",
   styleUrls: ["app.component.scss"],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   isShowingSplashScreen = false;
   connectedFans: any[] = [];
   socket: any;
+  private socketSubscription: Subscription;
   constructor(
     private apiservice: DataService,
     private _networkService: NetworkService,
@@ -40,7 +43,8 @@ export class AppComponent implements OnInit {
     private _location: Location,
     private commonService: CommonService,
     private zone: NgZone,
-    private constantService: ConstantService
+    private constantService: ConstantService,
+    private authService: AuthenticationService
   ) {
     this.initializeApp();
     this.backButton();
@@ -50,7 +54,15 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.callingAthlete();
+    this.socketInit();
+  }
+
+  private socketInit() {
+    this.socketSubscription = this.commonService.$socketSubject.subscribe(
+      () => {
+        this.callingAthlete();
+      }
+    );
   }
 
   initializeApp(): void {
@@ -180,11 +192,12 @@ export class AppComponent implements OnInit {
   }
 
   async callingAthlete() {
-    let userRole: userRole = await this.core.getUserRoleFromStorage();
-    let userDetails = await this.core.getUserDataFromStorage();
-    if (!userRole) {
+    if (!this.authService.data.isLoggedIn) {
       return;
     }
+
+    let userRole: userRole = await this.core.getUserRoleFromStorage();
+    let userDetails = await this.core.getUserDataFromStorage();
 
     if (userRole == "athlete") {
       return;
@@ -203,11 +216,15 @@ export class AppComponent implements OnInit {
         this.socket.subscribe("/topic/receiveCall", (message) => {
           let responseData = JSON.parse(message.body).content;
           this.commonService.callingAthleteDetails = JSON.parse(responseData);
-          console.log(this.commonService.callingAthleteDetails);
-          this.router.navigate([
-            "/waitlist/incoming-call/" +
-              this.commonService.callingAthleteDetails.id,
-          ]);
+
+          if (
+            userDetails.id == this.commonService.callingAthleteDetails.userId
+          ) {
+            this.router.navigate([
+              "/waitlist/incoming-call/" +
+                this.commonService.callingAthleteDetails.id,
+            ]);
+          }
         });
       },
       function (error) {
@@ -220,5 +237,9 @@ export class AppComponent implements OnInit {
       userId: id,
     });
     this.socket.send("/app/videoBid", {}, data);
+  }
+
+  ngOnDestroy(): void {
+    this.socketSubscription.unsubscribe();
   }
 }
