@@ -208,6 +208,9 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.timeLeft > 0) {
         this.timeLeft--;
       }
+      if (this.timeLeft == 0) {
+        this.session.disconnect();
+      }
       this.cd.detectChanges();
     }, 1000);
   }
