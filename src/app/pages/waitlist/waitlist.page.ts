@@ -55,7 +55,10 @@ export class WaitlistPage implements OnInit {
 
           if (contentData.bidState == "PENDING") {
             this.filterAndSortPendingFans(contentData);
-          } else {
+          } else if (
+            contentData.bidState !== "PENDING" &&
+            contentData.bidState !== "COMPLETED"
+          ) {
             this.filterAndSortCompletedFans(contentData);
           }
           this.connectedFans.push(contentData);

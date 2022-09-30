@@ -209,7 +209,9 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
         this.timeLeft--;
       }
       if (this.timeLeft == 0) {
-        this.session.disconnect();
+        if (this.userRole == "athlete") {
+          this.disconnectCall();
+        }
       }
       this.cd.detectChanges();
     }, 1000);
