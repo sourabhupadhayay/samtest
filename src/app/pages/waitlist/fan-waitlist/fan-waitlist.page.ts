@@ -30,25 +30,71 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
   eventTime;
   userIndex: number = 0;
   interval;
+  sponsorList : any;
 
+  slideOpts:any = {
+    slidesPerView: 3,
+    initialSlide: 1,
+    speed: 400,
+    // loop: true,
+    autoplay: {
+          delay: 2000
+    }
+  }
+  
   constructor(
     private coreService: CoreService,
     private apiService: DataService,
     private router: Router,
     private constantService: ConstantService,
     private commonService: CommonService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private constant: ConstantService
   ) {}
 
   ngOnInit() {
     this.getUserData();
     this.getEventDetails();
+    this.getSponsor();
   }
 
   ngDoCheck() {
     if (this.connectedFans.length !== 0) {
       this.calculateUserPosition();
     }
+  }
+
+
+  getSponsor() {
+    let request: Request = {
+      path: "auth/users/manage/filter/list",
+      data: {
+        filter: {
+          roles: ["SPONSOR"],
+        },
+        page: {
+          pageLimit: 1,
+          pageNumber: 0,
+        },
+        sort: {
+          orderBy: "ASC",
+          sortBy: "FIRST_NAME",
+        },
+      },
+      isAuth: false,
+    };
+
+    this.apiService.post(request).subscribe((response: Response) => {
+      if (response.status.code == this.constant.STATUS_OK) {
+        this.sponsorList = response.data;
+        console.log("sponsors ",this.sponsorList)
+      } else {
+        this.coreService.showToastMessage(
+          response["status"]["description"],
+          this.coreService.TOAST_ERROR
+        );
+      }
+    });
   }
 
   calculateUserPosition() {

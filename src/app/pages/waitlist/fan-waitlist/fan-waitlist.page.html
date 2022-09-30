@@ -37,6 +37,20 @@
       </video>
     </div>
     <div class="bottom-part">
+      
+      <div class="slider-part">
+        <ion-slides  [options]="slideOpts" autoplay="400" speed="3000" >
+            <ion-slide  *ngFor="let sponsor of sponsorList">
+              <div class="slide">
+                <div class="img-box">
+                  <img src="{{sponsor.profileUrl | profile}}" />
+                </div>
+                <h5>{{sponsor?.fullName}}</h5>
+              </div>
+            </ion-slide>
+            
+          </ion-slides>
+      </div>
       <div class="live-green">
         <p *ngIf="this.eventTime?.minutes">
           {{eventData?.athleteName | titlecase}} will be live in just

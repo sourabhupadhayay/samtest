@@ -115,6 +115,18 @@ ion-content {
           }
         }
       }
+      .slider-part{padding: 15px 0px 15px; background: var(--theme-one-bg); position: relative; z-index: 9; background: transparent;
+        ion-slides{
+          ion-slide{
+            .slide{
+              .img-box{width: 100px; height: 100px; border-radius: 100px; padding: 15px; border: 3px solid var(--theme-one-clr); background: var(--white-bg); display: flex; justify-content: center; align-items: center;
+                img{width: 100px; height: 100px;}
+              }
+              h5{margin: 5px 0; font-size: 0.875rem; color: var(--white-clr); font-weight: 500;}
+            }
+          }
+        }
+      }
       .wait-part {
         border-radius: 35px 35px 0 0;
         min-height: 230px;
