@@ -53,6 +53,10 @@ export class WaitlistPage implements OnInit {
           let data = JSON.parse(message.body);
           let contentData = JSON.parse(data.content);
 
+          if (contentData.eventId !== this.eventId) {
+            return;
+          }
+
           if (contentData.bidState == "PENDING") {
             this.filterAndSortPendingFans(contentData);
           } else if (
