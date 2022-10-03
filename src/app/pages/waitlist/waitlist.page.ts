@@ -65,12 +65,16 @@ export class WaitlistPage implements OnInit {
           ) {
             this.filterAndSortCompletedFans(contentData);
           }
-          this.connectedFans.push(contentData);
+          if (contentData.bidState !== "COMPLETED") {
+            console.log(contentData);
+            this.connectedFans.push(contentData);
 
-          this.connectedFans = this.getUniqueListBy(
-            this.connectedFans,
-            "userId"
-          );
+            this.connectedFans = this.getUniqueListBy(
+              this.connectedFans,
+              "userId"
+            );
+          }
+
           // that.connectedFans.sort((a, b) => {
           //   return b.totalAmount - a.totalAmount;
           // });
