@@ -57,7 +57,7 @@
         </ng-container>
         <ng-container *ngIf="userRole == 'fan'">
           <div *ngIf="eventState == 'APPROVED'" class="">
-            <h6 *ngIf="timer" class="card__time">
+            <h6 *ngIf="timer.minutes > 0" class="card__time">
               <ng-container *ngIf="this.timer.days">
                 <span>{{this.timer.days }}</span> {{this.timer.title_days}} :
               </ng-container>
@@ -66,6 +66,9 @@
                 {{this.timer?.title_hours}} :
               </ng-container>
               <span>{{this.timer.minutes}}</span> {{this.timer?.title_min}}
+            </h6>
+            <h6 *ngIf="timer.minutes <=  0" class="card__time">
+              Event Started
             </h6>
           </div>
           <h6
