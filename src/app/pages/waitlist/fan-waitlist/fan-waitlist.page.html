@@ -60,7 +60,13 @@
           <ng-container *ngIf="this.eventTime?.hours">
             {{this.eventTime?.hours }} {{this.eventTime?.title_hours}} :
           </ng-container>
-          {{this.eventTime?.minutes}} {{this.eventTime?.title_min}}
+          <!-- {{this.eventTime?.minutes}} {{this.eventTime?.title_min}} -->
+          <ng-container *ngIf="this.eventTime?.minutes > 0">
+            {{this.eventTime?.minutes}} {{this.eventTime?.title_min}}
+          </ng-container>
+          <ng-container *ngIf="this.eventTime?.minutes < 0">
+            few mins only
+          </ng-container>
         </p>
         <p *ngIf="!this.eventTime?.minutes">
           {{eventData?.athleteName | titlecase}} is <span>LIVE</span> For Next
