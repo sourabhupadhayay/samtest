@@ -37,19 +37,17 @@
       </video>
     </div>
     <div class="bottom-part">
-      
       <div class="slider-part">
-        <ion-slides  [options]="slideOpts" autoplay="400" speed="3000" >
-            <ion-slide  *ngFor="let sponsor of sponsorList">
-              <div class="slide">
-                <div class="img-box">
-                  <img src="{{sponsor.profileUrl | profile}}" />
-                </div>
-                <h5>{{sponsor?.fullName}}</h5>
+        <ion-slides [options]="slideOpts" autoplay="400" speed="3000">
+          <ion-slide *ngFor="let sponsor of sponsorList">
+            <div class="slide">
+              <div class="img-box">
+                <img src="{{sponsor.profileUrl | profile}}" />
               </div>
-            </ion-slide>
-            
-          </ion-slides>
+              <h5>{{sponsor?.fullName}}</h5>
+            </div>
+          </ion-slide>
+        </ion-slides>
       </div>
       <div class="live-green">
         <p *ngIf="this.eventTime?.minutes">
@@ -69,27 +67,40 @@
       </div>
       <div class="wait-part">
         <div class="head">
-          <h5 *ngIf="currentPosition !== 1">
-            {{currentPosition}} people in wait list ahead of you
-          </h5>
-          <p *ngIf="currentPosition == 1">
-            You are 1st in the wait list,<br />
-            Athlete will call you soon.
-          </p>
+          <ng-container *ngIf="connectedFanDetails?.bidState == 'PENDING'">
+            <h5 *ngIf="currentPosition !== 1">
+              {{currentPosition}} people in wait list ahead of you
+            </h5>
+            <p *ngIf="currentPosition == 1">
+              You are 1st in the wait list,<br />
+              Athlete will call you soon.
+            </p>
+          </ng-container>
         </div>
         <div class="head-red" hidden>
           <p>Unfortunately, call was not received</p>
         </div>
         <div class="content-part">
-          <p *ngIf="currentPosition !== 1">
-            Your approximate wait time is
-            <span>{{currentPosition * 3}}</span> minutes
-          </p>
-          <p>
-            Top Bid in the waitlist :
-            <span>${{connectedFans[0]?.totalAmount}}</span>
-          </p>
+          <ng-container *ngIf="connectedFanDetails?.bidState == 'PENDING'">
+            <p *ngIf="currentPosition !== 1">
+              Your approximate wait time is
+              <span>{{currentPosition * 3}}</span> minutes
+            </p>
+            <p>
+              Top Bid in the waitlist :
+              <span>${{connectedFanDetails?.totalAmount}}</span>
+            </p>
+          </ng-container>
+          <ng-container *ngIf="connectedFanDetails?.bidState !== 'PENDING'">
+            <p>
+              Your calling time is
+              <span
+                >{{commonService.secondsToHms(connectedFanDetails?.remainingTime)}}</span
+              >
 
+              wait for a while athlete may connect you again
+            </p>
+          </ng-container>
           <h4 hidden><span>Casey Rodgers</span> will connect with you soon</h4>
 
           <div class="bid-edit">
@@ -109,7 +120,7 @@
                 </ng-container>
                 <ion-label>
                   <h5>{{userData?.fullName}}</h5>
-                  <p>${{connectedFans[userIndex]?.totalAmount}}</p>
+                  <p>${{connectedFanDetails?.totalAmount}}</p>
                   <!-- <h5>Work in progress</h5> -->
                 </ion-label>
                 <img

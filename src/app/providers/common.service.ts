@@ -122,4 +122,19 @@ export class CommonService {
 
     return counter;
   }
+  secondsToHms(seconds: number) {
+    seconds = Number(seconds);
+
+    var m = Math.floor((seconds % 3600) / 60);
+    var s = Math.floor((seconds % 3600) % 60);
+
+    var mDisplay = m > 0 ? m + (m == 1 ? "" : "  ") : "0";
+    var sDisplay = s > 0 ? s + (s == 1 ? "" : "") : "0";
+
+    if (s < 10) {
+      sDisplay = "0" + sDisplay;
+    }
+
+    return `0${mDisplay}: ${sDisplay}s`;
+  }
 }

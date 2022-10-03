@@ -22,6 +22,8 @@ import { DataService, Request, Response } from "src/app/providers/data.service";
 export class FanWaitlistPage implements OnInit, OnDestroy {
   @Input() eventId: null | string = null;
   @Input() connectedFans: any[] = [];
+  @Input() calledFans: any[] = [];
+  @Input() pendingCallFans: any[] = [];
   userData;
   eventData;
   currentPosition: number = 0;
@@ -30,24 +32,25 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
   eventTime;
   userIndex: number = 0;
   interval;
-  sponsorList : any;
+  sponsorList: any;
+  connectedFanDetails = null;
 
-  slideOpts:any = {
+  slideOpts: any = {
     slidesPerView: 3,
     initialSlide: 1,
     speed: 400,
     // loop: true,
     autoplay: {
-          delay: 2000
-    }
-  }
-  
+      delay: 2000,
+    },
+  };
+
   constructor(
     private coreService: CoreService,
     private apiService: DataService,
     private router: Router,
     private constantService: ConstantService,
-    private commonService: CommonService,
+    public commonService: CommonService,
     private cd: ChangeDetectorRef,
     private constant: ConstantService
   ) {}
@@ -63,7 +66,6 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
       this.calculateUserPosition();
     }
   }
-
 
   getSponsor() {
     let request: Request = {
@@ -87,7 +89,7 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
     this.apiService.post(request).subscribe((response: Response) => {
       if (response.status.code == this.constant.STATUS_OK) {
         this.sponsorList = response.data;
-        console.log("sponsors ",this.sponsorList)
+        console.log("sponsors ", this.sponsorList);
       } else {
         this.coreService.showToastMessage(
           response["status"]["description"],
@@ -98,10 +100,20 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
   }
 
   calculateUserPosition() {
-    for (let index = 0; index < this.connectedFans.length; index++) {
-      if (this.connectedFans[index].userId == this.userData.id) {
+    //pending fans
+    for (let index = 0; index < this.pendingCallFans.length; index++) {
+      if (this.pendingCallFans[index].userId == this.userData.id) {
         this.userIndex = index;
         this.currentPosition = index + 1;
+
+        this.connectedFanDetails = this.pendingCallFans[index];
+      }
+    }
+    //completedFans
+    for (let index = 0; index < this.calledFans.length; index++) {
+      if (this.calledFans[index].userId == this.userData.id) {
+        this.userIndex = index;
+        this.connectedFanDetails = this.calledFans[index];
       }
     }
   }

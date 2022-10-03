@@ -25,16 +25,16 @@
     </ion-grid>
 
     <div class="slider-part">
-      <ion-slides  [options]="slideOpts" autoplay="400" speed="3000" >
-          <ion-slide  *ngFor="let athlete of athleteList">
-            <div class="slide">
-              <div class="img-box">
-                <img src="{{athlete.profileUrl | profile}}" />
-              </div>
-              <h5>{{athlete?.fullName}}</h5>
+      <ion-slides [options]="slideOpts" autoplay="400" speed="3000">
+        <ion-slide *ngFor="let athlete of athleteList">
+          <div class="slide">
+            <div class="img-box">
+              <img src="{{athlete.profileUrl | profile}}" />
             </div>
-          </ion-slide>
-          <!-- <ion-slide>
+            <h5>{{athlete?.fullName}}</h5>
+          </div>
+        </ion-slide>
+        <!-- <ion-slide>
             <div class="slide">
               <img src="assets/images/big-chicken.png" />
               <h5>Papa John's</h5>
@@ -64,7 +64,7 @@
               <h5>BIG Chicken</h5>
             </div>
           </ion-slide> -->
-        </ion-slides>
+      </ion-slides>
     </div>
     <div class="wait-part">
       <div class="head">
@@ -94,10 +94,10 @@
       </div>
 
       <div class="content-part">
-        <div *ngIf="completedCallFans" class="bid-list">
+        <div *ngIf="calledFans" class="bid-list">
           <!-- add class "top-call" in bg-white-box -->
           <div
-            *ngFor="let fan of completedCallFans;let i =index"
+            *ngFor="let fan of calledFans;let i =index"
             class="bg-white-box top-call"
           >
             <ion-item lines="none">
