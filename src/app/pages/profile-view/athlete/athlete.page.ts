@@ -35,6 +35,7 @@ export class AthletePage implements OnInit {
 
   ngOnInit() {
     this.getAthleteData();
+    this.getAppearanceData();
   }
 
   getAppearanceData() {
@@ -103,7 +104,7 @@ export class AthletePage implements OnInit {
             request.data.filter.eventState = "UPCOMING";
           }
 
-          this.coreService.presentLoader(this.constantService.WAIT);
+          // this.coreService.presentLoader(this.constantService.WAIT);
           return this.apiService.post(request);
         })
       )
