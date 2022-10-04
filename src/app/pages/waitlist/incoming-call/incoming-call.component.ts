@@ -99,10 +99,12 @@ export class IncomingCallComponent implements OnInit {
             this.router.navigate([
               "/tabs/schedule"
             ]);
-            this.core.showToastMessage(
-              "Ethlete is busy.He/She will connect after sometime",
-              this.core.TOAST_ERROR
-            );
+            // if(userRole =='fan') {
+            //   this.core.showToastMessage(
+            //     "Ethlete is busy.He/She will connect after sometime",
+            //     this.core.TOAST_ERROR
+            //   );
+            // }
           } else{
             console.log("no")
           }

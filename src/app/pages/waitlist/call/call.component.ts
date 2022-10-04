@@ -223,6 +223,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
         this.session.disconnect();
+        console.log("a ",this.isBiddingEvent,response.data.eventId)
         if (this.isBiddingEvent) {
           this.router.navigate(["/waitlist/event/" + response.data.eventId]);
         } else {
@@ -294,17 +295,20 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
           console.log("response ",responseData)
 
           if (
-            userDetails.id == this.commonService.callingAthleteDetails.userId
+            userDetails.id == this.commonService.callingAthleteDetails.athleteId
           ) {
+            console.log("b ",this.isBiddingEvent, responseData.eventId)
             if (this.isBiddingEvent) {
-              this.router.navigate(["/waitlist/event/" + responseData.eventId]);
+              this.router.navigate(["/waitlist/event/" + this.commonService.callingAthleteDetails.eventId]);
             } else {
               this.router.navigate(["tabs/schedule"]);
             }
-            this.core.showToastMessage(
-              "Fan is busy. Please connect after sometime",
-              this.core.TOAST_ERROR
-            );
+            // if(userRole =='athlete') {
+            //   this.core.showToastMessage(
+            //     "Fan is busy. Please connect after sometime",
+            //     this.core.TOAST_ERROR
+            //   );
+            // }
           } else{
             console.log("no")
           }
