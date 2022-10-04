@@ -313,7 +313,6 @@
               </ion-button>
               <ion-button
                 [disabled]="canJoinEvent()"
-                (click)="joinFanCall(cardData.id)"
                 *ngIf="cardData.creatorPersona == 'USER'  && cardData.eventType !== 'IN_PERSON'  "
                 size="small"
                 class="card__cta--green"

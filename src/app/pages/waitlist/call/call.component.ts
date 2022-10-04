@@ -48,6 +48,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   interval: any;
   id: string;
   bidId: string;
+  isBiddingEvent: boolean;
 
   constructor(
     private apiService: DataService,
@@ -72,8 +73,10 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
         this.router.navigate(["tabs/home"]);
       }
       if (params.isBidEvent === "true") {
+        this.isBiddingEvent = true;
         this.connectCall(true);
       } else {
+        this.isBiddingEvent = false;
         this.connectCall(false);
       }
     });
@@ -135,7 +138,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getSession() {
     this.session = initSession(this.apiKey, this.sessionId);
-    console.log(this.session);
+
     this.session.connect(this.token, (error) => {
       if (error) {
         console.log(error);
@@ -212,7 +215,11 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
         this.session.disconnect();
-        this.router.navigate(["/waitlist/event/" + response.data.eventId]);
+        if (this.isBiddingEvent) {
+          this.router.navigate(["/waitlist/event/" + response.data.eventId]);
+        } else {
+          this.router.navigate(["tabs/home"]);
+        }
       } else {
         this.coreService.showToastMessage(
           response.status.description,

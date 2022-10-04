@@ -41,7 +41,10 @@ export class IncomingCallComponent implements OnInit {
   joinCall() {
     this.router.navigate(["/waitlist/call/" + this.id], {
       queryParams: {
-        isBidEvent: true,
+        isBidEvent:
+          this.commonService.callingAthleteDetails.creatorPersona == "USER"
+            ? false
+            : true,
       },
     });
   }
