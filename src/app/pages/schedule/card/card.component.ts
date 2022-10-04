@@ -361,11 +361,19 @@ export class CardComponent implements OnInit {
       this.router.navigate(["bid-payment/" + id]);
     }
   }
-  athleteEvent(id){
+
+  joinFanCall(id: string) {
+    this.router.navigate(["waitlist/call/" + id], {
+      queryParams: {
+        isBidEvent: false,
+      },
+    });
+  }
+  athleteEvent(id: string) {
     this.router.navigate(["waitlist/event/" + id]);
   }
-  canAthleteJoinEvent(count){
-    if (count ==0) {
+  canAthleteJoinEvent(count) {
+    if (count == 0) {
       return true;
     }
   }

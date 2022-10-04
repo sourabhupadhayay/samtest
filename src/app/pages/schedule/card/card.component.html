@@ -253,6 +253,7 @@
               <ng-container *ngIf="cardData.creatorPersona == 'USER'    ">
                 <ion-button
                   *ngIf="cardData.eventType !== 'IN_PERSON' "
+                  (click)="joinFanCall(cardData.id)"
                   [disabled]="canJoinEvent()"
                   size="small"
                   class="card__cta--blue"

@@ -11,7 +11,7 @@ import { DataService, Request, Response } from "src/app/providers/data.service";
   styleUrls: ["./incoming-call.component.scss"],
 })
 export class IncomingCallComponent implements OnInit {
-  bidId: string;
+  id: string;
   nameInitials: string;
   constructor(
     private router: Router,
@@ -24,7 +24,7 @@ export class IncomingCallComponent implements OnInit {
 
   getBidIdFromRoute() {
     this.route.params.subscribe((params: Params) => {
-      this.bidId = params.id;
+      this.id = params.id;
     });
   }
 
@@ -39,7 +39,14 @@ export class IncomingCallComponent implements OnInit {
   }
 
   joinCall() {
-    this.router.navigate(["/waitlist/call/" + this.bidId]);
+    this.router.navigate(["/waitlist/call/" + this.id], {
+      queryParams: {
+        isBidEvent:
+          this.commonService.callingAthleteDetails.creatorPersona == "USER"
+            ? false
+            : true,
+      },
+    });
   }
   disconnectCall() {
     this.router.navigate(["/tabs/home"]);
