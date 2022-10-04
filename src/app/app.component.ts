@@ -55,6 +55,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.socketInit();
+    this.callingAthlete();
   }
 
   private socketInit() {
@@ -202,6 +203,7 @@ export class AppComponent implements OnInit, OnDestroy {
     if (userRole == "athlete") {
       return;
     }
+
     this.socket = Stomp.over(
       () => new SockJS(configuration.BASE_URL + "core/greeting")
     );
@@ -218,11 +220,21 @@ export class AppComponent implements OnInit, OnDestroy {
           this.commonService.callingAthleteDetails = JSON.parse(responseData);
 
           if (
-            userDetails.id == this.commonService.callingAthleteDetails.userId
+            userDetails.id !== this.commonService.callingAthleteDetails.userId
+          ) {
+            return;
+          }
+          if (
+            this.commonService.callingAthleteDetails.creatorPersona !== "USER"
           ) {
             this.router.navigate([
               "/waitlist/incoming-call/" +
                 this.commonService.callingAthleteDetails.id,
+            ]);
+          } else {
+            this.router.navigate([
+              "/waitlist/incoming-call/" +
+                this.commonService.callingAthleteDetails.eventId,
             ]);
           }
         });

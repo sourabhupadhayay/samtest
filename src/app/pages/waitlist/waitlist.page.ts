@@ -19,7 +19,7 @@ export class WaitlistPage implements OnInit {
   connectedFans: any[] = [];
   socket: any;
   pendingCallFans: any[] = [];
-  completedCallFans: any[] = [];
+  calledFans: any[] = [];
   constructor(
     private coreService: CoreService,
     private route: ActivatedRoute,
@@ -33,7 +33,6 @@ export class WaitlistPage implements OnInit {
   }
 
   getConnectedFans() {
-    this.coreService.presentLoader(this.constantService.WAIT);
     this.socket = Stomp.over(
       () => new SockJS(configuration.BASE_URL + "core/greeting")
     );
@@ -49,9 +48,12 @@ export class WaitlistPage implements OnInit {
         this.send();
 
         this.socket.subscribe("/topic/bidList", (message) => {
-          this.coreService.dismissLoader();
           let data = JSON.parse(message.body);
           let contentData = JSON.parse(data.content);
+
+          if (contentData.eventId !== this.eventId) {
+            return;
+          }
 
           if (contentData.bidState == "PENDING") {
             this.filterAndSortPendingFans(contentData);
@@ -61,12 +63,15 @@ export class WaitlistPage implements OnInit {
           ) {
             this.filterAndSortCompletedFans(contentData);
           }
-          this.connectedFans.push(contentData);
+          if (contentData.bidState !== "COMPLETED") {
+            this.connectedFans.push(contentData);
 
-          this.connectedFans = this.getUniqueListBy(
-            this.connectedFans,
-            "userId"
-          );
+            this.connectedFans = this.getUniqueListBy(
+              this.connectedFans,
+              "userId"
+            );
+          }
+
           // that.connectedFans.sort((a, b) => {
           //   return b.totalAmount - a.totalAmount;
           // });
@@ -90,12 +95,9 @@ export class WaitlistPage implements OnInit {
     });
   }
   filterAndSortCompletedFans(fanData: any) {
-    this.completedCallFans.push(fanData);
+    this.calledFans.push(fanData);
 
-    this.completedCallFans = this.getUniqueListBy(
-      this.completedCallFans,
-      "userId"
-    );
+    this.calledFans = this.getUniqueListBy(this.calledFans, "userId");
   }
 
   send() {

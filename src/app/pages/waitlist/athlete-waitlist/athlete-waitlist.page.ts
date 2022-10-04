@@ -22,7 +22,7 @@ export class AthleteWaitlistPage implements OnInit, DoCheck {
   @Input() eventId: string;
   @Input() connectedFans: any[] = [];
   @Input() pendingCallFans: any[] = [];
-  @Input() completedCallFans: any[] = [];
+  @Input() calledFans: any[] = [];
 
   fanImagesList: any[] = [];
   athleteList: any;
@@ -108,7 +108,11 @@ export class AthleteWaitlistPage implements OnInit, DoCheck {
   }
 
   callFan(id: string) {
-    this.router.navigate(["waitlist/call/" + id]);
+    this.router.navigate(["waitlist/call/" + id], {
+      queryParams: {
+        isBidEvent: true,
+      },
+    });
   }
   // compare_bid(a, b) {
   //   if (a.bid > b.bid) {

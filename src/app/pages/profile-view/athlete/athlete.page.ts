@@ -16,7 +16,7 @@ import { CommonService } from "../../../providers/common.service";
 })
 export class AthletePage implements OnInit {
   athleteData: any | null = null;
-  selectedIndex: string = "profile";
+  selectedIndex: string = "appearances";
   scheduleData: any[] = [];
   eventFilter: "past" | "upcoming" | "All" = "All";
   nameInitials: string;
@@ -35,6 +35,7 @@ export class AthletePage implements OnInit {
 
   ngOnInit() {
     this.getAthleteData();
+    this.getAppearanceData();
   }
 
   getAppearanceData() {
@@ -103,7 +104,7 @@ export class AthletePage implements OnInit {
             request.data.filter.eventState = "UPCOMING";
           }
 
-          this.coreService.presentLoader(this.constantService.WAIT);
+          // this.coreService.presentLoader(this.constantService.WAIT);
           return this.apiService.post(request);
         })
       )

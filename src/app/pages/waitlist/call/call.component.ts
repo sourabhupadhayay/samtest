@@ -15,7 +15,7 @@ import {
   Session,
   Subscriber,
 } from "@opentok/client";
-// import { Socket } from "ngx-socket-io";
+
 import {
   CoreService,
   userRole,
@@ -25,6 +25,10 @@ import { DataService, Request, Response } from "src/app/providers/data.service";
 import { switchMap } from "rxjs/operators";
 import { ConstantService } from "src/app/providers/constant.service";
 import { KeepAwake } from "@capacitor-community/keep-awake";
+import { Stomp } from "@stomp/stompjs";
+import * as SockJS from "sockjs-client";
+import { configuration } from "src/app/configuration";
+import { CommonService } from "src/app/providers/common.service";
 
 @Component({
   selector: "app-call",
@@ -46,7 +50,10 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   token: string;
   timeLeft: number;
   interval: any;
+  id: string;
   bidId: string;
+  isBiddingEvent: boolean;
+  socket:any;
 
   constructor(
     private apiService: DataService,
@@ -54,11 +61,40 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef,
-    private constantService: ConstantService
+    private constantService: ConstantService,
+    private core: CoreService,
+    public commonService: CommonService,
   ) {}
 
   ngOnInit() {
     this.keepDeviceAwake();
+    this.callDisconnectSocket();
+  }
+
+  ngAfterViewInit(): void {
+    this.getUserDataAndRole();
+  }
+
+  getQueryParams() {
+    this.route.queryParams.subscribe((params) => {
+      if (!params.isBidEvent) {
+        this.router.navigate(["tabs/home"]);
+      }
+      if (params.isBidEvent === "true") {
+        this.isBiddingEvent = true;
+        this.connectCall(true);
+      } else {
+        this.isBiddingEvent = false;
+        this.connectCall(false);
+      }
+    });
+  }
+
+  async getUserDataAndRole() {
+    this.userRole = await this.coreService.getUserRoleFromStorage();
+    this.userData = await this.coreService.getUserDataFromStorage();
+    this.getQueryParams();
+    // this.connectCall();
   }
 
   async keepDeviceAwake() {
@@ -73,7 +109,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.route.paramMap
       .pipe(
         switchMap((params: ParamMap) => {
-          this.bidId = params.get("id");
+          this.id = params.get("id");
           let request: Request = {
             path: path + params.get("id"),
           };
@@ -81,34 +117,36 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
         })
       )
       .subscribe((response) => {
-        this.sessionId = response.data.sessionId;
-        this.token = response.data.token;
-        this.timeLeft = response.data.remainingTime;
-        this.getSession();
+        if (response.status.code === this.constantService.STATUS_OK) {
+          this.sessionId = response.data.sessionId;
+          this.token = response.data.token;
+          this.timeLeft = response.data.remainingTime;
+          this.bidId = response.data.bidId;
+          this.getSession();
+        } else {
+          this.coreService.showToastMessage(
+            response.status.description,
+            this.coreService.TOAST_ERROR
+          );
+        }
       });
   }
 
-  ngAfterViewInit(): void {
-    this.getUserDataAndRole();
-  }
-
-  connectCall() {
-    if (this.userRole == "athlete") {
-      this.getVideoSessionAndToken("core/video/call/");
+  connectCall(isBiddingEvent: boolean) {
+    if (isBiddingEvent) {
+      if (this.userRole == "athlete") {
+        this.getVideoSessionAndToken("core/video/call/");
+      } else {
+        this.getVideoSessionAndToken("core/video/receive/");
+      }
     } else {
-      this.getVideoSessionAndToken("core/video/receive/");
+      this.getVideoSessionAndToken("core/video/call/now/");
     }
-  }
-
-  async getUserDataAndRole() {
-    this.userRole = await this.coreService.getUserRoleFromStorage();
-    this.userData = await this.coreService.getUserDataFromStorage();
-    this.connectCall();
   }
 
   getSession() {
     this.session = initSession(this.apiKey, this.sessionId);
-    console.log(this.session);
+
     this.session.connect(this.token, (error) => {
       if (error) {
         console.log(error);
@@ -185,7 +223,12 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
         this.session.disconnect();
-        this.router.navigate(["/waitlist/event/" + response.data.eventId]);
+        console.log("a ",this.isBiddingEvent,response.data.eventId)
+        if (this.isBiddingEvent) {
+          this.router.navigate(["/waitlist/event/" + response.data.eventId]);
+        } else {
+          this.router.navigate(["tabs/home"]);
+        }
       } else {
         this.coreService.showToastMessage(
           response.status.description,
@@ -227,6 +270,61 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   stopTimer() {
     clearInterval(this.interval);
+  }
+
+
+  async callDisconnectSocket() {
+    console.log("called")
+    let userRole: userRole = await this.core.getUserRoleFromStorage();
+    let userDetails = await this.core.getUserDataFromStorage();
+
+    this.socket = Stomp.over(
+      () => new SockJS(configuration.BASE_URL + "core/greeting")
+    );
+    this.socket.reconnect_delay = 5000;
+    this.socket.connect(
+      {},
+      (frame) => {
+        this.socket.subscribe("/errors", (message) => {
+          alert("Error " + message.body);
+        });
+        this.sendCutVideo(userDetails["id"]);
+        this.socket.subscribe("/topic/cancelCall", (message) => {
+          let responseData = JSON.parse(message.body).content;
+          this.commonService.callingAthleteDetails = JSON.parse(responseData);
+          console.log("response ",responseData)
+
+          if (
+            userDetails.id == this.commonService.callingAthleteDetails.athleteId
+          ) {
+            console.log("b ",this.isBiddingEvent, responseData.eventId)
+            if (this.isBiddingEvent) {
+              this.router.navigate(["/waitlist/event/" + this.commonService.callingAthleteDetails.eventId]);
+            } else {
+              this.router.navigate(["tabs/schedule"]);
+            }
+            // if(userRole =='athlete') {
+            //   this.core.showToastMessage(
+            //     "Fan is busy. Please connect after sometime",
+            //     this.core.TOAST_ERROR
+            //   );
+            // }
+          } else{
+            console.log("no")
+          }
+        });
+      },
+      function (error) {
+        console.log("STOMP error " + error);
+      }
+    );
+  }
+  
+  sendCutVideo(id) {
+    let data = JSON.stringify({
+      userId: id,
+    });
+    this.socket.send("/app/cancelVideo", {}, data);
   }
 
   ngOnDestroy(): void {
