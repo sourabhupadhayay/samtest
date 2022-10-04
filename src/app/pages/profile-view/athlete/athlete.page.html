@@ -53,11 +53,12 @@
         (ngModelChange)="getAppearanceData()"
         mode="ios"
       >
-        <ion-segment-button value="profile">
-          <ion-label>Profile</ion-label>
-        </ion-segment-button>
+        
         <ion-segment-button value="appearances">
           <ion-label>Appearances</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="profile">
+          <ion-label>Profile</ion-label>
         </ion-segment-button>
       </ion-segment>
     </ion-grid>
@@ -156,7 +157,7 @@
   </ion-grid>
 </ion-content>
 
-<ion-footer mode="ios" *ngIf="selectedIndex == 'profile'">
+<!-- <ion-footer mode="ios" *ngIf="selectedIndex == 'profile'">
   <ion-toolbar mode="ios">
     <div *ngIf="latestAthleteEvent" class="footer-part">
       <div class="highest-bid">
@@ -210,7 +211,7 @@
       </div>
     </div>
   </ion-toolbar>
-</ion-footer>
+</ion-footer> -->
 
 <!-- <div class="bid-submitted">
         <ion-item lines="none">

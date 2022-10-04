@@ -16,7 +16,7 @@ import { CommonService } from "../../../providers/common.service";
 })
 export class AthletePage implements OnInit {
   athleteData: any | null = null;
-  selectedIndex: string = "profile";
+  selectedIndex: string = "appearances";
   scheduleData: any[] = [];
   eventFilter: "past" | "upcoming" | "All" = "All";
   nameInitials: string;

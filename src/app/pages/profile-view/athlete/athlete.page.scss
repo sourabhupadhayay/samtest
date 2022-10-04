@@ -224,12 +224,13 @@ ion-content {
         }
       }
     }
-    .details-part {margin-top: 60px;
+    .details-part {margin-top: 70px;
       padding: 10px 15px;
       background: rgba(var(--white-bg-rgb), 0.7);
       border-radius: 8px;
       // max-height: 320px;
-      max-height: 38vh;
+      // max-height: 38vh;
+      max-height: calc(100vh - 341px);
       overflow: auto;
       box-shadow: 0 -2px 2px var(--white-clr);
       margin-bottom: 15px;
