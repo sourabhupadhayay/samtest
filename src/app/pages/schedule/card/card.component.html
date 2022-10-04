@@ -312,6 +312,7 @@
                 <p *ngIf="cardData.bidSubmitted">Go</p>
               </ion-button>
               <ion-button
+                (click)="presentAlert() "
                 [disabled]="canJoinEvent()"
                 *ngIf="cardData.creatorPersona == 'USER'  && cardData.eventType !== 'IN_PERSON'  "
                 size="small"
