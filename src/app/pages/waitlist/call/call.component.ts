@@ -15,7 +15,7 @@ import {
   Session,
   Subscriber,
 } from "@opentok/client";
-// import { Socket } from "ngx-socket-io";
+
 import {
   CoreService,
   userRole,
@@ -46,6 +46,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   token: string;
   timeLeft: number;
   interval: any;
+  id: string;
   bidId: string;
 
   constructor(
@@ -61,6 +62,30 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.keepDeviceAwake();
   }
 
+  ngAfterViewInit(): void {
+    this.getUserDataAndRole();
+  }
+
+  getQueryParams() {
+    this.route.queryParams.subscribe((params) => {
+      if (!params.isBidEvent) {
+        this.router.navigate(["tabs/home"]);
+      }
+      if (params.isBidEvent === "true") {
+        this.connectCall(true);
+      } else {
+        this.connectCall(false);
+      }
+    });
+  }
+
+  async getUserDataAndRole() {
+    this.userRole = await this.coreService.getUserRoleFromStorage();
+    this.userData = await this.coreService.getUserDataFromStorage();
+    this.getQueryParams();
+    // this.connectCall();
+  }
+
   async keepDeviceAwake() {
     KeepAwake.keepAwake();
   }
@@ -73,7 +98,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.route.paramMap
       .pipe(
         switchMap((params: ParamMap) => {
-          this.bidId = params.get("id");
+          this.id = params.get("id");
           let request: Request = {
             path: path + params.get("id"),
           };
@@ -81,29 +106,31 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
         })
       )
       .subscribe((response) => {
-        this.sessionId = response.data.sessionId;
-        this.token = response.data.token;
-        this.timeLeft = response.data.remainingTime;
-        this.getSession();
+        if (response.status.code === this.constantService.STATUS_OK) {
+          this.sessionId = response.data.sessionId;
+          this.token = response.data.token;
+          this.timeLeft = response.data.remainingTime;
+          this.bidId = response.data.bidId;
+          this.getSession();
+        } else {
+          this.coreService.showToastMessage(
+            response.status.description,
+            this.coreService.TOAST_ERROR
+          );
+        }
       });
   }
 
-  ngAfterViewInit(): void {
-    this.getUserDataAndRole();
-  }
-
-  connectCall() {
-    if (this.userRole == "athlete") {
-      this.getVideoSessionAndToken("core/video/call/");
+  connectCall(isBiddingEvent: boolean) {
+    if (isBiddingEvent) {
+      if (this.userRole == "athlete") {
+        this.getVideoSessionAndToken("core/video/call/");
+      } else {
+        this.getVideoSessionAndToken("core/video/receive/");
+      }
     } else {
-      this.getVideoSessionAndToken("core/video/receive/");
+      this.getVideoSessionAndToken("core/video/call/now/");
     }
-  }
-
-  async getUserDataAndRole() {
-    this.userRole = await this.coreService.getUserRoleFromStorage();
-    this.userData = await this.coreService.getUserDataFromStorage();
-    this.connectCall();
   }
 
   getSession() {

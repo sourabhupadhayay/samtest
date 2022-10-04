@@ -71,8 +71,6 @@ export class WaitlistPage implements OnInit {
               "userId"
             );
           }
-          console.log(this.pendingCallFans, "pending");
-          console.log(this.calledFans, "completed");
 
           // that.connectedFans.sort((a, b) => {
           //   return b.totalAmount - a.totalAmount;

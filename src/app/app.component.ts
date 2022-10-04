@@ -55,6 +55,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.socketInit();
+    this.callingAthlete();
   }
 
   private socketInit() {
@@ -202,6 +203,7 @@ export class AppComponent implements OnInit, OnDestroy {
     if (userRole == "athlete") {
       return;
     }
+
     this.socket = Stomp.over(
       () => new SockJS(configuration.BASE_URL + "core/greeting")
     );
