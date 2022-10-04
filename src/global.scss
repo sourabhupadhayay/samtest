@@ -529,7 +529,7 @@ schedule-card {
     margin: auto 0 auto auto;
     contain: inherit !important;
   }
-  ion-loading{width: 50%; right: 0; margin: auto; margin-right: 0;}
+  ion-loading, ion-action-sheet{width: 50%; right: 0; margin: auto; margin-right: 0;}
   app-tabs {
     width: 100%;
     ion-router-outlet {

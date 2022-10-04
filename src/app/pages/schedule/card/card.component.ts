@@ -100,8 +100,8 @@ export class CardComponent implements OnInit {
   }
   async presentAlert() {
     const alert = await this.alertController.create({
-      header: "Coming soon",
-      message: "This feature is coming soon stay tuned",
+      header: "Calling soon",
+      message: "Athlete will call you soon",
       buttons: ["OK"],
     });
 
@@ -372,6 +372,7 @@ export class CardComponent implements OnInit {
   athleteEvent(id: string) {
     this.router.navigate(["waitlist/event/" + id]);
   }
+
   canAthleteJoinEvent(count) {
     if (count == 0) {
       return true;
