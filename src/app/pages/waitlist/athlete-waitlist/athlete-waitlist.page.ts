@@ -22,7 +22,7 @@ export class AthleteWaitlistPage implements OnInit, DoCheck {
   @Input() eventId: string;
   @Input() connectedFans: any[] = [];
   @Input() pendingCallFans: any[] = [];
-  @Input() completedCallFans: any[] = [];
+  @Input() calledFans: any[] = [];
 
   fanImagesList: any[] = [];
   athleteList: any;
