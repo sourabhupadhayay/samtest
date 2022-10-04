@@ -254,7 +254,6 @@
                 <ion-button
                   *ngIf="cardData.eventType !== 'IN_PERSON' "
                   (click)="joinFanCall(cardData.id)"
-                  [disabled]="canJoinEvent()"
                   size="small"
                   class="card__cta--blue"
                 >
@@ -312,6 +311,7 @@
                 <p *ngIf="cardData.bidSubmitted">Go</p>
               </ion-button>
               <ion-button
+                (click)="presentAlert() "
                 [disabled]="canJoinEvent()"
                 *ngIf="cardData.creatorPersona == 'USER'  && cardData.eventType !== 'IN_PERSON'  "
                 size="small"
