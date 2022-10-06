@@ -66,6 +66,7 @@ ion-content {
     img {
       height: 100%;
       width: 100%;
+      &.cover-img{object-fit: cover;}
     }
   }
 
