@@ -17,7 +17,7 @@
     <img
       *ngIf="commonService.callingAthleteDetails?.athleteProfilePicture !==''"
       [src]="commonService.callingAthleteDetails?.athleteProfilePicture | profile"
-      alt=""
+      alt="" class="cover-img"
     />
     <div
       *ngIf="commonService.callingAthleteDetails?.athleteProfilePicture  ==''"

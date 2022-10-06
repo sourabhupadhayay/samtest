@@ -128,6 +128,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
             response.status.description,
             this.coreService.TOAST_ERROR
           );
+          this.router.navigate(["tabs/schedule"]);
         }
       });
   }
@@ -217,23 +218,22 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       isAuth: true,
     };
-    this.coreService.presentLoader(this.constantService.WAIT);
 
     this.apiService.post(request).subscribe((response: Response) => {
-      this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
         this.session.disconnect();
         console.log("a ",this.isBiddingEvent,response.data.eventId)
         if (this.isBiddingEvent) {
           this.router.navigate(["/waitlist/event/" + response.data.eventId]);
         } else {
-          this.router.navigate(["tabs/home"]);
+          this.router.navigate(["tabs/schedule"]);
         }
       } else {
         this.coreService.showToastMessage(
           response.status.description,
           this.coreService.TOAST_ERROR
         );
+        this.router.navigate(["tabs/schedule"]);
       }
     });
   }
@@ -319,7 +319,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     );
   }
-  
+
   sendCutVideo(id) {
     let data = JSON.stringify({
       userId: id,

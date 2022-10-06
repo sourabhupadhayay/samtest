@@ -1,5 +1,5 @@
 ion-content {
-  --background: url(../../../../assets/images/video-bg.png);
+  // --background: url(../../../../assets/images/video-bg.png);
   --box-shadow: 0px -6px 7px #2d94c9;
   position: relative;
   .top-card {
@@ -302,7 +302,7 @@ ion-content {
     width: 100%;
     z-index: 2;
     height: 100%;
-    background: rgba(var(--theme-one-bg-rgb), 0.6);
+    background: rgba(var(--theme-one-bg-rgb), 0.4);
   }
 }
 .initials {
