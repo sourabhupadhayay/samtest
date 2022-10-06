@@ -25,6 +25,10 @@ import { DataService, Request, Response } from "src/app/providers/data.service";
 import { switchMap } from "rxjs/operators";
 import { ConstantService } from "src/app/providers/constant.service";
 import { KeepAwake } from "@capacitor-community/keep-awake";
+import { Stomp } from "@stomp/stompjs";
+import * as SockJS from "sockjs-client";
+import { configuration } from "src/app/configuration";
+import { CommonService } from "src/app/providers/common.service";
 
 @Component({
   selector: "app-call",
@@ -49,6 +53,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   id: string;
   bidId: string;
   isBiddingEvent: boolean;
+  socket:any;
 
   constructor(
     private apiService: DataService,
@@ -56,11 +61,14 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef,
-    private constantService: ConstantService
+    private constantService: ConstantService,
+    private core: CoreService,
+    public commonService: CommonService,
   ) {}
 
   ngOnInit() {
     this.keepDeviceAwake();
+    this.callDisconnectSocket();
   }
 
   ngAfterViewInit(): void {
@@ -120,6 +128,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
             response.status.description,
             this.coreService.TOAST_ERROR
           );
+          this.router.navigate(["tabs/schedule"]);
         }
       });
   }
@@ -209,22 +218,22 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       isAuth: true,
     };
-    this.coreService.presentLoader(this.constantService.WAIT);
 
     this.apiService.post(request).subscribe((response: Response) => {
-      this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
         this.session.disconnect();
+        console.log("a ",this.isBiddingEvent,response.data.eventId)
         if (this.isBiddingEvent) {
           this.router.navigate(["/waitlist/event/" + response.data.eventId]);
         } else {
-          this.router.navigate(["tabs/home"]);
+          this.router.navigate(["tabs/schedule"]);
         }
       } else {
         this.coreService.showToastMessage(
           response.status.description,
           this.coreService.TOAST_ERROR
         );
+        this.router.navigate(["tabs/schedule"]);
       }
     });
   }
@@ -261,6 +270,61 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   stopTimer() {
     clearInterval(this.interval);
+  }
+
+
+  async callDisconnectSocket() {
+    console.log("called")
+    let userRole: userRole = await this.core.getUserRoleFromStorage();
+    let userDetails = await this.core.getUserDataFromStorage();
+
+    this.socket = Stomp.over(
+      () => new SockJS(configuration.BASE_URL + "core/greeting")
+    );
+    this.socket.reconnect_delay = 5000;
+    this.socket.connect(
+      {},
+      (frame) => {
+        this.socket.subscribe("/errors", (message) => {
+          alert("Error " + message.body);
+        });
+        this.sendCutVideo(userDetails["id"]);
+        this.socket.subscribe("/topic/cancelCall", (message) => {
+          let responseData = JSON.parse(message.body).content;
+          this.commonService.callingAthleteDetails = JSON.parse(responseData);
+          console.log("response ",responseData)
+
+          if (
+            userDetails.id == this.commonService.callingAthleteDetails.athleteId
+          ) {
+            console.log("b ",this.isBiddingEvent, responseData.eventId)
+            if (this.isBiddingEvent) {
+              this.router.navigate(["/waitlist/event/" + this.commonService.callingAthleteDetails.eventId]);
+            } else {
+              this.router.navigate(["tabs/schedule"]);
+            }
+            // if(userRole =='athlete') {
+            //   this.core.showToastMessage(
+            //     "Fan is busy. Please connect after sometime",
+            //     this.core.TOAST_ERROR
+            //   );
+            // }
+          } else{
+            console.log("no")
+          }
+        });
+      },
+      function (error) {
+        console.log("STOMP error " + error);
+      }
+    );
+  }
+
+  sendCutVideo(id) {
+    let data = JSON.stringify({
+      userId: id,
+    });
+    this.socket.send("/app/cancelVideo", {}, data);
   }
 
   ngOnDestroy(): void {

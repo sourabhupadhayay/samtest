@@ -1,9 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router, Params } from "@angular/router";
+import { configuration } from "src/app/configuration";
 import { CommonService } from "src/app/providers/common.service";
 import { ConstantService } from "src/app/providers/constant.service";
-import { CoreService } from "src/app/providers/core.service";
+import { CoreService ,userRole} from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
+import { Stomp } from "@stomp/stompjs";
+import * as SockJS from "sockjs-client";
 
 @Component({
   selector: "app-incoming-call",
@@ -13,13 +16,15 @@ import { DataService, Request, Response } from "src/app/providers/data.service";
 export class IncomingCallComponent implements OnInit {
   id: string;
   nameInitials: string;
+  socket:any;
   constructor(
     private router: Router,
     public commonService: CommonService,
     private route: ActivatedRoute,
     private apiService: DataService,
     private constantService: ConstantService,
-    private coreService: CoreService
+    private coreService: CoreService,
+    private core: CoreService,
   ) {}
 
   getBidIdFromRoute() {
@@ -36,6 +41,7 @@ export class IncomingCallComponent implements OnInit {
     if (!this.commonService.callingAthleteDetails) {
       this.router.navigate(["/tabs/home"]);
     }
+    this.callDisconnectSocket();
   }
 
   joinCall() {
@@ -49,6 +55,73 @@ export class IncomingCallComponent implements OnInit {
     });
   }
   disconnectCall() {
-    this.router.navigate(["/tabs/home"]);
+    console.log("details ", this.commonService.callingAthleteDetails.remainingTime)
+      let request: Request = {
+        path: "core/video/updateCall/" + this.id,
+        data: {
+          remainingTime: this.commonService.callingAthleteDetails.remainingTime,
+        },
+        isAuth: true,
+      };
+      this.coreService.presentLoader(this.constantService.WAIT);
+  
+      this.apiService.post(request).subscribe((response: Response) => {
+        this.coreService.dismissLoader();
+      });
+ 
+    this.router.navigate(["/tabs/schedule"]);
+  }
+
+  async callDisconnectSocket() {
+    console.log("called")
+    let userRole: userRole = await this.core.getUserRoleFromStorage();
+    let userDetails = await this.core.getUserDataFromStorage();
+
+    this.socket = Stomp.over(
+      () => new SockJS(configuration.BASE_URL + "core/greeting")
+    );
+    this.socket.reconnect_delay = 5000;
+    this.socket.connect(
+      {},
+      (frame) => {
+        this.socket.subscribe("/errors", (message) => {
+          alert("Error " + message.body);
+        });
+        this.sendCutVideo(userDetails["id"]);
+        this.socket.subscribe("/topic/cancelCall", (message) => {
+          let responseData = JSON.parse(message.body).content;
+          this.commonService.callingAthleteDetails = JSON.parse(responseData);
+          console.log("response ",responseData)
+
+          if (
+            userDetails.id == this.commonService.callingAthleteDetails.userId
+          ) {
+            this.router.navigate([
+              "/tabs/schedule"
+            ]);
+            // if(userRole =='fan') {
+            //   this.core.showToastMessage(
+            //     "Ethlete is busy.He/She will connect after sometime",
+            //     this.core.TOAST_ERROR
+            //   );
+            // }
+          } else{
+            console.log("no")
+          }
+        });
+      },
+      function (error) {
+        console.log("STOMP error " + error);
+      }
+    );
+  }
+  
+  sendCutVideo(id) {
+    let data = JSON.stringify({
+      userId: id,
+    });
+    this.socket.send("/app/cancelVideo", {}, data);
   }
 }
+
+
