@@ -1,22 +1,23 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Router, Params } from "@angular/router";
 import { configuration } from "src/app/configuration";
 import { CommonService } from "src/app/providers/common.service";
 import { ConstantService } from "src/app/providers/constant.service";
-import { CoreService ,userRole} from "src/app/providers/core.service";
+import { CoreService, userRole } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { Stomp } from "@stomp/stompjs";
 import * as SockJS from "sockjs-client";
-
+import { NativeAudio } from "@capacitor-community/native-audio";
+import { Platform } from "@ionic/angular";
 @Component({
   selector: "app-incoming-call",
   templateUrl: "./incoming-call.component.html",
   styleUrls: ["./incoming-call.component.scss"],
 })
-export class IncomingCallComponent implements OnInit {
+export class IncomingCallComponent implements OnInit, OnDestroy {
   id: string;
   nameInitials: string;
-  socket:any;
+  socket: any;
   constructor(
     private router: Router,
     public commonService: CommonService,
@@ -25,6 +26,7 @@ export class IncomingCallComponent implements OnInit {
     private constantService: ConstantService,
     private coreService: CoreService,
     private core: CoreService,
+    private platform: Platform
   ) {}
 
   getBidIdFromRoute() {
@@ -34,14 +36,44 @@ export class IncomingCallComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.nameInitials = this.commonService.getInitials(
-      this.commonService.callingAthleteDetails.athleteName
-    );
-    this.getBidIdFromRoute();
     if (!this.commonService.callingAthleteDetails) {
       this.router.navigate(["/tabs/home"]);
     }
+    this.getInitials();
+    this.getBidIdFromRoute();
     this.callDisconnectSocket();
+    this.loadAndPlayRingtone();
+  }
+
+  loadAndPlayRingtone() {
+    let audioConfig = {
+      assetId: "discord",
+      assetPath: "public/assets/sounds/Discord.mp3",
+      audioChannelNum: 1,
+      volume: 1.0,
+      isUrl: false,
+    };
+    if (this.platform.is("android")) {
+      audioConfig.assetPath = "public/assets/sounds/Discord.mp3";
+    } else {
+      audioConfig.assetPath = "Discord.mp3";
+    }
+
+    NativeAudio.preload(audioConfig).then((value) => {
+      NativeAudio.play({
+        assetId: "discord",
+        time: 0,
+      });
+      NativeAudio.loop({
+        assetId: "discord",
+      });
+    });
+  }
+
+  getInitials() {
+    this.nameInitials = this.commonService.getInitials(
+      this.commonService.callingAthleteDetails.athleteName
+    );
   }
 
   joinCall() {
@@ -55,25 +87,28 @@ export class IncomingCallComponent implements OnInit {
     });
   }
   disconnectCall() {
-    console.log("details ", this.commonService.callingAthleteDetails.remainingTime)
-      let request: Request = {
-        path: "core/video/updateCall/" + this.id,
-        data: {
-          remainingTime: this.commonService.callingAthleteDetails.remainingTime,
-        },
-        isAuth: true,
-      };
-      this.coreService.presentLoader(this.constantService.WAIT);
-  
-      this.apiService.post(request).subscribe((response: Response) => {
-        this.coreService.dismissLoader();
-      });
- 
+    console.log(
+      "details ",
+      this.commonService.callingAthleteDetails.remainingTime
+    );
+    let request: Request = {
+      path: "core/video/updateCall/" + this.id,
+      data: {
+        remainingTime: this.commonService.callingAthleteDetails.remainingTime,
+      },
+      isAuth: true,
+    };
+    this.coreService.presentLoader(this.constantService.WAIT);
+
+    this.apiService.post(request).subscribe((response: Response) => {
+      this.coreService.dismissLoader();
+    });
+
     this.router.navigate(["/tabs/schedule"]);
   }
 
   async callDisconnectSocket() {
-    console.log("called")
+    console.log("called");
     let userRole: userRole = await this.core.getUserRoleFromStorage();
     let userDetails = await this.core.getUserDataFromStorage();
 
@@ -91,22 +126,20 @@ export class IncomingCallComponent implements OnInit {
         this.socket.subscribe("/topic/cancelCall", (message) => {
           let responseData = JSON.parse(message.body).content;
           this.commonService.callingAthleteDetails = JSON.parse(responseData);
-          console.log("response ",responseData)
+          console.log("response ", responseData);
 
           if (
             userDetails.id == this.commonService.callingAthleteDetails.userId
           ) {
-            this.router.navigate([
-              "/tabs/schedule"
-            ]);
+            this.router.navigate(["/tabs/schedule"]);
             // if(userRole =='fan') {
             //   this.core.showToastMessage(
             //     "Ethlete is busy.He/She will connect after sometime",
             //     this.core.TOAST_ERROR
             //   );
             // }
-          } else{
-            console.log("no")
+          } else {
+            console.log("no");
           }
         });
       },
@@ -115,13 +148,16 @@ export class IncomingCallComponent implements OnInit {
       }
     );
   }
-  
+
   sendCutVideo(id) {
     let data = JSON.stringify({
       userId: id,
     });
     this.socket.send("/app/cancelVideo", {}, data);
   }
+  ngOnDestroy(): void {
+    NativeAudio.stop({
+      assetId: "discord",
+    });
+  }
 }
-
-
