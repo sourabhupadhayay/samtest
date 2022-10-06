@@ -31,7 +31,7 @@
         playsinline
       >
         <source src="../../../../assets/video/papa-johns-fvideo.mp4" />
-        
+
         <p class="warning">Your browser does not support HTML5 video.</p>
       </video>
     </div>
@@ -62,7 +62,7 @@
             {{this.eventTime?.minutes}} {{this.eventTime?.title_min}}
           </ng-container>
           <ng-container *ngIf="this.eventTime?.minutes < 0">
-            few mins only
+            few mins
           </ng-container>
         </p>
         <p *ngIf="!this.eventTime?.minutes">
