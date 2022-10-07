@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Router, Params } from "@angular/router";
 import { configuration } from "src/app/configuration";
 import { CommonService } from "src/app/providers/common.service";
@@ -7,13 +7,14 @@ import { CoreService, userRole } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { Stomp } from "@stomp/stompjs";
 import * as SockJS from "sockjs-client";
-
+import { NativeAudio } from "@capacitor-community/native-audio";
+import { Platform } from "@ionic/angular";
 @Component({
   selector: "app-incoming-call",
   templateUrl: "./incoming-call.component.html",
   styleUrls: ["./incoming-call.component.scss"],
 })
-export class IncomingCallComponent implements OnInit {
+export class IncomingCallComponent implements OnInit, OnDestroy {
   id: string;
   nameInitials: string;
   socket: any;
@@ -34,14 +35,45 @@ export class IncomingCallComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.nameInitials = this.commonService.getInitials(
-      this.commonService.callingAthleteDetails.athleteName
-    );
-    this.getBidIdFromRoute();
     if (!this.commonService.callingAthleteDetails) {
       this.router.navigate(["/tabs/home"]);
     }
+    this.getInitials();
+    this.getBidIdFromRoute();
     this.callDisconnectSocket();
+    this.loadAndPlayRingtone();
+  }
+
+  loadAndPlayRingtone() {
+    console.log("working");
+    let audioConfig = {
+      assetId: "discord",
+      assetPath: "public/assets/sounds/Discord.mp3",
+      audioChannelNum: 1,
+      volume: 1.0,
+      isUrl: false,
+    };
+    if (this.platform.is("android")) {
+      audioConfig.assetPath = "public/assets/sounds/Discord.mp3";
+    } else {
+      audioConfig.assetPath = "Discord.mp3";
+    }
+
+    NativeAudio.preload(audioConfig).then((value) => {
+      NativeAudio.play({
+        assetId: "discord",
+        time: 0,
+      });
+      NativeAudio.loop({
+        assetId: "discord",
+      });
+    });
+  }
+
+  getInitials() {
+    this.nameInitials = this.commonService.getInitials(
+      this.commonService.callingAthleteDetails.athleteName
+    );
   }
 
   joinCall() {
@@ -131,5 +163,23 @@ export class IncomingCallComponent implements OnInit {
       userId: id,
     });
     this.socket.send("/app/cancelVideo", {}, data);
+  }
+  ionViewWillLeave() {
+    NativeAudio.stop({
+      assetId: "discord",
+    });
+
+    NativeAudio.unload({
+      assetId: "discord",
+    });
+  }
+  ngOnDestroy(): void {
+    NativeAudio.stop({
+      assetId: "discord",
+    });
+
+    NativeAudio.unload({
+      assetId: "discord",
+    });
   }
 }
