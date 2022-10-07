@@ -25,7 +25,8 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
     private apiService: DataService,
     private constantService: ConstantService,
     private coreService: CoreService,
-    private core: CoreService
+    private core: CoreService,
+    private platform: Platform
   ) {}
 
   getBidIdFromRoute() {
