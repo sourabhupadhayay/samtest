@@ -16,8 +16,10 @@ ion-content {
       top: 0;
       z-index: 99;
       background: transparent;
-      min-height: 130px;
-      max-height: 200px;
+      // min-height: 130px;
+      // max-height: 200px;
+      min-height: 200px;
+      max-height: 290px;
       .title-part {
         position: relative;
         z-index: 9;
@@ -105,7 +107,7 @@ ion-content {
       }
     }
 
-    .slider-part{padding: 15px 0px 60px; background: var(--theme-one-bg);
+    .slider-part{padding: 15px 0px 60px; background: transparent; position: relative; z-index: 9;
       ion-slides{
         ion-slide{
           .slide{
@@ -146,8 +148,10 @@ ion-content {
       position: relative;
       z-index: 999;
       margin-top: -45px;
-      max-height: calc(100vh - 281px);
-      min-height: calc(100vh - 281px);
+      // max-height: calc(100vh - 281px);
+      // min-height: calc(100vh - 281px);
+      max-height: calc(100vh - 255px);
+      min-height: calc(100vh - 255px);
       overflow: auto;
       .head {
         padding: 15px 15px 0;

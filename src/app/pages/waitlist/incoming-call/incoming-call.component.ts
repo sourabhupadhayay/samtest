@@ -55,6 +55,10 @@ export class IncomingCallComponent implements OnInit {
     });
   }
   disconnectCall() {
+    console.log(
+      "details ",
+      this.commonService.callingAthleteDetails.remainingTime
+    );
     let request: Request = {
       path: "core/video/updateCall/" + this.id,
       data: {
@@ -90,18 +94,27 @@ export class IncomingCallComponent implements OnInit {
         this.socket.subscribe("/topic/cancelCall", (message) => {
           let responseData = JSON.parse(message.body).content;
           this.commonService.callingAthleteDetails = JSON.parse(responseData);
-          console.log("response ", responseData);
+          console.log(
+            "response ",
+            this.commonService.callingAthleteDetails.disconnectedByPersonRole
+          );
 
           if (
             userDetails.id == this.commonService.callingAthleteDetails.userId
           ) {
             this.router.navigate(["/tabs/schedule"]);
-            // if(userRole =='fan') {
-            //   this.core.showToastMessage(
-            //     "Ethlete is busy.He/She will connect after sometime",
-            //     this.core.TOAST_ERROR
-            //   );
-            // }
+            if (
+              this.commonService.callingAthleteDetails
+                .disconnectedByPersonRole == "ATHLETE" &&
+              userRole == "fan" &&
+              this.commonService.callingAthleteDetails.disconnectedByPersonRole
+                .bidState != "COMPLETED"
+            ) {
+              this.core.showToastMessage(
+                "Athlete is busy.He/She will connect after sometime",
+                this.core.TOAST_ERROR
+              );
+            }
           } else {
             console.log("no");
           }

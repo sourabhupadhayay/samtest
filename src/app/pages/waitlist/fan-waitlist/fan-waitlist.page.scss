@@ -99,8 +99,8 @@ ion-content {
         z-index: 99;
         width: auto;
         margin: 0 auto;
-        margin-bottom: 10px;
-        padding: 10px;
+        margin-bottom: 6px;
+        padding: 5px 10px;
         border-radius: 35px;
         p {
           font-size: 0.875rem;
@@ -116,21 +116,21 @@ ion-content {
           }
         }
       }
-      .slider-part{padding: 15px 0px 15px; background: var(--theme-one-bg); position: relative; z-index: 9; background: transparent;
+      .slider-part{padding: 5px 0px 5px; background: var(--theme-one-bg); position: relative; z-index: 9; background: transparent;
         ion-slides{
           ion-slide{
             .slide{
-              .img-box{width: 100px; height: 100px; border-radius: 100px; padding: 15px; border: 3px solid var(--theme-one-clr); background: var(--white-bg); display: flex; justify-content: center; align-items: center;
-                img{width: 100px; height: 100px;}
+              .img-box{width: 80px; height: 80px; border-radius: 80px; padding: 15px; border: 3px solid var(--theme-one-clr); background: var(--white-bg); display: flex; justify-content: center; align-items: center;
+                img{width: 80px; height: 80px;}
               }
-              h5{margin: 5px 0; font-size: 0.875rem; color: var(--white-clr); font-weight: 500;}
+              h5{margin: 5px 0; font-size: 0.75rem; color: var(--white-clr); font-weight: 500;}
             }
           }
         }
       }
       .wait-part {
         border-radius: 35px 35px 0 0;
-        min-height: 230px;
+        min-height: 190px;
         background: #6bbde9;
         position: relative;
         padding: 15px 0;
@@ -191,12 +191,12 @@ ion-content {
         }
         .content-part {
           text-align: center;
-          padding: 15px;
+          padding: 7px 15px;
           p {
             font-size: 0.875rem;
             color: var(--white-clr);
             font-weight: 500;
-            margin: 0 0 10px;
+            margin: 0 0 5px;
             span {
               font-weight: 700;
             }
@@ -211,7 +211,7 @@ ion-content {
             }
           }
           .bid-edit {
-            padding: 15px 0;
+            padding: 9px 0;
             .bg-white-box {
               background: rgba(var(--white-bg-rgb), 0.7);
               border-radius: 5px;
@@ -254,7 +254,7 @@ ion-content {
               }
               .increase-your-bid {
                 text-align: center;
-                padding: 10px 15px;
+                padding: 5px 15px;
                 .main-text {
                   margin: 0;
                   display: flex;

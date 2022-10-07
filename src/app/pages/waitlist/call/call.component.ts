@@ -303,12 +303,14 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
             } else {
               this.router.navigate(["tabs/schedule"]);
             }
-            // if(userRole =='athlete') {
-            //   this.core.showToastMessage(
-            //     "Fan is busy. Please connect after sometime",
-            //     this.core.TOAST_ERROR
-            //   );
-            // }
+
+            if(this.commonService.callingAthleteDetails.disconnectedByPersonRole == 'USER' && userRole =='athlete'
+              && this.commonService.callingAthleteDetails.disconnectedByPersonRole.bidState !='COMPLETED') {
+              this.core.showToastMessage(
+                "Fan is busy. Please connect after sometime",
+                this.core.TOAST_ERROR
+              );
+            }
           } else{
             console.log("no")
           }
