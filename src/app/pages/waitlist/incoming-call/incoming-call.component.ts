@@ -64,11 +64,11 @@ export class IncomingCallComponent implements OnInit {
         isAuth: true,
       };
       this.coreService.presentLoader(this.constantService.WAIT);
-  
+
       this.apiService.post(request).subscribe((response: Response) => {
         this.coreService.dismissLoader();
       });
- 
+
     this.router.navigate(["/tabs/schedule"]);
   }
 
@@ -91,7 +91,7 @@ export class IncomingCallComponent implements OnInit {
         this.socket.subscribe("/topic/cancelCall", (message) => {
           let responseData = JSON.parse(message.body).content;
           this.commonService.callingAthleteDetails = JSON.parse(responseData);
-          console.log("response ",responseData)
+          console.log("response ",this.commonService.callingAthleteDetails.disconnectedByPersonRole)
 
           if (
             userDetails.id == this.commonService.callingAthleteDetails.userId
@@ -99,12 +99,13 @@ export class IncomingCallComponent implements OnInit {
             this.router.navigate([
               "/tabs/schedule"
             ]);
-            // if(userRole =='fan') {
-            //   this.core.showToastMessage(
-            //     "Ethlete is busy.He/She will connect after sometime",
-            //     this.core.TOAST_ERROR
-            //   );
-            // }
+            if(this.commonService.callingAthleteDetails.disconnectedByPersonRole == 'ATHLETE' && userRole =='fan'
+              && this.commonService.callingAthleteDetails.disconnectedByPersonRole.bidState !='COMPLETED') {
+              this.core.showToastMessage(
+                "Athlete is busy.He/She will connect after sometime",
+                this.core.TOAST_ERROR
+              );
+            }
           } else{
             console.log("no")
           }
@@ -115,7 +116,7 @@ export class IncomingCallComponent implements OnInit {
       }
     );
   }
-  
+
   sendCutVideo(id) {
     let data = JSON.stringify({
       userId: id,
