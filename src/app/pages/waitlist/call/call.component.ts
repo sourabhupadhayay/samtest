@@ -304,7 +304,8 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
               this.router.navigate(["tabs/schedule"]);
             }
 
-            if(this.commonService.callingAthleteDetails.disconnectedByPersonRole == 'USER' && userRole =='athlete') {
+            if(this.commonService.callingAthleteDetails.disconnectedByPersonRole == 'USER' && userRole =='athlete'
+              && this.commonService.callingAthleteDetails.disconnectedByPersonRole.bidState !='COMPLETED') {
               this.core.showToastMessage(
                 "Fan is busy. Please connect after sometime",
                 this.core.TOAST_ERROR

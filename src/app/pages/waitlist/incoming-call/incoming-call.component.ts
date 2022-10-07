@@ -99,7 +99,8 @@ export class IncomingCallComponent implements OnInit {
             this.router.navigate([
               "/tabs/schedule"
             ]);
-            if(this.commonService.callingAthleteDetails.disconnectedByPersonRole == 'ATHLETE' && userRole =='fan') {
+            if(this.commonService.callingAthleteDetails.disconnectedByPersonRole == 'ATHLETE' && userRole =='fan'
+              && this.commonService.callingAthleteDetails.disconnectedByPersonRole.bidState !='COMPLETED') {
               this.core.showToastMessage(
                 "Athlete is busy.He/She will connect after sometime",
                 this.core.TOAST_ERROR
