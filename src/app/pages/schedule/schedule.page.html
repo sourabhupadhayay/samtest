@@ -85,7 +85,7 @@
           <ion-label>Past</ion-label>
         </ion-segment-button>
         <ion-segment-button value="PENDING">
-          <ion-label>Appearances</ion-label>
+          <ion-label>Requests</ion-label>
         </ion-segment-button>
       </ion-segment>
     </ion-grid>
@@ -134,9 +134,9 @@
         </div>
       </ng-container>
     </div>
-<!--    <div class="test-btn">-->
-<!--      <ion-button routerLink="/waitlist" class="">Test Video call</ion-button>-->
-<!--    </div>-->
+    <!--    <div class="test-btn">-->
+    <!--      <ion-button routerLink="/waitlist" class="">Test Video call</ion-button>-->
+    <!--    </div>-->
   </div>
   <ion-grid class="content-part">
     <div *ngIf="eventState == 'APPROVED'" class="">
@@ -164,7 +164,7 @@
     </div>
     <div *ngIf="eventState == 'PENDING'" class="">
       <div *ngIf="scheduleData.length == 0" class="no-data-found">
-        <p>No upcoming appearances</p>
+        <p>No upcoming Requests</p>
       </div>
       <schedule-card
         [userRole]="userRole"

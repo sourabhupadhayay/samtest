@@ -53,9 +53,8 @@
         (ngModelChange)="getAppearanceData()"
         mode="ios"
       >
-        
         <ion-segment-button value="appearances">
-          <ion-label>Appearances</ion-label>
+          <ion-label>Requests</ion-label>
         </ion-segment-button>
         <ion-segment-button value="profile">
           <ion-label>Profile</ion-label>
@@ -129,7 +128,7 @@
       </div>
       <div class="scroll-part">
         <div *ngIf="scheduleData.length ==0" class="no-data-found">
-          <p>No upcoming appearances</p>
+          <p>No upcoming requests</p>
         </div>
 
         <athlete-card
@@ -139,7 +138,6 @@
         ></athlete-card>
       </div>
     </div>
-    
   </ion-grid>
   <ion-grid class="buble-part">
     <div class="dots-bubble">
