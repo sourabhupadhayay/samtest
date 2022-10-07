@@ -153,6 +153,15 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
     });
     this.socket.send("/app/cancelVideo", {}, data);
   }
+  ionViewWillLeave() {
+    NativeAudio.stop({
+      assetId: "discord",
+    });
+
+    NativeAudio.unload({
+      assetId: "discord",
+    });
+  }
   ngOnDestroy(): void {
     NativeAudio.stop({
       assetId: "discord",
