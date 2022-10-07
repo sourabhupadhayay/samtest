@@ -1,11 +1,13 @@
 import {
   ChangeDetectorRef,
   Component,
+  ElementRef,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
   SimpleChanges,
+  ViewChild,
 } from "@angular/core";
 import { Router } from "@angular/router";
 import { CommonService } from "src/app/providers/common.service";
@@ -166,6 +168,15 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
       this.eventTime = this.commonService.dateFormat(this.eventData.startDate);
     }, 60000);
   }
+
+  soundOnOff() {
+    let audio = document.getElementById('muteSound') as HTMLMediaElement
+    audio.muted = true;
+}
+
+ionViewDidLeave() {
+  this.soundOnOff();
+}
 
   ngOnDestroy(): void {
     clearInterval(this.interval);
