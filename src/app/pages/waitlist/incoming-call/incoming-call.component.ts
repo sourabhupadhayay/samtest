@@ -46,6 +46,7 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
   }
 
   loadAndPlayRingtone() {
+    console.log("working");
     let audioConfig = {
       assetId: "discord",
       assetPath: "public/assets/sounds/Discord.mp3",
@@ -98,11 +99,8 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
       },
       isAuth: true,
     };
-    this.coreService.presentLoader(this.constantService.WAIT);
 
-    this.apiService.post(request).subscribe((response: Response) => {
-      this.coreService.dismissLoader();
-    });
+    this.apiService.post(request).subscribe((response: Response) => {});
 
     this.router.navigate(["/tabs/schedule"]);
   }
@@ -157,6 +155,10 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     NativeAudio.stop({
+      assetId: "discord",
+    });
+
+    NativeAudio.unload({
       assetId: "discord",
     });
   }
