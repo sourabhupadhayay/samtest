@@ -45,7 +45,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   userData: any;
   session: Session;
   subscribe: Subscriber;
-  apiKey: string = "47513031";
+  apiKey: any;
   sessionId: string;
   token: string;
   timeLeft: number;
@@ -69,6 +69,8 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     this.keepDeviceAwake();
     this.callDisconnectSocket();
+    this.apiKey = this.commonService.publicInfo.videoApiKey
+    console.log("asdsd",this.commonService.publicInfo.videoApiKey)
   }
 
   ngAfterViewInit(): void {
