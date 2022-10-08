@@ -23,7 +23,7 @@
     <!-- <button (click)="soundOnOff()" style="position: relative; z-index:999">mute</button> -->
     <div class="video-box">
       <video
-      id="muteSound"
+        id="muteSound"
         height="100%"
         width="100%"
         loop="true"
@@ -40,7 +40,12 @@
     </div>
     <div class="bottom-part">
       <div class="slider-part">
-        <ion-slides [options]="slideOpts" autoplay="400" speed="3000"  centeredSlides="true">
+        <ion-slides
+          [options]="slideOpts"
+          autoplay="400"
+          speed="3000"
+          centeredSlides="true"
+        >
           <ion-slide *ngFor="let sponsor of sponsorList">
             <div class="slide">
               <div class="img-box">
@@ -92,7 +97,11 @@
           <ng-container *ngIf="connectedFanDetails?.bidState == 'PENDING'">
             <p *ngIf="currentPosition !== 1">
               Your approximate wait time is
-              <span>{{currentPosition * 3}}</span> minutes
+              <span
+                >{{currentPosition *
+                commonService.publicInfo?.defaultDurationOfAthleteEvent}}</span
+              >
+              minutes
             </p>
             <p>
               Top Bid in the waitlist :
