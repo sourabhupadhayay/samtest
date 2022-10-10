@@ -12,6 +12,12 @@ import {
   FacebookLoginResponse,
 } from "@capacitor-community/facebook-login";
 import { CommonService } from "src/app/providers/common.service";
+import {
+  ActionPerformed,
+  PushNotificationSchema,
+  PushNotifications,
+  Token,
+} from "@capacitor/push-notifications";
 
 @Component({
   selector: "app-login",
@@ -62,14 +68,16 @@ export class LoginPage implements OnInit {
     this.isShowingPassword = !this.isShowingPassword;
   }
 
-  onSubmit() {
+  async onSubmit() {
     this.isFormSubmitted = true;
+
     if (this.loginForm.invalid) {
       return;
     }
+    let token = await this.generateNotificationToken();
     let request: Request = {
       path: "auth/users/login",
-      data: { ...this.loginForm.value, loginSource: "WEB" },
+      data: { ...this.loginForm.value, loginSource: "WEB", deviceToken: token },
     };
 
     this.coreService.presentLoader(this.constantService.WAIT);
@@ -167,5 +175,25 @@ export class LoginPage implements OnInit {
 
       this.socialLogin(RequestData);
     } catch (e) {}
+  }
+
+  async generateNotificationToken(): Promise<string | null> {
+    let generatedToken = null;
+    let result = await PushNotifications.requestPermissions();
+
+    if (result.receive === "granted") {
+      // Register with Apple / Google to receive push via APNS/FCM
+      PushNotifications.register();
+    } else {
+      generatedToken = null;
+      // Show some error
+    }
+
+    // On success, we should be able to receive notifications
+    PushNotifications.addListener("registration", (token: Token) => {
+      generatedToken = token.value;
+    });
+
+    return generatedToken;
   }
 }
