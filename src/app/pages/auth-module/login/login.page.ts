@@ -7,6 +7,8 @@ import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { Storage } from "@capacitor/storage";
+
+import { Platform } from "@ionic/angular";
 import {
   FacebookLogin,
   FacebookLoginResponse,
@@ -49,7 +51,8 @@ export class LoginPage implements OnInit {
     private constantService: ConstantService,
     private router: Router,
     private route: ActivatedRoute,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private platform: Platform
   ) {
     GoogleAuth.initialize({
       clientId:
@@ -63,7 +66,6 @@ export class LoginPage implements OnInit {
     this.returnUrl =
       this.route.snapshot.queryParams["returnUrl"] || "/tabs/home";
   }
-
   showPasswordToggle() {
     this.isShowingPassword = !this.isShowingPassword;
   }
@@ -81,21 +83,20 @@ export class LoginPage implements OnInit {
     };
 
     this.coreService.presentLoader(this.constantService.WAIT);
-    this.apiService.post(request).subscribe((response: Response) => {
+    this.apiService.post(request, true).subscribe((response: Response) => {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
-        this.coreService.showToastMessage(
-          response.status.description,
-          this.coreService.TOAST_SUCCESS
-        );
-
         Storage.set({
           key: "userDetails",
           value: JSON.stringify(response.data),
         }).then(() => {
-          this.router.navigateByUrl(this.returnUrl);
+          this.router.navigate(["auth/verify-otp"], {
+            queryParams: {
+              mode: "login",
+              returnUrl: this.returnUrl,
+            },
+          });
         });
-        this.commonService.$socketSubject.next();
       } else {
         this.coreService.showToastMessage(
           response.status.description,
@@ -179,6 +180,11 @@ export class LoginPage implements OnInit {
 
   async generateNotificationToken(): Promise<string | null> {
     let generatedToken = null;
+
+    if (this.platform.is("desktop")) {
+      return generatedToken;
+    }
+    debugger;
     let result = await PushNotifications.requestPermissions();
 
     if (result.receive === "granted") {
