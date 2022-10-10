@@ -74,10 +74,9 @@ export class LoginPage implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-    let token = await this.generateNotificationToken();
     let request: Request = {
       path: "auth/users/login",
-      data: { ...this.loginForm.value, loginSource: "WEB", deviceToken: token },
+      data: { ...this.loginForm.value, loginSource: "WEB" },
     };
 
     this.coreService.presentLoader(this.constantService.WAIT);
