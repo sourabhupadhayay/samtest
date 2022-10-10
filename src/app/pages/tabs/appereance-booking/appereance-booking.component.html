@@ -2,7 +2,7 @@
   <ion-header mode="ios">
     <div class="icon-header">
       <img src="assets/icon/header-bubble.png" />
-      <h3>Add Appearance</h3>
+      <h3>Add Request</h3>
     </div>
     <div class="top-noch">
       <img src="assets/images/modal-tope.png" />
@@ -15,7 +15,7 @@
         <ion-radio-group value="VIDEO" mode="md">
           <div class="radio-main">
             <div class="radio-text">
-              <h5>Select Appearance Type</h5>
+              <h5>Select Request Type</h5>
             </div>
 
             <div class="radio-data">
@@ -54,6 +54,7 @@
                     mode="ios"
                     #dateTime
                     [showDefaultButtons]="true"
+                    [value]="currentDate"
                     (ionChange)="setDateValue(dateTime.value)"
                   >
                     <span slot="title">Select start time</span></ion-datetime
@@ -185,7 +186,7 @@
         >
           <div class="radio-main">
             <div class="radio-text">
-              <h5>Select Appearance Type</h5>
+              <h5>Select Request Type</h5>
             </div>
             <div class="radio-data">
               <ion-item lines="none" mode="ios">
@@ -238,6 +239,7 @@
                     [min]="currentDate"
                     mode="ios"
                     #dateTime
+                    [value]="currentDate"
                     [showDefaultButtons]="true"
                     (ionChange)="setDateValue(dateTime.value)"
                   >
@@ -372,7 +374,7 @@
                 (ionBlur)="setInputCurrency()"
                 formControlName="minBid"
                 inputmode="numeric"
-                placeholder="Appearance Fee ($)"
+                placeholder="Request Fee ($)"
               ></ion-input>
               <img
                 class="ion-align-items-center"

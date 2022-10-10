@@ -1,5 +1,5 @@
-<ion-content [scrollEvents]="true" [forceOverscroll]="false">
-  <ion-grid class="top-card">
+<ion-content [scrollEvents]="true" [forceOverscroll]="false" mode="md">
+  <ion-grid class="top-card" mode="md">
     <div class="title-part">
       <ion-item routerLink="/tabs/home" lines="none" mode="md">
         <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
@@ -20,16 +20,18 @@
   </ion-grid>
 
   <div class="main-screen">
+    <!-- <button (click)="soundOnOff()" style="position: relative; z-index:999">mute</button> -->
     <div class="video-box">
       <video
+        id="muteSound"
         height="100%"
         width="100%"
         loop="true"
-        muted
         autoplay
         autoplay="autoplay"
         webkit-playsinline
         playsinline
+        muted="true"
       >
         <source src="../../../../assets/video/papa-johns-fvideo.mp4" />
 
@@ -38,7 +40,12 @@
     </div>
     <div class="bottom-part">
       <div class="slider-part">
-        <ion-slides [options]="slideOpts" autoplay="400" speed="3000">
+        <ion-slides
+          [options]="slideOpts"
+          autoplay="400"
+          speed="3000"
+          centeredSlides="true"
+        >
           <ion-slide *ngFor="let sponsor of sponsorList">
             <div class="slide">
               <div class="img-box">
@@ -90,7 +97,11 @@
           <ng-container *ngIf="connectedFanDetails?.bidState == 'PENDING'">
             <p *ngIf="currentPosition !== 1">
               Your approximate wait time is
-              <span>{{currentPosition * 3}}</span> minutes
+              <span
+                >{{currentPosition *
+                commonService.publicInfo?.defaultDurationOfAthleteEvent}}</span
+              >
+              minutes
             </p>
             <p>
               Top Bid in the waitlist :

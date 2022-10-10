@@ -2,7 +2,7 @@
   <div class="main-screen">
     <ion-grid class="top-card">
       <div class="title-part">
-        <ion-item routerLink="/tabs/home" lines="none" mode="md">
+        <ion-item routerLink="/tabs/schedule" lines="none" mode="md">
           <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
           <ion-label>
             <ion-grid class="logo-head">
@@ -22,50 +22,50 @@
         <img src="assets/images/profile.png" />
       </div>
       <div class="overlay-blue"></div>
+      <div class="slider-part">
+        <ion-slides [options]="slideOpts" autoplay="400" speed="3000">
+          <ion-slide *ngFor="let athlete of athleteList">
+            <div class="slide">
+              <div class="img-box">
+                <img src="{{athlete.profileUrl | profile}}" />
+              </div>
+              <h5>{{athlete?.fullName}}</h5>
+            </div>
+          </ion-slide>
+          <!-- <ion-slide>
+              <div class="slide">
+                <img src="assets/images/big-chicken.png" />
+                <h5>Papa John's</h5>
+              </div>
+            </ion-slide>
+            <ion-slide>
+              <div class="slide">
+                <img src="assets/images/big-chicken.png" />
+                <h5>FILA</h5>
+              </div>
+            </ion-slide>
+            <ion-slide>
+              <div class="slide">
+                <img src="assets/images/big-chicken.png" />
+                <h5>FILA</h5>
+              </div>
+            </ion-slide>
+            <ion-slide>
+              <div class="slide">
+                <img src="assets/images/big-chicken.png" />
+                <h5>FILA</h5>
+              </div>
+            </ion-slide>
+            <ion-slide>
+              <div class="slide">
+                <img src="assets/images/big-chicken.png" />
+                <h5>BIG Chicken</h5>
+              </div>
+            </ion-slide> -->
+        </ion-slides>
+      </div>
     </ion-grid>
 
-    <div class="slider-part">
-      <ion-slides [options]="slideOpts" autoplay="400" speed="3000">
-        <ion-slide *ngFor="let athlete of athleteList">
-          <div class="slide">
-            <div class="img-box">
-              <img src="{{athlete.profileUrl | profile}}" />
-            </div>
-            <h5>{{athlete?.fullName}}</h5>
-          </div>
-        </ion-slide>
-        <!-- <ion-slide>
-            <div class="slide">
-              <img src="assets/images/big-chicken.png" />
-              <h5>Papa John's</h5>
-            </div>
-          </ion-slide>
-          <ion-slide>
-            <div class="slide">
-              <img src="assets/images/big-chicken.png" />
-              <h5>FILA</h5>
-            </div>
-          </ion-slide>
-          <ion-slide>
-            <div class="slide">
-              <img src="assets/images/big-chicken.png" />
-              <h5>FILA</h5>
-            </div>
-          </ion-slide>
-          <ion-slide>
-            <div class="slide">
-              <img src="assets/images/big-chicken.png" />
-              <h5>FILA</h5>
-            </div>
-          </ion-slide>
-          <ion-slide>
-            <div class="slide">
-              <img src="assets/images/big-chicken.png" />
-              <h5>BIG Chicken</h5>
-            </div>
-          </ion-slide> -->
-      </ion-slides>
-    </div>
     <div class="wait-part">
       <div class="head">
         <div class="bids-available">

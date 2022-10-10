@@ -23,6 +23,7 @@ import {
 } from "@capacitor/push-notifications";
 import { AuthenticationService } from "./providers/authentication.service";
 import { Subscription } from "rxjs";
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: "app-root",
@@ -44,7 +45,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private commonService: CommonService,
     private zone: NgZone,
     private constantService: ConstantService,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private navController : NavController 
   ) {
     this.initializeApp();
     this.backButton();
@@ -226,13 +228,25 @@ export class AppComponent implements OnInit, OnDestroy {
           }
           if (
             this.commonService.callingAthleteDetails.creatorPersona !== "USER"
-          ) {
-            this.router.navigate([
+          ) 
+          // {
+          //   this.router.navigate([
+          //     "/waitlist/incoming-call/" +
+          //       this.commonService.callingAthleteDetails.id,
+          //   ]);
+          // } else {
+          //   this.router.navigate([
+          //     "/waitlist/incoming-call/" +
+          //       this.commonService.callingAthleteDetails.eventId,
+          //   ]);
+          // }
+          {
+            this.navController.navigateBack([
               "/waitlist/incoming-call/" +
                 this.commonService.callingAthleteDetails.id,
             ]);
           } else {
-            this.router.navigate([
+            this.navController.navigateBack([
               "/waitlist/incoming-call/" +
                 this.commonService.callingAthleteDetails.eventId,
             ]);
