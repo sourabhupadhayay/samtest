@@ -184,7 +184,7 @@ export class LoginPage implements OnInit {
     if (this.platform.is("desktop")) {
       return generatedToken;
     }
-    debugger;
+
     let result = await PushNotifications.requestPermissions();
 
     if (result.receive === "granted") {
