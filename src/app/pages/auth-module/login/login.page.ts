@@ -20,6 +20,7 @@ import {
   PushNotifications,
   Token,
 } from "@capacitor/push-notifications";
+import { AuthModuleService } from "../auth-module.service";
 
 @Component({
   selector: "app-login",
@@ -52,7 +53,8 @@ export class LoginPage implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private commonService: CommonService,
-    private platform: Platform
+    private platform: Platform,
+    private commonAuthData: AuthModuleService
   ) {
     GoogleAuth.initialize({
       clientId:
@@ -90,6 +92,7 @@ export class LoginPage implements OnInit {
           key: "userDetails",
           value: JSON.stringify(response.data),
         }).then(() => {
+          this.commonAuthData.loginEmail = this.loginForm.controls.email.value;
           this.router.navigate(["auth/verify-otp"], {
             queryParams: {
               mode: "login",
@@ -138,6 +141,10 @@ export class LoginPage implements OnInit {
           }
         });
       } else {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_ERROR
+        );
       }
     });
   }

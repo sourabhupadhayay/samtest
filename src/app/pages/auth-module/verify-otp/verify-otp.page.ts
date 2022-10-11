@@ -69,6 +69,9 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
     this.stopTimer();
 
     let email = this.getEmail();
+    if (!email) {
+      return this.router.navigate(["/"]);
+    }
 
     let request: Request = {
       path: `auth/users/otp/send?email=${email}`,
@@ -153,8 +156,10 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
   private getEmail(): string {
     if (this.mode == "signup") {
       return this.common.signUpData.email;
-    } else {
+    } else if (this.mode == "forgot") {
       return this.common.forgotPasswordEmail;
+    } else {
+      return this.common.loginEmail;
     }
   }
 
