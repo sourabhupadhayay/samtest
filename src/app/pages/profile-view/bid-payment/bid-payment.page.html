@@ -52,7 +52,7 @@
 
     <ion-grid class="content-part">
       <div class="bid-part">
-        <h3>
+        <h3 *ngIf="this.currentBidAmount ==''">
           Please enter more than <span>${{eventData?.minBid}}</span> for bid.
         </h3>
         <h3 *ngIf="this.MaxAmount !=''">
