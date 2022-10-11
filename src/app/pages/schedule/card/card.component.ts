@@ -116,7 +116,7 @@ export class CardComponent implements OnInit {
       return true;
     }
 
-    if (this.timer.minutes < 10) {
+    if (this.timer.minutes <= 10) {
       return false;
     } else {
       return true;
