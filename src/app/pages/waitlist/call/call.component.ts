@@ -307,7 +307,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
             }
 
             if(this.commonService.callingAthleteDetails.disconnectedByPersonRole == 'USER' && userRole =='athlete'
-              && this.commonService.callingAthleteDetails.disconnectedByPersonRole.bidState !='COMPLETED') {
+              && this.commonService.callingAthleteDetails.bidState !=='COMPLETED') {
               this.core.showToastMessage(
                 "Fan is busy. Please connect after sometime",
                 this.core.TOAST_ERROR
