@@ -38,8 +38,27 @@
           <h5>{{athleteData?.fullName}}</h5>
           <div class="live-status live">
             <!-- add class "live & offline" as per status -->
-            <span>LIVE</span>
-            <p>For Next 45 minutes</p>
+            <p *ngIf="this.eventTime?.minutes">
+              {{latestAthleteEvent?.athleteName | titlecase}} will be live in
+              just
+              <ng-container *ngIf="this.eventTime?.days">
+                {{this.eventTime?.days }} {{this.eventTime?.title_days}} :
+              </ng-container>
+              <ng-container *ngIf="this.eventTime?.hours">
+                {{this.eventTime?.hours }} {{this.eventTime?.title_hours}} :
+              </ng-container>
+              <!-- {{this.eventTime?.minutes}} {{this.eventTime?.title_min}} -->
+              <ng-container *ngIf="this.eventTime?.minutes > 0">
+                {{this.eventTime?.minutes}} {{this.eventTime?.title_min}}
+              </ng-container>
+              <ng-container *ngIf="this.eventTime?.minutes < 0">
+                few mins
+              </ng-container>
+            </p>
+            <p *ngIf="!this.eventTime?.minutes">
+              {{latestAthleteEvent?.athleteName | titlecase}} is
+              <span>LIVE</span> For Next 30 minutes
+            </p>
           </div>
         </ion-label>
       </ion-item>

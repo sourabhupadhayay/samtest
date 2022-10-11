@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import { ModalController } from "@ionic/angular";
 import { Observable } from "rxjs";
@@ -14,7 +14,7 @@ import { CommonService } from "../../../providers/common.service";
   templateUrl: "./athlete.page.html",
   styleUrls: ["./athlete.page.scss"],
 })
-export class AthletePage implements OnInit {
+export class AthletePage implements OnInit, OnDestroy {
   athleteData: any | null = null;
   selectedIndex: string = "appearances";
   scheduleData: any[] = [];
@@ -22,6 +22,8 @@ export class AthletePage implements OnInit {
   nameInitials: string;
   athleteId: string;
   latestAthleteEvent: any | null = null;
+  eventTime;
+  interval;
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -132,6 +134,7 @@ export class AthletePage implements OnInit {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
         this.latestAthleteEvent = response.data;
+        this.calculateTime();
       } else {
         this.coreService.showToastMessage(
           response.status.description,
@@ -141,6 +144,17 @@ export class AthletePage implements OnInit {
     });
   }
 
+  calculateTime() {
+    this.eventTime = this.commonService.dateFormat(
+      this.latestAthleteEvent.startDate
+    );
+    this.interval = setInterval(() => {
+      this.eventTime = this.commonService.dateFormat(
+        this.latestAthleteEvent.startDate
+      );
+    }, 60000);
+  }
+
   async getAmountOpened(event: any) {
     let number = await event.target.getOpenAmount();
     //convert negative to positive number
@@ -148,5 +162,9 @@ export class AthletePage implements OnInit {
     if (number > 150) {
       this.router.navigate(["/bid-payment/" + this.latestAthleteEvent.id]);
     }
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.interval);
   }
 }
