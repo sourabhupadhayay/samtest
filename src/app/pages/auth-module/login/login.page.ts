@@ -187,8 +187,9 @@ export class LoginPage implements OnInit {
 
   async generateNotificationToken(): Promise<string | null> {
     let generatedToken = null;
+    console.log(this.platform.platforms());
 
-    if (this.platform.is("desktop")) {
+    if (this.platform.is("desktop") || this.platform.is("mobileweb")) {
       return generatedToken;
     }
 
