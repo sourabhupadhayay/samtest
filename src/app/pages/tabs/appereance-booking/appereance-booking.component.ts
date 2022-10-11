@@ -21,6 +21,7 @@ import {
 } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { TermsConditionsComponent } from "../terms-conditions/terms-conditions.component";
+import { format, utcToZonedTime } from "date-fns-tz";
 
 @Component({
   selector: "app-appereance-booking",
@@ -47,7 +48,8 @@ export class AppereanceBookingComponent implements OnInit {
   totalAthleteDuration: number = 0;
   totalFanDuration: number = 0;
   isTermsAndConditionAccepted: boolean = false;
-  currentDate: string = new Date().toISOString();
+  currentDate: string;
+  currentTime: string;
 
   constructor(
     public modalCtrl: ModalController,
@@ -72,10 +74,27 @@ export class AppereanceBookingComponent implements OnInit {
     this.getUserRole();
     this.eventTypeSelected();
     this.getSelectedAthlete();
+    this.timeZone();
   }
   async getUserRole() {
     this.userRole = await this.coreService.getUserRoleFromStorage();
     this.setDuration();
+  }
+
+  timeZone() {
+    // Get the time zone set on the user's device
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    let date = new Date().toISOString();
+
+    const zonedTime = utcToZonedTime(date, userTimeZone);
+
+    let formattedDate = format(zonedTime, "yyyy-MM-dd HH:mm:ss zzz", {
+      timeZone: userTimeZone,
+    });
+    let isoDate = new Date(formattedDate).toISOString();
+
+    this.currentDate = isoDate;
   }
 
   setDuration() {
