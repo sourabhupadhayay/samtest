@@ -143,7 +143,7 @@ export class DataService {
   //       })
   //     );
   // }
-  post(request: Request) {
+  post(request: Request, isTokenTemporary = false) {
     return this.http
       .post<any>(`${this.BASE_URL + "" + request.path}`, request.data, {
         headers: this.getHeader(request.isAuth),
@@ -159,7 +159,7 @@ export class DataService {
             data = {
               ...data,
               token: res["token"],
-              isLoggedIn: true,
+              isLoggedIn: isTokenTemporary ? false : true,
             };
             this.authService.setAuth(data);
           }

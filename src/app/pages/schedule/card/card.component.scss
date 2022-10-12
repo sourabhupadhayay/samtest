@@ -295,6 +295,23 @@ ion-item-sliding {
     &--green {
       --background-activated: #55cd89;
       --background: #55cd89;
+      & p {
+        margin: 0;
+        padding-bottom: 0;
+        font-size: 0.75rem;
+        padding-left: 2px;
+        display: inline-block;
+        vertical-align: middle;
+        text-transform: capitalize;
+      }
+      & span{
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0;
+        height: 18px;
+        width: 18px;
+        img{width: 18px;height: 18px;}
+      }
     }
     &--blue {
       --background-activated: var(--theme-one-clr);
@@ -314,7 +331,7 @@ ion-item-sliding {
         vertical-align: middle;
         text-transform: capitalize;
       }
-  
+
       & span{
         display: inline-block;
         vertical-align: middle;

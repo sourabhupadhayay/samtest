@@ -116,7 +116,7 @@ export class CardComponent implements OnInit {
       return true;
     }
 
-    if (this.timer.minutes < 10) {
+    if (this.timer.minutes <= 10) {
       return false;
     } else {
       return true;
@@ -260,7 +260,7 @@ export class CardComponent implements OnInit {
 
   async shareEvent() {
     await Share.share({
-      title: "Bubble app event",
+      title: "BubbleApp event",
       text: this.cardData.eventName,
       url: this.commonService.publicInfo.webLink + "/tabs/schedule",
     });

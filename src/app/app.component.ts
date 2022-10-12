@@ -22,8 +22,8 @@ import {
   Token,
 } from "@capacitor/push-notifications";
 import { AuthenticationService } from "./providers/authentication.service";
-import { Subscription } from "rxjs";
-import { NavController } from '@ionic/angular';
+import { Subscription,interval } from "rxjs";
+import { NavController } from "@ionic/angular";
 
 @Component({
   selector: "app-root",
@@ -35,6 +35,7 @@ export class AppComponent implements OnInit, OnDestroy {
   connectedFans: any[] = [];
   socket: any;
   private socketSubscription: Subscription;
+  intervalId: number;
   constructor(
     private apiservice: DataService,
     private _networkService: NetworkService,
@@ -46,20 +47,34 @@ export class AppComponent implements OnInit, OnDestroy {
     private zone: NgZone,
     private constantService: ConstantService,
     private authService: AuthenticationService,
-    private navController : NavController 
+    private navController: NavController
   ) {
     this.initializeApp();
     this.backButton();
     this.hideSplashScreen();
     this.getPublicInfo();
+    this.onlineStatus();
     this.deepLinking();
   }
 
   ngOnInit(): void {
     this.socketInit();
     this.callingAthlete();
+    this.commonService.getAuthPublicInfo();
+    const source = interval(60000);
+    this.socketSubscription = source.subscribe(val => this.onlineStatus());
   }
 
+  async onlineStatus(){
+    let userDetails = await this.core.getUserDataFromStorage();
+    if(userDetails) {
+    this.commonService.athleteOnlineOfflineStatus();
+    }
+   else {
+      return;
+     }
+
+  }
   private socketInit() {
     this.socketSubscription = this.commonService.$socketSubject.subscribe(
       () => {
@@ -96,6 +111,7 @@ export class AppComponent implements OnInit, OnDestroy {
   //get common public info
   getPublicInfo() {
     this.commonService.getPublicInfo();
+    this.commonService.getAuthPublicInfo();
   }
 
   deepLinking() {
@@ -154,28 +170,14 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   registerNotification() {
-    // Request permission to use push notifications
-    // iOS will prompt user and return if they granted permission or not
-    // Android will just grant without prompting
-    PushNotifications.requestPermissions().then((result) => {
-      if (result.receive === "granted") {
-        // Register with Apple / Google to receive push via APNS/FCM
-        PushNotifications.register();
-      } else {
-        // Show some error
-      }
-    });
-
-    // On success, we should be able to receive notifications
-    PushNotifications.addListener("registration", (token: Token) => {
-      alert("Push registration success, token: " + token.value);
-      console.log(token.value);
-    });
-
     // Some issue with our setup and push will not work
-    PushNotifications.addListener("registrationError", (error: any) => {
-      alert("Error on registration: " + JSON.stringify(error));
-    });
+    // PushNotifications.addListener("registrationError", (error: any) => {
+    //   alert("Error on registration: " + JSON.stringify(error));
+    // });
+
+    if (!this.authService.data.isLoggedIn) {
+      return;
+    }
 
     // Show us the notification payload if the app is open on our device
     PushNotifications.addListener(
@@ -228,19 +230,18 @@ export class AppComponent implements OnInit, OnDestroy {
           }
           if (
             this.commonService.callingAthleteDetails.creatorPersona !== "USER"
-          ) 
-          // {
-          //   this.router.navigate([
-          //     "/waitlist/incoming-call/" +
-          //       this.commonService.callingAthleteDetails.id,
-          //   ]);
-          // } else {
-          //   this.router.navigate([
-          //     "/waitlist/incoming-call/" +
-          //       this.commonService.callingAthleteDetails.eventId,
-          //   ]);
-          // }
-          {
+          ) {
+            // {
+            //   this.router.navigate([
+            //     "/waitlist/incoming-call/" +
+            //       this.commonService.callingAthleteDetails.id,
+            //   ]);
+            // } else {
+            //   this.router.navigate([
+            //     "/waitlist/incoming-call/" +
+            //       this.commonService.callingAthleteDetails.eventId,
+            //   ]);
+            // }
             this.navController.navigateBack([
               "/waitlist/incoming-call/" +
                 this.commonService.callingAthleteDetails.id,

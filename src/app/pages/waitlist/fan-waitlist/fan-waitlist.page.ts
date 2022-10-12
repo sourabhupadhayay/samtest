@@ -32,8 +32,8 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
   maxBid: number;
   nameInitials: string;
   eventTime;
-  userIndex: number = 0;
   interval;
+  userIndex: number = 0;
   sponsorList: any;
   connectedFanDetails = null;
 
@@ -170,13 +170,13 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
   }
 
   soundOnOff() {
-    let audio = document.getElementById('muteSound') as HTMLMediaElement
+    let audio = document.getElementById("muteSound") as HTMLMediaElement;
     audio.muted = true;
-}
+  }
 
-ionViewDidLeave() {
-  this.soundOnOff();
-}
+  ionViewDidLeave() {
+    this.soundOnOff();
+  }
 
   ngOnDestroy(): void {
     clearInterval(this.interval);

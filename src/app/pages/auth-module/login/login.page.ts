@@ -7,11 +7,20 @@ import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { Storage } from "@capacitor/storage";
+
+import { Platform } from "@ionic/angular";
 import {
   FacebookLogin,
   FacebookLoginResponse,
 } from "@capacitor-community/facebook-login";
 import { CommonService } from "src/app/providers/common.service";
+import {
+  ActionPerformed,
+  PushNotificationSchema,
+  PushNotifications,
+  Token,
+} from "@capacitor/push-notifications";
+import { AuthModuleService } from "../auth-module.service";
 
 @Component({
   selector: "app-login",
@@ -43,7 +52,9 @@ export class LoginPage implements OnInit {
     private constantService: ConstantService,
     private router: Router,
     private route: ActivatedRoute,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private platform: Platform,
+    private commonAuthData: AuthModuleService
   ) {
     GoogleAuth.initialize({
       clientId:
@@ -57,13 +68,13 @@ export class LoginPage implements OnInit {
     this.returnUrl =
       this.route.snapshot.queryParams["returnUrl"] || "/tabs/home";
   }
-
   showPasswordToggle() {
     this.isShowingPassword = !this.isShowingPassword;
   }
 
-  onSubmit() {
+  async onSubmit() {
     this.isFormSubmitted = true;
+
     if (this.loginForm.invalid) {
       return;
     }
@@ -71,30 +82,51 @@ export class LoginPage implements OnInit {
       path: "auth/users/login",
       data: { ...this.loginForm.value, loginSource: "WEB" },
     };
+    console.log(this.commonService.authPublicInfo.twoStepAuthentication)
 
     this.coreService.presentLoader(this.constantService.WAIT);
-    this.apiService.post(request).subscribe((response: Response) => {
-      this.coreService.dismissLoader();
-      if (response.status.code === this.constantService.STATUS_OK) {
-        this.coreService.showToastMessage(
-          response.status.description,
-          this.coreService.TOAST_SUCCESS
-        );
-
-        Storage.set({
-          key: "userDetails",
-          value: JSON.stringify(response.data),
-        }).then(() => {
-          this.router.navigateByUrl(this.returnUrl);
-        });
-        this.commonService.$socketSubject.next();
-      } else {
-        this.coreService.showToastMessage(
-          response.status.description,
-          this.coreService.TOAST_ERROR
-        );
-      }
-    });
+    if(this.commonService.authPublicInfo.twoStepAuthentication) {
+      this.apiService.post(request, true).subscribe((response: Response) => {
+        this.coreService.dismissLoader();
+        if (response.status.code === this.constantService.STATUS_OK) {
+            Storage.set({
+              key: "userDetails",
+              value: JSON.stringify(response.data),
+            }).then(() => {
+              this.commonAuthData.loginEmail = this.loginForm.controls.email.value;
+              this.router.navigate(["auth/verify-otp"], {
+                queryParams: {
+                  mode: "login",
+                  returnUrl: this.returnUrl,
+                },
+              });
+            });
+        } else {
+          this.coreService.showToastMessage(
+            response.status.description,
+            this.coreService.TOAST_ERROR
+          );
+        }
+      });
+    } else {
+      this.apiService.post(request, false).subscribe((response: Response) => {
+        this.coreService.dismissLoader();
+        if (response.status.code === this.constantService.STATUS_OK) {
+            Storage.set({
+              key: "userDetails",
+              value: JSON.stringify(response.data),
+            }).then(() => {
+              this.commonAuthData.loginEmail = this.loginForm.controls.email.value;
+              this.router.navigate(["/tabs/home"])
+            });
+        } else {
+          this.coreService.showToastMessage(
+            response.status.description,
+            this.coreService.TOAST_ERROR
+          );
+        }
+      });
+    }
   }
 
   socialLogin(data) {
@@ -129,6 +161,10 @@ export class LoginPage implements OnInit {
           }
         });
       } else {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_ERROR
+        );
       }
     });
   }
@@ -167,5 +203,31 @@ export class LoginPage implements OnInit {
 
       this.socialLogin(RequestData);
     } catch (e) {}
+  }
+
+  async generateNotificationToken(): Promise<string | null> {
+    let generatedToken = null;
+    console.log(this.platform.platforms());
+
+    if (this.platform.is("desktop") || this.platform.is("mobileweb")) {
+      return generatedToken;
+    }
+
+    let result = await PushNotifications.requestPermissions();
+
+    if (result.receive === "granted") {
+      // Register with Apple / Google to receive push via APNS/FCM
+      PushNotifications.register();
+    } else {
+      generatedToken = null;
+      // Show some error
+    }
+
+    // On success, we should be able to receive notifications
+    PushNotifications.addListener("registration", (token: Token) => {
+      generatedToken = token.value;
+    });
+
+    return generatedToken;
   }
 }
