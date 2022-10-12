@@ -83,23 +83,33 @@ export class LoginPage implements OnInit {
       path: "auth/users/login",
       data: { ...this.loginForm.value, loginSource: "WEB", deviceToken: token },
     };
+    console.log(this.commonService.authPublicInfo.twoStepAuthentication)
 
     this.coreService.presentLoader(this.constantService.WAIT);
     this.apiService.post(request, true).subscribe((response: Response) => {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
-        Storage.set({
-          key: "userDetails",
-          value: JSON.stringify(response.data),
-        }).then(() => {
-          this.commonAuthData.loginEmail = this.loginForm.controls.email.value;
-          this.router.navigate(["auth/verify-otp"], {
-            queryParams: {
-              mode: "login",
-              returnUrl: this.returnUrl,
-            },
+        if(this.commonService.authPublicInfo.twoStepAuthentication == true) {
+          Storage.set({
+            key: "userDetails",
+            value: JSON.stringify(response.data),
+          }).then(() => {
+            this.commonAuthData.loginEmail = this.loginForm.controls.email.value;
+            this.router.navigate(["auth/verify-otp"], {
+              queryParams: {
+                mode: "login",
+                returnUrl: this.returnUrl,
+              },
+            });
           });
-        });
+        }else{
+          Storage.set({
+            key: "userDetails",
+            value: JSON.stringify(response.data),
+          }).then(() => {
+            this.router.navigate(["tabs/home"])
+          });
+        }
       } else {
         this.coreService.showToastMessage(
           response.status.description,

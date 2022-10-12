@@ -96,6 +96,7 @@ export class AppComponent implements OnInit, OnDestroy {
   //get common public info
   getPublicInfo() {
     this.commonService.getPublicInfo();
+    this.commonService.getAuthPublicInfo();
   }
 
   deepLinking() {
