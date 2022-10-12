@@ -64,8 +64,15 @@ export class AppComponent implements OnInit, OnDestroy {
     this.socketSubscription = source.subscribe(val => this.onlineStatus());
   }
 
-  onlineStatus(){
+  async onlineStatus(){
+    let userDetails = await this.core.getUserDataFromStorage();
+    if(userDetails) {
     this.commonService.athleteOnlineOfflineStatus();
+    }
+   else {
+      return;
+     }
+    
   }
   private socketInit() {
     this.socketSubscription = this.commonService.$socketSubject.subscribe(

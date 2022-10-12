@@ -86,37 +86,48 @@ export class LoginPage implements OnInit {
     console.log(this.commonService.authPublicInfo.twoStepAuthentication)
 
     this.coreService.presentLoader(this.constantService.WAIT);
-    this.apiService.post(request, true).subscribe((response: Response) => {
-      this.coreService.dismissLoader();
-      if (response.status.code === this.constantService.STATUS_OK) {
-        if(this.commonService.authPublicInfo.twoStepAuthentication == true) {
-          Storage.set({
-            key: "userDetails",
-            value: JSON.stringify(response.data),
-          }).then(() => {
-            this.commonAuthData.loginEmail = this.loginForm.controls.email.value;
-            this.router.navigate(["auth/verify-otp"], {
-              queryParams: {
-                mode: "login",
-                returnUrl: this.returnUrl,
-              },
+    if(this.commonService.authPublicInfo.twoStepAuthentication) {
+      this.apiService.post(request, true).subscribe((response: Response) => {
+        this.coreService.dismissLoader();
+        if (response.status.code === this.constantService.STATUS_OK) {
+            Storage.set({
+              key: "userDetails",
+              value: JSON.stringify(response.data),
+            }).then(() => {
+              this.commonAuthData.loginEmail = this.loginForm.controls.email.value;
+              this.router.navigate(["auth/verify-otp"], {
+                queryParams: {
+                  mode: "login",
+                  returnUrl: this.returnUrl,
+                },
+              });
             });
-          });
-        }else{
-          Storage.set({
-            key: "userDetails",
-            value: JSON.stringify(response.data),
-          }).then(() => {
-            this.router.navigate(["tabs/home"])
-          });
+        } else {
+          this.coreService.showToastMessage(
+            response.status.description,
+            this.coreService.TOAST_ERROR
+          );
         }
-      } else {
-        this.coreService.showToastMessage(
-          response.status.description,
-          this.coreService.TOAST_ERROR
-        );
-      }
-    });
+      });
+    } else {
+      this.apiService.post(request, false).subscribe((response: Response) => {
+        this.coreService.dismissLoader();
+        if (response.status.code === this.constantService.STATUS_OK) {
+            Storage.set({
+              key: "userDetails",
+              value: JSON.stringify(response.data),
+            }).then(() => {
+              this.commonAuthData.loginEmail = this.loginForm.controls.email.value;
+              this.router.navigate(["/tabs/home"])
+            });
+        } else {
+          this.coreService.showToastMessage(
+            response.status.description,
+            this.coreService.TOAST_ERROR
+          );
+        }
+      });
+    }
   }
 
   socialLogin(data) {
