@@ -60,13 +60,13 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.socketInit();
     this.callingAthlete();
-    const source = interval(10000);
+    this.commonService.getAuthPublicInfo();
+    const source = interval(60000);
     this.socketSubscription = source.subscribe(val => this.onlineStatus());
   }
 
   async onlineStatus(){
     let userDetails = await this.core.getUserDataFromStorage();
-    console.log(userDetails);
     if(userDetails) {
     this.commonService.athleteOnlineOfflineStatus();
     }
