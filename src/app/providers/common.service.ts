@@ -72,6 +72,14 @@ export class CommonService {
       this.authPublicInfo = response.data;
     });
   }
+  athleteOnlineOfflineStatus() {
+    let request: Request = {
+      path: "auth/users/manage/status/change/true",
+      isAuth: true,
+    };
+    this.apiService.get(request).subscribe((response: Response) => {
+    });
+  }
 
   removeCommaFromString(value: string) {
     let converted = parseFloat(value.replace(/,/g, ""));
