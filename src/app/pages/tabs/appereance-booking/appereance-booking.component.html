@@ -236,11 +236,11 @@
               <ng-template>
                 <ion-content>
                   <ion-datetime
-                    [min]="currentDate"
+                    locale="en-US"
                     mode="ios"
                     #dateTime
-                    [value]="currentDate"
                     [showDefaultButtons]="true"
+                    [min]="currentDate"
                     (ionChange)="setDateValue(dateTime.value)"
                   >
                     <span slot="title">Select start time</span></ion-datetime

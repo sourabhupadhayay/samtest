@@ -66,13 +66,14 @@ export class AppComponent implements OnInit, OnDestroy {
 
   async onlineStatus(){
     let userDetails = await this.core.getUserDataFromStorage();
+    console.log(userDetails);
     if(userDetails) {
     this.commonService.athleteOnlineOfflineStatus();
     }
    else {
       return;
      }
-    
+
   }
   private socketInit() {
     this.socketSubscription = this.commonService.$socketSubject.subscribe(
