@@ -78,12 +78,12 @@ export class LoginPage implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
+    let token = await this.generateNotificationToken();
+
     let request: Request = {
       path: "auth/users/login",
-      data: { ...this.loginForm.value, loginSource: "WEB" },
+      data: { ...this.loginForm.value, loginSource: "WEB" ,deviceToken: token},
     };
-    console.log(this.commonService.authPublicInfo.twoStepAuthentication)
-
     this.coreService.presentLoader(this.constantService.WAIT);
     if(this.commonService.authPublicInfo.twoStepAuthentication) {
       this.apiService.post(request, true).subscribe((response: Response) => {
@@ -230,4 +230,5 @@ export class LoginPage implements OnInit {
 
     return generatedToken;
   }
+
 }
