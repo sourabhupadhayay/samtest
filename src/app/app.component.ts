@@ -22,7 +22,7 @@ import {
   Token,
 } from "@capacitor/push-notifications";
 import { AuthenticationService } from "./providers/authentication.service";
-import { Subscription } from "rxjs";
+import { Subscription,interval } from "rxjs";
 import { NavController } from "@ionic/angular";
 
 @Component({
@@ -35,6 +35,7 @@ export class AppComponent implements OnInit, OnDestroy {
   connectedFans: any[] = [];
   socket: any;
   private socketSubscription: Subscription;
+  intervalId: number;
   constructor(
     private apiservice: DataService,
     private _networkService: NetworkService,
@@ -52,14 +53,28 @@ export class AppComponent implements OnInit, OnDestroy {
     this.backButton();
     this.hideSplashScreen();
     this.getPublicInfo();
+    this.onlineStatus();
     this.deepLinking();
   }
 
   ngOnInit(): void {
     this.socketInit();
     this.callingAthlete();
+    this.commonService.getAuthPublicInfo();
+    const source = interval(60000);
+    this.socketSubscription = source.subscribe(val => this.onlineStatus());
   }
 
+  async onlineStatus(){
+    let userDetails = await this.core.getUserDataFromStorage();
+    if(userDetails) {
+    this.commonService.athleteOnlineOfflineStatus();
+    }
+   else {
+      return;
+     }
+
+  }
   private socketInit() {
     this.socketSubscription = this.commonService.$socketSubject.subscribe(
       () => {
@@ -96,6 +111,7 @@ export class AppComponent implements OnInit, OnDestroy {
   //get common public info
   getPublicInfo() {
     this.commonService.getPublicInfo();
+    this.commonService.getAuthPublicInfo();
   }
 
   deepLinking() {

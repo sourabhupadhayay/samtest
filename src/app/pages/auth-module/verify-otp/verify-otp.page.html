@@ -1,12 +1,12 @@
-<ion-header class="ion-no-border" [translucent]="true">
-  <ion-toolbar>
+<ion-header class="ion-no-border" [translucent]="true" mode="md">
+  <ion-toolbar mode="md">
     <!-- <ion-icon
       slot="start"
       name="arrow-back-outline"
       routerLink="/login"
     ></ion-icon> -->
     <ion-buttons slot="start" mode="md">
-      <ion-back-button [text]="null" icon="arrow-back-outline">
+      <ion-back-button [text]="null" icon="arrow-back-outline" mode="md">
       </ion-back-button>
     </ion-buttons>
   </ion-toolbar>
@@ -58,7 +58,7 @@
 
         <div *ngIf="timeLeft ==0" class="resend-text">
           <p>
-            Didn’t recieve the one time password?
+            Didn’t receive the one time password?
             <span (click)="resendOtp()">Resend</span>
           </p>
         </div>

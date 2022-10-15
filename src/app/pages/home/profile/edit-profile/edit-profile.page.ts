@@ -227,7 +227,7 @@ export class EditProfilePage implements OnInit {
     }
     this.modal.present();
   }
-  
+
   checkPhoneNumLength(phone: any) {
     if (phone?.length > 14) {
       return phone.substring(0, 14);
@@ -237,7 +237,7 @@ export class EditProfilePage implements OnInit {
 
   athleteDataRequest(): Request {
     this.validatePhoneAthleteForm();
-   
+
     let request: Request = {
       path: "auth/users/update",
       data: {

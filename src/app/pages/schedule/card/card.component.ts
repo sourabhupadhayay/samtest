@@ -260,7 +260,7 @@ export class CardComponent implements OnInit {
 
   async shareEvent() {
     await Share.share({
-      title: "Bubble app event",
+      title: "BubbleApp event",
       text: this.cardData.eventName,
       url: this.commonService.publicInfo.webLink + "/tabs/schedule",
     });
