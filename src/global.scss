@@ -599,3 +599,8 @@ ion-input[type=number] {
 }
 ion-modal.modal-default:not(.overlay-hidden) ~ ion-modal.modal-default{--backdrop-opacity: 0.2;}
 .swiper-pagination-fraction, .swiper-pagination-custom, .swiper-container-horizontal>.swiper-pagination-bullets{bottom: 30px;}
+
+app-bid-payment{
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; -moz-appearance: none; appearance: none; margin: 0;}
+}
