@@ -78,7 +78,7 @@
             >
               <ion-input
               displayFormat="h:mm a"
-               placeholder="Select time"
+               placeholder="Select Time"
                formControlName="time"
               ></ion-input>
             
@@ -100,7 +100,7 @@
                     presentation="time"
                     (ionChange)="setTimeValue(dateTime1.value)"
                   >
-                    <span slot="title">Select start time</span></ion-datetime
+                    <span slot="title">Select time</span></ion-datetime
                   >
                 </ion-content>
               </ng-template>
@@ -287,14 +287,63 @@
                     [showDefaultButtons]="true"
                     [min]="currentDate"
                     (ionChange)="setDateValue(dateTime.value)"
+                    displayFormat="MM/DD/YYYY"
+                    presentation="date" 
                   >
-                    <span slot="title">Select start time</span></ion-datetime
+                    <span slot="title">Select start date</span></ion-datetime
                   >
                 </ion-content>
               </ng-template>
             </ion-modal>
           </div>
         </ion-col>
+
+        <ion-col size="12">
+          <div class="input-box">
+            <ion-item
+            id="date-time"
+              [ngClass]="validFanInputBorder('time')"
+              lines="none"
+              class="ion-align-items-center"
+            >
+              <ion-input
+              formControlName="time"
+              displayFormat="h:mm a"
+              placeholder="Select Time"
+              format
+              ></ion-input>
+            
+              <img
+                class="ion-align-items-center"
+                slot="end"
+                src="assets/icon/duration.svg"
+              />
+            </ion-item>
+            <ion-modal class="dateModal" trigger="date-time" mode="ios">
+              <ng-template>
+                <ion-content>
+                  <ion-datetime
+                  displayFormat="hh:mm A"
+                    locale="en-US"
+                    mode="ios"
+                    #dateTime
+                    [showDefaultButtons]="true"
+                    presentation="time"
+                    (ionChange)="setTimeValue(dateTime.value)"
+                  >
+                    <span slot="title">Select time</span></ion-datetime
+                  >
+              
+                </ion-content>
+              </ng-template>
+
+              
+            </ion-modal>
+
+          </div>
+        </ion-col>
+
+
 
         <ion-col size="12">
           <div class="input-box">

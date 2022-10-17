@@ -168,6 +168,7 @@ export class AppereanceBookingComponent implements OnInit {
         state: ["", [Validators.required, Validators.pattern("^[a-zA-Z ]*$")]],
         zipCode: ["", [Validators.required, Validators.maxLength(5)]],
       }),
+      time : ["",[Validators.required]]
     });
   }
 
@@ -264,6 +265,7 @@ export class AppereanceBookingComponent implements OnInit {
       startDate,
       duration,
       eventAddress,
+      time,
 
       ...signUpResponse
     } = this.fanForm.value;
@@ -272,7 +274,8 @@ export class AppereanceBookingComponent implements OnInit {
       path: "core/event/create",
       data: {
         ...signUpResponse,
-        startDate: new Date(startDate).toISOString(),
+        // startDate: new Date(startDate).toISOString(),
+        startDate: this.eventStartTime,
         duration: this.totalFanDuration,
         athleteId: this.selectedAthleteId,
         eventType: this.fanEventType,
