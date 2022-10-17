@@ -42,6 +42,9 @@ export class CommonService {
   formatDateTime(value: string) {
     return format(parseISO(value), " MMM dd,yyyy, hh:mm aaaaa'm'");
   }
+  formatDateTimeUpdated(value: string) {
+    return format(parseISO(value), " MMM dd,yyyy");
+  }
   formatTime(value: string) {
     return format(parseISO(value), "HH:mm ");
   }

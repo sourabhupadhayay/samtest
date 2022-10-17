@@ -50,6 +50,8 @@ export class AppereanceBookingComponent implements OnInit {
   isTermsAndConditionAccepted: boolean = false;
   currentDate: string;
   currentTime: string;
+  isoDate: any;
+  eventStartTime:any;
 
   constructor(
     public modalCtrl: ModalController,
@@ -150,6 +152,7 @@ export class AppereanceBookingComponent implements OnInit {
       minBid: [null, [Validators.required]],
       description: [""],
       eventName: ["", [Validators.required]],
+      time: ["", [Validators.required]],
     });
 
     this.fanForm = this.fb.nonNullable.group({
@@ -222,13 +225,14 @@ export class AppereanceBookingComponent implements OnInit {
     }
     this.isAthleteFormSubmitted = true;
 
-    let { startDate, duration, ...athletePayload } = this.athleteForm.value;
+    let { startDate, duration, time, ...athletePayload } = this.athleteForm.value;
 
     let request: Request = {
       path: "core/event/create",
       data: {
         ...athletePayload,
-        startDate: new Date(startDate).toISOString(),
+        // startDate: new Date(startDate).toISOString(),
+        startDate : this.eventStartTime,
         duration: this.totalAthleteDuration,
       },
       isAuth: true,
@@ -284,14 +288,40 @@ export class AppereanceBookingComponent implements OnInit {
     if (!date) {
       return;
     }
-    let formattedDate = this.commonService.formatDateTime(date);
+    let dt = date.split('T')[0];
+    let formattedDate = this.commonService.formatDateTimeUpdated(dt);
 
     if (this.userRole == "athlete") {
       this.athleteForm.controls.startDate.patchValue(formattedDate);
     } else {
       this.fanForm.controls.startDate.patchValue(formattedDate);
     }
+    let dt2 = new Date(date).toISOString();
+    this.isoDate = dt2.split('T')[0];
+    console.log("date ",this.isoDate);
   }
+  setTimeValue(time: string) {
+    if (!time) {
+      return;
+    }
+    var tm = time;
+    let timedata = tm.split('T')[1];
+    console.log("time2 ",timedata)
+    let hour = timedata.split(':')[0];
+    let minute = timedata.split(':')[1];
+  
+    var AmOrPm = +hour >= 12 ? 'pm' : 'am';
+    var o = (+hour % 12) || 12;
+    var startTime = o + ":" + minute + " " + AmOrPm; + ":" + minute + " " + AmOrPm;
+    if (this.userRole == "athlete") {
+      this.athleteForm.controls.time.patchValue(startTime);
+    } else {
+      this.fanForm.controls.time.patchValue(startTime);
+    }
+   console.log("final ",this.isoDate+'T'+timedata);
+   this.eventStartTime = (this.isoDate+'T'+timedata);
+  }
+
 
   getSelectedAthlete() {
     this.$athletes = this.fanForm.controls.selectedAthleteName.valueChanges.pipe(
