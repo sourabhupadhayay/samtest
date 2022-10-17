@@ -1,14 +1,15 @@
 <ion-content [fullscreen]="true">
   <ion-grid class="top-card">
     <div class="title-part">
-      <ion-item lines="none" mode="md">
-        <ion-icon
+      <ion-item lines="none" >
+        <ion-icon 
           *ngIf="isUserProfileComplete"
-          routerLink="/tabs/profile"
+          (click)="goBack()"
           slot="start"
-          name="arrow-back-outline" mode="md"
+          name="arrow-back-outline" 
         ></ion-icon>
-
+        <!-- <ion-buttons slot="start">
+        <ion-back-button (click)="goBack()">back</ion-back-button></ion-buttons> -->
         <ion-label>
           <ion-grid class="logo-head">
             <img src="assets/images/single-logo.svg" />
