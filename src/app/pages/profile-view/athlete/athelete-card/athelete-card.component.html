@@ -32,7 +32,8 @@
         <!-- event timing countdown start  -->
 
         <div *ngIf="eventFilter =='upcoming' || eventFilter =='All'" class="">
-          <h6 *ngIf="timer && cardData.pastEvent !=true" class="card__time">
+          <h6 class="card__time">
+            <span *ngIf=" timer.minutes > 0 && cardData.pastEvent !=true">
             <ng-container *ngIf="this.timer.days">
               <span>{{this.timer.days }}</span> {{this.timer.title_days}} :
             </ng-container>
@@ -41,6 +42,10 @@
               {{this.timer?.title_hours}} :
             </ng-container>
             <span>{{this.timer.minutes}}</span> {{this.timer?.title_min}}
+            </span>
+          </h6>
+          <h6 *ngIf=" timer.minutes <= 0 && cardData.pastEvent !=true" class="card__time">
+            Event Started
           </h6>
         </div>
         <div *ngIf="eventFilter == 'past' && cardData.pastEvent ==true " class="">
