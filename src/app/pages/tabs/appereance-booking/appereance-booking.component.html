@@ -59,6 +59,7 @@
                     (ionChange)="setDateValue(dateTime.value)"
                     displayFormat="MM/DD/YYYY"
                     presentation="date" 
+                    [value] = "defaultDate"
                   >
                     <span slot="title">Select start date</span></ion-datetime
                   >
@@ -289,6 +290,7 @@
                     (ionChange)="setDateValue(dateTime.value)"
                     displayFormat="MM/DD/YYYY"
                     presentation="date" 
+                    [value] = "defaultDate"
                   >
                     <span slot="title">Select start date</span></ion-datetime
                   >

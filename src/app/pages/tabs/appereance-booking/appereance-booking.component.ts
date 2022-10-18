@@ -52,6 +52,7 @@ export class AppereanceBookingComponent implements OnInit {
   currentTime: string;
   isoDate: any;
   eventStartTime:any;
+  defaultDate = new Date().toISOString();
 
   constructor(
     public modalCtrl: ModalController,
@@ -77,6 +78,7 @@ export class AppereanceBookingComponent implements OnInit {
     this.eventTypeSelected();
     this.getSelectedAthlete();
     this.timeZone();
+    console.log("ddddd ",this.defaultDate)
   }
   async getUserRole() {
     this.userRole = await this.coreService.getUserRoleFromStorage();
