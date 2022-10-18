@@ -116,7 +116,12 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
             isAuth: true,
           };
           if (isOneToOneCall) {
-            request.path = `core/video/call/now/${this.id}?receiveCall=true`;
+            if (this.userRole == "athlete") {
+              console.log(isOneToOneCall,this.userRole);
+            request.path = `core/video/call/now/${this.id}?receiveCall=false`;
+          }else{
+              request.path = `core/video/call/now/${this.id}?receiveCall=true`;
+            }
           }
 
           return this.apiService.get(request);
@@ -147,7 +152,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
         this.getVideoSessionAndToken("core/video/receive/");
       }
     } else {
-      this.getVideoSessionAndToken(`core/video/call/now/`, true);
+        this.getVideoSessionAndToken(`core/video/call/now/`, true);
     }
   }
 

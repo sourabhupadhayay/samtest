@@ -221,6 +221,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.send(userDetails["id"]);
         this.socket.subscribe("/topic/receiveCall", (message) => {
           let responseData = JSON.parse(message.body).content;
+          console.log(responseData);
           this.commonService.callingAthleteDetails = JSON.parse(responseData);
 
           if (
