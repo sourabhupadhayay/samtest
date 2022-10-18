@@ -146,8 +146,8 @@
         </ng-container>
       </div>
       <div class="scroll-part">
-        <div *ngIf="scheduleData.length ==0" class="no-data-found">
-          <p>No upcoming requests</p>
+        <div *ngIf="scheduleData.length == 0" class="no-data-found">
+          <p>No upcoming Requests</p>
         </div>
 
         <athlete-card
@@ -157,6 +157,17 @@
         ></athlete-card>
       </div>
     </div>
+    <ion-infinite-scroll
+    [disabled]="isScrollDisabled"
+    threshold="100px"
+    (ionInfinite)="loadMoreEvents($event)"
+  >
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data..."
+    >
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
   </ion-grid>
   <ion-grid class="buble-part">
     <div class="dots-bubble">
