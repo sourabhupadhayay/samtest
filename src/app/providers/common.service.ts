@@ -9,7 +9,6 @@ import { DataService, Request, Response } from "./data.service";
 })
 export class CommonService {
   public publicInfo: any;
-  public authPublicInfo :any;
   public $profileSubject: Subject<any> = new Subject();
   profileUrl: string = "";
   callingAthleteDetails: any | null = null;
@@ -66,15 +65,7 @@ export class CommonService {
       this.publicInfo = response.data;
     });
   }
-  getAuthPublicInfo() {
-    let request: Request = {
-      path: "auth/configuration/publicInfo",
-      isAuth: false,
-    };
-    this.apiService.get(request).subscribe((response: Response) => {
-      this.authPublicInfo = response.data;
-    });
-  }
+
   athleteOnlineOfflineStatus() {
     let request: Request = {
       path: "auth/users/manage/status/change/true",
