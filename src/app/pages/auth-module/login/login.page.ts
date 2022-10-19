@@ -30,6 +30,7 @@ import { AuthModuleService } from "../auth-module.service";
 export class LoginPage implements OnInit {
   isFormSubmitted = false;
   isShowingPassword: boolean = false;
+  authPublicInfo :any;
   loginForm: FormGroup = new FormGroup({
     email: new FormControl<string | null>(null, [
       Validators.required,
@@ -63,11 +64,22 @@ export class LoginPage implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getAuthPublicInfo();
+  }
   ionViewWillEnter() {
     this.generateNotificationToken();
     this.returnUrl =
       this.route.snapshot.queryParams["returnUrl"] || "/tabs/home";
+  }
+  getAuthPublicInfo() {
+    let request: Request = {
+      path: "auth/configuration/publicInfo",
+      isAuth: false,
+    };
+    this.apiService.get(request).subscribe((response: Response) => {
+      this.authPublicInfo = response.data;
+    });
   }
   showPasswordToggle() {
     this.isShowingPassword = !this.isShowingPassword;
@@ -90,7 +102,7 @@ export class LoginPage implements OnInit {
     };
     console.log(request);
     this.coreService.presentLoader(this.constantService.WAIT);
-    if (this.commonService.authPublicInfo.twoStepAuthentication) {
+    if (this.authPublicInfo.twoStepAuthentication) {
       this.apiService.post(request, true).subscribe((response: Response) => {
         this.coreService.dismissLoader();
         if (response.status.code === this.constantService.STATUS_OK) {
