@@ -293,6 +293,7 @@ export class AppereanceBookingComponent implements OnInit {
     if (!date) {
       return;
     }
+    console.log("date",date)
     let dt = date.split('T')[0];
     let formattedDate = this.commonService.formatDateTimeUpdated(dt);
 
@@ -301,8 +302,8 @@ export class AppereanceBookingComponent implements OnInit {
     } else {
       this.fanForm.controls.startDate.patchValue(formattedDate);
     }
-    let dt2 = new Date(date).toISOString();
-    this.isoDate = dt2.split('T')[0];
+    //let dt2 = new Date(date).toISOString();
+    this.isoDate = date.split('T')[0];
     console.log("date ",this.isoDate);
   }
   setTimeValue(time: string) {
@@ -314,7 +315,7 @@ export class AppereanceBookingComponent implements OnInit {
     console.log("time2 ",timedata)
     let hour = timedata.split(':')[0];
     let minute = timedata.split(':')[1];
-  
+
     var AmOrPm = +hour >= 12 ? 'pm' : 'am';
     var o = (+hour % 12) || 12;
     var startTime = o + ":" + minute + " " + AmOrPm; + ":" + minute + " " + AmOrPm;
