@@ -251,7 +251,7 @@ export class AppComponent implements OnInit, OnDestroy {
             this.navController.navigateBack([
               "/waitlist/incoming-call/" +
                 this.commonService.callingAthleteDetails.eventId,
-            ]);
+            ],{queryParams: {bidId: this.commonService.callingAthleteDetails.id}});
           }
         });
       },
