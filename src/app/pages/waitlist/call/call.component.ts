@@ -53,7 +53,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   id: string;
   bidId: string;
   isBiddingEvent: boolean;
-  socket:any;
+  socket: any;
 
   constructor(
     private apiService: DataService,
@@ -63,14 +63,13 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     private cd: ChangeDetectorRef,
     private constantService: ConstantService,
     private core: CoreService,
-    public commonService: CommonService,
+    public commonService: CommonService
   ) {}
 
   ngOnInit() {
     this.keepDeviceAwake();
     this.callDisconnectSocket();
-    this.apiKey = this.commonService.publicInfo.videoApiKey
-    console.log("asdsd",this.commonService.publicInfo.videoApiKey)
+    this.apiKey = this.commonService.publicInfo.videoApiKey;
   }
 
   ngAfterViewInit(): void {
@@ -107,14 +106,24 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     KeepAwake.allowSleep();
   }
 
-  getVideoSessionAndToken(path: string) {
+  getVideoSessionAndToken(path: string, isOneToOneCall = false) {
     this.route.paramMap
       .pipe(
         switchMap((params: ParamMap) => {
           this.id = params.get("id");
           let request: Request = {
             path: path + params.get("id"),
+            isAuth: true,
           };
+          if (isOneToOneCall) {
+            if (this.userRole == "athlete") {
+              console.log(isOneToOneCall,this.userRole);
+            request.path = `core/video/call/now/${this.id}?receiveCall=false`;
+          }else{
+              request.path = `core/video/call/now/${this.id}?receiveCall=true`;
+            }
+          }
+
           return this.apiService.get(request);
         })
       )
@@ -143,7 +152,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
         this.getVideoSessionAndToken("core/video/receive/");
       }
     } else {
-      this.getVideoSessionAndToken("core/video/call/now/");
+        this.getVideoSessionAndToken(`core/video/call/now/`, true);
     }
   }
 
@@ -224,7 +233,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.apiService.post(request).subscribe((response: Response) => {
       if (response.status.code === this.constantService.STATUS_OK) {
         this.session.disconnect();
-        console.log("a ",this.isBiddingEvent,response.data.eventId)
+        console.log("a ", this.isBiddingEvent, response.data.eventId);
         if (this.isBiddingEvent) {
           this.router.navigate(["/waitlist/event/" + response.data.eventId]);
         } else {
@@ -274,9 +283,8 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     clearInterval(this.interval);
   }
 
-
   async callDisconnectSocket() {
-    console.log("called")
+    console.log("called");
     let userRole: userRole = await this.core.getUserRoleFromStorage();
     let userDetails = await this.core.getUserDataFromStorage();
 
@@ -294,27 +302,34 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
         this.socket.subscribe("/topic/cancelCall", (message) => {
           let responseData = JSON.parse(message.body).content;
           this.commonService.callingAthleteDetails = JSON.parse(responseData);
-          console.log("response ",responseData)
+          console.log("response ", responseData);
 
           if (
             userDetails.id == this.commonService.callingAthleteDetails.athleteId
           ) {
-            console.log("b ",this.isBiddingEvent, responseData.eventId)
+            console.log("b ", this.isBiddingEvent, responseData.eventId);
             if (this.isBiddingEvent) {
-              this.router.navigate(["/waitlist/event/" + this.commonService.callingAthleteDetails.eventId]);
+              this.router.navigate([
+                "/waitlist/event/" +
+                  this.commonService.callingAthleteDetails.eventId,
+              ]);
             } else {
               this.router.navigate(["tabs/schedule"]);
             }
 
-            if(this.commonService.callingAthleteDetails.disconnectedByPersonRole == 'USER' && userRole =='athlete'
-              && this.commonService.callingAthleteDetails.bidState !=='COMPLETED') {
+            if (
+              this.commonService.callingAthleteDetails
+                .disconnectedByPersonRole == "USER" &&
+              userRole == "athlete" &&
+              this.commonService.callingAthleteDetails.bidState !== "COMPLETED"
+            ) {
               this.core.showToastMessage(
                 "Fan is busy. Please connect after sometime",
                 this.core.TOAST_ERROR
               );
             }
-          } else{
-            console.log("no")
+          } else {
+            console.log("no");
           }
         });
       },

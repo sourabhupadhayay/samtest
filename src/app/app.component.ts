@@ -60,7 +60,6 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.socketInit();
     this.callingAthlete();
-    this.commonService.getAuthPublicInfo();
     const source = interval(60000);
     this.socketSubscription = source.subscribe(val => this.onlineStatus());
   }
@@ -111,7 +110,6 @@ export class AppComponent implements OnInit, OnDestroy {
   //get common public info
   getPublicInfo() {
     this.commonService.getPublicInfo();
-    this.commonService.getAuthPublicInfo();
   }
 
   deepLinking() {
@@ -221,6 +219,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.send(userDetails["id"]);
         this.socket.subscribe("/topic/receiveCall", (message) => {
           let responseData = JSON.parse(message.body).content;
+          console.log(responseData);
           this.commonService.callingAthleteDetails = JSON.parse(responseData);
 
           if (
@@ -250,7 +249,7 @@ export class AppComponent implements OnInit, OnDestroy {
             this.navController.navigateBack([
               "/waitlist/incoming-call/" +
                 this.commonService.callingAthleteDetails.eventId,
-            ]);
+            ],{queryParams: {bidId: this.commonService.callingAthleteDetails.id}});
           }
         });
       },

@@ -30,6 +30,7 @@ import { AuthModuleService } from "../auth-module.service";
 export class LoginPage implements OnInit {
   isFormSubmitted = false;
   isShowingPassword: boolean = false;
+  authPublicInfo :any;
   loginForm: FormGroup = new FormGroup({
     email: new FormControl<string | null>(null, [
       Validators.required,
@@ -38,7 +39,7 @@ export class LoginPage implements OnInit {
     password: new FormControl<string | null>(null, [Validators.required]),
   });
   returnUrl: string;
-
+  generatedToken: string | null = null;
   FACEBOOK_PERMISSIONS: string[] = [
     "email",
     "user_birthday",
@@ -63,10 +64,22 @@ export class LoginPage implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getAuthPublicInfo();
+  }
   ionViewWillEnter() {
+    this.generateNotificationToken();
     this.returnUrl =
       this.route.snapshot.queryParams["returnUrl"] || "/tabs/home";
+  }
+  getAuthPublicInfo() {
+    let request: Request = {
+      path: "auth/configuration/publicInfo",
+      isAuth: false,
+    };
+    this.apiService.get(request).subscribe((response: Response) => {
+      this.authPublicInfo = response.data;
+    });
   }
   showPasswordToggle() {
     this.isShowingPassword = !this.isShowingPassword;
@@ -78,29 +91,33 @@ export class LoginPage implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
+
     let request: Request = {
       path: "auth/users/login",
-      data: { ...this.loginForm.value, loginSource: "WEB" },
+      data: {
+        ...this.loginForm.value,
+        loginSource: "WEB",
+        deviceToken: this.generatedToken,
+      },
     };
-    console.log(this.commonService.authPublicInfo.twoStepAuthentication)
-
+    console.log(request);
     this.coreService.presentLoader(this.constantService.WAIT);
-    if(this.commonService.authPublicInfo.twoStepAuthentication) {
+    if (this.authPublicInfo.twoStepAuthentication) {
       this.apiService.post(request, true).subscribe((response: Response) => {
         this.coreService.dismissLoader();
         if (response.status.code === this.constantService.STATUS_OK) {
-            Storage.set({
-              key: "userDetails",
-              value: JSON.stringify(response.data),
-            }).then(() => {
-              this.commonAuthData.loginEmail = this.loginForm.controls.email.value;
-              this.router.navigate(["auth/verify-otp"], {
-                queryParams: {
-                  mode: "login",
-                  returnUrl: this.returnUrl,
-                },
-              });
+          Storage.set({
+            key: "userDetails",
+            value: JSON.stringify(response.data),
+          }).then(() => {
+            this.commonAuthData.loginEmail = this.loginForm.controls.email.value;
+            this.router.navigate(["auth/verify-otp"], {
+              queryParams: {
+                mode: "login",
+                returnUrl: this.returnUrl,
+              },
             });
+          });
         } else {
           this.coreService.showToastMessage(
             response.status.description,
@@ -112,13 +129,13 @@ export class LoginPage implements OnInit {
       this.apiService.post(request, false).subscribe((response: Response) => {
         this.coreService.dismissLoader();
         if (response.status.code === this.constantService.STATUS_OK) {
-            Storage.set({
-              key: "userDetails",
-              value: JSON.stringify(response.data),
-            }).then(() => {
-              this.commonAuthData.loginEmail = this.loginForm.controls.email.value;
-              this.router.navigate(["/tabs/home"])
-            });
+          Storage.set({
+            key: "userDetails",
+            value: JSON.stringify(response.data),
+          }).then(() => {
+            this.commonAuthData.loginEmail = this.loginForm.controls.email.value;
+            this.router.navigate(["/tabs/home"]);
+          });
         } else {
           this.coreService.showToastMessage(
             response.status.description,
@@ -205,12 +222,9 @@ export class LoginPage implements OnInit {
     } catch (e) {}
   }
 
-  async generateNotificationToken(): Promise<string | null> {
-    let generatedToken = null;
-    console.log(this.platform.platforms());
-
+  async generateNotificationToken() {
     if (this.platform.is("desktop") || this.platform.is("mobileweb")) {
-      return generatedToken;
+      this.generatedToken = null;
     }
 
     let result = await PushNotifications.requestPermissions();
@@ -219,15 +233,13 @@ export class LoginPage implements OnInit {
       // Register with Apple / Google to receive push via APNS/FCM
       PushNotifications.register();
     } else {
-      generatedToken = null;
+      this.generatedToken = null;
       // Show some error
     }
 
     // On success, we should be able to receive notifications
     PushNotifications.addListener("registration", (token: Token) => {
-      generatedToken = token.value;
+      this.generatedToken = token.value;
     });
-
-    return generatedToken;
   }
 }

@@ -146,11 +146,11 @@ export class AthletePage implements OnInit, OnDestroy {
 
   calculateTime() {
     this.eventTime = this.commonService.dateFormat(
-      this.latestAthleteEvent.startDate
+      this.latestAthleteEvent?.startDate
     );
     this.interval = setInterval(() => {
       this.eventTime = this.commonService.dateFormat(
-        this.latestAthleteEvent.startDate
+        this.latestAthleteEvent?.startDate
       );
     }, 60000);
   }

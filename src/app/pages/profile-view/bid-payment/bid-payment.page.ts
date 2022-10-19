@@ -122,6 +122,7 @@ export class BidPaymentPage implements OnInit {
       return;
     }
     // this.bidAmount = this.decimalPipe.transform(this.bidAmount, "1.2-2");
+
   }
 
   getMaximumBidForEvent() {
@@ -200,6 +201,11 @@ export class BidPaymentPage implements OnInit {
     }
     return false;
   }
+
+  getToFixedDigits(event:any){
+    if(event.target.value !== '')
+     event.target.value = parseFloat(event.target.value).toFixed(2)
+    }
 }
 interface paymentData {
   nonce: string;
