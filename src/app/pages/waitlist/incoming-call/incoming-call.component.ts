@@ -18,6 +18,7 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
   id: string;
   nameInitials: string;
   socket: any;
+  bidId:any
   constructor(
     private router: Router,
     public commonService: CommonService,
@@ -32,6 +33,10 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
   getBidIdFromRoute() {
     this.route.params.subscribe((params: Params) => {
       this.id = params.id;
+    });
+    this.route.queryParams.subscribe((params) => {
+      this.bidId = params.bidId
+      console.log(this.bidId)
     });
   }
 
@@ -92,6 +97,9 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
       "details ",
       this.commonService.callingAthleteDetails.remainingTime
     );
+    if(this.bidId!=undefined){
+      this.id =this.bidId
+    }
     let request: Request = {
       path: "core/video/updateCall/" + this.id,
       data: {
@@ -99,12 +107,9 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
       },
       isAuth: true,
     };
-    this.coreService.presentLoader(this.constantService.WAIT);
-
     this.apiService.post(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
     });
-
     this.router.navigate(["/tabs/schedule"]);
   }
 
