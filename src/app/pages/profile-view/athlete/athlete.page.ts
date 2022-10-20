@@ -133,12 +133,12 @@ export class AthletePage implements OnInit, OnDestroy {
             request.data.filter.eventState = "UPCOMING";
           }
 
-          this.coreService.presentLoader(this.constantService.WAIT);
+          // this.coreService.presentLoader(this.constantService.WAIT);
           return this.apiService.post(request);
         })
       )
       .subscribe((response: Response) => {
-        this.coreService.dismissLoader();
+        // this.coreService.dismissLoader();
         if (response.status.code === this.constantService.STATUS_OK) {
           if (this.pageNumber == 0) {
             this.scheduleData = response.data.content;
@@ -147,7 +147,7 @@ export class AthletePage implements OnInit, OnDestroy {
               this.scheduleData.push(element);
             });
           }
-          console.log("data ", this.scheduleData.length);
+          // console.log("data ", this.scheduleData.length);
           this.totalElements = response.data.totalElements;
           this.cd.detectChanges();
         } else {
@@ -158,9 +158,15 @@ export class AthletePage implements OnInit, OnDestroy {
         }
       });
   }
+  resetAndGetMoreData() {
+    this.totalElements = 0;
+    this.pageNumber = 0;
+    this.isScrollDisabled = false;
+    this.scheduleData = [];
+    this.getAthleteAppearances();
+  }
 
   loadMoreEvents(event) {
-    console.log("working");
     this.pageNumber++;
     this.getAthleteAppearances();
     event.target.complete();

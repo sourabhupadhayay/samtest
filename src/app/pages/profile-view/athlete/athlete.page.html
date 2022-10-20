@@ -121,7 +121,7 @@
           <div class="">
             <ion-select
               [(ngModel)]="eventFilter"
-              (ngModelChange)="getAthleteAppearances()"
+              (ngModelChange)="resetAndGetMoreData()"
               interface="popover"
               mode="ios"
               [interfaceOptions]="{'cssClass': 'mycomponent-wider-popover'}"
@@ -144,6 +144,7 @@
         [eventFilter]="eventFilter"
         *ngFor="let data of scheduleData"
         [cardData]="data"
+        (changeStatus)=" resetAndGetMoreData()"
       ></athlete-card>
     </div>
     <ion-infinite-scroll
