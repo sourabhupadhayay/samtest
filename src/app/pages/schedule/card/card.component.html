@@ -131,6 +131,7 @@
           </div>
 
           <div
+            *ngIf="cardData.creatorPersona !== 'ADMIN'"
             [ngClass]="eventState == 'PAST' ? 'card__opp--disabled' :''"
             class="card__opp"
           >
@@ -145,6 +146,9 @@
             <h6 *ngIf="cardData.creatorPersona == 'USER'">
               Opportunity
             </h6>
+          </div>
+          <div *ngIf="cardData.creatorPersona == 'ADMIN'" class="card__sponser">
+            <img [src]="cardData.userProfilePicture | profile" alt="" />
           </div>
         </div>
         <!-- <div class="card__border"></div> -->
