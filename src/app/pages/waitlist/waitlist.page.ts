@@ -50,11 +50,17 @@ export class WaitlistPage implements OnInit {
         this.socket.subscribe("/topic/bidList", (message) => {
           let data = JSON.parse(message.body);
           let contentData = JSON.parse(data.content);
-
           if (contentData.eventId !== this.eventId) {
             return;
           }
-
+          this.pendingCallFans.forEach((e, index) => {
+            if (
+              contentData.bidState != e.bidState &&
+              contentData.userId == e.userId
+            ) {
+              this.pendingCallFans.splice(index, 1);
+            }
+          });
           if (contentData.bidState == "PENDING") {
             this.filterAndSortPendingFans(contentData);
           } else if (
@@ -89,6 +95,7 @@ export class WaitlistPage implements OnInit {
 
   filterAndSortPendingFans(fanData: any) {
     this.pendingCallFans.push(fanData);
+    console.log("pending", this.pendingCallFans);
     this.pendingCallFans = this.getUniqueListBy(this.pendingCallFans, "userId");
     this.pendingCallFans.sort((a, b) => {
       return b.totalAmount - a.totalAmount;
