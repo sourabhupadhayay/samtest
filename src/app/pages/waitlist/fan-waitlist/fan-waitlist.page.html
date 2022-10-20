@@ -2,7 +2,7 @@
   <ion-grid class="top-card" mode="md">
     <div class="title-part" >
       <ion-item  lines="none" mode="md">
-        <ion-icon routerLink="/tabs/schedule" slot="start" name="arrow-back-outline" mode="md"></ion-icon>
+        <ion-icon (click)="routeBackToSchedule()" slot="start" name="arrow-back-outline" mode="md"></ion-icon>
         <ion-label>
           <ion-grid class="logo-head">
             <img src="assets/images/single-logo.svg" />
@@ -29,9 +29,11 @@
         loop="true"
         autoplay
         autoplay="autoplay"
+       
         webkit-playsinline
+
         playsinline
-        muted="true"
+      
       >
         <source src="../../../../assets/video/papa-johns-fvideo.mp4" />
 

@@ -106,14 +106,24 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     KeepAwake.allowSleep();
   }
 
-  getVideoSessionAndToken(path: string) {
+  getVideoSessionAndToken(path: string, isOneToOneCall = false) {
     this.route.paramMap
       .pipe(
         switchMap((params: ParamMap) => {
           this.id = params.get("id");
           let request: Request = {
             path: path + params.get("id"),
+            isAuth: true,
           };
+          if (isOneToOneCall) {
+            if (this.userRole == "athlete") {
+              console.log(isOneToOneCall,this.userRole);
+            request.path = `core/video/call/now/${this.id}?receiveCall=false`;
+          }else{
+              request.path = `core/video/call/now/${this.id}?receiveCall=true`;
+            }
+          }
+
           return this.apiService.get(request);
         })
       )
@@ -142,9 +152,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
         this.getVideoSessionAndToken("core/video/receive/");
       }
     } else {
-      this.getVideoSessionAndToken(
-        `core/video/call/now/${this.id}?receiveCall = true`
-      );
+        this.getVideoSessionAndToken(`core/video/call/now/`, true);
     }
   }
 

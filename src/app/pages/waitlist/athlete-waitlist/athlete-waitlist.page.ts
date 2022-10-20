@@ -72,7 +72,6 @@ export class AthleteWaitlistPage implements OnInit, DoCheck {
     this.apiService.post(request).subscribe((response: Response) => {
       if (response.status.code == this.constant.STATUS_OK) {
         this.athleteList = response.data;
-        console.log("ath ", this.athleteList);
         this.athleteList.forEach((element, index) => {
           this.athleteList[index][
             "nameInitials"

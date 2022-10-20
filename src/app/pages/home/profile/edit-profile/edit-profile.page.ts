@@ -211,7 +211,7 @@ export class EditProfilePage implements OnInit {
         ...signUpResponse,
         birthDate: new Date(birthDate).toISOString(),
         profileUrl: this.commonService.profileUrl,
-        phone :  this.checkPhoneNumLength(this.fanProfileForm.value.phone)
+        phone: this.checkPhoneNumLength(this.fanProfileForm.value.phone),
       },
       isAuth: true,
     };
@@ -243,7 +243,7 @@ export class EditProfilePage implements OnInit {
       data: {
         ...this.athleteProfileForm.value,
         profileUrl: this.commonService.profileUrl,
-        phone :  this.checkPhoneNumLength(this.athleteProfileForm.value.phone)
+        phone: this.checkPhoneNumLength(this.athleteProfileForm.value.phone),
       },
       isAuth: true,
     };
@@ -343,9 +343,11 @@ export class EditProfilePage implements OnInit {
       }
     });
   }
-  validatePhoneFanForm() :boolean {
-
-    if (this.fanProfileForm.controls.phone.value!="" && this.fanProfileForm.controls.phone.value.length < 14) {
+  validatePhoneFanForm(): boolean {
+    if (
+      this.fanProfileForm.controls.phone.value != "" &&
+      this.fanProfileForm.controls.phone.value.length < 14
+    ) {
       this.coreService.showToastMessage(
         "Please enter valid phone number",
         this.coreService.TOAST_ERROR
@@ -354,7 +356,9 @@ export class EditProfilePage implements OnInit {
       return true;
     }
     if (!this.fanProfileForm.controls.phone.value) {
-      this.fanProfileForm.controls.phone.patchValue(this.fanProfileForm.controls.phone.value);
+      this.fanProfileForm.controls.phone.patchValue(
+        this.fanProfileForm.controls.phone.value
+      );
     }
   }
   validatePhoneAthleteForm() {
@@ -364,5 +368,8 @@ export class EditProfilePage implements OnInit {
     if (this.athleteProfileForm.controls.phone.value.length < 14) {
       this.athleteProfileForm.controls.phone.patchValue("");
     }
+  }
+  goBack() {
+    this.router.navigate(["/tabs/profile"]);
   }
 }

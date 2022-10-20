@@ -10,6 +10,7 @@ import {
   ViewChild,
 } from "@angular/core";
 import { Router } from "@angular/router";
+import { NavController } from "@ionic/angular";
 import { CommonService } from "src/app/providers/common.service";
 import { ConstantService } from "src/app/providers/constant.service";
 // import { Socket } from "ngx-socket-io";
@@ -54,7 +55,8 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
     private constantService: ConstantService,
     public commonService: CommonService,
     private cd: ChangeDetectorRef,
-    private constant: ConstantService
+    private constant: ConstantService,
+    private navController: NavController
   ) {}
 
   ngOnInit() {
@@ -149,7 +151,9 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
   }
 
   updateBid() {
-    this.router.navigate(["bid-payment/" + this.eventId]);
+    // this.router.navigate(["bid-payment/" + this.eventId]);
+    this.navController.navigateBack([ "bid-payment/" + this.eventId ]);
+
   }
 
   compare_bid(a, b) {
@@ -176,6 +180,13 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
 
   ionViewDidLeave() {
     this.soundOnOff();
+  }
+
+  routeBackToSchedule() {
+    console.log("called")
+    this.navController.navigateBack([
+      "/tabs/schedule" 
+    ]);
   }
 
   ngOnDestroy(): void {
