@@ -180,18 +180,24 @@ ion-content {
     }
   }
 
-  .content-part {
-    padding: 30px 15px 0px;
-    position: relative;
+  .sticky-div {
+    position: sticky;
+    top: 200px;
     z-index: 999;
+    // background: #000;
+    padding: 30px 15px;
+    margin-top: 20px;
+    &.add-bg {
+      background: var(--theme-one-bg);
+    }
+
     .tabs-design {
       // background: rgba(var(--theme-one-clr), 0.3);
       border-radius: 50px;
       padding: 0;
       margin-bottom: 15px;
       box-shadow: 0 0px 8px #157bb2;
-      position: fixed;
-      width: calc(100% - 30px);
+
       left: 0;
       background: #4fabdc;
       margin: 5px auto;
@@ -224,7 +230,15 @@ ion-content {
         }
       }
     }
-    .details-part {margin-top: 70px;
+  }
+
+  .content-part {
+    padding: 30px 15px 0px;
+    // position: relative;
+    z-index: 999;
+
+    .details-part {
+      margin-top: 70px;
       padding: 10px 15px;
       background: rgba(var(--white-bg-rgb), 0.7);
       border-radius: 8px;
@@ -324,11 +338,11 @@ ion-footer {
     --border-width: 0;
     padding-left: 0;
     padding-right: 0;
-    .footer-part{
+    .footer-part {
       background: rgba(var(--white-bg-rgb), 0.7);
-        border-radius: 8px;
-        box-shadow: 0 -2px 2px var(--white-clr);
-        padding: 0 15px;
+      border-radius: 8px;
+      box-shadow: 0 -2px 2px var(--white-clr);
+      padding: 0 15px;
       .highest-bid {
         padding: 5px 0px;
         background: transparent;
@@ -375,26 +389,25 @@ ion-footer {
                 display: block;
               }
             }
-            
           }
-          ion-text{
+          ion-text {
             margin: 0;
-              color: var(--black-clr);
-              font-weight: 700;
-              font-size: 0.875rem;
-              display: block;
-              align-self: center;
+            color: var(--black-clr);
+            font-weight: 700;
+            font-size: 0.875rem;
+            display: block;
+            align-self: center;
           }
         }
       }
-   
+
       .buttons-swipe {
         padding: 5px 10px;
         // background: rgba(var(--white-bg-rgb), 0.7);
         background: var(--white-bg);
         border-radius: 100px;
         // box-shadow: 0 -2px 2px var(--white-clr);
-        box-shadow:  0px 4px 4px rgba(0, 0, 0, 0.25);
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
         margin-bottom: 5px;
         position: relative;
         .buttons-data {
@@ -600,76 +613,91 @@ ion-footer {
           }
         }
       }
-      .bid-submitted{
+      .bid-submitted {
         padding: 4px 15px;
         background: #c8e6f6;
         border-radius: 100px;
         box-shadow: 0 0 6px #a5c3d3;
         margin-bottom: 5px;
         position: relative;
-          ion-item{
-            --padding-start: 0px;
-            --inner-padding-end: 0px;
-            --background: transparent;
-            --background-activated: transparent;
-            --background-focused: transparent;
-            --background-hover: transparent;
-            ion-label{word-break: break-word; white-space: normal; margin: 0;
-              h5{margin: 0 0 3px; font-weight: 300; font-size: 1.25rem; color: var(--black-clr);}
-              span{margin: 0; font-weight: 700; font-size: 1.25rem; color: var(--black-clr);}
+        ion-item {
+          --padding-start: 0px;
+          --inner-padding-end: 0px;
+          --background: transparent;
+          --background-activated: transparent;
+          --background-focused: transparent;
+          --background-hover: transparent;
+          ion-label {
+            word-break: break-word;
+            white-space: normal;
+            margin: 0;
+            h5 {
+              margin: 0 0 3px;
+              font-weight: 300;
+              font-size: 1.25rem;
+              color: var(--black-clr);
             }
-            .auth-btn {
-              padding: 0;
-              text-align: center;
-              margin: 2px;
-              ion-button {
-                cursor: pointer;
-                --background: transparent;
-                --background-focused: transparent;
-                --background-hover: transparent;
-                --background-activated: transparent;
-                // --box-shadow: none;
-                --padding-start: 0rem;
-                --padding-end: 0rem;
-                height: 58px;
-                width: 58px;
-                border-radius: 50%;
-                --border-radius: 50%;
-                // box-shadow: 0 5px 7px #225889;
-                box-shadow: 0px 4px 4px #5a829b, inset 0px 4px 4px #9bd9ff;;
-                text-transform: capitalize;
-                img {
-                  height: 58px;
-                  width: 58px;
-                }
-                span {
-                  position: absolute;
-                  top: 0;
-                  left: 0;
-                  right: 0;
-                  bottom: 0;
-                  margin: auto;
-                  display: inline-block;
-                  color: var(--white-clr);
-                  font-weight: 700;
-                  height: fit-content;
-                  text-transform: capitalize;
-                  font-size: 1.25rem;
-                  line-height: 21px;
-                  img{
-                    width: 22px; height: 22px; margin-top: 4px;
-                  }
-                }
-                &.button-disabled {
-                  opacity: 1;
-                  filter: grayscale(1);
-                }
-                // &.ion-focusable {
-                //   box-shadow: none;
-                // }
-              }
+            span {
+              margin: 0;
+              font-weight: 700;
+              font-size: 1.25rem;
+              color: var(--black-clr);
             }
           }
+          .auth-btn {
+            padding: 0;
+            text-align: center;
+            margin: 2px;
+            ion-button {
+              cursor: pointer;
+              --background: transparent;
+              --background-focused: transparent;
+              --background-hover: transparent;
+              --background-activated: transparent;
+              // --box-shadow: none;
+              --padding-start: 0rem;
+              --padding-end: 0rem;
+              height: 58px;
+              width: 58px;
+              border-radius: 50%;
+              --border-radius: 50%;
+              // box-shadow: 0 5px 7px #225889;
+              box-shadow: 0px 4px 4px #5a829b, inset 0px 4px 4px #9bd9ff;
+              text-transform: capitalize;
+              img {
+                height: 58px;
+                width: 58px;
+              }
+              span {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                margin: auto;
+                display: inline-block;
+                color: var(--white-clr);
+                font-weight: 700;
+                height: fit-content;
+                text-transform: capitalize;
+                font-size: 1.25rem;
+                line-height: 21px;
+                img {
+                  width: 22px;
+                  height: 22px;
+                  margin-top: 4px;
+                }
+              }
+              &.button-disabled {
+                opacity: 1;
+                filter: grayscale(1);
+              }
+              // &.ion-focusable {
+              //   box-shadow: none;
+              // }
+            }
+          }
+        }
       }
       .wanna-bubble {
         padding: 5px 15px 15px;
@@ -680,7 +708,7 @@ ion-footer {
           margin: 0;
           font-weight: 500;
         }
-      } 
+      }
     }
   }
 }
@@ -902,7 +930,7 @@ ion-footer {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
-  padding-top: 60px;
+
   & h6 {
     font-size: 0.875rem;
     margin: 0;
@@ -926,11 +954,16 @@ ion-select {
   }
 }
 
+.scroll-part {
+  max-height: calc(100vh - 341px);
+  overflow: auto;
+}
 
-.scroll-part{    max-height: calc(100vh - 341px);
-  overflow: auto;}
-
-  .inital{position: absolute; top: 0; left: 0px;}
+.inital {
+  position: absolute;
+  top: 0;
+  left: 0px;
+}
 .initial {
   position: relative;
   &__span {
@@ -947,6 +980,7 @@ ion-select {
     font-size: 2rem;
     font-weight: 600;
     text-transform: uppercase;
-    border: 1px solid white;margin: 0;
+    border: 1px solid white;
+    margin: 0;
   }
 }

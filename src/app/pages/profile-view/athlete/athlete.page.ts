@@ -1,6 +1,12 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
 import { ActivatedRoute, ParamMap, Router } from "@angular/router";
-import { ModalController } from "@ionic/angular";
+import { IonContent, ModalController } from "@ionic/angular";
 import { Observable } from "rxjs";
 import { map, switchMap, tap } from "rxjs/operators";
 import { AuthModuleService } from "src/app/pages/auth-module/auth-module.service";
@@ -15,6 +21,7 @@ import { CommonService } from "../../../providers/common.service";
   styleUrls: ["./athlete.page.scss"],
 })
 export class AthletePage implements OnInit, OnDestroy {
+  @ViewChild(IonContent) content: IonContent;
   athleteData: any | null = null;
   selectedIndex: string = "appearances";
   scheduleData: any[] = [];
@@ -27,9 +34,7 @@ export class AthletePage implements OnInit, OnDestroy {
   isScrollDisabled: boolean = false;
   pageNumber: number = 0;
   totalElements: number = 0;
-
-
-
+  isClassAdded: boolean = false;
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -44,6 +49,22 @@ export class AthletePage implements OnInit, OnDestroy {
   ngOnInit() {
     this.getAthleteData();
     this.getAppearanceData();
+  }
+
+  ionViewDidEnter() {
+    this.addClassOnScroll();
+  }
+
+  addClassOnScroll() {
+    this.content.ionScroll.subscribe((data) => {
+      if (data.detail.scrollTop > 50) {
+        this.isClassAdded = true;
+        this.cd.detectChanges();
+      } else if (data.detail.scrollTop < 50) {
+        this.isClassAdded = false;
+        this.cd.detectChanges();
+      }
+    });
   }
 
   getAppearanceData() {
@@ -126,7 +147,7 @@ export class AthletePage implements OnInit, OnDestroy {
               this.scheduleData.push(element);
             });
           }
-          console.log("data ",this.scheduleData.length)
+          console.log("data ", this.scheduleData.length);
           this.totalElements = response.data.totalElements;
           this.cd.detectChanges();
         } else {
@@ -139,7 +160,7 @@ export class AthletePage implements OnInit, OnDestroy {
   }
 
   loadMoreEvents(event) {
-    console.log("in ",this.totalElements,this.scheduleData.length,this.pageNumber)
+    console.log("working");
     this.pageNumber++;
     this.getAthleteAppearances();
     event.target.complete();

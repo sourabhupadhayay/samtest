@@ -1,12 +1,13 @@
 <!--ion-header>No header </ion-header-->
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" [scrollEvents]="true">
   <ion-grid class="top-card">
     <div class="title-part">
       <ion-item lines="none" mode="md">
         <ion-icon
           routerLink="/tabs/schedule"
           slot="start"
-          name="arrow-back-outline" mode="md"
+          name="arrow-back-outline"
+          mode="md"
         ></ion-icon>
         <ion-label>
           <ion-grid class="logo-head">
@@ -64,8 +65,7 @@
       </ion-item>
     </div>
   </ion-grid>
-
-  <ion-grid class="content-part">
+  <div class="sticky-div" [ngClass]="isClassAdded ? 'add-bg':''">
     <ion-grid class="tabs-design">
       <ion-segment
         [(ngModel)]="selectedIndex"
@@ -80,7 +80,9 @@
         </ion-segment-button>
       </ion-segment>
     </ion-grid>
+  </div>
 
+  <ion-grid class="content-part">
     <div class="profile-tab" *ngIf="selectedIndex == 'profile'">
       <div class="details-part">
         <div class="details-box">
@@ -110,18 +112,6 @@
           <p>{{athleteData?.birthDate | date:'MMM d, y'}}</p>
         </div>
       </div>
-
-      <!-- <div class="highest-bid">
-        <ion-item lines="none">
-          <ion-avatar slot="start">
-            <img src="assets/icon/highest-bid.svg" />
-          </ion-avatar>
-          <ion-label>
-            <p>Highest Bid</p>
-            <span>$100</span>
-          </ion-label>
-        </ion-item>
-      </div> -->
     </div>
 
     <div class="appearances-tab" *ngIf="selectedIndex == 'appearances'">
@@ -145,29 +135,28 @@
           </div>
         </ng-container>
       </div>
-      <div class="scroll-part">
-        <div *ngIf="scheduleData.length == 0" class="no-data-found">
-          <p>No upcoming Requests</p>
-        </div>
 
-        <athlete-card
-          [eventFilter]="eventFilter"
-          *ngFor="let data of scheduleData"
-          [cardData]="data"
-        ></athlete-card>
+      <div *ngIf="scheduleData.length == 0" class="no-data-found">
+        <p>No upcoming Requests</p>
       </div>
+
+      <athlete-card
+        [eventFilter]="eventFilter"
+        *ngFor="let data of scheduleData"
+        [cardData]="data"
+      ></athlete-card>
     </div>
     <ion-infinite-scroll
-    [disabled]="isScrollDisabled"
-    threshold="100px"
-    (ionInfinite)="loadMoreEvents($event)"
-  >
-    <ion-infinite-scroll-content
-      loadingSpinner="bubbles"
-      loadingText="Loading more data..."
+      [disabled]="isScrollDisabled"
+      threshold="100px"
+      (ionInfinite)="loadMoreEvents($event)"
     >
-    </ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Loading more data..."
+      >
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
   </ion-grid>
   <ion-grid class="buble-part">
     <div class="dots-bubble">
