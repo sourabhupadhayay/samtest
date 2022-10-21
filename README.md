@@ -52,8 +52,7 @@ also athlete can add his availability and fan can join their video call .
 
 ## Login Credentails
   * Development environment (Athlete)
-    email: foram.s@techroversolutions.com
-    password: Test@1234   
+   
 
 
 # Usage
