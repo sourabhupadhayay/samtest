@@ -37,6 +37,7 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
   userIndex: number = 0;
   sponsorList: any;
   connectedFanDetails = null;
+  creatorPersona: string;
 
   slideOpts: any = {
     slidesPerView: 3,
@@ -60,8 +61,8 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.getUserData();
     this.getEventDetails();
+    this.getUserData();
     this.getSponsor();
   }
 
@@ -93,7 +94,6 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
     this.apiService.post(request).subscribe((response: Response) => {
       if (response.status.code == this.constant.STATUS_OK) {
         this.sponsorList = response.data;
-        console.log("sponsors ", this.sponsorList);
       } else {
         this.coreService.showToastMessage(
           response["status"]["description"],
@@ -133,6 +133,8 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
         this.eventData = response.data;
+        this.creatorPersona = response.data.creatorPersona;
+        console.log(this.creatorPersona)
         this.calculateTime();
 
         this.cd.detectChanges();
