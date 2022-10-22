@@ -5,15 +5,18 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
+import { async } from "@angular/core/testing";
 import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import { IonContent, ModalController } from "@ionic/angular";
 import { Observable } from "rxjs";
 import { map, switchMap, tap } from "rxjs/operators";
 import { AuthModuleService } from "src/app/pages/auth-module/auth-module.service";
 import { ConstantService } from "src/app/providers/constant.service";
-import { CoreService } from "src/app/providers/core.service";
+import { CoreService, userRole } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { CommonService } from "../../../providers/common.service";
+
+export type eventState = "APPROVED" | "PENDING" | "PAST";
 
 @Component({
   selector: "app-athlete",
@@ -35,6 +38,9 @@ export class AthletePage implements OnInit, OnDestroy {
   pageNumber: number = 0;
   totalElements: number = 0;
   isClassAdded: boolean = false;
+  userRole: userRole;
+  eventState: eventState = "APPROVED";
+  
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -47,8 +53,13 @@ export class AthletePage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.getUserRole();
     this.getAthleteData();
     this.getAppearanceData();
+  }
+
+  async getUserRole() {
+    this.userRole =  await this.coreService.getUserRoleFromStorage();
   }
 
   ionViewDidEnter() {

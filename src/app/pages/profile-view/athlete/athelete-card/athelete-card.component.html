@@ -31,9 +31,8 @@
         <!-- video and in person event icons end  -->
         <!-- event timing countdown start  -->
 
-        <div *ngIf="eventFilter =='upcoming' || eventFilter =='All'" class="">
-          <h6 class="card__time">
-            <span *ngIf=" timer.minutes > 0 && cardData.pastEvent !=true">
+        <!-- <div *ngIf="eventFilter =='upcoming' || eventFilter =='All'" class="">
+          <h6 *ngIf="timer && cardData.pastEvent !=true" class="card__time">
             <ng-container *ngIf="this.timer.days">
               <span>{{this.timer.days }}</span> {{this.timer.title_days}} :
             </ng-container>
@@ -42,16 +41,33 @@
               {{this.timer?.title_hours}} :
             </ng-container>
             <span>{{this.timer.minutes}}</span> {{this.timer?.title_min}}
-            </span>
-          </h6>
-          <h6 *ngIf=" timer.minutes <= 0 && cardData.pastEvent !=true" class="card__time">
-            Event Started
           </h6>
         </div>
         <div *ngIf="eventFilter == 'past' && cardData.pastEvent ==true " class="">
           <h6 *ngIf="timer" style="margin-top: 15px;" class="card__time"></h6>
-        </div>
+        </div> -->
 
+        <ng-container *ngIf="userRole == 'athlete'">
+          <div *ngIf="eventFilter !== 'past'" class="">
+            <h6 *ngIf="timer.minutes > 0" class="card__time">
+              <ng-container *ngIf="this.timer.days">
+                <span>{{this.timer.days }}</span> {{this.timer.title_days}} :
+              </ng-container>
+              <ng-container *ngIf="this.timer.hours">
+                <span>{{this.timer.hours }}</span>
+                {{this.timer?.title_hours}} :
+              </ng-container>
+              <span>{{this.timer.minutes}}</span> {{this.timer?.title_min}}
+            </h6>
+            <h6 *ngIf="timer.minutes <=  0" class="card__time">
+              
+            </h6>
+          </div>
+          <h6
+            *ngIf="eventFilter == 'past'"
+            class="card__time disabled-text"
+          ></h6>
+        </ng-container>
         <!-- event timing countdown end  -->
         <div class="card__body">
           <div class="card__details">
@@ -61,13 +77,13 @@
               <span
                 ><img src="../../../../assets/icon/calender-blue.svg" alt=""
               /></span>
-              <h6>{{cardData.createdDate | date:'MMM dd, YYYY'}}</h6>
+              <h6>{{cardData.startDate | date:'MMM dd, YYYY'}}</h6>
             </div>
             <div class="card__detail">
               <span
                 ><img src="../../../../assets/icon/clock.svg" alt=""
               /></span>
-              <h6>{{cardData.createdDate | date:'shortTime'}}</h6>
+              <h6>{{cardData.startDate | date:'shortTime'}}</h6>
               <img src="../../../../assets/icon/duration-small.svg" alt="" />
               <h6>{{timeConvert(cardData.duration)}}</h6>
             </div>
@@ -97,19 +113,26 @@
             </div>
           </div>
 
-          <div class="card__opp">
-            <h3>
-              ${{cardData.minBid}}
-            </h3>
-            <h6
-              *ngIf="cardData.creatorPersona == 'ATHLETE' || cardData.creatorPersona == 'ADMIN'"
-            >
-              Minimum Bid
-            </h6>
-            <h6 *ngIf="cardData.creatorPersona == 'USER'">
-              Opportunity
-            </h6>
-          </div>
+          <div
+          *ngIf="!cardData.sponsorProfilePicture"
+          [ngClass]="cardData.pastEvent ? 'card__opp--disabled' :''"
+          class="card__opp"
+        >
+          <h3>
+            ${{cardData.minBid}}
+          </h3>
+          <h6
+            *ngIf="cardData.creatorPersona == 'ATHLETE' || cardData.creatorPersona == 'ADMIN'"
+          >
+            Minimum Bid
+          </h6>
+          <h6 *ngIf="cardData.creatorPersona == 'USER'">
+            Opportunity
+          </h6>
+        </div>
+        <div *ngIf="cardData.sponsorProfilePicture" class="card__sponser">
+          <img [src]="cardData.sponsorProfilePicture | profile" alt="" />
+        </div>
         </div>
         <!-- <div class="card__border"></div> -->
 
@@ -160,7 +183,54 @@
               </div>
             </ng-container>
           </ng-container> -->
-          <ng-container>
+          <!-- <ng-container>
+            <ng-container
+              *ngIf="cardData.creatorPersona == 'ATHLETE' || cardData.creatorPersona == 'ADMIN'"
+            >
+              <div class="profile">
+                <img
+                  *ngIf="cardData?.athleteProfilePicture !==''"
+                  [src]="cardData.athleteProfilePicture | profile"
+                  alt=""
+                />
+
+                <div
+                  *ngIf="cardData?.athleteProfilePicture ==''"
+                  class="inital"
+                >
+                  <span class="initial__span">
+                    {{nameInitials}}
+                  </span>
+                </div>
+                <div class="profile__detail">
+                  <h6>{{invitedText()}}</h6>
+                  <h5>{{cardData.athleteName}}</h5>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="cardData.creatorPersona == 'USER'">
+              <div class="profile">
+                <img
+                  *ngIf="cardData?.userProfilePicture !==''"
+                  [src]="cardData.userProfilePicture | profile"
+                  alt=""
+                />
+
+                <div *ngIf="cardData?.userProfilePicture ==''" class="inital">
+                  <span class="initial__span">
+                    {{nameInitials}}
+                  </span>
+                </div>
+                <div class="profile__detail">
+                  <h6>{{invitedText()}}</h6>
+                  <h5>{{cardData.userName}}</h5>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container> -->
+          <!-- invited and created by name and pic end  -->
+
+          <ng-container *ngIf="userRole == 'athlete'  && !cardData.sponsorProfilePicture">
             <ng-container
               *ngIf="cardData.creatorPersona == 'ATHLETE' || cardData.creatorPersona == 'ADMIN'"
             >
@@ -205,9 +275,13 @@
               </div>
             </ng-container>
           </ng-container>
-          <!-- invited and created by name and pic end  -->
 
-          <ng-container *ngIf="cardData.pastEvent !=true">
+          <ng-container *ngIf="userRole == 'athlete' && cardData.sponsorProfilePicture">
+            <div class="bubble-text">
+              <p><img src="assets/images/bubble-blue.svg"> Brought to you by bubble app </p>
+          </div>
+          </ng-container>
+          <!-- <ng-container *ngIf="cardData.pastEvent !=true">
             <ng-container>
               <ion-button
                 (click)="bidAthleteEvent(cardData.id)"
@@ -238,7 +312,58 @@
             <h6 class="card__completed">
               <img src="../../../../assets/icon/check-green.svg" alt="" />
             </h6>
+          </ng-container> -->
+      
+         <ng-container *ngIf="userRole == 'athlete'">
+          <ng-container
+            *ngIf="eventFilter !== 'past' && eventState !== 'PENDING'"
+          >
+            <ng-container *ngIf="cardData.creatorPersona == 'USER'    ">
+              <ion-button
+                *ngIf="cardData.eventType !== 'IN_PERSON' "
+                (click)="joinFanCall(cardData.id)"
+                size="small"
+                class="card__cta--green"
+              >
+                <span
+                  ><img src="../../../../assets/icon/join-video.svg" alt=""
+                /></span>
+                <p>Join Now</p>
+              </ion-button>
+            </ng-container>
+            <ion-button
+              *ngIf="cardData.eventType == 'IN_PERSON'"
+              [disabled]="canJoinEvent()"
+              (click)="openOtpModel() "
+              size="small"
+              class="card__cta--green"
+            >
+              <p class="card__cta--password">****</p>
+            </ion-button>
+            <ng-container
+              *ngIf="(cardData.creatorPersona == 'ATHLETE' || cardData.creatorPersona == 'ADMIN') && !this.cardData.pastEvent"
+            >
+              <div
+                *ngIf="cardData.eventType !== 'IN_PERSON'"
+                class="fans-bided-event"
+              >
+                <p>
+                  <span>{{cardData.count}}</span>
+                  Fans bided on your event
+                </p>
+                <ion-button
+                  [disabled]="canAthleteJoinEvent(cardData.count)"
+                  (click)="athleteEvent(cardData.id)"
+                  ><img src="assets/icon/join-video.svg" /> Go</ion-button
+                >
+              </div>
+            </ng-container>
           </ng-container>
+          <h6 *ngIf="this.cardData.pastEvent" class="card__completed">
+            COMPLETED
+          </h6>
+        </ng-container>
+        
         </div>
       </div>
     </ion-item>
