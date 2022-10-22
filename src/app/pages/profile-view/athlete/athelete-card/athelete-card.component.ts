@@ -9,11 +9,15 @@ import {
 } from "@angular/core";
 import { Router } from "@angular/router";
 import { AlertController, ModalController } from "@ionic/angular";
+import { CancelMessageModalComponent } from "src/app/pages/schedule/cancel-message-modal/cancel-message-modal.component";
+import { DismissmodalComponent } from "src/app/pages/schedule/dismissmodal/dismissmodal.component";
+import { MeetOtpComponent } from "src/app/pages/schedule/meet-otp/meet-otp.component";
 import { CommonService } from "src/app/providers/common.service";
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService, userRole } from "src/app/providers/core.service";
 import { DataService } from "src/app/providers/data.service";
 
+type EventStatus = "PENDING" | "APPROVED" | "REJECTED" | "CANCELLED";
 @Component({
   selector: "athlete-card",
   templateUrl: "./athelete-card.component.html",
@@ -24,6 +28,10 @@ export class AtheleteCardComponent implements OnInit {
   @Output() changeStatus: EventEmitter<null> = new EventEmitter();
   @Input() cardData;
   @Input() eventFilter: "past" | "upcoming" | "All";
+  @Input() eventState: "APPROVED" | "PAST" | "PENDING" = "APPROVED";
+  @Input() userRole: userRole;
+  
+  
 
   nameInitials: string;
 
@@ -34,7 +42,9 @@ export class AtheleteCardComponent implements OnInit {
 
   constructor(
     private cd: ChangeDetectorRef,
-
+    private coreService: CoreService,
+    private apiService: DataService,
+    private constantService: ConstantService,
     public commonService: CommonService,
     private alertController: AlertController,
     public modalCtrl: ModalController,
@@ -43,7 +53,7 @@ export class AtheleteCardComponent implements OnInit {
 
   ngOnInit() {
     this.dateFormat();
-
+    console.log("user ",this.userRole)
     this.getInitials();
   }
 
@@ -76,13 +86,139 @@ export class AtheleteCardComponent implements OnInit {
     }
   }
 
+  joinFanCall(id: string) {
+    this.router.navigate(["waitlist/call/" + id], {
+      queryParams: {
+        isBidEvent: false,
+      },
+    });
+  }
+  athleteEvent(id: string) {
+    this.router.navigate(["waitlist/event/" + id]);
+  }
+
+
+  async openOtpModel() {
+    let eventData = {
+      eventName: this.cardData.eventName,
+      userRole: this.userRole,
+      eventId: this.cardData.id,
+      athleteName: this.cardData.athleteName,
+      fanName: this.cardData.userName,
+    };
+    const modal: HTMLIonModalElement = await this.modalCtrl.create({
+      component: MeetOtpComponent,
+      componentProps: eventData,
+      cssClass: "small-modal",
+    });
+    modal.present();
+  }
+
+  canAthleteJoinEvent(count) {
+    if (count == 0) {
+      return true;
+    }
+  }
+
+
+  canBidForEvent() {
+    if (this.timer.days <= 5) {
+      return false;
+    } else if (!this.timer.days) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  async presentDismissModal() {
+    const modal: HTMLIonModalElement = await this.modalCtrl.create({
+      component: DismissmodalComponent,
+      cssClass: "small-modal",
+    });
+    modal.present();
+    const { data, role } = await modal.onDidDismiss();
+
+    if (!data) {
+      return;
+    }
+
+    if (this.eventState == "PENDING") {
+      this.changeEventStatus("CANCELLED");
+    } else {
+      this.presentMessageModal();
+    }
+  }
+
+  async presentMessageModal() {
+    const modal: HTMLIonModalElement = await this.modalCtrl.create({
+      component: CancelMessageModalComponent,
+      componentProps: {
+        eventState: this.eventState,
+      },
+
+      cssClass: "small-modal",
+    });
+    modal.present();
+    const { data, role } = await modal.onDidDismiss();
+
+    if (!data) {
+      return;
+    }
+    this.changeEventStatus("CANCELLED", data);
+  }
+
+
+  changeEventStatus(eventState: EventStatus, rejectionMessage?: string) {
+    let request: any;
+
+    if (rejectionMessage) {
+      request = {
+        path: `core/event/changeStatus/${this.cardData.id}?eventStatus=${eventState}&reason=${rejectionMessage}&sendMail=false`,
+        isAuth: true,
+      };
+    } else {
+      request = {
+        path: `core/event/changeStatus/${this.cardData.id}?eventStatus=${eventState}&sendMail=false`,
+        isAuth: true,
+      };
+    }
+
+    this.coreService.presentLoader(this.constantService.WAIT);
+    this.apiService.get(request).subscribe((response: any) => {
+      this.coreService.dismissLoader();
+
+      if (response.status.code === this.constantService.STATUS_OK) {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_SUCCESS
+        );
+
+        this.changeStatus.emit();
+      } else {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_ERROR
+        );
+      }
+    });
+  }
+
   timeConvert(n: number) {
     var num = n;
     var hours = num / 60;
     var rhours = Math.floor(hours);
     var minutes = (hours - rhours) * 60;
     var rminutes = Math.round(minutes);
-    return rhours + "h " + rminutes + "m";
+    if(rhours == 0){
+    return  rminutes + "m";
+    }
+    if(rminutes > 1 && rhours>1)
+    {
+          return rhours + "h " + rminutes + "m";
+     } else {
+          return rhours + "h "
+      }
   }
 
   dateFormat() {
@@ -196,9 +332,20 @@ export class AtheleteCardComponent implements OnInit {
           };
         }
       }
+
       this.timer = this.counter;
       this.cd.detectChanges();
     }, 60000);
+  }
+
+  cardBorderClass(): string {
+    if (this.userRole == "athlete") {
+      return "card-border";
+    } else {
+      if (this.eventState == "APPROVED") {
+        return "card-border";
+      }
+    }
   }
 
   invitedText(): String {

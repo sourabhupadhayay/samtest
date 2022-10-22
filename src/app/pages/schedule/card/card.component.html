@@ -131,7 +131,7 @@
           </div>
 
           <div
-            *ngIf="cardData.creatorPersona !== 'ADMIN'"
+            *ngIf="!cardData.sponsorProfilePicture"
             [ngClass]="eventState == 'PAST' ? 'card__opp--disabled' :''"
             class="card__opp"
           >
@@ -147,15 +147,15 @@
               Opportunity
             </h6>
           </div>
-          <div *ngIf="cardData.creatorPersona == 'ADMIN'" class="card__sponser">
-            <img [src]="cardData.userProfilePicture | profile" alt="" />
+          <div *ngIf="cardData.sponsorProfilePicture" class="card__sponser">
+            <img [src]="cardData.sponsorProfilePicture | profile" alt="" />
           </div>
         </div>
         <!-- <div class="card__border"></div> -->
 
         <div class="card__invite">
           <!-- invited and created by name and pic start  -->
-          <ng-container *ngIf="userRole == 'fan'">
+          <ng-container *ngIf="userRole == 'fan' && !cardData.sponsorProfilePicture">
             <ng-container
               *ngIf="cardData.creatorPersona == 'ATHLETE' || cardData.creatorPersona == 'ADMIN'"
             >
@@ -203,7 +203,14 @@
               </div>
             </ng-container>
           </ng-container>
-          <ng-container *ngIf="userRole == 'athlete'">
+
+          <ng-container *ngIf="userRole == 'fan' && cardData.sponsorProfilePicture">
+              <div class="bubble-text">
+                  <p><img src="assets/images/bubble-blue.svg"> Brought to you by bubble app </p>
+              </div>
+          </ng-container>
+
+          <ng-container *ngIf="userRole == 'athlete'  && !cardData.sponsorProfilePicture">
             <ng-container
               *ngIf="cardData.creatorPersona == 'ATHLETE' || cardData.creatorPersona == 'ADMIN'"
             >
@@ -247,6 +254,12 @@
                 </div>
               </div>
             </ng-container>
+          </ng-container>
+
+          <ng-container *ngIf="userRole == 'athlete' && cardData.sponsorProfilePicture">
+            <div class="bubble-text">
+              <p><img src="assets/images/bubble-blue.svg"> Brought to you by bubble app </p>
+          </div>
           </ng-container>
           <!-- invited and created by name and pic end  -->
 

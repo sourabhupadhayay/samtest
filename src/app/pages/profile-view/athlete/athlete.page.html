@@ -144,6 +144,8 @@
         [eventFilter]="eventFilter"
         *ngFor="let data of scheduleData"
         [cardData]="data"
+        [userRole]="userRole"
+        [eventState]="eventFilter"
         (changeStatus)=" resetAndGetMoreData()"
       ></athlete-card>
     </div>
