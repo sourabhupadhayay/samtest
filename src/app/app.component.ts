@@ -22,7 +22,7 @@ import {
   Token,
 } from "@capacitor/push-notifications";
 import { AuthenticationService } from "./providers/authentication.service";
-import { Subscription,interval } from "rxjs";
+import { Subscription, interval } from "rxjs";
 import { NavController } from "@ionic/angular";
 
 @Component({
@@ -61,18 +61,16 @@ export class AppComponent implements OnInit, OnDestroy {
     this.socketInit();
     this.callingAthlete();
     const source = interval(60000);
-    this.socketSubscription = source.subscribe(val => this.onlineStatus());
+    this.socketSubscription = source.subscribe((val) => this.onlineStatus());
   }
 
-  async onlineStatus(){
+  async onlineStatus() {
     let userDetails = await this.core.getUserDataFromStorage();
-    if(userDetails) {
-    this.commonService.athleteOnlineOfflineStatus();
-    }
-   else {
+    if (userDetails) {
+      this.commonService.athleteOnlineOfflineStatus();
+    } else {
       return;
-     }
-
+    }
   }
   private socketInit() {
     this.socketSubscription = this.commonService.$socketSubject.subscribe(
@@ -201,62 +199,71 @@ export class AppComponent implements OnInit, OnDestroy {
 
     let userRole: userRole = await this.core.getUserRoleFromStorage();
     let userDetails = await this.core.getUserDataFromStorage();
-
+    console.log("roles", userRole);
     if (userRole == "athlete") {
       return;
+    } else {
+      this.socket = Stomp.over(
+        () => new SockJS(configuration.BASE_URL + "core/greeting")
+      );
+      this.socket.reconnect_delay = 5000;
+      this.socket.connect(
+        {},
+        (frame) => {
+          this.socket.subscribe("/errors", (message) => {
+            alert("Error " + message.body);
+          });
+          this.send(userDetails["id"]);
+          this.socket.subscribe("/topic/receiveCall", (message) => {
+            let responseData = JSON.parse(message.body).content;
+            console.log(responseData);
+            this.commonService.callingAthleteDetails = JSON.parse(responseData);
+
+            if (
+              userDetails.id !== this.commonService.callingAthleteDetails.userId
+            ) {
+              console.log("ifv call1");
+              return;
+            }
+            if (
+              this.commonService.callingAthleteDetails.creatorPersona !== "USER"
+            ) {
+              // {
+              //   this.router.navigate([
+              //     "/waitlist/incoming-call/" +
+              //       this.commonService.callingAthleteDetails.id,
+              //   ]);
+              // } else {
+              //   this.router.navigate([
+              //     "/waitlist/incoming-call/" +
+              //       this.commonService.callingAthleteDetails.eventId,
+              //   ]);
+              // }
+              this.navController.navigateBack([
+                "/waitlist/incoming-call/" +
+                  this.commonService.callingAthleteDetails.id,
+              ]);
+              console.log("ifv call2");
+            } else {
+              this.navController.navigateBack(
+                [
+                  "/waitlist/incoming-call/" +
+                    this.commonService.callingAthleteDetails.eventId,
+                ],
+                {
+                  queryParams: {
+                    bidId: this.commonService.callingAthleteDetails.id,
+                  },
+                }
+              );
+            }
+          });
+        },
+        function (error) {
+          console.log("STOMP error " + error);
+        }
+      );
     }
-
-    this.socket = Stomp.over(
-      () => new SockJS(configuration.BASE_URL + "core/greeting")
-    );
-    this.socket.reconnect_delay = 5000;
-    this.socket.connect(
-      {},
-      (frame) => {
-        this.socket.subscribe("/errors", (message) => {
-          alert("Error " + message.body);
-        });
-        this.send(userDetails["id"]);
-        this.socket.subscribe("/topic/receiveCall", (message) => {
-          let responseData = JSON.parse(message.body).content;
-          console.log(responseData);
-          this.commonService.callingAthleteDetails = JSON.parse(responseData);
-
-          if (
-            userDetails.id !== this.commonService.callingAthleteDetails.userId
-          ) {
-            return;
-          }
-          if (
-            this.commonService.callingAthleteDetails.creatorPersona !== "USER"
-          ) {
-            // {
-            //   this.router.navigate([
-            //     "/waitlist/incoming-call/" +
-            //       this.commonService.callingAthleteDetails.id,
-            //   ]);
-            // } else {
-            //   this.router.navigate([
-            //     "/waitlist/incoming-call/" +
-            //       this.commonService.callingAthleteDetails.eventId,
-            //   ]);
-            // }
-            this.navController.navigateBack([
-              "/waitlist/incoming-call/" +
-                this.commonService.callingAthleteDetails.id,
-            ]);
-          } else {
-            this.navController.navigateBack([
-              "/waitlist/incoming-call/" +
-                this.commonService.callingAthleteDetails.eventId,
-            ],{queryParams: {bidId: this.commonService.callingAthleteDetails.id}});
-          }
-        });
-      },
-      function (error) {
-        console.log("STOMP error " + error);
-      }
-    );
   }
   send(id) {
     let data = JSON.stringify({

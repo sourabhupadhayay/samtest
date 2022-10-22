@@ -117,9 +117,9 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
           };
           if (isOneToOneCall) {
             if (this.userRole == "athlete") {
-              console.log(isOneToOneCall,this.userRole);
-            request.path = `core/video/call/now/${this.id}?receiveCall=false`;
-          }else{
+              console.log(isOneToOneCall, this.userRole);
+              request.path = `core/video/call/now/${this.id}?receiveCall=false`;
+            } else {
               request.path = `core/video/call/now/${this.id}?receiveCall=true`;
             }
           }
@@ -130,6 +130,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((response) => {
         if (response.status.code === this.constantService.STATUS_OK) {
           this.sessionId = response.data.sessionId;
+          console.log("sessionID", this.sessionId);
           this.token = response.data.token;
           this.timeLeft = response.data.remainingTime;
           this.bidId = response.data.bidId;
@@ -152,13 +153,13 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
         this.getVideoSessionAndToken("core/video/receive/");
       }
     } else {
-        this.getVideoSessionAndToken(`core/video/call/now/`, true);
+      this.getVideoSessionAndToken(`core/video/call/now/`, true);
     }
   }
 
   getSession() {
     this.session = initSession(this.apiKey, this.sessionId);
-
+    console.log("session", this.apiKey, this.sessionId);
     this.session.connect(this.token, (error) => {
       if (error) {
         console.log(error);
@@ -176,7 +177,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
         height: "100%",
         insertMode: "replace",
       });
-
+      console.log("subscribee1", this.subscribe);
       // this.session.signal({ type: "String", data: "heyyyy" }, (err) => {
       //   console.log("heyyyyy", err.message, err.name);
       // });
@@ -211,6 +212,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   toggleMuteButton() {
     this.isAudioMuted = !this.isAudioMuted;
     this.publisher.publishAudio(!this.isAudioMuted);
+    console.log(this.subscribe.stream.hasAudio);
   }
   toggleVideoButton() {
     this.isVideoOn = !this.isVideoOn;
@@ -257,6 +259,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.timeLeft == 0) {
         if (this.userRole == "athlete") {
           this.disconnectCall();
+          return;
         }
       }
       this.cd.detectChanges();
@@ -349,5 +352,8 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.stopTimer();
     this.allowDeviceToSleep();
+    this.session.disconnect();
+    this.sessionId = "";
+    this.apiKey = "";
   }
 }

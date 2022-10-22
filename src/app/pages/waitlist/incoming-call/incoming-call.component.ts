@@ -18,7 +18,7 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
   id: string;
   nameInitials: string;
   socket: any;
-  bidId:any
+  bidId: any;
   constructor(
     private router: Router,
     public commonService: CommonService,
@@ -35,8 +35,8 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
       this.id = params.id;
     });
     this.route.queryParams.subscribe((params) => {
-      this.bidId = params.bidId
-      console.log(this.bidId)
+      this.bidId = params.bidId;
+      console.log(this.bidId);
     });
   }
 
@@ -51,7 +51,7 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
   }
 
   loadAndPlayRingtone() {
-    console.log("working");
+    console.log("working", this.platform.is);
     let audioConfig = {
       assetId: "discord",
       assetPath: "public/assets/sounds/Discord.mp3",
@@ -59,9 +59,11 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
       volume: 1.0,
       isUrl: false,
     };
-    if (this.platform.is("android")) {
+    if (this.platform.is("android") || this.platform.is("ios")) {
+      console.log("if discord");
       audioConfig.assetPath = "public/assets/sounds/Discord.mp3";
     } else {
+      console.log("else discord");
       audioConfig.assetPath = "Discord.mp3";
     }
 
@@ -97,8 +99,8 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
       "details ",
       this.commonService.callingAthleteDetails.remainingTime
     );
-    if(this.bidId!=undefined){
-      this.id =this.bidId
+    if (this.bidId != undefined) {
+      this.id = this.bidId;
     }
     let request: Request = {
       path: "core/video/updateCall/" + this.id,
@@ -142,7 +144,8 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
           ) {
             this.router.navigate(["/tabs/schedule"]);
             if (
-              this.commonService.callingAthleteDetails.disconnectedByPersonRole == "ATHLETE" &&
+              this.commonService.callingAthleteDetails
+                .disconnectedByPersonRole == "ATHLETE" &&
               userRole == "fan" &&
               this.commonService.callingAthleteDetails.bidState !== "COMPLETED"
             ) {
