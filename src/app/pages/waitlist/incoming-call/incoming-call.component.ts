@@ -49,6 +49,9 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
     this.callDisconnectSocket();
     this.loadAndPlayRingtone();
   }
+  ionViewDidEnter() {
+    this.loadAndPlayRingtone();
+  }
 
   loadAndPlayRingtone() {
     console.log("working", this.platform.is);

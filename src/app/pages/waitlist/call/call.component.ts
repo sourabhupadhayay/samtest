@@ -171,7 +171,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     let element = this.fanElement.nativeElement;
     this.session.on("streamCreated", (event) => {
-      this.startTimer();
+      //this.startTimer();
       this.subscribe = this.session.subscribe(event.stream, element, {
         width: "100%",
         height: "100%",
@@ -199,6 +199,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     this.publisher.on("streamDestroyed", (event) => {
+      this.startTimer();
       console.log("Stream stopped. Reason: " + event.reason);
     });
   }
@@ -252,6 +253,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   startTimer() {
+    console.log("start timer");
     this.interval = setInterval(() => {
       if (this.timeLeft > 0) {
         this.timeLeft--;
