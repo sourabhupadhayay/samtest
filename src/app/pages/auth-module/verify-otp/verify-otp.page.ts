@@ -14,6 +14,13 @@ import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { AuthModuleService } from "../auth-module.service";
 import { Storage } from "@capacitor/storage";
+import { Platform } from "@ionic/angular";
+import {
+  ActionPerformed,
+  PushNotificationSchema,
+  PushNotifications,
+  Token,
+} from "@capacitor/push-notifications";
 @Component({
   selector: "app-verify-otp",
   templateUrl: "./verify-otp.page.html",
@@ -25,6 +32,7 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
     Validators.required,
     Validators.minLength(6),
   ]);
+
   otpInputConfig: NgOtpInputConfig = {
     length: 6,
     inputClass: "otpInput",
@@ -38,6 +46,7 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
   timeLeft: number = 120;
   mode: "signup" | "forgot" | "login";
   returnUrl: string;
+  generatedToken: string | null = null;
 
   constructor(
     private coreService: CoreService,
@@ -47,14 +56,20 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
     private router: Router,
     private common: AuthModuleService,
     private route: ActivatedRoute,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private platform: Platform,
   ) {}
 
   ngOnInit() {
     this.startTimer();
     this.getFlowInfo();
   }
+  ionViewWillEnter() {
 
+    this.generateNotificationToken();
+    this.returnUrl =
+      this.route.snapshot.queryParams["returnUrl"] || "/tabs/home";
+  }
   getFlowInfo() {
     this.route.queryParams.subscribe((params: Params) => {
       this.mode = params.mode;
@@ -101,25 +116,30 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
     if (this.validateOtp()) return;
 
     let request: Request = {
-      path: "auth/users/otp/verify/" + this.otpFormControl.value,
+      path: "auth/users/otp/verify/" + this.otpFormControl.value+"?deviceToken="+this.generatedToken,
       isAuth: true,
-    };
 
+    };
+    // this.apiService.post(request).subscribe((response: Response) => {
+    //   this.authPublicInfo = response.data;
+    // });
     let isTokenTemporary = true;
     if (this.mode == "login") {
       isTokenTemporary = false;
     }
-
+    console.log(request);
     this.coreService.presentLoader(this.constantService.WAIT);
     this.apiService
       .get(request, isTokenTemporary)
       .subscribe((response: Response) => {
         this.coreService.dismissLoader();
         if (response["status"]["code"] === this.constantService.STATUS_OK) {
+
           this.coreService.showToastMessage(
             response.status.description,
             this.coreService.TOAST_SUCCESS
           );
+          //  console.log(response)
           this.routeToNextPage();
         } else {
           this.coreService.showToastMessage(
@@ -195,5 +215,26 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
       );
       return true;
     }
+  }
+  async generateNotificationToken() {
+    if (this.platform.is("desktop") || this.platform.is("mobileweb")) {
+      this.generatedToken = null;
+    }
+
+    let result = await PushNotifications.requestPermissions();
+
+    if (result.receive === "granted") {
+      // Register with Apple / Google to receive push via APNS/FCM
+      PushNotifications.register();
+    } else {
+      this.generatedToken = null;
+      // Show some error
+    }
+
+    // On success, we should be able to receive notifications
+    PushNotifications.addListener("registration", (token: Token) => {
+      this.generatedToken = token.value;
+    });
+    console.log(this.generatedToken)
   }
 }
