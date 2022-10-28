@@ -24,6 +24,7 @@ import {
 import { AuthenticationService } from "./providers/authentication.service";
 import { Subscription, interval } from "rxjs";
 import { NavController } from "@ionic/angular";
+import {publish} from "rxjs/operators";
 
 @Component({
   selector: "app-root",
@@ -36,6 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
   socket: any;
   private socketSubscription: Subscription;
   intervalId: number;
+  userDetails:any;
   constructor(
     private apiservice: DataService,
     private _networkService: NetworkService,
@@ -57,11 +59,12 @@ export class AppComponent implements OnInit, OnDestroy {
     this.deepLinking();
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.socketInit();
     this.callingAthlete();
     const source = interval(60000);
     this.socketSubscription = source.subscribe((val) => this.onlineStatus());
+
   }
 
   async onlineStatus() {
@@ -106,8 +109,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   //get common public info
-  getPublicInfo() {
+  async getPublicInfo() {
     this.commonService.getPublicInfo();
+    //this.userDetails = await this.core.getUserDataFromStorage();
   }
 
   deepLinking() {
@@ -198,8 +202,9 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     let userRole: userRole = await this.core.getUserRoleFromStorage();
-    let userDetails = await this.core.getUserDataFromStorage();
-    console.log("roles", userRole);
+
+
+    console.log("roles",userRole);
     if (userRole == "athlete") {
       return;
     } else {
@@ -213,14 +218,19 @@ export class AppComponent implements OnInit, OnDestroy {
           this.socket.subscribe("/errors", (message) => {
             alert("Error " + message.body);
           });
-          this.send(userDetails["id"]);
+          this.userDetails  = localStorage.getItem('authDetails');
+          let value = localStorage.getItem('authDetails');
+          this.userDetails =JSON.parse(value);
+          this.send(this.userDetails["id"]);
           this.socket.subscribe("/topic/receiveCall", (message) => {
             let responseData = JSON.parse(message.body).content;
+            let value = localStorage.getItem('authDetails');
+            this.userDetails =JSON.parse(value);
             console.log(responseData);
             this.commonService.callingAthleteDetails = JSON.parse(responseData);
-
+            console.log( this.userDetails.id,this.commonService.callingAthleteDetails.userId);
             if (
-              userDetails.id !== this.commonService.callingAthleteDetails.userId
+              this.userDetails.id != this.commonService.callingAthleteDetails.userId
             ) {
               console.log("ifv call1");
               return;
