@@ -116,7 +116,7 @@ export class ViewProfilePage implements OnInit {
           this.router.navigate(["/auth/login"]);
         });
         this.modalCtrl.dismiss();
-        // this.router.navigate(["/auth/login"]);        
+        // this.router.navigate(["/auth/login"]);
       } else {
         this.coreService.showToastMessage(
           response.status.description,
@@ -138,6 +138,7 @@ export class ViewProfilePage implements OnInit {
       if (response.status.code === this.constantService.STATUS_OK) {
         Storage.remove({ key: "userDetails" }).then(() => {
           localStorage.removeItem("authDetail");
+          localStorage.removeItem("authDetails");
           this.router.navigate(["/auth/login"]);
         });
       } else {

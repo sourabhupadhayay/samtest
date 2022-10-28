@@ -27,7 +27,9 @@
   </div>
 
   <!-- <div class="overlay-bg"></div> -->
-
+<div class="mute-icon">
+  <img *ngIf="subscribe?.stream.hasAudio==false" src="assets/icon/voice-off.svg" />
+</div>
   <div class="call-buttons">
     <ion-button (click)="toggleMuteButton()">
       <div class="btn-data">

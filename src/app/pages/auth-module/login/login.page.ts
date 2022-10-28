@@ -106,6 +106,7 @@ export class LoginPage implements OnInit {
       this.apiService.post(request, true).subscribe((response: Response) => {
         this.coreService.dismissLoader();
         if (response.status.code === this.constantService.STATUS_OK) {
+          localStorage.setItem("authDetails",JSON.stringify(response.data))
           Storage.set({
             key: "userDetails",
             value: JSON.stringify(response.data),
@@ -129,6 +130,7 @@ export class LoginPage implements OnInit {
       this.apiService.post(request, false).subscribe((response: Response) => {
         this.coreService.dismissLoader();
         if (response.status.code === this.constantService.STATUS_OK) {
+          localStorage.setItem("authDetails",JSON.stringify(response.data))
           Storage.set({
             key: "userDetails",
             value: JSON.stringify(response.data),

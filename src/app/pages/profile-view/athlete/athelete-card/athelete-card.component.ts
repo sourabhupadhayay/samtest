@@ -30,8 +30,8 @@ export class AtheleteCardComponent implements OnInit {
   @Input() eventFilter: "past" | "upcoming" | "All";
   @Input() eventState: "APPROVED" | "PAST" | "PENDING" = "APPROVED";
   @Input() userRole: userRole;
-  
-  
+
+
 
   nameInitials: string;
 
@@ -122,7 +122,7 @@ export class AtheleteCardComponent implements OnInit {
 
 
   canBidForEvent() {
-    if (this.timer.days <= 5) {
+    if (this.timer.days < 5) {
       return false;
     } else if (!this.timer.days) {
       return false;
