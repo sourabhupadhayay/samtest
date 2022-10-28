@@ -21,6 +21,7 @@ import {
   userRole,
   UserRole,
 } from "src/app/providers/core.service";
+
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { switchMap } from "rxjs/operators";
 import { ConstantService } from "src/app/providers/constant.service";
@@ -54,7 +55,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   bidId: string;
   isBiddingEvent: boolean;
   socket: any;
-
+  remainTime: any;
   constructor(
     private apiService: DataService,
     private coreService: CoreService,
@@ -133,6 +134,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
           console.log("sessionID", this.sessionId);
           this.token = response.data.token;
           this.timeLeft = response.data.remainingTime;
+          this.remainTime = response.data.remainingTime;
           this.bidId = response.data.bidId;
           this.getSession();
         } else {
@@ -171,12 +173,14 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     let element = this.fanElement.nativeElement;
     this.session.on("streamCreated", (event) => {
-      //this.startTimer();
+      console.log("session");
+      this.startTimer();
       this.subscribe = this.session.subscribe(event.stream, element, {
         width: "100%",
         height: "100%",
         insertMode: "replace",
       });
+
       console.log("subscribee1", this.subscribe);
       // this.session.signal({ type: "String", data: "heyyyy" }, (err) => {
       //   console.log("heyyyyy", err.message, err.name);
@@ -199,7 +203,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     this.publisher.on("streamDestroyed", (event) => {
-      this.startTimer();
+      //this.startTimer();
       console.log("Stream stopped. Reason: " + event.reason);
     });
   }
@@ -225,6 +229,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   disconnectCall() {
+    console.log("disconnect");
     let request: Request = {
       path: "core/video/updateCall/" + this.bidId,
       data: {
@@ -253,15 +258,19 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   startTimer() {
-    console.log("start timer");
-    this.interval = setInterval(() => {
+    console.log("start timer", this.timeLeft);
+    let interval = setInterval(() => {
+      console.log("fdsd", this.timeLeft);
       if (this.timeLeft > 0) {
         this.timeLeft--;
       }
       if (this.timeLeft == 0) {
         if (this.userRole == "athlete") {
+          console.log("interval time left", this.timeLeft);
           this.disconnectCall();
+          clearInterval(interval);
           return;
+          console.log("interval1", this.interval);
         }
       }
       this.cd.detectChanges();
@@ -342,6 +351,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log("STOMP error " + error);
       }
     );
+    console.log("time left dis", this.timeLeft);
   }
 
   sendCutVideo(id) {
@@ -357,5 +367,8 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.session.disconnect();
     this.sessionId = "";
     this.apiKey = "";
+  }
+  ionViewDidLeave() {
+    clearInterval(this.interval);
   }
 }
