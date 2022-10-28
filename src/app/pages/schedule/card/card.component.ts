@@ -123,7 +123,7 @@ export class CardComponent implements OnInit {
     }
   }
   canBidForEvent() {
-    if (this.timer.days <= 5) {
+    if (this.timer.days < 5) {
       return false;
     } else if (!this.timer.days) {
       return false;
