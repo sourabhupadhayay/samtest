@@ -19,6 +19,7 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
   nameInitials: string;
   socket: any;
   bidId: any;
+  userDetails:any;
   constructor(
     private router: Router,
     public commonService: CommonService,
@@ -136,6 +137,8 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
         this.sendCutVideo(userDetails["id"]);
         this.socket.subscribe("/topic/cancelCall", (message) => {
           let responseData = JSON.parse(message.body).content;
+          let value = localStorage.getItem('authDetails');
+          this.userDetails =JSON.parse(value);
           this.commonService.callingAthleteDetails = JSON.parse(responseData);
           console.log(
             "response ",
@@ -143,7 +146,7 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
           );
 
           if (
-            userDetails.id == this.commonService.callingAthleteDetails.userId
+            this.userDetails.id == this.commonService.callingAthleteDetails.userId
           ) {
             this.router.navigate(["/tabs/schedule"]);
             if (
