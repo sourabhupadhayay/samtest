@@ -42,6 +42,8 @@ export class SchedulePage implements OnInit {
 
   ionViewWillEnter() {
     this.getUserDataFromStorage();
+    console.log("sdfdf000");
+    this.pageNumber = 0
   }
   ionViewDidEnter() {
     this.addClassOnScroll();
