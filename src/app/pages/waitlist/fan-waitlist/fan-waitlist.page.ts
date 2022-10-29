@@ -134,7 +134,7 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
       if (response.status.code === this.constantService.STATUS_OK) {
         this.eventData = response.data;
         this.creatorPersona = response.data.creatorPersona;
-        console.log(this.creatorPersona)
+        console.log(this.creatorPersona);
         this.calculateTime();
 
         this.cd.detectChanges();
@@ -154,8 +154,7 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
 
   updateBid() {
     // this.router.navigate(["bid-payment/" + this.eventId]);
-    this.navController.navigateBack([ "bid-payment/" + this.eventId ]);
-
+    this.navController.navigateBack(["bid-payment/" + this.eventId]);
   }
 
   compare_bid(a, b) {
@@ -182,13 +181,12 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
 
   ionViewDidLeave() {
     this.soundOnOff();
+    clearInterval(this.interval);
   }
 
   routeBackToSchedule() {
-    console.log("called")
-    this.navController.navigateBack([
-      "/tabs/schedule" 
-    ]);
+    console.log("called");
+    this.navController.navigateBack(["/tabs/schedule"]);
   }
 
   ngOnDestroy(): void {
