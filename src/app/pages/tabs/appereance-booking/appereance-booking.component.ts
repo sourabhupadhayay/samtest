@@ -315,7 +315,6 @@ export class AppereanceBookingComponent implements OnInit {
     console.log("time2 ",timedata)
     let hour = timedata.split(':')[0];
     let minute = timedata.split(':')[1];
-
     var AmOrPm = +hour >= 12 ? 'pm' : 'am';
     var o = (+hour % 12) || 12;
     var startTime = o + ":" + minute + " " + AmOrPm; + ":" + minute + " " + AmOrPm;

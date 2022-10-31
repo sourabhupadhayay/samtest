@@ -103,7 +103,6 @@ export class ViewProfilePage implements OnInit {
       path: "auth/users/manage/delete/" + this.userData.id,
       isAuth: true,
     };
-
     this.coreService.presentLoader(this.constantService.WAIT);
     this.apiService.get(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
@@ -112,8 +111,12 @@ export class ViewProfilePage implements OnInit {
           response.status.description,
           this.coreService.TOAST_SUCCESS
         );
+        Storage.remove({ key: "userDetails" }).then(() => {
+          localStorage.removeItem("authDetail");
+          this.router.navigate(["/auth/login"]);
+        });
         this.modalCtrl.dismiss();
-        this.logout();
+        // this.router.navigate(["/auth/login"]);
       } else {
         this.coreService.showToastMessage(
           response.status.description,
@@ -135,6 +138,7 @@ export class ViewProfilePage implements OnInit {
       if (response.status.code === this.constantService.STATUS_OK) {
         Storage.remove({ key: "userDetails" }).then(() => {
           localStorage.removeItem("authDetail");
+          localStorage.removeItem("authDetails");
           this.router.navigate(["/auth/login"]);
         });
       } else {

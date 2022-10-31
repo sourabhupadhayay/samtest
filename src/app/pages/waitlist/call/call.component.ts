@@ -21,6 +21,7 @@ import {
   userRole,
   UserRole,
 } from "src/app/providers/core.service";
+
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { switchMap } from "rxjs/operators";
 import { ConstantService } from "src/app/providers/constant.service";
@@ -49,12 +50,13 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   sessionId: string;
   token: string;
   timeLeft: number;
-  interval: any;
+  intId: any;
   id: string;
   bidId: string;
   isBiddingEvent: boolean;
   socket: any;
-
+  remainTime: any;
+  color: any;
   constructor(
     private apiService: DataService,
     private coreService: CoreService,
@@ -70,6 +72,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.keepDeviceAwake();
     this.callDisconnectSocket();
     this.apiKey = this.commonService.publicInfo.videoApiKey;
+    console.log("api key", this.apiKey);
   }
 
   ngAfterViewInit(): void {
@@ -117,9 +120,9 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
           };
           if (isOneToOneCall) {
             if (this.userRole == "athlete") {
-              console.log(isOneToOneCall,this.userRole);
-            request.path = `core/video/call/now/${this.id}?receiveCall=false`;
-          }else{
+              console.log(isOneToOneCall, this.userRole);
+              request.path = `core/video/call/now/${this.id}?receiveCall=false`;
+            } else {
               request.path = `core/video/call/now/${this.id}?receiveCall=true`;
             }
           }
@@ -130,8 +133,10 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((response) => {
         if (response.status.code === this.constantService.STATUS_OK) {
           this.sessionId = response.data.sessionId;
+          console.log("sessionID", this.sessionId);
           this.token = response.data.token;
           this.timeLeft = response.data.remainingTime;
+          this.remainTime = response.data.remainingTime;
           this.bidId = response.data.bidId;
           this.getSession();
         } else {
@@ -152,13 +157,12 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
         this.getVideoSessionAndToken("core/video/receive/");
       }
     } else {
-        this.getVideoSessionAndToken(`core/video/call/now/`, true);
+      this.getVideoSessionAndToken(`core/video/call/now/`, true);
     }
   }
 
   getSession() {
     this.session = initSession(this.apiKey, this.sessionId);
-
     this.session.connect(this.token, (error) => {
       if (error) {
         console.log(error);
@@ -177,6 +181,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
         insertMode: "replace",
       });
 
+      console.log("subscribee1", this.subscribe);
       // this.session.signal({ type: "String", data: "heyyyy" }, (err) => {
       //   console.log("heyyyyy", err.message, err.name);
       // });
@@ -198,7 +203,10 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     this.publisher.on("streamDestroyed", (event) => {
+      //this.startTimer();
       console.log("Stream stopped. Reason: " + event.reason);
+      clearInterval(this.intId);
+      console.log("int", this.intId);
     });
   }
 
@@ -232,8 +240,17 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.apiService.post(request).subscribe((response: Response) => {
       if (response.status.code === this.constantService.STATUS_OK) {
+        if (this.intId) {
+          clearInterval(this.intId);
+        }
+
+        console.log("interval s", this.intId);
+        this.intId = undefined;
         this.session.disconnect();
-        console.log("a ", this.isBiddingEvent, response.data.eventId);
+        this.session.unpublish(this.publisher);
+
+        this.cd.detectChanges();
+        console.log("asdfdg ", this.isBiddingEvent, this.intId);
         if (this.isBiddingEvent) {
           this.router.navigate(["/waitlist/event/" + response.data.eventId]);
         } else {
@@ -246,17 +263,32 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
         );
         this.router.navigate(["tabs/schedule"]);
       }
+      return;
     });
   }
 
   startTimer() {
-    this.interval = setInterval(() => {
+    console.log("start timer", this.timeLeft);
+    this.intId = setInterval(() => {
       if (this.timeLeft > 0) {
         this.timeLeft--;
       }
+
+      if (this.timeLeft > 60) {
+        this.color = "#55CD89";
+      }
+      if (this.timeLeft < 60) {
+        this.color = "#FFA439";
+      }
+      if (this.timeLeft < 20) {
+        this.color = " #F64444";
+      }
+      console.log("timerr", this.timeLeft);
       if (this.timeLeft == 0) {
         if (this.userRole == "athlete") {
+          console.log("interval time left", this.timeLeft);
           this.disconnectCall();
+          clearInterval(this.intId);
         }
       }
       this.cd.detectChanges();
@@ -280,11 +312,10 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   stopTimer() {
-    clearInterval(this.interval);
+    clearInterval(this.intId);
   }
 
   async callDisconnectSocket() {
-    console.log("called");
     let userRole: userRole = await this.core.getUserRoleFromStorage();
     let userDetails = await this.core.getUserDataFromStorage();
 
@@ -302,12 +333,10 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
         this.socket.subscribe("/topic/cancelCall", (message) => {
           let responseData = JSON.parse(message.body).content;
           this.commonService.callingAthleteDetails = JSON.parse(responseData);
-          console.log("response ", responseData);
 
           if (
             userDetails.id == this.commonService.callingAthleteDetails.athleteId
           ) {
-            console.log("b ", this.isBiddingEvent, responseData.eventId);
             if (this.isBiddingEvent) {
               this.router.navigate([
                 "/waitlist/event/" +
@@ -337,6 +366,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log("STOMP error " + error);
       }
     );
+    console.log("time left dis", this.timeLeft);
   }
 
   sendCutVideo(id) {
@@ -349,5 +379,12 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.stopTimer();
     this.allowDeviceToSleep();
+    this.session.disconnect();
+    this.sessionId = "";
+    this.apiKey = "";
+  }
+  ionViewDidLeave() {
+    clearInterval(this.intId);
+    this.cd.detectChanges();
   }
 }

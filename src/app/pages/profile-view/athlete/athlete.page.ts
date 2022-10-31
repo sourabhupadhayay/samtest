@@ -1,13 +1,22 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import {
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from "@angular/core";
+import { async } from "@angular/core/testing";
 import { ActivatedRoute, ParamMap, Router } from "@angular/router";
-import { ModalController } from "@ionic/angular";
+import { IonContent, ModalController } from "@ionic/angular";
 import { Observable } from "rxjs";
 import { map, switchMap, tap } from "rxjs/operators";
 import { AuthModuleService } from "src/app/pages/auth-module/auth-module.service";
 import { ConstantService } from "src/app/providers/constant.service";
-import { CoreService } from "src/app/providers/core.service";
+import { CoreService, userRole } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { CommonService } from "../../../providers/common.service";
+
+export type eventState = "APPROVED" | "PENDING" | "PAST";
 
 @Component({
   selector: "app-athlete",
@@ -15,6 +24,7 @@ import { CommonService } from "../../../providers/common.service";
   styleUrls: ["./athlete.page.scss"],
 })
 export class AthletePage implements OnInit, OnDestroy {
+  @ViewChild(IonContent) content: IonContent;
   athleteData: any | null = null;
   selectedIndex: string = "appearances";
   scheduleData: any[] = [];
@@ -24,6 +34,13 @@ export class AthletePage implements OnInit, OnDestroy {
   latestAthleteEvent: any | null = null;
   eventTime;
   interval;
+  isScrollDisabled: boolean = false;
+  pageNumber: number = 0;
+  totalElements: number = 0;
+  isClassAdded: boolean = false;
+  userRole: userRole;
+  eventState: eventState = "APPROVED";
+  
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -31,13 +48,34 @@ export class AthletePage implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private constantService: ConstantService,
-
+    private cd: ChangeDetectorRef,
     private commonService: CommonService
   ) {}
 
   ngOnInit() {
+    this.getUserRole();
     this.getAthleteData();
     this.getAppearanceData();
+  }
+
+  async getUserRole() {
+    this.userRole =  await this.coreService.getUserRoleFromStorage();
+  }
+
+  ionViewDidEnter() {
+    this.addClassOnScroll();
+  }
+
+  addClassOnScroll() {
+    this.content.ionScroll.subscribe((data) => {
+      if (data.detail.scrollTop > 50) {
+        this.isClassAdded = true;
+        this.cd.detectChanges();
+      } else if (data.detail.scrollTop < 50) {
+        this.isClassAdded = false;
+        this.cd.detectChanges();
+      }
+    });
   }
 
   getAppearanceData() {
@@ -90,7 +128,7 @@ export class AthletePage implements OnInit, OnDestroy {
               },
               page: {
                 pageLimit: 10,
-                pageNumber: 0,
+                pageNumber: this.pageNumber,
               },
               sort: {
                 orderBy: "ASC",
@@ -111,9 +149,18 @@ export class AthletePage implements OnInit, OnDestroy {
         })
       )
       .subscribe((response: Response) => {
-        this.coreService.dismissLoader();
+        // this.coreService.dismissLoader();
         if (response.status.code === this.constantService.STATUS_OK) {
-          this.scheduleData = response.data.content;
+          if (this.pageNumber == 0) {
+            this.scheduleData = response.data.content;
+          } else {
+            response.data.content.forEach((element) => {
+              this.scheduleData.push(element);
+            });
+          }
+          // console.log("data ", this.scheduleData.length);
+          this.totalElements = response.data.totalElements;
+          this.cd.detectChanges();
         } else {
           this.coreService.showToastMessage(
             response.status.description,
@@ -121,6 +168,22 @@ export class AthletePage implements OnInit, OnDestroy {
           );
         }
       });
+  }
+  resetAndGetMoreData() {
+    this.totalElements = 0;
+    this.pageNumber = 0;
+    this.isScrollDisabled = false;
+    this.scheduleData = [];
+    this.getAthleteAppearances();
+  }
+
+  loadMoreEvents(event) {
+    this.pageNumber++;
+    this.getAthleteAppearances();
+    event.target.complete();
+    if (this.totalElements <= this.scheduleData.length) {
+      this.isScrollDisabled = true;
+    }
   }
 
   getLatestAthleteEvent() {

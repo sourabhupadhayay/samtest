@@ -23,6 +23,7 @@
     <!-- <button (click)="soundOnOff()" style="position: relative; z-index:999">mute</button> -->
     <div class="video-box">
       <video
+      *ngIf="this.creatorPersona !== 'ADMIN'"
         id="muteSound"
         height="100%"
         width="100%"
@@ -31,15 +32,42 @@
         autoplay="autoplay"
         webkit-playsinline
         playsinline
-        muted="true"
       >
         <source src="../../../../assets/video/papa-johns-fvideo.mp4" />
+        <p class="warning">Your browser does not support HTML5 video.</p>
+      </video>
 
+      <video
+      *ngIf="this.creatorPersona == 'ADMIN'"
+        id="muteSound"
+        height="100%"
+        width="100%"
+        loop="true"
+        autoplay
+        autoplay="autoplay"
+        webkit-playsinline
+        playsinline
+      >
+        <source src="{{this.eventData.sponsorVideoUrl | profile}}" />
         <p class="warning">Your browser does not support HTML5 video.</p>
       </video>
     </div>
     <div class="bottom-part">
-      <div class="slider-part">
+
+      <div *ngIf="this.creatorPersona == 'ADMIN'" class="sponsor-add-part">
+        <div class="sponsor-data">
+          <div class="sponsor-logo-part" *ngIf="this.eventData?.sponsorProfilePicture">
+            <img src="{{this.eventData?.sponsorProfilePicture | profile }}">
+          </div>
+          <div class="text-part" *ngIf="this.eventData?.sponsorName">
+              <h4>{{this.eventData?.sponsorName}}</h4>
+              <!-- <p>BIG FOOD. <span>BIG FLAVOR.</span> BIG FUN.</p> -->
+              <p>{{this.eventData?.description}}</p>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="this.creatorPersona !== 'ADMIN'" class="slider-part">
         <ion-slides
           [options]="slideOpts"
           autoplay="400"
@@ -56,6 +84,7 @@
           </ion-slide>
         </ion-slides>
       </div>
+
       <div class="live-green">
         <p *ngIf="this.eventTime?.minutes">
           {{eventData?.athleteName | titlecase}} will be live in just
@@ -78,6 +107,7 @@
           30 minutes
         </p>
       </div>
+
       <div class="wait-part">
         <div class="head">
           <ng-container *ngIf="connectedFanDetails?.bidState == 'PENDING'">
@@ -158,6 +188,7 @@
           </div>
         </div>
       </div>
+
     </div>
   </div>
   <div class="overlay-bg"></div>

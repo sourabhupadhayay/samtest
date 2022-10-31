@@ -309,6 +309,7 @@ export class EditProfilePage implements OnInit {
       if (response.status.code === this.constantService.STATUS_OK) {
         Storage.clear().then(() => {
           localStorage.removeItem("authDetail");
+          localStorage.removeItem("authDetails");
           this.router.navigate(["/auth/login"]);
         });
       } else {

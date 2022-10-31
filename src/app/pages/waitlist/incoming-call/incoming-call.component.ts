@@ -18,7 +18,8 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
   id: string;
   nameInitials: string;
   socket: any;
-  bidId:any
+  bidId: any;
+  userDetails:any;
   constructor(
     private router: Router,
     public commonService: CommonService,
@@ -35,8 +36,8 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
       this.id = params.id;
     });
     this.route.queryParams.subscribe((params) => {
-      this.bidId = params.bidId
-      console.log(this.bidId)
+      this.bidId = params.bidId;
+      console.log(this.bidId);
     });
   }
 
@@ -49,9 +50,12 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
     this.callDisconnectSocket();
     this.loadAndPlayRingtone();
   }
+  ionViewDidEnter() {
+    this.loadAndPlayRingtone();
+  }
 
   loadAndPlayRingtone() {
-    console.log("working");
+    console.log("working", this.platform.is);
     let audioConfig = {
       assetId: "discord",
       assetPath: "public/assets/sounds/Discord.mp3",
@@ -59,9 +63,11 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
       volume: 1.0,
       isUrl: false,
     };
-    if (this.platform.is("android")) {
+    if (this.platform.is("android") || this.platform.is("ios")) {
+      console.log("if discord");
       audioConfig.assetPath = "public/assets/sounds/Discord.mp3";
     } else {
+      console.log("else discord");
       audioConfig.assetPath = "Discord.mp3";
     }
 
@@ -97,8 +103,8 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
       "details ",
       this.commonService.callingAthleteDetails.remainingTime
     );
-    if(this.bidId!=undefined){
-      this.id =this.bidId
+    if (this.bidId != undefined) {
+      this.id = this.bidId;
     }
     let request: Request = {
       path: "core/video/updateCall/" + this.id,
@@ -131,6 +137,8 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
         this.sendCutVideo(userDetails["id"]);
         this.socket.subscribe("/topic/cancelCall", (message) => {
           let responseData = JSON.parse(message.body).content;
+          let value = localStorage.getItem('authDetails');
+          this.userDetails =JSON.parse(value);
           this.commonService.callingAthleteDetails = JSON.parse(responseData);
           console.log(
             "response ",
@@ -138,11 +146,12 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
           );
 
           if (
-            userDetails.id == this.commonService.callingAthleteDetails.userId
+            this.userDetails.id == this.commonService.callingAthleteDetails.userId
           ) {
             this.router.navigate(["/tabs/schedule"]);
             if (
-              this.commonService.callingAthleteDetails.disconnectedByPersonRole == "ATHLETE" &&
+              this.commonService.callingAthleteDetails
+                .disconnectedByPersonRole == "ATHLETE" &&
               userRole == "fan" &&
               this.commonService.callingAthleteDetails.bidState !== "COMPLETED"
             ) {

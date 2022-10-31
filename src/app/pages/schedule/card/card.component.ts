@@ -123,7 +123,7 @@ export class CardComponent implements OnInit {
     }
   }
   canBidForEvent() {
-    if (this.timer.days <= 5) {
+    if (this.timer.days < 5) {
       return false;
     } else if (!this.timer.days) {
       return false;
@@ -138,7 +138,14 @@ export class CardComponent implements OnInit {
     var rhours = Math.floor(hours);
     var minutes = (hours - rhours) * 60;
     var rminutes = Math.round(minutes);
-    return rhours + "h " + rminutes + "m";
+    if(rhours == 0){
+    return  rminutes + "m";
+    }
+    if(rminutes > 1 && rhours>1){
+          return rhours + "h " + rminutes + "m";
+     } else{
+          return rhours + "h "
+        }
   }
 
   dateFormat() {
