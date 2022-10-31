@@ -28,7 +28,7 @@ export class AthletePage implements OnInit, OnDestroy {
   athleteData: any | null = null;
   selectedIndex: string = "appearances";
   scheduleData: any[] = [];
-  eventFilter: "past" | "upcoming" | "All" = "All";
+  eventFilter: any | "past" | "upcoming" | "All" = "All";
   nameInitials: string;
   athleteId: string;
   latestAthleteEvent: any | null = null;
@@ -40,7 +40,7 @@ export class AthletePage implements OnInit, OnDestroy {
   isClassAdded: boolean = false;
   userRole: userRole;
   eventState: eventState = "APPROVED";
-  
+
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
