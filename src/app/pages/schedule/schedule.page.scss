@@ -182,7 +182,7 @@ ion-content {
 
 .sticky-div {
   position: sticky;
-  top: 85px;
+  top: 94px;
   z-index: 999;
   // background: #000;
   padding: 10px 15px;
@@ -506,3 +506,5 @@ ion-select {
     }
   }
 }
+
+.infinite-scroll-enabled{position: fixed;}

@@ -48,6 +48,7 @@
         </div> -->
 
         <ng-container *ngIf="userRole == 'athlete'">
+          <div style="min-height: 15px;">
           <div *ngIf="eventFilter !== 'past'" class="">
             <h6 *ngIf="timer.minutes > 0" class="card__time">
               <ng-container *ngIf="this.timer.days">
@@ -63,10 +64,12 @@
               
             </h6>
           </div>
+        
           <h6
             *ngIf="eventFilter == 'past'"
             class="card__time disabled-text"
           ></h6>
+        </div>
         </ng-container>
         <!-- event timing countdown end  -->
         <div class="card__body">
