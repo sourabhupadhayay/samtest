@@ -284,7 +284,7 @@ export class SignupDetailsPage implements OnInit {
     let age = this._calculateAge(selectedDate);
     if (age <= 18) {
       this.coreService.showToastMessage(
-        "age of user must be greater than 18",
+        "Age of user must be greater than 18",
         this.coreService.TOAST_ERROR
       );
       return true;
