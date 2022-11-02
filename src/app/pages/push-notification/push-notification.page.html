@@ -3,7 +3,7 @@
 <!-- <ion-popover #popover [isOpen]="isOpen" triggerAction="click" mode="md">
   <ng-template> -->
     <ion-content>
-      <div class="notification-main" *ngIf="notificationContentData.length !== 0">
+      <div class="notification-main" *ngIf="notificationContentData?.length !== 0">
         <div class="data-part" *ngFor="let data of notificationContentData">
           <div (click)="viewedNotification(data.id)">
             <h5>{{data.fullName}}</h5>
@@ -19,7 +19,7 @@
           </p>
         </div> -->
       </div>
-      <div class="notification-main" *ngIf="notificationContentData.length == 0">
+      <div class="notification-main" *ngIf="notificationContentData?.length == 0">
         <div class="data-part" >
           <div>
             <h5>No notifications found!</h5>
