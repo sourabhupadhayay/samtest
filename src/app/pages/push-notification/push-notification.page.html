@@ -1,0 +1,33 @@
+
+
+<!-- <ion-popover #popover [isOpen]="isOpen" triggerAction="click" mode="md">
+  <ng-template> -->
+    <ion-content>
+      <div class="notification-main" *ngIf="notificationContentData.length !== 0">
+        <div class="data-part" *ngFor="let data of notificationContentData">
+          <div (click)="viewedNotification(data.id)">
+            <h5>{{data.fullName}}</h5>
+            <p>{{data.title}}</p>
+            <p>{{data.body}}</p>
+          </div>
+        </div>
+        <!-- <div class="data-part">
+          <h5>Casey Rodgers</h5>
+          <p>
+            “Let’s Get in Touch”, be ready for <u>Meet up</u> event with
+            <span>Casey Rodgers</span> will start in just 10 min.
+          </p>
+        </div> -->
+      </div>
+      <div class="notification-main" *ngIf="notificationContentData.length == 0">
+        <div class="data-part" >
+          <div>
+            <h5>No notifications found!</h5>
+          </div>
+        </div> 
+      </div>
+    </ion-content>
+  <!-- </ng-template>
+</ion-popover> -->
+
+

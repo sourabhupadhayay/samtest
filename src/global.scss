@@ -464,6 +464,21 @@ schedule-card {
   margin: 5px 0 5px;
 }
 
+.my-custom-class .popover-content {
+  background: #000;
+  --width: 94% !important;
+  left: calc(0px + var(--offset-x, 0px)) !important;
+  right: 0 !important;
+  
+}
+.notification-pop {
+  --width: calc(100vw - 15px) !important;
+  --background: transparent;
+  --box-shadow: none;
+  --border-radius: 0;
+  app-push-notification{padding-top: 3px;}
+}
+
 // APP TO WEB CSS START
 .slider-data {
   display: flex;
@@ -564,7 +579,7 @@ schedule-card {
     contain: inherit !important;
   }
   ion-loading,
-  ion-action-sheet {
+  ion-action-sheet, .notification-pop app-push-notification {
     width: 50%;
     right: 0;
     margin: auto;
@@ -659,3 +674,4 @@ app-bid-payment {
     margin: 0;
   }
 }
+

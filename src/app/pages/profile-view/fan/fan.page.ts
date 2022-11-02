@@ -6,6 +6,9 @@ import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { AuthModuleService } from "../../auth-module/auth-module.service";
+import { PopoverController } from '@ionic/angular';
+import { PushNotificationPage } from "../../push-notification/push-notification.page";
+
 
 @Component({
   selector: "fan-page",
@@ -20,7 +23,8 @@ export class fanPage implements OnInit {
     private apiService: DataService,
     private route: ActivatedRoute,
     private constantService: ConstantService,
-    private commonService: CommonService
+    private commonService: CommonService,
+    public popoverController: PopoverController
   ) {}
 
   ngOnInit() {}
@@ -55,4 +59,21 @@ export class fanPage implements OnInit {
         }
       });
   }
+
+  async presentPopover(ev: any) {
+    const popover = await this.popoverController.create({
+      component: PushNotificationPage,
+      cssClass: 'notification-pop',
+      event: ev,
+      translucent: false,
+      side: 'bottom',
+      alignment: 'start',
+      size:'auto'
+    });
+    await popover.present();
+
+    const { role } = await popover.onDidDismiss();
+    console.log('onDidDismiss resolved with role', role);
+  }
+
 }
