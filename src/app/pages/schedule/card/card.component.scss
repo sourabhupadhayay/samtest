@@ -172,6 +172,8 @@ ion-item-sliding {
     & span {
       height: 17px;
       width: 17px;
+      min-width: 17px;
+      min-height: 17px;
       img {
         height: 17px;
         width: 17px;
