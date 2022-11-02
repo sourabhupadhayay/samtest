@@ -46,6 +46,7 @@ ion-content {
         --background-hover: transparent;
 
         ion-icon {
+          cursor: pointer;
           color: var(--white-clr);
           font-size: 1.5rem;
           margin: 0;
@@ -277,6 +278,7 @@ ion-content {
       box-shadow: 0 -2px 2px var(--white-clr);
       margin-bottom: 15px;
       ion-item {
+        cursor: pointer;
         --min-height: 35px;
         --padding-start: 0px;
         --inner-padding-end: 0px;
@@ -321,6 +323,7 @@ ion-content {
         }
         &.logout {
           ion-label {
+            cursor: pointer;
             color: var(--red-clr);
           }
         }
@@ -328,6 +331,7 @@ ion-content {
     }
 
     .delete-account {
+      cursor: pointer;
       padding: 5px 15px;
       background: rgba(var(--white-bg-rgb), 0.7);
       border-radius: 8px;

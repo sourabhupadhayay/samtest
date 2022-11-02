@@ -50,6 +50,7 @@ ion-content {
         --background-hover: transparent;
 
         ion-icon {
+          cursor: pointer;
           color: var(--white-clr);
           font-size: 1.5rem;
           align-self: center;
