@@ -155,7 +155,6 @@ export class SignupDetailsPage implements OnInit {
     // await this.coreService.getCameraPermission();
     this.selectedImage = await this.coreService.captureImage();
     let blob = await fetch(this.selectedImage.webPath).then((r) => r.blob());
-
     let imageSize = this.coreService.formatBytes(blob.size);
     if (imageSize > this.commonService.publicInfo.imageMaxSize) {
       this.coreService.showToastMessage(
@@ -164,11 +163,18 @@ export class SignupDetailsPage implements OnInit {
       );
       return;
     }
-
+  if(blob.type=="image/png" || blob.type=="image/jpeg"){
     this.uploadImageToServer(blob, this.selectedImage.format);
     this.ProfileImageUrl = this.DOMSanitizer.bypassSecurityTrustUrl(
-      this.selectedImage.webPath
+    this.selectedImage.webPath
     );
+  }
+  else{
+    this.coreService.showToastMessage(
+      "please upload image jpeg/png ",
+      this.coreService.TOAST_ERROR
+    );
+  }
   }
 
   removeImage() {
@@ -278,7 +284,7 @@ export class SignupDetailsPage implements OnInit {
     let age = this._calculateAge(selectedDate);
     if (age <= 18) {
       this.coreService.showToastMessage(
-        "age of user must be greater than 18",
+        "Age of user must be greater than 18",
         this.coreService.TOAST_ERROR
       );
       return true;
