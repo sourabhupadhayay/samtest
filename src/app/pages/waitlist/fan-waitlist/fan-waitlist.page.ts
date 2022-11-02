@@ -38,7 +38,7 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
   sponsorList: any;
   connectedFanDetails = null;
   creatorPersona: string;
-
+  highestBid: any;
   slideOpts: any = {
     slidesPerView: 3,
     initialSlide: 1,
@@ -105,6 +105,14 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
 
   calculateUserPosition() {
     //pending fans
+    console.log("fsdg,this.pendin", this.pendingCallFans);
+    const bid = this.pendingCallFans.map((object) => {
+      return object.totalAmount;
+    });
+    console.log(bid);
+
+    this.highestBid = Math.max(...bid);
+
     for (let index = 0; index < this.pendingCallFans.length; index++) {
       if (this.pendingCallFans[index].userId == this.userData.id) {
         this.userIndex = index;
@@ -120,6 +128,7 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
         this.connectedFanDetails = this.calledFans[index];
       }
     }
+    console.log("fan details", this.connectedFanDetails);
   }
 
   getEventDetails() {
