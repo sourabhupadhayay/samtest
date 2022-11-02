@@ -195,33 +195,41 @@ export class LoginPage implements OnInit {
 
   //google sign in
   async googleSignIn() {
-    try {
-      let user = await GoogleAuth.signIn();
+    this.coreService.showToastMessage(
+      "Development under progress",
+      this.coreService.TOAST_INFO
+    );
+    // try {
+    //   let user = await GoogleAuth.signIn();
 
-      let RequestData = {
-        socialAccessToken: user.authentication.accessToken,
-        socialLoginType: "GOOGLE",
-      };
+    //   let RequestData = {
+    //     socialAccessToken: user.authentication.accessToken,
+    //     socialLoginType: "GOOGLE",
+    //   };
 
-      this.socialLogin(RequestData);
-    } catch (e) {}
+    //   this.socialLogin(RequestData);
+    // } catch (e) {}
   }
 
   //facebook login
 
   async faceBookSignIn() {
-    try {
-      let result = (await FacebookLogin.login({
-        permissions: this.FACEBOOK_PERMISSIONS,
-      })) as FacebookLoginResponse;
+    this.coreService.showToastMessage(
+      "Development under progress",
+      this.coreService.TOAST_INFO
+    );
+    // try {
+    //   let result = (await FacebookLogin.login({
+    //     permissions: this.FACEBOOK_PERMISSIONS,
+    //   })) as FacebookLoginResponse;
 
-      let RequestData = {
-        socialAccessToken: result.accessToken.token,
-        socialLoginType: "FACEBOOK",
-      };
+    //   let RequestData = {
+    //     socialAccessToken: result.accessToken.token,
+    //     socialLoginType: "FACEBOOK",
+    //   };
 
-      this.socialLogin(RequestData);
-    } catch (e) {}
+    //   this.socialLogin(RequestData);
+    // } catch (e) {}
   }
 
   async generateNotificationToken() {
