@@ -10,6 +10,9 @@ import { CommonService } from "src/app/providers/common.service";
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService, userRole } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
+import { ModalController } from "@ionic/angular";
+import { PopoverController } from '@ionic/angular';
+import { PushNotificationPage } from "../push-notification/push-notification.page";
 
 export type eventState = "APPROVED" | "PENDING" | "PAST";
 
@@ -37,7 +40,9 @@ export class SchedulePage implements OnInit {
     private apiService: DataService,
     private constantService: ConstantService,
     public commonService: CommonService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    public modalCtrl: ModalController,
+    public popoverController: PopoverController
   ) {}
 
   ionViewWillEnter() {
@@ -50,6 +55,26 @@ export class SchedulePage implements OnInit {
   }
 
   ngOnInit() {}
+
+  onclick_cancel(): void {
+    this.modalCtrl.dismiss();
+  }
+
+  async presentPopover(ev: any) {
+    const popover = await this.popoverController.create({
+      component: PushNotificationPage,
+      cssClass: 'notification-pop',
+      event: ev,
+      translucent: false,
+      side: 'bottom',
+      alignment: 'start',
+      size:'auto'
+    });
+    await popover.present();
+
+    const { role } = await popover.onDidDismiss();
+    console.log('onDidDismiss resolved with role', role);
+  }
 
   addClassOnScroll() {
     this.content.ionScroll.subscribe((data) => {

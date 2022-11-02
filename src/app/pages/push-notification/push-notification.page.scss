@@ -1,0 +1,16 @@
+ion-content{--background:transparent;
+    .notification-main{padding: 5px; padding-bottom: 1px;
+        background: var(--theme-one-clr);
+        border-radius: 10px;
+        .data-part{margin-bottom: 5px;
+            background: var(--white-bg); text-align: left;
+            padding: 15px 20px;
+            border-radius: 10px;
+            h5{font-size: 1rem; color: var(--theme-one-clr); margin: 0 0 3px; font-weight: 500;}
+            p{font-size: 0.875rem; color: var(--text-black); margin: 0; font-weight: 400;
+              span{font-weight: 600;}
+              u{text-decoration: underline;}
+            }
+          }
+    }
+}
