@@ -249,7 +249,9 @@ ion-header {
             --ripple-color: none;
             --min-height:23px;
               ion-checkbox{--ripple-color: none; margin: 0; margin-right: 5px; --size: 20px; --border-color:var(--white-clr); --background-checked:transparent; --background:transparent; --border-width: 1px; --border-color-checked:var(--white-clr); --ripple-color:none; --border-radius: 4px;}
-              ion-label{word-break: break-word;
+              ion-label{word-break: break-word; position: relative;
+                z-index: 9;
+                padding: 7px 0px;
                 white-space: normal;
                   font-size: 0.75rem; color: var(--white-clr); font-weight: 500; margin: 0;
                   span{font-weight: 800; border-bottom: 1px solid var(--white-clr); display: inline-block; position: relative; z-index: 9;}
