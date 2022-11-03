@@ -210,7 +210,7 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
   validateOtp(): boolean {
     if (this.otpFormControl.invalid) {
       this.coreService.showToastMessage(
-        "Please enter valid otp",
+        "Please enter valid OTP",
         this.coreService.TOAST_ERROR
       );
       return true;

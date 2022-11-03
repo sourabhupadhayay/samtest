@@ -17,7 +17,7 @@
             </div>
           </ion-grid>
         </ion-label>
-        <div class="notification" slot="end">
+        <div class="notification" slot="end"  (click)="presentPopover($event)">
           <img src="assets/icon/notification.svg" />
           <span></span>
         </div>
@@ -37,10 +37,10 @@
         </ion-avatar>
         <ion-label>
           <h5>{{athleteData?.fullName}}</h5>
-          <div class="live-status live">
+          <div class="live-status live" *ngIf="this.eventTime?.minutes">
             <!-- add class "live & offline" as per status -->
             <p *ngIf="this.eventTime?.minutes">
-              {{latestAthleteEvent?.athleteName | titlecase}} will be live in
+              {{latestAthleteEvent?.athleteName | titlecase}} will be <span >live </span> in
               just
               <ng-container *ngIf="this.eventTime?.days">
                 {{this.eventTime?.days }} {{this.eventTime?.title_days}} :
@@ -56,10 +56,11 @@
                 few mins
               </ng-container>
             </p>
-            <p *ngIf="!this.eventTime?.minutes">
-              {{latestAthleteEvent?.athleteName | titlecase}} is
-              <span>LIVE</span> For Next 30 minutes
-            </p>
+          </div>
+          <div class="live-status offline">
+          <p *ngIf="!this.eventTime?.minutes">
+            <span>OFFLINE</span>
+          </p>
           </div>
         </ion-label>
       </ion-item>

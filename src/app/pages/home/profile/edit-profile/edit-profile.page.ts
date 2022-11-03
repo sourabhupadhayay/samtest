@@ -20,6 +20,9 @@ import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { Storage } from "@capacitor/storage";
 import { CommonService } from "src/app/providers/common.service";
+import { PopoverController } from '@ionic/angular';
+import { PushNotificationPage } from "../../../../pages/push-notification/push-notification.page";
+
 
 @Component({
   selector: "app-edit-profile",
@@ -46,7 +49,8 @@ export class EditProfilePage implements OnInit {
     private formBuilder: FormBuilder,
     public commonService: CommonService,
     private cd: ChangeDetectorRef,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public popoverController: PopoverController
   ) {}
 
   ngOnInit() {}
@@ -372,5 +376,20 @@ export class EditProfilePage implements OnInit {
   }
   goBack() {
     this.router.navigate(["/tabs/profile"]);
+  }
+  async presentPopover(ev: any) {
+    const popover = await this.popoverController.create({
+      component: PushNotificationPage,
+      cssClass: 'notification-pop',
+      event: ev,
+      translucent: false,
+      side: 'bottom',
+      alignment: 'start',
+      size:'auto'
+    });
+    await popover.present();
+
+    const { role } = await popover.onDidDismiss();
+    console.log('onDidDismiss resolved with role', role);
   }
 }

@@ -46,28 +46,31 @@
         <div *ngIf="eventFilter == 'past' && cardData.pastEvent ==true " class="">
           <h6 *ngIf="timer" style="margin-top: 15px;" class="card__time"></h6>
         </div> -->
-
-        <ng-container *ngIf="userRole == 'athlete'">
-          <div *ngIf="eventFilter !== 'past'" class="">
-            <h6 *ngIf="timer.minutes > 0" class="card__time">
-              <ng-container *ngIf="this.timer.days">
-                <span>{{this.timer.days }}</span> {{this.timer.title_days}} :
-              </ng-container>
-              <ng-container *ngIf="this.timer.hours">
-                <span>{{this.timer.hours }}</span>
-                {{this.timer?.title_hours}} :
-              </ng-container>
-              <span>{{this.timer.minutes}}</span> {{this.timer?.title_min}}
-            </h6>
-            <h6 *ngIf="timer.minutes <=  0" class="card__time">
-              
-            </h6>
-          </div>
-          <h6
-            *ngIf="eventFilter == 'past'"
-            class="card__time disabled-text"
-          ></h6>
-        </ng-container>
+        <div style="min-height: 15px;">
+          <ng-container *ngIf="userRole == 'athlete'">
+            
+            <div *ngIf="eventFilter !== 'past'" class="">
+              <h6 *ngIf="timer.minutes > 0" class="card__time" st>
+                <ng-container *ngIf="this.timer.days">
+                  <span>{{this.timer.days }}</span> {{this.timer.title_days}} :
+                </ng-container>
+                <ng-container *ngIf="this.timer.hours">
+                  <span>{{this.timer.hours }}</span>
+                  {{this.timer?.title_hours}} :
+                </ng-container>
+                <span>{{this.timer.minutes}}</span> {{this.timer?.title_min}}
+              </h6>
+              <h6 *ngIf="timer.minutes <=  0" class="card__time">
+                
+              </h6>
+            </div>
+          
+            <h6
+              *ngIf="eventFilter == 'past'"
+              class="card__time disabled-text"
+            ></h6>
+          </ng-container>
+        </div>
         <!-- event timing countdown end  -->
         <div class="card__body">
           <div class="card__details">
@@ -84,7 +87,7 @@
                 ><img src="../../../../assets/icon/clock.svg" alt=""
               /></span>
               <h6>{{cardData.startDate | date:'shortTime'}}</h6>
-              <img src="../../../../assets/icon/duration-small.svg" alt="" />
+              <span><img src="../../../../assets/icon/duration-small.svg" alt="" /></span>
               <h6>{{timeConvert(cardData.duration)}}</h6>
             </div>
             <div class="card__detail">
@@ -101,7 +104,7 @@
               </ng-container>
               <ng-container *ngIf="cardData.eventType == 'IN_PERSON'">
                 <span
-                  ><img src="../../../../assets/icon/location.svg" alt=""
+                  ><img class="op-65" src="../../../../assets/icon/location.svg" alt=""
                 /></span>
                 <h6>
                   {{cardData.eventAddress?.addressLine1}},

@@ -11,7 +11,7 @@
             </div>
           </ion-grid>
         </ion-label>
-        <!-- <div class="notification" slot="end">
+        <!-- <div class="notification" slot="end"  (click)="presentPopover($event)">
           <img src="assets/icon/notification.svg" />
           <span></span>
         </div> -->
@@ -135,7 +135,8 @@
             </p>
             <p>
               Top Bid in the waitlist :
-              <span>${{connectedFanDetails?.totalAmount}}</span>
+              <!-- <span>${{connectedFanDetails?.totalAmount}}</span> -->
+              <span>${{highestBid}}</span>
             </p>
           </ng-container>
           <ng-container *ngIf="connectedFanDetails?.bidState !== 'PENDING'">

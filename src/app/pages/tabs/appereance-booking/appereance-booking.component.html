@@ -60,8 +60,9 @@
                     displayFormat="MM/DD/YYYY"
                     presentation="date" 
                     [value] = "defaultDate"
+                    [max] ="maxData"
                   >
-                    <span slot="title">Select start date</span></ion-datetime
+                    <span slot="title" class="tile-font">Select start date</span></ion-datetime
                   >
                 </ion-content>
               </ng-template>
@@ -100,7 +101,7 @@
                     presentation="time"
                     (ionChange)="setTimeValue(dateTime1.value)"
                   >
-                    <span slot="title">Select time</span></ion-datetime
+                    <span slot="title" class="tile-font">Select time</span></ion-datetime
                   >
                 </ion-content>
               </ng-template>
@@ -140,7 +141,7 @@
                     value="00:00"
                     (ionChange)="patchTime(dateTime.value)"
                   >
-                    <span slot="title">Select duration</span></ion-datetime
+                    <span slot="title" class="tile-font">Select duration</span></ion-datetime
                   >
                 </ion-content>
               </ng-template>
@@ -291,7 +292,7 @@
                     presentation="date" 
                     [value] = "defaultDate"
                   >
-                    <span slot="title">Select start date</span></ion-datetime
+                    <span slot="title" class="tile-font">Select start date</span></ion-datetime
                   >
                 </ion-content>
               </ng-template>
@@ -331,7 +332,7 @@
                     presentation="time"
                     (ionChange)="setTimeValue(dateTime.value)"
                   >
-                    <span slot="title">Select time</span></ion-datetime
+                    <span slot="title" class="tile-font">Select time</span></ion-datetime
                   >
               
                 </ion-content>
@@ -376,7 +377,7 @@
                     value="00:00"
                     (ionChange)="patchTime(dateTime.value)"
                   >
-                    <span slot="title">Select duration</span></ion-datetime
+                    <span slot="title" class="tile-font">Select duration</span></ion-datetime
                   >
                 </ion-content>
               </ng-template>

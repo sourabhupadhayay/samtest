@@ -15,7 +15,7 @@
             </div>
           </ion-grid>
         </ion-label>
-        <div class="notification" slot="end">
+        <div class="notification" slot="end"   (click)="presentPopover($event)">
           <img src="assets/icon/notification.svg" />
           <span></span>
         </div>
@@ -202,3 +202,30 @@
     </div>
   </ion-grid>
 </ion-content>
+
+
+
+<!-- <ion-modal trigger="logout" class="small-modal">
+  <ng-template>
+    <ion-header mode="md">
+      <h3>Logout</h3>
+    </ion-header>
+
+    <div class="inner-content">
+      <div class="main-screen">
+        <p>Are you sure, you want to logout from BubbleApp?</p>
+      </div>
+    </div>
+
+    <ion-footer mode="ios">
+      <ion-toolbar mode="ios">
+        <ion-button class="white-btn" (click)="onclick_cancel()">
+          <img src="assets/icon/close-icon.png" />
+        </ion-button>
+        <ion-button data-cy="logout" (click)="logout()" class="white-btn">
+          <img src="assets/icon/right-icon.png" />
+        </ion-button>
+      </ion-toolbar>
+    </ion-footer>
+  </ng-template>
+</ion-modal> -->

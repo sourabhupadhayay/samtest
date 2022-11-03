@@ -12,7 +12,7 @@ import {
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
-import {CommonService} from "../../providers/common.service";
+import { CommonService } from "../../providers/common.service";
 
 @Component({
   selector: "app-bubble-screen-list",
@@ -66,7 +66,8 @@ export class BubbleScreenListPage implements OnInit {
   }
 
   goBack() {
-    this.location.back();
+    //this.location.back();
+    this.router.navigate(["/bubble-screen"]);
   }
 
   getAthletes() {
@@ -100,9 +101,10 @@ export class BubbleScreenListPage implements OnInit {
             this.athleteList.push(element);
           });
         }
-        this.athleteList.forEach((element,index) => {
-          this.athleteList[index]['nameInitials']= this.commonService.getInitials(element.fullName
-          );
+        this.athleteList.forEach((element, index) => {
+          this.athleteList[index][
+            "nameInitials"
+          ] = this.commonService.getInitials(element.fullName);
         });
         this.totalElements = response.data.totalElements;
       } else {

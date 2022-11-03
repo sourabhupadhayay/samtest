@@ -9,6 +9,8 @@ import { ChangePasswordComponent } from "./change-password/change-password.compo
 import { Storage } from "@capacitor/storage";
 import { Subscription } from "rxjs";
 import { CommonService } from "src/app/providers/common.service";
+import { PushNotificationPage } from "src/app/pages/push-notification/push-notification.page";
+import { PopoverController } from '@ionic/angular';
 @Component({
   selector: "app-view-profile",
   templateUrl: "./view-profile.page.html",
@@ -26,7 +28,8 @@ export class ViewProfilePage implements OnInit {
     private apiService: DataService,
     private constantService: ConstantService,
     private router: Router,
-    private commonService: CommonService
+    private commonService: CommonService,
+    public popoverController: PopoverController
   ) {}
 
   ngOnInit() {}
@@ -96,6 +99,22 @@ export class ViewProfilePage implements OnInit {
     });
 
     modal.present();
+  }
+
+  async presentPopover(ev: any) {
+    const popover = await this.popoverController.create({
+      component: PushNotificationPage,
+      cssClass: 'notification-pop',
+      event: ev,
+      translucent: false,
+      side: 'bottom',
+      alignment: 'start',
+      size:'auto'
+    });
+    await popover.present();
+
+    const { role } = await popover.onDidDismiss();
+    console.log('onDidDismiss resolved with role', role);
   }
 
   deleteAccount() {

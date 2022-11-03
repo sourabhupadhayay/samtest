@@ -15,6 +15,8 @@ import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService, userRole } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { CommonService } from "../../../providers/common.service";
+import { PopoverController } from '@ionic/angular';
+import { PushNotificationPage } from "../../push-notification/push-notification.page";
 
 export type eventState = "APPROVED" | "PENDING" | "PAST";
 
@@ -40,7 +42,7 @@ export class AthletePage implements OnInit, OnDestroy {
   isClassAdded: boolean = false;
   userRole: userRole;
   eventState: eventState = "APPROVED";
-
+  
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -49,7 +51,8 @@ export class AthletePage implements OnInit, OnDestroy {
     private router: Router,
     private constantService: ConstantService,
     private cd: ChangeDetectorRef,
-    private commonService: CommonService
+    private commonService: CommonService,
+    public popoverController: PopoverController,
   ) {}
 
   ngOnInit() {
@@ -229,5 +232,20 @@ export class AthletePage implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     clearInterval(this.interval);
+  }
+  async presentPopover(ev: any) {
+    const popover = await this.popoverController.create({
+      component: PushNotificationPage,
+      cssClass: 'notification-pop',
+      event: ev,
+      translucent: false,
+      side: 'bottom',
+      alignment: 'start',
+      size:'auto'
+    });
+    await popover.present();
+
+    const { role } = await popover.onDidDismiss();
+    console.log('onDidDismiss resolved with role', role);
   }
 }

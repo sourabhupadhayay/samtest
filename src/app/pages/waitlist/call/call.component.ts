@@ -57,6 +57,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   socket: any;
   remainTime: any;
   color: any;
+  streams: any = [];
   constructor(
     private apiService: DataService,
     private coreService: CoreService,
@@ -162,6 +163,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getSession() {
+    console.log("ankita session called");
     this.session = initSession(this.apiKey, this.sessionId);
     this.session.connect(this.token, (error) => {
       if (error) {
@@ -173,7 +175,8 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
     let element = this.fanElement.nativeElement;
-    this.session.on("streamCreated", (event) => {
+    this.session.once("streamCreated", (event) => {
+      console.log("dsf");
       this.startTimer();
       this.subscribe = this.session.subscribe(event.stream, element, {
         width: "100%",
@@ -187,8 +190,11 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       // });
     });
 
-    this.session.on("streamDestroyed", (event) => {
+    this.session.once("streamDestroyed", (event) => {
+      event.preventDefault();
+      var subscribers = this.session.getSubscribersForStream(event.stream);
       this.session.disconnect();
+      console.log("Reson" + event.reason);
       this.stopTimer();
       this.router.navigate(["/tabs/home"]);
     });
@@ -202,8 +208,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       name: this.userData.fullName,
     });
 
-    this.publisher.on("streamDestroyed", (event) => {
-      //this.startTimer();
+    this.publisher.off("streamDestroyed", (event) => {
       console.log("Stream stopped. Reason: " + event.reason);
       clearInterval(this.intId);
       console.log("int", this.intId);
@@ -247,9 +252,8 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log("interval s", this.intId);
         this.intId = undefined;
         this.session.disconnect();
-        this.session.unpublish(this.publisher);
 
-        this.cd.detectChanges();
+        this.stopTimer();
         console.log("asdfdg ", this.isBiddingEvent, this.intId);
         if (this.isBiddingEvent) {
           this.router.navigate(["/waitlist/event/" + response.data.eventId]);
