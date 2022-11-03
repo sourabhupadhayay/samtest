@@ -180,12 +180,13 @@ ion-content {
   }
 }
 
-.sticky-div {
+.sticky-div {transition: all 0.3s;
   position: sticky;
-  top: 90px;
+  top: 88px;
   z-index: 999;
   // background: #000;
-  padding: 10px 15px;
+  padding: 19px 15px 10px;
+  margin-bottom: 6px;
 
   &.add-bg {
     background: var(--theme-one-bg);

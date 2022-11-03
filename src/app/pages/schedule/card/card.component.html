@@ -34,54 +34,56 @@
         </div>
         <!-- video and in person event icons end  -->
         <!-- event timing countdown start  -->
-        <ng-container *ngIf="userRole == 'athlete'">
-          <div *ngIf="eventState !== 'PAST'" class="">
-            <h6 *ngIf="timer.minutes > 0" class="card__time">
-              <ng-container *ngIf="this.timer.days">
-                <span>{{this.timer.days }}</span> {{this.timer.title_days}} :
-              </ng-container>
-              <ng-container *ngIf="this.timer.hours">
-                <span>{{this.timer.hours }}</span>
-                {{this.timer?.title_hours}} :
-              </ng-container>
-              <span>{{this.timer.minutes}}</span> {{this.timer?.title_min}}
+        <div style="min-height: 15px;">
+          <ng-container *ngIf="userRole == 'athlete'">
+            <div *ngIf="eventState !== 'PAST'" class="">
+              <h6 *ngIf="timer.minutes > 0" class="card__time">
+                <ng-container *ngIf="this.timer.days">
+                  <span>{{this.timer.days }}</span> {{this.timer.title_days}} :
+                </ng-container>
+                <ng-container *ngIf="this.timer.hours">
+                  <span>{{this.timer.hours }}</span>
+                  {{this.timer?.title_hours}} :
+                </ng-container>
+                <span>{{this.timer.minutes}}</span> {{this.timer?.title_min}}
+              </h6>
+              <h6 *ngIf="timer.minutes <=  0" class="card__time">
+                Event Started
+              </h6>
+            </div>
+            <h6
+              *ngIf="eventState == 'PAST'"
+              class="card__time disabled-text"
+            ></h6>
+          </ng-container>
+          <ng-container *ngIf="userRole == 'fan'">
+            <div *ngIf="eventState == 'APPROVED'" class="">
+              <h6 *ngIf="timer.minutes > 0" class="card__time">
+                <ng-container *ngIf="this.timer.days">
+                  <span>{{this.timer.days }}</span> {{this.timer.title_days}} :
+                </ng-container>
+                <ng-container *ngIf="this.timer.hours">
+                  <span>{{this.timer.hours }}</span>
+                  {{this.timer?.title_hours}} :
+                </ng-container>
+                <span>{{this.timer.minutes}}</span> {{this.timer?.title_min}}
+              </h6>
+              <h6 *ngIf="timer.minutes <=  0" class="card__time">
+                Event Started
+              </h6>
+            </div>
+            <h6
+              *ngIf="eventState == 'PENDING'"
+              class="card__time disabled-text-light"
+            >
+              Pending for approval
             </h6>
-            <h6 *ngIf="timer.minutes <=  0" class="card__time">
-              Event Started
-            </h6>
-          </div>
-          <h6
-            *ngIf="eventState == 'PAST'"
-            class="card__time disabled-text"
-          ></h6>
-        </ng-container>
-        <ng-container *ngIf="userRole == 'fan'">
-          <div *ngIf="eventState == 'APPROVED'" class="">
-            <h6 *ngIf="timer.minutes > 0" class="card__time">
-              <ng-container *ngIf="this.timer.days">
-                <span>{{this.timer.days }}</span> {{this.timer.title_days}} :
-              </ng-container>
-              <ng-container *ngIf="this.timer.hours">
-                <span>{{this.timer.hours }}</span>
-                {{this.timer?.title_hours}} :
-              </ng-container>
-              <span>{{this.timer.minutes}}</span> {{this.timer?.title_min}}
-            </h6>
-            <h6 *ngIf="timer.minutes <=  0" class="card__time">
-              Event Started
-            </h6>
-          </div>
-          <h6
-            *ngIf="eventState == 'PENDING'"
-            class="card__time disabled-text-light"
-          >
-            Pending for approval
-          </h6>
-          <h6
-            *ngIf="eventState == 'PAST'"
-            class="card__time disabled-text-light"
-          ></h6>
-        </ng-container>
+            <h6
+              *ngIf="eventState == 'PAST'"
+              class="card__time disabled-text-light"
+            ></h6>
+          </ng-container>
+        </div>
         <!-- event timing countdown end  -->
         <div class="card__body">
           <div class="card__details">
