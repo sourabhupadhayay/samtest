@@ -908,7 +908,8 @@ ion-modal.privacy-policy-modal{
         ion-title{align-items: center; padding: 0 15px; font-size: 1rem; color: var(--theme-one-clr);
           
         }
-         ion-icon{color: var(--text-black);}
+         ion-icon{color: var(--text-black); margin-right: 15px;
+          font-size: 1.5rem;}
         
     }
   }

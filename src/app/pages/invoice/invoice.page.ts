@@ -10,7 +10,7 @@ import { ConstantService } from "src/app/providers/constant.service";
 import { CommonService } from "src/app/providers/common.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
-
+import {PrivacyPolicyPage} from'./privacy-policy/privacy-policy.page';
 
 @Component({
   selector: "app-invoice",
@@ -67,6 +67,13 @@ export class InvoicePage implements OnInit {
   async presentTermsAndServices() {
     const modal: HTMLIonModalElement = await this.modalCtrl.create({
       component: TermsOfServiceComponent,
+      cssClass: "tandc-modal-new",
+    });
+    modal.present();
+  }
+  async privacyPolicy(){
+    const modal: HTMLIonModalElement = await this.modalCtrl.create({
+      component: PrivacyPolicyPage,
       cssClass: "tandc-modal-new",
     });
     modal.present();

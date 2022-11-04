@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: InvoicePage
+  },  {
+    path: 'privacy-policy',
+    loadChildren: () => import('./privacy-policy/privacy-policy.module').then( m => m.PrivacyPolicyPageModule)
   }
+
 ];
 
 @NgModule({
