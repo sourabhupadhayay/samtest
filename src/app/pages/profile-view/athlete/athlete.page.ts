@@ -136,7 +136,7 @@ export class AthletePage implements OnInit, OnDestroy {
                 pageNumber: this.pageNumber,
               },
               sort: {
-                orderBy: "ASC",
+                orderBy: "DESC",
                 sortBy: "START_DATE",
               },
             },
