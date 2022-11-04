@@ -13,6 +13,7 @@ import { DataService, Request, Response } from "src/app/providers/data.service";
 import { ModalController } from "@ionic/angular";
 import { PopoverController } from '@ionic/angular';
 import { PushNotificationPage } from "../push-notification/push-notification.page";
+import { Router } from "@angular/router";
 
 export type eventState = "APPROVED" | "PENDING" | "PAST";
 
@@ -35,6 +36,7 @@ export class SchedulePage implements OnInit {
   pageNumber: number = 0;
   totalElements: number = 0;
   isScrollDisabled: boolean = false;
+  athleteEarnings :number = 0;
   constructor(
     private coreService: CoreService,
     private apiService: DataService,
@@ -42,7 +44,8 @@ export class SchedulePage implements OnInit {
     public commonService: CommonService,
     private cd: ChangeDetectorRef,
     public modalCtrl: ModalController,
-    public popoverController: PopoverController
+    public popoverController: PopoverController,
+    private router: Router,
   ) {}
 
   ionViewWillEnter() {
@@ -54,7 +57,9 @@ export class SchedulePage implements OnInit {
     this.addClassOnScroll();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getAthleteEarnings();
+  }
 
   onclick_cancel(): void {
     this.modalCtrl.dismiss();
@@ -268,5 +273,28 @@ export class SchedulePage implements OnInit {
     //       return "REQUEST";
     //   }
     // }
+  }
+
+  redirectToInvoice() {
+    if(this.userRole == 'athlete') {
+      this.router.navigate(["/invoice"]);
+    }
+    else{
+      return
+    }
+  }
+
+
+  getAthleteEarnings() {
+    let request: any = {
+      path: "core/event/athlete/cash",
+      isAuth: true,
+    };
+      this.apiService.get(request).subscribe((response: any) => {
+        if (response.status.code === this.constantService.STATUS_OK) {
+          this.athleteEarnings = response.data.totalEarning ;
+        }
+      });
+    
   }
 }
