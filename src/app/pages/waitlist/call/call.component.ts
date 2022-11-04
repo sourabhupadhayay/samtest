@@ -30,7 +30,7 @@ import { Stomp } from "@stomp/stompjs";
 import * as SockJS from "sockjs-client";
 import { configuration } from "src/app/configuration";
 import { CommonService } from "src/app/providers/common.service";
-
+import {  SafeExecution } from "../../../directives/models/safe-execution.decorator";
 @Component({
   selector: "app-call",
   templateUrl: "./call.component.html",
@@ -170,12 +170,12 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log(error);
       } else {
         this.createPublisher();
-
+        
         this.session.publish(this.publisher, (error) => {});
       }
     });
     let element = this.fanElement.nativeElement;
-    this.session.once("streamCreated", (event) => {
+    this.session.on("streamCreated", (event) => {
       console.log("dsf");
       this.startTimer();
       this.subscribe = this.session.subscribe(event.stream, element, {
@@ -190,16 +190,22 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       // });
     });
 
-    this.session.once("streamDestroyed", (event) => {
-      event.preventDefault();
-      var subscribers = this.session.getSubscribersForStream(event.stream);
+    this.session.on("streamDestroyed", (event) => {
       this.session.disconnect();
       console.log("Reson" + event.reason);
       this.stopTimer();
       this.router.navigate(["/tabs/home"]);
-    });
+    })
+    //
   }
-
+  private _streamOff(): void {
+    // if ((<any>this.session).listenerCount("streamCreated") == 1) {
+      (<any>this.session).off("streamCreated");
+      (<any>this.session).off("streamDestroyed");
+      (<any>this.session).off("sessionConnected");
+      
+    // }
+  }
   createPublisher() {
     this.publisher = initPublisher(this.athleteElement.nativeElement, {
       width: "100%",
@@ -251,9 +257,8 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
 
         console.log("interval s", this.intId);
         this.intId = undefined;
-        this.session.disconnect();
-
-        this.stopTimer();
+        this._streamOff()
+        this._cleanUp()
         console.log("asdfdg ", this.isBiddingEvent, this.intId);
         if (this.isBiddingEvent) {
           this.router.navigate(["/waitlist/event/" + response.data.eventId]);
@@ -380,8 +385,48 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.socket.send("/app/cancelVideo", {}, data);
   }
 
+  @SafeExecution()
+  private _cleanUp(): void {
+    /*
+     * This.streams.forEach((str: Stream) => {
+     * 	str = null;
+     * });
+     */
+    Promise.resolve(this._sessionCleanUp())
+      .then((): Promise<void> => Promise.resolve(this.hardRefresh()))
+      .then((): void => {
+       // this.distroyer$?.next();
+       // this.distroyer$?.complete();
+      
+      });
+    /*
+     * This.subscriber = null;
+     * this.publisher = null;
+     * this.session = null; as any)
+     */
+  }
+
+  private _sessionCleanUp(): void {
+    console.log("clean up call")
+    this.streams = [];
+   this.stopTimer()
+    // @advice Only 1 event dose things automatically.... don't add to munch disconnect stuff it breaks the code..
+    this.session.disconnect();
+    setTimeout(() => {
+      this.publisher=undefined
+      this.subscribe=undefined
+    }, 2000);
+    
+   // this.updateViews();
+  }
+  async hardRefresh(): Promise<void> {
+    // await this._navCtrl.navigateRoot("/home");
+    // Window.location.reload();
+  }
+
   ngOnDestroy(): void {
     this.stopTimer();
+    this._cleanUp()
     this.allowDeviceToSleep();
     this.session.disconnect();
     this.sessionId = "";
