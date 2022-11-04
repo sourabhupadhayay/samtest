@@ -205,6 +205,7 @@ export class AppereanceBookingComponent implements OnInit {
         this.coreService.dismissLoader();
         if (response.status.code == this.constant.STATUS_OK) {
           this.modalCtrl.dismiss(false);
+          window.location.reload();
         } else {
           this.coreService.showToastMessage(
             response["status"]["description"],

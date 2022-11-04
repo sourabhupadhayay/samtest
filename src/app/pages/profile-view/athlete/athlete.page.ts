@@ -61,14 +61,16 @@ export class AthletePage implements OnInit, OnDestroy {
     this.getAppearanceData();
   }
 
+
   async getUserRole() {
     this.userRole =  await this.coreService.getUserRoleFromStorage();
   }
 
   ionViewDidEnter() {
     this.addClassOnScroll();
+    this.getAppearanceData();
   }
-
+ 
   addClassOnScroll() {
     this.content.ionScroll.subscribe((data) => {
       if (data.detail.scrollTop > 50) {
