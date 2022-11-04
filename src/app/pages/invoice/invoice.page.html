@@ -3,7 +3,7 @@
     <div class="title-part">
       <ion-item lines="none">
         <ion-icon
-          routerLink="/tabs/profile"
+          routerLink="/tabs/schedule"
           slot="start"
           name="arrow-back-outline"
         ></ion-icon>
@@ -155,7 +155,7 @@
   <ion-toolbar>
     <div class="footer-btn">
       <p><img src="assets/images/bb-to-home.png" /></p>
-      <ion-button id="BubbleCashtoBank">Bubble Cash to Bank</ion-button>
+      <ion-button id="BubbleCashtoBank" (click)="getBankListing()" >Bubble Cash to Bank</ion-button>
     </div>
   </ion-toolbar>
 </ion-footer>
@@ -172,13 +172,14 @@
       </div>
     </ion-header>
 
+   
     <div class="inner-content">
       <div class="main-screen">
-        <ion-row>
+        <ion-row [formGroup]="bankDetailsForm">
           <ion-col size="12">
             <div class="input-box">
               <ion-item lines="none" class="ion-align-items-center">
-                <ion-input placeholder="Account Holder Name"></ion-input>
+                <ion-input placeholder="Bank Name" formControlName="name"></ion-input>
                 <img
                   class="ion-align-items-center"
                   slot="end"
@@ -190,7 +191,19 @@
           <ion-col size="12">
             <div class="input-box">
               <ion-item lines="none" class="ion-align-items-center">
-                <ion-input placeholder="Account Number"></ion-input>
+                <ion-input placeholder="Account Holder Name" formControlName="accountHolderName"></ion-input>
+                <img
+                  class="ion-align-items-center"
+                  slot="end"
+                  src="assets/icon/user-icon.svg"
+                />
+              </ion-item>
+            </div>
+          </ion-col>
+          <ion-col size="12">
+            <div class="input-box">
+              <ion-item lines="none" class="ion-align-items-center">
+                <ion-input placeholder="Account Number" (keypress)="numberOnly($event)" maxlength="16" formControlName="accountNumber"></ion-input>
                 <img
                   class="ion-align-items-center"
                   slot="end"
@@ -202,7 +215,7 @@
           <ion-col size="12">
             <div class="input-box">
               <ion-item lines="none" class="ion-align-items-center">
-                <ion-input placeholder="Routing Number"></ion-input>
+                <ion-input placeholder="Routing Number" (keypress)="numberOnly($event)" maxlength="16" formControlName="routingNumber"></ion-input>
                 <img
                   class="ion-align-items-center"
                   slot="end"
@@ -211,12 +224,34 @@
               </ion-item>
             </div>
           </ion-col>
+          <ion-col size="12">
+            <div class="radio-box">
+              
+              <ion-radio-group formControlName="accountType" mode="md">
+                <ion-item lines="none">
+                  <ion-label >Checking</ion-label>
+                  <ion-radio slot="start"  value="CHECKING"  ></ion-radio>
+                </ion-item>
+                <ion-item lines="none">
+                    <ion-label>Saving </ion-label>
+                    <ion-radio slot="start"  value="SAVING" ></ion-radio>
+                </ion-item>                      
+              </ion-radio-group>
+            </div>
+
+            <div class="bank-list">
+              <div class="bank-name" *ngFor="let bank of bankDetails" (click)="openTransferModal(bank.id)">
+                <span>{{bank?.nameInitials}}</span>
+                <p>{{bank?.name}}</p>
+              </div>
+            </div>
+          </ion-col>
         </ion-row>
         <div class="save-card">
-          <ion-item lines="none" mode="ios">
+          <!-- <ion-item lines="none" mode="ios">
             <ion-label>Save your Account Details For Future Transfer</ion-label>
             <ion-checkbox slot="start" mode="ios"></ion-checkbox>
-          </ion-item>
+          </ion-item> -->
           <ion-item lines="none" mode="ios">
             <ion-label
               >By clicking this you agree to our <span (click)="presentTermsAndServices()" id="TermsOfUse"
@@ -225,18 +260,97 @@
 <!--              partner Dwolla’s <span id="TermsOfUse">Terms of Service</span> and-->
 <!--              <span id="TermsOfUse">Privacy Policy</span>.-->
             </ion-label>
-            <ion-checkbox slot="start" mode="ios"></ion-checkbox>
+            <ion-checkbox slot="start" mode="ios"  [(ngModel)]="isTermsAndConditionAccepted"></ion-checkbox>
           </ion-item>
         </div>
       </div>
     </div>
+ 
+    <ion-footer mode="ios">
+      <ion-toolbar mode="ios">
+        <ion-button class="white-btn" (click)="onClickCancel()">
+          <img src="assets/icon/close-icon.png" />
+        </ion-button>
+        <ion-button class="white-btn" id="termsofuse" [disabled]="!isTermsAndConditionAccepted" (click)="addBankAccount()">
+          <img src="assets/icon/right-icon.png" />
+        </ion-button>
+        <div class="nil4all">
+          <span>#NIL4ALL</span>
+        </div>
+      </ion-toolbar>
+    </ion-footer>
+    <ion-grid class="bg-bubble">
+      <div class="dots-bubble">
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+      </div>
+    </ion-grid>
+  </ng-template>
+</ion-modal>
+
+<ion-modal #transferModal class="client-filter-modal">
+  <ng-template>
+    <ion-header mode="md">
+      <div class="icon-header">
+        <img src="assets/icon/header-bubble.png" />
+        <h3>Transfer Payment</h3>
+      </div>
+      <div class="top-noch">
+        <img src="assets/images/modal-tope.png" />
+      </div>
+    </ion-header>
+
+    
+      <div class="inner-content">
+        <div class="main-screen">
+          <ion-row [formGroup]="transferAmountForm">
+            <ion-col size="12">
+              <div class="input-box">
+                <ion-item lines="none" class="ion-align-items-center">
+                  <ion-input placeholder="Amount" 
+                             (ionBlur)="getToFixedDigits($event)" 
+                             (keypress)="numberOnly($event)" 
+                             formControlName="amount">
+                  </ion-input>
+                  <img
+                    class="ion-align-items-center"
+                    slot="end"
+                    src="assets/icon/document.svg"
+                  />
+                </ion-item>
+              </div>
+            </ion-col>
+            <ion-col size="12">
+              <div class="input-box">
+                <ion-item lines="none" class="ion-align-items-center">
+                  <ion-input placeholder="Description" formControlName="details" ></ion-input>
+                  <img
+                    class="ion-align-items-center"
+                    slot="end"
+                    src="assets/icon/user-icon.svg"
+                  />
+                </ion-item>
+              </div>
+            </ion-col>
+          </ion-row>
+        </div>
+      </div>
+    
 
     <ion-footer mode="ios">
       <ion-toolbar mode="ios">
         <ion-button class="white-btn" (click)="onClickCancel()">
           <img src="assets/icon/close-icon.png" />
         </ion-button>
-        <ion-button class="white-btn" id="termsofuse">
+        <ion-button class="white-btn" id="termsofuse" (click)="transferAmount()">
           <img src="assets/icon/right-icon.png" />
         </ion-button>
         <div class="nil4all">
