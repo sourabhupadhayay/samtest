@@ -156,7 +156,7 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
               this.commonService.callingAthleteDetails.bidState !== "COMPLETED"
             ) {
               this.core.showToastMessage(
-                "Athlete is busy.He/She will connect after sometime",
+                "Athlete is busy. He/She will connect after sometime",
                 this.core.TOAST_ERROR
               );
             }
