@@ -138,7 +138,7 @@ export class SignupDetailsPage implements OnInit {
       this.coreService.dismissLoader();
       if (response["status"]["code"] === this.constantService.STATUS_OK) {
         this.coreService.showToastMessage(
-          response.status.description,
+         "User added sucessfully",
           this.coreService.TOAST_SUCCESS
         );
         this.router.navigate(["/auth/login"]);

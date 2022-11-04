@@ -185,6 +185,7 @@ ion-content {
           font-size: 0.875rem;
           display: inline-block;
           span {
+            cursor: pointer;
             font-weight: 700;
             font-size: 1rem;
             color: var(--white-clr);
@@ -254,6 +255,7 @@ ion-content {
           padding-left: 18px;
           line-height: 19px;
           span {
+            cursor: pointer;
             font-weight: 700;
             font-size: 0.875rem;
           }
