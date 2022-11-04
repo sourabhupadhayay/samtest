@@ -190,7 +190,9 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       // });
     });
 
-    this.session.on("streamDestroyed", (event) => {
+    this.session.once("streamDestroyed", (event) => {
+      event.preventDefault();
+      var subscribers = this.session.getSubscribersForStream(event.stream);
       this.session.disconnect();
       console.log("Reson" + event.reason);
       this.stopTimer();

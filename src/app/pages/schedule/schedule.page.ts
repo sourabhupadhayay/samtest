@@ -81,6 +81,7 @@ export class SchedulePage implements OnInit {
     console.log('onDidDismiss resolved with role', role);
   }
 
+
   addClassOnScroll() {
     this.content.ionScroll.subscribe((data) => {
       if (data.detail.scrollTop > 50) {
