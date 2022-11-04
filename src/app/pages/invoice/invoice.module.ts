@@ -8,13 +8,15 @@ import { InvoicePageRoutingModule } from './invoice-routing.module';
 
 import { InvoicePage } from './invoice.page';
 import { TermsOfServiceComponent } from './terms-of-service/terms-of-service.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    InvoicePageRoutingModule
+    InvoicePageRoutingModule,
+    ReactiveFormsModule
   ],
   declarations: [InvoicePage, TermsOfServiceComponent]
 })

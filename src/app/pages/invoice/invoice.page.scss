@@ -919,3 +919,40 @@ ion-modal.privacy-policy-modal{
     }
   }
 }
+.radio-box{
+  ion-radio-group{display: flex;
+    ion-item{--background: transparent; --padding-start:0; --padding-inline-end:0;}
+    ion-radio{margin: 0; margin-right: 7px;}
+    ion-label{color: var(--text-gray); font-size: 0.875rem; font-weight: 600;}
+  }
+}
+.bank-list{
+  text-align: left;
+  position: relative;
+  z-index: 9;
+  span{
+    height: 45px;
+    width: 45px;
+    border-radius: 45px;
+    line-height: 45px;
+    display: inline-block;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--white-bg);
+    background: var(--theme-one-clr);
+  }
+  p{
+    color: var(--text-gray);
+    font-weight: 500;
+    font-size: 0.875rem;
+    margin: 0;
+  }
+  .bank-name{
+    padding: 5px 5px 5px 0px;
+    display: inline-block;
+    margin: 4px;
+    text-align: center;
+  }
+}
