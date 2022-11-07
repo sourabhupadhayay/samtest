@@ -39,6 +39,7 @@ export class SignupDetailsPage implements OnInit {
   failedValidationObject: failedValidation;
   profileUrl: string = "";
   currentDate: string = new Date().toISOString();
+  selectedDOB:any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -245,6 +246,8 @@ export class SignupDetailsPage implements OnInit {
     let formattedDate = this.formatDate(date);
 
     this.signUpDetailsForm.controls.birthDate.patchValue(formattedDate);
+    this.selectedDOB = new Date().toISOString();
+    this.selectedDOB = date;
   }
 
   validateBothPasswords(): boolean {
