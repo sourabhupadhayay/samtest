@@ -19,6 +19,7 @@ import {
 } from "src/app/utility/passwordValidator";
 import { AuthModuleService } from "../auth-module.service";
 import {CommonService} from "../../../providers/common.service";
+import { ModalController } from "@ionic/angular";
 
 @Component({
   selector: "app-signup-details",
@@ -39,6 +40,7 @@ export class SignupDetailsPage implements OnInit {
   failedValidationObject: failedValidation;
   profileUrl: string = "";
   currentDate: string = new Date().toISOString();
+  selectedDOB:any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -47,7 +49,9 @@ export class SignupDetailsPage implements OnInit {
     private apiService: DataService,
     private constantService: ConstantService,
     private router: Router,
-    private common: AuthModuleService,public commonService: CommonService,
+    private common: AuthModuleService,
+    public commonService: CommonService,
+    public modalCtrl: ModalController
   ) {}
 
   ngOnInit() {
@@ -58,6 +62,7 @@ export class SignupDetailsPage implements OnInit {
     this.getSignUpData();
   }
   ionViewDidLeave() {
+    this.modalCtrl.dismiss();
     this.isFormSubmitted = false;
     this.signUpDetailsForm.reset();
   }
@@ -245,6 +250,8 @@ export class SignupDetailsPage implements OnInit {
     let formattedDate = this.formatDate(date);
 
     this.signUpDetailsForm.controls.birthDate.patchValue(formattedDate);
+    this.selectedDOB = new Date().toISOString();
+    this.selectedDOB = date;
   }
 
   validateBothPasswords(): boolean {
