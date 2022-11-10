@@ -46,9 +46,11 @@ export class SchedulePage implements OnInit {
     public modalCtrl: ModalController,
     public popoverController: PopoverController,
     private router: Router,
+    private core: CoreService
   ) {}
 
   ionViewWillEnter() {
+    this.getAthleteEarnings();
     this.getUserDataFromStorage();
     console.log("sdfdf000");
     this.pageNumber = 0
@@ -58,7 +60,7 @@ export class SchedulePage implements OnInit {
   }
 
   ngOnInit() {
-    this.getAthleteEarnings();
+    // this.getAthleteEarnings();
   }
 
   onclick_cancel(): void {
@@ -286,16 +288,20 @@ export class SchedulePage implements OnInit {
   }
 
 
-  getAthleteEarnings() {
+  async getAthleteEarnings() {
+    let userRole: userRole = await this.core.getUserRoleFromStorage();
+    if(userRole == 'athlete') {
     let request: any = {
       path: "core/event/athlete/cash",
       isAuth: true,
     };
       this.apiService.get(request).subscribe((response: any) => {
         if (response.status.code === this.constantService.STATUS_OK) {
-          this.athleteEarnings = response.data.totalEarning ;
+          this.athleteEarnings = response.data.totalEarning;
         }
       });
-    
+  } else {
+    return
+  }
   }
 }
