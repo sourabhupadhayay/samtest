@@ -69,9 +69,11 @@ export class AppereanceBookingComponent implements OnInit {
   ngOnInit() {
     const script = this.renderer.createElement("script");
     if (this.commonService.publicInfo.squareEnvironment == "PRODUCTION") {
-      script.src = `https://js.squareup.com/v2/paymentform`;
+      script.src = `https://web.squarecdn.com/v1/square.js`;
     } else {
-      script.src = `https://js.squareupsandbox.com/v2/paymentform`;
+      // script.src = `https://js.squareupsandbox.com/v2/paymentform`; //deprecated
+      script.src = "https://sandbox.web.squarecdn.com/v1/square.js"
+
     }
     this.renderer.appendChild(document.head, script);
     this.initAppearanceForm();

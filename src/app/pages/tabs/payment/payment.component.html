@@ -53,7 +53,15 @@
               />
             </ion-item>
             <div *ngIf="paymentType == 'SQUARE_PAYMENT'" class="card-details">
-              <ion-row>
+
+              <form id="payment-form">
+                <div id="card-container"></div>
+                <!-- <button id="card-button" (click)="pay()" type="button">Pay</button> -->
+              </form>
+              <div id="payment-status-container"></div>
+
+              
+              <!-- <ion-row>
                 <ion-col size="12" class="plr-0">
                   <div class="box-sq">
                     <label for="sq-card-number" class="sq-label"
@@ -95,66 +103,7 @@
                   </div>
                 </ion-col>
 
-                <!-- <button id="sq-creditcard" class="btn-main button-credit-card"
-                        (click)="requestCardNonce($event)">Pay with card</button> -->
-                <!--                <ion-col size="12">-->
-                <!--                  <div class="input-box">-->
-                <!--                    <ion-label position="stacked">Card Holder Name</ion-label>-->
-                <!--                    <ion-item lines="none" class="ion-align-items-center">-->
-                <!--                      <ion-input placeholder="Card Holder Name"></ion-input>-->
-                <!--                      <img-->
-                <!--                        class="ion-align-items-center"-->
-                <!--                        slot="end"-->
-                <!--                        src="assets/icon/profile.svg"-->
-                <!--                      />-->
-                <!--                    </ion-item>-->
-                <!--                  </div>-->
-                <!--                </ion-col>-->
-                <!--                <ion-col size="12">-->
-                <!--                  <div class="input-box">-->
-                <!--                    <ion-label position="stacked">Card Number</ion-label>-->
-                <!--                    <ion-item lines="none" class="ion-align-items-center">-->
-                <!--                      <ion-input-->
-                <!--                        type="number"-->
-                <!--                        placeholder="0000 - 0000 - 0000 - 00"-->
-                <!--                      ></ion-input>-->
-                <!--                      <img-->
-                <!--                        class="ion-align-items-center"-->
-                <!--                        slot="end"-->
-                <!--                        src="assets/icon/card-number.svg"-->
-                <!--                      />-->
-                <!--                    </ion-item>-->
-                <!--                  </div>-->
-                <!--                </ion-col>-->
-                <!--                <ion-col size="6">-->
-                <!--                  <div class="input-box">-->
-                <!--                    <ion-label position="stacked"-->
-                <!--                      >Expiration Date (mm/yy)</ion-label-->
-                <!--                    >-->
-                <!--                    <ion-item lines="none" class="ion-align-items-center">-->
-                <!--                      <ion-input placeholder="MM/YY"></ion-input>-->
-                <!--                      <img-->
-                <!--                        class="ion-align-items-center"-->
-                <!--                        slot="end"-->
-                <!--                        src="assets/icon/calendar-new.svg"-->
-                <!--                      />-->
-                <!--                    </ion-item>-->
-                <!--                  </div>-->
-                <!--                </ion-col>-->
-                <!--                <ion-col size="6">-->
-                <!--                  <div class="input-box">-->
-                <!--                    <ion-label position="stacked">CVV Number</ion-label>-->
-                <!--                    <ion-item lines="none" class="ion-align-items-center">-->
-                <!--                      <ion-input type="number" placeholder="XXX"></ion-input>-->
-                <!--                      <img-->
-                <!--                        class="ion-align-items-center"-->
-                <!--                        slot="end"-->
-                <!--                        src="assets/icon/cvv.svg"-->
-                <!--                      />-->
-                <!--                    </ion-item>-->
-                <!--                  </div>-->
-                <!--                </ion-col>-->
-              </ion-row>
+              </ion-row> -->
               <div class="save-card">
                 <ion-item lines="none" mode="ios">
                   <ion-label>Save Card</ion-label>
