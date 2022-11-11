@@ -111,10 +111,10 @@
       <div class="wait-part">
         <div class="head">
           <ng-container *ngIf="connectedFanDetails?.bidState == 'PENDING'">
-            <h5 *ngIf="currentPosition !== 1">
+            <h5 *ngIf="currentPosition !== 0">
               {{currentPosition}} people in wait list ahead of you
             </h5>
-            <p *ngIf="currentPosition == 1">
+            <p *ngIf="currentPosition == 0">
               You are 1st in the wait list,<br />
               Athlete will call you soon.
             </p>
@@ -125,7 +125,7 @@
         </div>
         <div class="content-part">
           <ng-container *ngIf="connectedFanDetails?.bidState == 'PENDING'">
-            <p *ngIf="currentPosition !== 1">
+            <p *ngIf="currentPosition !== 0">
               Your approximate wait time is
               <span
                 >{{currentPosition *

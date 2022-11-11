@@ -137,23 +137,19 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
         this.sendCutVideo(userDetails["id"]);
         this.socket.subscribe("/topic/cancelCall", (message) => {
           let responseData = JSON.parse(message.body).content;
+          let msg=JSON.parse(responseData)
           let value = localStorage.getItem('authDetails');
           this.userDetails =JSON.parse(value);
-          this.commonService.callingAthleteDetails = JSON.parse(responseData);
-          console.log(
-            "response ",
-            this.commonService.callingAthleteDetails.disconnectedByPersonRole
-          );
-
-          if (
-            this.userDetails.id == this.commonService.callingAthleteDetails.userId
+          //this.commonService.callingAthleteDetails = JSON.parse(responseData);
+                 if (
+            this.userDetails.id == msg.userId
           ) {
             this.router.navigate(["/tabs/schedule"]);
             if (
-              this.commonService.callingAthleteDetails
+              msg
                 .disconnectedByPersonRole == "ATHLETE" &&
               userRole == "fan" &&
-              this.commonService.callingAthleteDetails.bidState !== "COMPLETED"
+              msg.bidState !== "COMPLETED"
             ) {
               this.core.showToastMessage(
                 "Athlete is busy. He/She will connect after sometime",

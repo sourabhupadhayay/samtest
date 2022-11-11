@@ -57,7 +57,7 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
     private common: AuthModuleService,
     private route: ActivatedRoute,
     private commonService: CommonService,
-    private platform: Platform,
+    private platform: Platform
   ) {}
 
   ngOnInit() {
@@ -65,7 +65,6 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
     this.getFlowInfo();
   }
   ionViewWillEnter() {
-
     this.generateNotificationToken();
     this.returnUrl =
       this.route.snapshot.queryParams["returnUrl"] || "/tabs/home";
@@ -116,9 +115,12 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
     if (this.validateOtp()) return;
 
     let request: Request = {
-      path: "auth/users/otp/verify/" + this.otpFormControl.value+"?deviceToken="+this.generatedToken,
+      path:
+        "auth/users/otp/verify/" +
+        this.otpFormControl.value +
+        "?deviceToken=" +
+        this.generatedToken,
       isAuth: true,
-
     };
     // this.apiService.post(request).subscribe((response: Response) => {
     //   this.authPublicInfo = response.data;
@@ -134,7 +136,6 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
       .subscribe((response: Response) => {
         this.coreService.dismissLoader();
         if (response["status"]["code"] === this.constantService.STATUS_OK) {
-
           this.coreService.showToastMessage(
             response.status.description,
             this.coreService.TOAST_SUCCESS
@@ -222,7 +223,7 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
     }
 
     let result = await PushNotifications.requestPermissions();
-
+    console.log("result notification", result);
     if (result.receive === "granted") {
       // Register with Apple / Google to receive push via APNS/FCM
       PushNotifications.register();
@@ -235,6 +236,6 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
     PushNotifications.addListener("registration", (token: Token) => {
       this.generatedToken = token.value;
     });
-    console.log(this.generatedToken)
+    console.log(this.generatedToken);
   }
 }

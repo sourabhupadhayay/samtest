@@ -24,7 +24,7 @@ import {
 import { AuthenticationService } from "./providers/authentication.service";
 import { Subscription, interval } from "rxjs";
 import { NavController } from "@ionic/angular";
-import {publish} from "rxjs/operators";
+import { publish } from "rxjs/operators";
 
 @Component({
   selector: "app-root",
@@ -37,7 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
   socket: any;
   private socketSubscription: Subscription;
   intervalId: number;
-  userDetails:any;
+  userDetails: any;
   constructor(
     private apiservice: DataService,
     private _networkService: NetworkService,
@@ -64,7 +64,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.callingAthlete();
     const source = interval(60000);
     this.socketSubscription = source.subscribe((val) => this.onlineStatus());
-
   }
 
   async onlineStatus() {
@@ -88,7 +87,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this._networkEventsListener();
       this.initFacebook();
       this.isUserLoggedInFirstTime();
-      // this.registerNotification();
+      //this.registerNotification();
     });
   }
 
@@ -202,9 +201,6 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     let userRole: userRole = await this.core.getUserRoleFromStorage();
-
-
-    console.log("roles",userRole);
     if (userRole == "athlete") {
       return;
     } else {
@@ -218,59 +214,61 @@ export class AppComponent implements OnInit, OnDestroy {
           this.socket.subscribe("/errors", (message) => {
             alert("Error " + message.body);
           });
-          this.userDetails  = localStorage.getItem('authDetails');
-          let value = localStorage.getItem('authDetails');
-          this.userDetails =JSON.parse(value);
+          this.userDetails = localStorage.getItem("authDetails");
+          let value = localStorage.getItem("authDetails");
+          this.userDetails = JSON.parse(value);
           this.send(this.userDetails["id"]);
+
           this.socket.subscribe("/topic/receiveCall", (message) => {
             let responseData = JSON.parse(message.body).content;
-            let value = localStorage.getItem('authDetails');
-            this.userDetails =JSON.parse(value);
-            console.log(responseData);
-            this.commonService.callingAthleteDetails = JSON.parse(responseData);
-            console.log( this.userDetails.id,this.commonService.callingAthleteDetails.userId);
-            if (
-              this.userDetails.id != this.commonService.callingAthleteDetails.userId
-            ) {
-              console.log("ifv call1");
+
+            let value = localStorage.getItem("authDetails");
+            this.userDetails = JSON.parse(value);
+            let id = JSON.parse(responseData);
+            if (this.userDetails.id != id.userId) {
               return;
-            }
-            if (
-              this.commonService.callingAthleteDetails.creatorPersona !== "USER"
-            ) {
-              // {
-              //   this.router.navigate([
-              //     "/waitlist/incoming-call/" +
-              //       this.commonService.callingAthleteDetails.id,
-              //   ]);
-              // } else {
-              //   this.router.navigate([
-              //     "/waitlist/incoming-call/" +
-              //       this.commonService.callingAthleteDetails.eventId,
-              //   ]);
-              // }
-              this.navController.navigateBack([
-                "/waitlist/incoming-call/" +
-                  this.commonService.callingAthleteDetails.id,
-              ]);
-              console.log("ifv call2");
             } else {
-              this.navController.navigateBack(
-                [
-                  "/waitlist/incoming-call/" +
-                    this.commonService.callingAthleteDetails.eventId,
-                ],
-                {
-                  queryParams: {
-                    bidId: this.commonService.callingAthleteDetails.id,
-                  },
-                }
+              this.commonService.callingAthleteDetails = JSON.parse(
+                responseData
               );
+              if (
+                this.commonService.callingAthleteDetails.creatorPersona !==
+                "USER"
+              ) {
+                // {
+                //   this.router.navigate([
+                //     "/waitlist/incoming-call/" +
+                //       this.commonService.callingAthleteDetails.id,
+                //   ]);
+                // } else {
+                //   this.router.navigate([
+                //     "/waitlist/incoming-call/" +
+                //       this.commonService.callingAthleteDetails.eventId,
+                //   ]);
+                // }
+                this.navController.navigateBack([
+                  "/waitlist/incoming-call/" +
+                    this.commonService.callingAthleteDetails.id,
+                ]);
+              } else {
+                this.navController.navigateBack(
+                  [
+                    "/waitlist/incoming-call/" +
+                      this.commonService.callingAthleteDetails.eventId,
+                  ],
+                  {
+                    queryParams: {
+                      bidId: this.commonService.callingAthleteDetails.id,
+                    },
+                  }
+                );
+              }
             }
           });
         },
         function (error) {
           console.log("STOMP error " + error);
+          return;
         }
       );
     }

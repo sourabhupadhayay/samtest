@@ -329,7 +329,8 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   async callDisconnectSocket() {
     let userRole: userRole = await this.core.getUserRoleFromStorage();
     let userDetails = await this.core.getUserDataFromStorage();
-
+    console.log("CALL DISCONNECT call");
+    
     this.socket = Stomp.over(
       () => new SockJS(configuration.BASE_URL + "core/greeting")
     );
@@ -341,34 +342,41 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
           alert("Error " + message.body);
         });
         this.sendCutVideo(userDetails["id"]);
+      
         this.socket.subscribe("/topic/cancelCall", (message) => {
           let responseData = JSON.parse(message.body).content;
-          this.commonService.callingAthleteDetails = JSON.parse(responseData);
-
+          let msg=JSON.parse(responseData)
+          console.log(msg.athleteId,msg)
+         // this.commonService.callingAthleteDetails=JSON.parse(responseData);
+          console.log("COMMON", userDetails.id , msg.athleteId);
+          
           if (
-            userDetails.id == this.commonService.callingAthleteDetails.athleteId
+            userDetails.id == msg.athleteId
           ) {
             if (this.isBiddingEvent) {
+              console.log("if 1")
               this.router.navigate([
                 "/waitlist/event/" +
-                  this.commonService.callingAthleteDetails.eventId,
+                msg.eventId,
               ]);
             } else {
+              console.log("else")
               this.router.navigate(["tabs/schedule"]);
             }
 
             if (
-              this.commonService.callingAthleteDetails
-                .disconnectedByPersonRole == "USER" &&
+              msg.athleteId.disconnectedByPersonRole == "USER" &&
               userRole == "athlete" &&
-              this.commonService.callingAthleteDetails.bidState !== "COMPLETED"
+              msg.athleteId.bidState !== "COMPLETED"
             ) {
+              console.log("if 2")
               this.core.showToastMessage(
                 "Fan is busy. Please connect after sometime",
                 this.core.TOAST_ERROR
               );
             }
           } else {
+            
             console.log("no");
           }
         });

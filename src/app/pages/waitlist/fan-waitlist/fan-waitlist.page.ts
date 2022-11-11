@@ -112,11 +112,13 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
     console.log(bid);
 
     this.highestBid = Math.max(...bid);
+    console.log("highest ",this.highestBid)
 
     for (let index = 0; index < this.pendingCallFans.length; index++) {
       if (this.pendingCallFans[index].userId == this.userData.id) {
         this.userIndex = index;
-        this.currentPosition = index + 1;
+        this.currentPosition = index;
+        console.log("index ",this.userIndex,this.currentPosition)
 
         this.connectedFanDetails = this.pendingCallFans[index];
       }

@@ -30,7 +30,7 @@ import { AuthModuleService } from "../auth-module.service";
 export class LoginPage implements OnInit {
   isFormSubmitted = false;
   isShowingPassword: boolean = false;
-  authPublicInfo :any;
+  authPublicInfo: any;
   loginForm: FormGroup = new FormGroup({
     email: new FormControl<string | null>(null, [
       Validators.required,
@@ -100,13 +100,12 @@ export class LoginPage implements OnInit {
         deviceToken: this.generatedToken,
       },
     };
-    console.log(request);
     this.coreService.presentLoader(this.constantService.WAIT);
     if (this.authPublicInfo.twoStepAuthentication) {
       this.apiService.post(request, true).subscribe((response: Response) => {
         this.coreService.dismissLoader();
         if (response.status.code === this.constantService.STATUS_OK) {
-          localStorage.setItem("authDetails",JSON.stringify(response.data))
+          localStorage.setItem("authDetails", JSON.stringify(response.data));
           Storage.set({
             key: "userDetails",
             value: JSON.stringify(response.data),
@@ -130,7 +129,7 @@ export class LoginPage implements OnInit {
       this.apiService.post(request, false).subscribe((response: Response) => {
         this.coreService.dismissLoader();
         if (response.status.code === this.constantService.STATUS_OK) {
-          localStorage.setItem("authDetails",JSON.stringify(response.data))
+          localStorage.setItem("authDetails", JSON.stringify(response.data));
           Storage.set({
             key: "userDetails",
             value: JSON.stringify(response.data),
@@ -238,7 +237,7 @@ export class LoginPage implements OnInit {
     }
 
     let result = await PushNotifications.requestPermissions();
-
+    console.log("result login", result.receive);
     if (result.receive === "granted") {
       // Register with Apple / Google to receive push via APNS/FCM
       PushNotifications.register();
@@ -250,6 +249,25 @@ export class LoginPage implements OnInit {
     // On success, we should be able to receive notifications
     PushNotifications.addListener("registration", (token: Token) => {
       this.generatedToken = token.value;
+      // alert("Push registration success, token: " + token.value);
     });
+
+    PushNotifications.addListener("registrationError", (error: any) => {
+      alert("Error on registration: " + JSON.stringify(error));
+    });
+
+    PushNotifications.addListener(
+      "pushNotificationReceived",
+      (notification: PushNotificationSchema) => {
+        // alert("Push received: " + JSON.stringify(notification));
+      }
+    );
+
+    PushNotifications.addListener(
+      "pushNotificationActionPerformed",
+      (notification: ActionPerformed) => {
+        // alert("Push action performed: " + JSON.stringify(notification));
+      }
+    );
   }
 }
