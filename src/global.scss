@@ -694,3 +694,10 @@ app-invoice{
   }
  
 }
+.plt-ios{
+  app-bubble-screen-list{
+    ion-content {
+      .search-bar{top: 100px !important;}
+    }
+  }
+}
