@@ -701,3 +701,10 @@ app-invoice{
     }
   }
 }
+.plt-ipad.plt-ios.plt-tablet{
+  app-bubble-screen-list{
+    ion-content {
+      .search-bar{top: 87px !important;}
+    }
+  }
+}
