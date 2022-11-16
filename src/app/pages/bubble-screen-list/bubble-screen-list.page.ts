@@ -1,7 +1,8 @@
 import { Location } from "@angular/common";
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
+import { el } from "date-fns/locale";
 
 import {
   debounceTime,
@@ -13,7 +14,7 @@ import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { CommonService } from "../../providers/common.service";
-
+export type online = "true" | "false";
 @Component({
   selector: "app-bubble-screen-list",
   templateUrl: "./bubble-screen-list.page.html",
@@ -28,13 +29,16 @@ export class BubbleScreenListPage implements OnInit {
   totalElements: number = 0;
   isScrollDisabled: boolean = false;
   nameInitials: string;
+  athleteListstatus:any;
+  online: string;
   constructor(
     private apiService: DataService,
     private coreService: CoreService,
     private constant: ConstantService,
     private router: Router,
     private location: Location,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private cd:ChangeDetectorRef,
   ) {}
   isOpen = false;
   ngOnInit() {
@@ -115,7 +119,52 @@ export class BubbleScreenListPage implements OnInit {
       }
     });
   }
+  checkValue(e:any){
+    let data;
+    let myBool = (e.detail.value === 'true');
+    if(e.detail.value=="true"){
+    e.detail.value= Boolean("true");
+    }
+     this.cd.detectChanges();
+  
+    if( e.detail.value != "All"){
+       data={
+        roles: ["ATHLETE"],
+        online:myBool,
+        search: this.searchControl.value,
+      }
+    }
+      else{
+        data={
+          roles: ["ATHLETE"],
+          search: this.searchControl.value,
+        }
+    }
 
+    let request: Request = {
+      path: "auth/users/manage/filter",
+      data: {
+        filter: data
+        ,
+        page: {
+          pageLimit: 10,
+          pageNumber: 0,
+        },
+        sort: {
+          orderBy: "ASC",
+          sortBy: "FIRST_NAME",
+        },
+      },
+      isAuth: false,
+    };
+    this.coreService.presentLoader(this.constant.WAIT);
+   
+    this.apiService.post(request).subscribe((response: Response) => {
+      this.athleteList = response.data.content;;
+      this.coreService.dismissLoader();
+    });
+   
+  }
   loadData(event) {
     this.pageNumber++;
     this.getAthletes();
