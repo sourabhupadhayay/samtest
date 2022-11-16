@@ -294,7 +294,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.timeLeft < 20) {
         this.color = " #F64444";
       }
-      console.log("timerr", this.timeLeft);
+      //console.log("timerr", this.timeLeft);
       if (this.timeLeft == 0) {
         if (this.userRole == "athlete") {
           console.log("interval time left", this.timeLeft);
