@@ -63,8 +63,11 @@
       <h4 class="profile__opp">
         Your Bubble Bills Earning On <span>BubbleApp</span>
       </h4>
-      <h6>
+      <h6 *ngIf="athleteEarnings!=null">
         ${{athleteEarnings}}
+      </h6>
+      <h6 *ngIf="athleteEarnings==null">
+        $ 0
       </h6>
 
       <!-- <ion-button routerLink="/waitlist">join</ion-button> -->

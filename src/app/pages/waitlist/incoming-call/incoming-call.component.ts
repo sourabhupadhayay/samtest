@@ -19,7 +19,7 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
   nameInitials: string;
   socket: any;
   bidId: any;
-  userDetails:any;
+  userDetails: any;
   constructor(
     private router: Router,
     public commonService: CommonService,
@@ -63,11 +63,17 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
       volume: 1.0,
       isUrl: false,
     };
-    console.log("platform",this.platform.is("android"),"ios",this.platform.is("ios"));
-    
+    console.log(
+      "platform",
+      this.platform.is("android"),
+      "ios",
+      this.platform.is("ios")
+    );
+
     if (this.platform.is("android") || this.platform.is("ios")) {
       console.log("if discord");
-      audioConfig.assetPath = "assets/sounds/Discord.mp3";
+      NativeAudio.stop(audioConfig);
+      audioConfig.assetPath = "public/assets/sounds/Discord.mp3";
     } else {
       console.log("else discord");
       audioConfig.assetPath = "Discord.mp3";
@@ -139,17 +145,14 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
         this.sendCutVideo(userDetails["id"]);
         this.socket.subscribe("/topic/cancelCall", (message) => {
           let responseData = JSON.parse(message.body).content;
-          let msg=JSON.parse(responseData)
-          let value = localStorage.getItem('authDetails');
-          this.userDetails =JSON.parse(value);
+          let msg = JSON.parse(responseData);
+          let value = localStorage.getItem("authDetails");
+          this.userDetails = JSON.parse(value);
           //this.commonService.callingAthleteDetails = JSON.parse(responseData);
-                 if (
-            this.userDetails.id == msg.userId
-          ) {
+          if (this.userDetails.id == msg.userId) {
             this.router.navigate(["/tabs/schedule"]);
             if (
-              msg
-                .disconnectedByPersonRole == "ATHLETE" &&
+              msg.disconnectedByPersonRole == "ATHLETE" &&
               userRole == "fan" &&
               msg.bidState !== "COMPLETED"
             ) {
