@@ -297,7 +297,7 @@ export class SchedulePage implements OnInit {
     };
       this.apiService.get(request).subscribe((response: any) => {
         if (response.status.code === this.constantService.STATUS_OK) {
-          this.athleteEarnings = response.data.totalEarning;
+          this.athleteEarnings = response?.data?.totalEarning;
         }
       });
   } else {
