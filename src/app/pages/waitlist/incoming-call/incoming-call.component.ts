@@ -72,7 +72,7 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
 
     if (this.platform.is("android") || this.platform.is("ios")) {
       console.log("if discord");
-      NativeAudio.stop(audioConfig)
+     // NativeAudio.stop(audioConfig)
       audioConfig.assetPath = "public/assets/sounds/Discord.mp3";
     } else {
       console.log("else discord");

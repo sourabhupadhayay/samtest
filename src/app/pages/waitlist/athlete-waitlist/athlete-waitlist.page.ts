@@ -49,7 +49,10 @@ export class AthleteWaitlistPage implements OnInit, DoCheck {
     console.log(this.connectedFans);
     this.getSponsor();
   }
-
+  ionDidViewEnter(){
+    console.log("pending",this.pendingCallFans,this.connectedFans);
+    
+  }
   getSponsor() {
     let request: Request = {
       path: "auth/users/manage/filter/list",
