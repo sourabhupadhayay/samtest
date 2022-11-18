@@ -64,6 +64,8 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
     this.getEventDetails();
     this.getUserData();
     this.getSponsor();
+    console.log("public info",this.commonService.publicInfo);
+    
   }
 
   ngDoCheck() {

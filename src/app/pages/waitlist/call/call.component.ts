@@ -346,9 +346,9 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
         this.socket.subscribe("/topic/cancelCall", (message) => {
           let responseData = JSON.parse(message.body).content;
           let msg=JSON.parse(responseData)
-          console.log(msg.athleteId,msg)
+          console.log(msg.athleteId,msg,userRole)
          // this.commonService.callingAthleteDetails=JSON.parse(responseData);
-          console.log("COMMON", userDetails.id , msg.athleteId);
+          console.log("COMMON", userDetails.id , msg.athleteId,userRole);
           
           if (
             userDetails.id == msg.athleteId
@@ -360,14 +360,14 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
                 msg.eventId,
               ]);
             } else {
-              console.log("else")
+              console.log("else1")
+            
               this.router.navigate(["tabs/schedule"]);
             }
-
             if (
-              msg.athleteId.disconnectedByPersonRole == "USER" &&
+              msg.disconnectedByPersonRole == "USER" &&
               userRole == "athlete" &&
-              msg.athleteId.bidState !== "COMPLETED"
+              msg.bidState !== "COMPLETED"
             ) {
               console.log("if 2")
               this.core.showToastMessage(
@@ -375,6 +375,8 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.core.TOAST_ERROR
               );
             }
+
+           
           } else {
             
             console.log("no");
