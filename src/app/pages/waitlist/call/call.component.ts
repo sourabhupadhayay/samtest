@@ -31,6 +31,7 @@ import * as SockJS from "sockjs-client";
 import { configuration } from "src/app/configuration";
 import { CommonService } from "src/app/providers/common.service";
 import {  SafeExecution } from "../../../directives/models/safe-execution.decorator";
+
 @Component({
   selector: "app-call",
   templateUrl: "./call.component.html",
@@ -58,6 +59,8 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   remainTime: any;
   color: any;
   streams: any = [];
+  userDetail:any=[]
+  nameInitials:string
   constructor(
     private apiService: DataService,
     private coreService: CoreService,
@@ -74,6 +77,10 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.callDisconnectSocket();
     this.apiKey = this.commonService.publicInfo.videoApiKey;
     console.log("api key", this.apiKey);
+    let users=localStorage.getItem("authDetails")
+    this.userDetail=JSON.parse(users)
+    console.log("user detail",this.userDetail.profileUrl);
+    this.nameInitials = this.commonService.getInitials(this.userDetail.fullName)
   }
 
   ngAfterViewInit(): void {
