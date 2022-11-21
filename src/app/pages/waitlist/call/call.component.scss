@@ -45,10 +45,26 @@ ion-content {
     width: 100%;
     overflow: hidden;
     z-index: 3;
+    background: #6bbde9; /* Old browsers */
+    background: -moz-radial-gradient(center, ellipse cover,#6bbde9 0%, #2099da 100%);
+    background: -webkit-radial-gradient(center, ellipse cover, #6bbde9 0%, #2099da 100%);
+    background: radial-gradient(ellipse at center, #6bbde9 0%, #2099da 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6bbde9', endColorstr='#2099da',GradientType=1 );
+
     img,
     video {
       height: 100%;
       width: 100%;
+    }
+    .caller-info{position: relative; text-align: center; position: absolute; left: 0; top: 0; bottom: 0; right: 0; margin: auto; display: inline-block; height: auto; width: 100%;
+        .img-part{
+          height: 70px; width: 70px; border-radius: 70px; 
+          img{width: 100%; height: 100%; border-radius: 70px;}
+          span{height: 100%; width: 100%; border-radius: 70px; background: #1b4b64; color: var(--white-clr); font-weight: 600; font-size: 1rem; text-transform: uppercase; display: inline-block; line-height: 70px; text-align: center;}
+        }
+        .name-part{text-align: center;
+          p{text-transform: capitalize; font-weight: 500; font-size: 0.875rem; color: var(--theme-one-clr); margin: 0; display: inline-block;}
+        }
     }
   }
 
