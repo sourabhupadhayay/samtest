@@ -26,11 +26,13 @@
     <!-- <img src="assets/images/call-screen-updated.png" /> -->
     <div class="caller-info">
       <div class="img-part">
-        <img src="assets/images/profile.png">
-        <span>CR</span>
+          
+          <img *ngIf="this.userDetail.profileUrl!=''" src="{{this.userDetail.profileUrl | profile}}">
+         
+        <span *ngIf="this.userDetail.profileUrl==''">{{nameInitials}}</span>
       </div>
       <div class="name-part">
-        <p>Casey Rogers</p>
+        <p>{{this.userDetail.fullName}}</p>
       </div>
     </div>
     
