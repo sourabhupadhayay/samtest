@@ -23,7 +23,19 @@
     <div #fanContainer class=""></div>
     <!-- <img src="assets/images/video-screen.png" /> -->
 
-    <img src="assets/images/call-screen-updated.png" />
+    <!-- <img src="assets/images/call-screen-updated.png" /> -->
+    <div class="caller-info">
+      <div class="img-part">
+          
+          <img *ngIf="this.userDetail.profileUrl!=''" src="{{this.userDetail.profileUrl | profile}}">
+         
+        <span *ngIf="this.userDetail.profileUrl==''">{{nameInitials}}</span>
+      </div>
+      <div class="name-part">
+        <p>{{this.userDetail.fullName}}</p>
+      </div>
+    </div>
+    
   </div>
 
   <!-- <div class="overlay-bg"></div> -->

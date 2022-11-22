@@ -63,7 +63,7 @@ export class PaymentComponent implements OnInit {
         return;
       }
 
-      this.ConfirmModal.present();
+      //this.ConfirmModal.present();
     }, 1000);
   }
 
@@ -200,5 +200,9 @@ export class PaymentComponent implements OnInit {
       console.log("nonce ",this.nonce);
       // await this.card.tokenize().then(data=>
       //   console.log("card ",data))
+      if(this.nonce!=undefined){
+        this.ConfirmModal.present()
+      }
   }
+  
 }

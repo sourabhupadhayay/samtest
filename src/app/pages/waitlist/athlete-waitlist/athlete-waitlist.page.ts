@@ -49,7 +49,10 @@ export class AthleteWaitlistPage implements OnInit, DoCheck {
     console.log(this.connectedFans);
     this.getSponsor();
   }
-
+  ionDidViewEnter(){
+    console.log("pending",this.pendingCallFans,this.connectedFans);
+    
+  }
   getSponsor() {
     let request: Request = {
       path: "auth/users/manage/filter/list",
@@ -113,6 +116,27 @@ export class AthleteWaitlistPage implements OnInit, DoCheck {
       },
     });
   }
+  eventEnd(){
+    let request: any = {
+      path: `core/event/complete/`+ this.eventId, 
+      isAuth: true,
+    };
+    this.apiService.get(request).subscribe((response: Response) => {
+      if (response["status"]["code"] === "OK") {
+        this.coreService.showToastMessage(
+          response["status"]["description"],
+          this.coreService.TOAST_SUCCESS
+        );
+        this.router.navigateByUrl("/tabs/schedule")
+      } else {
+        this.coreService.showToastMessage(
+          response["status"]["description"],
+          this.coreService.TOAST_ERROR
+        );
+      }
+    });
+  }
+  }
   // compare_bid(a, b) {
   //   if (a.bid > b.bid) {
   //     return -1;
@@ -122,4 +146,4 @@ export class AthleteWaitlistPage implements OnInit, DoCheck {
   //   }
   //   return 0;
   // }
-}
+

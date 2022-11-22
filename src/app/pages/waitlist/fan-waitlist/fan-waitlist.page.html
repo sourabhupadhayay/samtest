@@ -125,13 +125,17 @@
         </div>
         <div class="content-part">
           <ng-container *ngIf="connectedFanDetails?.bidState == 'PENDING'">
-            <p *ngIf="currentPosition !== 0">
+            <!-- <p *ngIf="currentPosition !== 0">
               Your approximate wait time is
               <span
                 >{{currentPosition *
                 commonService.publicInfo?.defaultDurationOfAthleteEvent}}</span
               >
               minutes
+            </p> -->
+            <p>
+              Athlete will call you soon.
+              
             </p>
             <p>
               Top Bid in the waitlist :

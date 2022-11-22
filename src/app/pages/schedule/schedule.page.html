@@ -51,13 +51,13 @@
 
     <div class="profile__border"></div>
 
-    <div *ngIf="userRole == 'fan'" class="profile__bottom">
+    <!-- <div *ngIf="userRole == 'fan'" class="profile__bottom">
       <h4 class="profile__opp">Opportunities on <span>BubbleApp</span></h4>
       <h6>
         ${{userData?.totalEventAmount}}
       </h6>
-      <!--      <ion-button routerLink="/waitlist">Test Video call</ion-button>-->
-    </div>
+      <!--      <ion-button routerLink="/waitlist">Test Video call</ion-button>
+    </div> -->
 
     <div *ngIf="userRole == 'athlete'" class="profile__bottom" (click)="redirectToInvoice()">
       <h4 class="profile__opp">

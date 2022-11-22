@@ -57,6 +57,9 @@ export class SchedulePage implements OnInit {
   }
   ionViewDidEnter() {
     this.addClassOnScroll();
+    console.log("ion enter");
+    
+    this.fanScheduleRequest();
   }
 
   ngOnInit() {
