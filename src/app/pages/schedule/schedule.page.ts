@@ -174,6 +174,7 @@ export class SchedulePage implements OnInit {
       request.data.filter.eventStatuses = ["APPROVED"];
       delete request.data.filter.selfCreated;
       request.data.filter.eventState = "PAST";
+      request.data.sort.orderBy="DESC"
     } else if (this.eventState == "PENDING") {
       request.data.filter.eventStatuses = ["PENDING"];
       delete request.data.filter.selfCreated;
@@ -218,6 +219,7 @@ export class SchedulePage implements OnInit {
     if (this.eventState == "PAST") {
       request.data.filter.eventStatuses = ["APPROVED"];
       request.data.filter.eventState = "PAST";
+      request.data.sort.orderBy="DESC"
     } else if (this.eventState == "PENDING") {
       request.data.filter.creatorPersonas = ["USER"];
       request.data.filter.eventStatuses = ["PENDING"];
