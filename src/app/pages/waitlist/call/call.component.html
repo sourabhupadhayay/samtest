@@ -25,15 +25,35 @@
 
     <!-- <img src="assets/images/call-screen-updated.png" /> -->
     <div class="caller-info">
-      <div class="img-part">
-          
-          <img *ngIf="this.userDetail.profileUrl!=''" src="{{this.userDetail.profileUrl | profile}}">
+      <div class="img-part" id="imgName" *ngIf="userRole != 'athlete'">
+        <img 
+        *ngIf="commonService.callingAthleteDetails?.athleteProfilePicture !=='' "
+        [src]="commonService.callingAthleteDetails?.athleteProfilePicture | profile"
+        alt="" class="cover-img"
+      />
+  
+          <!-- <img *ngIf="this.userDetail.profileUrl!=''" src="{{this.userDetail.profileUrl | profile}}"> -->
          
-        <span *ngIf="this.userDetail.profileUrl==''">{{nameInitials}}</span>
+        <span *ngIf="commonService.callingAthleteDetails?.athleteProfilePicture==''">{{this.commonService.getInitials(this.commonService.callingAthleteDetails?.athleteName)}}</span>
       </div>
-      <div class="name-part">
-        <p>{{this.userDetail.fullName}}</p>
+      <div class="name-part" *ngIf="userRole != 'athlete'">
+        <p>{{this.commonService.callingAthleteDetails?.athleteName}}</p>
       </div>
+      <div class="img-part" *ngIf="userRole =='athlete'">
+        <img 
+        *ngIf="commonService.callingFanDetail?.userProfilePicture !=='' "
+        [src]="commonService.callingFanDetail?.userProfilePicture | profile"
+        alt="" class="cover-img"
+      />
+          <!-- <img *ngIf="this.userDetail.profileUrl!=''" src="{{this.userDetail.profileUrl | profile}}"> -->
+         
+        <span *ngIf="commonService.callingFanDetail?.userProfilePicture==''">{{this.commonService.getInitials(this.commonService.callingFanDetail?.userName)}}</span>
+      </div>
+      <div class="name-part" *ngIf="userRole == 'athlete'">
+        <p>{{this.commonService.callingFanDetail?.userName}}</p>
+      </div>
+
+    
     </div>
     
   </div>

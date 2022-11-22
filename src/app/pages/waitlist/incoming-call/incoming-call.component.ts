@@ -58,7 +58,7 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
     console.log("working", this.platform.is);
     let audioConfig = {
       assetId: "discord",
-      assetPath: "public/assets/sounds/Discord.mp3",
+      assetPath: "assets/sounds/Discord.mp3",
       audioChannelNum: 1,
       volume: 1.0,
       isUrl: false,

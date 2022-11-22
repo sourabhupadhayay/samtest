@@ -12,6 +12,7 @@ export class CommonService {
   public $profileSubject: Subject<any> = new Subject();
   profileUrl: string = "";
   callingAthleteDetails: any | null = null;
+  callingFanDetail:any | null =null;
   public $socketSubject: Subject<null> = new Subject();
 
   constructor(private apiService: DataService) {}
@@ -23,7 +24,7 @@ export class CommonService {
     return Math.abs(ageDate.getUTCFullYear() - 1970);
   }
   getInitials(fullName: String): string {
-    let trimmedName = fullName.trim();
+    let trimmedName = fullName?.trim();
     let splitName = trimmedName.split(" ");
     let firstName = splitName[0];
     let lastName = splitName[1];
