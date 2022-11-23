@@ -63,7 +63,7 @@ export class SchedulePage implements OnInit {
   }
 
   ngOnInit() {
-    // this.getAthleteEarnings();
+    this.getAthleteEarnings();
   }
 
   onclick_cancel(): void {
@@ -303,7 +303,9 @@ export class SchedulePage implements OnInit {
       this.apiService.get(request).subscribe((response: any) => {
         if (response.status.code === this.constantService.STATUS_OK) {
           this.athleteEarnings = response?.data?.totalEarning;
+          this.commonService.athleteEarning=this.athleteEarnings
         }
+
       });
   } else {
     return
