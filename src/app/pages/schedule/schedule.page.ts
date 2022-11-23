@@ -63,7 +63,7 @@ export class SchedulePage implements OnInit {
   }
 
   ngOnInit() {
-    // this.getAthleteEarnings();
+    this.getAthleteEarnings();
   }
 
   onclick_cancel(): void {
@@ -174,6 +174,7 @@ export class SchedulePage implements OnInit {
       request.data.filter.eventStatuses = ["APPROVED"];
       delete request.data.filter.selfCreated;
       request.data.filter.eventState = "PAST";
+      request.data.sort.orderBy="DESC"
     } else if (this.eventState == "PENDING") {
       request.data.filter.eventStatuses = ["PENDING"];
       delete request.data.filter.selfCreated;
@@ -218,6 +219,7 @@ export class SchedulePage implements OnInit {
     if (this.eventState == "PAST") {
       request.data.filter.eventStatuses = ["APPROVED"];
       request.data.filter.eventState = "PAST";
+      request.data.sort.orderBy="DESC"
     } else if (this.eventState == "PENDING") {
       request.data.filter.creatorPersonas = ["USER"];
       request.data.filter.eventStatuses = ["PENDING"];
@@ -301,7 +303,9 @@ export class SchedulePage implements OnInit {
       this.apiService.get(request).subscribe((response: any) => {
         if (response.status.code === this.constantService.STATUS_OK) {
           this.athleteEarnings = response?.data?.totalEarning;
+          this.commonService.athleteEarning=this.athleteEarnings
         }
+
       });
   } else {
     return
