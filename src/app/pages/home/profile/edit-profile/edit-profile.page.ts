@@ -164,6 +164,8 @@ export class EditProfilePage implements OnInit {
     this.apiService.postImage(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
       this.commonService.profileUrl = response.data.url;
+      console.log(this.commonService.profileUrl);
+      
       this.cd.detectChanges();
     });
   }
