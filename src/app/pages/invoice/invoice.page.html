@@ -36,7 +36,9 @@
             <p>Bubble Cash</p>
           </ion-label>
           <ion-text slot="end">
-            Jul 01, 2022
+            <div class="ammount">
+              {{summarydetails?.date | date:'MMM d, y'}}
+            </div>
           </ion-text>
         </ion-item>
         <div class="ammount">
@@ -63,7 +65,7 @@
                 </ion-label>
                 <ion-text>
                   <span>DATE</span>
-                  <h4>Jul 01, 2022</h4>
+                  <h4>{{summarydetails?.date | date:'MMM d, y'}}</h4>
                 </ion-text>
               </ion-item>
             </div>
@@ -87,7 +89,7 @@
                   <h4>{{summary.title}} <span>{{summary.fees}}</span></h4>
                 </ion-label>
                 <ion-text>
-                  <h4>${{summary.amount}}</h4>
+                  <h4>$ {{summary.amount}}</h4>
                 </ion-text>
               </ion-item>
 
@@ -129,7 +131,7 @@
                   <h4>Payment Amount</h4>
                 </ion-label>
                 <ion-text>
-                  <h4>$ {{(summarydetails.totalAmount)?.toFixed(2)
+                  <h4>$ {{(summarydetails.dwollaRequestAmount)?.toFixed(2)
                   }}</h4>
                 </ion-text>
               </ion-item>
