@@ -178,6 +178,7 @@ export class InvoicePage implements OnInit {
           );
             let bankAddResponse = response.data;
             this.bankDetailsForm.reset();
+            this.getBankListing();
             // this.onClickCancel();
         } else {
           this.coreService.showToastMessage(
