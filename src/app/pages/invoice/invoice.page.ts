@@ -30,6 +30,7 @@ export class InvoicePage implements OnInit {
   invoiceNum:any
   @ViewChild(IonModal) modal: IonModal;
   @ViewChild("transferModal") transferModal: IonModal;
+  dwollaRequestAmount : number = 0;
   constructor(
                public modalCtrl: ModalController,
                public popoverController: PopoverController, 
@@ -196,6 +197,10 @@ export class InvoicePage implements OnInit {
   openTransferModal(id:string) {
     this.selectedBankId = id;
     this.transferModal.present();
+    this.transferAmountForm.patchValue({
+       amount : this.dwollaRequestAmount
+    });
+    this.transferAmountForm.controls['amount'].disable();
   }
 
   convertStringToNum(value:any) {
@@ -210,7 +215,8 @@ export class InvoicePage implements OnInit {
         path: "core/payment/bank/transfer?ipAddress=" + this.ipAddress,
         data: {
             ...this.transferAmountForm.value,
-            "amount" : this.convertStringToNum(this.transferAmountForm.value.amount),
+            // "amount" : this.convertStringToNum(this.transferAmountForm.value.amount),
+            "amount" : this.dwollaRequestAmount,
             "toBankAccountId" : this.selectedBankId
         },
         isAuth: true,
@@ -251,7 +257,8 @@ export class InvoicePage implements OnInit {
         this.coreService.dismissLoader();
         if (response.status.code === this.constantService.STATUS_OK) {
          console.log("response",response);
-         this.summarydetails=response.data
+         this.summarydetails=response.data;
+         this.dwollaRequestAmount = response?.data?.dwollaRequestAmount;
         } else {
           this.coreService.showToastMessage(
             response.status.description,
