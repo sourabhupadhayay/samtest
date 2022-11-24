@@ -188,7 +188,10 @@ export class SchedulePage implements OnInit {
       request.data.filter.creatorPersonas = ["USER"];
     } else if (this.eventFilter == "me") {
       request.data.filter.selfCreated = true;
-      request.data.filter.creatorPersonas = ["ATHLETE", "ADMIN"];
+      request.data.filter.creatorPersonas = ["ATHLETE"];
+    }
+    else if (this.eventFilter == "sponsored") {
+      request.data.filter.creatorPersonas = ["ADMIN"];
     }
 
     return request;
