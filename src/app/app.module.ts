@@ -12,6 +12,7 @@ import { ErrorInterceptor } from "./interceptor/error.interceptor";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatIconModule } from "@angular/material/icon";
 import { HomeModule } from "./pages/home/home.module";
+import { Badge } from '@awesome-cordova-plugins/badge/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,6 +25,7 @@ import { HomeModule } from "./pages/home/home.module";
     BrowserAnimationsModule,
     MatIconModule,
     HomeModule,
+    
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
@@ -32,6 +34,7 @@ import { HomeModule } from "./pages/home/home.module";
       useClass: ErrorInterceptor,
       multi: true,
     },
+    Badge
   ],
   bootstrap: [AppComponent],
 })

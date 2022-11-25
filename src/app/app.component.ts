@@ -25,6 +25,7 @@ import { AuthenticationService } from "./providers/authentication.service";
 import { Subscription, interval } from "rxjs";
 import { NavController } from "@ionic/angular";
 import { publish } from "rxjs/operators";
+import { Badge } from "@awesome-cordova-plugins/badge/ngx";
 
 @Component({
   selector: "app-root",
@@ -49,7 +50,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private zone: NgZone,
     private constantService: ConstantService,
     private authService: AuthenticationService,
-    private navController: NavController
+    private navController: NavController,
+    private badge: Badge
   ) {
     this.initializeApp();
     this.backButton();
@@ -57,14 +59,22 @@ export class AppComponent implements OnInit, OnDestroy {
     this.getPublicInfo();
     this.onlineStatus();
     this.deepLinking();
+    // this.getBadgeStatus();
   }
 
   async ngOnInit() {
+    this.getBadgeStatus();
     this.socketInit();
     this.callingAthlete();
     const source = interval(60000);
     this.socketSubscription = source.subscribe((val) => this.onlineStatus());
   }
+
+  
+  async getBadgeStatus() {
+    let count = await this.badge.set(7);
+    console.log("badge count ",count)
+   }
 
   async onlineStatus() {
     let userDetails = await this.core.getUserDataFromStorage();
