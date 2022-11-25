@@ -369,15 +369,18 @@ export class CardComponent implements OnInit {
     }
   }
 
-  joinFanCall(id: string) {
-    this.router.navigate(["waitlist/call/" + id], {
+  joinFanCall(fan:any) {
+    console.log("fan",fan.id);
+    this.commonService.callingFanDetail=fan
+    this.router.navigate(["waitlist/call/" + fan.id], {
       queryParams: {
         isBidEvent: false,
       },
     });
   }
-  athleteEvent(id: string) {
-    this.router.navigate(["waitlist/event/" + id]);
+  athleteEvent(fan: any) {
+    this.commonService.callingFanDetail=fan
+    this.router.navigate(["waitlist/event/" + fan.id]);
   }
 
   canAthleteJoinEvent(count) {

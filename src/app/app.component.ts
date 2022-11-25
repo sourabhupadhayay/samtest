@@ -104,7 +104,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   //integrate facebook login
   private async initFacebook() {
-    await FacebookLogin.initialize({ appId: "2063922043815263" });
+    await FacebookLogin.initialize({ appId: "676274650710402" });
   }
 
   //get common public info

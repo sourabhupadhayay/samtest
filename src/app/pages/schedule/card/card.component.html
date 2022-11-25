@@ -274,7 +274,7 @@
               <ng-container *ngIf="cardData.creatorPersona == 'USER'    ">
                 <ion-button
                   *ngIf="cardData.eventType !== 'IN_PERSON' "
-                  (click)="joinFanCall(cardData.id)"
+                  (click)="joinFanCall(cardData)"
                   size="small"
                   class="card__cta--green"
                 >
@@ -306,7 +306,7 @@
                   </p>
                   <ion-button
                     [disabled]="canAthleteJoinEvent(cardData.count)"
-                    (click)="athleteEvent(cardData.id)"
+                    (click)="athleteEvent(cardData)"
                     ><img src="assets/icon/join-video.svg" /> Go</ion-button
                   >
                 </div>

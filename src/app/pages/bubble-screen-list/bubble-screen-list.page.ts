@@ -31,6 +31,7 @@ export class BubbleScreenListPage implements OnInit {
   nameInitials: string;
   athleteListstatus:any;
   online: string;
+  selection:any="All";
   constructor(
     private apiService: DataService,
     private coreService: CoreService,
@@ -84,7 +85,7 @@ export class BubbleScreenListPage implements OnInit {
           search: this.searchControl.value,
         },
         page: {
-          pageLimit: 10,
+          pageLimit: 30,
           pageNumber: this.pageNumber,
         },
         sort: {
@@ -147,7 +148,7 @@ export class BubbleScreenListPage implements OnInit {
         filter: data
         ,
         page: {
-          pageLimit: 10,
+          pageLimit: 30,
           pageNumber: 0,
         },
         sort: {

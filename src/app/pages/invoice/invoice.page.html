@@ -32,15 +32,17 @@
       <div class="summry-head">
         <ion-item lines="none">
           <ion-label>
-            <h5>Casey Rodgers’s</h5>
+            <h5>{{userData?.fullName}}</h5>
             <p>Bubble Cash</p>
           </ion-label>
           <ion-text slot="end">
-            Jul 01, 2022
+            <div class="ammount">
+              {{summarydetails?.date | date:'MMM d, y'}}
+            </div>
           </ion-text>
         </ion-item>
         <div class="ammount">
-          <h4>$5375.39</h4>
+          <h4>${{athleteEarnings}}</h4>
           <span>Total Bubble Cash</span>
         </div>
       </div>
@@ -59,11 +61,11 @@
               <ion-item lines="none">
                 <ion-label>
                   <span>INVOICE</span>
-                  <h4>#2891</h4>
+                  <h4>#{{invoiceNum}}</h4>
                 </ion-label>
                 <ion-text>
                   <span>DATE</span>
-                  <h4>Jul 01, 2022</h4>
+                  <h4>{{summarydetails?.date | date:'MMM d, y'}}</h4>
                 </ion-text>
               </ion-item>
             </div>
@@ -80,17 +82,18 @@
             </div>
             <div class="table-data">
             
-              <ion-item lines="none">
-                <i slot="start">1</i>
+              <ion-item lines="none" *ngFor="let summary of summarydetails?.summaryList
+              ">
+                <i slot="start">{{summary.number}}</i>
                 <ion-label>
-                  <h4>Total Amount</h4>
+                  <h4>{{summary.title}} <span>{{summary.fees}}</span></h4>
                 </ion-label>
                 <ion-text>
-                  <h4>$5375.39</h4>
+                  <h4>$ {{summary.amount}}</h4>
                 </ion-text>
               </ion-item>
 
-              <ion-item lines="none">
+              <!-- <ion-item lines="none">
                 <i slot="start">2</i>
                 <ion-label>
                   <h4>Processing Fees <span>(3.9%)</span></h4>
@@ -118,7 +121,7 @@
                 <ion-text>
                   <h4>$ 250.00</h4>
                 </ion-text>
-              </ion-item>
+              </ion-item> -->
             </div>
 
             <div class="table-totle">
@@ -128,7 +131,8 @@
                   <h4>Payment Amount</h4>
                 </ion-label>
                 <ion-text>
-                  <h4>$ 5000</h4>
+                  <h4>$ {{(summarydetails.dwollaRequestAmount)?.toFixed(2)
+                  }}</h4>
                 </ion-text>
               </ion-item>
             </div>

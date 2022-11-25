@@ -4,7 +4,7 @@ import { TermsOfServiceComponent } from "./terms-of-service/terms-of-service.com
 import { PopoverController } from '@ionic/angular';
 import { PushNotificationPage } from "../push-notification/push-notification.page";
 import { HttpClient } from "@angular/common/http";
-import { CoreService } from "src/app/providers/core.service";
+import { CoreService, userRole } from "src/app/providers/core.service";
 import { DataService } from "src/app/providers/data.service";
 import { ConstantService } from "src/app/providers/constant.service";
 import { CommonService } from "src/app/providers/common.service";
@@ -24,8 +24,13 @@ export class InvoicePage implements OnInit {
   transferAmountForm : FormGroup;
   selectedBankId:string;
   isTermsAndConditionAccepted: boolean = false;
+  summarydetails:any=[]
+  userData:any=[]
+  athleteEarnings:any;
+  invoiceNum:any
   @ViewChild(IonModal) modal: IonModal;
   @ViewChild("transferModal") transferModal: IonModal;
+  dwollaRequestAmount : number = 0;
   constructor(
                public modalCtrl: ModalController,
                public popoverController: PopoverController, 
@@ -35,14 +40,27 @@ export class InvoicePage implements OnInit {
                private constantService: ConstantService,
                public commonService: CommonService,
                private formBuilder: FormBuilder,
+               private core:CoreService
                ) {
                }
 
   ngOnInit() {
     this.getIpAddresss();
     this.initForm();
+    this.summary();
+    this.getUserDataFromStorage()
+    this.getAthleteEarnings()
+    this.getRandomId()
   }
+  async getUserDataFromStorage() {
+   // this.userRole = await this.coreService.getUserRoleFromStorage();
+    let userData = await this.coreService.getUserDataFromStorage();
+   // this.nameInitials = this.commonService.getInitials(userData.fullName);
+    this.userData = userData;
+    //this.userId = userData.id;
 
+    //this.getScheduleDetails();
+  }
   initForm() {
     this.bankDetailsForm = this.formBuilder.group({
       name : ['', Validators.required],
@@ -160,6 +178,7 @@ export class InvoicePage implements OnInit {
           );
             let bankAddResponse = response.data;
             this.bankDetailsForm.reset();
+            this.getBankListing();
             // this.onClickCancel();
         } else {
           this.coreService.showToastMessage(
@@ -179,6 +198,10 @@ export class InvoicePage implements OnInit {
   openTransferModal(id:string) {
     this.selectedBankId = id;
     this.transferModal.present();
+    this.transferAmountForm.patchValue({
+       amount : this.dwollaRequestAmount
+    });
+    this.transferAmountForm.controls['amount'].disable();
   }
 
   convertStringToNum(value:any) {
@@ -193,7 +216,8 @@ export class InvoicePage implements OnInit {
         path: "core/payment/bank/transfer?ipAddress=" + this.ipAddress,
         data: {
             ...this.transferAmountForm.value,
-            "amount" : this.convertStringToNum(this.transferAmountForm.value.amount),
+            // "amount" : this.convertStringToNum(this.transferAmountForm.value.amount),
+            "amount" : this.dwollaRequestAmount,
             "toBankAccountId" : this.selectedBankId
         },
         isAuth: true,
@@ -223,5 +247,55 @@ export class InvoicePage implements OnInit {
         this.coreService.TOAST_ERROR
       );
     }
+  }
+  summary(){
+    let request: any = {
+      path: "core/event/athlete/summary",
+      isAuth: true,
+    };
+    this.coreService.presentLoader(this.constantService.WAIT).then(() => {
+      this.apiService.get(request).subscribe((response: any) => {
+        this.coreService.dismissLoader();
+        if (response.status.code === this.constantService.STATUS_OK) {
+         console.log("response",response);
+         this.summarydetails=response.data;
+         this.dwollaRequestAmount = response?.data?.dwollaRequestAmount;
+        } else {
+          this.coreService.showToastMessage(
+            response.status.description,
+            this.coreService.TOAST_ERROR
+          );
+        }
+      });
+    });
+ 
+  }
+  getRandomId = (min = 1000, max = 50000) => {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    const num =  Math.floor(Math.random() * (max - min + 1)) + min;
+    console.log("num",num);
+    this.invoiceNum=num
+    return num;
+  };
+  
+
+  async getAthleteEarnings() {
+    let userRole: userRole = await this.core.getUserRoleFromStorage();
+    if(userRole == 'athlete') {
+    let request: any = {
+      path: "core/event/athlete/cash",
+      isAuth: true,
+    };
+      this.apiService.get(request).subscribe((response: any) => {
+        if (response.status.code === this.constantService.STATUS_OK) {
+          this.athleteEarnings = response?.data?.totalEarning;
+         
+        }
+
+      });
+  } else {
+    return
+  }
   }
 }

@@ -59,7 +59,7 @@ export class LoginPage implements OnInit {
   ) {
     GoogleAuth.initialize({
       clientId:
-        "1082803264576-6fh2eljajj00i2ofs55omddhmrs1s3q1.apps.googleusercontent.com",
+        "573316732862-ihcsn2uu3cvnhq115s1ejvnbv5mko29t.apps.googleusercontent.com",
       scopes: ["profile", "email"],
     });
   }
@@ -194,29 +194,29 @@ export class LoginPage implements OnInit {
 
   //google sign in
   async googleSignIn() {
-    this.coreService.showToastMessage(
-      "Development under progress",
-      this.coreService.TOAST_INFO
-    );
-    // try {
-    //   let user = await GoogleAuth.signIn();
+    // this.coreService.showToastMessage(
+    //   "Development under progress",
+    //   this.coreService.TOAST_INFO
+    // );
+    try {
+      let user = await GoogleAuth.signIn();
 
-    //   let RequestData = {
-    //     socialAccessToken: user.authentication.accessToken,
-    //     socialLoginType: "GOOGLE",
-    //   };
+      let RequestData = {
+        socialAccessToken: user.authentication.accessToken,
+        socialLoginType: "GOOGLE",
+      };
 
-    //   this.socialLogin(RequestData);
-    // } catch (e) {}
+      this.socialLogin(RequestData);
+    } catch (e) {}
   }
 
   //facebook login
 
   async faceBookSignIn() {
-    this.coreService.showToastMessage(
-      "Development under progress",
-      this.coreService.TOAST_INFO
-    );
+    // this.coreService.showToastMessage(
+    //   "Development under progress",
+    //   this.coreService.TOAST_INFO
+    // );
     // try {
     //   let result = (await FacebookLogin.login({
     //     permissions: this.FACEBOOK_PERMISSIONS,
