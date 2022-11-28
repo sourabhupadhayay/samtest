@@ -39,6 +39,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private socketSubscription: Subscription;
   intervalId: number;
   userDetails: any;
+  badgeCount : number = 0;
   constructor(
     private apiservice: DataService,
     private _networkService: NetworkService,
@@ -51,7 +52,9 @@ export class AppComponent implements OnInit, OnDestroy {
     private constantService: ConstantService,
     private authService: AuthenticationService,
     private navController: NavController,
-    private badge: Badge
+    private badge: Badge,
+    private coreService: CoreService,
+    private apiService: DataService
   ) {
     this.initializeApp();
     this.backButton();
@@ -59,11 +62,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.getPublicInfo();
     this.onlineStatus();
     this.deepLinking();
-    // this.getBadgeStatus();
   }
 
   async ngOnInit() {
-    this.getBadgeStatus();
+    await this.getBadgeNotificationCount();
+    // await this.getBadgeStatus(0);
     this.socketInit();
     this.callingAthlete();
     const source = interval(60000);
@@ -71,10 +74,32 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   
-  async getBadgeStatus() {
-    let count = await this.badge.set(7);
+  async getBadgeStatus(unreadCount:number) {
+    let count = await this.badge.set(unreadCount);
     console.log("badge count ",count)
    }
+
+   getBadgeNotificationCount() {
+    let request: any = {
+      path: "notification/notification/check/v2",
+      isAuth: true,
+    };
+    this.coreService.presentLoader(this.constantService.WAIT).then(() => {
+      this.apiService.get(request).subscribe((response: any) => {
+        this.coreService.dismissLoader();
+        if (response.status.code === this.constantService.STATUS_OK) {
+          this.badgeCount = response?.data?.unreadCount;
+          console.log("count ",this.badgeCount);
+          this.getBadgeStatus(this.badgeCount);
+        } else {
+          this.coreService.showToastMessage(
+            response.status.description,
+            this.coreService.TOAST_ERROR
+          );
+        }
+      });
+    });
+  }
 
   async onlineStatus() {
     let userDetails = await this.core.getUserDataFromStorage();
