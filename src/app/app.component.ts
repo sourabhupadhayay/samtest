@@ -62,6 +62,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.getPublicInfo();
     this.onlineStatus();
     this.deepLinking();
+    this.getBadgeNotificationCount();
   }
 
   async ngOnInit() {
