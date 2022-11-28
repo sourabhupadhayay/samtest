@@ -24,7 +24,6 @@ import {
 import { AuthenticationService } from "./providers/authentication.service";
 import { Subscription, interval } from "rxjs";
 import { NavController } from "@ionic/angular";
-import { publish } from "rxjs/operators";
 import { Badge } from "@awesome-cordova-plugins/badge/ngx";
 
 @Component({
@@ -66,7 +65,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    await this.getBadgeNotificationCount();
+    // await this.getBadgeNotificationCount();
     // await this.getBadgeStatus(0);
     this.socketInit();
     this.callingAthlete();
