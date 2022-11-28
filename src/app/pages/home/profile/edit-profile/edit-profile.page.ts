@@ -40,6 +40,7 @@ export class EditProfilePage implements OnInit {
   nameInitials: string;
   currentUserRole: "fan" | "athlete";
   isUserProfileComplete: boolean = true;
+  badgeCount:any;
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -55,10 +56,24 @@ export class EditProfilePage implements OnInit {
 
   ngOnInit() {}
 
-  ionViewWillEnter() {
+   ionViewWillEnter() {
     this.getUserDataFromStorage();
     this.isUserFromSocialLogIn();
+    this.getNotificationCount();
   }
+
+  getNotificationCount() {
+    let request: any = {
+      path: "notification/notification/check/v2",
+      isAuth: true,
+    };
+      this.apiService.get(request).subscribe((response: any) => {
+        this.badgeCount = response.data.unreadCount;
+        console.log("c ",this.badgeCount)
+        return this.badgeCount;
+      });
+  }
+
 
   async getUserDataFromStorage() {
     const { value } = await Storage.get({ key: "userDetails" });

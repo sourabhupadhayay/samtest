@@ -26,6 +26,7 @@ export class BidPaymentPage implements OnInit {
   paymentData: paymentData | null = null;
   currentBidAmount: string = "";
   MaxAmount: string = "";
+  badgeCount :number = 0;
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -43,6 +44,7 @@ export class BidPaymentPage implements OnInit {
   ngOnInit() {
     this.squarePaymentScript();
     this.getEventDataFromParams();
+    this.getNotificationCount();
   }
 
   squarePaymentScript() {
@@ -209,6 +211,18 @@ export class BidPaymentPage implements OnInit {
   getToFixedDigits(event:any){
     if(event.target.value !== '')
      event.target.value = parseFloat(event.target.value).toFixed(2)
+    }
+
+    getNotificationCount() {
+      let request: any = {
+        path: "notification/notification/check/v2",
+        isAuth: true,
+      };
+        this.apiService.get(request).subscribe((response: any) => {
+          this.badgeCount = response.data.unreadCount;
+          console.log("c ",this.badgeCount)
+          return this.badgeCount;
+        });
     }
 
     async presentPopover(ev: any) {

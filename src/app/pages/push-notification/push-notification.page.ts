@@ -32,30 +32,22 @@ export class PushNotificationPage implements OnInit {
 
   ngOnInit() {
     this.getNotificationData();
-    this.getBadgeNotificationCount();
+    this.getNotificationCount();
     this.viewAllNotification();
     this.resetBadgesCount();
   }
 
 
-  getBadgeNotificationCount() {
+  getNotificationCount() {
     let request: any = {
       path: "notification/notification/check/v2",
       isAuth: true,
     };
       this.apiService.get(request).subscribe((response: any) => {
-        this.coreService.dismissLoader();
-        if (response.status.code === this.constantService.STATUS_OK) {
-          this.badgeCount = response?.data?.unreadCount;
-          console.log("count ",this.badgeCount);
-        } else {
-          this.coreService.showToastMessage(
-            response.status.description,
-            this.coreService.TOAST_ERROR
-          );
-        }
+        this.badgeCount = response.data.unreadCount;
+        console.log("c ",this.badgeCount)
+        return this.badgeCount;
       });
-    
   }
 
   async resetBadgesCount() {

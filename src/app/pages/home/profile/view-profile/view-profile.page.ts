@@ -22,6 +22,7 @@ export class ViewProfilePage implements OnInit {
   userData: any | null = null;
   nameInitials: string;
   profileSubscription: Subscription;
+  badgeCount :number = 0;
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -37,6 +38,7 @@ export class ViewProfilePage implements OnInit {
     this.isProfileUpdated();
     // this.getCurrentUserDetails();
     this.getUserDataFromStorage();
+    this.getNotificationCount();
   }
 
   isProfileUpdated() {
@@ -99,6 +101,18 @@ export class ViewProfilePage implements OnInit {
     });
 
     modal.present();
+  }
+
+  getNotificationCount() {
+    let request: any = {
+      path: "notification/notification/check/v2",
+      isAuth: true,
+    };
+      this.apiService.get(request).subscribe((response: any) => {
+        this.badgeCount = response.data.unreadCount;
+        console.log("c ",this.badgeCount)
+        return this.badgeCount;
+      });
   }
 
   async presentPopover(ev: any) {
