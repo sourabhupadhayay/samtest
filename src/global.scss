@@ -708,3 +708,24 @@ app-invoice{
     }
   }
 }
+
+.notification {
+  
+  margin-top: 9px !important;
+  
+  span {
+    height: 20px !important;
+    width: 20px !important;
+    border-radius: 20px !important;
+    right: -8px !important;
+    top: -9px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    i{display: inline-block;
+      font-style: normal;
+      text-align: center;
+      color: #fff;
+      font-size: 0.55rem;}
+  }
+}
