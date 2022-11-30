@@ -110,7 +110,7 @@
         <div class="head">
           <ng-container *ngIf="connectedFanDetails?.bidState == 'PENDING'">
             <h5 *ngIf="currentPosition !== 0">
-              {{videourl | profile}} people in wait list ahead of you
+              {{currentPosition}} people in wait list ahead of you
             </h5>
             <p *ngIf="currentPosition == 0">
               You are 1st in the wait list,<br />
