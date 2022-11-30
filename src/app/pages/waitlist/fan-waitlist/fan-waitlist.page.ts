@@ -41,9 +41,9 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
   connectedFanDetails = null;
   creatorPersona: string;
   highestBid: any;
-  eventVideoData:any;
-  urls:any;
-  videourl:any;
+  eventVideoData: any;
+  urls: any;
+  videourl: any;
   slideOpts: any = {
     slidesPerView: 3,
     initialSlide: 1,
@@ -69,11 +69,9 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
     this.getEventDetails();
     this.getUserData();
     this.getSponsor();
-    console.log("public info",this.commonService.publicInfo);
-   
-      this.video(); 
-    
-   
+    console.log("public info", this.commonService.publicInfo);
+
+    this.video();
   }
 
   ngDoCheck() {
@@ -81,7 +79,9 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
       this.calculateUserPosition();
     }
   }
-
+  ionViewWillEnter() {
+    this.video();
+  }
   getSponsor() {
     let request: Request = {
       path: "auth/users/manage/filter/list",
@@ -112,7 +112,7 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
       }
     });
   }
-  video(){
+  video() {
     let request: Request = {
       path: "core/configuration/publicInfo",
       isAuth: true,
@@ -123,20 +123,19 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
         this.eventVideoData = response.data.videoUrls;
-        console.log("aa",this.eventVideoData);
-        
+        console.log("aa", this.eventVideoData);
+
         for (let i = 0; i < this.eventVideoData.length; i++) {
-       
-          this.urls = Math.floor(Math.random()*this.eventVideoData.length); 
+          this.urls = Math.floor(Math.random() * this.eventVideoData.length);
           console.log(this.urls);
-          this.videourl= this.eventVideoData[ this.urls]; 
-          console.log("video urls",this.videourl);
-          this.cd.detectChanges()
-       return;
+          this.videourl = this.eventVideoData[this.urls];
+          console.log("video urls", this.videourl);
+          this.cd.detectChanges();
+          return;
         }
         // this.creatorPersona = response.data.videoUrls;
         // console.log(this.eventVideoData);
-       
+
         // var myVideo = document.getElementsByTagName('video')[0];
         // myVideo.innerHTML = ''; // fast way to empty children
         // this.eventVideoData[0].forEach(url => {
@@ -153,8 +152,6 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
         );
       }
     });
-
-    
   }
 
   calculateUserPosition() {
@@ -166,13 +163,13 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
     console.log(bid);
 
     this.highestBid = Math.max(...bid);
-    console.log("highest ",this.highestBid)
+    console.log("highest ", this.highestBid);
 
     for (let index = 0; index < this.pendingCallFans.length; index++) {
       if (this.pendingCallFans[index].userId == this.userData.id) {
         this.userIndex = index;
         this.currentPosition = index;
-        console.log("index ",this.userIndex,this.currentPosition)
+        console.log("index ", this.userIndex, this.currentPosition);
 
         this.connectedFanDetails = this.pendingCallFans[index];
       }
