@@ -27,6 +27,8 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
   @Input() connectedFans: any[] = [];
   @Input() calledFans: any[] = [];
   @Input() pendingCallFans: any[] = [];
+  @ViewChild("videos") videos: ElementRef;
+  videoElement: HTMLVideoElement;
   userData;
   eventData;
   currentPosition: number = 0;
@@ -39,6 +41,9 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
   connectedFanDetails = null;
   creatorPersona: string;
   highestBid: any;
+  eventVideoData:any;
+  urls:any;
+  videourl:any;
   slideOpts: any = {
     slidesPerView: 3,
     initialSlide: 1,
@@ -65,7 +70,10 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
     this.getUserData();
     this.getSponsor();
     console.log("public info",this.commonService.publicInfo);
+   
+      this.video(); 
     
+   
   }
 
   ngDoCheck() {
@@ -103,6 +111,50 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
         );
       }
     });
+  }
+  video(){
+    let request: Request = {
+      path: "core/configuration/publicInfo",
+      isAuth: true,
+    };
+
+    this.coreService.presentLoader(this.constantService.WAIT);
+    this.apiService.get(request).subscribe((response: Response) => {
+      this.coreService.dismissLoader();
+      if (response.status.code === this.constantService.STATUS_OK) {
+        this.eventVideoData = response.data.videoUrls;
+        console.log("aa",this.eventVideoData);
+        
+        for (let i = 0; i < this.eventVideoData.length; i++) {
+       
+          this.urls = Math.floor(Math.random()*this.eventVideoData.length); 
+          console.log(this.urls);
+          this.videourl= this.eventVideoData[ this.urls]; 
+          console.log("video urls",this.videourl);
+          this.cd.detectChanges()
+       return;
+        }
+        // this.creatorPersona = response.data.videoUrls;
+        // console.log(this.eventVideoData);
+       
+        // var myVideo = document.getElementsByTagName('video')[0];
+        // myVideo.innerHTML = ''; // fast way to empty children
+        // this.eventVideoData[0].forEach(url => {
+        //   const source = document.createElement('source');
+        //   source.src = url;
+        //   myVideo.appendChild(source);
+        //   console.log(source.src);
+        // });
+        // this.cd.detectChanges();
+      } else {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_ERROR
+        );
+      }
+    });
+
+    
   }
 
   calculateUserPosition() {

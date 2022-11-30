@@ -22,22 +22,20 @@
   <div class="main-screen">
     <!-- <button (click)="soundOnOff()" style="position: relative; z-index:999">mute</button> -->
     <div class="video-box">
-      <video
-      *ngIf="this.creatorPersona !== 'ADMIN'"
+      <video #videos
+      *ngIf="this.creatorPersona !== 'ADMIN' && videourl"
         id="muteSound"
-        height="100%"
-        width="100%"
+       
         loop="true"
         autoplay
         autoplay="autoplay"
-        webkit-playsinline
-        playsinline
+      
       >
-        <source src="../../../../assets/video/papa-johns-fvideo.mp4" />
-        <p class="warning">Your browser does not support HTML5 video.</p>
+        <source *ngIf="videourl" src="{{this.videourl | profile}}" />
+        <p class="warning">Your browser does not support HTML5 video. </p>
       </video>
 
-      <video
+      <!-- <video
       *ngIf="this.creatorPersona == 'ADMIN'"
         id="muteSound"
         height="100%"
@@ -50,7 +48,7 @@
       >
         <source src="{{this.eventData.sponsorVideoUrl | profile}}" />
         <p class="warning">Your browser does not support HTML5 video.</p>
-      </video>
+      </video> -->
     </div>
     <div class="bottom-part">
 
@@ -112,7 +110,7 @@
         <div class="head">
           <ng-container *ngIf="connectedFanDetails?.bidState == 'PENDING'">
             <h5 *ngIf="currentPosition !== 0">
-              {{currentPosition}} people in wait list ahead of you
+              {{videourl | profile}} people in wait list ahead of you
             </h5>
             <p *ngIf="currentPosition == 0">
               You are 1st in the wait list,<br />
