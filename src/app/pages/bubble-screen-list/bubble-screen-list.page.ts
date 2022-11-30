@@ -161,7 +161,12 @@ export class BubbleScreenListPage implements OnInit {
     this.coreService.presentLoader(this.constant.WAIT);
    
     this.apiService.post(request).subscribe((response: Response) => {
-      this.athleteList = response.data.content;;
+      this.athleteList = response.data.content;
+       this.athleteList.forEach((element, index) => {
+          this.athleteList[index][
+            "nameInitials"
+          ] = this.commonService.getInitials(element.fullName);
+        });
       this.coreService.dismissLoader();
     });
    

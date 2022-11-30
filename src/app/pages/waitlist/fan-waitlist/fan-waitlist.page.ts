@@ -131,7 +131,7 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
           console.log(this.urls);
           this.videourl= this.eventVideoData[ this.urls]; 
           console.log("video urls",this.videourl);
-          this.cd.detectChanges()
+          this.cd.detectChanges();
        return;
         }
         // this.creatorPersona = response.data.videoUrls;
