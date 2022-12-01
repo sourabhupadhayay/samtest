@@ -15,7 +15,7 @@ export class CommonService {
   callingFanDetail:any | null =null;
   athleteEarning:any
   public $socketSubject: Subject<null> = new Subject();
-
+  public $navigateSubject: Subject<null> = new Subject();
   constructor(private apiService: DataService) {}
 
   public _calculateAge(birthday: Date) {

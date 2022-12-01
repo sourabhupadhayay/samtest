@@ -3,7 +3,7 @@
     <ion-grid class="top-card">
       <div class="title-part">
         <ion-item  lines="none" mode="md">
-          <ion-icon routerLink="/tabs/schedule" slot="start" name="arrow-back-outline"></ion-icon>
+          <ion-icon (click)="routeBackToSchedule()" slot="start" name="arrow-back-outline" mode="md"></ion-icon>
           <ion-label>
             <ion-grid class="logo-head">
               <img src="assets/images/single-logo.svg" />
@@ -167,7 +167,7 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <ion-button (click)="eventEnd()">
+    <ion-button (click)="eventEnd();" id="end-event">
       <img src="assets/images/red-video.png" />
     </ion-button>
   </ion-toolbar>

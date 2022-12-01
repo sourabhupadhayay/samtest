@@ -14,6 +14,7 @@ import { ModalController } from "@ionic/angular";
 import { PopoverController } from '@ionic/angular';
 import { PushNotificationPage } from "../push-notification/push-notification.page";
 import { Router } from "@angular/router";
+import { Subscription } from "rxjs";
 
 export type eventState = "APPROVED" | "PENDING" | "PAST";
 
@@ -37,6 +38,7 @@ export class SchedulePage implements OnInit {
   totalElements: number = 0;
   isScrollDisabled: boolean = false;
   athleteEarnings :number = 0;
+  private navigateSubscription: Subscription;
   constructor(
     private coreService: CoreService,
     private apiService: DataService,
@@ -47,25 +49,38 @@ export class SchedulePage implements OnInit {
     public popoverController: PopoverController,
     private router: Router,
     private core: CoreService
-  ) {}
+  ) {
+    
+  }
 
   ionViewWillEnter() {
     this.getAthleteEarnings();
     this.getUserDataFromStorage();
-    console.log("sdfdf000");
-    this.pageNumber = 0
+    this.athleteScheduleRequest();
+    this.fanScheduleRequest();
+    this.pageNumber = 0;
   }
   ionViewDidEnter() {
     this.addClassOnScroll();
-    console.log("ion enter");
-    
+    this.athleteScheduleRequest();
     this.fanScheduleRequest();
+
   }
 
   ngOnInit() {
+    this.navigateSubscription = this.commonService.$navigateSubject.subscribe(
+      () => {
+        this.athleteScheduleRequest();
+        this.getUserDataFromStorage();
+        this.fanScheduleRequest();
+      }
+    );
+   
+    this.athleteScheduleRequest();
     this.getAthleteEarnings();
+    this.fanScheduleRequest();
+   
   }
-
   onclick_cancel(): void {
     this.modalCtrl.dismiss();
   }
@@ -83,10 +98,7 @@ export class SchedulePage implements OnInit {
     await popover.present();
 
     const { role } = await popover.onDidDismiss();
-    console.log('onDidDismiss resolved with role', role);
   }
-
-
   addClassOnScroll() {
     this.content.ionScroll.subscribe((data) => {
       if (data.detail.scrollTop > 50) {
@@ -98,17 +110,14 @@ export class SchedulePage implements OnInit {
       }
     });
   }
-
   async getUserDataFromStorage() {
     this.userRole = await this.coreService.getUserRoleFromStorage();
     let userData = await this.coreService.getUserDataFromStorage();
     this.nameInitials = this.commonService.getInitials(userData.fullName);
     this.userData = userData;
     this.userId = userData.id;
-
     this.getScheduleDetails();
   }
-
   getScheduleDetails() {
     let request: Request;
 
@@ -117,15 +126,12 @@ export class SchedulePage implements OnInit {
     } else {
       request = this.fanScheduleRequest();
     }
-
     if (!request) {
       return;
     }
-
     this.coreService.presentLoader(this.constantService.WAIT);
     this.apiService.post(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
-
       if (response.status.code === this.constantService.STATUS_OK) {
         if (this.pageNumber == 0) {
           this.scheduleData = response.data.content;
@@ -134,7 +140,6 @@ export class SchedulePage implements OnInit {
             this.scheduleData.push(element);
           });
         }
-
         this.totalElements = response.data.totalElements;
         this.cd.detectChanges();
       } else {
@@ -145,7 +150,6 @@ export class SchedulePage implements OnInit {
       }
     });
   }
-
   athleteScheduleRequest(): Request {
     let request: Request = {
       path: "core/event/getEvents",
@@ -156,7 +160,6 @@ export class SchedulePage implements OnInit {
           eventStatuses: ["APPROVED"],
           selfCreated: false,
         },
-
         page: {
           pageLimit: 10,
           pageNumber: this.pageNumber,
@@ -182,7 +185,6 @@ export class SchedulePage implements OnInit {
     } else if (this.eventFilter == "sponsored") {
       request.data.filter.creatorPersonas = ["ADMIN"];
     }
-
     //event filter
     if (this.eventFilter == "fan") {
       request.data.filter.creatorPersonas = ["USER"];
@@ -193,7 +195,6 @@ export class SchedulePage implements OnInit {
     else if (this.eventFilter == "sponsored") {
       request.data.filter.creatorPersonas = ["ADMIN"];
     }
-
     return request;
   }
 
@@ -231,6 +232,7 @@ export class SchedulePage implements OnInit {
     if (this.eventState !== "PENDING") {
       //event creator  filter
       if (this.eventFilter == "athlete") {
+
         request.data.filter.creatorPersonas = ["ATHLETE", "ADMIN"];
         request.data.filter.eventStatuses = ["APPROVED"];
       } else if (this.eventFilter == "me") {
@@ -241,7 +243,6 @@ export class SchedulePage implements OnInit {
         request.data.filter.creatorPersonas = ["ADMIN"];
       }
     }
-
     return request;
   }
 
