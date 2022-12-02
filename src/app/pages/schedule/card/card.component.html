@@ -320,7 +320,7 @@
             <ng-container *ngIf="eventState == 'APPROVED'">
               <ion-button
                 [disabled]="canBidForEvent()"
-                (click)="bidAthleteEvent(cardData.id)"
+                (click)="bidAthleteEvent(cardData)"
                 *ngIf="cardData.creatorPersona == 'ATHLETE' || cardData.creatorPersona == 'ADMIN'   "
                 size="small"
                 class="card__cta--blue"
@@ -328,7 +328,8 @@
                 <span
                   ><img src="../../../../assets/icon/bid-dollar.svg" alt=""
                 /></span>
-                <p *ngIf="!cardData.bidSubmitted">Bid now</p>
+                <p *ngIf="!cardData.bidSubmitted ">Bid now</p>
+             
                 <p *ngIf="cardData.bidSubmitted">Go</p>
               </ion-button>
               <ion-button
@@ -434,3 +435,59 @@
       </ion-item-option> </ion-item-options
   ></ng-container>
 </ion-item-sliding>
+
+
+<ion-modal #CreateAppearance class="small-modal">
+  <ng-template>
+    <ion-header mode="md">
+      <h3 >Bid Now</h3>
+    </ion-header>
+
+    <div class="inner-content">
+      <div class="main-screen">
+        <h5 *ngIf="eventType=='Paid'">
+          Your waiting is over
+        </h5>
+        <p *ngIf="eventType=='Paid'">
+          Athlete will call you soon
+        </p>
+        <h5 *ngIf="eventType=='Free'">
+          Your Passion is Strong Enough
+        </h5>
+        <p *ngIf="eventType=='Free'">
+          Choose paid to end your passion.
+        </p>
+        <div class="radio-btn">
+          <ion-radio-group  [(ngModel)]="eventType" mode="md">
+            <div class="radio-main">
+              <div class="radio-data">
+                <ion-item lines="none" mode="ios">
+                  <ion-label >Paid</ion-label>
+                  <ion-radio mode="md" slot="start" value="Paid"  ></ion-radio>
+                </ion-item>
+              </div>
+              <div class="radio-data">
+                <ion-item lines="none" mode="ios">
+                  <ion-label>Free</ion-label>
+                  <ion-radio mode="md" slot="start" value="Free" ></ion-radio> 
+                </ion-item>
+              </div>
+            </div>
+          </ion-radio-group>
+        </div>
+      </div>
+      
+    </div>
+
+    <ion-footer mode="ios">
+      <ion-toolbar mode="ios">
+        <ion-button (click)="this.modal.dismiss()" class="white-btn">
+          <img src="assets/icon/close-icon.png" />
+        </ion-button>
+        <ion-button (click)="onSubmit()" class="white-btn">
+          <img src="assets/icon/right-icon.png" />
+        </ion-button>
+      </ion-toolbar>
+    </ion-footer>
+  </ng-template>
+</ion-modal>
