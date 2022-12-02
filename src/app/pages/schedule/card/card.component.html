@@ -445,13 +445,18 @@
 
     <div class="inner-content">
       <div class="main-screen">
+        <h5 *ngIf="eventType=='Paid'">
+          Your waiting is over
+        </h5>
         <p *ngIf="eventType=='Paid'">
-          You will be soon connect with athelete.
+          Athlete will call you soon
         </p>
-        <p *ngIf="isBiddingForEvent">
-          Are you sure, you want to bid this event?
+        <h5 *ngIf="eventType=='Free'">
+          Your Passion is Strong Enough
+        </h5>
+        <p *ngIf="eventType=='Free'">
+          Choose paid to end your passion.
         </p>
-
         <div class="radio-btn">
           <ion-radio-group  [(ngModel)]="eventType" mode="md">
             <div class="radio-main">
