@@ -441,12 +441,12 @@ export class CardComponent implements OnInit {
     modal.present();
   }
   onSubmit(){
-    if(this.eventType=""){
+    if(this.eventType==""){
       this.coreService.showToastMessage(
        "Please select event type",this.coreService.TOAST_ERROR
       );
     }
-    else{}
+    else{
     if(this.eventType=='Paid'){
       this.router.navigate(["bid-payment/" + this.eventData.id]);
     }
@@ -456,6 +456,7 @@ export class CardComponent implements OnInit {
     }
     this.eventType=""
     this.modalCtrl.dismiss();
+  }
   }
   onPayment() {
     let request: Request = {
