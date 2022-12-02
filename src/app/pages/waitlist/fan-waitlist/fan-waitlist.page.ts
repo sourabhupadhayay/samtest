@@ -66,12 +66,13 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.video();
     this.getEventDetails();
     this.getUserData();
     this.getSponsor();
-    console.log("public info", this.commonService.publicInfo);
-
-    this.video();
+    //console.log("public info", this.commonService.publicInfo);
+    
+   
   }
 
   ngDoCheck() {
@@ -80,7 +81,9 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
     }
   }
   ionViewWillEnter() {
-    this.video();
+    console.log("ion will enter");
+    
+   this.video();
   }
   getSponsor() {
     let request: Request = {
@@ -103,6 +106,7 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
 
     this.apiService.post(request).subscribe((response: Response) => {
       if (response.status.code == this.constant.STATUS_OK) {
+        this.coreService.dismissLoader();
         this.sponsorList = response.data;
       } else {
         this.coreService.showToastMessage(
@@ -112,64 +116,32 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
       }
     });
   }
-  video() {
-    let request: Request = {
-      path: "core/configuration/publicInfo",
-      isAuth: true,
-    };
-
-    this.coreService.presentLoader(this.constantService.WAIT);
-    this.apiService.get(request).subscribe((response: Response) => {
-      this.coreService.dismissLoader();
-      if (response.status.code === this.constantService.STATUS_OK) {
-        this.eventVideoData = response.data.videoUrls;
-        console.log("aa", this.eventVideoData);
-
+  
+  video() {   
+        this.eventVideoData = this.commonService.publicInfo.videoUrls;
+        this.coreService.dismissLoader();
         for (let i = 0; i < this.eventVideoData.length; i++) {
           this.urls = Math.floor(Math.random() * this.eventVideoData.length);
-          console.log(this.urls);
           this.videourl= this.eventVideoData[ this.urls]; 
-          console.log("video urls",this.videourl);
-          this.cd.detectChanges()
+          this.cd.detectChanges();
        return;
         }
-        // this.creatorPersona = response.data.videoUrls;
-        // console.log(this.eventVideoData);
-
-        // var myVideo = document.getElementsByTagName('video')[0];
-        // myVideo.innerHTML = ''; // fast way to empty children
-        // this.eventVideoData[0].forEach(url => {
-        //   const source = document.createElement('source');
-        //   source.src = url;
-        //   myVideo.appendChild(source);
-        //   console.log(source.src);
-        // });
-        // this.cd.detectChanges();
-      } else {
-        this.coreService.showToastMessage(
-          response.status.description,
-          this.coreService.TOAST_ERROR
-        );
-      }
-    });
   }
 
   calculateUserPosition() {
     //pending fans
-    console.log("fsdg,this.pendin", this.pendingCallFans);
+    
     const bid = this.pendingCallFans.map((object) => {
       return object.totalAmount;
     });
-    console.log(bid);
-
     this.highestBid = Math.max(...bid);
-    console.log("highest ", this.highestBid);
+   
 
     for (let index = 0; index < this.pendingCallFans.length; index++) {
       if (this.pendingCallFans[index].userId == this.userData.id) {
         this.userIndex = index;
         this.currentPosition = index;
-        console.log("index ", this.userIndex, this.currentPosition);
+       // console.log("index ", this.userIndex, this.currentPosition);
 
         this.connectedFanDetails = this.pendingCallFans[index];
       }
@@ -181,7 +153,6 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
         this.connectedFanDetails = this.calledFans[index];
       }
     }
-    console.log("fan details", this.connectedFanDetails);
   }
 
   getEventDetails() {
@@ -196,7 +167,7 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
       if (response.status.code === this.constantService.STATUS_OK) {
         this.eventData = response.data;
         this.creatorPersona = response.data.creatorPersona;
-        console.log(this.creatorPersona);
+       // console.log(this.creatorPersona);
         this.calculateTime();
 
         this.cd.detectChanges();
@@ -247,7 +218,7 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
   }
 
   routeBackToSchedule() {
-    console.log("called");
+   // console.log("called");
     this.navController.navigateBack(["/tabs/schedule"]);
   }
 
