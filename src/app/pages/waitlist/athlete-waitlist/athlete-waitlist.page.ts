@@ -5,25 +5,28 @@ import {
   OnInit,
   SimpleChanges,
   DoCheck,
+  ChangeDetectorRef,
+  NgZone, OnDestroy,
 } from "@angular/core";
-import { Router } from "@angular/router";
+import { Router,NavigationEnd  } from "@angular/router";
 import { AuthenticationService } from "src/app/providers/authentication.service";
 import { CommonService } from "src/app/providers/common.service";
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
-
+import { NavController } from "@ionic/angular";
+import { Subscription } from "rxjs";
 @Component({
   selector: "athlete-waitlist",
   templateUrl: "./athlete-waitlist.page.html",
   styleUrls: ["./athlete-waitlist.page.scss"],
 })
-export class AthleteWaitlistPage implements OnInit, DoCheck {
+export class AthleteWaitlistPage implements OnInit, DoCheck, OnDestroy {
   @Input() eventId: string;
   @Input() connectedFans: any[] = [];
   @Input() pendingCallFans: any[] = [];
   @Input() calledFans: any[] = [];
-
+  
   fanImagesList: any[] = [];
   athleteList: any;
   sponsorList: any;
@@ -36,13 +39,17 @@ export class AthleteWaitlistPage implements OnInit, DoCheck {
       delay: 2000,
     },
   };
+  interval;
   constructor(
     private router: Router,
     private commonService: CommonService,
     private apiService: DataService,
     private coreService: CoreService,
     private constant: ConstantService,
-    public authenticationService: AuthenticationService
+    public authenticationService: AuthenticationService,
+    private navController: NavController,
+    private cd:ChangeDetectorRef,
+    private ngZone:NgZone,
   ) {}
 
   ngOnInit() {
@@ -51,7 +58,7 @@ export class AthleteWaitlistPage implements OnInit, DoCheck {
   }
   ionDidViewEnter(){
     console.log("pending",this.pendingCallFans,this.connectedFans);
-    
+    // this.eventEnd();
   }
   getSponsor() {
     let request: Request = {
@@ -129,7 +136,9 @@ export class AthleteWaitlistPage implements OnInit, DoCheck {
           response["status"]["description"],
           this.coreService.TOAST_SUCCESS
         );
-        this.router.navigateByUrl("/tabs/schedule")
+      
+        this.routeBackToSchedule()
+
       } else {
         this.coreService.showToastMessage(
           response["status"]["description"],
@@ -138,7 +147,27 @@ export class AthleteWaitlistPage implements OnInit, DoCheck {
       }
     });
   }
+  // routeBackToSchedule() {
+  //   console.log("calledfdgrfgfgdfgd");
+  //   this.cd.detectChanges();
+  //  this.router.navigate(["/tabs/schedule"]);
+  //   this.cd.detectChanges();
+  //   // this.router.navigate(["/tabs/schedule"]);
+  
+  // }
+  routeBackToSchedule() {
+   //this.navController.navigateBack(["/tabs/schedule"]);
+    // this.ngZone.run(() => {
+    //   this.router.navigate(["tabs/schedule"]);
+    // });
+    this.navController.navigateBack(["/tabs/schedule"]);
+    this.commonService.$navigateSubject.next()
+  }  
+  ngOnDestroy(): void {
+    clearInterval(this.interval);
   }
+  }
+
   // compare_bid(a, b) {
   //   if (a.bid > b.bid) {
   //     return -1;
