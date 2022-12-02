@@ -320,7 +320,7 @@
             <ng-container *ngIf="eventState == 'APPROVED'">
               <ion-button
                 [disabled]="canBidForEvent()"
-                (click)="bidAthleteEvent(cardData.id)"
+                (click)="bidAthleteEvent(cardData)"
                 *ngIf="cardData.creatorPersona == 'ATHLETE' || cardData.creatorPersona == 'ADMIN'   "
                 size="small"
                 class="card__cta--blue"
@@ -328,7 +328,8 @@
                 <span
                   ><img src="../../../../assets/icon/bid-dollar.svg" alt=""
                 /></span>
-                <p *ngIf="!cardData.bidSubmitted">Bid now</p>
+                <p *ngIf="!cardData.bidSubmitted ">Bid now</p>
+             
                 <p *ngIf="cardData.bidSubmitted">Go</p>
               </ion-button>
               <ion-button
@@ -434,3 +435,44 @@
       </ion-item-option> </ion-item-options
   ></ng-container>
 </ion-item-sliding>
+
+
+<ion-modal #CreateAppearance class="small-modal">
+  <ng-template>
+    <ion-header mode="md">
+      <h3 *ngIf="!isBiddingForEvent">Create Appearance</h3>
+      <h3 *ngIf="isBiddingForEvent">Create Bid</h3>
+    </ion-header>
+
+    <div class="inner-content">
+      <div class="main-screen">
+        <p *ngIf="!isBiddingForEvent">
+          Are you sure, you want to create appearance?
+        </p>
+        <p *ngIf="isBiddingForEvent">
+          Are you sure, you want to bid this event?
+        </p>
+      </div>
+     
+      <ion-radio-group  [(ngModel)]="eventType">
+
+        <ion-label >Paid</ion-label>
+        <ion-radio slot="start" value="Paid"  ></ion-radio>
+
+        <ion-label>Free</ion-label>
+        <ion-radio slot="start" value="Free" ></ion-radio>                      
+</ion-radio-group>
+    </div>
+
+    <ion-footer mode="ios">
+      <ion-toolbar mode="ios">
+        <ion-button (click)="this.modal.dismiss()" class="white-btn">
+          <img src="assets/icon/close-icon.png" />
+        </ion-button>
+        <ion-button (click)="onSubmit()" class="white-btn">
+          <img src="assets/icon/right-icon.png" />
+        </ion-button>
+      </ion-toolbar>
+    </ion-footer>
+  </ng-template>
+</ion-modal>

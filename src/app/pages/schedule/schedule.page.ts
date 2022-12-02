@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
-import { IonContent } from "@ionic/angular";
+import { IonContent, IonModal } from "@ionic/angular";
 import { CommonService } from "src/app/providers/common.service";
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService, userRole } from "src/app/providers/core.service";
@@ -26,6 +26,7 @@ export type eventState = "APPROVED" | "PENDING" | "PAST";
 })
 export class SchedulePage implements OnInit {
   @ViewChild(IonContent) content: IonContent;
+
   userData: any | null = null;
   userRole: userRole;
   nameInitials: string = "";
