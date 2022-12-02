@@ -451,16 +451,27 @@
         <p *ngIf="isBiddingForEvent">
           Are you sure, you want to bid this event?
         </p>
+
+        <div class="radio-btn">
+          <ion-radio-group  [(ngModel)]="eventType" mode="md">
+            <div class="radio-main">
+              <div class="radio-data">
+                <ion-item lines="none" mode="ios">
+                  <ion-label >Paid</ion-label>
+                  <ion-radio mode="md" slot="start" value="Paid"  ></ion-radio>
+                </ion-item>
+              </div>
+              <div class="radio-data">
+                <ion-item lines="none" mode="ios">
+                  <ion-label>Free</ion-label>
+                  <ion-radio mode="md" slot="start" value="Free" ></ion-radio> 
+                </ion-item>
+              </div>
+            </div>
+          </ion-radio-group>
+        </div>
       </div>
-     
-      <ion-radio-group  [(ngModel)]="eventType">
-
-        <ion-label >Paid</ion-label>
-        <ion-radio slot="start" value="Paid"  ></ion-radio>
-
-        <ion-label>Free</ion-label>
-        <ion-radio slot="start" value="Free" ></ion-radio>                      
-</ion-radio-group>
+      
     </div>
 
     <ion-footer mode="ios">

@@ -493,6 +493,57 @@ ion-modal.small-modal {
         margin: 0;
         line-height: 22px;
       }
+      .radio-main {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        padding: 15px;
+        .radio-text {
+          flex: 1;
+          align-self: center;
+          h5 {
+            font-size: 0.875rem;
+            color: var(--text-black);
+            margin: 0;
+            font-weight: 400;
+          }
+        }
+        .radio-data {
+          margin: 0 5px;
+          ion-item {
+            --padding-start: 0;
+            --inner-padding-end: 0;
+            --padding-start: 0;
+            --innerpadding-end: 0;
+            --background: transparent;
+            --ripple-color: none;
+            --background-activated: none;
+            --background-focused: none;
+            --background-hover: none;
+            --background-activated-opacity: 1;
+            --background-focused-opacity: 1;
+            --background-hover-opacity: 1;
+            --ripple-color: none;
+            --min-height: 26px;
+            ion-label {
+              font-size: 0.875rem;
+              color: var(--theme-one-clr);
+              margin: 0;
+              font-weight: 400;
+            }
+            ion-radio {
+              margin: 0;
+              width: 16px;
+              height: 16px;
+              --color-checked: var(--theme-one-clr);
+              --color: var(--text-gray);
+              margin-right: 5px;
+            }
+          }
+        }
+      }
     }
   }
 
