@@ -220,6 +220,7 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
   routeBackToSchedule() {
    // console.log("called");
     this.navController.navigateBack(["/tabs/schedule"]);
+    this.commonService.$navigateSubject.next();
   }
 
   ngOnDestroy(): void {

@@ -68,6 +68,7 @@ export class SchedulePage implements OnInit {
   ngOnInit() {
     this.navigateSubscription = this.commonService.$navigateSubject.subscribe(
       () => {
+        this.pageNumber = 0;
         this.athleteScheduleRequest();
         this.getUserDataFromStorage();
         this.fanScheduleRequest();
