@@ -440,14 +440,13 @@
 <ion-modal #CreateAppearance class="small-modal">
   <ng-template>
     <ion-header mode="md">
-      <h3 *ngIf="!isBiddingForEvent">Create Appearance</h3>
-      <h3 *ngIf="isBiddingForEvent">Create Bid</h3>
+      <h3 >Bid Now</h3>
     </ion-header>
 
     <div class="inner-content">
       <div class="main-screen">
-        <p *ngIf="!isBiddingForEvent">
-          Are you sure, you want to create appearance?
+        <p *ngIf="eventType=='Paid'">
+          You will be soon connect with athelete.
         </p>
         <p *ngIf="isBiddingForEvent">
           Are you sure, you want to bid this event?

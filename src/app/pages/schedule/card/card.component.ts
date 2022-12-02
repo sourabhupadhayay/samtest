@@ -44,7 +44,7 @@ export class CardComponent implements OnInit {
   counter: any;
   timer: any = null;
   interval;
-  eventType:any=""
+  eventType:any="Paid"
   eventData:any
   constructor(
     private cd: ChangeDetectorRef,
