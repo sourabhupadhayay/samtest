@@ -165,7 +165,7 @@ export class SchedulePage implements OnInit {
           pageNumber: this.pageNumber,
         },
         sort: {
-          orderBy: "ASC",
+          orderBy: "DESC",
           sortBy: "START_DATE",
         },
       },
@@ -213,7 +213,7 @@ export class SchedulePage implements OnInit {
           pageNumber: this.pageNumber,
         },
         sort: {
-          orderBy: "ASC",
+          orderBy: "DESC",
           sortBy: "START_DATE",
         },
       },
