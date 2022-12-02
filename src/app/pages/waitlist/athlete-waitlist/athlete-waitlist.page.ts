@@ -6,9 +6,10 @@ import {
   SimpleChanges,
   DoCheck,
   ChangeDetectorRef,
-  NgZone, OnDestroy,
+  NgZone,
+  OnDestroy,
 } from "@angular/core";
-import { Router,NavigationEnd  } from "@angular/router";
+import { Router, NavigationEnd } from "@angular/router";
 import { AuthenticationService } from "src/app/providers/authentication.service";
 import { CommonService } from "src/app/providers/common.service";
 import { ConstantService } from "src/app/providers/constant.service";
@@ -26,7 +27,7 @@ export class AthleteWaitlistPage implements OnInit, DoCheck, OnDestroy {
   @Input() connectedFans: any[] = [];
   @Input() pendingCallFans: any[] = [];
   @Input() calledFans: any[] = [];
-  
+
   fanImagesList: any[] = [];
   athleteList: any;
   sponsorList: any;
@@ -40,24 +41,30 @@ export class AthleteWaitlistPage implements OnInit, DoCheck, OnDestroy {
     },
   };
   interval;
+  nameInitials: any;
+  userData: any;
+  userId: any;
+  userRole: any;
   constructor(
     private router: Router,
     private commonService: CommonService,
     private apiService: DataService,
     private coreService: CoreService,
     private constant: ConstantService,
+    private constantService: ConstantService,
     public authenticationService: AuthenticationService,
     private navController: NavController,
-    private cd:ChangeDetectorRef,
-    private ngZone:NgZone,
+    private cd: ChangeDetectorRef,
+    private ngZone: NgZone
   ) {}
 
   ngOnInit() {
     console.log(this.connectedFans);
     this.getSponsor();
+    this.getUserDataFromStorage();
   }
-  ionDidViewEnter(){
-    console.log("pending",this.pendingCallFans,this.connectedFans);
+  ionDidViewEnter() {
+    console.log("pending", this.pendingCallFans, this.connectedFans);
     // this.eventEnd();
   }
   getSponsor() {
@@ -116,18 +123,26 @@ export class AthleteWaitlistPage implements OnInit, DoCheck, OnDestroy {
     return this.commonService.getInitials(name);
   }
 
+  async getUserDataFromStorage() {
+    this.userRole = await this.coreService.getUserRoleFromStorage();
+    let userData = await this.coreService.getUserDataFromStorage();
+    this.nameInitials = this.commonService.getInitials(userData.fullName);
+    this.userData = userData;
+    this.userId = userData.id;
+  }
+
   callFan(fan: any) {
-    console.log("fann",fan);
-    this.commonService.callingFanDetail=fan
+    console.log("fann", fan);
+    this.commonService.callingFanDetail = fan;
     this.router.navigate(["waitlist/call/" + fan.id], {
       queryParams: {
         isBidEvent: true,
       },
     });
   }
-  eventEnd(){
+  eventEnd() {
     let request: any = {
-      path: `core/event/complete/`+ this.eventId, 
+      path: `core/event/complete/` + this.eventId,
       isAuth: true,
     };
     this.apiService.get(request).subscribe((response: Response) => {
@@ -136,9 +151,8 @@ export class AthleteWaitlistPage implements OnInit, DoCheck, OnDestroy {
           response["status"]["description"],
           this.coreService.TOAST_SUCCESS
         );
-      
-        this.routeBackToSchedule()
 
+        this.routeBackToSchedule();
       } else {
         this.coreService.showToastMessage(
           response["status"]["description"],
@@ -153,28 +167,27 @@ export class AthleteWaitlistPage implements OnInit, DoCheck, OnDestroy {
   //  this.router.navigate(["/tabs/schedule"]);
   //   this.cd.detectChanges();
   //   // this.router.navigate(["/tabs/schedule"]);
-  
+
   // }
   routeBackToSchedule() {
-   //this.navController.navigateBack(["/tabs/schedule"]);
+    //this.navController.navigateBack(["/tabs/schedule"]);
     // this.ngZone.run(() => {
     //   this.router.navigate(["tabs/schedule"]);
     // });
     this.navController.navigateBack(["/tabs/schedule"]);
-    this.commonService.$navigateSubject.next()
-  }  
+    this.commonService.$navigateSubject.next();
+  }
   ngOnDestroy(): void {
     clearInterval(this.interval);
   }
-  }
+}
 
-  // compare_bid(a, b) {
-  //   if (a.bid > b.bid) {
-  //     return -1;
-  //   }
-  //   if (a.bid < b.bid) {
-  //     return 1;
-  //   }
-  //   return 0;
-  // }
-
+// compare_bid(a, b) {
+//   if (a.bid > b.bid) {
+//     return -1;
+//   }
+//   if (a.bid < b.bid) {
+//     return 1;
+//   }
+//   return 0;
+// }

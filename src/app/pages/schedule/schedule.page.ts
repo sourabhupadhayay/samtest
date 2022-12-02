@@ -11,7 +11,7 @@ import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService, userRole } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { ModalController } from "@ionic/angular";
-import { PopoverController } from '@ionic/angular';
+import { PopoverController } from "@ionic/angular";
 import { PushNotificationPage } from "../push-notification/push-notification.page";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
@@ -38,7 +38,7 @@ export class SchedulePage implements OnInit {
   pageNumber: number = 0;
   totalElements: number = 0;
   isScrollDisabled: boolean = false;
-  athleteEarnings :number = 0;
+  athleteEarnings: number = 0;
   private navigateSubscription: Subscription;
   constructor(
     private coreService: CoreService,
@@ -50,9 +50,7 @@ export class SchedulePage implements OnInit {
     public popoverController: PopoverController,
     private router: Router,
     private core: CoreService
-  ) {
-    
-  }
+  ) {}
 
   ionViewWillEnter() {
     this.getAthleteEarnings();
@@ -65,7 +63,6 @@ export class SchedulePage implements OnInit {
     this.addClassOnScroll();
     this.athleteScheduleRequest();
     this.fanScheduleRequest();
-
   }
 
   ngOnInit() {
@@ -76,11 +73,10 @@ export class SchedulePage implements OnInit {
         this.fanScheduleRequest();
       }
     );
-   
+
     this.athleteScheduleRequest();
     this.getAthleteEarnings();
     this.fanScheduleRequest();
-   
   }
   onclick_cancel(): void {
     this.modalCtrl.dismiss();
@@ -89,12 +85,12 @@ export class SchedulePage implements OnInit {
   async presentPopover(ev: any) {
     const popover = await this.popoverController.create({
       component: PushNotificationPage,
-      cssClass: 'notification-pop',
+      cssClass: "notification-pop",
       event: ev,
       translucent: false,
-      side: 'bottom',
-      alignment: 'start',
-      size:'auto'
+      side: "bottom",
+      alignment: "start",
+      size: "auto",
     });
     await popover.present();
 
@@ -166,7 +162,7 @@ export class SchedulePage implements OnInit {
           pageNumber: this.pageNumber,
         },
         sort: {
-          orderBy: "ASC",
+          orderBy: "DESC",
           sortBy: "START_DATE",
         },
       },
@@ -178,7 +174,7 @@ export class SchedulePage implements OnInit {
       request.data.filter.eventStatuses = ["APPROVED"];
       delete request.data.filter.selfCreated;
       request.data.filter.eventState = "PAST";
-      request.data.sort.orderBy="DESC"
+      request.data.sort.orderBy = "DESC";
     } else if (this.eventState == "PENDING") {
       request.data.filter.eventStatuses = ["PENDING"];
       delete request.data.filter.selfCreated;
@@ -192,8 +188,7 @@ export class SchedulePage implements OnInit {
     } else if (this.eventFilter == "me") {
       request.data.filter.selfCreated = true;
       request.data.filter.creatorPersonas = ["ATHLETE"];
-    }
-    else if (this.eventFilter == "sponsored") {
+    } else if (this.eventFilter == "sponsored") {
       request.data.filter.creatorPersonas = ["ADMIN"];
     }
     return request;
@@ -214,7 +209,7 @@ export class SchedulePage implements OnInit {
           pageNumber: this.pageNumber,
         },
         sort: {
-          orderBy: "ASC",
+          orderBy: "DESC",
           sortBy: "START_DATE",
         },
       },
@@ -224,7 +219,7 @@ export class SchedulePage implements OnInit {
     if (this.eventState == "PAST") {
       request.data.filter.eventStatuses = ["APPROVED"];
       request.data.filter.eventState = "PAST";
-      request.data.sort.orderBy="DESC"
+      request.data.sort.orderBy = "DESC";
     } else if (this.eventState == "PENDING") {
       request.data.filter.creatorPersonas = ["USER"];
       request.data.filter.eventStatuses = ["PENDING"];
@@ -288,31 +283,28 @@ export class SchedulePage implements OnInit {
   }
 
   redirectToInvoice() {
-    if(this.userRole == 'athlete') {
+    if (this.userRole == "athlete") {
       this.router.navigate(["/invoice"]);
-    }
-    else{
-      return
+    } else {
+      return;
     }
   }
-
 
   async getAthleteEarnings() {
     let userRole: userRole = await this.core.getUserRoleFromStorage();
-    if(userRole == 'athlete') {
-    let request: any = {
-      path: "core/event/athlete/cash",
-      isAuth: true,
-    };
+    if (userRole == "athlete") {
+      let request: any = {
+        path: "core/event/athlete/cash",
+        isAuth: true,
+      };
       this.apiService.get(request).subscribe((response: any) => {
         if (response.status.code === this.constantService.STATUS_OK) {
           this.athleteEarnings = response?.data?.totalEarning;
-          this.commonService.athleteEarning=this.athleteEarnings
+          this.commonService.athleteEarning = this.athleteEarnings;
         }
-
       });
-  } else {
-    return
-  }
+    } else {
+      return;
+    }
   }
 }
