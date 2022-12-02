@@ -182,7 +182,7 @@ export class AppComponent implements OnInit, OnDestroy {
     PushNotifications.addListener(
       "pushNotificationReceived",
       (notification: PushNotificationSchema) => {
-        alert("Push received: " + JSON.stringify(notification));
+        // alert("Push received: " + JSON.stringify(notification));
       }
     );
 
@@ -190,7 +190,7 @@ export class AppComponent implements OnInit, OnDestroy {
     PushNotifications.addListener(
       "pushNotificationActionPerformed",
       (notification: ActionPerformed) => {
-        alert("Push action performed: " + JSON.stringify(notification));
+        // alert("Push action performed: " + JSON.stringify(notification));
       }
     );
   }
