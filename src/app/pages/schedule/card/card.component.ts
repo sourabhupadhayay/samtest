@@ -481,5 +481,8 @@ export class CardComponent implements OnInit {
       }
     });
   }
-
+  cancel(){
+    this.modal.dismiss()
+    this.eventType='Paid'
+  }
 }
