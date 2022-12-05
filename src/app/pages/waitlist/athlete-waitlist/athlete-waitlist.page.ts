@@ -27,7 +27,7 @@ export class AthleteWaitlistPage implements OnInit, DoCheck, OnDestroy {
   @Input() connectedFans: any[] = [];
   @Input() pendingCallFans: any[] = [];
   @Input() calledFans: any[] = [];
-
+  
   fanImagesList: any[] = [];
   athleteList: any;
   sponsorList: any;
@@ -167,7 +167,6 @@ export class AthleteWaitlistPage implements OnInit, DoCheck, OnDestroy {
   //  this.router.navigate(["/tabs/schedule"]);
   //   this.cd.detectChanges();
   //   // this.router.navigate(["/tabs/schedule"]);
-
   // }
   routeBackToSchedule() {
     //this.navController.navigateBack(["/tabs/schedule"]);
