@@ -61,7 +61,7 @@ export class CardComponent implements OnInit {
     this.dateFormat();
     this.getInitials();
   }
-
+ 
   getInitials() {
     this.nameInitials = this.commonService.getInitials(this.cardData.userName);
   }
@@ -367,6 +367,7 @@ export class CardComponent implements OnInit {
     this.eventData=data
     if(data.creatorPersona=="ADMIN" && !this.cardData.bidSubmitted)
     {
+      this.eventType='Paid'
      this.ConfirmModal.present()
     }
     else{
