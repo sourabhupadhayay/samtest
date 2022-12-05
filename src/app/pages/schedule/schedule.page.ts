@@ -50,7 +50,9 @@ export class SchedulePage implements OnInit {
     public popoverController: PopoverController,
     private router: Router,
     private core: CoreService
-  ) {}
+  ) {
+    
+  }
 
   ionViewWillEnter() {
     //this.getAthleteEarnings();
@@ -63,6 +65,7 @@ export class SchedulePage implements OnInit {
     this.addClassOnScroll();
     this.athleteScheduleRequest();
     this.fanScheduleRequest();
+
   }
 
   ngOnInit() {

@@ -116,6 +116,10 @@
           <h5>Phone no.</h5>
           <p>{{userData?.phone == '' ? '-' : userData?.phone }}</p>
         </div>
+        <div class="details-box">
+          <h5>Categories</h5>
+          <p *ngFor="let game of userData?.categories">{{game}}</p>
+        </div>
       </div>
     </ng-container>
     <ng-container *ngIf="currentUserRole =='athlete'">
@@ -154,6 +158,11 @@
           <h5>Phone no.</h5>
           <p>{{userData?.phone == '' ? '-' : userData?.phone }}</p>
         </div>
+        <div class="details-box">
+          <h5>Categories</h5>
+          <p *ngFor="let game of userData?.categories">{{game}}</p>
+        </div>
+
       </div>
     </ng-container>
 
