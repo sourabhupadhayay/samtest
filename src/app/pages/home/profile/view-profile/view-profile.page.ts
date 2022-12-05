@@ -158,6 +158,7 @@ export class ViewProfilePage implements OnInit {
         Storage.remove({ key: "userDetails" }).then(() => {
           localStorage.removeItem("authDetail");
           localStorage.removeItem("authDetails");
+          location.reload()
           this.router.navigate(["/auth/login"]);
         });
       } else {

@@ -53,7 +53,7 @@ export class SchedulePage implements OnInit {
   ) {}
 
   ionViewWillEnter() {
-    this.getAthleteEarnings();
+    //this.getAthleteEarnings();
     this.getUserDataFromStorage();
     this.athleteScheduleRequest();
     this.fanScheduleRequest();
@@ -76,7 +76,7 @@ export class SchedulePage implements OnInit {
     );
 
     this.athleteScheduleRequest();
-    this.getAthleteEarnings();
+   // this.getAthleteEarnings();
     this.fanScheduleRequest();
   }
   onclick_cancel(): void {
@@ -301,6 +301,8 @@ export class SchedulePage implements OnInit {
       this.apiService.get(request).subscribe((response: any) => {
         if (response.status.code === this.constantService.STATUS_OK) {
           this.athleteEarnings = response?.data?.totalEarning;
+          console.log("athleteEarnings",this.athleteEarnings);
+          
           this.commonService.athleteEarning = this.athleteEarnings;
         }
       });

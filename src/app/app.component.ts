@@ -55,7 +55,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.backButton();
     this.hideSplashScreen();
     this.getPublicInfo();
-    this.onlineStatus();
+    this.commonService.getAthleteEarnings()
     this.deepLinking();
   }
 

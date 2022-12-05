@@ -102,7 +102,7 @@ export class LoginPage implements OnInit {
     };
     this.coreService.presentLoader(this.constantService.WAIT);
     if (this.authPublicInfo.twoStepAuthentication) {
-      this.apiService.post(request, true).subscribe((response: Response) => {
+      this.apiService.post(request, false).subscribe((response: Response) => {
         this.coreService.dismissLoader();
         if (response.status.code === this.constantService.STATUS_OK) {
           localStorage.setItem("authDetails", JSON.stringify(response.data));

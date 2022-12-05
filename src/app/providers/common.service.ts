@@ -2,6 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { Injectable } from "@angular/core";
 import { format, parseISO } from "date-fns";
 import { Subject } from "rxjs";
+import { ConstantService } from "./constant.service";
+
 import { DataService, Request, Response } from "./data.service";
 
 @Injectable({
@@ -14,9 +16,13 @@ export class CommonService {
   callingAthleteDetails: any | null = null;
   callingFanDetail:any | null =null;
   athleteEarning:any
+ 
+  athleteEarnings: number = 0;
   public $socketSubject: Subject<null> = new Subject();
   public $navigateSubject: Subject<null> = new Subject();
-  constructor(private apiService: DataService) {}
+  constructor(private apiService: DataService, private constantService: ConstantService) {
+
+  }
 
   public _calculateAge(birthday: Date) {
     // birthday is a date
@@ -67,7 +73,22 @@ export class CommonService {
       this.publicInfo = response.data;
     });
   }
-
+  async getAthleteEarnings() {
+   // let userRole: userRole = await this.core.getUserRoleFromStorage();
+   
+      let request: any = {
+        path: "core/event/athlete/cash",
+        isAuth: true,
+      };
+      this.apiService.get(request).subscribe((response: any) => {
+        if (response.status.code === this.constantService.STATUS_OK) {
+          this.athleteEarnings = response?.data?.totalEarning;
+          console.log("athleteEarnings",this.athleteEarnings);
+          
+          this.athleteEarning = this.athleteEarnings;
+        }
+      });
+     }
   athleteOnlineOfflineStatus() {
     let request: Request = {
       path: "auth/users/manage/status/change/true",

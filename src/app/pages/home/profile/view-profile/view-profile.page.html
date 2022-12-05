@@ -48,8 +48,11 @@
             </div>
           </ng-container>
           <ng-container *ngIf="currentUserRole =='athlete'">
-            <p class="athlete-money">
-              $ {{userData?.totalEarning | number:'1.0':'en-US'}}
+            <p class="athlete-money" *ngIf="commonService?.athleteEarnings!=null">
+              $ {{commonService?.athleteEarnings | number:'1.0':'en-US'}}
+            </p>
+            <p class="athlete-money" *ngIf="commonService?.athleteEarnings==null">
+              $ 0
             </p>
             <span class="athlete-total">Total Earning</span>
           </ng-container>
