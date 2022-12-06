@@ -245,7 +245,7 @@ export class SchedulePage implements OnInit {
     if (this.eventState !== "PENDING") {
       //event creator  filter
       if (this.eventFilter == "athlete") {
-        request.data.filter.creatorPersonas = ["ATHLETE", "ADMIN"];
+        request.data.filter.creatorPersonas = ["ATHLETE"];
         request.data.filter.eventStatuses = ["APPROVED"];
       } else if (this.eventFilter == "me") {
         request.data.filter.selfCreated = true;
