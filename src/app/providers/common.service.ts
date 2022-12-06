@@ -15,7 +15,8 @@ export class CommonService {
   profileUrl: string = "";
   callingAthleteDetails: any | null = null;
   callingFanDetail:any | null =null;
-  athleteEarning:any
+  athleteEarning:any;
+  badgeCount:number = 0;
  
   athleteEarnings: number = 0;
   public $socketSubject: Subject<null> = new Subject();
@@ -171,5 +172,18 @@ export class CommonService {
     }
 
     return `0${mDisplay}: ${sDisplay}s`;
+  }
+
+  getBadgeNotificationCount() {
+    let request: any = {
+      path: "notification/notification/check/v2",
+      isAuth: true,
+    };
+      this.apiService.get(request).subscribe((response: any) => {
+        this.badgeCount = response.data.unreadCount;
+        console.log("c ",this.badgeCount)
+        return this.badgeCount
+      });
+    
   }
 }

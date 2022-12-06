@@ -40,6 +40,7 @@ export class SchedulePage implements OnInit {
   isScrollDisabled: boolean = false;
   athleteEarnings: number = 0;
   private navigateSubscription: Subscription;
+  badgeCount :number = 0;
   constructor(
     private coreService: CoreService,
     private apiService: DataService,
@@ -84,6 +85,18 @@ export class SchedulePage implements OnInit {
   }
   onclick_cancel(): void {
     this.modalCtrl.dismiss();
+  }
+
+  getNotificationCount() {
+    let request: any = {
+      path: "notification/notification/check/v2",
+      isAuth: true,
+    };
+      this.apiService.get(request).subscribe((response: any) => {
+        this.badgeCount = response.data.unreadCount;
+        console.log("c ",this.badgeCount)
+        return this.badgeCount;
+      });
   }
 
   async presentPopover(ev: any) {

@@ -42,6 +42,7 @@ export class AthletePage implements OnInit, OnDestroy {
   isClassAdded: boolean = false;
   userRole: userRole;
   eventState: eventState = "APPROVED";
+  badgeCount :number = 0;
   
   constructor(
     public modalCtrl: ModalController,
@@ -59,6 +60,7 @@ export class AthletePage implements OnInit, OnDestroy {
     this.getUserRole();
     this.getAthleteData();
     this.getAppearanceData();
+    this.getNotificationCount();
   }
 
 
@@ -235,6 +237,19 @@ export class AthletePage implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     clearInterval(this.interval);
   }
+
+  getNotificationCount() {
+    let request: any = {
+      path: "notification/notification/check/v2",
+      isAuth: true,
+    };
+      this.apiService.get(request).subscribe((response: any) => {
+        this.badgeCount = response.data.unreadCount;
+        console.log("c ",this.badgeCount)
+        return this.badgeCount;
+      });
+  }
+
   async presentPopover(ev: any) {
     const popover = await this.popoverController.create({
       component: PushNotificationPage,

@@ -31,6 +31,7 @@ export class InvoicePage implements OnInit {
   @ViewChild(IonModal) modal: IonModal;
   @ViewChild("transferModal") transferModal: IonModal;
   dwollaRequestAmount : number = 0;
+  badgeCount :number = 0;
   constructor(
                public modalCtrl: ModalController,
                public popoverController: PopoverController, 
@@ -51,6 +52,7 @@ export class InvoicePage implements OnInit {
     this.getUserDataFromStorage()
     this.getAthleteEarnings()
     this.getRandomId()
+    this.getNotificationCount()
   }
   async getUserDataFromStorage() {
    // this.userRole = await this.coreService.getUserRoleFromStorage();
@@ -96,6 +98,19 @@ export class InvoicePage implements OnInit {
     });
     modal.present();
   }
+
+  getNotificationCount() {
+    let request: any = {
+      path: "notification/notification/check/v2",
+      isAuth: true,
+    };
+      this.apiService.get(request).subscribe((response: any) => {
+        this.badgeCount = response.data.unreadCount;
+        console.log("c ",this.badgeCount)
+        return this.badgeCount;
+      });
+  }
+
   async presentPopover(ev: any) {
     const popover = await this.popoverController.create({
       component: PushNotificationPage,
