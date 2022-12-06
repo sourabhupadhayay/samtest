@@ -105,6 +105,9 @@ export class LoginPage implements OnInit {
       this.apiService.post(request, false).subscribe((response: Response) => {
         this.coreService.dismissLoader();
         if (response.status.code === this.constantService.STATUS_OK) {
+         
+          console.log("eaning");
+          
           localStorage.setItem("authDetails", JSON.stringify(response.data));
           Storage.set({
             key: "userDetails",
@@ -118,7 +121,7 @@ export class LoginPage implements OnInit {
               },
             });
           });
-          this.commonService.getAthleteEarnings()
+          
         } else {
           this.coreService.showToastMessage(
             response.status.description,
@@ -130,6 +133,7 @@ export class LoginPage implements OnInit {
       this.apiService.post(request, false).subscribe((response: Response) => {
         this.coreService.dismissLoader();
         if (response.status.code === this.constantService.STATUS_OK) {
+          this.commonService.getAthleteEarnings()
           localStorage.setItem("authDetails", JSON.stringify(response.data));
           Storage.set({
             key: "userDetails",
@@ -161,6 +165,8 @@ export class LoginPage implements OnInit {
     this.apiService.post(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
+        console.log("social");
+        
         this.coreService.showToastMessage(
           response.status.description,
           this.coreService.TOAST_SUCCESS
