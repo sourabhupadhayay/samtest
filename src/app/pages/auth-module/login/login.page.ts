@@ -118,6 +118,7 @@ export class LoginPage implements OnInit {
               },
             });
           });
+          this.commonService.getAthleteEarnings()
         } else {
           this.coreService.showToastMessage(
             response.status.description,
