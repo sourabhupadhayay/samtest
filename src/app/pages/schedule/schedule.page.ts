@@ -66,6 +66,7 @@ export class SchedulePage implements OnInit {
     this.addClassOnScroll();
     this.athleteScheduleRequest();
     this.fanScheduleRequest();
+    this.getNotificationCount()
 
   }
 
@@ -82,6 +83,7 @@ export class SchedulePage implements OnInit {
     this.athleteScheduleRequest();
    // this.getAthleteEarnings();
     this.fanScheduleRequest();
+    this.getNotificationCount()
   }
   onclick_cancel(): void {
     this.modalCtrl.dismiss();
