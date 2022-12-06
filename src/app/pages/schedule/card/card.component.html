@@ -417,14 +417,14 @@
       <ion-item-option (click)="presentAlert()" color="primary">
         <img src="assets/icon/calendar-card.svg" />
       </ion-item-option>
-      <ion-item-option
+      <!-- <ion-item-option
         *ngIf="(cardData.creatorPersona == 'USER'  ||  cardData.athleteId != cardData.userId) && (userRole == 'fan') "
         (click)="presentDismissModal()"
         color="primary"
         class="delete"
       >
         <img src="assets/icon/delete.svg" />
-      </ion-item-option>
+      </ion-item-option> -->
       <ion-item-option
         *ngIf="userRole == 'athlete' "
         (click)="presentDismissModal()"
