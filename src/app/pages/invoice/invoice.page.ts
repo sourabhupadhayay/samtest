@@ -9,7 +9,7 @@ import { DataService } from "src/app/providers/data.service";
 import { ConstantService } from "src/app/providers/constant.service";
 import { CommonService } from "src/app/providers/common.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-
+import { NavController } from "@ionic/angular";
 import {PrivacyPolicyPage} from'./privacy-policy/privacy-policy.page';
 
 @Component({
@@ -41,7 +41,7 @@ export class InvoicePage implements OnInit {
                private constantService: ConstantService,
                public commonService: CommonService,
                private formBuilder: FormBuilder,
-               private core:CoreService
+               private core:CoreService,private navController: NavController
                ) {
                }
 
@@ -293,7 +293,10 @@ export class InvoicePage implements OnInit {
     this.invoiceNum=num
     return num;
   };
-  
+  back(){
+    this.navController.navigateBack(["/tabs/schedule"]);
+    this.commonService.$navigateSubject.next();
+  }
 
   async getAthleteEarnings() {
     let userRole: userRole = await this.core.getUserRoleFromStorage();

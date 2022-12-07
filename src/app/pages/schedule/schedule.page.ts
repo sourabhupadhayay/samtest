@@ -77,6 +77,7 @@ export class SchedulePage implements OnInit {
         this.athleteScheduleRequest();
         this.getUserDataFromStorage();
         this.fanScheduleRequest();
+        this.commonService.getAthleteEarnings()
       }
     );
 
