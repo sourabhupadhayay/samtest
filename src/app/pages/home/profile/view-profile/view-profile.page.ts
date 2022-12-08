@@ -6,7 +6,7 @@ import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { ChangePasswordComponent } from "./change-password/change-password.component";
-import { Storage } from "@capacitor/storage";
+import { Preferences } from '@capacitor/preferences';
 import { Subscription } from "rxjs";
 import { CommonService } from "src/app/providers/common.service";
 import { PushNotificationPage } from "src/app/pages/push-notification/push-notification.page";
@@ -54,7 +54,7 @@ export class ViewProfilePage implements OnInit {
   }
 
   async getUserDataFromStorage() {
-    const { value } = await Storage.get({ key: "userDetails" });
+    const { value } = await Preferences.get({ key: "userDetails" });
     let loggedInUserData = JSON.parse(value);
     this.currentUserRole = this.commonService.getUserType(
       loggedInUserData.roles
@@ -80,7 +80,7 @@ export class ViewProfilePage implements OnInit {
           this.nameInitials = this.commonService.getInitials(
             this.userData.fullName
           );
-          Storage.set({
+          Preferences.set({
             key: "userDetails",
             value: JSON.stringify(response.data),
           });
@@ -144,7 +144,7 @@ export class ViewProfilePage implements OnInit {
           response.status.description,
           this.coreService.TOAST_SUCCESS
         );
-        Storage.remove({ key: "userDetails" }).then(() => {
+        Preferences.remove({ key: "userDetails" }).then(() => {
           localStorage.removeItem("authDetail");
           this.router.navigate(["/auth/login"]);
         });
@@ -169,7 +169,7 @@ export class ViewProfilePage implements OnInit {
       this.modalCtrl.dismiss();
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
-        Storage.remove({ key: "userDetails" }).then(() => {
+        Preferences.remove({ key: "userDetails" }).then(() => {
           localStorage.removeItem("authDetail");
           localStorage.removeItem("authDetails");
           location.reload()

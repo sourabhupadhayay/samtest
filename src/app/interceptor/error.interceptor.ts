@@ -8,12 +8,13 @@ import {
 import { Observable, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { CoreService } from "../providers/core.service";
-import { Storage } from "@capacitor/storage";
 import { Router } from "@angular/router";
-
+import { Preferences } from '@capacitor/preferences';
 // import { coreService } from "../providers/coreService";
 
-@Injectable()
+@Injectable({
+  providedIn: "root",
+})
 export class ErrorInterceptor implements HttpInterceptor {
   constructor(private coreService: CoreService, private router: Router) {} // private readonly coreService: coreService
   /***
@@ -33,7 +34,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             this.coreService.TOAST_ERROR
           );
           localStorage.clear();
-          Storage.clear();
+          Preferences.clear();
           this.router.navigateByUrl("/auth/login");
         }
         return throwError(err);

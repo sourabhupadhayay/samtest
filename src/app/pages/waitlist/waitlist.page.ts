@@ -12,6 +12,7 @@ import { ConstantService } from "src/app/providers/constant.service";
   templateUrl: "./waitlist.page.html",
   styleUrls: ["./waitlist.page.scss"],
 })
+
 export class WaitlistPage implements OnInit {
   userRole: userRole;
   userData: any;

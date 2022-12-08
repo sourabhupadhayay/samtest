@@ -13,7 +13,7 @@ import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { AuthModuleService } from "../auth-module.service";
-import { Storage } from "@capacitor/storage";
+import { Preferences } from '@capacitor/preferences';
 import { Platform } from "@ionic/angular";
 import {
   ActionPerformed,

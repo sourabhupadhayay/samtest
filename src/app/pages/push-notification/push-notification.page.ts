@@ -5,7 +5,6 @@ import { CommonService } from 'src/app/providers/common.service';
 import { ConstantService } from 'src/app/providers/constant.service';
 import { CoreService } from 'src/app/providers/core.service';
 import { DataService } from 'src/app/providers/data.service';
-import { Storage } from "@capacitor/storage";
 import { Badge } from '@awesome-cordova-plugins/badge/ngx';
 
 @Component({

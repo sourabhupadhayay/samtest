@@ -15,8 +15,7 @@ import { ToastOptions } from "@ionic/core";
 import { CommonService } from "./common.service";
 import { ConstantService } from "./constant.service";
 import { DataService, Request, Response } from "./data.service";
-import { Storage } from "@capacitor/storage";
-
+import { Preferences } from '@capacitor/preferences';
 @Injectable({
   providedIn: "root",
 })
@@ -338,13 +337,13 @@ export class CoreService {
   }
 
   async getUserRoleFromStorage(): Promise<userRole> {
-    const { value } = await Storage.get({ key: "userDetails" });
+    const { value } = await Preferences.get({ key: "userDetails" });
     let userData = JSON.parse(value);
 
     return this.commonService.getUserType(userData.roles);
   }
   async getUserDataFromStorage(): Promise<any> {
-    const { value } = await Storage.get({ key: "userDetails" });
+    const { value } = await Preferences.get({ key: "userDetails" });
     let userData = JSON.parse(value);
     return userData;
   }

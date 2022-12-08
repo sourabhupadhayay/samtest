@@ -18,7 +18,7 @@ import {
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
-import { Storage } from "@capacitor/storage";
+import { Preferences } from '@capacitor/preferences';
 import { CommonService } from "src/app/providers/common.service";
 import { PopoverController } from '@ionic/angular';
 import { PushNotificationPage } from "../../../../pages/push-notification/push-notification.page";
@@ -76,7 +76,7 @@ export class EditProfilePage implements OnInit {
 
 
   async getUserDataFromStorage() {
-    const { value } = await Storage.get({ key: "userDetails" });
+    const { value } = await Preferences.get({ key: "userDetails" });
     this.loggedInUserData = JSON.parse(value);
     this.currentUserRole = this.commonService.getUserType(
       this.loggedInUserData.roles
@@ -207,7 +207,7 @@ export class EditProfilePage implements OnInit {
           this.coreService.TOAST_SUCCESS
         );
 
-        Storage.set({
+        Preferences.set({
           key: "userDetails",
           value: JSON.stringify(response.data),
         });
@@ -328,7 +328,7 @@ export class EditProfilePage implements OnInit {
       this.modalCtrl.dismiss();
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
-        Storage.clear().then(() => {
+        Preferences.clear().then(() => {
           localStorage.removeItem("authDetail");
           localStorage.removeItem("authDetails");
           this.router.navigate(["/auth/login"]);

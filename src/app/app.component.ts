@@ -8,7 +8,7 @@ import { CoreService, userRole, UserRole } from "./providers/core.service";
 import { DataService, Request } from "./providers/data.service";
 import { NetworkService } from "./providers/network.service";
 import { SplashScreen } from "@capacitor/splash-screen";
-import { Storage } from "@capacitor/storage";
+import { Preferences } from '@capacitor/preferences';
 import { Router } from "@angular/router";
 import { CommonService } from "./providers/common.service";
 import { Stomp } from "@stomp/stompjs";
@@ -118,11 +118,16 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   initializeApp(): void {
+    Preferences.get({ key: "first_time" }).then(({ value }) => {
+      console.log("initial",value);
+      
+    })
     this.platform.ready().then((): void => {
       this._networkEventsListener();
       this.initFacebook();
       this.isUserLoggedInFirstTime();
       //this.registerNotification();
+     
     });
   }
 
@@ -196,7 +201,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   isUserLoggedInFirstTime() {
-    Storage.get({ key: "first_time" }).then(({ value }) => {
+    Preferences.get({ key: "first_time" }).then(({ value }) => {
+      console.log("first time",value);
+      
       if (!value) {
         this.router.navigate(["/welcome-screen"]);
       }

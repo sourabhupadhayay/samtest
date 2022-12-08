@@ -51,11 +51,9 @@ export class AthleteWaitlistPage implements OnInit, DoCheck, OnDestroy {
     private apiService: DataService,
     private coreService: CoreService,
     private constant: ConstantService,
-    private constantService: ConstantService,
     public authenticationService: AuthenticationService,
     private navController: NavController,
     private cd: ChangeDetectorRef,
-    private ngZone: NgZone
   ) {}
 
   ngOnInit() {
