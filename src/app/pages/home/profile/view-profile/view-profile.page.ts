@@ -11,6 +11,7 @@ import { Subscription } from "rxjs";
 import { CommonService } from "src/app/providers/common.service";
 import { PushNotificationPage } from "src/app/pages/push-notification/push-notification.page";
 import { PopoverController } from '@ionic/angular';
+import { Badge } from '@awesome-cordova-plugins/badge/ngx';
 @Component({
   selector: "app-view-profile",
   templateUrl: "./view-profile.page.html",
@@ -30,7 +31,8 @@ export class ViewProfilePage implements OnInit {
     private constantService: ConstantService,
     private router: Router,
     private commonService: CommonService,
-    public popoverController: PopoverController
+    public popoverController: PopoverController,
+    private badge: Badge,
   ) {}
 
   ngOnInit() {}
@@ -172,9 +174,11 @@ export class ViewProfilePage implements OnInit {
         Preferences.remove({ key: "userDetails" }).then(() => {
           localStorage.removeItem("authDetail");
           localStorage.removeItem("authDetails");
+          this.badge.clear();
           location.reload()
           this.router.navigate(["/auth/login"]);
         });
+        
       } else {
         this.coreService.showToastMessage(
           response.status.description,
