@@ -271,7 +271,7 @@ export class EditProfilePage implements OnInit {
     return request;
   }
 
-  patchDateValue(date: string) {
+  patchDateValue(date: any) {
     if (!date) {
       return;
     }

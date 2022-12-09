@@ -293,7 +293,7 @@ export class AppereanceBookingComponent implements OnInit {
     return request;
   }
 
-  setDateValue(date: string) {
+  setDateValue(date: any) {
     if (!date) {
       return;
     }
@@ -310,7 +310,7 @@ export class AppereanceBookingComponent implements OnInit {
     this.isoDate = date.split('T')[0];
     console.log("date ",this.isoDate);
   }
-  setTimeValue(time: string) {
+  setTimeValue(time: any) {
     if (!time) {
       return;
     }
@@ -400,7 +400,7 @@ export class AppereanceBookingComponent implements OnInit {
     }
   }
 
-  patchTime(time: string) {
+  patchTime(time: any) {
     // let formattedTime = this.commonService.formatTime(time);
 
     var timeParts = time.split(":");
