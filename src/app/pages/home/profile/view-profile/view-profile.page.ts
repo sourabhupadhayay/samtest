@@ -28,7 +28,7 @@ export class ViewProfilePage implements OnInit {
     public modalCtrl: ModalController,
     private coreService: CoreService,
     private apiService: DataService,
-    private constantService: ConstantService,
+    public constantService: ConstantService,
     private router: Router,
     private commonService: CommonService,
     public popoverController: PopoverController,
