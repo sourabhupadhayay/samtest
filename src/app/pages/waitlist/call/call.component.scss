@@ -64,6 +64,12 @@ ion-content {
         }
         .name-part{text-align: center;
           p{text-transform: capitalize; font-weight: 700; font-size: 0.875rem; color: var(--white-clr); margin: 0; display: inline-block;}
+          .calling-text{
+            display: block;
+            color: white;
+            margin-left: 15px;
+        
+          }
         }
     }
   }
@@ -158,4 +164,5 @@ ion-content {
   img {
     width: 50px;
   }
+  
 }

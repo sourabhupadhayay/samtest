@@ -35,6 +35,8 @@
           <!-- <img *ngIf="this.userDetail.profileUrl!=''" src="{{this.userDetail.profileUrl | profile}}"> -->
          
         <span *ngIf="commonService.callingAthleteDetails?.athleteProfilePicture==''">{{this.commonService.getInitials(this.commonService.callingAthleteDetails?.athleteName)}}</span>
+       
+
       </div>
       <div class="name-part" *ngIf="userRole != 'athlete'">
         <p>{{this.commonService.callingAthleteDetails?.athleteName}}</p>
@@ -51,6 +53,7 @@
       </div>
       <div class="name-part" *ngIf="userRole == 'athlete'">
         <p>{{this.commonService.callingFanDetail?.userName}}</p>
+       <span class="calling-text">calling...</span>
       </div>
 
     
