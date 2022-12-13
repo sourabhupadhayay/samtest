@@ -30,7 +30,7 @@ export class ViewProfilePage implements OnInit {
     private apiService: DataService,
     private constantService: ConstantService,
     private router: Router,
-    private commonService: CommonService,
+    public commonService: CommonService,
     public popoverController: PopoverController,
     private badge: Badge,
   ) {}
