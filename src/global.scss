@@ -729,3 +729,6 @@ app-invoice{
       font-size: 0.55rem;}
   }
 }
+.tabs-btn-main ion-tab-button::part(native){
+  overflow: visible;
+}
