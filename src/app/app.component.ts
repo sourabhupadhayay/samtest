@@ -61,7 +61,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.getPublicInfo();
     this.commonService.getAthleteEarnings()
     this.deepLinking();
+    if(this.authService.isAuthenticated()){
     this.getBadgeNotificationCount();
+    }
   }
 
   async ngOnInit() {

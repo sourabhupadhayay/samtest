@@ -175,8 +175,9 @@ export class ViewProfilePage implements OnInit {
           localStorage.removeItem("authDetail");
           localStorage.removeItem("authDetails");
           this.badge.clear();
-          location.reload()
+          
           this.router.navigate(["/auth/login"]);
+          location.reload()
         });
         
       } else {
