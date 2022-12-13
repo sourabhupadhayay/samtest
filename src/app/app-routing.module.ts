@@ -90,7 +90,11 @@ const routes: Routes = [
   {
     path: 'push-notification',
     loadChildren: () => import('./pages/push-notification/push-notification.module').then( m => m.PushNotificationPageModule)
+  },  {
+    path: 'help-section',
+    loadChildren: () => import('./pages/help-section/help-section.module').then( m => m.HelpSectionPageModule)
   },
+
  
 
 ];

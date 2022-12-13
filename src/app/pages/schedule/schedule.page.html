@@ -67,7 +67,7 @@
         Your Bubble Bills Earning On <span>BubbleApp</span>
       </h4>
       <h6 *ngIf="commonService.athleteEarnings!=null">
-        ${{commonService.athleteEarnings}}
+        ${{commonService.athleteEarnings | number: '1.0-2'}}
       </h6>
       <h6 *ngIf="commonService.athleteEarnings==null">
         $ 0

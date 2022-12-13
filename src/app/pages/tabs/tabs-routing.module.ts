@@ -31,6 +31,13 @@ const routes: Routes = [
             (m) => m.SchedulePageModule
           ),
       },
+      {
+        path: "help",
+        loadChildren: () =>
+          import("../help-section/help-section.module").then(
+            (m) => m.HelpSectionPageModule
+          ),
+      }
     ],
   },
 ];

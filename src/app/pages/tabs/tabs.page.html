@@ -1,32 +1,74 @@
 <ion-tabs mode="md">
   <ion-tab-bar slot="bottom" mode="md">
     <div class="tabs-btn-main">
-      <ion-tab-button tab="schedule" mode="md">
-        <img src="assets/icon/calendar-white.svg" />
-      </ion-tab-button>
+      <ion-tab-button data-cy="profile" tab="profile" class="profile tab-btn" mode="md">
+          <div class="tabs-inner-main">
 
-      <ion-tab-button
-        (click)="presentAppearanceBookingModal()"
-        class="main-btn"
-        mode="md"
-      >
-        <img src="assets/icon/tabs-main.svg" />
-      </ion-tab-button>
-
-      <ion-tab-button data-cy="profile" tab="profile" class="profile" mode="md">
-        <span *ngIf="userData?.profileUrl !==''">
-          <img [src]="userData?.profileUrl | profile" />
-        </span>
-
-        <div *ngIf="userData?.profileUrl ==''" class="inital">
-          <span class="initial__span">
-            {{nameInitials}}
+          
+          <!-- <span *ngIf="userData?.profileUrl !==''">
+            <img [src]="userData?.profileUrl | profile" />
           </span>
+
+          <div *ngIf="userData?.profileUrl ==''" class="inital">
+            <span class="initial__span">
+              {{nameInitials}}
+            </span>
+          </div> -->
+          <div class="icon-part">
+            <img class="white-clr" src="assets/icon/profile-icon.svg" />
+            <img class="blue-clr" src="assets/icon/profile-icon-b.svg" />
+          </div>
+        </div>
+        <div class="round-shap-main">
+          <div class="round-shap"></div>
         </div>
       </ion-tab-button>
-      <div class="menu-shape">
-        <img src="assets/images/tabs-bg.png" />
-      </div>
+
+      <ion-tab-button tab="schedule" mode="md" class="tab-btn">
+        <div class="tabs-inner-main">
+          <div class="icon-part">
+            <img class="white-clr" src="assets/icon/calendar-white.svg" />
+            <img class="blue-clr" src="assets/icon/calendar-b.svg" />
+          </div>
+        </div>
+        <div class="round-shap-main">
+          <div class="round-shap"></div>
+        </div>
+        
+      </ion-tab-button>
+
+      <ion-tab-button (click)="presentAppearanceBookingModal()" mode="md" class="tab-btn">
+        <div class="tabs-inner-main">
+          <div class="icon-part">
+            <img class="white-clr" src="assets/icon/add-btn.svg" />
+            <img class="blue-clr" src="assets/icon/add-btn-b.svg" />
+          </div>
+        </div>
+        <div class="round-shap-main">
+          <div class="round-shap"></div>
+        </div>
+      </ion-tab-button>
+
+      <ion-tab-button tab="help" mode="md" class="tab-btn">
+        <div class="tabs-inner-main">
+          <div class="icon-part">
+            <img class="white-clr" src="assets/icon/help.svg" />
+            <img class="blue-clr" src="assets/icon/help-b.svg" />
+          </div>
+        </div>
+        <div class="round-shap-main">
+          <div class="round-shap"></div>
+        </div>
+      </ion-tab-button>
+
+      
+    
+      
+<!-- 
+      <ion-tab-button tab="help" mode="md">
+        <img src="assets/icon/help.svg" />
+      </ion-tab-button> -->
+
     </div>
   </ion-tab-bar>
   <ion-modal
@@ -85,3 +127,12 @@
     </ng-template>
   </ion-modal>
 </ion-tabs>
+<svg width="0" height="0" >
+  <defs>
+    <filter id="goo">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="20" result="blur" id="blurFilter"/>
+      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 30 -15" result="goo" />
+      <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+    </filter>
+  </defs>
+</svg>
