@@ -25,6 +25,7 @@ export class SignupPage implements OnInit {
     phone: new FormControl<number | null>(null, [Validators.minLength(14)]),
     termCondition: new FormControl<boolean>(false),
   });
+  term:any;
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -34,7 +35,10 @@ export class SignupPage implements OnInit {
     private commonService: AuthModuleService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.policy();
+   
+  }
 
   onclick_cancel(): void {
     this.modalCtrl.dismiss();
@@ -73,5 +77,29 @@ export class SignupPage implements OnInit {
         );
       }
     });
+  }
+  policy(){
+    let request: Request = {
+      path: "auth/configuration/getTermsAndCondition",
+      
+    };
+
+    this.coreService.presentLoader(this.constantService.WAIT);
+
+    this.apiService.get(request).subscribe((response: Response) => {
+      this.coreService.dismissLoader();
+      if (response.status.code === this.constantService.STATUS_OK) {
+     
+       this.term=response.data.termsAndCondition;
+       console.log(this.term);
+     
+      } else {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_ERROR
+        );
+      }
+    });
+    
   }
 }

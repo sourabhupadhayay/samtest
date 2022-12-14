@@ -22,7 +22,7 @@ import {
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { TermsConditionsComponent } from "../terms-conditions/terms-conditions.component";
 import { format, utcToZonedTime } from "date-fns-tz";
-
+import * as moment from 'moment';
 @Component({
   selector: "app-appereance-booking",
   templateUrl: "./appereance-booking.component.html",
