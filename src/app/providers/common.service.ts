@@ -4,6 +4,7 @@ import { format, parseISO } from "date-fns";
 import { Subject } from "rxjs";
 import { ConstantService } from "./constant.service";
 
+import { AuthenticationService } from "./authentication.service";
 import { DataService, Request, Response } from "./data.service";
 
 @Injectable({
@@ -21,7 +22,7 @@ export class CommonService {
   athleteEarnings: number = 0;
   public $socketSubject: Subject<null> = new Subject();
   public $navigateSubject: Subject<null> = new Subject();
-  constructor(private apiService: DataService, private constantService: ConstantService) {
+  constructor(private apiService: DataService, private constantService: ConstantService,public authenticationService:AuthenticationService) {
 
   }
 
@@ -76,7 +77,7 @@ export class CommonService {
   }
   async getAthleteEarnings() {
    // let userRole: userRole = await this.core.getUserRoleFromStorage();
-   
+   if(this.authenticationService.isAuthenticated()){
       let request: any = {
         path: "core/event/athlete/cash",
         isAuth: true,
@@ -89,6 +90,7 @@ export class CommonService {
           this.athleteEarning = this.athleteEarnings;
         }
       });
+    }
      }
   athleteOnlineOfflineStatus() {
     let request: Request = {
