@@ -56,6 +56,10 @@ export class CoreService {
     return (await toast).present();
   }
   async presentLoader(message: string): Promise<void> {
+    console.log("loading ",this.isLoading)
+    if(!this.isLoading) {
+      this.dismissLoader();
+    }
     // Return;
     this.isLoading = true;
 
@@ -83,6 +87,7 @@ export class CoreService {
   async dismissLoader() {
     this.isLoading = false;
     this.loadingController.getTop().then(async (value) => {
+      // console.log("value ",value)
       if (value) {
         return await this.loadingController.dismiss();
       }
