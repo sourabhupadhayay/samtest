@@ -1,7 +1,7 @@
 <ion-tabs mode="md">
   <ion-tab-bar slot="bottom" mode="md">
     <div class="tabs-btn-main">
-      <ion-tab-button data-cy="profile" tab="profile" class="profile tab-btn" mode="md">
+      <ion-tab-button data-cy="profile" tab="profile" class=" tab-btn" mode="md">
           <div class="tabs-inner-main">
 
           
@@ -13,10 +13,26 @@
             <span class="initial__span">
               {{nameInitials}}
             </span>
-          </div> -->
+          </div> --> 
           <div class="icon-part">
-            <img class="white-clr" src="assets/icon/profile-icon.svg" />
-            <img class="blue-clr" src="assets/icon/profile-icon-b.svg" />
+            <!-- <img class="white-clr" src="assets/icon/profile-icon.svg" />
+            <img class="blue-clr" src="assets/icon/profile-icon-b.svg" /> -->
+            <span *ngIf="userData?.profileUrl !==''">
+              <img  [src]="userData?.profileUrl | profile" />
+            </span>  
+            <div *ngIf="userData?.profileUrl ==''" class="inital">
+              <span  class="initial__span">
+                {{nameInitials}}
+              </span>
+            </div>
+         
+            <!-- <span *ngIf="userData?.profileUrl !==''">
+              <img class="blue-clr" [src]="userData?.profileUrl | profile" /></span>  
+              <div *ngIf="userData?.profileUrl ==''" class="inital">
+                <span class="blue-clr" >
+                  {{nameInitials}}
+                </span>
+              </div> -->
           </div>
         </div>
         <div class="round-shap-main">
