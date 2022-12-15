@@ -18,7 +18,8 @@ export class CommonService {
   callingFanDetail:any | null =null;
   athleteEarning:any;
   badgeCount:number = 0;
- 
+  privacypolicy:any;
+  termconditions:any;
   athleteEarnings: number = 0;
   public $socketSubject: Subject<null> = new Subject();
   public $navigateSubject: Subject<null> = new Subject();
@@ -187,5 +188,25 @@ export class CommonService {
         return this.badgeCount
       });
     
+  }
+  async privacy(){
+    let request: any = {
+      path: "auth/configuration/getPrivacyPolicy",
+    };
+      this.apiService.get(request).subscribe((response: any) => {
+        this.privacypolicy = response.data;
+        return this.privacypolicy;       
+      });
+    
+  }
+  termcondition(){
+    let request: Request = {
+      path: "auth/configuration/getTermsAndCondition",
+      
+    };
+    this.apiService.get(request).subscribe((response: any) => {
+      this.termconditions = response.data;
+      return this.termconditions;
+    });
   }
 }

@@ -440,7 +440,7 @@
 <ion-modal #CreateAppearance class="small-modal">
   <ng-template>
     <ion-header mode="md">
-      <h3 >Bid Now</h3>
+      <h3>Bid to bubble up</h3>
     </ion-header>
 
     <div class="inner-content">
@@ -451,11 +451,11 @@
         <p *ngIf="eventType=='Paid'">
           Athlete will call you soon
         </p>
-        <h5 *ngIf="eventType=='Free'">
-          Your Passion is Strong Enough
-        </h5>
+        <!-- <h5 *ngIf="eventType=='Free'">
+          Wait for free or bid to skip to the front of the line
+        </h5> -->
         <p *ngIf="eventType=='Free'">
-          Choose paid to end your passion.
+          Wait for free or bid to skip to the front of the line
         </p>
         <div class="radio-btn">
           <ion-radio-group  [(ngModel)]="eventType" mode="md">
