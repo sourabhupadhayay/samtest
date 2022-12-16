@@ -77,6 +77,7 @@ export class AppereanceBookingComponent implements OnInit {
     }
     this.renderer.appendChild(document.head, script);
     this.initAppearanceForm();
+    this.fanForm.get('duration').disable();
     this.getUserRole();
     this.eventTypeSelected();
     this.getSelectedAthlete();
