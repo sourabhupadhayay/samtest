@@ -102,8 +102,8 @@ export class CardComponent implements OnInit {
   }
   async presentAlert() {
     const alert = await this.alertController.create({
-      header: "Calling soon",
-      message: "Athlete will call you soon",
+      header: "Coming soon",
+      // message: "Athlete will call you soon",
       buttons: ["OK"],
     });
 
