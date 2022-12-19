@@ -73,6 +73,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.callingAthlete();
     const source = interval(60000);
     this.socketSubscription = source.subscribe((val) => this.onlineStatus());
+    this.commonService.privacy();
+    this.commonService.termcondition();
   }
 
   

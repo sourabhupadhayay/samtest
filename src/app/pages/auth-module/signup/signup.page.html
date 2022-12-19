@@ -185,7 +185,7 @@
 
     <ion-content>
       <ion-grid class="content-part">
-        <p [innerHTML]="term"></p>
+        <p [innerHtml]="this.commonservice.termconditions"></p>
       </ion-grid>
     </ion-content>
   </ng-template>
@@ -207,12 +207,7 @@
 
     <ion-content>
       <ion-grid class="content-part">
-     
-        <!-- <div ><p *ngFor="let data of term" >{{data}}</p> -->
-        <!-- <p [innerHTML]="data"></p> -->
-        <!-- </div> -->
-
-         
+        <p [innerHtml]="this.commonservice.privacypolicy"></p>
       </ion-grid>
     </ion-content>
   </ng-template>

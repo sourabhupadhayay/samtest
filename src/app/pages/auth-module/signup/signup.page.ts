@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { ModalController } from "@ionic/angular";
 import { EMAIL_PATTERN } from "src/app/helpers/emailValidation";
+import { CommonService } from "src/app/providers/common.service";
 
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
@@ -32,12 +33,11 @@ export class SignupPage implements OnInit {
     private apiService: DataService,
     private router: Router,
     private constantService: ConstantService,
-    private commonService: AuthModuleService
+    private commonService: AuthModuleService,
+    public commonservice: CommonService,
   ) {}
 
   ngOnInit() {
-    this.policy();
-   
   }
 
   onclick_cancel(): void {
@@ -78,28 +78,5 @@ export class SignupPage implements OnInit {
       }
     });
   }
-  policy(){
-    let request: Request = {
-      path: "auth/configuration/getTermsAndCondition",
-      
-    };
-
-    this.coreService.presentLoader(this.constantService.WAIT);
-
-    this.apiService.get(request).subscribe((response: Response) => {
-      this.coreService.dismissLoader();
-      if (response.status.code === this.constantService.STATUS_OK) {
-     
-       this.term=response.data.termsAndCondition;
-       console.log(this.term);
-     
-      } else {
-        this.coreService.showToastMessage(
-          response.status.description,
-          this.coreService.TOAST_ERROR
-        );
-      }
-    });
-    
-  }
+ 
 }
