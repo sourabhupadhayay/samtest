@@ -3,7 +3,7 @@
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "com.bubble.app",
+      "package_name": "com.bubble_app_9093.app",
       "sha256_cert_fingerprints": [
         "5B:C6:EC:CF:2E:BF:DB:B8:D4:01:BA:5B:E9:FF:16:6F:54:11:9A:DD:41:9F:C4:41:04:1A:98:FE:7A:6D:24:EB"
       ]
