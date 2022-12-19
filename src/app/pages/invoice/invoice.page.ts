@@ -139,7 +139,23 @@ export class InvoicePage implements OnInit {
     if(event.target.value !== '')
      event.target.value = parseFloat(event.target.value).toFixed(2)
     }
-
+    charOnly(evt: any): boolean {
+      var charCode = evt.charCode
+        ? evt.charCode
+        : evt.keyCode
+          ? evt.keyCode
+          : evt.which
+            ? evt.which
+            : 0;
+      if (
+        charCode > 32 &&
+        (charCode < 65 || charCode > 90) &&
+        (charCode < 97 || charCode > 122)
+      ) {
+        return false;
+      }
+      return true;
+    }
 
   getIpAddresss() {
     this.http.get<{ip:string}>('https://jsonip.com')
@@ -176,7 +192,7 @@ export class InvoicePage implements OnInit {
 
   addBankAccount() {
     let data =  this.bankDetailsForm.value;
-    if(this.bankDetailsForm.valid) {
+    if(this.bankDetailsForm.valid && this.bankDetailsForm.value.accountNumber.length == 9) {
       let request: any = {
         path: "core/payment/bank/add?ipAddress=" + this.ipAddress,
         data: {
@@ -207,6 +223,12 @@ export class InvoicePage implements OnInit {
         "Please fill all required details",
         this.coreService.TOAST_ERROR
       );
+      if(this.bankDetailsForm.value.accountNumber.length < 9){
+        this.coreService.showToastMessage(
+          "Account number must be exactly 9 characters.",
+          this.coreService.TOAST_ERROR
+        );
+      }
     }
   }
 
