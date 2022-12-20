@@ -1,7 +1,8 @@
 import { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
-  appId: "com.bubble.app",
+  // appId: "com.bubble.app",
+  appId: "com.bubble_app_9093.app",
   appName: "bubble_app",
   webDir: "www",
   bundledWebRuntime: false,
