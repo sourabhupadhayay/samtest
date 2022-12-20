@@ -13,6 +13,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatIconModule } from "@angular/material/icon";
 import { HomeModule } from "./pages/home/home.module";
 import { Badge } from '@awesome-cordova-plugins/badge/ngx';
+import { NativeAudio } from "@awesome-cordova-plugins/native-audio/ngx";
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,6 +29,7 @@ import { Badge } from '@awesome-cordova-plugins/badge/ngx';
     
   ],
   providers: [
+    NativeAudio,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: HTTP_INTERCEPTORS,

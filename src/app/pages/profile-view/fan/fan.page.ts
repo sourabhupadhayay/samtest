@@ -41,6 +41,7 @@ export class fanPage implements OnInit {
           this.coreService.presentLoader(this.constantService.WAIT);
           let request: Request = {
             path: "auth/users/currentUser?userId=" + params.get("id"),
+            isAuth: true,
           };
 
           return this.apiService.get(request);

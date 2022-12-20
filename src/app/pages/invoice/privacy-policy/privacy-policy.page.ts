@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IonModal, ModalController } from "@ionic/angular";
+import { CommonService } from "src/app/providers/common.service";
 @Component({
   selector: 'app-privacy-policy',
   templateUrl: './privacy-policy.page.html',
@@ -7,7 +8,7 @@ import { IonModal, ModalController } from "@ionic/angular";
 })
 export class PrivacyPolicyPage implements OnInit {
 
-  constructor(public modalCtrl: ModalController) { }
+  constructor(public modalCtrl: ModalController,  public commonService: CommonService,) { }
 
   ngOnInit() {
   }

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { IonSlides } from "@ionic/angular";
-import { Storage } from "@capacitor/storage";
+import { Preferences } from '@capacitor/preferences';
 @Component({
   selector: "app-welcome-screen",
   templateUrl: "./welcome-screen.page.html",
@@ -22,7 +22,7 @@ export class WelcomeScreenPage implements OnInit {
   }
 
   async skip() {
-    await Storage.set({ key: "first_time", value: "no" });
+    await Preferences.set({ key: "first_time", value: "no" });
     this.router.navigate(["/"], { replaceUrl: true });
   }
 }

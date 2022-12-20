@@ -247,7 +247,7 @@ export class SignupDetailsPage implements OnInit {
     return format(parseISO(value), "MM/dd/yyyy");
   }
 
-  patchDateValue(date: string) {
+  patchDateValue(date: any) {
     let formattedDate = this.formatDate(date);
 
     this.signUpDetailsForm.controls.birthDate.patchValue(formattedDate);

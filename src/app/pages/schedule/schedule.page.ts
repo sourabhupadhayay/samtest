@@ -77,6 +77,7 @@ export class SchedulePage implements OnInit {
         this.athleteScheduleRequest();
         this.getUserDataFromStorage();
         this.fanScheduleRequest();
+        this.commonService.getAthleteEarnings()
       }
     );
 
@@ -181,7 +182,7 @@ export class SchedulePage implements OnInit {
           pageNumber: this.pageNumber,
         },
         sort: {
-          orderBy: "DESC",
+          orderBy: "ASC",
           sortBy: "START_DATE",
         },
       },
@@ -228,7 +229,7 @@ export class SchedulePage implements OnInit {
           pageNumber: this.pageNumber,
         },
         sort: {
-          orderBy: "DESC",
+          orderBy: "ASC",
           sortBy: "START_DATE",
         },
       },

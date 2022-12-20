@@ -16,12 +16,7 @@ import {
   Subscriber,
 } from "@opentok/client";
 
-import {
-  CoreService,
-  userRole,
-  UserRole,
-} from "src/app/providers/core.service";
-
+import { CoreService, userRole } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { switchMap } from "rxjs/operators";
 import { ConstantService } from "src/app/providers/constant.service";
@@ -42,11 +37,11 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild("fanContainer") fanElement: ElementRef;
   isAudioMuted: boolean = false;
   isVideoOn: boolean = true;
-  publisher: Publisher;
+  publisher: OT.Publisher;
   userRole: userRole;
   userData: any;
-  session: Session;
-  subscribe: Subscriber;
+  session: OT.Session;
+  subscribe: OT.Subscriber;
   apiKey: any;
   sessionId: string;
   token: string;
@@ -61,6 +56,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   streams: any = [];
   userDetail:any=[]
   nameInitials:string
+  OT:any
   constructor(
     private apiService: DataService,
     private coreService: CoreService,
@@ -68,9 +64,11 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef,
     private constantService: ConstantService,
-    private core: CoreService,
     public commonService: CommonService
-  ) {}
+  ) {
+   
+   
+  }
 
   ngOnInit() {
     this.keepDeviceAwake();
@@ -171,7 +169,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getSession() {
     console.log("ankita session called");
-    this.session = initSession(this.apiKey, this.sessionId);
+    this.session = OT.initSession(this.apiKey, this.sessionId);
     this.session.connect(this.token, (error) => {
       if (error) {
         console.log(error);
@@ -216,7 +214,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     // }
   }
   createPublisher() {
-    this.publisher = initPublisher(this.athleteElement.nativeElement, {
+    this.publisher =OT.initPublisher(this.athleteElement.nativeElement, {
       width: "100%",
       height: "100%",
       insertMode: "replace",
@@ -334,8 +332,8 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   async callDisconnectSocket() {
-    let userRole: userRole = await this.core.getUserRoleFromStorage();
-    let userDetails = await this.core.getUserDataFromStorage();
+    let userRole: userRole = await this.coreService.getUserRoleFromStorage();
+    let userDetails = await this.coreService.getUserDataFromStorage();
     console.log("CALL DISCONNECT call");
     
     this.socket = Stomp.over(
@@ -377,9 +375,9 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
               msg.bidState !== "COMPLETED"
             ) {
               console.log("if 2")
-              this.core.showToastMessage(
+              this.coreService.showToastMessage(
                 "Fan is busy. Please connect after sometime",
-                this.core.TOAST_ERROR
+                this.coreService.TOAST_ERROR
               );
             }
 

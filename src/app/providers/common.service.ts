@@ -4,6 +4,7 @@ import { format, parseISO } from "date-fns";
 import { Subject } from "rxjs";
 import { ConstantService } from "./constant.service";
 
+import { AuthenticationService } from "./authentication.service";
 import { DataService, Request, Response } from "./data.service";
 
 @Injectable({
@@ -17,11 +18,12 @@ export class CommonService {
   callingFanDetail:any | null =null;
   athleteEarning:any;
   badgeCount:number = 0;
- 
+  privacypolicy:any;
+  termconditions:any;
   athleteEarnings: number = 0;
   public $socketSubject: Subject<null> = new Subject();
   public $navigateSubject: Subject<null> = new Subject();
-  constructor(private apiService: DataService, private constantService: ConstantService) {
+  constructor(private apiService: DataService, private constantService: ConstantService,public authenticationService:AuthenticationService) {
 
   }
 
@@ -76,7 +78,7 @@ export class CommonService {
   }
   async getAthleteEarnings() {
    // let userRole: userRole = await this.core.getUserRoleFromStorage();
-   
+   if(this.authenticationService.isAuthenticated()){
       let request: any = {
         path: "core/event/athlete/cash",
         isAuth: true,
@@ -89,6 +91,7 @@ export class CommonService {
           this.athleteEarning = this.athleteEarnings;
         }
       });
+    }
      }
   athleteOnlineOfflineStatus() {
     let request: Request = {
@@ -185,5 +188,25 @@ export class CommonService {
         return this.badgeCount
       });
     
+  }
+  async privacy(){
+    let request: any = {
+      path: "auth/configuration/getPrivacyPolicy",
+    };
+      this.apiService.get(request).subscribe((response: any) => {
+        this.privacypolicy = response.data;
+        return this.privacypolicy;       
+      });
+    
+  }
+  termcondition(){
+    let request: Request = {
+      path: "auth/configuration/getTermsAndCondition",
+      
+    };
+    this.apiService.get(request).subscribe((response: any) => {
+      this.termconditions = response.data;
+      return this.termconditions;
+    });
   }
 }

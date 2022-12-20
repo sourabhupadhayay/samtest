@@ -33,11 +33,14 @@
   <div class="overlay-bg"></div>
 
   <div class="call-buttons">
-    <ion-button (click)="joinCall()">
+    <!-- <ion-button (click)="joinCall()">
       <img src="assets/images/call-green.png" />
-    </ion-button>
+    </ion-button> -->
     <ion-button>
       <img (click)="disconnectCall()" src="assets/images/call-red.png" />
+    </ion-button>
+    <ion-button (click)="joinCall()">
+      <img src="assets/images/call-green.png" />
     </ion-button>
   </div>
 </ion-content>

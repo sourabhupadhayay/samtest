@@ -1,9 +1,7 @@
 import { NgModule } from "@angular/core";
-import { Routes, RouterModule } from "@angular/router";
+import { Routes, RouterModule } from "@angular/router"; 
 import { CallComponent } from "./call/call.component";
-
 import { IncomingCallComponent } from "./incoming-call/incoming-call.component";
-
 import { WaitlistPage } from "./waitlist.page";
 
 const routes: Routes = [
@@ -15,6 +13,10 @@ const routes: Routes = [
     path: "incoming-call/:id",
     component: IncomingCallComponent,
   },
+  //  {
+  //   path: "call/:id",
+  //   component: CallComponent,
+  // },
   {
     path: "call/:id",
     component: CallComponent,

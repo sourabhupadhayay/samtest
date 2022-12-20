@@ -99,6 +99,7 @@ export class AthletePage implements OnInit, OnDestroy {
           this.athleteId = params.get("id");
           let request: Request = {
             path: "auth/users/currentUser?userId=" + params.get("id"),
+            isAuth: true,
           };
 
           return this.apiService.get(request);

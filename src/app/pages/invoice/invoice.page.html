@@ -3,7 +3,7 @@
     <div class="title-part">
       <ion-item lines="none">
         <ion-icon
-          routerLink="/tabs/schedule"
+          (click)="back()"
           slot="start"
           name="arrow-back-outline"
         ></ion-icon>
@@ -45,7 +45,7 @@
           </ion-text>
         </ion-item>
         <div class="ammount">
-          <h4>${{athleteEarnings}}</h4>
+          <h4>${{athleteEarnings | number: '1.0-2'}}</h4>
           <span>Total Bubble Cash</span>
         </div>
       </div>
@@ -92,7 +92,7 @@
                   <h4>{{summary.title}} <span>{{summary.fees}}</span></h4>
                 </ion-label>
                 <ion-text>
-                  <h4>$ {{summary.amount}}</h4>
+                  <h4>$ {{summary.amount | number: '1.0-2'}}</h4>
                 </ion-text>
               </ion-item>
 

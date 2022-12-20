@@ -6,8 +6,7 @@ import { EMAIL_PATTERN } from "src/app/helpers/emailValidation";
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
-import { Storage } from "@capacitor/storage";
-
+import { Preferences } from '@capacitor/preferences';
 import { Platform } from "@ionic/angular";
 import {
   FacebookLogin,
@@ -109,7 +108,7 @@ export class LoginPage implements OnInit {
           console.log("eaning");
           
           localStorage.setItem("authDetails", JSON.stringify(response.data));
-          Storage.set({
+          Preferences.set({
             key: "userDetails",
             value: JSON.stringify(response.data),
           }).then(() => {
@@ -135,7 +134,7 @@ export class LoginPage implements OnInit {
         if (response.status.code === this.constantService.STATUS_OK) {
           this.commonService.getAthleteEarnings()
           localStorage.setItem("authDetails", JSON.stringify(response.data));
-          Storage.set({
+          Preferences.set({
             key: "userDetails",
             value: JSON.stringify(response.data),
           }).then(() => {
@@ -171,7 +170,7 @@ export class LoginPage implements OnInit {
           response.status.description,
           this.coreService.TOAST_SUCCESS
         );
-        Storage.set({
+        Preferences.set({
           key: "userDetails",
           value: JSON.stringify(response.data),
         }).then(() => {
