@@ -9,9 +9,11 @@ ion-header {
     ion-icon {
       cursor: pointer;
       color: var(--white-clr);
-      font-size: 1.5rem;
-      margin-left: 7px;
-      margin-top: 10px;
+      font-size: 1.7rem;
+      padding-left: 7px;
+      padding-top: 10px;
+      padding-bottom: 7px;
+      padding-right: 10px;
     }
   }
 }
@@ -204,13 +206,14 @@ ion-content {
 
       .forgot-pass {
         text-align: right;
-        padding: 10px 15px;
+        padding: 10px 10px;
         p {
           cursor: pointer;
           color: var(--white-clr);
           margin: 0;
-          font-size: 0.75rem;
+          font-size: 0.875rem;
           display: inline-block;
+          padding: 5px;
         }
       }
 
@@ -289,7 +292,7 @@ ion-content {
 
       .social-media {
         text-align: center;
-        padding: 0 15px;
+        padding: 10px 15px;
         ion-button {
           --background: var(--white-clr);
           --background-focused: var(--white-clr);
@@ -298,8 +301,8 @@ ion-content {
           
           --padding-start: 0rem;
           --padding-end: 0rem;
-          height: 40px;
-          width: 40px;
+          height: 45px;
+          width: 45px;
           --border-radius: 50%;
           box-shadow: none;
           margin: 5px 10px;
