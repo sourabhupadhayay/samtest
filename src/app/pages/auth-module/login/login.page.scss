@@ -177,6 +177,8 @@ ion-content {
               margin-top: -17px;
               color: var(--black-clr);
               --color: var(--black-clr);
+              --padding-top: 13px;
+              --padding-bottom: 13px;
             }
             img {
               cursor: pointer;
@@ -315,7 +317,7 @@ ion-content {
 
       .create-account {
         text-align: center;
-        padding: 10px 15px;
+        padding: 5px 15px 15px;
         p {
           cursor: pointer;
           color: var(--white-clr);
