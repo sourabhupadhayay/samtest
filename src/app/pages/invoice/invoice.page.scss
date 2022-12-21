@@ -3,10 +3,10 @@ ion-header {
       --background: transparent;
       --border-width: 0;
       position: absolute;
-      top: 0;
+      top: 15px;
       left: 0;
       z-index: 9;
-      .title-part {
+      .title-part {padding-right: 15px;
         // position: sticky;
         // top: 0;
         // z-index: 999 ;
