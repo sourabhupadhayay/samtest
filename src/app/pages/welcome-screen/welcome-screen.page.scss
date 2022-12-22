@@ -54,7 +54,8 @@ ion-slide {
 }
 .buttons {
   display: flex;
-  justify-content: space-between;
+  // justify-content: space-between;
+  justify-content: end;
   width: 100%;
     padding: 0px 5px;
     position: absolute; bottom: 15px; left: 0; z-index: 999;
