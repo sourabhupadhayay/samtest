@@ -20,7 +20,7 @@ import { Badge } from '@awesome-cordova-plugins/badge/ngx';
 export class ViewProfilePage implements OnInit {
   currentUserRole:any | "fan" | "athlete";
 
-  userData: any | null = null;
+  userData: any | null = null; 
   nameInitials: string;
   profileSubscription: Subscription;
   badgeCount :number = 0;
