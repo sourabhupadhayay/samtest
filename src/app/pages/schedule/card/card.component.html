@@ -4,7 +4,7 @@
       <div class="card" [ngClass]="cardBorderClass()">
         <!-- arrow and border css class start  -->
         <ng-container *ngIf="userRole == 'athlete'">
-          <div class="card__slideIcon">
+          <div  *ngIf="eventState == 'APPROVED'" class="card__slideIcon">
             <img src="assets/images/blue-notch.png" alt="" />
             <span class="arrow-move">
               <img src="assets/icon/arrow-left.svg" />

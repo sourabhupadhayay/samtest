@@ -100,6 +100,7 @@
                     [showDefaultButtons]="true"
                     presentation="time"
                     (ionChange)="setTimeValue(dateTime1.value)"
+                    [value] = "starttime"
                   >
                     <span slot="title" class="tile-font">Select time</span></ion-datetime
                   >
@@ -138,7 +139,7 @@
                     hourCycle="h23"
                     #dateTime
                     [showDefaultButtons]="true"
-                    value="00:00"
+                    [value]="selectduration"
                     (ionChange)="patchTime(dateTime.value)"
                   >
                     <span slot="title" class="tile-font">Select duration</span></ion-datetime
@@ -331,6 +332,7 @@
                     [showDefaultButtons]="true"
                     presentation="time"
                     (ionChange)="setTimeValue(dateTime.value)"
+                     [value] = "starttime"
                   >
                     <span slot="title" class="tile-font">Select time</span></ion-datetime
                   >
@@ -374,7 +376,7 @@
                     hourCycle="h23"
                     #dateTime
                     [showDefaultButtons]="true"
-                    value="00:00"
+                    [value]="selectduration"
                     (ionChange)="patchTime(dateTime.value)"
                   >
                     <span slot="title" class="tile-font">Select duration</span></ion-datetime

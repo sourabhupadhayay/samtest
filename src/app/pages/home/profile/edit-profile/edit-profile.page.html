@@ -153,7 +153,7 @@
             <ion-label>Make my birthday visible to all users</ion-label>
           </ion-item>
         </div>
-        <div class="input-box">
+        <div class="input-box" *ngIf="currentUserRole == 'athlete'">
           <ion-item lines="none">
             <ion-label position="stacked" mode="ios">Team</ion-label>
             <ion-input
@@ -182,7 +182,7 @@
           </div>
         </div>
         <div class="input-box">
-          <ion-item lines="none">
+          <ion-item lines="none" *ngIf="currentUserRole =='athlete'">
             <ion-label position="stacked" mode="ios">Team state</ion-label>
             <ion-input
               data-cy="state"
