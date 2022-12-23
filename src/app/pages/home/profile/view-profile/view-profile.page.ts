@@ -18,7 +18,7 @@ import { Badge } from '@awesome-cordova-plugins/badge/ngx';
   styleUrls: ["./view-profile.page.scss"],
 })
 export class ViewProfilePage implements OnInit {
-  currentUserRole: "fan" | "athlete";
+  currentUserRole:any | "fan" | "athlete";
 
   userData: any | null = null;
   nameInitials: string;
