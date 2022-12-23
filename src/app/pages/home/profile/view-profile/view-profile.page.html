@@ -119,7 +119,7 @@
           <h5>Phone no.</h5>
           <p>{{userData?.phone == '' ? '-' : userData?.phone }}</p>
         </div>
-        <div class="details-box">
+        <div class="details-box" *ngIf="this.userData?.userRole==athlete">
           <h5>Categories</h5>
           <p *ngFor="let game of userData?.categories">{{game}}</p>
         </div>
