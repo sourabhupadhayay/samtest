@@ -55,8 +55,8 @@ export class AppereanceBookingComponent implements OnInit {
   eventStartTime: any;
   defaultDate = new Date().toISOString();
   maxData: any = new Date().getFullYear() + 5;
-  starttime:any;
-  selectduration:any="00:00";
+  starttime: any;
+  selectduration: any = "00:00";
   constructor(
     public modalCtrl: ModalController,
     private fb: FormBuilder,
@@ -79,7 +79,7 @@ export class AppereanceBookingComponent implements OnInit {
     }
     this.renderer.appendChild(document.head, script);
     this.initAppearanceForm();
-    this.fanForm.get('duration').disable();
+    this.fanForm.get("duration").disable();
     this.getUserRole();
     this.eventTypeSelected();
     this.getSelectedAthlete();
@@ -111,7 +111,7 @@ export class AppereanceBookingComponent implements OnInit {
     }
     this.defaultDate = this.currentDate;
     console.log("iso date", this.currentDate);
-    this.starttime=this.currentDate;
+    this.starttime = this.currentDate;
   }
   toIsoString(date) {
     var tzo = -date.getTimezoneOffset(),
@@ -353,7 +353,7 @@ export class AppereanceBookingComponent implements OnInit {
     console.log("date ", this.isoDate);
   }
   setTimeValue(time: any) {
-    this.starttime=time;
+    this.starttime = time;
     if (!time) {
       return;
     }
@@ -445,7 +445,7 @@ export class AppereanceBookingComponent implements OnInit {
 
   patchTime(time: any) {
     // let formattedTime = this.commonService.formatTime(time);
-this.selectduration=time;
+    this.selectduration = time;
     var timeParts = time.split(":");
 
     let hour = timeParts[0];

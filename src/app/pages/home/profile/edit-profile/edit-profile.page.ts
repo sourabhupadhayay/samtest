@@ -38,7 +38,7 @@ export class EditProfilePage implements OnInit {
 
   loggedInUserData: any;
   nameInitials: string;
-  currentUserRole: "fan" | "athlete";
+  currentUserRole: any | "fan" | "athlete";
   isUserProfileComplete: boolean = true;
   badgeCount:any;
   constructor(
@@ -81,9 +81,8 @@ export class EditProfilePage implements OnInit {
     this.currentUserRole = this.commonService.getUserType(
       this.loggedInUserData.roles
     );
-
-    this.initForm();
     this.getCurrentUserDetails();
+    this.initForm();
   }
   initForm() {
     if (this.currentUserRole == "fan") {

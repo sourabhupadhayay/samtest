@@ -142,7 +142,8 @@ export class AppComponent implements OnInit, OnDestroy {
       });
       setTimeout(() => {
         this.isShowingSplashScreen = false;
-      }, 5000);
+      }, 3000);
+      //splash time is reduced to 3 sec from 5 sec
     });
   }
 
