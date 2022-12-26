@@ -366,6 +366,10 @@ export class EditProfilePage implements OnInit {
     });
   }
   validatePhoneFanForm(): boolean {
+    if(!this.fanProfileForm.controls.phone.value){
+      return;
+    }
+    
     if (
       this.fanProfileForm.controls.phone.value != "" &&
       this.fanProfileForm.controls.phone.value.length < 14
