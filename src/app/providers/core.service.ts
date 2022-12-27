@@ -62,7 +62,10 @@ export class CoreService {
     }
     // Return;
     this.isLoading = true;
-
+    if(this.isLoading==true) {
+      this.dismissLoader();
+    }
+    
     return this.loadingController
       .create({
         spinner: "crescent",

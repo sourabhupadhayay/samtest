@@ -9,7 +9,7 @@ export class Configuration {
     } else if (this.state == "qa") {
       this.BASE_URL = "https://qa-apis.riskrelease.com/";
     } else if (this.state == "production") {
-      this.BASE_URL = "https://prod-apis.riskrelease.com/";
+      this.BASE_URL = "https://prod-apis.bubbleapp.com/";
     } else if (this.state == "preprod") {
       //this.BASE_URL = "https://prod-apis.riskrelease.com/";
       this.BASE_URL = "https://preprod-apis.riskrelease.com/";

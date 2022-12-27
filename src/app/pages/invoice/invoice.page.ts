@@ -239,6 +239,9 @@ export class InvoicePage implements OnInit {
        amount : this.dwollaRequestAmount
     });
     this.transferAmountForm.controls['amount'].disable();
+    // this.transferAmountForm.controls['amount'].value.toFixed(2)
+   
+    
   }
 
   convertStringToNum(value:any) {

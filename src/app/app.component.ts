@@ -209,7 +209,8 @@ export class AppComponent implements OnInit, OnDestroy {
     Preferences.get({ key: "first_time" }).then(({ value }) => {
       console.log("first time",value);
       
-      if (!value) {
+      if (!value && this.authService.data.isLoggedIn==false) {
+      
         this.router.navigate(["/welcome-screen"]);
       }
     });
