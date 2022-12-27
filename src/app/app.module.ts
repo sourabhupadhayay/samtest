@@ -14,7 +14,10 @@ import { MatIconModule } from "@angular/material/icon";
 import { HomeModule } from "./pages/home/home.module";
 import { Badge } from '@awesome-cordova-plugins/badge/ngx';
 import { NativeAudio } from "@awesome-cordova-plugins/native-audio/ngx";
-
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireMessagingModule } from '@angular/fire/compat/messaging';
+import { environment } from '../environments/environment';
+import {ServiceWorkerModule } from'@angular/service-worker'
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -26,7 +29,9 @@ import { NativeAudio } from "@awesome-cordova-plugins/native-audio/ngx";
     BrowserAnimationsModule,
     MatIconModule,
     HomeModule,
-    
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireMessagingModule,
+    ServiceWorkerModule.register('combined-sw.js', {enabled: environment.production})
   ],
   providers: [
     NativeAudio,
@@ -40,4 +45,7 @@ import { NativeAudio } from "@awesome-cordova-plugins/native-audio/ngx";
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  
+ 
+}
