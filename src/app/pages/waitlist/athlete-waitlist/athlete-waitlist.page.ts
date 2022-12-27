@@ -15,8 +15,9 @@ import { CommonService } from "src/app/providers/common.service";
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
-import { NavController } from "@ionic/angular";
+import { NavController,ModalController } from "@ionic/angular";
 import { Subscription } from "rxjs";
+import { DismissmodalComponent } from "src/app/pages/schedule/dismissmodal/dismissmodal.component";
 @Component({
   selector: "athlete-waitlist",
   templateUrl: "./athlete-waitlist.page.html",
@@ -54,6 +55,7 @@ export class AthleteWaitlistPage implements OnInit, DoCheck, OnDestroy {
     public authenticationService: AuthenticationService,
     private navController: NavController,
     private cd: ChangeDetectorRef,
+    public modalCtrl: ModalController,
   ) {}
 
   ngOnInit() {
@@ -138,11 +140,22 @@ export class AthleteWaitlistPage implements OnInit, DoCheck, OnDestroy {
       },
     });
   }
-  eventEnd() {
+  async eventEnd() {
+ 
+    const modal: HTMLIonModalElement = await this.modalCtrl.create({
+      component: DismissmodalComponent,
+      cssClass: "small-modal",
+    });
+    modal.present();
     let request: any = {
       path: `core/event/complete/` + this.eventId,
       isAuth: true,
     };
+    const { data, role } = await modal.onDidDismiss();
+
+    if (!data) {
+      return;
+    }
     this.apiService.get(request).subscribe((response: Response) => {
       if (response["status"]["code"] === "OK") {
         this.coreService.showToastMessage(
