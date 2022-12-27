@@ -20,7 +20,8 @@ import {
   Token,
 } from "@capacitor/push-notifications";
 import { AuthModuleService } from "../auth-module.service";
-
+import { AngularFireMessaging } from '@angular/fire/compat/messaging';
+import { _FirebaseMessagingName } from "firebase/messaging/sw";
 @Component({
   selector: "app-login",
   templateUrl: "./login.page.html",
@@ -54,8 +55,10 @@ export class LoginPage implements OnInit {
     private route: ActivatedRoute,
     private commonService: CommonService,
     private platform: Platform,
-    private commonAuthData: AuthModuleService
+    private commonAuthData: AuthModuleService,
+    private afMessaging: AngularFireMessaging
   ) {
+  
     GoogleAuth.initialize({
       clientId:
         "573316732862-ihcsn2uu3cvnhq115s1ejvnbv5mko29t.apps.googleusercontent.com",
@@ -68,6 +71,7 @@ export class LoginPage implements OnInit {
   }
   ionViewWillEnter() {
     this.generateNotificationToken();
+    this.requestPushNotificationsPermission()
     this.returnUrl =
       this.route.snapshot.queryParams["returnUrl"] || "/tabs/home";
   }
@@ -275,5 +279,23 @@ export class LoginPage implements OnInit {
         // alert("Push action performed: " + JSON.stringify(notification));
       }
     );
+  }
+  requestPushNotificationsPermission() { // requesting permission
+    this.afMessaging.requestToken // getting tokens
+      .subscribe(
+        (token) => { // USER-REQUESTED-TOKEN
+          this.generatedToken=token
+          console.log('Permission granted! Save to the server!', token);
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+  }
+  getMessage(){
+    this.afMessaging.messages.subscribe(e=>{
+      console.log(e)
+    })
+
   }
 }
