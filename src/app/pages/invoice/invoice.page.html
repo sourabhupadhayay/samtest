@@ -45,7 +45,11 @@
           </ion-text>
         </ion-item>
         <div class="ammount">
-          <h4>${{athleteEarnings | number: '1.0-2'}}</h4>
+          <h4 *ngIf="athleteEarnings!=null">${{athleteEarnings | number: '1.0-2'}}</h4>
+          <h4 *ngIf="athleteEarnings==null">
+            $ 0
+          </h4>
+    
           <span>Total Bubble Cash</span>
         </div>
       </div>
@@ -134,8 +138,9 @@
                   <h4>Payment Amount</h4>
                 </ion-label>
                 <ion-text>
-                  <h4>$ {{(summarydetails.dwollaRequestAmount)?.toFixed(2)
+                  <h4 *ngIf="athleteEarnings!=null">$ {{(summarydetails.dwollaRequestAmount)?.toFixed(2)
                   }}</h4>
+                  <h4 *ngIf="athleteEarnings==null">$ 0</h4>
                 </ion-text>
               </ion-item>
             </div>
