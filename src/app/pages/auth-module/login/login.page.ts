@@ -6,7 +6,7 @@ import { EMAIL_PATTERN } from "src/app/helpers/emailValidation";
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
-import { Preferences } from '@capacitor/preferences';
+import { Preferences } from "@capacitor/preferences";
 import { Platform } from "@ionic/angular";
 import {
   FacebookLogin,
@@ -20,7 +20,7 @@ import {
   Token,
 } from "@capacitor/push-notifications";
 import { AuthModuleService } from "../auth-module.service";
-import { AngularFireMessaging } from '@angular/fire/compat/messaging';
+import { AngularFireMessaging } from "@angular/fire/compat/messaging";
 import { _FirebaseMessagingName } from "firebase/messaging/sw";
 @Component({
   selector: "app-login",
@@ -58,10 +58,9 @@ export class LoginPage implements OnInit {
     private commonAuthData: AuthModuleService,
     private afMessaging: AngularFireMessaging
   ) {
-  
     GoogleAuth.initialize({
       clientId:
-        "573316732862-ihcsn2uu3cvnhq115s1ejvnbv5mko29t.apps.googleusercontent.com",
+        "573316732862-471jaa7mbbjkvebb10pit81kkf5pdacm.apps.googleusercontent.com",
       scopes: ["profile", "email"],
     });
   }
@@ -71,7 +70,7 @@ export class LoginPage implements OnInit {
   }
   ionViewWillEnter() {
     this.generateNotificationToken();
-    this.requestPushNotificationsPermission()
+    this.requestPushNotificationsPermission();
     this.returnUrl =
       this.route.snapshot.queryParams["returnUrl"] || "/tabs/home";
   }
@@ -108,9 +107,8 @@ export class LoginPage implements OnInit {
       this.apiService.post(request, false).subscribe((response: Response) => {
         this.coreService.dismissLoader();
         if (response.status.code === this.constantService.STATUS_OK) {
-         
           console.log("eaning");
-          
+
           localStorage.setItem("authDetails", JSON.stringify(response.data));
           Preferences.set({
             key: "userDetails",
@@ -124,7 +122,6 @@ export class LoginPage implements OnInit {
               },
             });
           });
-          
         } else {
           this.coreService.showToastMessage(
             response.status.description,
@@ -136,7 +133,7 @@ export class LoginPage implements OnInit {
       this.apiService.post(request, false).subscribe((response: Response) => {
         this.coreService.dismissLoader();
         if (response.status.code === this.constantService.STATUS_OK) {
-          this.commonService.getAthleteEarnings()
+          this.commonService.getAthleteEarnings();
           localStorage.setItem("authDetails", JSON.stringify(response.data));
           Preferences.set({
             key: "userDetails",
@@ -169,7 +166,7 @@ export class LoginPage implements OnInit {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
         console.log("social");
-        
+
         this.coreService.showToastMessage(
           response.status.description,
           this.coreService.TOAST_SUCCESS
@@ -231,12 +228,10 @@ export class LoginPage implements OnInit {
     //   let result = (await FacebookLogin.login({
     //     permissions: this.FACEBOOK_PERMISSIONS,
     //   })) as FacebookLoginResponse;
-
     //   let RequestData = {
     //     socialAccessToken: result.accessToken.token,
     //     socialLoginType: "FACEBOOK",
     //   };
-
     //   this.socialLogin(RequestData);
     // } catch (e) {}
   }
@@ -280,22 +275,23 @@ export class LoginPage implements OnInit {
       }
     );
   }
-  requestPushNotificationsPermission() { // requesting permission
+  requestPushNotificationsPermission() {
+    // requesting permission
     this.afMessaging.requestToken // getting tokens
       .subscribe(
-        (token) => { // USER-REQUESTED-TOKEN
-          this.generatedToken=token
-          console.log('Permission granted! Save to the server!', token);
+        (token) => {
+          // USER-REQUESTED-TOKEN
+          this.generatedToken = token;
+          console.log("Permission granted! Save to the server!", token);
         },
         (error) => {
           console.error(error);
         }
       );
   }
-  getMessage(){
-    this.afMessaging.messages.subscribe(e=>{
-      console.log(e)
-    })
-
+  getMessage() {
+    this.afMessaging.messages.subscribe((e) => {
+      console.log(e);
+    });
   }
 }
