@@ -223,10 +223,10 @@ export class LoginPage implements OnInit {
   //facebook login
 
   async faceBookSignIn() {
-    // this.coreService.showToastMessage(
-    //   "Development under progress",
-    //   this.coreService.TOAST_INFO
-    // );
+    this.coreService.showToastMessage(
+      "Development under progress",
+      this.coreService.TOAST_INFO
+    );
     // try {
     //   let result = (await FacebookLogin.login({
     //     permissions: this.FACEBOOK_PERMISSIONS,

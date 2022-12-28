@@ -44,8 +44,8 @@
             <p>{{userData?.teamName}}</p>
             <p>{{userData?.teamState}} / {{userData?.country}}</p>
             <div class="bubble-bills">
-              <h6>
-                Bubble bills - <span>${{userData?.totalEventAmount}}</span>
+              <h6 *ngIf="currentUserRole =='athlete'">
+                Bubble cash - <span>${{userData?.totalEventAmount}}</span>
               </h6>
               <p>{{userData?.totalEventCount}} Appearances held</p>
             </div>
