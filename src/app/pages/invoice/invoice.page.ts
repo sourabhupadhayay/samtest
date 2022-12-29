@@ -32,6 +32,7 @@ export class InvoicePage implements OnInit {
   @ViewChild("transferModal") transferModal: IonModal;
   dwollaRequestAmount : number = 0;
   badgeCount :number = 0;
+  amountvalue:any;
   constructor(
                public modalCtrl: ModalController,
                public popoverController: PopoverController, 
@@ -239,8 +240,8 @@ export class InvoicePage implements OnInit {
        amount : this.dwollaRequestAmount
     });
     this.transferAmountForm.controls['amount'].disable();
-    // this.transferAmountForm.controls['amount'].value.toFixed(2)
-   
+    this.amountvalue= this.transferAmountForm.controls['amount'].value.toFixed(2);
+   console.log(this.transferAmountForm.controls['amount'])
     
   }
 
