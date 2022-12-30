@@ -20,4 +20,4 @@ export class Configuration {
 }
 
 type projectState = "staging" | "production" | "qa" | "preprod";
-export const configuration = new Configuration("staging");
+export const configuration = new Configuration("production");
