@@ -22,6 +22,13 @@ import {
 import { AuthModuleService } from "../auth-module.service";
 import { AngularFireMessaging } from "@angular/fire/compat/messaging";
 import { _FirebaseMessagingName } from "firebase/messaging/sw";
+import {
+  SignInWithApple,
+  AppleSignInResponse,
+  AppleSignInErrorResponse,
+  ASAuthorizationAppleIDRequest,
+} from "@awesome-cordova-plugins/sign-in-with-apple/ngx";
+
 @Component({
   selector: "app-login",
   templateUrl: "./login.page.html",
@@ -56,13 +63,15 @@ export class LoginPage implements OnInit {
     private commonService: CommonService,
     private platform: Platform,
     private commonAuthData: AuthModuleService,
-    private afMessaging: AngularFireMessaging
+    private afMessaging: AngularFireMessaging,
+    private signInWithApple: SignInWithApple
   ) {
     GoogleAuth.initialize({
       clientId:
         "573316732862-8md2qi83sjbk7a8ma42km4n918s4nvbj.apps.googleusercontent.com",
       scopes: ["profile", "email"],
     });
+    // this.applesign();
   }
 
   ngOnInit() {
@@ -293,5 +302,29 @@ export class LoginPage implements OnInit {
     this.afMessaging.messages.subscribe((e) => {
       console.log(e);
     });
+  }
+  applesign() {
+    this.signInWithApple
+      .signin({
+        requestedScopes: [
+          ASAuthorizationAppleIDRequest.ASAuthorizationScopeFullName,
+          ASAuthorizationAppleIDRequest.ASAuthorizationScopeEmail,
+        ],
+      })
+      .then((res: AppleSignInResponse) => {
+        // https://developer.apple.com/documentation/signinwithapplerestapi/verifying_a_user
+
+        let RequestData = {
+          socialAccessToken: res.identityToken,
+          socialLoginType: "APPLE",
+        };
+        this.socialLogin(RequestData);
+        console.log(res);
+        console.log(res.identityToken);
+      })
+      .catch((error: AppleSignInErrorResponse) => {
+        alert(error.code + " " + error.localizedDescription);
+        console.error(error);
+      });
   }
 }
