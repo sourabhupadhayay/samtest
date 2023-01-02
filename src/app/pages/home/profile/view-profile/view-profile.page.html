@@ -42,7 +42,7 @@
           <h5>{{userData?.fullName | titlecase}}</h5>
           <ng-container *ngIf="currentUserRole =='fan'">
             <p>{{userData?.teamName}}</p>
-            <p>{{userData?.teamState}} / {{userData?.country}}</p>
+            <p>{{userData?.teamState}} <b *ngIf="userData?.teamState == null">/</b> {{userData?.country}}</p>
             <div class="bubble-bills">
               <h6 *ngIf="currentUserRole =='athlete'">
                 Bubble cash - <span>${{userData?.totalEventAmount}}</span>
