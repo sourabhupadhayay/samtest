@@ -211,7 +211,7 @@ export class AppComponent implements OnInit, OnDestroy {
       
       if (!value && this.authService.data.isLoggedIn==false) {
       
-        this.router.navigate(["/welcome-screen"]);
+        this.router.navigate(["/bubble-screen"]);
       }
     });
   }
