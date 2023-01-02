@@ -8,7 +8,7 @@ import { CoreService, userRole, UserRole } from "./providers/core.service";
 import { DataService, Request } from "./providers/data.service";
 import { NetworkService } from "./providers/network.service";
 import { SplashScreen } from "@capacitor/splash-screen";
-import { Storage } from "@capacitor/storage";
+import { Preferences } from '@capacitor/preferences';
 import { Router } from "@angular/router";
 import { CommonService } from "./providers/common.service";
 import { Stomp } from "@stomp/stompjs";
@@ -24,7 +24,7 @@ import {
 import { AuthenticationService } from "./providers/authentication.service";
 import { Subscription, interval } from "rxjs";
 import { NavController } from "@ionic/angular";
-import {publish} from "rxjs/operators";
+import { Badge } from "@awesome-cordova-plugins/badge/ngx";
 
 @Component({
   selector: "app-root",
@@ -37,7 +37,8 @@ export class AppComponent implements OnInit, OnDestroy {
   socket: any;
   private socketSubscription: Subscription;
   intervalId: number;
-  userDetails:any;
+  userDetails: any;
+  badgeCount : number = 0;
   constructor(
     private apiservice: DataService,
     private _networkService: NetworkService,
@@ -49,22 +50,59 @@ export class AppComponent implements OnInit, OnDestroy {
     private zone: NgZone,
     private constantService: ConstantService,
     private authService: AuthenticationService,
-    private navController: NavController
+    private navController: NavController,
+    private badge: Badge,
+    private coreService: CoreService,
+    private apiService: DataService
   ) {
     this.initializeApp();
     this.backButton();
     this.hideSplashScreen();
     this.getPublicInfo();
-    this.onlineStatus();
+    this.commonService.getAthleteEarnings()
     this.deepLinking();
+    if(this.authService.isAuthenticated()){
+    this.getBadgeNotificationCount();
+    }
   }
 
   async ngOnInit() {
+    // await this.getBadgeNotificationCount();
+    // await this.getBadgeStatus(0);
     this.socketInit();
     this.callingAthlete();
     const source = interval(60000);
     this.socketSubscription = source.subscribe((val) => this.onlineStatus());
+    this.commonService.privacy();
+    this.commonService.termcondition();
+  }
 
+  
+  async getBadgeStatus(unreadCount:number) {
+    let count = await this.badge.set(unreadCount);
+    console.log("badge count ",count)
+   }
+
+   getBadgeNotificationCount() {
+    let request: any = {
+      path: "notification/notification/check/v2",
+      isAuth: true,
+    };
+    this.coreService.presentLoader(this.constantService.WAIT).then(() => {
+      this.apiService.get(request).subscribe((response: any) => {
+        this.coreService.dismissLoader();
+        if (response.status.code === this.constantService.STATUS_OK) {
+          this.badgeCount = response?.data?.unreadCount;
+          console.log("count ",this.badgeCount);
+          this.getBadgeStatus(this.badgeCount);
+        } else {
+          this.coreService.showToastMessage(
+            response.status.description,
+            this.coreService.TOAST_ERROR
+          );
+        }
+      });
+    });
   }
 
   async onlineStatus() {
@@ -84,11 +122,16 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   initializeApp(): void {
+    Preferences.get({ key: "first_time" }).then(({ value }) => {
+      console.log("initial",value);
+      
+    })
     this.platform.ready().then((): void => {
       this._networkEventsListener();
       this.initFacebook();
       this.isUserLoggedInFirstTime();
-      // this.registerNotification();
+      //this.registerNotification();
+     
     });
   }
 
@@ -99,13 +142,14 @@ export class AppComponent implements OnInit, OnDestroy {
       });
       setTimeout(() => {
         this.isShowingSplashScreen = false;
-      }, 5000);
+      }, 3000);
+      //splash time is reduced to 3 sec from 5 sec
     });
   }
 
   //integrate facebook login
   private async initFacebook() {
-    await FacebookLogin.initialize({ appId: "2063922043815263" });
+    await FacebookLogin.initialize({ appId: "676274650710402" });
   }
 
   //get common public info
@@ -162,9 +206,12 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   isUserLoggedInFirstTime() {
-    Storage.get({ key: "first_time" }).then(({ value }) => {
-      if (!value) {
-        this.router.navigate(["/welcome-screen"]);
+    Preferences.get({ key: "first_time" }).then(({ value }) => {
+      console.log("first time",value);
+      
+      if (!value && this.authService.data.isLoggedIn==false) {
+      
+        this.router.navigate(["/bubble-screen"]);
       }
     });
   }
@@ -183,7 +230,7 @@ export class AppComponent implements OnInit, OnDestroy {
     PushNotifications.addListener(
       "pushNotificationReceived",
       (notification: PushNotificationSchema) => {
-        alert("Push received: " + JSON.stringify(notification));
+        // alert("Push received: " + JSON.stringify(notification));
       }
     );
 
@@ -191,7 +238,7 @@ export class AppComponent implements OnInit, OnDestroy {
     PushNotifications.addListener(
       "pushNotificationActionPerformed",
       (notification: ActionPerformed) => {
-        alert("Push action performed: " + JSON.stringify(notification));
+        // alert("Push action performed: " + JSON.stringify(notification));
       }
     );
   }
@@ -202,9 +249,6 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     let userRole: userRole = await this.core.getUserRoleFromStorage();
-
-
-    console.log("roles",userRole);
     if (userRole == "athlete") {
       return;
     } else {
@@ -218,59 +262,61 @@ export class AppComponent implements OnInit, OnDestroy {
           this.socket.subscribe("/errors", (message) => {
             alert("Error " + message.body);
           });
-          this.userDetails  = localStorage.getItem('authDetails');
-          let value = localStorage.getItem('authDetails');
-          this.userDetails =JSON.parse(value);
+          this.userDetails = localStorage.getItem("authDetails");
+          let value = localStorage.getItem("authDetails");
+          this.userDetails = JSON.parse(value);
           this.send(this.userDetails["id"]);
+
           this.socket.subscribe("/topic/receiveCall", (message) => {
             let responseData = JSON.parse(message.body).content;
-            let value = localStorage.getItem('authDetails');
-            this.userDetails =JSON.parse(value);
-            console.log(responseData);
-            this.commonService.callingAthleteDetails = JSON.parse(responseData);
-            console.log( this.userDetails.id,this.commonService.callingAthleteDetails.userId);
-            if (
-              this.userDetails.id != this.commonService.callingAthleteDetails.userId
-            ) {
-              console.log("ifv call1");
+
+            let value = localStorage.getItem("authDetails");
+            this.userDetails = JSON.parse(value);
+            let id = JSON.parse(responseData);
+            if (this.userDetails.id != id.userId) {
               return;
-            }
-            if (
-              this.commonService.callingAthleteDetails.creatorPersona !== "USER"
-            ) {
-              // {
-              //   this.router.navigate([
-              //     "/waitlist/incoming-call/" +
-              //       this.commonService.callingAthleteDetails.id,
-              //   ]);
-              // } else {
-              //   this.router.navigate([
-              //     "/waitlist/incoming-call/" +
-              //       this.commonService.callingAthleteDetails.eventId,
-              //   ]);
-              // }
-              this.navController.navigateBack([
-                "/waitlist/incoming-call/" +
-                  this.commonService.callingAthleteDetails.id,
-              ]);
-              console.log("ifv call2");
             } else {
-              this.navController.navigateBack(
-                [
-                  "/waitlist/incoming-call/" +
-                    this.commonService.callingAthleteDetails.eventId,
-                ],
-                {
-                  queryParams: {
-                    bidId: this.commonService.callingAthleteDetails.id,
-                  },
-                }
+              this.commonService.callingAthleteDetails = JSON.parse(
+                responseData
               );
+              if (
+                this.commonService.callingAthleteDetails.creatorPersona !==
+                "USER"
+              ) {
+                // {
+                //   this.router.navigate([
+                //     "/waitlist/incoming-call/" +
+                //       this.commonService.callingAthleteDetails.id,
+                //   ]);
+                // } else {
+                //   this.router.navigate([
+                //     "/waitlist/incoming-call/" +
+                //       this.commonService.callingAthleteDetails.eventId,
+                //   ]);
+                // }
+                this.navController.navigateBack([
+                  "/waitlist/incoming-call/" +
+                    this.commonService.callingAthleteDetails.id,
+                ]);
+              } else {
+                this.navController.navigateBack(
+                  [
+                    "/waitlist/incoming-call/" +
+                      this.commonService.callingAthleteDetails.eventId,
+                  ],
+                  {
+                    queryParams: {
+                      bidId: this.commonService.callingAthleteDetails.id,
+                    },
+                  }
+                );
+              }
             }
           });
         },
         function (error) {
           console.log("STOMP error " + error);
+          return;
         }
       );
     }

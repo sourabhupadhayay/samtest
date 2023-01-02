@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Privacy-Policy</ion-title>
+    <ion-icon
+    slot="end"
+    name="close-outline"
+    (click)="onClickCancel()"
+  ></ion-icon>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid class="content-part">
+    <p [innerHtml]="this.commonService.privacypolicy"></p>
+  </ion-grid>
+</ion-content>

@@ -2,6 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import { Injectable } from "@angular/core";
 import { format, parseISO } from "date-fns";
 import { Subject } from "rxjs";
+import { ConstantService } from "./constant.service";
+
+import { AuthenticationService } from "./authentication.service";
 import { DataService, Request, Response } from "./data.service";
 
 @Injectable({
@@ -12,9 +15,17 @@ export class CommonService {
   public $profileSubject: Subject<any> = new Subject();
   profileUrl: string = "";
   callingAthleteDetails: any | null = null;
+  callingFanDetail:any | null =null;
+  athleteEarning:any;
+  badgeCount:number = 0;
+  privacypolicy:any;
+  termconditions:any;
+  athleteEarnings: number = 0;
   public $socketSubject: Subject<null> = new Subject();
+  public $navigateSubject: Subject<null> = new Subject();
+  constructor(private apiService: DataService, private constantService: ConstantService,public authenticationService:AuthenticationService) {
 
-  constructor(private apiService: DataService) {}
+  }
 
   public _calculateAge(birthday: Date) {
     // birthday is a date
@@ -23,7 +34,7 @@ export class CommonService {
     return Math.abs(ageDate.getUTCFullYear() - 1970);
   }
   getInitials(fullName: String): string {
-    let trimmedName = fullName.trim();
+    let trimmedName = fullName?.trim();
     let splitName = trimmedName.split(" ");
     let firstName = splitName[0];
     let lastName = splitName[1];
@@ -65,7 +76,23 @@ export class CommonService {
       this.publicInfo = response.data;
     });
   }
-
+  async getAthleteEarnings() {
+   // let userRole: userRole = await this.core.getUserRoleFromStorage();
+   if(this.authenticationService.isAuthenticated()){
+      let request: any = {
+        path: "core/event/athlete/cash",
+        isAuth: true,
+      };
+      this.apiService.get(request).subscribe((response: any) => {
+        if (response.status.code === this.constantService.STATUS_OK) {
+          this.athleteEarnings = response?.data?.totalEarning;
+          console.log("athleteEarnings",this.athleteEarnings);
+          
+          this.athleteEarning = this.athleteEarnings;
+        }
+      });
+    }
+     }
   athleteOnlineOfflineStatus() {
     let request: Request = {
       path: "auth/users/manage/status/change/true",
@@ -148,5 +175,38 @@ export class CommonService {
     }
 
     return `0${mDisplay}: ${sDisplay}s`;
+  }
+
+  getBadgeNotificationCount() {
+    let request: any = {
+      path: "notification/notification/check/v2",
+      isAuth: true,
+    };
+      this.apiService.get(request).subscribe((response: any) => {
+        this.badgeCount = response.data.unreadCount;
+        console.log("c ",this.badgeCount)
+        return this.badgeCount
+      });
+    
+  }
+  async privacy(){
+    let request: any = {
+      path: "auth/configuration/getPrivacyPolicy",
+    };
+      this.apiService.get(request).subscribe((response: any) => {
+        this.privacypolicy = response.data;
+        return this.privacypolicy;       
+      });
+    
+  }
+  termcondition(){
+    let request: Request = {
+      path: "auth/configuration/getTermsAndCondition",
+      
+    };
+    this.apiService.get(request).subscribe((response: any) => {
+      this.termconditions = response.data;
+      return this.termconditions;
+    });
   }
 }

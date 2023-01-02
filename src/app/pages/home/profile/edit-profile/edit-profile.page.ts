@@ -18,7 +18,7 @@ import {
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
-import { Storage } from "@capacitor/storage";
+import { Preferences } from '@capacitor/preferences';
 import { CommonService } from "src/app/providers/common.service";
 import { PopoverController } from '@ionic/angular';
 import { PushNotificationPage } from "../../../../pages/push-notification/push-notification.page";
@@ -38,8 +38,9 @@ export class EditProfilePage implements OnInit {
 
   loggedInUserData: any;
   nameInitials: string;
-  currentUserRole: "fan" | "athlete";
+  currentUserRole: any | "fan" | "athlete";
   isUserProfileComplete: boolean = true;
+  badgeCount:any;
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -55,20 +56,33 @@ export class EditProfilePage implements OnInit {
 
   ngOnInit() {}
 
-  ionViewWillEnter() {
+   ionViewWillEnter() {
     this.getUserDataFromStorage();
     this.isUserFromSocialLogIn();
+    this.getNotificationCount();
   }
 
+  getNotificationCount() {
+    let request: any = {
+      path: "notification/notification/check/v2",
+      isAuth: true,
+    };
+      this.apiService.get(request).subscribe((response: any) => {
+        this.badgeCount = response.data.unreadCount;
+        console.log("c ",this.badgeCount)
+        return this.badgeCount;
+      });
+  }
+
+
   async getUserDataFromStorage() {
-    const { value } = await Storage.get({ key: "userDetails" });
+    const { value } = await Preferences.get({ key: "userDetails" });
     this.loggedInUserData = JSON.parse(value);
     this.currentUserRole = this.commonService.getUserType(
       this.loggedInUserData.roles
     );
-
-    this.initForm();
     this.getCurrentUserDetails();
+    this.initForm();
   }
   initForm() {
     if (this.currentUserRole == "fan") {
@@ -164,6 +178,8 @@ export class EditProfilePage implements OnInit {
     this.apiService.postImage(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
       this.commonService.profileUrl = response.data.url;
+      console.log(this.commonService.profileUrl);
+      
       this.cd.detectChanges();
     });
   }
@@ -190,7 +206,7 @@ export class EditProfilePage implements OnInit {
           this.coreService.TOAST_SUCCESS
         );
 
-        Storage.set({
+        Preferences.set({
           key: "userDetails",
           value: JSON.stringify(response.data),
         });
@@ -254,7 +270,7 @@ export class EditProfilePage implements OnInit {
     return request;
   }
 
-  patchDateValue(date: string) {
+  patchDateValue(date: any) {
     if (!date) {
       return;
     }
@@ -311,7 +327,7 @@ export class EditProfilePage implements OnInit {
       this.modalCtrl.dismiss();
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
-        Storage.clear().then(() => {
+        Preferences.clear().then(() => {
           localStorage.removeItem("authDetail");
           localStorage.removeItem("authDetails");
           this.router.navigate(["/auth/login"]);
@@ -349,6 +365,10 @@ export class EditProfilePage implements OnInit {
     });
   }
   validatePhoneFanForm(): boolean {
+    if(!this.fanProfileForm.controls.phone.value){
+      return;
+    }
+    
     if (
       this.fanProfileForm.controls.phone.value != "" &&
       this.fanProfileForm.controls.phone.value.length < 14

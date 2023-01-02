@@ -17,7 +17,10 @@
         </ion-label>
         <div class="notification" slot="end" (click)="presentPopover($event)">
           <img src="assets/icon/notification.svg" />
-          <span></span>
+          <span>
+            <i *ngIf="this.badgeCount < 99">{{this.badgeCount}}</i>
+            <i *ngIf="this.badgeCount > 99">99+</i>
+          </span>
         </div>
       </ion-item>
     </div>
@@ -39,17 +42,20 @@
           <h5>{{userData?.fullName | titlecase}}</h5>
           <ng-container *ngIf="currentUserRole =='fan'">
             <p>{{userData?.teamName}}</p>
-            <p>{{userData?.teamState}} / {{userData?.country}}</p>
+            <p>{{userData?.teamState}} <b *ngIf="userData?.teamState == null">/</b> {{userData?.country}}</p>
             <div class="bubble-bills">
-              <h6>
-                Bubble bills - <span>${{userData?.totalEventAmount}}</span>
+              <h6 *ngIf="currentUserRole =='athlete'">
+                Bubble cash - <span>${{userData?.totalEventAmount}}</span>
               </h6>
               <p>{{userData?.totalEventCount}} Appearances held</p>
             </div>
           </ng-container>
           <ng-container *ngIf="currentUserRole =='athlete'">
-            <p class="athlete-money">
-              $ {{userData?.totalEarning | number:'1.0':'en-US'}}
+            <p class="athlete-money" *ngIf="commonService?.athleteEarnings!=null">
+              $ {{commonService?.athleteEarnings | number:'1.0':'en-US'}}
+            </p>
+            <p class="athlete-money" *ngIf="commonService?.athleteEarnings==null">
+              $ 0
             </p>
             <span class="athlete-total">Total Earning</span>
           </ng-container>
@@ -113,6 +119,10 @@
           <h5>Phone no.</h5>
           <p>{{userData?.phone == '' ? '-' : userData?.phone }}</p>
         </div>
+        <div class="details-box" *ngIf="this.userData?.userRole=='athlete'">
+          <h5>Categories</h5>
+          <p *ngFor="let game of userData?.categories">{{game}}</p>
+        </div>
       </div>
     </ng-container>
     <ng-container *ngIf="currentUserRole =='athlete'">
@@ -151,6 +161,11 @@
           <h5>Phone no.</h5>
           <p>{{userData?.phone == '' ? '-' : userData?.phone }}</p>
         </div>
+        <div class="details-box">
+          <h5>Categories</h5>
+          <p *ngFor="let game of userData?.categories">{{game}}</p>
+        </div>
+
       </div>
     </ng-container>
 

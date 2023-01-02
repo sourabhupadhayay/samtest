@@ -6,8 +6,7 @@ import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { AppereanceBookingComponent } from "./appereance-booking/appereance-booking.component";
 import { PaymentComponent } from "./payment/payment.component";
-import { Storage } from "@capacitor/storage";
-
+import { Preferences } from '@capacitor/preferences';
 @Component({
   selector: "app-tabs",
   templateUrl: "./tabs.page.html",
@@ -31,7 +30,7 @@ export class TabsPage implements OnInit {
   }
 
   async getUserDataFromStorage() {
-    const { value } = await Storage.get({ key: "userDetails" });
+    const { value } = await Preferences.get({ key: "userDetails" });
     this.userData = JSON.parse(value);
     this.nameInitials = this.commonService.getInitials(this.userData.fullName);
   }

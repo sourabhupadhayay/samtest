@@ -3,7 +3,7 @@
     <div class="title-part">
       <ion-item lines="none">
         <ion-icon
-          routerLink="/tabs/schedule"
+          (click)="back()"
           slot="start"
           name="arrow-back-outline"
         ></ion-icon>
@@ -19,7 +19,10 @@
 
         <div class="notification" slot="end"  (click)="presentPopover($event)">
           <img src="assets/icon/notification.svg" />
-          <span></span>
+          <span>
+            <i *ngIf="this.badgeCount < 99">{{this.badgeCount}}</i>
+            <i *ngIf="this.badgeCount > 99">99+</i>
+          </span>
         </div>
       </ion-item>
     </div>
@@ -32,15 +35,21 @@
       <div class="summry-head">
         <ion-item lines="none">
           <ion-label>
-            <h5>Casey Rodgers’s</h5>
+            <h5>{{userData?.fullName}}</h5>
             <p>Bubble Cash</p>
           </ion-label>
           <ion-text slot="end">
-            Jul 01, 2022
+            <div class="ammount">
+              {{summarydetails?.date | date:'MMM d, y'}}
+            </div>
           </ion-text>
         </ion-item>
         <div class="ammount">
-          <h4>$5375.39</h4>
+          <h4 *ngIf="athleteEarnings!=null">${{athleteEarnings | number: '1.0-2'}}</h4>
+          <h4 *ngIf="athleteEarnings==null">
+            $ 0
+          </h4>
+    
           <span>Total Bubble Cash</span>
         </div>
       </div>
@@ -59,11 +68,11 @@
               <ion-item lines="none">
                 <ion-label>
                   <span>INVOICE</span>
-                  <h4>#2891</h4>
+                  <h4>#{{invoiceNum}}</h4>
                 </ion-label>
                 <ion-text>
                   <span>DATE</span>
-                  <h4>Jul 01, 2022</h4>
+                  <h4>{{summarydetails?.date | date:'MMM d, y'}}</h4>
                 </ion-text>
               </ion-item>
             </div>
@@ -79,17 +88,19 @@
               </ion-item>
             </div>
             <div class="table-data">
-              <ion-item lines="none">
-                <i slot="start">1</i>
+            
+              <ion-item lines="none" *ngFor="let summary of summarydetails?.summaryList
+              ">
+                <i slot="start">{{summary.number}}</i>
                 <ion-label>
-                  <h4>Payment Amount</h4>
+                  <h4>{{summary.title}} <span>{{summary.fees}}</span></h4>
                 </ion-label>
                 <ion-text>
-                  <h4>$ 5000</h4>
+                  <h4>$ {{summary.amount | number: '1.0-2'}}</h4>
                 </ion-text>
               </ion-item>
 
-              <ion-item lines="none">
+              <!-- <ion-item lines="none">
                 <i slot="start">2</i>
                 <ion-label>
                   <h4>Processing Fees <span>(3.9%)</span></h4>
@@ -117,16 +128,19 @@
                 <ion-text>
                   <h4>$ 250.00</h4>
                 </ion-text>
-              </ion-item>
+              </ion-item> -->
             </div>
 
             <div class="table-totle">
               <ion-item lines="none">
+                
                 <ion-label>
-                  <h4>Total Amount</h4>
+                  <h4>Payment Amount</h4>
                 </ion-label>
                 <ion-text>
-                  <h4>$5375.39</h4>
+                  <h4 *ngIf="athleteEarnings!=null">$ {{(summarydetails.dwollaRequestAmount)?.toFixed(2)
+                  }}</h4>
+                  <h4 *ngIf="athleteEarnings==null">$ 0</h4>
                 </ion-text>
               </ion-item>
             </div>
@@ -191,7 +205,7 @@
           <ion-col size="12">
             <div class="input-box">
               <ion-item lines="none" class="ion-align-items-center">
-                <ion-input placeholder="Account Holder Name" formControlName="accountHolderName"></ion-input>
+                <ion-input placeholder="Account Holder Name"  (keypress)="charOnly($event)" formControlName="accountHolderName"></ion-input>
                 <img
                   class="ion-align-items-center"
                   slot="end"
@@ -203,7 +217,7 @@
           <ion-col size="12">
             <div class="input-box">
               <ion-item lines="none" class="ion-align-items-center">
-                <ion-input placeholder="Account Number" (keypress)="numberOnly($event)" maxlength="16" formControlName="accountNumber"></ion-input>
+                <ion-input placeholder="Account Number" type="password" (keypress)="numberOnly($event)" maxlength="9" formControlName="accountNumber"></ion-input>
                 <img
                   class="ion-align-items-center"
                   slot="end"
@@ -215,7 +229,7 @@
           <ion-col size="12">
             <div class="input-box">
               <ion-item lines="none" class="ion-align-items-center">
-                <ion-input placeholder="Routing Number" (keypress)="numberOnly($event)" maxlength="16" formControlName="routingNumber"></ion-input>
+                <ion-input placeholder="Routing Number" (keypress)="numberOnly($event)" maxlength="9" formControlName="routingNumber"></ion-input>
                 <img
                   class="ion-align-items-center"
                   slot="end"
@@ -255,7 +269,7 @@
           <ion-item lines="none" mode="ios">
             <ion-label
               >By clicking this you agree to our <span (click)="presentTermsAndServices()" id="TermsOfUse"
-                >Terms of Service </span> and<span id="TermsOfUse">Privacy Policy.</span>
+                >Terms of Service </span> and<span id="TermsOfUse" (click)="privacyPolicy()">Privacy Policy.</span>
 <!--              , as well as our-->
 <!--              partner Dwolla’s <span id="TermsOfUse">Terms of Service</span> and-->
 <!--              <span id="TermsOfUse">Privacy Policy</span>.-->
@@ -318,7 +332,7 @@
                   <ion-input placeholder="Amount" 
                              (ionBlur)="getToFixedDigits($event)" 
                              (keypress)="numberOnly($event)" 
-                             formControlName="amount">
+                             [(ngModel)]="amountvalue" [ngModelOptions]="{standalone: true}" disabled>
                   </ion-input>
                   <img
                     class="ion-align-items-center"

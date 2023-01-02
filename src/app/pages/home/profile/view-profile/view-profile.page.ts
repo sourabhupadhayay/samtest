@@ -6,30 +6,33 @@ import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { ChangePasswordComponent } from "./change-password/change-password.component";
-import { Storage } from "@capacitor/storage";
+import { Preferences } from '@capacitor/preferences';
 import { Subscription } from "rxjs";
 import { CommonService } from "src/app/providers/common.service";
 import { PushNotificationPage } from "src/app/pages/push-notification/push-notification.page";
 import { PopoverController } from '@ionic/angular';
+import { Badge } from '@awesome-cordova-plugins/badge/ngx';
 @Component({
   selector: "app-view-profile",
   templateUrl: "./view-profile.page.html",
   styleUrls: ["./view-profile.page.scss"],
 })
 export class ViewProfilePage implements OnInit {
-  currentUserRole: "fan" | "athlete";
+  currentUserRole:any | "fan" | "athlete";
 
-  userData: any | null = null;
+  userData: any | null = null; 
   nameInitials: string;
   profileSubscription: Subscription;
+  badgeCount :number = 0;
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
     private apiService: DataService,
     private constantService: ConstantService,
     private router: Router,
-    private commonService: CommonService,
-    public popoverController: PopoverController
+    public commonService: CommonService,
+    public popoverController: PopoverController,
+    private badge: Badge,
   ) {}
 
   ngOnInit() {}
@@ -37,6 +40,7 @@ export class ViewProfilePage implements OnInit {
     this.isProfileUpdated();
     // this.getCurrentUserDetails();
     this.getUserDataFromStorage();
+    this.getNotificationCount();
   }
 
   isProfileUpdated() {
@@ -52,7 +56,7 @@ export class ViewProfilePage implements OnInit {
   }
 
   async getUserDataFromStorage() {
-    const { value } = await Storage.get({ key: "userDetails" });
+    const { value } = await Preferences.get({ key: "userDetails" });
     let loggedInUserData = JSON.parse(value);
     this.currentUserRole = this.commonService.getUserType(
       loggedInUserData.roles
@@ -78,7 +82,7 @@ export class ViewProfilePage implements OnInit {
           this.nameInitials = this.commonService.getInitials(
             this.userData.fullName
           );
-          Storage.set({
+          Preferences.set({
             key: "userDetails",
             value: JSON.stringify(response.data),
           });
@@ -99,6 +103,18 @@ export class ViewProfilePage implements OnInit {
     });
 
     modal.present();
+  }
+
+  getNotificationCount() {
+    let request: any = {
+      path: "notification/notification/check/v2",
+      isAuth: true,
+    };
+      this.apiService.get(request).subscribe((response: any) => {
+        this.badgeCount = response.data.unreadCount;
+        console.log("c ",this.badgeCount)
+        return this.badgeCount;
+      });
   }
 
   async presentPopover(ev: any) {
@@ -130,7 +146,7 @@ export class ViewProfilePage implements OnInit {
           response.status.description,
           this.coreService.TOAST_SUCCESS
         );
-        Storage.remove({ key: "userDetails" }).then(() => {
+        Preferences.remove({ key: "userDetails" }).then(() => {
           localStorage.removeItem("authDetail");
           this.router.navigate(["/auth/login"]);
         });
@@ -155,11 +171,15 @@ export class ViewProfilePage implements OnInit {
       this.modalCtrl.dismiss();
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
-        Storage.remove({ key: "userDetails" }).then(() => {
+        Preferences.remove({ key: "userDetails" }).then(() => {
           localStorage.removeItem("authDetail");
           localStorage.removeItem("authDetails");
+          this.badge.clear();
+          
           this.router.navigate(["/auth/login"]);
+          location.reload()
         });
+        
       } else {
         this.coreService.showToastMessage(
           response.status.description,

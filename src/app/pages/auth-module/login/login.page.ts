@@ -6,8 +6,7 @@ import { EMAIL_PATTERN } from "src/app/helpers/emailValidation";
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
-import { Storage } from "@capacitor/storage";
-
+import { Preferences } from "@capacitor/preferences";
 import { Platform } from "@ionic/angular";
 import {
   FacebookLogin,
@@ -21,6 +20,14 @@ import {
   Token,
 } from "@capacitor/push-notifications";
 import { AuthModuleService } from "../auth-module.service";
+import { AngularFireMessaging } from "@angular/fire/compat/messaging";
+import { _FirebaseMessagingName } from "firebase/messaging/sw";
+import {
+  SignInWithApple,
+  AppleSignInResponse,
+  AppleSignInErrorResponse,
+  ASAuthorizationAppleIDRequest,
+} from "@awesome-cordova-plugins/sign-in-with-apple/ngx";
 
 @Component({
   selector: "app-login",
@@ -30,7 +37,7 @@ import { AuthModuleService } from "../auth-module.service";
 export class LoginPage implements OnInit {
   isFormSubmitted = false;
   isShowingPassword: boolean = false;
-  authPublicInfo :any;
+  authPublicInfo: any;
   loginForm: FormGroup = new FormGroup({
     email: new FormControl<string | null>(null, [
       Validators.required,
@@ -55,13 +62,16 @@ export class LoginPage implements OnInit {
     private route: ActivatedRoute,
     private commonService: CommonService,
     private platform: Platform,
-    private commonAuthData: AuthModuleService
+    private commonAuthData: AuthModuleService,
+    private afMessaging: AngularFireMessaging,
+    private signInWithApple: SignInWithApple
   ) {
     GoogleAuth.initialize({
       clientId:
-        "1082803264576-6fh2eljajj00i2ofs55omddhmrs1s3q1.apps.googleusercontent.com",
+        "573316732862-ihcsn2uu3cvnhq115s1ejvnbv5mko29t.apps.googleusercontent.com",
       scopes: ["profile", "email"],
     });
+    // this.applesign();
   }
 
   ngOnInit() {
@@ -69,6 +79,7 @@ export class LoginPage implements OnInit {
   }
   ionViewWillEnter() {
     this.generateNotificationToken();
+    this.requestPushNotificationsPermission();
     this.returnUrl =
       this.route.snapshot.queryParams["returnUrl"] || "/tabs/home";
   }
@@ -100,14 +111,15 @@ export class LoginPage implements OnInit {
         deviceToken: this.generatedToken,
       },
     };
-    console.log(request);
     this.coreService.presentLoader(this.constantService.WAIT);
     if (this.authPublicInfo.twoStepAuthentication) {
-      this.apiService.post(request, true).subscribe((response: Response) => {
+      this.apiService.post(request, false).subscribe((response: Response) => {
         this.coreService.dismissLoader();
         if (response.status.code === this.constantService.STATUS_OK) {
-          localStorage.setItem("authDetails",JSON.stringify(response.data))
-          Storage.set({
+          console.log("eaning");
+
+          localStorage.setItem("authDetails", JSON.stringify(response.data));
+          Preferences.set({
             key: "userDetails",
             value: JSON.stringify(response.data),
           }).then(() => {
@@ -130,8 +142,9 @@ export class LoginPage implements OnInit {
       this.apiService.post(request, false).subscribe((response: Response) => {
         this.coreService.dismissLoader();
         if (response.status.code === this.constantService.STATUS_OK) {
-          localStorage.setItem("authDetails",JSON.stringify(response.data))
-          Storage.set({
+          this.commonService.getAthleteEarnings();
+          localStorage.setItem("authDetails", JSON.stringify(response.data));
+          Preferences.set({
             key: "userDetails",
             value: JSON.stringify(response.data),
           }).then(() => {
@@ -161,11 +174,13 @@ export class LoginPage implements OnInit {
     this.apiService.post(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
+        console.log("social");
+
         this.coreService.showToastMessage(
           response.status.description,
           this.coreService.TOAST_SUCCESS
         );
-        Storage.set({
+        Preferences.set({
           key: "userDetails",
           value: JSON.stringify(response.data),
         }).then(() => {
@@ -195,20 +210,20 @@ export class LoginPage implements OnInit {
 
   //google sign in
   async googleSignIn() {
-    this.coreService.showToastMessage(
-      "Development under progress",
-      this.coreService.TOAST_INFO
-    );
-    // try {
-    //   let user = await GoogleAuth.signIn();
+    // this.coreService.showToastMessage(
+    //   "Development under progress",
+    //   this.coreService.TOAST_INFO
+    // );
+    try {
+      let user = await GoogleAuth.signIn();
 
-    //   let RequestData = {
-    //     socialAccessToken: user.authentication.accessToken,
-    //     socialLoginType: "GOOGLE",
-    //   };
+      let RequestData = {
+        socialAccessToken: user.authentication.accessToken,
+        socialLoginType: "GOOGLE",
+      };
 
-    //   this.socialLogin(RequestData);
-    // } catch (e) {}
+      this.socialLogin(RequestData);
+    } catch (e) {}
   }
 
   //facebook login
@@ -222,12 +237,10 @@ export class LoginPage implements OnInit {
     //   let result = (await FacebookLogin.login({
     //     permissions: this.FACEBOOK_PERMISSIONS,
     //   })) as FacebookLoginResponse;
-
     //   let RequestData = {
     //     socialAccessToken: result.accessToken.token,
     //     socialLoginType: "FACEBOOK",
     //   };
-
     //   this.socialLogin(RequestData);
     // } catch (e) {}
   }
@@ -238,7 +251,7 @@ export class LoginPage implements OnInit {
     }
 
     let result = await PushNotifications.requestPermissions();
-
+    console.log("result login", result.receive);
     if (result.receive === "granted") {
       // Register with Apple / Google to receive push via APNS/FCM
       PushNotifications.register();
@@ -250,6 +263,68 @@ export class LoginPage implements OnInit {
     // On success, we should be able to receive notifications
     PushNotifications.addListener("registration", (token: Token) => {
       this.generatedToken = token.value;
+      // alert("Push registration success, token: " + token.value);
     });
+
+    PushNotifications.addListener("registrationError", (error: any) => {
+      alert("Error on registration: " + JSON.stringify(error));
+    });
+
+    PushNotifications.addListener(
+      "pushNotificationReceived",
+      (notification: PushNotificationSchema) => {
+        // alert("Push received: " + JSON.stringify(notification));
+      }
+    );
+
+    PushNotifications.addListener(
+      "pushNotificationActionPerformed",
+      (notification: ActionPerformed) => {
+        // alert("Push action performed: " + JSON.stringify(notification));
+      }
+    );
+  }
+  requestPushNotificationsPermission() {
+    // requesting permission
+    this.afMessaging.requestToken // getting tokens
+      .subscribe(
+        (token) => {
+          // USER-REQUESTED-TOKEN
+          this.generatedToken = token;
+          console.log("Permission granted! Save to the server!", token);
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+  }
+  getMessage() {
+    this.afMessaging.messages.subscribe((e) => {
+      console.log(e);
+    });
+  }
+  applesign() {
+    this.signInWithApple
+      .signin({
+        requestedScopes: [
+          ASAuthorizationAppleIDRequest.ASAuthorizationScopeFullName,
+          ASAuthorizationAppleIDRequest.ASAuthorizationScopeEmail,
+        ],
+      })
+      .then((res: AppleSignInResponse) => {
+        // https://developer.apple.com/documentation/signinwithapplerestapi/verifying_a_user
+
+        let RequestData = {
+          socialAccessToken: res.identityToken,
+          socialLoginType: "APPLE",
+        };
+        this.socialLogin(RequestData);
+        console.log(res);
+        console.log(res.identityToken);
+      })
+      .catch((error: AppleSignInErrorResponse) => {
+        alert(error.code + " " + error.localizedDescription);
+        console.error(error);
+      });
   }
 }

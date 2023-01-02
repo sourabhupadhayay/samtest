@@ -1,7 +1,8 @@
 import { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
-  appId: "com.bubble.app",
+  // appId: "com.bubble.app",
+  appId: "com.bubble_app_9093.app",
   appName: "bubble_app",
   webDir: "www",
   bundledWebRuntime: false,
@@ -9,7 +10,7 @@ const config: CapacitorConfig = {
     GoogleAuth: {
       scopes: ["profile", "email"],
       serverClientId:
-        "1082803264576-fvuob1bdp3sgcb4e0qe0tcrkohgkkddq.apps.googleusercontent.com",
+        "573316732862-ihcsn2uu3cvnhq115s1ejvnbv5mko29t.apps.googleusercontent.com",
       forceCodeForRefreshToken: true,
     },
     SplashScreen: {

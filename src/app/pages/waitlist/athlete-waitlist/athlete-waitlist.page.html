@@ -3,7 +3,7 @@
     <ion-grid class="top-card">
       <div class="title-part">
         <ion-item  lines="none" mode="md">
-          <ion-icon routerLink="/tabs/schedule" slot="start" name="arrow-back-outline"></ion-icon>
+          <ion-icon (click)="routeBackToSchedule()" slot="start" name="arrow-back-outline" mode="md"></ion-icon>
           <ion-label>
             <ion-grid class="logo-head">
               <img src="assets/images/single-logo.svg" />
@@ -19,7 +19,7 @@
         </ion-item>
       </div>
       <div class="profile-img">
-        <img src="assets/images/profile.png" />
+        <img [src]="userData?.profileUrl | profile"/>
       </div>
       <div class="overlay-blue"></div>
       <div class="slider-part">
@@ -120,7 +120,7 @@
               </ion-label>
               <img
                 class="video"
-                (click)="callFan(fan.id)"
+                (click)="callFan(fan)"
                 slot="end"
                 src="assets/icon/video-icon.png"
               />
@@ -154,7 +154,7 @@
               </ion-label>
               <img
                 class="video"
-                (click)="callFan(fan.id)"
+                (click)="callFan(fan)"
                 slot="end"
                 src="assets/icon/video-icon.png"
               />
@@ -167,7 +167,7 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <ion-button>
+    <ion-button (click)="eventEnd();" id="end-event">
       <img src="assets/images/red-video.png" />
     </ion-button>
   </ion-toolbar>

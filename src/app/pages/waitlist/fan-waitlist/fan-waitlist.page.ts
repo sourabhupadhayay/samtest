@@ -27,6 +27,8 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
   @Input() connectedFans: any[] = [];
   @Input() calledFans: any[] = [];
   @Input() pendingCallFans: any[] = [];
+  @ViewChild("videos") videos: ElementRef;
+  videoElement: HTMLVideoElement;
   userData;
   eventData;
   currentPosition: number = 0;
@@ -39,6 +41,9 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
   connectedFanDetails = null;
   creatorPersona: string;
   highestBid: any;
+  eventVideoData: any;
+  urls: any;
+  videourl: any;
   slideOpts: any = {
     slidesPerView: 3,
     initialSlide: 1,
@@ -61,9 +66,13 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.video();
     this.getEventDetails();
     this.getUserData();
     this.getSponsor();
+    //console.log("public info", this.commonService.publicInfo);
+    
+   
   }
 
   ngDoCheck() {
@@ -71,7 +80,11 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
       this.calculateUserPosition();
     }
   }
-
+  ionViewWillEnter() {
+    console.log("ion will enter");
+    
+   this.video();
+  }
   getSponsor() {
     let request: Request = {
       path: "auth/users/manage/filter/list",
@@ -93,6 +106,7 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
 
     this.apiService.post(request).subscribe((response: Response) => {
       if (response.status.code == this.constant.STATUS_OK) {
+        this.coreService.dismissLoader();
         this.sponsorList = response.data;
       } else {
         this.coreService.showToastMessage(
@@ -102,21 +116,32 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
       }
     });
   }
+  
+  video() {   
+        this.eventVideoData = this.commonService.publicInfo.videoUrls;
+        this.coreService.dismissLoader();
+        for (let i = 0; i < this.eventVideoData.length; i++) {
+          this.urls = Math.floor(Math.random() * this.eventVideoData.length);
+          this.videourl= this.eventVideoData[ this.urls]; 
+          this.cd.detectChanges();
+       return;
+        }
+  }
 
   calculateUserPosition() {
     //pending fans
-    console.log("fsdg,this.pendin", this.pendingCallFans);
+    
     const bid = this.pendingCallFans.map((object) => {
       return object.totalAmount;
     });
-    console.log(bid);
-
     this.highestBid = Math.max(...bid);
+   
 
     for (let index = 0; index < this.pendingCallFans.length; index++) {
       if (this.pendingCallFans[index].userId == this.userData.id) {
         this.userIndex = index;
-        this.currentPosition = index + 1;
+        this.currentPosition = index;
+       // console.log("index ", this.userIndex, this.currentPosition);
 
         this.connectedFanDetails = this.pendingCallFans[index];
       }
@@ -128,7 +153,6 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
         this.connectedFanDetails = this.calledFans[index];
       }
     }
-    console.log("fan details", this.connectedFanDetails);
   }
 
   getEventDetails() {
@@ -143,7 +167,7 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
       if (response.status.code === this.constantService.STATUS_OK) {
         this.eventData = response.data;
         this.creatorPersona = response.data.creatorPersona;
-        console.log(this.creatorPersona);
+       // console.log(this.creatorPersona);
         this.calculateTime();
 
         this.cd.detectChanges();
@@ -194,8 +218,9 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
   }
 
   routeBackToSchedule() {
-    console.log("called");
+   // console.log("called");
     this.navController.navigateBack(["/tabs/schedule"]);
+    this.commonService.$navigateSubject.next();
   }
 
   ngOnDestroy(): void {

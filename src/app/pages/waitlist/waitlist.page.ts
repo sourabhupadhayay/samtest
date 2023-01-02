@@ -12,6 +12,7 @@ import { ConstantService } from "src/app/providers/constant.service";
   templateUrl: "./waitlist.page.html",
   styleUrls: ["./waitlist.page.scss"],
 })
+
 export class WaitlistPage implements OnInit {
   userRole: userRole;
   userData: any;
@@ -31,7 +32,9 @@ export class WaitlistPage implements OnInit {
     this.getEventIdFromParam();
     this.getConnectedFans();
   }
-
+  ionDidViewEnter(){
+    this.getConnectedFans();
+  }
   getConnectedFans() {
     this.socket = Stomp.over(
       () => new SockJS(configuration.BASE_URL + "core/greeting")
@@ -59,6 +62,12 @@ export class WaitlistPage implements OnInit {
               contentData.userId == e.userId
             ) {
               this.pendingCallFans.splice(index, 1);
+             
+              this.connectedFans.push(contentData);
+              this.connectedFans=this.connectedFans.filter((e)=> {
+                e.bidState!="COMPLETED"
+                return} )
+           
             }
           });
           if (contentData.bidState == "PENDING") {
@@ -66,10 +75,13 @@ export class WaitlistPage implements OnInit {
           } else if (
             contentData.bidState !== "PENDING" &&
             contentData.bidState !== "COMPLETED"
+         
+             
           ) {
             this.filterAndSortCompletedFans(contentData);
-          }
+          } 
           if (contentData.bidState !== "COMPLETED") {
+            
             this.connectedFans.push(contentData);
 
             this.connectedFans = this.getUniqueListBy(

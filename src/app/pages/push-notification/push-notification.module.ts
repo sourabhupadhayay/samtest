@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { PushNotificationPageRoutingModule } from './push-notification-routing.module';
 
 import { PushNotificationPage } from './push-notification.page';
+import { Badge } from '@awesome-cordova-plugins/badge/ngx';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { PushNotificationPage } from './push-notification.page';
     IonicModule,
     PushNotificationPageRoutingModule
   ],
-  declarations: [PushNotificationPage]
+  declarations: [PushNotificationPage],
+  providers: [Badge]
 })
 export class PushNotificationPageModule {}

@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { IonRouterOutlet, ModalController } from "@ionic/angular";
+import { AppComponent } from "src/app/app.component";
 import { AuthenticationService } from "src/app/providers/authentication.service";
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
@@ -24,7 +25,8 @@ export class HomePagePage implements OnInit {
     private constant: ConstantService,
     public authenticationService: AuthenticationService,
     private router: Router,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private  app:AppComponent
 
   ) {}
 
@@ -33,7 +35,9 @@ export class HomePagePage implements OnInit {
     this.audio.src = "assets/audio/bubble-bursting.mp3";
     this.audio.load();
   }
-
+  ionViewDidEnter(){
+    this.app.callingAthlete()
+  }
   getAthletes() {
     let request: Request = {
       path: "auth/users/manage/filter/list",

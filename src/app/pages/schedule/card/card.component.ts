@@ -34,6 +34,7 @@ type EventStatus = "PENDING" | "APPROVED" | "REJECTED" | "CANCELLED";
 })
 export class CardComponent implements OnInit {
   @ViewChild(IonModal) modal: IonModal;
+  @ViewChild("CreateAppearance") ConfirmModal: IonModal;
   @Output() changeStatus: EventEmitter<null> = new EventEmitter();
   @Input() cardData;
   @Input() eventState: "APPROVED" | "PAST" | "PENDING" = "APPROVED";
@@ -43,7 +44,8 @@ export class CardComponent implements OnInit {
   counter: any;
   timer: any = null;
   interval;
-
+  eventType:any="Paid"
+  eventData:any
   constructor(
     private cd: ChangeDetectorRef,
     private coreService: CoreService,
@@ -59,7 +61,7 @@ export class CardComponent implements OnInit {
     this.dateFormat();
     this.getInitials();
   }
-
+ 
   getInitials() {
     this.nameInitials = this.commonService.getInitials(this.cardData.userName);
   }
@@ -104,10 +106,17 @@ export class CardComponent implements OnInit {
       message: "Athlete will call you soon",
       buttons: ["OK"],
     });
-
     await alert.present();
   }
+async calender(){
+   const alert = await this.alertController.create({
+      header: "Coming soon",
+      // message: "Athlete will call you soon",
+      buttons: ["OK"],
+    });
 
+    await alert.present(); 
+  }
   canJoinEvent(): boolean {
     if (this.timer.hours) {
       return true;
@@ -361,23 +370,34 @@ export class CardComponent implements OnInit {
     this.changeEventStatus("CANCELLED", data);
   }
 
-  bidAthleteEvent(id: string) {
+  bidAthleteEvent(data: any) {
+    this.eventData=data
+    if(data.creatorPersona=="ADMIN" && !this.cardData.bidSubmitted)
+    {
+      this.eventType='Paid'
+     this.ConfirmModal.present()
+    }
+    else{
     if (this.cardData.bidSubmitted) {
-      this.router.navigate(["waitlist/event/" + id]);
+      this.router.navigate(["waitlist/event/" + data.id]);
     } else {
-      this.router.navigate(["bid-payment/" + id]);
+      this.router.navigate(["bid-payment/" + data.id]);
     }
   }
+  }
 
-  joinFanCall(id: string) {
-    this.router.navigate(["waitlist/call/" + id], {
+  joinFanCall(fan:any) {
+    console.log("fan",fan.id);
+    this.commonService.callingFanDetail=fan
+    this.router.navigate(["waitlist/call/" + fan.id], {
       queryParams: {
         isBidEvent: false,
       },
     });
   }
-  athleteEvent(id: string) {
-    this.router.navigate(["waitlist/event/" + id]);
+  athleteEvent(fan: any) {
+    this.commonService.callingFanDetail=fan
+    this.router.navigate(["waitlist/event/" + fan.id]);
   }
 
   canAthleteJoinEvent(count) {
@@ -427,5 +447,51 @@ export class CardComponent implements OnInit {
       cssClass: "small-modal",
     });
     modal.present();
+  }
+  onSubmit(){
+    if(this.eventType==""){
+      this.coreService.showToastMessage(
+       "Please select event type",this.coreService.TOAST_ERROR
+      );
+    }
+    else{
+    if(this.eventType=='Paid'){
+      this.router.navigate(["bid-payment/" + this.eventData.id]);
+    }
+    else{
+      // this.router.navigate(["waitlist/event/" + this.eventData.id]);
+      this.onPayment()
+    }
+    this.eventType=""
+    this.modalCtrl.dismiss();
+  }
+  }
+  onPayment() {
+    let request: Request = {
+      path: "core/event/bid/save",
+      data: {
+        eventId: this.eventData.id,
+        totalAmount: 0,
+      },
+      isAuth: true,
+    };
+
+    this.coreService.presentLoader(this.constantService.WAIT);
+    this.apiService.post(request).subscribe((response: Response) => {
+      this.coreService.dismissLoader();
+      if (response.status.code === this.constantService.STATUS_OK) {
+        this.modalCtrl.dismiss();
+        this.router.navigate(["waitlist/event/" + this.eventData.id]);
+      } else {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_ERROR
+        );
+      }
+    });
+  }
+  cancel(){
+    this.modal.dismiss()
+    this.eventType='Paid'
   }
 }

@@ -16,12 +16,7 @@ import {
   Subscriber,
 } from "@opentok/client";
 
-import {
-  CoreService,
-  userRole,
-  UserRole,
-} from "src/app/providers/core.service";
-
+import { CoreService, userRole } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { switchMap } from "rxjs/operators";
 import { ConstantService } from "src/app/providers/constant.service";
@@ -31,6 +26,7 @@ import * as SockJS from "sockjs-client";
 import { configuration } from "src/app/configuration";
 import { CommonService } from "src/app/providers/common.service";
 import {  SafeExecution } from "../../../directives/models/safe-execution.decorator";
+
 @Component({
   selector: "app-call",
   templateUrl: "./call.component.html",
@@ -41,11 +37,11 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild("fanContainer") fanElement: ElementRef;
   isAudioMuted: boolean = false;
   isVideoOn: boolean = true;
-  publisher: Publisher;
+  publisher: OT.Publisher;
   userRole: userRole;
   userData: any;
-  session: Session;
-  subscribe: Subscriber;
+  session: OT.Session;
+  subscribe: OT.Subscriber;
   apiKey: any;
   sessionId: string;
   token: string;
@@ -58,6 +54,9 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   remainTime: any;
   color: any;
   streams: any = [];
+  userDetail:any=[]
+  nameInitials:string
+  OT:any
   constructor(
     private apiService: DataService,
     private coreService: CoreService,
@@ -65,15 +64,21 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef,
     private constantService: ConstantService,
-    private core: CoreService,
     public commonService: CommonService
-  ) {}
+  ) {
+   
+   
+  }
 
   ngOnInit() {
     this.keepDeviceAwake();
     this.callDisconnectSocket();
     this.apiKey = this.commonService.publicInfo.videoApiKey;
     console.log("api key", this.apiKey);
+    let users=localStorage.getItem("authDetails")
+    this.userDetail=JSON.parse(users)
+    console.log("user detail",this.userDetail.profileUrl);
+    this.nameInitials = this.commonService.getInitials(this.userDetail.fullName)
   }
 
   ngAfterViewInit(): void {
@@ -164,7 +169,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getSession() {
     console.log("ankita session called");
-    this.session = initSession(this.apiKey, this.sessionId);
+    this.session = OT.initSession(this.apiKey, this.sessionId);
     this.session.connect(this.token, (error) => {
       if (error) {
         console.log(error);
@@ -209,7 +214,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     // }
   }
   createPublisher() {
-    this.publisher = initPublisher(this.athleteElement.nativeElement, {
+    this.publisher =OT.initPublisher(this.athleteElement.nativeElement, {
       width: "100%",
       height: "100%",
       insertMode: "replace",
@@ -294,7 +299,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.timeLeft < 20) {
         this.color = " #F64444";
       }
-      console.log("timerr", this.timeLeft);
+      //console.log("timerr", this.timeLeft);
       if (this.timeLeft == 0) {
         if (this.userRole == "athlete") {
           console.log("interval time left", this.timeLeft);
@@ -327,9 +332,10 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   async callDisconnectSocket() {
-    let userRole: userRole = await this.core.getUserRoleFromStorage();
-    let userDetails = await this.core.getUserDataFromStorage();
-
+    let userRole: userRole = await this.coreService.getUserRoleFromStorage();
+    let userDetails = await this.coreService.getUserDataFromStorage();
+    console.log("CALL DISCONNECT call");
+    
     this.socket = Stomp.over(
       () => new SockJS(configuration.BASE_URL + "core/greeting")
     );
@@ -341,34 +347,43 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
           alert("Error " + message.body);
         });
         this.sendCutVideo(userDetails["id"]);
+      
         this.socket.subscribe("/topic/cancelCall", (message) => {
           let responseData = JSON.parse(message.body).content;
-          this.commonService.callingAthleteDetails = JSON.parse(responseData);
-
+          let msg=JSON.parse(responseData)
+          console.log(msg.athleteId,msg,userRole)
+         // this.commonService.callingAthleteDetails=JSON.parse(responseData);
+          console.log("COMMON", userDetails.id , msg.athleteId,userRole);
+          
           if (
-            userDetails.id == this.commonService.callingAthleteDetails.athleteId
+            userDetails.id == msg.athleteId
           ) {
             if (this.isBiddingEvent) {
+              console.log("if 1")
               this.router.navigate([
                 "/waitlist/event/" +
-                  this.commonService.callingAthleteDetails.eventId,
+                msg.eventId,
               ]);
             } else {
+              console.log("else1")
+            
               this.router.navigate(["tabs/schedule"]);
             }
-
             if (
-              this.commonService.callingAthleteDetails
-                .disconnectedByPersonRole == "USER" &&
+              msg.disconnectedByPersonRole == "USER" &&
               userRole == "athlete" &&
-              this.commonService.callingAthleteDetails.bidState !== "COMPLETED"
+              msg.bidState !== "COMPLETED"
             ) {
-              this.core.showToastMessage(
+              console.log("if 2")
+              this.coreService.showToastMessage(
                 "Fan is busy. Please connect after sometime",
-                this.core.TOAST_ERROR
+                this.coreService.TOAST_ERROR
               );
             }
+
+           
           } else {
+            
             console.log("no");
           }
         });

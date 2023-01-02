@@ -12,7 +12,13 @@ import { ErrorInterceptor } from "./interceptor/error.interceptor";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatIconModule } from "@angular/material/icon";
 import { HomeModule } from "./pages/home/home.module";
-
+import { Badge } from "@awesome-cordova-plugins/badge/ngx";
+import { NativeAudio } from "@awesome-cordova-plugins/native-audio/ngx";
+import { AngularFireModule } from "@angular/fire/compat";
+import { AngularFireMessagingModule } from "@angular/fire/compat/messaging";
+import { environment } from "../environments/environment";
+import { ServiceWorkerModule } from "@angular/service-worker";
+import { SignInWithApple } from "@awesome-cordova-plugins/sign-in-with-apple/ngx";
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -24,14 +30,22 @@ import { HomeModule } from "./pages/home/home.module";
     BrowserAnimationsModule,
     MatIconModule,
     HomeModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireMessagingModule,
+    ServiceWorkerModule.register("combined-sw.js", {
+      enabled: environment.production,
+    }),
   ],
   providers: [
+    NativeAudio,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorInterceptor,
       multi: true,
     },
+    Badge,
+    SignInWithApple,
   ],
   bootstrap: [AppComponent],
 })

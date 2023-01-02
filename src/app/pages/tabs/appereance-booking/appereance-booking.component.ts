@@ -22,7 +22,8 @@ import {
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { TermsConditionsComponent } from "../terms-conditions/terms-conditions.component";
 import { format, utcToZonedTime } from "date-fns-tz";
-
+// import * as moment from 'moment';
+import { Platform } from "@ionic/angular";
 @Component({
   selector: "app-appereance-booking",
   templateUrl: "./appereance-booking.component.html",
@@ -51,10 +52,11 @@ export class AppereanceBookingComponent implements OnInit {
   currentDate: string;
   currentTime: string;
   isoDate: any;
-  eventStartTime:any;
+  eventStartTime: any;
   defaultDate = new Date().toISOString();
-  maxData : any = (new Date()).getFullYear() + 5;
-
+  maxData: any = new Date().getFullYear() + 5;
+  starttime: any;
+  selectduration: any = "00:00";
   constructor(
     public modalCtrl: ModalController,
     private fb: FormBuilder,
@@ -63,23 +65,26 @@ export class AppereanceBookingComponent implements OnInit {
     private apiService: DataService,
     private constant: ConstantService,
     private renderer: Renderer2,
-    private currencyPipe: CurrencyPipe
+    private currencyPipe: CurrencyPipe,
+    private platform: Platform
   ) {}
 
   ngOnInit() {
     const script = this.renderer.createElement("script");
     if (this.commonService.publicInfo.squareEnvironment == "PRODUCTION") {
-      script.src = `https://js.squareup.com/v2/paymentform`;
+      script.src = `https://web.squarecdn.com/v1/square.js`;
     } else {
-      script.src = `https://js.squareupsandbox.com/v2/paymentform`;
+      // script.src = `https://js.squareupsandbox.com/v2/paymentform`; //deprecated
+      script.src = "https://sandbox.web.squarecdn.com/v1/square.js";
     }
     this.renderer.appendChild(document.head, script);
     this.initAppearanceForm();
+    this.fanForm.get("duration").disable();
     this.getUserRole();
     this.eventTypeSelected();
     this.getSelectedAthlete();
     this.timeZone();
-    console.log("ddddd ",this.defaultDate)
+    console.log("ddddd ", new Date(), "yyyy-MM-dd  h:mm:ssZZZZZ");
   }
   async getUserRole() {
     this.userRole = await this.coreService.getUserRoleFromStorage();
@@ -89,6 +94,7 @@ export class AppereanceBookingComponent implements OnInit {
   timeZone() {
     // Get the time zone set on the user's device
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    console.log("user time zone", userTimeZone);
 
     let date = new Date().toISOString();
 
@@ -97,9 +103,40 @@ export class AppereanceBookingComponent implements OnInit {
     let formattedDate = format(zonedTime, "yyyy-MM-dd HH:mm:ss zzz", {
       timeZone: userTimeZone,
     });
-    let isoDate = new Date(formattedDate).toISOString();
+    let isoDate = new Date(formattedDate);
+    if (this.platform.is("ios")) {
+      this.currentDate = new Date(isoDate).toISOString();
+    } else {
+      this.currentDate = this.toIsoString(isoDate);
+    }
+    this.defaultDate = this.currentDate;
+    console.log("iso date", this.currentDate);
+    this.starttime = this.currentDate;
+  }
+  toIsoString(date) {
+    var tzo = -date.getTimezoneOffset(),
+      dif = tzo >= 0 ? "+" : "-",
+      pad = function (num) {
+        return (num < 10 ? "0" : "") + num;
+      };
 
-    this.currentDate = isoDate;
+    return (
+      date.getFullYear() +
+      "-" +
+      pad(date.getMonth() + 1) +
+      "-" +
+      pad(date.getDate()) +
+      "T" +
+      pad(date.getHours()) +
+      ":" +
+      pad(date.getMinutes()) +
+      ":" +
+      pad(date.getSeconds()) +
+      dif +
+      pad(Math.floor(Math.abs(tzo) / 60)) +
+      ":" +
+      pad(Math.abs(tzo) % 60)
+    );
   }
 
   setDuration() {
@@ -171,7 +208,7 @@ export class AppereanceBookingComponent implements OnInit {
         state: ["", [Validators.required, Validators.pattern("^[a-zA-Z ]*$")]],
         zipCode: ["", [Validators.required, Validators.maxLength(5)]],
       }),
-      time : ["",[Validators.required]]
+      time: ["", [Validators.required]],
     });
   }
 
@@ -205,6 +242,7 @@ export class AppereanceBookingComponent implements OnInit {
         this.coreService.dismissLoader();
         if (response.status.code == this.constant.STATUS_OK) {
           this.modalCtrl.dismiss(false);
+          window.location.reload();
         } else {
           this.coreService.showToastMessage(
             response["status"]["description"],
@@ -229,14 +267,20 @@ export class AppereanceBookingComponent implements OnInit {
     }
     this.isAthleteFormSubmitted = true;
 
-    let { startDate, duration, time, ...athletePayload } = this.athleteForm.value;
+    let {
+      startDate,
+      duration,
+      time,
+      ...athletePayload
+    } = this.athleteForm.value;
+    console.log(athletePayload);
 
     let request: Request = {
       path: "core/event/create",
       data: {
         ...athletePayload,
         // startDate: new Date(startDate).toISOString(),
-        startDate : this.eventStartTime,
+        startDate: this.eventStartTime,
         duration: this.totalAthleteDuration,
       },
       isAuth: true,
@@ -290,12 +334,12 @@ export class AppereanceBookingComponent implements OnInit {
     return request;
   }
 
-  setDateValue(date: string) {
+  setDateValue(date: any) {
     if (!date) {
       return;
     }
-    console.log("date",date)
-    let dt = date.split('T')[0];
+    console.log("date", date, this.currentDate);
+    let dt = date.split("T")[0];
     let formattedDate = this.commonService.formatDateTimeUpdated(dt);
 
     if (this.userRole == "athlete") {
@@ -304,30 +348,32 @@ export class AppereanceBookingComponent implements OnInit {
       this.fanForm.controls.startDate.patchValue(formattedDate);
     }
     //let dt2 = new Date(date).toISOString();
-    this.isoDate = date.split('T')[0];
-    console.log("date ",this.isoDate);
+    this.isoDate = date.split("T")[0];
+    this.defaultDate = this.isoDate;
+    console.log("date ", this.isoDate);
   }
-  setTimeValue(time: string) {
+  setTimeValue(time: any) {
+    this.starttime = time;
     if (!time) {
       return;
     }
     var tm = time;
-    let timedata = tm.split('T')[1];
-    console.log("time2 ",timedata)
-    let hour = timedata.split(':')[0];
-    let minute = timedata.split(':')[1];
-    var AmOrPm = +hour >= 12 ? 'pm' : 'am';
-    var o = (+hour % 12) || 12;
-    var startTime = o + ":" + minute + " " + AmOrPm; + ":" + minute + " " + AmOrPm;
+    let timedata = tm.split("T")[1];
+    console.log("time2 ", timedata);
+    let hour = timedata.split(":")[0];
+    let minute = timedata.split(":")[1];
+    var AmOrPm = +hour >= 12 ? "pm" : "am";
+    var o = +hour % 12 || 12;
+    var startTime = o + ":" + minute + " " + AmOrPm;
+    +":" + minute + " " + AmOrPm;
     if (this.userRole == "athlete") {
       this.athleteForm.controls.time.patchValue(startTime);
     } else {
       this.fanForm.controls.time.patchValue(startTime);
     }
-   console.log("final ",this.isoDate+'T'+timedata);
-   this.eventStartTime = (this.isoDate+'T'+timedata);
+    console.log("final ", this.isoDate + "T" + timedata);
+    this.eventStartTime = this.isoDate + "T" + timedata;
   }
-
 
   getSelectedAthlete() {
     this.$athletes = this.fanForm.controls.selectedAthleteName.valueChanges.pipe(
@@ -397,9 +443,9 @@ export class AppereanceBookingComponent implements OnInit {
     }
   }
 
-  patchTime(time: string) {
+  patchTime(time: any) {
     // let formattedTime = this.commonService.formatTime(time);
-
+    this.selectduration = time;
     var timeParts = time.split(":");
 
     let hour = timeParts[0];
@@ -494,6 +540,8 @@ export class AppereanceBookingComponent implements OnInit {
   }
 
   parseStringToFloat(bidAmount: string): number {
+    console.log("bid amt", bidAmount);
+
     if (bidAmount.includes("$")) {
       bidAmount = bidAmount.replace("$", "");
     }

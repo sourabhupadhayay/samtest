@@ -17,7 +17,10 @@
         </ion-label>
         <div class="notification" slot="end"  (click)="presentPopover($event)">
           <img src="assets/icon/notification.svg" />
-          <span></span>
+          <span>
+            <i *ngIf="this.badgeCount < 99">{{this.badgeCount}}</i>
+            <i *ngIf="this.badgeCount > 99">99+</i>
+          </span>
         </div>
       </ion-item>
     </div>
@@ -57,10 +60,11 @@
         <h5>Phone no.</h5>
         <p>{{fanData?.phone }}</p>
       </div> -->
-      <div class="details-box">
+<!-- team hidden for fan profile  -->
+      <!-- <div class="details-box">
         <h5>Team</h5>
         <p>{{fanData?.teamName}}</p>
-      </div>
+      </div> -->
       <div class="details-box">
         <h5>State</h5>
         <p>{{fanData?.teamState}}</p>

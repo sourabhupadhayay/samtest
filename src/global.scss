@@ -256,7 +256,9 @@ ion-modal.tandc-modal-new {
         color: var(--theme-one-clr);
       }
       ion-icon {
+        font-size: 1.5rem;
         color: var(--text-black);
+        margin-right: 10px;
       }
     }
   }
@@ -691,4 +693,42 @@ app-invoice{
     }
   }
  
+}
+.plt-ios{
+  app-bubble-screen-list{
+    ion-content {
+      .search-bar{top: 100px !important;}
+    }
+  }
+}
+.plt-ipad.plt-ios.plt-tablet{
+  app-bubble-screen-list{
+    ion-content {
+      .search-bar{top: 87px !important;}
+    }
+  }
+}
+
+.notification {
+  
+  margin-top: 9px !important;
+  
+  span {
+    height: 20px !important;
+    width: 20px !important;
+    border-radius: 20px !important;
+    right: -8px !important;
+    top: -9px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    i{display: inline-block;
+      font-style: normal;
+      text-align: center;
+      color: #fff;
+      font-size: 0.55rem;}
+  }
+}
+.tabs-btn-main ion-tab-button::part(native){
+  overflow: visible;
 }

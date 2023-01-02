@@ -18,6 +18,7 @@ import { PushNotificationPage } from "../../push-notification/push-notification.
 export class fanPage implements OnInit {
   fanData: any | null = null;
   nameInitials: string;
+  badgeCount :number = 0;
   constructor(
     private coreService: CoreService,
     private apiService: DataService,
@@ -31,6 +32,7 @@ export class fanPage implements OnInit {
 
   ionViewWillEnter() {
     this.getUserIdFromParams();
+    this.getNotificationCount()
   }
   getUserIdFromParams() {
     this.route.paramMap
@@ -39,6 +41,7 @@ export class fanPage implements OnInit {
           this.coreService.presentLoader(this.constantService.WAIT);
           let request: Request = {
             path: "auth/users/currentUser?userId=" + params.get("id"),
+            isAuth: true,
           };
 
           return this.apiService.get(request);
@@ -57,6 +60,18 @@ export class fanPage implements OnInit {
             this.coreService.TOAST_ERROR
           );
         }
+      });
+  }
+
+  getNotificationCount() {
+    let request: any = {
+      path: "notification/notification/check/v2",
+      isAuth: true,
+    };
+      this.apiService.get(request).subscribe((response: any) => {
+        this.badgeCount = response.data.unreadCount;
+        console.log("c ",this.badgeCount)
+        return this.badgeCount;
       });
   }
 

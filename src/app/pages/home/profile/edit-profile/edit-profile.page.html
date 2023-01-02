@@ -20,7 +20,10 @@
         </ion-label>
         <div class="notification" slot="end"  (click)="presentPopover($event)">
           <img src="assets/icon/notification.svg" />
-          <span></span>
+          <span>
+            <i *ngIf="this.badgeCount < 99">{{this.badgeCount}}</i>
+            <i *ngIf="this.badgeCount > 99">99+</i>
+          </span>
         </div>
       </ion-item>
     </div>
@@ -150,7 +153,7 @@
             <ion-label>Make my birthday visible to all users</ion-label>
           </ion-item>
         </div>
-        <div class="input-box">
+        <div class="input-box" *ngIf="currentUserRole == 'athlete'">
           <ion-item lines="none">
             <ion-label position="stacked" mode="ios">Team</ion-label>
             <ion-input
@@ -179,7 +182,7 @@
           </div>
         </div>
         <div class="input-box">
-          <ion-item lines="none">
+          <ion-item lines="none" *ngIf="currentUserRole =='athlete'">
             <ion-label position="stacked" mode="ios">Team state</ion-label>
             <ion-input
               data-cy="state"

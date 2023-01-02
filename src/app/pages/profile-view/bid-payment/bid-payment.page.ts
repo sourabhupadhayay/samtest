@@ -26,6 +26,7 @@ export class BidPaymentPage implements OnInit {
   paymentData: paymentData | null = null;
   currentBidAmount: string = "";
   MaxAmount: string = "";
+  badgeCount :number = 0;
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -43,14 +44,16 @@ export class BidPaymentPage implements OnInit {
   ngOnInit() {
     this.squarePaymentScript();
     this.getEventDataFromParams();
+    this.getNotificationCount();
   }
 
   squarePaymentScript() {
     const script = this.renderer.createElement("script");
     if (this.commonService.publicInfo?.squareEnvironment == "PRODUCTION") {
-      script.src = `https://js.squareup.com/v2/paymentform`;
+      script.src = `https://web.squarecdn.com/v1/square.js`;
     } else {
-      script.src = `https://js.squareupsandbox.com/v2/paymentform`;
+      // script.src = `https://js.squareupsandbox.com/v2/paymentform`;  //deprecated
+      script.src = "https://sandbox.web.squarecdn.com/v1/square.js"
     }
 
     this.renderer.appendChild(document.head, script);
@@ -208,6 +211,18 @@ export class BidPaymentPage implements OnInit {
   getToFixedDigits(event:any){
     if(event.target.value !== '')
      event.target.value = parseFloat(event.target.value).toFixed(2)
+    }
+
+    getNotificationCount() {
+      let request: any = {
+        path: "notification/notification/check/v2",
+        isAuth: true,
+      };
+        this.apiService.get(request).subscribe((response: any) => {
+          this.badgeCount = response.data.unreadCount;
+          console.log("c ",this.badgeCount)
+          return this.badgeCount;
+        });
     }
 
     async presentPopover(ev: any) {

@@ -42,6 +42,7 @@ export class AthletePage implements OnInit, OnDestroy {
   isClassAdded: boolean = false;
   userRole: userRole;
   eventState: eventState = "APPROVED";
+  badgeCount :number = 0;
   
   constructor(
     public modalCtrl: ModalController,
@@ -59,7 +60,9 @@ export class AthletePage implements OnInit, OnDestroy {
     this.getUserRole();
     this.getAthleteData();
     this.getAppearanceData();
+    this.getNotificationCount();
   }
+
 
   async getUserRole() {
     this.userRole =  await this.coreService.getUserRoleFromStorage();
@@ -67,8 +70,9 @@ export class AthletePage implements OnInit, OnDestroy {
 
   ionViewDidEnter() {
     this.addClassOnScroll();
+    this.getAppearanceData();
   }
-
+ 
   addClassOnScroll() {
     this.content.ionScroll.subscribe((data) => {
       if (data.detail.scrollTop > 50) {
@@ -95,6 +99,7 @@ export class AthletePage implements OnInit, OnDestroy {
           this.athleteId = params.get("id");
           let request: Request = {
             path: "auth/users/currentUser?userId=" + params.get("id"),
+            isAuth: true,
           };
 
           return this.apiService.get(request);
@@ -134,7 +139,7 @@ export class AthletePage implements OnInit, OnDestroy {
                 pageNumber: this.pageNumber,
               },
               sort: {
-                orderBy: "ASC",
+                orderBy: "DESC",
                 sortBy: "START_DATE",
               },
             },
@@ -233,6 +238,19 @@ export class AthletePage implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     clearInterval(this.interval);
   }
+
+  getNotificationCount() {
+    let request: any = {
+      path: "notification/notification/check/v2",
+      isAuth: true,
+    };
+      this.apiService.get(request).subscribe((response: any) => {
+        this.badgeCount = response.data.unreadCount;
+        console.log("c ",this.badgeCount)
+        return this.badgeCount;
+      });
+  }
+
   async presentPopover(ev: any) {
     const popover = await this.popoverController.create({
       component: PushNotificationPage,

@@ -18,7 +18,8 @@ import {
   PasswordStrength,
 } from "src/app/utility/passwordValidator";
 import { AuthModuleService } from "../auth-module.service";
-import {CommonService} from "../../../providers/common.service";
+import { CommonService } from "../../../providers/common.service";
+import { ModalController } from "@ionic/angular";
 
 @Component({
   selector: "app-signup-details",
@@ -39,6 +40,7 @@ export class SignupDetailsPage implements OnInit {
   failedValidationObject: failedValidation;
   profileUrl: string = "";
   currentDate: string = new Date().toISOString();
+  selectedDOB: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -47,7 +49,9 @@ export class SignupDetailsPage implements OnInit {
     private apiService: DataService,
     private constantService: ConstantService,
     private router: Router,
-    private common: AuthModuleService,public commonService: CommonService,
+    private common: AuthModuleService,
+    public commonService: CommonService,
+    public modalCtrl: ModalController
   ) {}
 
   ngOnInit() {
@@ -58,6 +62,7 @@ export class SignupDetailsPage implements OnInit {
     this.getSignUpData();
   }
   ionViewDidLeave() {
+    this.modalCtrl.dismiss();
     this.isFormSubmitted = false;
     this.signUpDetailsForm.reset();
   }
@@ -138,7 +143,7 @@ export class SignupDetailsPage implements OnInit {
       this.coreService.dismissLoader();
       if (response["status"]["code"] === this.constantService.STATUS_OK) {
         this.coreService.showToastMessage(
-         "User added sucessfully",
+          "User signup sucessfully",
           this.coreService.TOAST_SUCCESS
         );
         this.router.navigate(["/auth/login"]);
@@ -158,23 +163,24 @@ export class SignupDetailsPage implements OnInit {
     let imageSize = this.coreService.formatBytes(blob.size);
     if (imageSize > this.commonService.publicInfo.imageMaxSize) {
       this.coreService.showToastMessage(
-        "please upload image that is under "+ this.commonService.publicInfo.imageMaxSize+" mb ",
+        "please upload image that is under " +
+          this.commonService.publicInfo.imageMaxSize +
+          " mb ",
         this.coreService.TOAST_WARNING
       );
       return;
     }
-  if(blob.type=="image/png" || blob.type=="image/jpeg"){
-    this.uploadImageToServer(blob, this.selectedImage.format);
-    this.ProfileImageUrl = this.DOMSanitizer.bypassSecurityTrustUrl(
-    this.selectedImage.webPath
-    );
-  }
-  else{
-    this.coreService.showToastMessage(
-      "please upload image jpeg/png ",
-      this.coreService.TOAST_ERROR
-    );
-  }
+    if (blob.type == "image/png" || blob.type == "image/jpeg") {
+      this.uploadImageToServer(blob, this.selectedImage.format);
+      this.ProfileImageUrl = this.DOMSanitizer.bypassSecurityTrustUrl(
+        this.selectedImage.webPath
+      );
+    } else {
+      this.coreService.showToastMessage(
+        "please upload image jpeg/png ",
+        this.coreService.TOAST_ERROR
+      );
+    }
   }
 
   removeImage() {
@@ -241,10 +247,12 @@ export class SignupDetailsPage implements OnInit {
     return format(parseISO(value), "MM/dd/yyyy");
   }
 
-  patchDateValue(date: string) {
+  patchDateValue(date: any) {
     let formattedDate = this.formatDate(date);
 
     this.signUpDetailsForm.controls.birthDate.patchValue(formattedDate);
+    this.selectedDOB = new Date().toISOString();
+    this.selectedDOB = date;
   }
 
   validateBothPasswords(): boolean {

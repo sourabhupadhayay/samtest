@@ -18,7 +18,10 @@
           </ion-label>
           <div class="notification" slot="end"  (click)="presentPopover($event)">
             <img src="assets/icon/notification.svg" />
-            <span></span>
+            <span>
+              <i *ngIf="this.badgeCount < 99">{{this.badgeCount}}</i>
+              <i *ngIf="this.badgeCount > 99">99+</i>
+            </span>
           </div>
         </ion-item>
       </div>

@@ -17,7 +17,10 @@
         </ion-label>
         <div class="notification" slot="end"   (click)="presentPopover($event)">
           <img src="assets/icon/notification.svg" />
-          <span></span>
+          <span>
+            <i *ngIf="this.badgeCount < 99">{{this.badgeCount}}</i>
+            <i *ngIf="this.badgeCount > 99">99+</i>
+          </span>
         </div>
       </ion-item>
     </div>
@@ -41,7 +44,7 @@
         <h2 class="profile__name">Hi {{userData?.fullName}}</h2>
         <ng-container *ngIf="userRole == 'fan'">
           <p>{{userData?.teamName}}</p>
-          <p>{{userData?.teamState}} / {{userData?.country}}</p>
+          <p>{{userData?.teamState}} <b *ngIf="userData?.teamState == null">/</b> {{userData?.country}}</p>
         </ng-container>
         <ng-container *ngIf="userRole == 'athlete'">
           <p>{{userData?.teamName}}</p>
@@ -51,20 +54,23 @@
 
     <div class="profile__border"></div>
 
-    <div *ngIf="userRole == 'fan'" class="profile__bottom">
+    <!-- <div *ngIf="userRole == 'fan'" class="profile__bottom">
       <h4 class="profile__opp">Opportunities on <span>BubbleApp</span></h4>
       <h6>
         ${{userData?.totalEventAmount}}
       </h6>
-      <!--      <ion-button routerLink="/waitlist">Test Video call</ion-button>-->
-    </div>
+      <!--      <ion-button routerLink="/waitlist">Test Video call</ion-button>
+    </div> -->
 
     <div *ngIf="userRole == 'athlete'" class="profile__bottom" (click)="redirectToInvoice()">
       <h4 class="profile__opp">
-        Your Bubble Bills Earning On <span>BubbleApp</span>
+        Your Bubble cash Earning On <span>BubbleApp</span>
       </h4>
-      <h6>
-        ${{athleteEarnings}}
+      <h6 *ngIf="commonService.athleteEarnings!=null">
+        ${{commonService.athleteEarnings | number: '1.0-2'}}
+      </h6>
+      <h6 *ngIf="commonService.athleteEarnings==null">
+        $ 0
       </h6>
 
       <!-- <ion-button routerLink="/waitlist">join</ion-button> -->
