@@ -240,7 +240,8 @@ export class InvoicePage implements OnInit {
        amount : this.dwollaRequestAmount
     });
     this.transferAmountForm.controls['amount'].disable();
-    this.amountvalue= this.transferAmountForm.controls['amount'].value.toFixed(2);
+    //this.amountvalue= this.transferAmountForm.controls['amount'].value.toFixed(2);
+    this.amountvalue= this.summarydetails.requestAmount.toFixed(2)
    console.log(this.transferAmountForm.controls['amount'])
     
   }
@@ -258,7 +259,7 @@ export class InvoicePage implements OnInit {
         data: {
             ...this.transferAmountForm.value,
             // "amount" : this.convertStringToNum(this.transferAmountForm.value.amount),
-            "amount" : this.dwollaRequestAmount,
+            "amount" : this.amountvalue,
             "toBankAccountId" : this.selectedBankId
         },
         isAuth: true,
