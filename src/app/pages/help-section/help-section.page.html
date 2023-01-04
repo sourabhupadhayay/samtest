@@ -1,62 +1,186 @@
-<!-- <ion-header>
-  <ion-toolbar>
-    <ion-title>help-section</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [scrollEvents]="true">
+  <!-- <ion-header>
+    <ion-toolbar>
+      <img src="assets/images/single-logo.svg" />
+      <div class="notification" slot="end" (click)="presentPopover($event)">
+        <img src="assets/icon/notification.svg" >
+        <span>
+          <i *ngIf="this.badgeCount < 99">{{this.badgeCount}}</i>
+          <i *ngIf="this.badgeCount > 99">99+</i>
+        </span>
+      </div>
+    </ion-toolbar>
+  </ion-header> -->
 
-<ion-content>
-
-</ion-content> -->
-
-
-
-<ion-content [fullscreen]="true">
-    <ion-header>
-      <ion-toolbar>
-        <img src="assets/images/single-logo.svg" />
-        <div class="notification" slot="end" (click)="presentPopover($event)">
-          <img src="assets/icon/notification.svg" >
+  <ion-grid class="top-card">
+    <div class="title-part">
+      <ion-item lines="none" mode="md">
+        <ion-icon
+          routerLink="/tabs/home"
+          slot="start"
+          name="arrow-back-outline" mode="md"
+        ></ion-icon>
+        <ion-label>
+          <ion-grid class="logo-head">
+            <img src="assets/images/single-logo.svg" />
+            <div class="nil4all">
+              <span>#NIL4ALL</span>
+            </div>
+          </ion-grid>
+        </ion-label>
+        <div class="notification" slot="end"   (click)="presentPopover($event)">
+          <img src="assets/icon/notification.svg" />
           <span>
             <i *ngIf="this.badgeCount < 99">{{this.badgeCount}}</i>
             <i *ngIf="this.badgeCount > 99">99+</i>
           </span>
         </div>
-      </ion-toolbar>
-    </ion-header>
-
-    <ion-grid class="bg-bubble">
-      <div class="dots-bubble">
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-        <div class="dots"></div>
-      </div>
-    </ion-grid>
-  <!-- </ion-grid> -->
-<div class="bg-images">
-
-</div>
-  <ion-grid class="logo-bg">
-    <img src="assets/icon/logo-bg.png" />
-    <span>Work in progress</span>
+      </ion-item>
+    </div>
   </ion-grid>
-</ion-content>
+
+  <ion-grid class="faq-main">
+      <div class="faq-card">
+          <div class="faq-header">
+              <h3>FAQ</h3>
+          </div>
+          <div class="faq-data">
+            <ion-accordion-group>
+              <ion-accordion *ngFor="let faq of faqList; let index = index" value="{{faq?.id}}">
+                <ion-item slot="header">
+                  <ion-label>{{faq?.question}}</ion-label>
+                </ion-item>
+                <div class="ans-data" slot="content">
+                  <p>{{faq?.answer}}</p>
+                </div>
+              </ion-accordion>
+              <!-- <ion-accordion value="second">
+                <ion-item slot="header">
+                  <ion-label>How to bid for event?</ion-label>
+                </ion-item>
+                <div class="ans-data" slot="content">
+                  <p>Lorem ipsum dolor sit amet consectetur. Aliquam
+                    integer tortor arcu lectus a lacus amet magna.
+                    Lorem sagittis ut risus tortor a cursus morbi.
+                    Sagittis proin in risus neque volutpat pellentesque
+                    purus lectus velit. Cursus mollis eu morbi viverra
+                    nulla turpis.</p>
+                </div>
+              </ion-accordion>
+              <ion-accordion value="third">
+                <ion-item slot="header">
+                  <ion-label>How to invite athletes personally?</ion-label>
+                </ion-item>
+                <div class="ans-data" slot="content">
+                  <p>Lorem ipsum dolor sit amet consectetur. Aliquam
+                    integer tortor arcu lectus a lacus amet magna.
+                    Lorem sagittis ut risus tortor a cursus morbi.
+                    Sagittis proin in risus neque volutpat pellentesque
+                    purus lectus velit. Cursus mollis eu morbi viverra
+                    nulla turpis.</p>
+                </div>
+              </ion-accordion>
+              <ion-accordion value="fore">
+                <ion-item slot="header">
+                  <ion-label>What are the charges to talk for a favorite Athletes?</ion-label>
+                </ion-item>
+                <div class="ans-data" slot="content">
+                  <p>Lorem ipsum dolor sit amet consectetur. Aliquam
+                    integer tortor arcu lectus a lacus amet magna.
+                    Lorem sagittis ut risus tortor a cursus morbi.
+                    Sagittis proin in risus neque volutpat pellentesque
+                    purus lectus velit. Cursus mollis eu morbi viverra
+                    nulla turpis.</p>
+                </div>
+              </ion-accordion>
+              <ion-accordion value="five">
+                <ion-item slot="header">
+                  <ion-label>Can I use another payment method?</ion-label>
+                </ion-item>
+                <div class="ans-data" slot="content">
+                  <p>Lorem ipsum dolor sit amet consectetur. Aliquam
+                    integer tortor arcu lectus a lacus amet magna.
+                    Lorem sagittis ut risus tortor a cursus morbi.
+                    Sagittis proin in risus neque volutpat pellentesque
+                    purus lectus velit. Cursus mollis eu morbi viverra
+                    nulla turpis.</p>
+                </div>
+              </ion-accordion>
+              <ion-accordion value="six">
+                <ion-item slot="header">
+                  <ion-label>payment deducted? without any conversation.!</ion-label>
+                </ion-item>
+                <div class="ans-data" slot="content">
+                  <p>Lorem ipsum dolor sit amet consectetur. Aliquam
+                    integer tortor arcu lectus a lacus amet magna.
+                    Lorem sagittis ut risus tortor a cursus morbi.
+                    Sagittis proin in risus neque volutpat pellentesque
+                    purus lectus velit. Cursus mollis eu morbi viverra
+                    nulla turpis.</p>
+                </div>
+              </ion-accordion> -->
+            </ion-accordion-group>
+          </div>
+          <div class="contect-btn">
+              <ion-button (click)="isModalOpen=true">Contact Us </ion-button>
+          </div>
+      </div>
+  </ion-grid>
 
 
+  <ion-modal  class="contact-modal" [isOpen]="isModalOpen">
+    <ng-template>
+      
+      <div class="inner-content">
+        <div class="main-screen">
+          <ion-item lines="none">
+            <ion-textarea placeholder="Enter your message here" rows="10" [(ngModel)]="feedbackMsg"></ion-textarea>
+          </ion-item>
+        </div>
+      </div>
+  
+      <ion-footer mode="ios">
+        <ion-toolbar mode="ios">
+          <ion-button class="cancel-btn" (click)="isModalOpen=false">
+            Cancel
+          </ion-button>
+          <ion-button  class="send-btn" [disabled]="feedbackMsg == ''" (click)="submitFeedBack()">
+            Send Message
+          </ion-button>
+        </ion-toolbar>
+      </ion-footer>
+    </ng-template>
+  </ion-modal>
+
+  <ion-grid class="bg-bubble">
+    <div class="dots-bubble">
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+    </div>
+  </ion-grid>
+<!-- </ion-grid> -->
+
+<!-- <ion-grid class="logo-bg">
+  <img src="assets/icon/logo-bg.png" />
+  <span>Work in progress</span>
+</ion-grid>
+</ion-content> -->

@@ -732,3 +732,35 @@ app-invoice{
 .tabs-btn-main ion-tab-button::part(native){
   overflow: visible;
 }
+app-help-section{
+  .ion-accordion-toggle-icon{margin: 0; --color: var(--text-gray); color: var(--text-gray); font-weight: 400; font-size: 1rem; opacity: 0.5;}
+}
+
+.contact-modal {
+  --height: auto;
+  align-items: center;
+  --background: transparent;
+  background: transparent;
+  .ion-page {
+    position: relative;
+    display: block;
+    contain: content;
+    border-radius: 12px;
+    background: var(--white-bg);
+    max-width: 90%;
+    margin: 0 auto;
+    .inner-content {
+      max-height: 70vh;
+      overflow: auto;
+    }
+  }
+  ion-footer {
+    background: var(--white-bg);
+    border-radius: 0;
+    ion-toolbar {
+      border-radius: 0 !important;
+      border: 0;
+      background: var(--white-bg);
+    }
+  }
+}
