@@ -17,6 +17,7 @@ import { DataService, Request, Response } from "src/app/providers/data.service";
 import { CommonService } from "../../../providers/common.service";
 import { PopoverController } from '@ionic/angular';
 import { PushNotificationPage } from "../../push-notification/push-notification.page";
+import { param } from "cypress/types/jquery";
 
 export type eventState = "APPROVED" | "PENDING" | "PAST";
 
@@ -43,6 +44,7 @@ export class AthletePage implements OnInit, OnDestroy {
   userRole: userRole;
   eventState: eventState = "APPROVED";
   badgeCount :number = 0;
+  isFromListing : boolean = false;
   
   constructor(
     public modalCtrl: ModalController,
@@ -54,6 +56,7 @@ export class AthletePage implements OnInit, OnDestroy {
     private cd: ChangeDetectorRef,
     private commonService: CommonService,
     public popoverController: PopoverController,
+    private activeRoute: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -61,8 +64,22 @@ export class AthletePage implements OnInit, OnDestroy {
     this.getAthleteData();
     this.getAppearanceData();
     this.getNotificationCount();
+    this.getQueryParam();
   }
 
+  getQueryParam() {
+    this.activeRoute.queryParams.subscribe((params) => {
+    this.isFromListing = params?.listing == 'true' ? true : false;
+    });
+  }
+
+  redirectBack() {
+    if(this.isFromListing){
+      this.router.navigate(["/bubble-screen-list"]);
+    } else {
+      this.router.navigate(["/tabs/home"])
+    }
+  }
 
   async getUserRole() {
     this.userRole =  await this.coreService.getUserRoleFromStorage();

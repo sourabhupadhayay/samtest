@@ -184,7 +184,9 @@ export class BubbleScreenListPage implements OnInit {
 
   navigateToAthlete(id: string) {
     this.audio.play().then(() => {
-      this.router.navigate(["/profile/athlete/" + id]);
+      this.router.navigate(["/profile/athlete/" + id],
+      {queryParams: {listing: 'true' }});
+
     });
   }
 

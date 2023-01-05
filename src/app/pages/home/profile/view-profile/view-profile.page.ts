@@ -23,7 +23,8 @@ export class ViewProfilePage implements OnInit {
   userData: any | null = null; 
   nameInitials: string;
   profileSubscription: Subscription;
-  badgeCount :number = 0;
+  badgeCount : number = 0;
+  apperancecount: any;
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -35,12 +36,18 @@ export class ViewProfilePage implements OnInit {
     private badge: Badge,
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getUserDataFromStorage();
+    if (this.userData?.id != null) {
+      this.appearancesheld();
+    }
+  }
   ionViewWillEnter() {
     this.isProfileUpdated();
     // this.getCurrentUserDetails();
     this.getUserDataFromStorage();
     this.getNotificationCount();
+    this.appearancesheld();
   }
 
   isProfileUpdated() {
@@ -95,7 +102,17 @@ export class ViewProfilePage implements OnInit {
       });
     });
   }
+  appearancesheld() {
+    let request: Request = {
+      path: "core/event/participated/count?userId=" + this.userData.id,
 
+      isAuth: true,
+    };
+    this.apiService.get(request).subscribe((response: Response) => {
+
+      this.apperancecount = response.data;
+    });
+  }
   async presentChangePasswordModal(): Promise<void> {
     const modal: HTMLIonModalElement = await this.modalCtrl.create({
       component: ChangePasswordComponent,
@@ -176,8 +193,10 @@ export class ViewProfilePage implements OnInit {
           localStorage.removeItem("authDetails");
           this.badge.clear();
           
-          this.router.navigate(["/auth/login"]);
-          location.reload()
+          // this.router.navigate(["/auth/login"]); redirected to bubble-screen
+          location.reload();
+          this.router.navigate(["/bubble-screen"]);
+         
         });
         
       } else {

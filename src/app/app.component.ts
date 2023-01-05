@@ -161,7 +161,12 @@ export class AppComponent implements OnInit, OnDestroy {
   deepLinking() {
     App.addListener("appUrlOpen", (event: URLOpenListenerEvent) => {
       this.zone.run(() => {
-        const domain = "dev.bubbleapp.com";
+        let domain = "";
+        if(configuration.state == 'production') {
+          domain = "prod.bubbleapp.com"
+        } else {
+          domain = "dev.bubbleapp.com"
+        }
         const pathArray = event.url.split(domain);
 
         const appPath = pathArray.pop();
