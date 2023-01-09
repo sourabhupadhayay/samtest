@@ -120,6 +120,21 @@ export class SignupDetailsPage implements OnInit {
     this.signUpDetailsForm.controls.phone.disable({ onlySelf: true });
   }
 
+  redirectBack() {
+    this.showFirstPage = false;
+    this.showSecondPage = true;
+  }
+
+  onNext() {
+    if (this.validateAge()) return;
+    if (this.isFormValid()) return;
+    if (this.isPassWordStrongEnough()) return;
+    if (this.validateBothPasswords()) return;
+
+    this.showFirstPage = true;
+    this.showSecondPage = false;
+  }
+
   onSubmit() {
     this.isFormSubmitted = true;
     // validations

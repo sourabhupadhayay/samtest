@@ -1,16 +1,16 @@
 <ion-header class="ion-no-border" [translucent]="true">
   <ion-toolbar>
     <ion-icon
-    *ngIf="showFirstPage"
+    *ngIf="!showFirstPage && this.showSecondPage"
       slot="start"
       name="arrow-back-outline"
       routerLink="/auth/signup"
     ></ion-icon>
     <ion-icon
-    *ngIf="showSecondPage"
+    *ngIf="showFirstPage && !this.showSecondPage"
       slot="start"
       name="arrow-back-outline"
-      routerLink="/auth/signup"
+      (click)="redirectBack()"
     ></ion-icon>
   </ion-toolbar>
 </ion-header>
@@ -376,9 +376,9 @@
               </ion-item>
             </div>
             <div class="auth-btn">
-              <ion-button (click)="onSubmit()" id="submitBtn">
+              <ion-button (click)="onNext()" id="submitBtn">
                 <img src="assets/images/button-auth.png" />
-                <span>Signup</span>
+                <span>Next</span>
               </ion-button>
             </div>
           </div>
@@ -387,7 +387,7 @@
 
             <div class="auth-title sticky-top">
               <div class="status-screen">
-                <span></span>
+                <span class="active"></span>
                 <span class="active"></span>
               </div>
               <!-- <img src="assets/images/auth-img.svg" /> -->
@@ -413,8 +413,8 @@
                   </div>
                 </div>
               </div>
-              <h5>Casey Rogers</h5>
-              <p>caseyrogers@gmail.com</p>
+              <h5 *ngIf="this.showFirstPage && !this.showSecondPage">{{this.signUpDetailsForm.value.fullName}}</h5>
+              <p *ngIf="this.showFirstPage && !this.showSecondPage">{{this.common.signUpData.email}}</p>
             </div>
 
             
@@ -513,7 +513,7 @@
             <div class="auth-btn">
               <ion-button (click)="onSubmit()" id="submitBtn">
                 <img src="assets/images/button-auth.png" />
-                <span>Signup2</span>
+                <span>Signup</span>
               </ion-button>
             </div>
           </div>
