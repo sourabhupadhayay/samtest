@@ -41,6 +41,9 @@ export class SignupDetailsPage implements OnInit {
   profileUrl: string = "";
   currentDate: string = new Date().toISOString();
   selectedDOB: any;
+  showFirstPage : boolean = false;
+  showSecondPage : boolean = true;
+
 
   constructor(
     private formBuilder: FormBuilder,
