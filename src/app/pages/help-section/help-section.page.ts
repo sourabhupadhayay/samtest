@@ -40,6 +40,10 @@ export class HelpSectionPage implements OnInit {
     this.getFAQList();
   }
 
+  ionViewWillEnter() {
+    this.getNotificationCount();
+  }
+
   async getUserDataFromStorage() {
     const { value } = await Preferences.get({ key: "userDetails" });
     this.loggedInUserData = JSON.parse(value);
