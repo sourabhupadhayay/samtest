@@ -158,14 +158,16 @@ export class SignupDetailsPage implements OnInit {
 
     this.coreService.presentLoader(this.constantService.WAIT);
     this.apiService.post(request).subscribe((response: Response) => {
-      this.coreService.dismissLoader();
+      
       if (response["status"]["code"] === this.constantService.STATUS_OK) {
+        this.coreService.dismissLoader();
         this.coreService.showToastMessage(
           "User signup sucessfully",
           this.coreService.TOAST_SUCCESS
         );
         this.router.navigate(["/auth/login"]);
       } else {
+        this.coreService.dismissLoader();
         this.coreService.showToastMessage(
           response.status.description,
           this.coreService.TOAST_ERROR
