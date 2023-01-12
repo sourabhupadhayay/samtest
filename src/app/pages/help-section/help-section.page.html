@@ -51,7 +51,7 @@
                   <ion-label>{{faq?.question}}</ion-label>
                 </ion-item>
                 <div class="ans-data" slot="content">
-                  <p>{{faq?.answer}}</p>
+                  <p [innerHTML]="faq?.answer" class="backtransperent">{{faq?.answer}}</p>
                 </div>
               </ion-accordion>
               <!-- <ion-accordion value="second">
