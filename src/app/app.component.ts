@@ -163,7 +163,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.zone.run(() => {
         let domain = "";
         if(configuration.state == 'production') {
-          domain = "prod.bubbleapp.com"
+          domain = "portal.bubbleapp.com"
         } else {
           domain = "dev.bubbleapp.com"
         }
