@@ -167,6 +167,7 @@ export class LoginPage implements OnInit {
       data: {
         socialAccessToken: data.socialAccessToken,
         socialLoginType: data.socialLoginType,
+        deviceToken: this.generatedToken,
       },
     };
 
@@ -175,6 +176,7 @@ export class LoginPage implements OnInit {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
         console.log("social");
+        localStorage.setItem("authDetails", JSON.stringify(response.data));
 
         this.coreService.showToastMessage(
           response.status.description,
