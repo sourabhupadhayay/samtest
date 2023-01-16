@@ -18,8 +18,8 @@
       </ion-item>
     </div>
   </ion-grid>
-
   <div class="main-screen">
+   
     <!-- <button (click)="soundOnOff()" style="position: relative; z-index:999">mute</button> -->
     <div class="video-box">
       <video #player
@@ -27,11 +27,11 @@
         id="muteSound"
         height="100%"
         width="100%"
-      autoplay="autoplay"
-      webkit-playsinline
-      playsinline
+      autoplay="true"  
+      webkit-playsinline="true"
+      playsinline="true"
       src="{{this.commonService.publicInfo?.videoUrls[currentIndex] | profile}}"
-      (ended)="checkEnd()"    >
+      (ended)="checkEnd()"  >
    
     </video>
   
@@ -50,7 +50,7 @@
         <p class="warning">Your browser does not support HTML5 video.</p>
       </video>
     </div>
-    
+  
     
     <div class="bottom-part">
 
@@ -197,4 +197,6 @@
     </div>
   </div>
   <div class="overlay-bg"></div>
+  
+  
 </ion-content>
