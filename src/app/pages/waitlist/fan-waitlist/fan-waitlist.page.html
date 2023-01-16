@@ -22,21 +22,19 @@
   <div class="main-screen">
     <!-- <button (click)="soundOnOff()" style="position: relative; z-index:999">mute</button> -->
     <div class="video-box">
-      <video #videos
-      *ngIf="this.creatorPersona !== 'ADMIN' && videourl"
+      <video #player
+      *ngIf="this.creatorPersona !== 'ADMIN' && this.commonService.publicInfo?.videoUrls"
         id="muteSound"
         height="100%"
         width="100%"
-        loop="true"
-        autoplay
-        autoplay="autoplay"
-        webkit-playsinline
-        playsinline
-      >
-        <source *ngIf="videourl" src="{{this.videourl | profile}}" />
-        <p class="warning">Your browser does not support HTML5 video. </p>
-      </video>
-
+      autoplay="autoplay"
+      webkit-playsinline
+      playsinline
+      src="{{this.commonService.publicInfo?.videoUrls[currentIndex] | profile}}"
+      (ended)="checkEnd()"    >
+   
+    </video>
+  
       <video
       *ngIf="this.creatorPersona == 'ADMIN'"
         id="muteSound"
@@ -52,6 +50,8 @@
         <p class="warning">Your browser does not support HTML5 video.</p>
       </video>
     </div>
+    
+    
     <div class="bottom-part">
 
       <div *ngIf="this.creatorPersona == 'ADMIN'" class="sponsor-add-part">
