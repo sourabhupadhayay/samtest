@@ -68,18 +68,30 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
 
   ngOnInit() {
    // this.video();
+   this.commonService.getPublicInfo()
     this.getEventDetails();
     this.getUserData();
     this.getSponsor();
-    //console.log("public info", this.commonService.publicInfo);
     
+   this.ensureVideoPlays()
    
   }
-  ngAfterViewInit() {
-    this.player.nativeElement.src = this.commonService.publicInfo?.videoUrls[this.currentIndex];
-    this.player.nativeElement.play();
+   ensureVideoPlays(): void{
+    const video = document.querySelector("video");
+
+    if(!video) return;
     
-  }
+    const promise = video.play();
+    if(promise !== undefined){
+        promise.then(() => {
+            // Autoplay started
+        }).catch(error => {
+            // Autoplay was prevented.
+            video.muted = true;
+            video.play();
+        });
+    }
+}
   ngDoCheck() {
     if (this.connectedFans.length !== 0) {
       this.calculateUserPosition();
