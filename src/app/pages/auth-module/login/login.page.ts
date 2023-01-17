@@ -321,8 +321,6 @@ export class LoginPage implements OnInit {
           socialLoginType: "APPLE",
         };
         this.socialLogin(RequestData);
-        console.log(res);
-        console.log(res.identityToken);
       })
       .catch((error: AppleSignInErrorResponse) => {
         alert(error.code + " " + error.localizedDescription);
