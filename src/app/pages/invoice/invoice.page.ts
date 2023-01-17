@@ -78,7 +78,14 @@ export class InvoicePage implements OnInit {
       details : ['', Validators.required]
     })
   }
-
+  handleRefresh(event) {
+    setTimeout(() => {
+      // Any calls to load data go here
+      event.target.complete();
+      this.getAthleteEarnings();
+      this.summary();
+    }, 2000);
+  };
   onClickCancel() {
     this.modalCtrl.dismiss();
     this.bankDetailsForm.reset();

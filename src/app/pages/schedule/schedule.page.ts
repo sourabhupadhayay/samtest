@@ -67,7 +67,6 @@ export class SchedulePage implements OnInit {
     this.athleteScheduleRequest();
     this.fanScheduleRequest();
     this.getNotificationCount()
-
   }
 
   ngOnInit() {
@@ -127,6 +126,16 @@ export class SchedulePage implements OnInit {
       }
     });
   }
+
+  handleRefresh(event) {
+    setTimeout(() => {
+      // Any calls to load data go here
+      event.target.complete();
+      this.ionViewDidEnter();
+      this.getAthleteEarnings();
+      this.getUserDataFromStorage();
+    }, 2000);
+  };  
   async getUserDataFromStorage() {
     this.userRole = await this.coreService.getUserRoleFromStorage();
     let userData = await this.coreService.getUserDataFromStorage();
