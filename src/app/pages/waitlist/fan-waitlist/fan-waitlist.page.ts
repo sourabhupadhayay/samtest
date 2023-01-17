@@ -98,8 +98,6 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
     }
   }
   ionViewWillEnter() {
-    console.log("ion will enter");
-    
    this.video();
   }
   getSponsor() {
@@ -198,7 +196,6 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
       if (response.status.code === this.constantService.STATUS_OK) {
         this.eventData = response.data;
         this.creatorPersona = response.data.creatorPersona;
-        console.log(this.creatorPersona);
         this.calculateTime();
 
         this.cd.detectChanges();
