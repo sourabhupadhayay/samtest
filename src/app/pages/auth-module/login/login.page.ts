@@ -231,20 +231,23 @@ export class LoginPage implements OnInit {
   //facebook login
 
   async faceBookSignIn() {
-    this.coreService.showToastMessage(
+    if(!this.platform.is("desktop")) {
+      try {
+        let result = (await FacebookLogin.login({
+          permissions: this.FACEBOOK_PERMISSIONS,
+        })) as FacebookLoginResponse;
+        let RequestData = {
+          socialAccessToken: result.accessToken.token,
+          socialLoginType: "FACEBOOK",
+        };
+        this.socialLogin(RequestData);
+      } catch (e) {}
+    } else {
+      this.coreService.showToastMessage(
       "Development under progress",
       this.coreService.TOAST_INFO
     );
-    // try {
-    //   let result = (await FacebookLogin.login({
-    //     permissions: this.FACEBOOK_PERMISSIONS,
-    //   })) as FacebookLoginResponse;
-    //   let RequestData = {
-    //     socialAccessToken: result.accessToken.token,
-    //     socialLoginType: "FACEBOOK",
-    //   };
-    //   this.socialLogin(RequestData);
-    // } catch (e) {}
+    }
   }
 
   async generateNotificationToken() {
