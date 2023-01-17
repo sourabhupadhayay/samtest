@@ -53,6 +53,7 @@ export class LoginPage implements OnInit {
     "user_photos",
     "user_gender",
   ];
+  isIOSPlatform : boolean = false;
 
   constructor(
     private coreService: CoreService,
@@ -76,6 +77,12 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     this.getAuthPublicInfo();
+    console.log("p ",this.platform.platforms(), this.platform.is("android"));
+    this.checkPlatform();
+  }
+
+  checkPlatform() {
+    this.isIOSPlatform = !this.platform.is("android") && !this.platform.is("desktop") ? true : false;
   }
   ionViewWillEnter() {
     this.generateNotificationToken();
