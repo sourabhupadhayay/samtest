@@ -49,7 +49,14 @@ export class ViewProfilePage implements OnInit {
     this.getNotificationCount();
     this.appearancesheld();
   }
-
+  handleRefresh(event) {
+    console.log(event);
+    setTimeout(() => {
+      // Any calls to load data go here
+      event.target.complete();
+      this.ionViewWillEnter();
+    }, 2000);
+  };
   isProfileUpdated() {
     this.profileSubscription = this.commonService.$profileSubject.subscribe(
       () => {
