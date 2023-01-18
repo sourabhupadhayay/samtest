@@ -273,16 +273,24 @@ ion-footer {
     --background: var(--theme-one-bg);
     text-align: center;
     ion-button {
-      --background: transparent;
-      --background-focused: transparent;
-      --background-hover: transparent;
-      --background-activated: transparent;
+      --background: var(--red-bg);
+      --background-focused: var(--red-bg);
+      --background-hover: var(--red-bg);
+      --background-activated: var(--red-bg);
       --box-shadow: none;
       --padding-start: 0.5rem;
       --padding-end: 0.5rem;
-      height: 50px;
+      color: var(--white-clr);
+     i{
+      color: var(--white-clr);
+      text-transform: capitalize;
+      font-style: normal;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-left: 5px;
+     }
       img {
-        width: 40px;
+        width: 25px;
       }
       &.button-disabled {
         opacity: 0.5;

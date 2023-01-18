@@ -1,6 +1,18 @@
 <ion-content [fullscreen]="true">
+
+  
   <ion-grid class="top-card">
+    
+  
     <div class="title-part">
+      <ion-refresher mode="md" slot="fixed" (ionRefresh)="handleRefresh($event)">
+        <ion-refresher-content mode="md"
+          pullingIcon=""
+          pullingText=""
+          refreshingSpinner="circles"
+          refreshingText="">
+        </ion-refresher-content>
+      </ion-refresher>
       <ion-item lines="none" mode="md">
         <ion-icon
           routerLink="/tabs/home"
@@ -14,10 +26,11 @@
               <span>#NIL4ALL</span>
             </div>
           </ion-grid>
+        
         </ion-label>
         <div class="notification" slot="end" (click)="presentPopover($event)">
           <img src="assets/icon/notification.svg" />
-          <span>
+          <span *ngIf="this.badgeCount != 0">
             <i *ngIf="this.badgeCount < 99">{{this.badgeCount}}</i>
             <i *ngIf="this.badgeCount > 99">99+</i>
           </span>

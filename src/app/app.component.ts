@@ -163,7 +163,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.zone.run(() => {
         let domain = "";
         if(configuration.state == 'production') {
-          domain = "prod.bubbleapp.com"
+          domain = "portal.bubbleapp.com"
         } else {
           domain = "dev.bubbleapp.com"
         }
@@ -249,7 +249,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   async callingAthlete() {
+  
     if (!this.authService.data.isLoggedIn) {
+        
       return;
     }
 
@@ -257,6 +259,7 @@ export class AppComponent implements OnInit, OnDestroy {
     if (userRole == "athlete") {
       return;
     } else {
+    
       this.socket = Stomp.over(
         () => new SockJS(configuration.BASE_URL + "core/greeting")
       );
@@ -265,11 +268,18 @@ export class AppComponent implements OnInit, OnDestroy {
         {},
         (frame) => {
           this.socket.subscribe("/errors", (message) => {
+            console.log("error",message.body);
+            
             alert("Error " + message.body);
           });
+          console.log("socket connect");
+          
           this.userDetails = localStorage.getItem("authDetails");
           let value = localStorage.getItem("authDetails");
+
           this.userDetails = JSON.parse(value);
+          console.log(this.userDetails,"user detail");
+          
           this.send(this.userDetails["id"]);
 
           this.socket.subscribe("/topic/receiveCall", (message) => {
@@ -278,6 +288,7 @@ export class AppComponent implements OnInit, OnDestroy {
             let value = localStorage.getItem("authDetails");
             this.userDetails = JSON.parse(value);
             let id = JSON.parse(responseData);
+            console.log("USERID",this.userDetails.id, id.userId)
             if (this.userDetails.id != id.userId) {
               return;
             } else {

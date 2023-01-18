@@ -27,7 +27,8 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
   @Input() connectedFans: any[] = [];
   @Input() calledFans: any[] = [];
   @Input() pendingCallFans: any[] = [];
-  @ViewChild("videos") videos: ElementRef;
+ // @ViewChild("videos") videos: ElementRef;
+ @ViewChild('player') player: ElementRef;
   videoElement: HTMLVideoElement;
   userData;
   eventData;
@@ -53,7 +54,7 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
       delay: 2000,
     },
   };
-
+  currentIndex=0
   constructor(
     private coreService: CoreService,
     private apiService: DataService,
@@ -66,23 +67,37 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.video();
+   // this.video();
+   this.commonService.getPublicInfo()
     this.getEventDetails();
     this.getUserData();
     this.getSponsor();
-    //console.log("public info", this.commonService.publicInfo);
     
+   this.ensureVideoPlays()
    
   }
+   ensureVideoPlays(): void{
+    const video = document.querySelector("video");
 
+    if(!video) return;
+    
+    const promise = video.play();
+    if(promise !== undefined){
+        promise.then(() => {
+            // Autoplay started
+        }).catch(error => {
+            // Autoplay was prevented.
+            video.muted = true;
+            video.play();
+        });
+    }
+}
   ngDoCheck() {
     if (this.connectedFans.length !== 0) {
       this.calculateUserPosition();
     }
   }
   ionViewWillEnter() {
-    console.log("ion will enter");
-    
    this.video();
   }
   getSponsor() {
@@ -118,7 +133,7 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
   }
   
   video() {   
-        this.eventVideoData = this.commonService.publicInfo.videoUrls;
+        this.eventVideoData = this.commonService.publicInfo?.videoUrls;
         this.coreService.dismissLoader();
         for (let i = 0; i < this.eventVideoData.length; i++) {
           this.urls = Math.floor(Math.random() * this.eventVideoData.length);
@@ -127,7 +142,21 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
        return;
         }
   }
+  checkEnd() {
+  
+    if (this.player.nativeElement.currentTime === this.player.nativeElement.duration) {
+      this.playNext();
+    }
+  }
 
+  playNext() {
+    this.currentIndex++;
+    if (this.currentIndex === this.commonService.publicInfo?.videoUrls.length) {
+      this.currentIndex = 0;
+    }
+    this.player.nativeElement.src = this.commonService.publicInfo?.videoUrls[this.currentIndex];
+    this.player.nativeElement.play();
+  }
   calculateUserPosition() {
     //pending fans
     
@@ -167,7 +196,6 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
       if (response.status.code === this.constantService.STATUS_OK) {
         this.eventData = response.data;
         this.creatorPersona = response.data.creatorPersona;
-       // console.log(this.creatorPersona);
         this.calculateTime();
 
         this.cd.detectChanges();

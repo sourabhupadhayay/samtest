@@ -764,3 +764,17 @@ app-help-section{
     }
   }
 }
+
+.refresher-md .refresher-pulling-icon, .refresher-md .refresher-refreshing-icon{
+  color: var(--white-clr) !important;
+  --color: var(--white-clr) !important;
+  display: inline-block; width: auto;
+  text-align: center; height: 30px; width: 30px; 
+  background: rgba(var(--black-bg-rgb), 0.4) !important;
+  border-radius: 30px; margin: 0 auto;
+  left: 0; right: 0; display: flex; justify-content: center; align-items: center; z-index: 9999;
+  top: 0;
+}
+ion-refresher{z-index: 3;}
+// .refresher-md .refresher-pulling-icon{text-align: center; height: 50px; width: 50px; background: var(--black-clr) !important;
+//   border-radius: 5px; margin: 0 auto;}

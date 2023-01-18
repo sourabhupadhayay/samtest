@@ -20,7 +20,7 @@
         </ion-label>
         <div class="notification" slot="end"  (click)="presentPopover($event)">
           <img src="assets/icon/notification.svg" />
-          <span>
+          <span *ngIf="this.badgeCount != 0">
             <i *ngIf="this.badgeCount < 99">{{this.badgeCount}}</i>
             <i *ngIf="this.badgeCount > 99">99+</i>
           </span>
@@ -29,7 +29,7 @@
     </div>
     <div *ngIf="commonService.profileUrl !== ''" class="profile-part">
       <div class="upload-img">
-        <img [src]="commonService.profileUrl | profile" />
+        <img referrerpolicy="no-referrer" [src]="commonService.profileUrl | profile" />
       </div>
 
       <div class="edit-btn">

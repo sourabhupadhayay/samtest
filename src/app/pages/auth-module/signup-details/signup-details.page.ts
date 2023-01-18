@@ -41,6 +41,9 @@ export class SignupDetailsPage implements OnInit {
   profileUrl: string = "";
   currentDate: string = new Date().toISOString();
   selectedDOB: any;
+  showFirstPage : boolean = false;
+  showSecondPage : boolean = true;
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -49,7 +52,7 @@ export class SignupDetailsPage implements OnInit {
     private apiService: DataService,
     private constantService: ConstantService,
     private router: Router,
-    private common: AuthModuleService,
+    public common: AuthModuleService,
     public commonService: CommonService,
     public modalCtrl: ModalController
   ) {}
@@ -117,6 +120,21 @@ export class SignupDetailsPage implements OnInit {
     this.signUpDetailsForm.controls.phone.disable({ onlySelf: true });
   }
 
+  redirectBack() {
+    this.showFirstPage = false;
+    this.showSecondPage = true;
+  }
+
+  onNext() {
+    if (this.validateAge()) return;
+    if (this.isFormValid()) return;
+    if (this.isPassWordStrongEnough()) return;
+    if (this.validateBothPasswords()) return;
+
+    this.showFirstPage = true;
+    this.showSecondPage = false;
+  }
+
   onSubmit() {
     this.isFormSubmitted = true;
     // validations
@@ -140,14 +158,16 @@ export class SignupDetailsPage implements OnInit {
 
     this.coreService.presentLoader(this.constantService.WAIT);
     this.apiService.post(request).subscribe((response: Response) => {
-      this.coreService.dismissLoader();
+      
       if (response["status"]["code"] === this.constantService.STATUS_OK) {
+        this.coreService.dismissLoader();
         this.coreService.showToastMessage(
           "User signup sucessfully",
           this.coreService.TOAST_SUCCESS
         );
         this.router.navigate(["/auth/login"]);
       } else {
+        this.coreService.dismissLoader();
         this.coreService.showToastMessage(
           response.status.description,
           this.coreService.TOAST_ERROR

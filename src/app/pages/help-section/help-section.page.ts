@@ -35,8 +35,13 @@ export class HelpSectionPage implements OnInit {
   }
 
   ngOnInit() {
+    this.getNotificationCount();
     this.getUserDataFromStorage();
     this.getFAQList();
+  }
+
+  ionViewWillEnter() {
+    this.getNotificationCount();
   }
 
   async getUserDataFromStorage() {

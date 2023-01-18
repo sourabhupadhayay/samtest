@@ -1,6 +1,8 @@
+<ion-content>
 <ion-header class="ion-no-border" [translucent]="true">
   <ion-toolbar>
     <div class="title-part">
+     
       <ion-item lines="none">
         <ion-icon
           (click)="back()"
@@ -19,7 +21,7 @@
 
         <div class="notification" slot="end"  (click)="presentPopover($event)">
           <img src="assets/icon/notification.svg" />
-          <span>
+          <span *ngIf="this.badgeCount != 0">
             <i *ngIf="this.badgeCount < 99">{{this.badgeCount}}</i>
             <i *ngIf="this.badgeCount > 99">99+</i>
           </span>
@@ -29,7 +31,15 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content
+      pullingIcon=""
+      pullingText=""
+      refreshingSpinner="circles"
+      refreshingText="">
+    </ion-refresher-content>
+  </ion-refresher>
   <div class="main-screen">
     <div class="top-screen">
       <div class="summry-head">

@@ -85,7 +85,7 @@ export class BidPaymentPage implements OnInit {
     modal.present();
     const { data, role } = await modal.onDidDismiss();
     this.paymentData = data;
-    this.paymentType = this.paymentData.paymentType;
+    this.paymentType = this.paymentData?.paymentType;
     if (!data) {
       return;
     }
@@ -165,7 +165,7 @@ export class BidPaymentPage implements OnInit {
       data: {
         eventId: this.eventId,
         nonce: this.paymentData.nonce,
-        paymentType: this.paymentData.paymentType,
+        paymentType: this.paymentData?.paymentType,
         totalAmount: parseFloat(this.bidAmount),
       },
       isAuth: true,

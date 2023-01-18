@@ -83,12 +83,21 @@ export class AppereanceBookingComponent implements OnInit {
     this.getUserRole();
     this.eventTypeSelected();
     this.getSelectedAthlete();
-    this.timeZone();
+    // this.timeZone();
+    this.setTimeZone();
     console.log("ddddd ", new Date(), "yyyy-MM-dd  h:mm:ssZZZZZ");
   }
   async getUserRole() {
     this.userRole = await this.coreService.getUserRoleFromStorage();
     this.setDuration();
+  }
+
+  setTimeZone() {
+    if(this.platform.is("ios")) {
+      this.timeZone();
+    } else {
+      this.currentDate =  new Date().toISOString();
+    }
   }
 
   timeZone() {

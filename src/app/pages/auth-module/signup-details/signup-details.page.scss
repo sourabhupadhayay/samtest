@@ -24,7 +24,7 @@ ion-content {
     flex-flow: column;
     height: 100%;
     .top-screen {
-      max-height: 40vh;
+      max-height: 28vh;
       position: relative;
       position: sticky;
       overflow: hidden;
@@ -74,7 +74,7 @@ ion-content {
     }
 
     .content-part {
-      padding: 15px 0;
+      padding: 10px 0 15px;
       margin: 0;
       // background: var(--theme-one-bg);
 
@@ -106,7 +106,7 @@ ion-content {
       }
       .auth-title {
         text-align: center;
-        padding: 15px 15px 15px;
+        padding: 1px 15px 7px;
         border-top-left-radius: 50px;
         border-top-right-radius: 50px;
         // position: sticky;
@@ -138,7 +138,7 @@ ion-content {
       }
 
       .profile-image {
-        text-align: center; padding: 0 0 10px;
+        text-align: center; padding: 10px 0 10px; background: #79c2e9; border-radius: 8px;
         .images-upload {
           text-align: center;
           padding: 0 10px 10px;
@@ -210,12 +210,20 @@ ion-content {
             }
           }
         }
+        h5{color: var(--white-clr); font-weight: 700; font-size: 1rem; margin: 0;}
+        p{color: var(--white-clr); font-weight: 500; font-size: 0.75rem; margin: 0;}
       }
 
       .auth-form {
         padding: 0 15px;
-        max-height: 300px;
-        overflow: auto;
+        // max-height: 300px;
+        // overflow: auto;
+        max-height: none;
+        .status-screen{text-align: center;
+          span{width: 50px; height: 7px; border-radius: 50px; display: inline-block; margin: 5px; background: var(--white-bg); opacity: 0.25;
+            &.active{opacity: 1;}
+          }
+        }
         .input-box {
           padding: 22px 0 0px;
           ion-item {
@@ -361,7 +369,7 @@ ion-content {
         }
 
         .password-text {
-          padding: 5px 20px;
+          padding: 5px 5px;
           ion-item {
             --padding-start: 0;
             --inner-padding-end: 0;
@@ -399,6 +407,9 @@ ion-content {
       .auth-btn {
         padding: 15px 15px;
         text-align: center;
+        // position: fixed;
+        // bottom: 0; width: 100%;
+        // z-index: 9;
         ion-button {
           cursor: pointer;
           --background: transparent;
@@ -693,7 +704,7 @@ ion-content {
 
 
 @media only screen and (max-width: 374px) {
-  ion-content .main-screen .content-part .auth-form{max-height: 200px !important;}
+  // ion-content .main-screen .content-part .auth-form{max-height: 200px !important;}
   ion-content .main-screen .content-part .auth-title{padding: 5px 15px 10px !important;}
   ion-content .main-screen .content-part .auth-title img{width: 40px !important;}
   ion-content .main-screen .content-part .auth-title h4{font-size: 1.575rem !important;}
