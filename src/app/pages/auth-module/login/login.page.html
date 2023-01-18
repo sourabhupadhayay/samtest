@@ -152,7 +152,7 @@
           <ion-button (click)="googleSignIn()">
             <img src="assets/images/google.svg" />
           </ion-button>
-          <ion-button (click)="applesign()">
+          <ion-button *ngIf="this.isIOSPlatform" (click)="applesign()">
             <img src="assets/images/apple.svg" />
           </ion-button> 
         </div>

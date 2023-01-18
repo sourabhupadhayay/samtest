@@ -53,6 +53,7 @@ export class LoginPage implements OnInit {
     "user_photos",
     "user_gender",
   ];
+  isIOSPlatform : boolean = false;
 
   constructor(
     private coreService: CoreService,
@@ -76,6 +77,12 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     this.getAuthPublicInfo();
+    console.log("p ",this.platform.platforms(), this.platform.is("android"));
+    this.checkPlatform();
+  }
+
+  checkPlatform() {
+    this.isIOSPlatform = !this.platform.is("android") && !this.platform.is("desktop") ? true : false;
   }
   ionViewWillEnter() {
     this.generateNotificationToken();
@@ -231,20 +238,23 @@ export class LoginPage implements OnInit {
   //facebook login
 
   async faceBookSignIn() {
-    this.coreService.showToastMessage(
+    if(!this.platform.is("desktop")) {
+      try {
+        let result = (await FacebookLogin.login({
+          permissions: this.FACEBOOK_PERMISSIONS,
+        })) as FacebookLoginResponse;
+        let RequestData = {
+          socialAccessToken: result.accessToken.token,
+          socialLoginType: "FACEBOOK",
+        };
+        this.socialLogin(RequestData);
+      } catch (e) {}
+    } else {
+      this.coreService.showToastMessage(
       "Development under progress",
       this.coreService.TOAST_INFO
     );
-    // try {
-    //   let result = (await FacebookLogin.login({
-    //     permissions: this.FACEBOOK_PERMISSIONS,
-    //   })) as FacebookLoginResponse;
-    //   let RequestData = {
-    //     socialAccessToken: result.accessToken.token,
-    //     socialLoginType: "FACEBOOK",
-    //   };
-    //   this.socialLogin(RequestData);
-    // } catch (e) {}
+    }
   }
 
   async generateNotificationToken() {
@@ -321,8 +331,6 @@ export class LoginPage implements OnInit {
           socialLoginType: "APPLE",
         };
         this.socialLogin(RequestData);
-        console.log(res);
-        console.log(res.identityToken);
       })
       .catch((error: AppleSignInErrorResponse) => {
         alert(error.code + " " + error.localizedDescription);
