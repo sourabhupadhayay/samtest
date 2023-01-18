@@ -1,6 +1,8 @@
+<ion-content>
 <ion-header class="ion-no-border" [translucent]="true">
   <ion-toolbar>
     <div class="title-part">
+     
       <ion-item lines="none">
         <ion-icon
           (click)="back()"
@@ -29,13 +31,13 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content
-      pullingIcon="chevron-down-circle-outline"
-      pullingText="Pull to refresh"
+      pullingIcon=""
+      pullingText=""
       refreshingSpinner="circles"
-      refreshingText="Refreshing...">
+      refreshingText="">
     </ion-refresher-content>
   </ion-refresher>
   <div class="main-screen">
