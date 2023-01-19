@@ -8,6 +8,8 @@ import {
   ChangeDetectorRef,
   NgZone,
   OnDestroy,
+  ViewChild,
+  ElementRef,
 } from "@angular/core";
 import { Router, NavigationEnd } from "@angular/router";
 import { AuthenticationService } from "src/app/providers/authentication.service";
@@ -28,7 +30,7 @@ export class AthleteWaitlistPage implements OnInit, DoCheck, OnDestroy {
   @Input() connectedFans: any[] = [];
   @Input() pendingCallFans: any[] = [];
   @Input() calledFans: any[] = [];
-  
+  @ViewChild('player') player: ElementRef;
   fanImagesList: any[] = [];
   athleteList: any;
   sponsorList: any;
@@ -46,6 +48,9 @@ export class AthleteWaitlistPage implements OnInit, DoCheck, OnDestroy {
   userData: any;
   userId: any;
   userRole: any;
+  eventData: any;
+  creatorPersona: any;
+  currentIndex=0;
   constructor(
     private router: Router,
     private commonService: CommonService,
@@ -56,16 +61,56 @@ export class AthleteWaitlistPage implements OnInit, DoCheck, OnDestroy {
     private navController: NavController,
     private cd: ChangeDetectorRef,
     public modalCtrl: ModalController,
+    private constantService: ConstantService
   ) {}
 
   ngOnInit() {
     console.log(this.connectedFans);
     this.getSponsor();
     this.getUserDataFromStorage();
+    this.getEventDetails();
+    this.ensureVideoPlays()
   }
   ionDidViewEnter() {
     console.log("pending", this.pendingCallFans, this.connectedFans);
     // this.eventEnd();
+  }
+  ensureVideoPlays(): void{
+    const video = document.querySelector("video");
+    if(!video) return; 
+    const promise = video.play();
+    if(promise !== undefined){
+        promise.then(() => {
+            // Autoplay started
+        }).catch(error => {
+            // Autoplay was prevented.
+            video.muted = true;
+            video.play();
+        });
+    }
+}
+  getEventDetails() {
+    let request: Request = {
+      path: "core/event/details/" + this.eventId,
+      isAuth: true,
+    };
+
+    this.coreService.presentLoader(this.constantService.WAIT);
+    this.apiService.get(request).subscribe((response: Response) => {
+      this.coreService.dismissLoader();
+      if (response.status.code === this.constantService.STATUS_OK) {
+        this.eventData = response.data;
+        this.creatorPersona = response.data.creatorPersona;
+        // this.calculateTime();
+console.log("fdadfgdfndf",this.eventData)
+        this.cd.detectChanges();
+      } else {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_ERROR
+        );
+      }
+    });
   }
   getSponsor() {
     let request: Request = {
@@ -189,6 +234,21 @@ export class AthleteWaitlistPage implements OnInit, DoCheck, OnDestroy {
   }
   ngOnDestroy(): void {
     clearInterval(this.interval);
+  }
+  checkEnd() {
+  
+    if (this.player.nativeElement.currentTime === this.player.nativeElement.duration) {
+      this.playNext();
+    }
+  }
+
+  playNext() {
+    this.currentIndex++;
+    if (this.currentIndex === this.commonService.publicInfo?.videoUrls.length) {
+      this.currentIndex = 0;
+    }
+    this.player.nativeElement.src = this.commonService.publicInfo?.videoUrls[this.currentIndex];
+    this.player.nativeElement.play();
   }
 }
 

@@ -23,7 +23,7 @@
     <!-- <button (click)="soundOnOff()" style="position: relative; z-index:999">mute</button> -->
     <div class="video-box">
       <video #player
-      *ngIf="this.creatorPersona !== 'ADMIN' && this.commonService.publicInfo?.videoUrls"
+      *ngIf="this.commonService.publicInfo?.videoUrls"
         id="muteSound"
         height="100%"
         width="100%"
@@ -35,7 +35,7 @@
    
     </video>
   
-      <video
+      <!-- <video
       *ngIf="this.creatorPersona == 'ADMIN'"
         id="muteSound"
         height="100%"
@@ -48,7 +48,7 @@
       >
         <source src="{{this.eventData.sponsorVideoUrl | profile}}" />
         <p class="warning">Your browser does not support HTML5 video.</p>
-      </video>
+      </video> -->
     </div>
   
     
