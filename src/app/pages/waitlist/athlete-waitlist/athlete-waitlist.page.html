@@ -142,7 +142,8 @@
               </ion-avatar>
               <ion-label>
                 <h5>{{fan.userName}}</h5>
-                <p>${{fan.totalAmount.toFixed()}}</p>
+                <p *ngIf="fan.totalAmount != 0">${{fan.totalAmount.toFixed()}}</p>
+                <p *ngIf="fan.totalAmount==0">Free</p>
               </ion-label>
               <img
                 class="video"
@@ -176,7 +177,8 @@
               </ion-avatar>
               <ion-label>
                 <h5>{{fan.userName}}</h5>
-                <p>${{fan.totalAmount.toFixed()}}</p>
+                <p *ngIf="fan.totalAmount != 0">${{fan.totalAmount.toFixed()}}</p>
+                <p *ngIf="fan.totalAmount==0">Free</p>
               </ion-label>
               <img
                 class="video"

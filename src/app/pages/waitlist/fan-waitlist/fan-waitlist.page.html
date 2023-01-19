@@ -172,7 +172,8 @@
                 </ng-container>
                 <ion-label>
                   <h5>{{userData?.fullName}}</h5>
-                  <p>${{connectedFanDetails?.totalAmount}}</p>
+                  <p *ngIf="connectedFanDetails?.totalAmount != 0">${{connectedFanDetails?.totalAmount}}</p>
+                  <p *ngIf="connectedFanDetails?.totalAmount==0">Free</p>
                   <!-- <h5>Work in progress</h5> -->
                 </ion-label>
                 <img
