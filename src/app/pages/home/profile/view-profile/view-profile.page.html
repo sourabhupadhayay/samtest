@@ -128,7 +128,7 @@
           <p>{{userData?.birthDate | date:'MMM d, y'}}</p>
         </div>
 
-        <div class="details-box">
+        <div class="details-box" *ngIf="userData?.phone">
           <h5>Phone no.</h5>
           <p>{{userData?.phone == '' ? '-' : userData?.phone }}</p>
         </div>
