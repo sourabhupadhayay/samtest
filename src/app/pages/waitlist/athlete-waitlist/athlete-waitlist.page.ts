@@ -65,14 +65,13 @@ export class AthleteWaitlistPage implements OnInit, DoCheck, OnDestroy {
   ) {}
 
   ngOnInit() {
-    console.log(this.connectedFans);
     this.getSponsor();
     this.getUserDataFromStorage();
     this.getEventDetails();
     this.ensureVideoPlays()
   }
-  ionDidViewEnter() {
-    console.log("pending", this.pendingCallFans, this.connectedFans);
+  ionDidViewEnter() { 
+    this.ensureVideoPlays()   
     // this.eventEnd();
   }
   ionViewDidLeave() {
@@ -110,7 +109,6 @@ soundOnOff() {
         this.eventData = response.data;
         this.creatorPersona = response.data.creatorPersona;
         // this.calculateTime();
-console.log("fdadfgdfndf",this.eventData)
         this.cd.detectChanges();
       } else {
         this.coreService.showToastMessage(
@@ -185,9 +183,9 @@ console.log("fdadfgdfndf",this.eventData)
   }
 
   callFan(fan: any) {
-    console.log("fann", fan);
+    this.soundOnOff()
     this.commonService.callingFanDetail = fan;
-    this.router.navigate(["waitlist/call/" + fan.id], {
+    this.navController.navigateBack(["/waitlist/call/" + fan.id], {
       queryParams: {
         isBidEvent: true,
       },
