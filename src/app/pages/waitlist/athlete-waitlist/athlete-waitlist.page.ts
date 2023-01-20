@@ -75,6 +75,10 @@ export class AthleteWaitlistPage implements OnInit, DoCheck, OnDestroy {
     console.log("pending", this.pendingCallFans, this.connectedFans);
     // this.eventEnd();
   }
+  ionViewDidLeave() {
+    this.soundOnOff();
+    clearInterval(this.interval);
+  }
   ensureVideoPlays(): void{
     const video = document.querySelector("video");
     if(!video) return; 
@@ -88,6 +92,10 @@ export class AthleteWaitlistPage implements OnInit, DoCheck, OnDestroy {
             video.play();
         });
     }
+}
+soundOnOff() {
+  let audio = document.getElementById("muteSound") as HTMLMediaElement;
+  audio.muted = true;
 }
   getEventDetails() {
     let request: Request = {
