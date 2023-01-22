@@ -8,7 +8,7 @@ import { CoreService, userRole, UserRole } from "./providers/core.service";
 import { DataService, Request } from "./providers/data.service";
 import { NetworkService } from "./providers/network.service";
 import { SplashScreen } from "@capacitor/splash-screen";
-import { Preferences } from '@capacitor/preferences';
+import { Preferences } from "@capacitor/preferences";
 import { Router } from "@angular/router";
 import { CommonService } from "./providers/common.service";
 import { Stomp } from "@stomp/stompjs";
@@ -25,7 +25,7 @@ import { AuthenticationService } from "./providers/authentication.service";
 import { Subscription, interval } from "rxjs";
 import { NavController } from "@ionic/angular";
 import { Badge } from "@awesome-cordova-plugins/badge/ngx";
-
+import { CallKitVoip } from "capacitor-callkit-voip";
 @Component({
   selector: "app-root",
   templateUrl: "app.component.html",
@@ -38,7 +38,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private socketSubscription: Subscription;
   intervalId: number;
   userDetails: any;
-  badgeCount : number = 0;
+  badgeCount: number = 0;
   constructor(
     private apiservice: DataService,
     private _networkService: NetworkService,
@@ -59,10 +59,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.backButton();
     this.hideSplashScreen();
     this.getPublicInfo();
-    this.commonService.getAthleteEarnings()
+    this.commonService.getAthleteEarnings();
     this.deepLinking();
-    if(this.authService.isAuthenticated()){
-    this.getBadgeNotificationCount();
+    if (this.authService.isAuthenticated()) {
+      this.getBadgeNotificationCount();
     }
   }
 
@@ -77,13 +77,12 @@ export class AppComponent implements OnInit, OnDestroy {
     this.commonService.termcondition();
   }
 
-  
-  async getBadgeStatus(unreadCount:number) {
+  async getBadgeStatus(unreadCount: number) {
     let count = await this.badge.set(unreadCount);
-    console.log("badge count ",count)
-   }
+    console.log("badge count ", count);
+  }
 
-   getBadgeNotificationCount() {
+  getBadgeNotificationCount() {
     let request: any = {
       path: "notification/notification/check/v2",
       isAuth: true,
@@ -93,7 +92,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.coreService.dismissLoader();
         if (response.status.code === this.constantService.STATUS_OK) {
           this.badgeCount = response?.data?.unreadCount;
-          console.log("count ",this.badgeCount);
+          console.log("count ", this.badgeCount);
           this.getBadgeStatus(this.badgeCount);
         } else {
           this.coreService.showToastMessage(
@@ -123,15 +122,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
   initializeApp(): void {
     Preferences.get({ key: "first_time" }).then(({ value }) => {
-      console.log("initial",value);
-      
-    })
+      console.log("initial", value);
+    });
     this.platform.ready().then((): void => {
       this._networkEventsListener();
       this.initFacebook();
       this.isUserLoggedInFirstTime();
       //this.registerNotification();
-     
     });
   }
 
@@ -162,10 +159,10 @@ export class AppComponent implements OnInit, OnDestroy {
     App.addListener("appUrlOpen", (event: URLOpenListenerEvent) => {
       this.zone.run(() => {
         let domain = "";
-        if(configuration.state == 'production') {
-          domain = "portal.bubbleapp.com"
+        if (configuration.state == "production") {
+          domain = "portal.bubbleapp.com";
         } else {
-          domain = "dev.bubbleapp.com"
+          domain = "dev.bubbleapp.com";
         }
         const pathArray = event.url.split(domain);
 
@@ -212,10 +209,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   isUserLoggedInFirstTime() {
     Preferences.get({ key: "first_time" }).then(({ value }) => {
-      console.log("first time",value);
-      
-      if (!value && this.authService.data.isLoggedIn==false) {
-      
+      console.log("first time", value);
+
+      if (!value && this.authService.data.isLoggedIn == false) {
         this.router.navigate(["/bubble-screen"]);
       }
     });
@@ -249,9 +245,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   async callingAthlete() {
-  
     if (!this.authService.data.isLoggedIn) {
-        
       return;
     }
 
@@ -259,7 +253,6 @@ export class AppComponent implements OnInit, OnDestroy {
     if (userRole == "athlete") {
       return;
     } else {
-    
       this.socket = Stomp.over(
         () => new SockJS(configuration.BASE_URL + "core/greeting")
       );
@@ -268,18 +261,18 @@ export class AppComponent implements OnInit, OnDestroy {
         {},
         (frame) => {
           this.socket.subscribe("/errors", (message) => {
-            console.log("error",message.body);
-            
+            console.log("error", message.body);
+
             alert("Error " + message.body);
           });
           console.log("socket connect");
-          
+
           this.userDetails = localStorage.getItem("authDetails");
           let value = localStorage.getItem("authDetails");
 
           this.userDetails = JSON.parse(value);
-          console.log(this.userDetails,"user detail");
-          
+          console.log(this.userDetails, "user detail");
+
           this.send(this.userDetails["id"]);
 
           this.socket.subscribe("/topic/receiveCall", (message) => {
@@ -288,7 +281,7 @@ export class AppComponent implements OnInit, OnDestroy {
             let value = localStorage.getItem("authDetails");
             this.userDetails = JSON.parse(value);
             let id = JSON.parse(responseData);
-            console.log("USERID",this.userDetails.id, id.userId)
+            console.log("USERID", this.userDetails.id, id.userId);
             if (this.userDetails.id != id.userId) {
               return;
             } else {
@@ -342,6 +335,29 @@ export class AppComponent implements OnInit, OnDestroy {
       userId: id,
     });
     this.socket.send("/app/videoBid", {}, data);
+  }
+  async registerVoipNotification() {
+    // register token
+    CallKitVoip.addListener("registration", ({ token }: any) => {
+      console.log(`VOIP token has been received ${token}`);
+      this.commonService.voipToken = token;
+    });
+
+    // start call
+    CallKitVoip.addListener("callAnswered", (obj) =>
+      console.log(`Call has been received from`, obj)
+    );
+    // end call
+    CallKitVoip.addListener("endCall", (obj) =>
+      console.log(
+        JSON.stringify(obj),
+        obj.connectionId,
+        `Call has been REJECTED from `
+      )
+    );
+    // init plugin, start registration of VOIP notifications
+    await CallKitVoip.register(); // can be used with `.then()`
+    console.log("Push notification has been registered");
   }
 
   ngOnDestroy(): void {
