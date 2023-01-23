@@ -22,6 +22,7 @@ export class CommonService {
   termconditions: any;
   athleteEarnings: number = 0;
   voipToken: any;
+  VideoCallAnswer: boolean = false;
   public $socketSubject: Subject<null> = new Subject();
   public $navigateSubject: Subject<null> = new Subject();
   constructor(

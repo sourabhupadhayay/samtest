@@ -25,7 +25,7 @@ import { AuthenticationService } from "./providers/authentication.service";
 import { Subscription, interval } from "rxjs";
 import { NavController } from "@ionic/angular";
 import { Badge } from "@awesome-cordova-plugins/badge/ngx";
-import { CallKitVoip } from "capacitor-callkit-voip";
+import { CallData, CallKitVoip } from "capacitor-callkit-voip";
 @Component({
   selector: "app-root",
   templateUrl: "app.component.html",
@@ -39,6 +39,7 @@ export class AppComponent implements OnInit, OnDestroy {
   intervalId: number;
   userDetails: any;
   badgeCount: number = 0;
+  data = {};
   constructor(
     private apiservice: DataService,
     private _networkService: NetworkService,
@@ -75,6 +76,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.socketSubscription = source.subscribe((val) => this.onlineStatus());
     this.commonService.privacy();
     this.commonService.termcondition();
+    //this.commonService.publicInfo();
+    await this.registerVoipNotification();
   }
 
   async getBadgeStatus(unreadCount: number) {
@@ -265,16 +268,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
             alert("Error " + message.body);
           });
-          console.log("socket connect");
 
           this.userDetails = localStorage.getItem("authDetails");
           let value = localStorage.getItem("authDetails");
-
           this.userDetails = JSON.parse(value);
-          console.log(this.userDetails, "user detail");
-
           this.send(this.userDetails["id"]);
-
           this.socket.subscribe("/topic/receiveCall", (message) => {
             let responseData = JSON.parse(message.body).content;
 
@@ -303,23 +301,24 @@ export class AppComponent implements OnInit, OnDestroy {
                 //       this.commonService.callingAthleteDetails.eventId,
                 //   ]);
                 // }
-                this.navController.navigateBack([
-                  "/waitlist/incoming-call/" +
-                    this.commonService.callingAthleteDetails.id,
-                ]);
-              } else {
-                this.navController.navigateBack(
-                  [
-                    "/waitlist/incoming-call/" +
-                      this.commonService.callingAthleteDetails.eventId,
-                  ],
-                  {
-                    queryParams: {
-                      bidId: this.commonService.callingAthleteDetails.id,
-                    },
-                  }
-                );
+                // this.navController.navigateBack([
+                //   "/waitlist/incoming-call/" +
+                //     this.commonService.callingAthleteDetails.id,
+                // ]);
               }
+              // else {
+              //   this.navController.navigateBack(
+              //     [
+              //       "/waitlist/incoming-call/" +
+              //         this.commonService.callingAthleteDetails.eventId,
+              //     ],
+              //     {
+              //       queryParams: {
+              //         bidId: this.commonService.callingAthleteDetails.id,
+              //       },
+              //     }
+              //   );
+              // }
             }
           });
         },
@@ -339,14 +338,29 @@ export class AppComponent implements OnInit, OnDestroy {
   async registerVoipNotification() {
     // register token
     CallKitVoip.addListener("registration", ({ token }: any) => {
-      console.log(`VOIP token has been received ${token}`);
       this.commonService.voipToken = token;
+      localStorage.setItem("voipToken", token);
     });
 
     // start call
-    CallKitVoip.addListener("callAnswered", (obj) =>
-      console.log(`Call has been received from`, obj)
-    );
+    CallKitVoip.addListener("callAnswered", (obj: CallData) => {
+      //obj.id= bidId
+      this.commonService.VideoCallAnswer = true;
+      this.data = obj.connectionId;
+      if (obj.creatorPersona != "USER") {
+        this.router.navigate(["/waitlist/call/" + obj.id], {
+          queryParams: {
+            isBidEvent: obj.creatorPersona == "USER" ? false : true,
+          },
+        });
+      } else {
+        this.router.navigate(["/waitlist/call/" + obj.eventId], {
+          queryParams: {
+            isBidEvent: obj.creatorPersona == "USER" ? false : true,
+          },
+        });
+      }
+    });
     // end call
     CallKitVoip.addListener("endCall", (obj) =>
       console.log(

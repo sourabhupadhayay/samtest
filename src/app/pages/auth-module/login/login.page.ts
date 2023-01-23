@@ -28,7 +28,7 @@ import {
   AppleSignInErrorResponse,
   ASAuthorizationAppleIDRequest,
 } from "@awesome-cordova-plugins/sign-in-with-apple/ngx";
-
+import { CallKitVoip } from "capacitor-callkit-voip";
 @Component({
   selector: "app-login",
   templateUrl: "./login.page.html",
@@ -53,8 +53,8 @@ export class LoginPage implements OnInit {
     "user_photos",
     "user_gender",
   ];
-  isIOSPlatform : boolean = false;
-
+  isIOSPlatform: boolean = false;
+  voipToken: any;
   constructor(
     private coreService: CoreService,
     private apiService: DataService,
@@ -73,19 +73,25 @@ export class LoginPage implements OnInit {
       scopes: ["profile", "email"],
     });
     // this.applesign();
+    this.registerVoipNotification();
   }
 
   ngOnInit() {
     this.getAuthPublicInfo();
-    console.log("p ",this.platform.platforms(), this.platform.is("android"));
+    console.log("p ", this.platform.platforms(), this.platform.is("android"));
     this.checkPlatform();
+    // this.registerVoipNotification();
   }
 
   checkPlatform() {
-    this.isIOSPlatform = !this.platform.is("android") && !this.platform.is("desktop") ? true : false;
+    this.isIOSPlatform =
+      !this.platform.is("android") && !this.platform.is("desktop")
+        ? true
+        : false;
   }
   ionViewWillEnter() {
     this.generateNotificationToken();
+    // this.registerVoipNotification();
     this.requestPushNotificationsPermission();
     this.returnUrl =
       this.route.snapshot.queryParams["returnUrl"] || "/tabs/home";
@@ -105,10 +111,16 @@ export class LoginPage implements OnInit {
 
   async onSubmit() {
     this.isFormSubmitted = true;
+    if (localStorage.getItem("voipToken")) {
+      this.voipToken = localStorage.getItem("voipToken");
+    }
+
+    console.log("local", this.voipToken);
 
     if (this.loginForm.invalid) {
       return;
     }
+    // this.registerVoipNotification();
 
     let request: Request = {
       path: "auth/users/login",
@@ -116,14 +128,17 @@ export class LoginPage implements OnInit {
         ...this.loginForm.value,
         loginSource: "WEB",
         deviceToken: this.generatedToken,
+        voipDeviceToken: this.voipToken,
       },
     };
+    console.log("request login", request, "voip token:", this.voipToken);
+
     this.coreService.presentLoader(this.constantService.WAIT);
     if (this.authPublicInfo.twoStepAuthentication) {
       this.apiService.post(request, false).subscribe((response: Response) => {
         this.coreService.dismissLoader();
         if (response.status.code === this.constantService.STATUS_OK) {
-          console.log("eaning");
+          console.log("eaning", this.commonService.voipToken);
 
           localStorage.setItem("authDetails", JSON.stringify(response.data));
           Preferences.set({
@@ -175,6 +190,7 @@ export class LoginPage implements OnInit {
         socialAccessToken: data.socialAccessToken,
         socialLoginType: data.socialLoginType,
         deviceToken: this.generatedToken,
+        voipDeviceToken: this.commonService.voipToken,
       },
     };
 
@@ -238,7 +254,7 @@ export class LoginPage implements OnInit {
   //facebook login
 
   async faceBookSignIn() {
-    if(!this.platform.is("desktop")) {
+    if (!this.platform.is("desktop")) {
       try {
         let result = (await FacebookLogin.login({
           permissions: this.FACEBOOK_PERMISSIONS,
@@ -251,9 +267,9 @@ export class LoginPage implements OnInit {
       } catch (e) {}
     } else {
       this.coreService.showToastMessage(
-      "Development under progress",
-      this.coreService.TOAST_INFO
-    );
+        "Development under progress",
+        this.coreService.TOAST_INFO
+      );
     }
   }
 
@@ -264,6 +280,7 @@ export class LoginPage implements OnInit {
 
     let result = await PushNotifications.requestPermissions();
     console.log("result login", result.receive);
+    //this.registerVoipNotification();
     if (result.receive === "granted") {
       // Register with Apple / Google to receive push via APNS/FCM
       PushNotifications.register();
@@ -336,5 +353,31 @@ export class LoginPage implements OnInit {
         alert(error.code + " " + error.localizedDescription);
         console.error(error);
       });
+  }
+  async registerVoipNotification() {
+    // register token
+    console.log("VOIP funv call");
+
+    CallKitVoip.addListener("registration", ({ token }: any) => {
+      console.log(`VOIP token has been received login123 ${token}`);
+      this.voipToken = token;
+      console.log("common login", this.voipToken);
+    });
+
+    // start call
+    CallKitVoip.addListener("callAnswered", (obj) =>
+      console.log(`Call has been received from`, obj)
+    );
+    // end call
+    CallKitVoip.addListener("endCall", (obj) =>
+      console.log(
+        JSON.stringify(obj),
+        obj.connectionId,
+        `Call has been REJECTED from `
+      )
+    );
+    // init plugin, start registration of VOIP notifications
+    await CallKitVoip.register(); // can be used with `.then()`
+    console.log("Push notification has been registered");
   }
 }
