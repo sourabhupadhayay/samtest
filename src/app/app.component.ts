@@ -279,7 +279,6 @@ export class AppComponent implements OnInit, OnDestroy {
             let value = localStorage.getItem("authDetails");
             this.userDetails = JSON.parse(value);
             let id = JSON.parse(responseData);
-            console.log("USERID", this.userDetails.id, id.userId);
             if (this.userDetails.id != id.userId) {
               return;
             } else {
