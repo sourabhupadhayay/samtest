@@ -807,7 +807,9 @@ ion-content {
     width: auto;
     text-align: center;
     padding: 10px;
+    outline: none;
     ion-button {
+      outline: none;
       cursor: pointer;
       --background: transparent;
       --background-focused: transparent;
