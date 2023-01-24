@@ -28,6 +28,7 @@ import {
   AppleSignInErrorResponse,
   ASAuthorizationAppleIDRequest,
 } from "@awesome-cordova-plugins/sign-in-with-apple/ngx";
+import { FullScreenNotification } from 'capacitor-fullscreen-notification';
 
 @Component({
   selector: "app-login",
@@ -285,7 +286,8 @@ export class LoginPage implements OnInit {
     PushNotifications.addListener(
       "pushNotificationReceived",
       (notification: PushNotificationSchema) => {
-        // alert("Push received: " + JSON.stringify(notification));
+        alert("Push received: " + JSON.stringify(notification));
+        this.fullscreenNotif();
       }
     );
 
@@ -295,7 +297,18 @@ export class LoginPage implements OnInit {
         // alert("Push action performed: " + JSON.stringify(notification));
       }
     );
+   
   }
+
+  fullscreenNotif() {
+    console.log("fullSc called")
+    FullScreenNotification.addListener('launch', (data) => {
+      alert("fullscreen "+data);
+      console.log("fff ",data)
+      this.router.navigate(["/tabs/help"])
+    });
+  }
+
   requestPushNotificationsPermission() {
     // requesting permission
     this.afMessaging.requestToken // getting tokens

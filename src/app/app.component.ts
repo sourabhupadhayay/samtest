@@ -25,6 +25,8 @@ import { AuthenticationService } from "./providers/authentication.service";
 import { Subscription, interval } from "rxjs";
 import { NavController } from "@ionic/angular";
 import { Badge } from "@awesome-cordova-plugins/badge/ngx";
+import { FullScreenNotification } from 'capacitor-fullscreen-notification';
+
 
 @Component({
   selector: "app-root",
@@ -66,6 +68,13 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
+  fullscreenNotif() {
+    FullScreenNotification.addListener('launch', (data) => {
+      alert("fullscreen "+data);
+      console.log("fff ",data)
+      this.router.navigate(["/tabs/help"])
+    });
+}
   async ngOnInit() {
     // await this.getBadgeNotificationCount();
     // await this.getBadgeStatus(0);
