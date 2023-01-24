@@ -128,7 +128,7 @@
           <p>{{userData?.birthDate | date:'MMM d, y'}}</p>
         </div>
 
-        <div class="details-box">
+        <div class="details-box" *ngIf="userData?.phone">
           <h5>Phone no.</h5>
           <p>{{userData?.phone == '' ? '-' : userData?.phone }}</p>
         </div>
@@ -255,7 +255,7 @@
 
     <div class="inner-content">
       <div class="main-screen">
-        <p>Are you sure, you want to delete your BubbleApp account.?</p>
+        <p>Are you sure, you want to delete your BubbleApp account?</p>
       </div>
     </div>
 

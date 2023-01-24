@@ -1,6 +1,6 @@
 <ion-content [scrollEvents]="true" [forceOverscroll]="false">
   <div class="main-screen">
-    <ion-grid class="top-card">
+    <ion-grid class="top-card" >
       <div class="title-part">
         <ion-item  lines="none" mode="md">
           <ion-icon (click)="routeBackToSchedule()" slot="start" name="arrow-back-outline" mode="md"></ion-icon>
@@ -18,11 +18,24 @@
           </div> -->
         </ion-item>
       </div>
-      <div class="profile-img">
-        <img [src]="userData?.profileUrl | profile"/>
+    
+      <div class="slider-part" *ngIf="this.creatorPersona == 'ADMIN'">
+        <ion-slides [options]="slideOpts" autoplay="400" speed="3000">
+          <ion-slide>
+            <div class="slide">
+              <div class="img-box">
+                <img src="{{this.eventData.sponsorProfilePicture | profile}}" />
+              </div>
+              <h5>{{this.eventData?.sponsorName}}</h5>
+            </div>
+          </ion-slide>
+        </ion-slides>
       </div>
+      <!-- <div class="profile-img">
+        <img [src]="userData?.profileUrl | profile"/>
+      </div> -->
       <div class="overlay-blue"></div>
-      <div class="slider-part">
+      <div class="slider-part" *ngIf="this.creatorPersona != 'ADMIN'">
         <ion-slides [options]="slideOpts" autoplay="400" speed="3000">
           <ion-slide *ngFor="let athlete of athleteList">
             <div class="slide">
@@ -65,7 +78,20 @@
         </ion-slides>
       </div>
     </ion-grid>
-
+    <div class="video-box" >
+      <video #player
+      *ngIf="this.commonService?.publicInfo?.videoUrls"
+        id="muteSound"
+        height="100%"
+        width="100%"
+      autoplay="true"  
+      webkit-playsinline="true"
+      playsinline="true"
+      src="{{this.commonService.publicInfo?.videoUrls[currentIndex] | profile}}"
+      (ended)="checkEnd()"  >
+   
+    </video>
+    </div>
     <div class="wait-part">
       <div class="head">
         <div class="bids-available">
@@ -116,7 +142,8 @@
               </ion-avatar>
               <ion-label>
                 <h5>{{fan.userName}}</h5>
-                <p>${{fan.totalAmount.toFixed()}}</p>
+                <p *ngIf="fan.totalAmount != 0">${{fan.totalAmount.toFixed()}}</p>
+                <p *ngIf="fan.totalAmount==0">Free</p>
               </ion-label>
               <img
                 class="video"
@@ -150,7 +177,8 @@
               </ion-avatar>
               <ion-label>
                 <h5>{{fan.userName}}</h5>
-                <p>${{fan.totalAmount.toFixed()}}</p>
+                <p *ngIf="fan.totalAmount != 0">${{fan.totalAmount.toFixed()}}</p>
+                <p *ngIf="fan.totalAmount==0">Free</p>
               </ion-label>
               <img
                 class="video"

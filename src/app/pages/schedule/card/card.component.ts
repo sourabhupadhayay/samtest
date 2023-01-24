@@ -374,8 +374,10 @@ async calender(){
     this.eventData=data
     if(data.creatorPersona=="ADMIN" && !this.cardData.bidSubmitted)
     {
-      this.eventType='Paid'
-     this.ConfirmModal.present()
+      // this.eventType='Paid';
+      this.router.navigate(["waitlist/event/" + data.id]);
+      this.onPayment()
+    //  this.ConfirmModal.present()
     }
     else{
     if (this.cardData.bidSubmitted) {

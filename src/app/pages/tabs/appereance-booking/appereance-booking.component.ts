@@ -57,6 +57,7 @@ export class AppereanceBookingComponent implements OnInit {
   maxData: any = new Date().getFullYear() + 5;
   starttime: any;
   selectduration: any = "00:00";
+  minSample = new Date().toISOString();
   constructor(
     public modalCtrl: ModalController,
     private fb: FormBuilder,
@@ -85,7 +86,6 @@ export class AppereanceBookingComponent implements OnInit {
     this.getSelectedAthlete();
     // this.timeZone();
     this.setTimeZone();
-    console.log("ddddd ", new Date(), "yyyy-MM-dd  h:mm:ssZZZZZ");
   }
   async getUserRole() {
     this.userRole = await this.coreService.getUserRoleFromStorage();
@@ -96,10 +96,25 @@ export class AppereanceBookingComponent implements OnInit {
     if(this.platform.is("ios")) {
       this.timeZone();
     } else {
-      this.currentDate =  new Date().toISOString();
+      console.log("in android")
+      // this.currentDate =  new Date().toISOString();
+      this.androidTimeZone();
     }
   }
 
+  androidTimeZone() {
+    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    console.log("time zone", userTimeZone);
+
+    var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+    console.log("tz", tzoffset);
+    var localISOTime = (new Date(Date.now() - tzoffset)).toISOString();
+    this.currentDate =  localISOTime;
+    console.log("final ",this.currentDate);
+
+  
+  }
+    
   timeZone() {
     // Get the time zone set on the user's device
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;

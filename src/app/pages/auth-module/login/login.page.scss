@@ -107,7 +107,7 @@ ion-content {
       }
       .auth-title {
         text-align: center;
-        padding: 5px 15px 15px;
+        padding: 5px 15px 7px;
         border-top-left-radius: 50px;
         border-top-right-radius: 50px;
         // position: sticky;
@@ -223,7 +223,7 @@ ion-content {
 
       .forgot-pass {
         text-align: right;
-        padding: 10px 10px;
+        padding: 10px 10px 7px;
         p {
           cursor: pointer;
           color: var(--white-clr);
@@ -235,7 +235,7 @@ ion-content {
       }
 
       .auth-btn {
-        padding: 15px 15px;
+        padding: 5px 15px;
         text-align: center;
         ion-button {
           cursor: pointer;
@@ -308,17 +308,16 @@ ion-content {
 
       .social-media {
         text-align: center;
-        padding: 10px 15px;
+        padding: 5px 15px 8px;
         ion-button {
           --background: var(--white-clr);
           --background-focused: var(--white-clr);
           --background-hover: var(--white-clr);
           --background-activated: var(--white-clr);
-
           --padding-start: 0rem;
           --padding-end: 0rem;
-          height: 45px;
-          width: 45px;
+          height: 40px;
+          width: 40px;
           --border-radius: 50%;
           box-shadow: none;
           margin: 5px 10px;
@@ -330,15 +329,17 @@ ion-content {
       }
 
       .create-account {
+        outline: none;
         text-align: center;
         padding: 5px 15px 15px;
         p {
           cursor: pointer;
           color: var(--white-clr);
           margin: 0;
-          font-size: 0.875rem;
+          font-size: 1rem;
           text-decoration: underline;
           display: inline-block;
+          font-weight: 600;
         }
       }
 
