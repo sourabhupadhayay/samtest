@@ -53,7 +53,7 @@ export class AthleteWaitlistPage implements OnInit, DoCheck, OnDestroy {
   currentIndex=0;
   constructor(
     private router: Router,
-    private commonService: CommonService,
+    public commonService: CommonService,
     private apiService: DataService,
     private coreService: CoreService,
     private constant: ConstantService,
