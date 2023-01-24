@@ -80,6 +80,7 @@ export class LoginPage implements OnInit {
     this.getAuthPublicInfo();
     console.log("p ",this.platform.platforms(), this.platform.is("android"));
     this.checkPlatform();
+    
   }
 
   checkPlatform() {
@@ -280,14 +281,14 @@ export class LoginPage implements OnInit {
     });
 
     PushNotifications.addListener("registrationError", (error: any) => {
-      alert("Error on registration: " + JSON.stringify(error));
+      // alert("Error on registration: " + JSON.stringify(error));
     });
 
     PushNotifications.addListener(
       "pushNotificationReceived",
       (notification: PushNotificationSchema) => {
         alert("Push received: " + JSON.stringify(notification));
-        this.fullscreenNotif();
+        //  this.fullscreenNotif();
       }
     );
 
@@ -300,14 +301,14 @@ export class LoginPage implements OnInit {
    
   }
 
-  fullscreenNotif() {
-    console.log("fullSc called")
-    FullScreenNotification.addListener('launch', (data) => {
-      alert("fullscreen "+data);
-      console.log("fff ",data)
-      this.router.navigate(["/tabs/help"])
-    });
-  }
+  // fullscreenNotif() {
+  //   console.log("fullSc called")
+  //   FullScreenNotification.addListener('launch', (response:any) => {
+  //     alert("fullscreen "+response);
+  //     console.log("fff ",response)
+  //     this.router.navigate(["/tabs/help"])
+  //   });
+  // }
 
   requestPushNotificationsPermission() {
     // requesting permission

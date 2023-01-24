@@ -68,13 +68,19 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  fullscreenNotif() {
-    FullScreenNotification.addListener('launch', (data) => {
-      alert("fullscreen "+data);
-      console.log("fff ",data)
-      this.router.navigate(["/tabs/help"])
-    });
+ async fullscreenNotif() {
+  await FullScreenNotification.addListener('launch', (data) => {
+      let data1 : any =  JSON.stringify(data)
+      console.log("fff ",data1.fullScreenId)
+      this.router.navigate(["/waitlist/call/63cfe0ddf36b9b42da00f231"], {
+        queryParams: {
+             isBidEvent: true,
+        },
+      })
+      // waitlist/call/63cfe0ddf36b9b42da00f231?isBidEvent=true
+  })
 }
+
   async ngOnInit() {
     // await this.getBadgeNotificationCount();
     // await this.getBadgeStatus(0);
@@ -84,6 +90,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.socketSubscription = source.subscribe((val) => this.onlineStatus());
     this.commonService.privacy();
     this.commonService.termcondition();
+    this.fullscreenNotif();
   }
 
   
@@ -140,6 +147,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.initFacebook();
       this.isUserLoggedInFirstTime();
       //this.registerNotification();
+      this.fullscreenNotif();
      
     });
   }
