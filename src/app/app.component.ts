@@ -26,6 +26,7 @@ import { Subscription, interval } from "rxjs";
 import { NavController } from "@ionic/angular";
 import { Badge } from "@awesome-cordova-plugins/badge/ngx";
 import { FullScreenNotification } from 'capacitor-fullscreen-notification';
+import * as _ from "cypress/types/lodash";
 
 
 @Component({
@@ -41,6 +42,9 @@ export class AppComponent implements OnInit, OnDestroy {
   intervalId: number;
   userDetails: any;
   badgeCount : number = 0;
+  accepted:boolean = false;
+  exampleObj = {"fullScreenId":"63d0fdf14d051d69aefbbb87","isNotificationActive":true,"timeout":10000,"actionId":"accept"}
+
   constructor(
     private apiservice: DataService,
     private _networkService: NetworkService,
@@ -68,17 +72,57 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
- async fullscreenNotif() {
-  await FullScreenNotification.addListener('launch', (data) => {
-      let data1 : any =  JSON.stringify(data)
-      console.log("fff ",data1.fullScreenId)
-      this.router.navigate(["/waitlist/call/63cfe0ddf36b9b42da00f231"], {
-        queryParams: {
-             isBidEvent: true,
-        },
-      })
-      // waitlist/call/63cfe0ddf36b9b42da00f231?isBidEvent=true
+   async getfullscreenNotification() {
+      await FullScreenNotification.addListener('launch', (data) => {
+      // alert("data "+ JSON.stringify(data))
+      let dataObject : any =  JSON.stringify(data);
+      let dataObject1 : any =  data;
+      let bidId :any =  JSON.stringify(data.fullScreenId);
+      let buttonClicked : any = JSON.stringify(data.actionId);
+      console.log("objj ",dataObject);
+      console.log("bidId/btn ",JSON.stringify(data.fullScreenId),buttonClicked);
+      console.log("hassss 1 ",dataObject.hasOwnProperty('"actionId"'));
+      console.log("hassss 2 ",dataObject1.hasOwnProperty('actionId'));
+
+     if (dataObject1.hasOwnProperty('actionId')) {
+       console.log("screen is open");
+    //  this.accepted = buttonClicked === '"accept"' ? true : false;
+    if(buttonClicked === '"accept"') {
+      this.accepted = true
+    } else {
+      this.accepted = false
+    }
+      if(this.accepted) {
+        let bidId1 = this.RemoveInvertedComma(bidId);
+        console.log("in")
+        this.router.navigate(["/waitlist/call/"+ bidId1], {
+          queryParams: {
+               isBidEvent: true,
+          },
+        })
+      } else{
+        console.log("out");
+        this.cancelFullscreenNotification();
+      }
+     }
+     else{
+       console.log("screen is locked");
+       this.router.navigate(['/tabs/help']);
+     }
+      
+     
+    
   })
+}
+
+RemoveInvertedComma(id:string) {
+  let updatedId = id.slice(1,-1);
+  console.log("str ",updatedId);
+}
+
+
+async cancelFullscreenNotification() {
+  await FullScreenNotification.cancelNotification();
 }
 
   async ngOnInit() {
@@ -90,7 +134,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.socketSubscription = source.subscribe((val) => this.onlineStatus());
     this.commonService.privacy();
     this.commonService.termcondition();
-    this.fullscreenNotif();
+    this.getfullscreenNotification();
+    // console.log("aaaaa ",this.exampleObj.hasOwnProperty())
   }
 
   
@@ -147,8 +192,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.initFacebook();
       this.isUserLoggedInFirstTime();
       //this.registerNotification();
-      this.fullscreenNotif();
-     
+      // this.fullscreenNotif();
     });
   }
 

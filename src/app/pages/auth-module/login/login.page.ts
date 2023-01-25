@@ -287,8 +287,7 @@ export class LoginPage implements OnInit {
     PushNotifications.addListener(
       "pushNotificationReceived",
       (notification: PushNotificationSchema) => {
-        alert("Push received: " + JSON.stringify(notification));
-        //  this.fullscreenNotif();
+        // alert("Push received: " + JSON.stringify(notification));
       }
     );
 
@@ -301,14 +300,6 @@ export class LoginPage implements OnInit {
    
   }
 
-  // fullscreenNotif() {
-  //   console.log("fullSc called")
-  //   FullScreenNotification.addListener('launch', (response:any) => {
-  //     alert("fullscreen "+response);
-  //     console.log("fff ",response)
-  //     this.router.navigate(["/tabs/help"])
-  //   });
-  // }
 
   requestPushNotificationsPermission() {
     // requesting permission
