@@ -45,7 +45,8 @@ export class CardComponent implements OnInit {
   timer: any = null;
   interval;
   eventType:any="Paid"
-  eventData:any
+  eventData:any;
+  message:any;
   constructor(
     private cd: ChangeDetectorRef,
     private coreService: CoreService,
@@ -101,9 +102,11 @@ export class CardComponent implements OnInit {
     });
   }
   async presentAlert() {
+   this.message=" call you soon"
+   var concatmessage =this.cardData.athleteName.concat(this.message.toString());
     const alert = await this.alertController.create({
       header: "Calling soon",
-      message: "Athlete will call you soon",
+      message:concatmessage,
       buttons: ["OK"],
     });
     await alert.present();
