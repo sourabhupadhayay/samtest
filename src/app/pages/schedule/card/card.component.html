@@ -210,7 +210,7 @@
 
           <ng-container *ngIf="userRole == 'fan' && cardData.sponsorProfilePicture">
               <div class="bubble-text">
-                  <p><img src="assets/images/bubble-blue.svg"> Brought to you by bubble app </p>
+                  <p><img src="assets/images/bubble-blue.svg"> Brought to you by BubbleApp </p>
               </div>
           </ng-container>
 
@@ -262,9 +262,9 @@
 
           <ng-container *ngIf="userRole == 'athlete' && cardData.sponsorProfilePicture">
             <div class="bubble-text">
-              <p><img src="assets/images/bubble-blue.svg"> Brought to you by bubble app </p>
+              <p><img src="assets/images/bubble-blue.svg"> Brought to you by BubbleApp </p>
           </div>
-          </ng-container>
+          </ng-container> 
           <!-- invited and created by name and pic end  -->
 
           <ng-container *ngIf="userRole == 'athlete'">
@@ -328,8 +328,8 @@
                 <span
                   ><img src="../../../../assets/icon/bid-dollar.svg" alt=""
                 /></span>
-                <p *ngIf="!cardData.bidSubmitted ">Bid now</p>
-             
+                <p *ngIf="!cardData.bidSubmitted && cardData.creatorPersona != 'ADMIN'">Bid now</p>
+                <p *ngIf="!cardData.bidSubmitted &&   cardData.creatorPersona == 'ADMIN'">Join now</p>
                 <p *ngIf="cardData.bidSubmitted">Go</p>
               </ion-button>
               <ion-button
@@ -436,8 +436,7 @@
   ></ng-container>
 </ion-item-sliding>
 
-
-<ion-modal #CreateAppearance class="small-modal">
+ <ion-modal #CreateAppearance class="small-modal">
   <ng-template>
     <ion-header mode="md">
       <h3>Bid to bubble up</h3>
@@ -445,15 +444,13 @@
 
     <div class="inner-content">
       <div class="main-screen">
-        <h5 *ngIf="eventType=='Paid'">
+        <!-- <h5 *ngIf="eventType=='Paid'">
           You’re first in line
         </h5>
         <p *ngIf="eventType=='Paid'">
           Athlete will call you soon
         </p>
-        <!-- <h5 *ngIf="eventType=='Free'">
-          Wait for free or bid to skip to the front of the line
-        </h5> -->
+      -->
         <p *ngIf="eventType=='Free'">
           Wait for free or bid to skip to the front of the line
         </p>
@@ -490,4 +487,4 @@
       </ion-toolbar>
     </ion-footer>
   </ng-template>
-</ion-modal>
+</ion-modal> 

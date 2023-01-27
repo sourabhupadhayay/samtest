@@ -129,11 +129,16 @@ export class SchedulePage implements OnInit {
 
   handleRefresh(event) {
     setTimeout(() => {
-      // Any calls to load data go here
       event.target.complete();
-      this.ionViewDidEnter();
-      this.getAthleteEarnings();
-      this.getUserDataFromStorage();
+        // Any calls to load data go here
+        console.log("schedule data");
+        event.target.complete();
+        this.getNotificationCount();
+        this.resetAndGetMoreData();
+        this.getScheduleDetails()
+        this.athleteScheduleRequest();
+        this.getAthleteEarnings();
+          this.fanScheduleRequest();
     }, 2000);
   };  
   async getUserDataFromStorage() {

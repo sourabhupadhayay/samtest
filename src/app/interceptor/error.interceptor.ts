@@ -30,7 +30,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 
         if (err.status === 401) {
           this.coreService.showToastMessage(
-            '"Your session is expired."',
+            'You have been logged out from this device',
             this.coreService.TOAST_ERROR
           );
           localStorage.clear();

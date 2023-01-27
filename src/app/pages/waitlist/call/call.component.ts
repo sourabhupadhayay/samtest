@@ -26,6 +26,7 @@ import * as SockJS from "sockjs-client";
 import { configuration } from "src/app/configuration";
 import { CommonService } from "src/app/providers/common.service";
 import {  SafeExecution } from "../../../directives/models/safe-execution.decorator";
+import { NavController } from "@ionic/angular";
 
 @Component({
   selector: "app-call",
@@ -64,7 +65,8 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef,
     private constantService: ConstantService,
-    public commonService: CommonService
+    public commonService: CommonService,
+    private navController: NavController,
   ) {
    
    
@@ -268,7 +270,8 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
         this._cleanUp()
         console.log("asdfdg ", this.isBiddingEvent, this.intId);
         if (this.isBiddingEvent) {
-          this.router.navigate(["/waitlist/event/" + response.data.eventId]);
+          this.navController.navigateBack(["/waitlist/event/" + response.data.eventId])
+         // this.router.navigate([]);
         } else {
           this.router.navigate(["tabs/schedule"]);
         }
