@@ -43,6 +43,10 @@ export class AppComponent implements OnInit, OnDestroy {
   userDetails: any;
   badgeCount : number = 0;
   accepted:boolean = false;
+  voipResponse :any;
+
+  sample:any = {"fullScreenId":"{\"bidEventCheck\":true,\"athleteProfilePicture\":\"\\/user\\/63537ce5a83ae62a70321bb5\\/20221205093639_Blake_Shapen_square.jpg\",\"id\":\"63d3bb2796da2f293eeddf86\",\"athleteName\":\"Blake Shapen\",\"creatorPersona\":\"ATHLETE\",\"bidId\":\"63d3bb2796da2f293eeddf86\",\"remainingTime\":180}","isNotificationActive":true,"timeout":10000,"actionId":"accept"}
+  
 
   constructor(
     private apiservice: DataService,
@@ -64,7 +68,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.backButton();
     this.hideSplashScreen();
     this.getPublicInfo();
-    this.commonService.getAthleteEarnings()
+    this.commonService.getAthleteEarnings();
     this.deepLinking();
     if(this.authService.isAuthenticated()){
     this.getBadgeNotificationCount();
@@ -74,29 +78,32 @@ export class AppComponent implements OnInit, OnDestroy {
    async getfullscreenNotification() {
       await FullScreenNotification.addListener('launch', (data) => {
       let dataObject : any =  JSON.stringify(data);
+      let parseDataObject : any = JSON.parse(data.fullScreenId);
+      this.voipResponse = JSON.parse(data.fullScreenId);
+      localStorage.setItem('voip-data',parseDataObject);
       let dataObject1 : any =  data;
-      let bidId :any =  JSON.stringify(data.fullScreenId);
+      let bidId :any = parseDataObject.id;
+      let isBidEvent : any = parseDataObject.bidEventCheck;
       let buttonClicked : any = JSON.stringify(data.actionId);
       console.log("objj ",dataObject);
-      console.log("bidId/btn ",JSON.stringify(data.fullScreenId),buttonClicked);
-      console.log("hassss 2 ",dataObject1.hasOwnProperty('actionId'));
+      console.log("bidId/event ",bidId,isBidEvent);
+      console.log("has actionId ",dataObject1.hasOwnProperty('actionId'));
+      console.log("common ",this.commonService.callingAthleteDetails);
 
-      let bidId1 = this.RemoveInvertedComma(bidId);
-
-     if (dataObject1.hasOwnProperty('actionId')) {                        //check screen locked/onlocked
+     if (dataObject1.hasOwnProperty('actionId')) {                      //check screen locked/onlocked
        console.log("screen is open");
-    //  this.accepted = buttonClicked === '"accept"' ? true : false;
-    if(buttonClicked === '"accept"') {                                    //check call accept/reject
+                                                                        //this.accepted = buttonClicked === '"accept"' ? true : false;
+    if(buttonClicked === '"accept"') {                                  //check call accept/reject
       this.accepted = true
     } else {
       this.accepted = false
     }
       if(this.accepted) {
-        
         console.log("accept")
-        this.router.navigate(["/waitlist/call/"+ bidId1], {
+        console.log("/waitlist/call/"+ bidId);
+        this.navController.navigateBack(["/waitlist/call/"+ bidId], {
           queryParams: {
-               isBidEvent: true,
+               isBidEvent: isBidEvent,
           },
         })
       } else{
@@ -104,36 +111,56 @@ export class AppComponent implements OnInit, OnDestroy {
         this.cancelFullscreenNotification();
       }
      }
-     else{
+     else {
        console.log("screen is locked");
-       this.router.navigate(["/waitlist/incoming-call/" + bidId1]);
-     }
-      
-     
-    
+       console.log("/waitlist/incoming-call/"+ bidId);
+        this.navController.navigateBack(["/waitlist/incoming-call/" + bidId]);
+     } 
   })
 }
 
 RemoveInvertedComma(id:string) {
   let updatedId = id.slice(1,-1);
-  console.log("str ",updatedId);
 }
 
 
 async cancelFullscreenNotification() {
+  await this.disconnectCall();
   await FullScreenNotification.cancelNotification();
 }
+
+
+async disconnectCall() {
+   let leftTime = await this.voipResponse.remainingTime;
+
+      let request: Request = {
+        path: "core/video/updateCall/" + this.voipResponse.id,
+        data: {
+          remainingTime: leftTime,
+        },
+        isAuth: true,
+      };
+      this.apiService.post(request).subscribe((response: Response) => {
+        this.coreService.dismissLoader();
+      });
+      this.router.navigate(["/tabs/schedule"]);
+  }
+
 
   async ngOnInit() {
     // await this.getBadgeNotificationCount();
     // await this.getBadgeStatus(0);
-    this.socketInit();
-    this.callingAthlete();
+    await this.commonService.getAthleteEarnings();
+     this.socketInit();
+     this.callingAthlete();
     const source = interval(60000);
     this.socketSubscription = source.subscribe((val) => this.onlineStatus());
     this.commonService.privacy();
     this.commonService.termcondition();
     this.getfullscreenNotification();
+    console.log('sample ',JSON.parse(this.sample.fullScreenId));
+    let a = JSON.parse(this.sample.fullScreenId);
+    console.log("final ",a.isBidEvent)
   }
 
   
@@ -351,6 +378,7 @@ async cancelFullscreenNotification() {
             if (this.userDetails.id != id.userId) {
               return;
             } else {
+             if(this.platform.is("desktop") || this.platform.is("mobileweb")) {
               this.commonService.callingAthleteDetails = JSON.parse(
                 responseData
               );
@@ -369,6 +397,7 @@ async cancelFullscreenNotification() {
                 //       this.commonService.callingAthleteDetails.eventId,
                 //   ]);
                 // }
+
                 this.navController.navigateBack([
                   "/waitlist/incoming-call/" +
                     this.commonService.callingAthleteDetails.id,
@@ -385,7 +414,8 @@ async cancelFullscreenNotification() {
                     },
                   }
                 );
-              }
+              }   
+             }
             }
           });
         },

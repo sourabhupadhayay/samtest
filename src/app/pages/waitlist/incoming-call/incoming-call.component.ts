@@ -20,6 +20,7 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
   socket: any;
   bidId: any;
   userDetails: any;
+  commonData:any;
   constructor(
     private router: Router,
     public commonService: CommonService,
@@ -41,17 +42,38 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit() {
+ async ngOnInit() {
+  this.commonData = await this.commonService.callingAthleteDetails;
+  if(!this.commonData) {
+    this.commonData = localStorage.getItem('voip-data')
+  }
+     console.log("init ",this.commonData)
     if (!this.commonService.callingAthleteDetails) {
-      this.router.navigate(["/tabs/home"]);
+      // this.router.navigate(["/tabs/home"]);
     }
     this.getInitials();
     this.getBidIdFromRoute();
     this.callDisconnectSocket();
     this.loadAndPlayRingtone();
   }
-  ionViewDidEnter() {
+
+ 
+ async ionViewDidEnter() {
+  this.commonData = await this.commonService.callingAthleteDetails;
+  if(!this.commonData) {
+    this.commonData = localStorage.getItem('voip-data')
+  }
+  console.log("ionView ",this.commonData);
     this.loadAndPlayRingtone();
+    this.getInitials();
+    this.getBidIdFromRoute();
+    this.callDisconnectSocket();
+    this.loadAndPlayRingtone();
+  }
+
+  async ionViewWillEnter() {
+    this.commonData = await this.commonService.callingAthleteDetails;
+    console.log("will enter ",this.commonData)
   }
 
   loadAndPlayRingtone() {
@@ -90,41 +112,44 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
     });
   }
 
-  getInitials() {
-    this.nameInitials = this.commonService.getInitials(
-      this.commonService.callingAthleteDetails.athleteName
+  async getInitials() {
+    this.nameInitials = await this.commonService.getInitials(
+      this.commonData.athleteName
     );
   }
 
-  joinCall() {
-    this.router.navigate(["/waitlist/call/" + this.id], {
+  async joinCall() {
+    console.log("joinCall ",this.commonData)
+    await this.router.navigate(["/waitlist/call/" + this.id], {
       queryParams: {
         isBidEvent:
-          this.commonService.callingAthleteDetails.creatorPersona == "USER"
+        this.commonData.creatorPersona == "USER"
             ? false
             : true,
       },
     });
   }
-  disconnectCall() {
+ async disconnectCall() {
+  console.log("diconnect ",this.commonData)
+   let leftTime = await this.commonData.remainingTime;
     console.log(
       "details ",
-      this.commonService.callingAthleteDetails.remainingTime
+      this.commonData.remainingTime
     );
-    if (this.bidId != undefined) {
-      this.id = this.bidId;
-    }
-    let request: Request = {
-      path: "core/video/updateCall/" + this.id,
-      data: {
-        remainingTime: this.commonService.callingAthleteDetails.remainingTime,
-      },
-      isAuth: true,
-    };
-    this.apiService.post(request).subscribe((response: Response) => {
-      this.coreService.dismissLoader();
-    });
-    this.router.navigate(["/tabs/schedule"]);
+      if (this.bidId != undefined) {
+        this.id = this.bidId;
+      }
+      let request: Request = {
+        path: "core/video/updateCall/" + this.id,
+        data: {
+          remainingTime: leftTime,
+        },
+        isAuth: true,
+      };
+      this.apiService.post(request).subscribe((response: Response) => {
+        this.coreService.dismissLoader();
+      });
+      this.router.navigate(["/tabs/schedule"]);
   }
 
   async callDisconnectSocket() {

@@ -72,13 +72,13 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
    
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.keepDeviceAwake();
     this.callDisconnectSocket();
-    this.apiKey = this.commonService.publicInfo.videoApiKey;
+    this.apiKey =  this.commonService.publicInfo.videoApiKey;
     console.log("api key", this.apiKey);
-    let users=localStorage.getItem("authDetails")
-    this.userDetail=JSON.parse(users)
+    let users=  localStorage.getItem("authDetails")
+    this.userDetail= JSON.parse(users)
     console.log("user detail",this.userDetail.profileUrl);
     this.nameInitials = this.commonService.getInitials(this.userDetail.fullName)
   }
@@ -203,7 +203,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       this.session.disconnect();
       console.log("Reson" + event.reason);
       this.stopTimer();
-      this.router.navigate(["/tabs/home"]);
+      // this.router.navigate(["/tabs/home"]);
     })
     //
   }
