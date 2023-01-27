@@ -49,7 +49,6 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
     this.getBidIdFromRoute();
     this.callDisconnectSocket();
     this.loadAndPlayRingtone();
-    console.log("rr ",this.router.url)
   }
   ionViewDidEnter() {
     this.loadAndPlayRingtone();
