@@ -81,33 +81,34 @@ export class AppComponent implements OnInit, OnDestroy {
       let buttonClicked : any = JSON.stringify(data.actionId);
       console.log("objj ",dataObject);
       console.log("bidId/btn ",JSON.stringify(data.fullScreenId),buttonClicked);
-      console.log("hassss 1 ",dataObject.hasOwnProperty('"actionId"'));
       console.log("hassss 2 ",dataObject1.hasOwnProperty('actionId'));
 
-     if (dataObject1.hasOwnProperty('actionId')) {
+      let bidId1 = this.RemoveInvertedComma(bidId);
+
+     if (dataObject1.hasOwnProperty('actionId')) {                        //check screen locked/onlocked
        console.log("screen is open");
     //  this.accepted = buttonClicked === '"accept"' ? true : false;
-    if(buttonClicked === '"accept"') {
+    if(buttonClicked === '"accept"') {                                    //check call accept/reject
       this.accepted = true
     } else {
       this.accepted = false
     }
       if(this.accepted) {
-        let bidId1 = this.RemoveInvertedComma(bidId);
-        console.log("in")
+        
+        console.log("accept")
         this.router.navigate(["/waitlist/call/"+ bidId1], {
           queryParams: {
                isBidEvent: true,
           },
         })
       } else{
-        console.log("out");
+        console.log("reject");
         this.cancelFullscreenNotification();
       }
      }
      else{
        console.log("screen is locked");
-       this.router.navigate(['/tabs/help']);
+       this.router.navigate(["/waitlist/incoming-call/" + bidId1]);
      }
       
      
