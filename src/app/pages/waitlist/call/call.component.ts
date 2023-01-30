@@ -83,9 +83,6 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     console.log("user detail",this.userDetail.profileUrl);
     this.nameInitials = this.commonService.getInitials(this.userDetail.fullName)
     console.log("c-init ",this.commonService.callingAthleteDetails);
-    console.log("voip data ",localStorage.getItem('voip-data'));
-    this.commonData = await localStorage.getItem('voip-data');
-    console.log("Stringify ",JSON.stringify(this.commonData));
   }
 
   ngAfterViewInit(): void {
@@ -165,6 +162,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   connectCall(isBiddingEvent: boolean) {
+    console.log("isBiddingEvent ",isBiddingEvent);
     if (isBiddingEvent) {
       if (this.userRole == "athlete") {
         this.getVideoSessionAndToken("core/video/call/");

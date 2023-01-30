@@ -89,9 +89,8 @@ export class AppComponent implements OnInit, OnDestroy {
       console.log("objj ",dataObject);
       console.log("bidId/event/ EventId ",bidId,isBidEvent,eventId);
       console.log("has actionId ",dataObject1.hasOwnProperty('actionId'));
-      console.log("common ",this.commonService.callingAthleteDetails);
       if(!this.commonService.callingAthleteDetails || this.commonService.callingAthleteDetails == null) {
-        this.commonService.callingAthleteDetails = parseDataObject;
+        this.commonService.callingAthleteDetails = this.voipResponse;
       }
       console.log("common 1 ",this.commonService.callingAthleteDetails);
 
@@ -132,7 +131,7 @@ export class AppComponent implements OnInit, OnDestroy {
        if(isBidEvent) {
         this.navController.navigateBack(["/waitlist/incoming-call/" + bidId]);
        } else {
-        this.navController.navigateBack(["/waitlist/incoming-call/" + bidId]);
+        this.navController.navigateBack(["/waitlist/incoming-call/" + eventId]);
        } 
      } 
   })

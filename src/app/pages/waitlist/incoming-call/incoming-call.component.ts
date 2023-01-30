@@ -47,7 +47,6 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
   if(!this.commonData) {
     this.commonData = localStorage.getItem('voip-data')
   }
-     console.log("init ",this.commonData)
     if (!this.commonService.callingAthleteDetails) {
       // this.router.navigate(["/tabs/home"]);
     }
@@ -60,10 +59,6 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
  
  async ionViewDidEnter() {
   this.commonData = await this.commonService.callingAthleteDetails;
-  if(!this.commonData) {
-    this.commonData = localStorage.getItem('voip-data')
-  }
-  console.log("ionView ",this.commonData);
     this.loadAndPlayRingtone();
     this.getInitials();
     this.getBidIdFromRoute();
@@ -73,7 +68,6 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
 
   async ionViewWillEnter() {
     this.commonData = await this.commonService.callingAthleteDetails;
-    console.log("will enter ",this.commonData)
   }
 
   loadAndPlayRingtone() {
