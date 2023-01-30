@@ -90,6 +90,10 @@ export class AppComponent implements OnInit, OnDestroy {
       console.log("bidId/event/ EventId ",bidId,isBidEvent,eventId);
       console.log("has actionId ",dataObject1.hasOwnProperty('actionId'));
       console.log("common ",this.commonService.callingAthleteDetails);
+      if(!this.commonService.callingAthleteDetails || this.commonService.callingAthleteDetails == null) {
+        this.commonService.callingAthleteDetails = parseDataObject;
+      }
+      console.log("common 1 ",this.commonService.callingAthleteDetails);
 
      if (dataObject1.hasOwnProperty('actionId')) {                      //check screen locked/onlocked
        console.log("screen is open");
