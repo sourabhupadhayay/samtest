@@ -203,7 +203,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       this.session.disconnect();
       console.log("Reson" + event.reason);
       this.stopTimer();
-      // this.router.navigate(["/tabs/home"]);
+      this.router.navigate(["/tabs/home"]);
     })
     //
   }
