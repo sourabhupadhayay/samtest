@@ -111,7 +111,7 @@ export class AppereanceBookingComponent implements OnInit {
     var localISOTime = (new Date(Date.now() - tzoffset)).toISOString();
     this.currentDate =  localISOTime;
     console.log("final ",this.currentDate);
-
+    this.starttime=this.currentDate
   
   }
     
