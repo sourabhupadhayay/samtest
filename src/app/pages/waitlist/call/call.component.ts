@@ -57,7 +57,8 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   streams: any = [];
   userDetail:any=[]
   nameInitials:string
-  OT:any
+  OT:any;
+  commonData : any;
   constructor(
     private apiService: DataService,
     private coreService: CoreService,
@@ -81,10 +82,15 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.userDetail= JSON.parse(users)
     console.log("user detail",this.userDetail.profileUrl);
     this.nameInitials = this.commonService.getInitials(this.userDetail.fullName)
+    console.log("c-init ",this.commonService.callingAthleteDetails);
+    console.log("voip data ",localStorage.getItem('voip-data'));
+    this.commonData = await localStorage.getItem('voip-data');
+    console.log("Stringify ",JSON.stringify(this.commonData));
   }
 
   ngAfterViewInit(): void {
     this.getUserDataAndRole();
+    console.log("c-afterview ",this.commonService.callingAthleteDetails);
   }
 
   getQueryParams() {
@@ -92,6 +98,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       if (!params.isBidEvent) {
         this.router.navigate(["tabs/home"]);
       }
+      console.log("param ",params)
       if (params.isBidEvent === "true") {
         this.isBiddingEvent = true;
         this.connectCall(true);

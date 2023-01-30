@@ -85,8 +85,9 @@ export class AppComponent implements OnInit, OnDestroy {
       let bidId :any = parseDataObject.id;
       let isBidEvent : any = parseDataObject.bidEventCheck;
       let buttonClicked : any = JSON.stringify(data.actionId);
+      let eventId :any = parseDataObject.eventId;
       console.log("objj ",dataObject);
-      console.log("bidId/event ",bidId,isBidEvent);
+      console.log("bidId/event/ EventId ",bidId,isBidEvent,eventId);
       console.log("has actionId ",dataObject1.hasOwnProperty('actionId'));
       console.log("common ",this.commonService.callingAthleteDetails);
 
@@ -98,14 +99,24 @@ export class AppComponent implements OnInit, OnDestroy {
     } else {
       this.accepted = false
     }
+
       if(this.accepted) {
         console.log("accept")
         console.log("/waitlist/call/"+ bidId);
-        this.navController.navigateBack(["/waitlist/call/"+ bidId], {
-          queryParams: {
-               isBidEvent: isBidEvent,
-          },
-        })
+        
+        if(isBidEvent) {
+          this.navController.navigateBack(["/waitlist/call/"+ bidId], {
+            queryParams: {
+                 isBidEvent: isBidEvent,
+            },
+          })
+        } else {
+          this.navController.navigateBack(["/waitlist/call/"+ eventId], {
+            queryParams: {
+                 isBidEvent: isBidEvent,
+            },
+          })
+        }
       } else{
         console.log("reject");
         this.cancelFullscreenNotification();
@@ -114,7 +125,11 @@ export class AppComponent implements OnInit, OnDestroy {
      else {
        console.log("screen is locked");
        console.log("/waitlist/incoming-call/"+ bidId);
+       if(isBidEvent) {
         this.navController.navigateBack(["/waitlist/incoming-call/" + bidId]);
+       } else {
+        this.navController.navigateBack(["/waitlist/incoming-call/" + bidId]);
+       } 
      } 
   })
 }
