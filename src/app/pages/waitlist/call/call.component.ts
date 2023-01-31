@@ -169,12 +169,17 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   connectCall(isBiddingEvent: boolean) {
     if (isBiddingEvent) {
+      console.log("1");
+
       if (this.userRole == "athlete") {
+        console.log("2");
         this.getVideoSessionAndToken("core/video/call/");
       } else {
+        console.log("3");
         this.getVideoSessionAndToken("core/video/receive/");
       }
     } else {
+      console.log("4");
       this.getVideoSessionAndToken(`core/video/call/now/`, true);
     }
   }
@@ -191,7 +196,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
         this.session.publish(this.publisher, (error) => {});
       }
     });
-    let element = this.fanElement.nativeElement;
+    let element = this.fanElement?.nativeElement;
     this.session.on("streamCreated", (event) => {
       this.startTimer();
       this.subscribe = this.session.subscribe(event.stream, element, {
@@ -276,6 +281,8 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
           this.navController.navigateBack([
             "/waitlist/event/" + response.data.eventId,
           ]);
+          //this.router.navigate(["/waitlist/event/" + response.data.eventId]);
+          this.commonService.$navigateSubject.next();
           // this.router.navigate([]);
         } else {
           this.router.navigate(["tabs/schedule"]);
@@ -364,6 +371,8 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
               userRole == "athlete" &&
               msg.bidState !== "COMPLETED"
             ) {
+              this.session.disconnect();
+              this.commonService.$navigateSubject.next();
               this.coreService.showToastMessage(
                 "Fan is busy. Please connect after sometime",
                 this.coreService.TOAST_ERROR

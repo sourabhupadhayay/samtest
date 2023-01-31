@@ -40,7 +40,7 @@ export class SchedulePage implements OnInit {
   isScrollDisabled: boolean = false;
   athleteEarnings: number = 0;
   private navigateSubscription: Subscription;
-  badgeCount :number = 0;
+  badgeCount: number = 0;
   constructor(
     private coreService: CoreService,
     private apiService: DataService,
@@ -51,9 +51,7 @@ export class SchedulePage implements OnInit {
     public popoverController: PopoverController,
     private router: Router,
     private core: CoreService
-  ) {
-    
-  }
+  ) {}
 
   ionViewWillEnter() {
     //this.getAthleteEarnings();
@@ -66,7 +64,7 @@ export class SchedulePage implements OnInit {
     this.addClassOnScroll();
     this.athleteScheduleRequest();
     this.fanScheduleRequest();
-    this.getNotificationCount()
+    this.getNotificationCount();
   }
 
   ngOnInit() {
@@ -76,14 +74,14 @@ export class SchedulePage implements OnInit {
         this.athleteScheduleRequest();
         this.getUserDataFromStorage();
         this.fanScheduleRequest();
-        this.commonService.getAthleteEarnings()
+        this.commonService.getAthleteEarnings();
       }
     );
 
     this.athleteScheduleRequest();
-   // this.getAthleteEarnings();
+    // this.getAthleteEarnings();
     this.fanScheduleRequest();
-    this.getNotificationCount()
+    this.getNotificationCount();
   }
   onclick_cancel(): void {
     this.modalCtrl.dismiss();
@@ -94,11 +92,11 @@ export class SchedulePage implements OnInit {
       path: "notification/notification/check/v2",
       isAuth: true,
     };
-      this.apiService.get(request).subscribe((response: any) => {
-        this.badgeCount = response.data.unreadCount;
-        console.log("c ",this.badgeCount)
-        return this.badgeCount;
-      });
+    this.apiService.get(request).subscribe((response: any) => {
+      this.badgeCount = response.data.unreadCount;
+      console.log("c ", this.badgeCount);
+      return this.badgeCount;
+    });
   }
 
   async presentPopover(ev: any) {
@@ -131,11 +129,14 @@ export class SchedulePage implements OnInit {
     setTimeout(() => {
       // Any calls to load data go here
       event.target.complete();
-      this.ionViewDidEnter();
+      this.getNotificationCount();
+      this.resetAndGetMoreData();
+      this.getScheduleDetails();
+      this.athleteScheduleRequest();
       this.getAthleteEarnings();
-      this.getUserDataFromStorage();
+      this.fanScheduleRequest();
     }, 2000);
-  };  
+  }
   async getUserDataFromStorage() {
     this.userRole = await this.coreService.getUserRoleFromStorage();
     let userData = await this.coreService.getUserDataFromStorage();
@@ -329,8 +330,8 @@ export class SchedulePage implements OnInit {
       this.apiService.get(request).subscribe((response: any) => {
         if (response.status.code === this.constantService.STATUS_OK) {
           this.athleteEarnings = response?.data?.totalEarning;
-          console.log("athleteEarnings",this.athleteEarnings);
-          
+          console.log("athleteEarnings", this.athleteEarnings);
+
           this.commonService.athleteEarning = this.athleteEarnings;
         }
       });

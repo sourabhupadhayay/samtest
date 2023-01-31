@@ -26,6 +26,7 @@ import { Subscription, interval } from "rxjs";
 import { NavController } from "@ionic/angular";
 import { Badge } from "@awesome-cordova-plugins/badge/ngx";
 import { CallData, CallKitVoip } from "capacitor-callkit-voip";
+//import { Flipper } from "@capacitor-community/flipper";
 @Component({
   selector: "app-root",
   templateUrl: "app.component.html",
@@ -40,6 +41,7 @@ export class AppComponent implements OnInit, OnDestroy {
   userDetails: any;
   badgeCount: number = 0;
   data = {};
+  id: any;
   constructor(
     private apiservice: DataService,
     private _networkService: NetworkService,
@@ -77,6 +79,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this.commonService.privacy();
     this.commonService.termcondition();
     //this.commonService.publicInfo();
+    // Flipper.initialize({
+    //   enabled: true,
+    //   network: true,
+    //   crash_report: true,
+    //   layout_inspector: true,
+    //   database: true,
+    //   database_path: true,
+    // });
     await this.registerVoipNotification();
   }
 
@@ -234,6 +244,7 @@ export class AppComponent implements OnInit, OnDestroy {
     PushNotifications.addListener(
       "pushNotificationReceived",
       (notification: PushNotificationSchema) => {
+        console.log("recevied push notifi");
         // alert("Push received: " + JSON.stringify(notification));
       }
     );
@@ -343,7 +354,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     // start call
     CallKitVoip.addListener("callAnswered", (obj: CallData) => {
-      //obj.id= bidId
+      //here obj.id= bidId
       this.commonService.VideoCallAnswer = true;
       this.data = obj.connectionId;
       if (obj.creatorPersona != "USER") {
@@ -361,13 +372,20 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
     // end call
-    CallKitVoip.addListener("endCall", (obj) =>
-      console.log(
-        JSON.stringify(obj),
-        obj.connectionId,
-        `Call has been REJECTED from `
-      )
-    );
+    CallKitVoip.addListener("endCall", (obj: CallData) => {
+      console.log(JSON.stringify(obj), `Call has been REJECTED from `);
+      let request: Request = {
+        path: "core/video/updateCall/" + obj.id,
+        data: {
+          remainingTime: obj.remainingTime,
+        },
+        isAuth: true,
+      };
+      this.apiService.post(request).subscribe((response: Response) => {
+        this.coreService.dismissLoader();
+      });
+      this.router.navigate(["/tabs/schedule"]);
+    });
     // init plugin, start registration of VOIP notifications
     await CallKitVoip.register(); // can be used with `.then()`
     console.log("Push notification has been registered");

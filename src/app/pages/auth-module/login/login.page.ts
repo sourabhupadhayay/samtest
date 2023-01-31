@@ -184,13 +184,16 @@ export class LoginPage implements OnInit {
   }
 
   socialLogin(data) {
+    if (localStorage.getItem("voipToken")) {
+      this.voipToken = localStorage.getItem("voipToken");
+    }
     let request: Request = {
       path: "auth/users/login",
       data: {
         socialAccessToken: data.socialAccessToken,
         socialLoginType: data.socialLoginType,
         deviceToken: this.generatedToken,
-        voipDeviceToken: this.commonService.voipToken,
+        voipDeviceToken: this.voipToken,
       },
     };
 
@@ -365,17 +368,17 @@ export class LoginPage implements OnInit {
     });
 
     // start call
-    CallKitVoip.addListener("callAnswered", (obj) =>
-      console.log(`Call has been received from`, obj)
-    );
-    // end call
-    CallKitVoip.addListener("endCall", (obj) =>
-      console.log(
-        JSON.stringify(obj),
-        obj.connectionId,
-        `Call has been REJECTED from `
-      )
-    );
+    // CallKitVoip.addListener("callAnswered", (obj) =>
+    //   console.log(`Call has been received from`, JSON.stringify(obj))
+    // );
+    // // end call
+    // CallKitVoip.addListener("endCall", (obj) =>
+    //   console.log(
+    //     JSON.stringify(obj),
+    //     obj.connectionId,
+    //     `Call has been REJECTED from `
+    //   )
+    // );
     // init plugin, start registration of VOIP notifications
     await CallKitVoip.register(); // can be used with `.then()`
     console.log("Push notification has been registered");

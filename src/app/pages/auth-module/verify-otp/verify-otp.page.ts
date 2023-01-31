@@ -48,7 +48,7 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
   mode: "signup" | "forgot" | "login";
   returnUrl: string;
   generatedToken: string | null = null;
-
+  voipToken: any;
   constructor(
     private coreService: CoreService,
     private apiService: DataService,
@@ -115,7 +115,9 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
 
   verifyActivateAccountOtp() {
     if (this.validateOtp()) return;
-
+    if (localStorage.getItem("voipToken")) {
+      this.voipToken = localStorage.getItem("voipToken");
+    }
     let request: Request = {
       path:
         "auth/users/otp/verify/" +
@@ -123,7 +125,7 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
         "?deviceToken=" +
         this.generatedToken +
         "?voipDeviceToken=" +
-        this.commonService.voipToken,
+        this.voipToken,
       isAuth: true,
     };
     // this.apiService.post(request).subscribe((response: Response) => {
@@ -246,8 +248,8 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
     // register token
     CallKitVoip.addListener("registration", ({ token }: any) => {
       console.log(`VOIP token has been received ${token}`);
-      this.commonService.voipToken = token;
-      console.log("common", this.commonService.voipToken);
+      this.voipToken = token;
+      console.log("common", this.voipToken);
     });
   }
 }
