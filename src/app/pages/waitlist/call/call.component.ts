@@ -58,9 +58,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   userDetail: any = [];
   nameInitials: string;
   OT: any;
-  // sessionId: any =
-  //   "1_MX40NzU5Nzk2MX5-MTY3NDQwMDY3NjcyM343NzVTcG5WR1FlRFc4ZEZ2WE41MnJ0WDJ-fn4";
-  // token: "T1==cGFydG5lcl9pZD00NzU5Nzk2MSZzaWc9MWEzMGE2ZmFmODdmZGU3NmU5ZDZlOWMyOGQwNDkxODBkNTRmMjRiYTpzZXNzaW9uX2lkPTFfTVg0ME56VTVOemsyTVg1LU1UWTNORFF3TURZM05qY3lNMzQzTnpWVGNHNVdSMUZsUkZjNFpFWjJXRTQxTW5KMFdESi1mbjQmY3JlYXRlX3RpbWU9MTY3NDQwMDY3NyZub25jZT0tMTQ5Mjk3NzkxOCZyb2xlPXB1Ymxpc2hlciZleHBpcmVfdGltZT0xNjc0NDg3MDc3";
+  commonData : any;
   constructor(
     private apiService: DataService,
     private coreService: CoreService,
@@ -72,7 +70,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     private navController: NavController
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.keepDeviceAwake();
     this.callDisconnectSocket();
     let request: Request = {
@@ -94,6 +92,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.getUserDataAndRole();
+    console.log("c-afterview ",this.commonService.callingAthleteDetails);
   }
 
   getQueryParams() {
@@ -101,6 +100,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       if (!params.isBidEvent) {
         this.router.navigate(["tabs/home"]);
       }
+      console.log("param ",params)
       if (params.isBidEvent === "true") {
         this.isBiddingEvent = true;
         this.connectCall(true);
@@ -168,6 +168,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   connectCall(isBiddingEvent: boolean) {
+    console.log("isBiddingEvent ",isBiddingEvent);
     if (isBiddingEvent) {
       console.log("1");
 

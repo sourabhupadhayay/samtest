@@ -51,6 +51,7 @@
     "@opentok/client": "^2.24.1",
     "@stomp/stompjs": "^6.1.2",
     "capacitor-callkit-voip": "^0.0.3",
+    "capacitor-fullscreen-notification": "^4.0.5",
     "chance": "^1.1.8",
     "cordova-plugin-badge": "^0.8.8",
     "cordova-plugin-nativeaudio": "^3.0.9",

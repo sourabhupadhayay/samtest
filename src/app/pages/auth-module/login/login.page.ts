@@ -29,6 +29,8 @@ import {
   ASAuthorizationAppleIDRequest,
 } from "@awesome-cordova-plugins/sign-in-with-apple/ngx";
 import { CallKitVoip } from "capacitor-callkit-voip";
+import { FullScreenNotification } from 'capacitor-fullscreen-notification';
+
 @Component({
   selector: "app-login",
   templateUrl: "./login.page.html",
@@ -80,7 +82,6 @@ export class LoginPage implements OnInit {
     this.getAuthPublicInfo();
     console.log("p ", this.platform.platforms(), this.platform.is("android"));
     this.checkPlatform();
-    // this.registerVoipNotification();
   }
 
   checkPlatform() {
@@ -299,7 +300,7 @@ export class LoginPage implements OnInit {
     });
 
     PushNotifications.addListener("registrationError", (error: any) => {
-      alert("Error on registration: " + JSON.stringify(error));
+      // alert("Error on registration: " + JSON.stringify(error));
     });
 
     PushNotifications.addListener(
@@ -315,7 +316,10 @@ export class LoginPage implements OnInit {
         // alert("Push action performed: " + JSON.stringify(notification));
       }
     );
+   
   }
+
+
   requestPushNotificationsPermission() {
     // requesting permission
     this.afMessaging.requestToken // getting tokens

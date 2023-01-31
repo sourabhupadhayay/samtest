@@ -9,18 +9,18 @@
   </ion-header>
 
   <div class="caller-name">
-    <h4>{{commonService.callingAthleteDetails?.athleteName}}</h4>
+    <h4>{{this.commonData?.athleteName}}</h4>
     <p>Incoming Video Call</p>
   </div>
 
   <div class="caller-img">
     <img
-      *ngIf="commonService.callingAthleteDetails?.athleteProfilePicture !==''"
-      [src]="commonService.callingAthleteDetails?.athleteProfilePicture | profile"
+      *ngIf="this.commonData?.athleteProfilePicture !==''"
+      [src]="this.commonData?.athleteProfilePicture | profile"
       alt="" class="cover-img"
     />
     <div
-      *ngIf="commonService.callingAthleteDetails?.athleteProfilePicture  ==''"
+      *ngIf="this.commonData?.athleteProfilePicture  ==''"
       class="inital"
     >
       <span class="initial__span">
