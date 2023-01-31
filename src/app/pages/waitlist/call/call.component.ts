@@ -25,7 +25,7 @@ import { Stomp } from "@stomp/stompjs";
 import * as SockJS from "sockjs-client";
 import { configuration } from "src/app/configuration";
 import { CommonService } from "src/app/providers/common.service";
-import {  SafeExecution } from "../../../directives/models/safe-execution.decorator";
+import { SafeExecution } from "../../../directives/models/safe-execution.decorator";
 import { NavController } from "@ionic/angular";
 
 @Component({
@@ -44,7 +44,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   session: OT.Session;
   subscribe: OT.Subscriber;
   apiKey: any;
-  sessionId: string;
+  sessionId: string = "";
   token: string;
   timeLeft: number;
   intId: any;
@@ -55,9 +55,12 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   remainTime: any;
   color: any;
   streams: any = [];
-  userDetail:any=[]
-  nameInitials:string
-  OT:any
+  userDetail: any = [];
+  nameInitials: string;
+  OT: any;
+  // sessionId: any =
+  //   "1_MX40NzU5Nzk2MX5-MTY3NDQwMDY3NjcyM343NzVTcG5WR1FlRFc4ZEZ2WE41MnJ0WDJ-fn4";
+  // token: "T1==cGFydG5lcl9pZD00NzU5Nzk2MSZzaWc9MWEzMGE2ZmFmODdmZGU3NmU5ZDZlOWMyOGQwNDkxODBkNTRmMjRiYTpzZXNzaW9uX2lkPTFfTVg0ME56VTVOemsyTVg1LU1UWTNORFF3TURZM05qY3lNMzQzTnpWVGNHNVdSMUZsUkZjNFpFWjJXRTQxTW5KMFdESi1mbjQmY3JlYXRlX3RpbWU9MTY3NDQwMDY3NyZub25jZT0tMTQ5Mjk3NzkxOCZyb2xlPXB1Ymxpc2hlciZleHBpcmVfdGltZT0xNjc0NDg3MDc3";
   constructor(
     private apiService: DataService,
     private coreService: CoreService,
@@ -66,21 +69,27 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     private cd: ChangeDetectorRef,
     private constantService: ConstantService,
     public commonService: CommonService,
-    private navController: NavController,
-  ) {
-   
-   
-  }
+    private navController: NavController
+  ) {}
 
   ngOnInit() {
     this.keepDeviceAwake();
     this.callDisconnectSocket();
+    let request: Request = {
+      path: "core/configuration/publicInfo",
+      isAuth: true,
+    };
+    this.apiService.get(request).subscribe((response: Response) => {
+      this.apiKey = response.data.videoApiKey;
+    });
     this.apiKey = this.commonService.publicInfo.videoApiKey;
     console.log("api key", this.apiKey);
-    let users=localStorage.getItem("authDetails")
-    this.userDetail=JSON.parse(users)
-    console.log("user detail",this.userDetail.profileUrl);
-    this.nameInitials = this.commonService.getInitials(this.userDetail.fullName)
+    let users = localStorage.getItem("authDetails");
+    this.userDetail = JSON.parse(users);
+    console.log("user detail", this.userDetail.profileUrl);
+    this.nameInitials = this.commonService.getInitials(
+      this.userDetail.fullName
+    );
   }
 
   ngAfterViewInit(): void {
@@ -141,12 +150,13 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((response) => {
         if (response.status.code === this.constantService.STATUS_OK) {
           this.sessionId = response.data.sessionId;
-          console.log("sessionID", this.sessionId);
           this.token = response.data.token;
           this.timeLeft = response.data.remainingTime;
           this.remainTime = response.data.remainingTime;
           this.bidId = response.data.bidId;
-          this.getSession();
+          if (this.sessionId) {
+            this.getSession();
+          }
         } else {
           this.coreService.showToastMessage(
             response.status.description,
@@ -159,31 +169,35 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   connectCall(isBiddingEvent: boolean) {
     if (isBiddingEvent) {
+      console.log("1");
+
       if (this.userRole == "athlete") {
+        console.log("2");
         this.getVideoSessionAndToken("core/video/call/");
       } else {
+        console.log("3");
         this.getVideoSessionAndToken("core/video/receive/");
       }
     } else {
+      console.log("4");
       this.getVideoSessionAndToken(`core/video/call/now/`, true);
     }
   }
 
   getSession() {
-    console.log("ankita session called");
     this.session = OT.initSession(this.apiKey, this.sessionId);
     this.session.connect(this.token, (error) => {
       if (error) {
         console.log(error);
+        // this.session.connect(this.token, (error) => {});
       } else {
         this.createPublisher();
-        
+
         this.session.publish(this.publisher, (error) => {});
       }
     });
-    let element = this.fanElement.nativeElement;
+    let element = this.fanElement?.nativeElement;
     this.session.on("streamCreated", (event) => {
-      console.log("dsf");
       this.startTimer();
       this.subscribe = this.session.subscribe(event.stream, element, {
         width: "100%",
@@ -191,7 +205,6 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
         insertMode: "replace",
       });
 
-      console.log("subscribee1", this.subscribe);
       // this.session.signal({ type: "String", data: "heyyyy" }, (err) => {
       //   console.log("heyyyyy", err.message, err.name);
       // });
@@ -204,19 +217,19 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       console.log("Reson" + event.reason);
       this.stopTimer();
       this.router.navigate(["/tabs/home"]);
-    })
+    });
     //
   }
   private _streamOff(): void {
     // if ((<any>this.session).listenerCount("streamCreated") == 1) {
-      (<any>this.session).off("streamCreated");
-      (<any>this.session).off("streamDestroyed");
-      (<any>this.session).off("sessionConnected");
-      
+    (<any>this.session).off("streamCreated");
+    (<any>this.session).off("streamDestroyed");
+    (<any>this.session).off("sessionConnected");
+
     // }
   }
   createPublisher() {
-    this.publisher =OT.initPublisher(this.athleteElement.nativeElement, {
+    this.publisher = OT.initPublisher(this.athleteElement.nativeElement, {
       width: "100%",
       height: "100%",
       insertMode: "replace",
@@ -226,7 +239,6 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.publisher.off("streamDestroyed", (event) => {
       console.log("Stream stopped. Reason: " + event.reason);
       clearInterval(this.intId);
-      console.log("int", this.intId);
     });
   }
 
@@ -257,21 +269,22 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       isAuth: true,
     };
-
     this.apiService.post(request).subscribe((response: Response) => {
       if (response.status.code === this.constantService.STATUS_OK) {
         if (this.intId) {
           clearInterval(this.intId);
         }
-
-        console.log("interval s", this.intId);
         this.intId = undefined;
-        this._streamOff()
-        this._cleanUp()
-        console.log("asdfdg ", this.isBiddingEvent, this.intId);
+        this._streamOff();
+        this._cleanUp();
         if (this.isBiddingEvent) {
-          this.navController.navigateBack(["/waitlist/event/" + response.data.eventId])
-         // this.router.navigate([]);
+          this.commonService.$navigateSubject.next();
+          this.navController.navigateBack([
+            "/waitlist/event/" + response.data.eventId,
+          ]);
+          //this.router.navigate(["/waitlist/event/" + response.data.eventId]);
+
+          // this.router.navigate([]);
         } else {
           this.router.navigate(["tabs/schedule"]);
         }
@@ -316,20 +329,15 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   secondsToHms(d: number) {
     d = Number(d);
-
     var m = Math.floor((d % 3600) / 60);
     var s = Math.floor((d % 3600) % 60);
-
     var mDisplay = m > 0 ? m + (m == 1 ? "" : "  ") : "0";
     var sDisplay = s > 0 ? s + (s == 1 ? "" : "") : "0";
-
     if (s < 10) {
       sDisplay = "0" + sDisplay;
     }
-
     return `0${mDisplay}: ${sDisplay}s`;
   }
-
   stopTimer() {
     clearInterval(this.intId);
   }
@@ -337,8 +345,6 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   async callDisconnectSocket() {
     let userRole: userRole = await this.coreService.getUserRoleFromStorage();
     let userDetails = await this.coreService.getUserDataFromStorage();
-    console.log("CALL DISCONNECT call");
-    
     this.socket = Stomp.over(
       () => new SockJS(configuration.BASE_URL + "core/greeting")
     );
@@ -350,26 +356,15 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
           alert("Error " + message.body);
         });
         this.sendCutVideo(userDetails["id"]);
-      
+
         this.socket.subscribe("/topic/cancelCall", (message) => {
           let responseData = JSON.parse(message.body).content;
-          let msg=JSON.parse(responseData)
-          console.log(msg.athleteId,msg,userRole)
-         // this.commonService.callingAthleteDetails=JSON.parse(responseData);
-          console.log("COMMON", userDetails.id , msg.athleteId,userRole);
-          
-          if (
-            userDetails.id == msg.athleteId
-          ) {
+          let msg = JSON.parse(responseData);
+          // this.commonService.callingAthleteDetails=JSON.parse(responseData);
+          if (userDetails.id == msg.athleteId) {
             if (this.isBiddingEvent) {
-              console.log("if 1")
-              this.router.navigate([
-                "/waitlist/event/" +
-                msg.eventId,
-              ]);
+              this.router.navigate(["/waitlist/event/" + msg.eventId]);
             } else {
-              console.log("else1")
-            
               this.router.navigate(["tabs/schedule"]);
             }
             if (
@@ -377,17 +372,14 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
               userRole == "athlete" &&
               msg.bidState !== "COMPLETED"
             ) {
-              console.log("if 2")
+              this.session.disconnect();
+              this.commonService.$navigateSubject.next();
               this.coreService.showToastMessage(
                 "Fan is busy. Please connect after sometime",
                 this.coreService.TOAST_ERROR
               );
             }
-
-           
           } else {
-            
-            console.log("no");
           }
         });
       },
@@ -395,7 +387,6 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log("STOMP error " + error);
       }
     );
-    console.log("time left dis", this.timeLeft);
   }
 
   sendCutVideo(id) {
@@ -415,9 +406,8 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     Promise.resolve(this._sessionCleanUp())
       .then((): Promise<void> => Promise.resolve(this.hardRefresh()))
       .then((): void => {
-       // this.distroyer$?.next();
-       // this.distroyer$?.complete();
-      
+        // this.distroyer$?.next();
+        // this.distroyer$?.complete();
       });
     /*
      * This.subscriber = null;
@@ -427,17 +417,17 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private _sessionCleanUp(): void {
-    console.log("clean up call")
+    console.log("clean up call");
     this.streams = [];
-   this.stopTimer()
+    this.stopTimer();
     // @advice Only 1 event dose things automatically.... don't add to munch disconnect stuff it breaks the code..
     this.session.disconnect();
     setTimeout(() => {
-      this.publisher=undefined
-      this.subscribe=undefined
+      this.publisher = undefined;
+      this.subscribe = undefined;
     }, 2000);
-    
-   // this.updateViews();
+
+    // this.updateViews();
   }
   async hardRefresh(): Promise<void> {
     // await this._navCtrl.navigateRoot("/home");
@@ -446,14 +436,19 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.stopTimer();
-    this._cleanUp()
+    this._cleanUp();
     this.allowDeviceToSleep();
     this.session.disconnect();
     this.sessionId = "";
     this.apiKey = "";
   }
   ionViewDidLeave() {
+    console.log("leave csll");
+    this.session.disconnect();
+    this._streamOff();
+    this._cleanUp();
     clearInterval(this.intId);
     this.cd.detectChanges();
+    this.sessionId = "";
   }
 }
