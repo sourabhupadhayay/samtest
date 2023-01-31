@@ -278,11 +278,12 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
         this._streamOff();
         this._cleanUp();
         if (this.isBiddingEvent) {
+          this.commonService.$navigateSubject.next();
           this.navController.navigateBack([
             "/waitlist/event/" + response.data.eventId,
           ]);
           //this.router.navigate(["/waitlist/event/" + response.data.eventId]);
-          this.commonService.$navigateSubject.next();
+
           // this.router.navigate([]);
         } else {
           this.router.navigate(["tabs/schedule"]);
