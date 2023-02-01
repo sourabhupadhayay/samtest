@@ -189,7 +189,7 @@ async disconnectCall() {
 
   applePayPayment() {
     ApplePay.initiatePayment({
-      merchantIdentifier: 'com.bubbleapp.app',
+      merchantIdentifier: 'com.bubble.bubbleapp',
       countryCode: '+91',
       currencyCode: 'INR',
       supportedCountries: ['IN'],
