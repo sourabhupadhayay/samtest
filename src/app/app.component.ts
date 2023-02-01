@@ -29,6 +29,7 @@ import { CallData, CallKitVoip } from "capacitor-callkit-voip";
 //import { Flipper } from "@capacitor-community/flipper";
 import { FullScreenNotification } from 'capacitor-fullscreen-notification';
 import * as _ from "cypress/types/lodash";
+import { ApplePay } from "@fresha/capacitor-plugin-applepay";
 
 
 @Component({
@@ -183,6 +184,45 @@ async disconnectCall() {
    else {
     this.getfullscreenNotification();
    }
+   this.applePayPayment()
+  }
+
+  applePayPayment() {
+    ApplePay.initiatePayment({
+      merchantIdentifier: 'com.bubbleapp.app',
+      countryCode: '+91',
+      currencyCode: 'INR',
+      supportedCountries: ['IN'],
+      supportedNetworks: [
+        'amex',
+        'chinaUnionPay',
+        'cartesBancaires',
+        'discover',
+        'eftpos',
+        'electron',
+        'idCredit',
+        'interac',
+        'JCB',
+        'maestro',
+        'masterCard',
+        'privateLabel',
+        'quicPay',
+        'suica',
+        'visa',
+        'vPay',
+      ],
+      summaryItems: [],
+      requiredShippingContactFields: ['emailAddress'],
+      requiredBillingContactFields: ['emailAddress'],
+      merchantCapabilities: [
+        'capability3DS',
+        'capabilityCredit',
+        'capabilityDebit',
+        'capabilityEMV',
+      ],
+      billingContact: { emailAddress: '' },
+      shippingContact: { emailAddress: '' },
+    });
   }
 
   async getBadgeStatus(unreadCount: number) {
