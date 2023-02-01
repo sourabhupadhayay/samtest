@@ -263,6 +263,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   disconnectCall() {
+    console.log("athlete disconnect call ",this.bidId,this.timeLeft);
     let request: Request = {
       path: "core/video/updateCall/" + this.bidId,
       data: {
@@ -346,6 +347,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   async callDisconnectSocket() {
     let userRole: userRole = await this.coreService.getUserRoleFromStorage();
     let userDetails = await this.coreService.getUserDataFromStorage();
+    console.log("athlete disconnect socket called ",userRole,userDetails)
     this.socket = Stomp.over(
       () => new SockJS(configuration.BASE_URL + "core/greeting")
     );

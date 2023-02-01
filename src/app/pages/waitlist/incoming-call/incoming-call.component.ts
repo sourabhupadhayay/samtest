@@ -124,10 +124,10 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
     });
   }
  async disconnectCall() {
-  console.log("diconnect ",this.commonData)
+  console.log("fan diconnect called",this.commonData)
    let leftTime = await this.commonData.remainingTime;
     console.log(
-      "details ",
+      "remaining time ",
       this.commonData.remainingTime
     );
       if (this.bidId != undefined) {
@@ -147,7 +147,7 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
   }
 
   async callDisconnectSocket() {
-    console.log("called");
+    console.log("fan disconnect socket called");
     let userRole: userRole = await this.core.getUserRoleFromStorage();
     let userDetails = await this.core.getUserDataFromStorage();
 
@@ -195,6 +195,7 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
     let data = JSON.stringify({
       userId: id,
     });
+    console.log("fan send cut video ",data)
     this.socket.send("/app/cancelVideo", {}, data);
   }
   ionViewWillLeave() {
