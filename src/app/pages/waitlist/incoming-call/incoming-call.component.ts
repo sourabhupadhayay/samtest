@@ -35,10 +35,11 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
   getBidIdFromRoute() {
     this.route.params.subscribe((params: Params) => {
       this.id = params.id;
+      console.log("param ",this.id)
     });
     this.route.queryParams.subscribe((params) => {
       this.bidId = params.bidId;
-      console.log(this.bidId);
+      console.log("bid id ",this.bidId);
     });
   }
 
@@ -133,8 +134,9 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
       if (this.bidId != undefined) {
         this.id = this.bidId;
       }
+      console.log("api ",this.id)
       let request: Request = {
-        path: "core/video/updateCall/" + this.id,
+        path: "core/video/updateCall/" + this.commonData.id,
         data: {
           remainingTime: leftTime,
         },
@@ -206,6 +208,7 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
     NativeAudio.unload({
       assetId: "discord",
     });
+    this.disconnectCall();
   }
   ngOnDestroy(): void {
     NativeAudio.stop({
@@ -215,5 +218,6 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
     NativeAudio.unload({
       assetId: "discord",
     });
+    this.disconnectCall();
   }
 }
