@@ -362,7 +362,10 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     if (s < 10) {
       sDisplay = "0" + sDisplay;
     }
-    return `0${mDisplay}: ${sDisplay}s`;
+    if (m < 10) {
+      mDisplay = "0" + mDisplay;
+    }
+    return `${mDisplay}: ${sDisplay}s`;
   }
   stopTimer() {
     clearInterval(this.intId);
