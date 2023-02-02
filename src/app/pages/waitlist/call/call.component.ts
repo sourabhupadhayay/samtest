@@ -59,6 +59,8 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   nameInitials: string;
   OT: any;
   commonData : any;
+  interval;
+  predefinedTime: number = 60;
   constructor(
     private apiService: DataService,
     private coreService: CoreService,
@@ -88,6 +90,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.nameInitials = this.commonService.getInitials(
       this.userDetail.fullName
     );
+    this.callAutoCutTimer();
   }
 
   ngAfterViewInit(): void {
@@ -199,6 +202,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     let element = this.fanElement?.nativeElement;
     this.session.on("streamCreated", (event) => {
+      this.stopAutoCutTimer();
       this.startTimer();
       this.subscribe = this.session.subscribe(event.stream, element, {
         width: "100%",
@@ -279,6 +283,8 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
         this.intId = undefined;
         this._streamOff();
         this._cleanUp();
+        clearInterval(this.interval);
+        this.predefinedTime = 60;
         if (this.isBiddingEvent) {
           this.commonService.$navigateSubject.next();
           this.navController.navigateBack([
@@ -299,6 +305,24 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       return;
     });
+  }
+
+  callAutoCutTimer() {
+    this.interval = setInterval(() => {
+      if(this.predefinedTime > 0) {
+        this.predefinedTime--;
+        console.log("auto-cut timer ",this.predefinedTime);
+        if(this.predefinedTime == 0) {
+          this.stopAutoCutTimer();
+          this.disconnectCall();
+        }
+      }
+    },1000)
+  }
+
+  stopAutoCutTimer() {
+    clearInterval(this.interval);
+    this.predefinedTime = 60;
   }
 
   startTimer() {
@@ -338,7 +362,10 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     if (s < 10) {
       sDisplay = "0" + sDisplay;
     }
-    return `0${mDisplay}: ${sDisplay}s`;
+    if (m < 10) {
+      mDisplay = "0" + mDisplay;
+    }
+    return `${mDisplay}: ${sDisplay}s`;
   }
   stopTimer() {
     clearInterval(this.intId);
@@ -444,6 +471,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.session.disconnect();
     this.sessionId = "";
     this.apiKey = "";
+    clearInterval(this.interval);
   }
   ionViewDidLeave() {
     console.log("leave csll");
@@ -451,6 +479,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     this._streamOff();
     this._cleanUp();
     clearInterval(this.intId);
+    clearInterval(this.interval);
     this.cd.detectChanges();
     this.sessionId = "";
   }

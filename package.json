@@ -29,7 +29,6 @@
     "@awesome-cordova-plugins/native-audio": "^6.2.0",
     "@awesome-cordova-plugins/sign-in-with-apple": "^6.2.0",
     "@capacitor-community/facebook-login": "^3.4.0",
-   
     "@capacitor-community/keep-awake": "3.0.0",
     "@capacitor-community/native-audio": "4.0.0-0",
     "@capacitor/android": "4.0.0",
@@ -45,6 +44,7 @@
     "@capacitor/splash-screen": "4.0.0",
     "@capacitor/status-bar": "4.0.0",
     "@codetrix-studio/capacitor-google-auth": "3.2.0",
+    "@fresha/capacitor-plugin-applepay": "^4.0.0",
     "@ionic-native/apple-pay": "^5.36.0",
     "@ionic/angular": "^6.1.9",
     "@npmcli/move-file": "^2.0.0",
