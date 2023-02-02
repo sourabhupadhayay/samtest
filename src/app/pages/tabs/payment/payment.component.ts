@@ -9,7 +9,8 @@ import { IonModal, ModalController, NavParams } from "@ionic/angular";
 import { data } from "cypress/types/jquery";
 import { CoreService } from "src/app/providers/core.service";
 import { CommonService } from "../../../providers/common.service";
-declare var Square :any;
+import { ApplePay } from "@fresha/capacitor-plugin-applepay";
+declare var Square: any;
 declare var SqPaymentForm: any;
 //magic to allow us to access the SquarePaymentForm lib
 @Component({
@@ -26,8 +27,11 @@ export class PaymentComponent implements OnInit {
   paymentType: "SQUARE_PAYMENT" | "apple" = "SQUARE_PAYMENT";
   errorMsg: any;
   sqPaymentForm: any; //this is our payment form object
-  card :any;
-  
+  card: any;
+  PaymentSummaryItem: any = {
+    label: "bid",
+    amount: "2",
+  };
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -56,7 +60,6 @@ export class PaymentComponent implements OnInit {
   openCreateModal() {
     this.pay();
     // this.sqPaymentForm.requestCardNonce();
-    
 
     setTimeout(() => {
       if (this.errors.length > 0) {
@@ -139,70 +142,110 @@ export class PaymentComponent implements OnInit {
     this.sqPaymentForm.build();
   }
 
-
-  async initializeCard(payments?:any) {
-     payments = Square.payments(this.commonService.publicInfo.squareAppId, this.commonService.publicInfo.locationId)
+  async initializeCard(payments?: any) {
+    payments = Square.payments(
+      this.commonService.publicInfo.squareAppId,
+      this.commonService.publicInfo.locationId
+    );
 
     const darkModeCardStyle = {
-      '.input-container': {
-        borderColor: '#2D2D2D',
-        borderRadius: '6px',
+      ".input-container": {
+        borderColor: "#2D2D2D",
+        borderRadius: "6px",
       },
-      '.input-container.is-focus': {
-        borderColor: '#006AFF',
+      ".input-container.is-focus": {
+        borderColor: "#006AFF",
       },
-      '.input-container.is-error': {
-        borderColor: '#ff1600',
+      ".input-container.is-error": {
+        borderColor: "#ff1600",
       },
-      '.message-text': {
-        color: '#999999',
+      ".message-text": {
+        color: "#999999",
       },
-      '.message-icon': {
-        color: '#999999',
+      ".message-icon": {
+        color: "#999999",
       },
-      '.message-text.is-error': {
-        color: '#ff1600',
+      ".message-text.is-error": {
+        color: "#ff1600",
       },
-      '.message-icon.is-error': {
-        color: '#ff1600',
+      ".message-icon.is-error": {
+        color: "#ff1600",
       },
       input: {
-        backgroundColor: '#2D2D2D',
-        color: '#FFFFFF',
-        fontFamily: 'helvetica neue, sans-serif',
+        backgroundColor: "#2D2D2D",
+        color: "#FFFFFF",
+        fontFamily: "helvetica neue, sans-serif",
       },
-      'input::placeholder': {
-        color: '#999999',
+      "input::placeholder": {
+        color: "#999999",
       },
-      'input.is-error': {
-        color: '#ff1600',
+      "input.is-error": {
+        color: "#ff1600",
       },
     };
     this.card = await payments.card({
       // style: darkModeCardStyle,
     });
-    await this.card.attach('#card-container');
+    await this.card.attach("#card-container");
     return this.card;
 
     let tokenResult;
-    const button = document.getElementById('card-button');
-    button.addEventListener('click', e => {
-      console.log("called")
-    e.preventDefault();
-    tokenResult = this.card.tokenize();
-    console.log("token new ",tokenResult)
-})
-  } 
-
- async pay() {
-   await this.card.tokenize().then(data=>
-      this.nonce = data.token);
-      console.log("nonce ",this.nonce);
-      // await this.card.tokenize().then(data=>
-      //   console.log("card ",data))
-      if(this.nonce!=undefined){
-        this.ConfirmModal.present()
-      }
+    const button = document.getElementById("card-button");
+    button.addEventListener("click", (e) => {
+      console.log("called");
+      e.preventDefault();
+      tokenResult = this.card.tokenize();
+      console.log("token new ", tokenResult);
+    });
   }
-  
+
+  async pay() {
+    await this.card.tokenize().then((data) => (this.nonce = data.token));
+    console.log("nonce ", this.nonce);
+    // await this.card.tokenize().then(data=>
+    //   console.log("card ",data))
+    if (this.nonce != undefined) {
+      this.ConfirmModal.present();
+    }
+  }
+
+  applePayPayment() {
+    console.log("apple pay ment");
+
+    ApplePay.initiatePayment({
+      merchantIdentifier: "merchant.com.bubbleapp",
+      countryCode: "+91",
+      currencyCode: "dollar",
+      supportedCountries: ["US"],
+      supportedNetworks: [
+        "amex",
+        "chinaUnionPay",
+        "cartesBancaires",
+        "discover",
+        "eftpos",
+        "electron",
+        "idCredit",
+        "interac",
+        "JCB",
+        "maestro",
+        "masterCard",
+        "privateLabel",
+        "quicPay",
+        "suica",
+        "visa",
+        "vPay",
+      ],
+      summaryItems: [this.PaymentSummaryItem],
+      requiredShippingContactFields: ["emailAddress"],
+      requiredBillingContactFields: ["emailAddress"],
+      merchantCapabilities: [
+        "capability3DS",
+        "capabilityCredit",
+        "capabilityDebit",
+        "capabilityEMV",
+      ],
+      billingContact: { emailAddress: "ankita.k@techroversolutions.com" },
+      shippingContact: { emailAddress: "ankita.k@techroversolutions.com" },
+    });
+  }
 }

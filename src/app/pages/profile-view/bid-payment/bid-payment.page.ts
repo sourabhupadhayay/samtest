@@ -8,9 +8,9 @@ import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { PaymentComponent } from "../../tabs/payment/payment.component";
-import { PopoverController } from '@ionic/angular';
+import { PopoverController } from "@ionic/angular";
 import { PushNotificationPage } from "../../push-notification/push-notification.page";
-
+import { ApplePay } from "@fresha/capacitor-plugin-applepay";
 @Component({
   selector: "app-bid-payment",
   templateUrl: "./bid-payment.page.html",
@@ -26,7 +26,11 @@ export class BidPaymentPage implements OnInit {
   paymentData: paymentData | null = null;
   currentBidAmount: string = "";
   MaxAmount: string = "";
-  badgeCount :number = 0;
+  badgeCount: number = 0;
+  PaymentSummaryItem: any = {
+    label: "bid",
+    amount: "2",
+  };
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -38,7 +42,7 @@ export class BidPaymentPage implements OnInit {
     private renderer: Renderer2,
     private _location: Location,
     private decimalPipe: DecimalPipe,
-    public popoverController: PopoverController,
+    public popoverController: PopoverController
   ) {}
 
   ngOnInit() {
@@ -53,7 +57,7 @@ export class BidPaymentPage implements OnInit {
       script.src = `https://web.squarecdn.com/v1/square.js`;
     } else {
       // script.src = `https://js.squareupsandbox.com/v2/paymentform`;  //deprecated
-      script.src = "https://sandbox.web.squarecdn.com/v1/square.js"
+      script.src = "https://sandbox.web.squarecdn.com/v1/square.js";
     }
 
     this.renderer.appendChild(document.head, script);
@@ -128,7 +132,6 @@ export class BidPaymentPage implements OnInit {
       return;
     }
     // this.bidAmount = this.decimalPipe.transform(this.bidAmount, "1.2-2");
-
   }
 
   getMaximumBidForEvent() {
@@ -208,39 +211,81 @@ export class BidPaymentPage implements OnInit {
     return false;
   }
 
-  getToFixedDigits(event:any){
-    if(event.target.value !== '')
-     event.target.value = parseFloat(event.target.value).toFixed(2)
-    }
+  getToFixedDigits(event: any) {
+    if (event.target.value !== "")
+      event.target.value = parseFloat(event.target.value).toFixed(2);
+  }
 
-    getNotificationCount() {
-      let request: any = {
-        path: "notification/notification/check/v2",
-        isAuth: true,
-      };
-        this.apiService.get(request).subscribe((response: any) => {
-          this.badgeCount = response.data.unreadCount;
-          console.log("c ",this.badgeCount)
-          return this.badgeCount;
-        });
-    }
+  getNotificationCount() {
+    let request: any = {
+      path: "notification/notification/check/v2",
+      isAuth: true,
+    };
+    this.apiService.get(request).subscribe((response: any) => {
+      this.badgeCount = response.data.unreadCount;
+      console.log("c ", this.badgeCount);
+      return this.badgeCount;
+    });
+  }
 
-    async presentPopover(ev: any) {
-      const popover = await this.popoverController.create({
-        component: PushNotificationPage,
-        cssClass: 'notification-pop',
-        event: ev,
-        translucent: false,
-        side: 'bottom',
-        alignment: 'start',
-        size:'auto'
+  async presentPopover(ev: any) {
+    const popover = await this.popoverController.create({
+      component: PushNotificationPage,
+      cssClass: "notification-pop",
+      event: ev,
+      translucent: false,
+      side: "bottom",
+      alignment: "start",
+      size: "auto",
+    });
+    await popover.present();
+
+    const { role } = await popover.onDidDismiss();
+    console.log("onDidDismiss resolved with role", role);
+  }
+  applePayPayment() {
+    console.log("apple pay ment");
+    ApplePay.canMakePayments().then((res: any) => {
+      console.log("can make payment", res);
+      ApplePay.initiatePayment({
+        merchantIdentifier: "merchant.com.bubbleapp",
+        countryCode: "+1",
+        currencyCode: "USD",
+        supportedCountries: ["United State"],
+        supportedNetworks: [
+          "amex",
+          "chinaUnionPay",
+          "cartesBancaires",
+          "discover",
+          "eftpos",
+          "electron",
+          "idCredit",
+          "interac",
+          "JCB",
+          "maestro",
+          "masterCard",
+          "privateLabel",
+          "quicPay",
+          "suica",
+          "visa",
+          "vPay",
+        ],
+        summaryItems: [this.PaymentSummaryItem],
+        requiredShippingContactFields: ["emailAddress"],
+        requiredBillingContactFields: ["emailAddress"],
+        merchantCapabilities: [
+          "capability3DS",
+          "capabilityCredit",
+          "capabilityDebit",
+          "capabilityEMV",
+        ],
+        billingContact: { emailAddress: "ankita.k@techroversolutions.com" },
+        shippingContact: { emailAddress: "ankita.k@techroversolutions.com" },
       });
-      await popover.present();
-  
-      const { role } = await popover.onDidDismiss();
-      console.log('onDidDismiss resolved with role', role);
-    }
+    });
+  }
 }
+
 interface paymentData {
   nonce: string;
   paymentType: "SQUARE_PAYMENT" | "apple";
