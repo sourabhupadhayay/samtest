@@ -122,6 +122,7 @@ export class AppComponent implements OnInit, OnDestroy {
             },
           })
         }
+        FullScreenNotification.cancelNotification();
       } else{
         console.log("reject");
         this.cancelFullscreenNotification();

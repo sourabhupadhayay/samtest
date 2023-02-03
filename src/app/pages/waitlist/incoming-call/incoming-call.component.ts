@@ -208,7 +208,6 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
     NativeAudio.unload({
       assetId: "discord",
     });
-    this.disconnectCall();
   }
   ngOnDestroy(): void {
     NativeAudio.stop({
@@ -218,6 +217,5 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
     NativeAudio.unload({
       assetId: "discord",
     });
-    this.disconnectCall();
   }
 }
