@@ -27,6 +27,8 @@ export class BidPaymentPage implements OnInit {
   currentBidAmount: string = "";
   MaxAmount: string = "";
   badgeCount :number = 0;
+  minBidAmountRequired: number = 0;
+  hasPreviosBid : boolean = false;
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -68,10 +70,17 @@ export class BidPaymentPage implements OnInit {
 
   async presentPaymentModal() {
     if (this.bidAmount < this.eventData?.minBid || !this.bidAmount) {
-      this.coreService.showToastMessage(
-        `Please enter bid amount greater than $${this.eventData?.minBid}`,
+     if(this.hasPreviosBid) {
+        this.coreService.showToastMessage(
+        `Your minimum bid has be  $${this.minBidAmountRequired}.00`,
         this.coreService.TOAST_ERROR
       );
+     } else {
+           this.coreService.showToastMessage(
+        `Please enter bid amount`,
+        this.coreService.TOAST_ERROR
+      );
+     }
       return;
     }
 
@@ -147,6 +156,13 @@ export class BidPaymentPage implements OnInit {
         if (response.data.maxBid != null) {
           this.MaxAmount = response.data.maxBid.totalAmount;
         }
+        if(this.currentBidAmount) {
+          this.hasPreviosBid = true;
+        }else {
+          this.hasPreviosBid = false;
+        }
+        this.minBidAmountRequired = response?.data?.minBidAmount; 
+        console.log("minReq ",this.minBidAmountRequired,this.hasPreviosBid)
       } else {
         this.coreService.showToastMessage(
           response.status.description,
@@ -176,6 +192,7 @@ export class BidPaymentPage implements OnInit {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
         this.modalCtrl.dismiss();
+        this.bidAmount = '';
         this.router.navigate(["waitlist/event/" + this.eventId]);
       } else {
         this.coreService.showToastMessage(
@@ -212,6 +229,25 @@ export class BidPaymentPage implements OnInit {
     if(event.target.value !== '')
      event.target.value = parseFloat(event.target.value).toFixed(2)
     }
+
+  validatePreviosBidAmount(e:any) {
+    let input = e.target.value;
+    if(this.hasPreviosBid) {
+      if(input < this.minBidAmountRequired) {
+        console.log('invalid');
+        this.bidAmount= '';
+        this.coreService.showToastMessage(
+          "Your minimum bid has be  $"+this.minBidAmountRequired+`.00`,
+          this.coreService.TOAST_ERROR
+        );
+      } else {
+        console.log("valid")
+      }
+    } else {
+      console.log("first time bid")
+      return;
+    }
+  }  
 
     getNotificationCount() {
       let request: any = {
