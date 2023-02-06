@@ -72,7 +72,7 @@ export class BidPaymentPage implements OnInit {
     if (this.bidAmount < this.eventData?.minBid || !this.bidAmount) {
      if(this.hasPreviosBid) {
         this.coreService.showToastMessage(
-        `Your minimum bid has be  $${this.minBidAmountRequired}.00`,
+        `Your minimum bid has to be  $${this.minBidAmountRequired}.00`,
         this.coreService.TOAST_ERROR
       );
      } else {
@@ -237,7 +237,7 @@ export class BidPaymentPage implements OnInit {
         console.log('invalid');
         this.bidAmount= '';
         this.coreService.showToastMessage(
-          "Your minimum bid has be  $"+this.minBidAmountRequired+`.00`,
+          "Your minimum bid has to be  $"+this.minBidAmountRequired+`.00`,
           this.coreService.TOAST_ERROR
         );
       } else {
