@@ -30,7 +30,10 @@ export class BidPaymentPage implements OnInit {
   PaymentSummaryItem: any = {
     label: "bid",
     amount: "2",
+    type: "final",
   };
+  PaymentCompletionStatus: "success" | "failure";
+
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -243,6 +246,9 @@ export class BidPaymentPage implements OnInit {
     const { role } = await popover.onDidDismiss();
     console.log("onDidDismiss resolved with role", role);
   }
+  CompletePaymentRequest: any = {
+    status: ["success", "failure"],
+  };
   applePayPayment() {
     console.log("apple pay ment");
     ApplePay.canMakePayments().then((res: any) => {
@@ -252,7 +258,7 @@ export class BidPaymentPage implements OnInit {
         countryCode: "US",
         currencyCode: "USD",
         supportedCountries: ["United State"],
-        supportedNetworks: ["amex", "masterCard", "visa"],
+        supportedNetworks: ["amex", "masterCard", "visa", "idCredit"],
         summaryItems: [this.PaymentSummaryItem],
         requiredShippingContactFields: ["emailAddress"],
         requiredBillingContactFields: ["emailAddress"],
@@ -264,6 +270,14 @@ export class BidPaymentPage implements OnInit {
         ],
         billingContact: { emailAddress: "ankita.k@techroversolutions.com" },
         shippingContact: { emailAddress: "ankita.k@techroversolutions.com" },
+      }).then((res: any) => {
+        console.log("inital ", res);
+
+        // ApplePay.completeLastPayment(this.CompletePaymentRequest).then(
+        //   (res: any) => {
+        //     console.log("complete", res);
+        //   }
+        // );
       });
     });
   }
