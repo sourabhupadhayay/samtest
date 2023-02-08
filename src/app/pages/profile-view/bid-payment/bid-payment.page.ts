@@ -253,32 +253,53 @@ export class BidPaymentPage implements OnInit {
     console.log("apple pay ment");
     ApplePay.canMakePayments().then((res: any) => {
       console.log("can make payment", res);
-      ApplePay.initiatePayment({
-        merchantIdentifier: "merchant.com.bubbleapp",
-        countryCode: "US",
-        currencyCode: "USD",
-        supportedCountries: ["United State"],
-        supportedNetworks: ["amex", "masterCard", "visa", "idCredit"],
-        summaryItems: [this.PaymentSummaryItem],
-        requiredShippingContactFields: ["emailAddress"],
-        requiredBillingContactFields: ["emailAddress"],
-        merchantCapabilities: [
-          "capability3DS",
-          "capabilityCredit",
-          "capabilityDebit",
-          "capabilityEMV",
-        ],
-        billingContact: { emailAddress: "ankita.k@techroversolutions.com" },
-        shippingContact: { emailAddress: "ankita.k@techroversolutions.com" },
-      }).then((res: any) => {
-        console.log("inital ", res);
+      try {
+        ApplePay.initiatePayment({
+          merchantIdentifier: "merchant.com.bubbleapp",
+          countryCode: "US",
+          currencyCode: "USD",
+          supportedCountries: ["United States"],
+          supportedNetworks: [
+            "amex",
+            "chinaUnionPay",
+            "cartesBancaires",
+            "discover",
+            "eftpos",
+            "electron",
+            "idCredit",
+            "interac",
+            "JCB",
+            "maestro",
+            "masterCard",
+            "privateLabel",
+            "quicPay",
+            "suica",
+            "visa",
+            "vPay",
+          ],
+          summaryItems: [this.PaymentSummaryItem],
+          requiredShippingContactFields: ["emailAddress"],
+          requiredBillingContactFields: ["emailAddress"],
+          merchantCapabilities: [
+            "capability3DS",
+            "capabilityCredit",
+            "capabilityDebit",
+            "capabilityEMV",
+          ],
+          billingContact: { emailAddress: "ankita.k@techroversolutions.com" },
+          shippingContact: { emailAddress: "ankita.k@techroversolutions.com" },
+        }).then((res: any) => {
+          console.log("inital ", res);
 
-        // ApplePay.completeLastPayment(this.CompletePaymentRequest).then(
-        //   (res: any) => {
-        //     console.log("complete", res);
-        //   }
-        // );
-      });
+          // ApplePay.completeLastPayment(this.CompletePaymentRequest).then(
+          //   (res: any) => {
+          //     console.log("complete", res);
+          //   }
+          // );
+        });
+      } catch (error) {
+        console.log(error, "apple pay errro");
+      }
     });
   }
 }
