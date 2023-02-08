@@ -290,6 +290,10 @@ export class BidPaymentPage implements OnInit {
           shippingContact: { emailAddress: "ankita.k@techroversolutions.com" },
         }).then((res: any) => {
           console.log("inital ", res);
+          res.token.paymentData;
+          const decodedPaymentData = atob(res.token.paymentData);
+          const paymentDataObject = JSON.parse(decodedPaymentData);
+          console.log("payment convert", paymentDataObject);
 
           // ApplePay.completeLastPayment(this.CompletePaymentRequest).then(
           //   (res: any) => {
