@@ -94,7 +94,7 @@ export class AppereanceBookingComponent implements OnInit {
 
   setTimeZone() {
     if(this.platform.is("ios")) {
-      this.timeZone();
+      this.androidTimeZone();
     } else {
       console.log("in android")
       // this.currentDate =  new Date().toISOString();
@@ -115,39 +115,29 @@ export class AppereanceBookingComponent implements OnInit {
     this.defaultDate = this.currentDate;
   }
     
-  timeZone() {
-    // Get the time zone set on the user's device
-    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    console.log("user time zone", userTimeZone);
+  // timeZone() {
+  //   // Get the time zone set on the user's device
+  //   const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  //   console.log("user time zone", userTimeZone);
 
-    let date = new Date().toISOString();
+  //   let date = new Date().toISOString();
 
-    const zonedTime = utcToZonedTime(date, userTimeZone);
+  //   const zonedTime = utcToZonedTime(date, userTimeZone);
 
-    let formattedDate = format(zonedTime, "yyyy-MM-dd HH:mm:ss zzz", {
-      timeZone: userTimeZone,
-    });
-    let isoDate = new Date(formattedDate);
-    if (this.platform.is("ios")) {
-      const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      console.log("time zone", userTimeZone);
-  
-      var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
-      // console.log("tz", tzoffset);
-      var localISOTime = (new Date(Date.now() - tzoffset)).toISOString();
-      this.currentDate =  localISOTime;
-      // console.log("final ",this.currentDate);
-      this.starttime = this.currentDate;
-      this.defaultDate = this.currentDate;
-      // this.currentDate = new Date(isoDate).toISOString();
-    } else {
-      this.currentDate = this.toIsoString(isoDate);
-    }
-    this.defaultDate = this.currentDate;
-    console.log("iso date", this.currentDate);
-    this.starttime = this.currentDate;
-    this.defaultDate = this.currentDate;
-  }
+  //   let formattedDate = format(zonedTime, "yyyy-MM-dd HH:mm:ss zzz", {
+  //     timeZone: userTimeZone,
+  //   });
+  //   let isoDate = new Date(formattedDate);
+  //   if (this.platform.is("ios")) {
+  //     this.currentDate = new Date(isoDate).toISOString();
+  //   } else {
+  //     this.currentDate = this.toIsoString(isoDate);
+  //   }
+  //   this.defaultDate = this.currentDate;
+  //   console.log("iso date", this.currentDate);
+  //   this.starttime = this.currentDate;
+  //   this.defaultDate = this.currentDate;
+  // }
   toIsoString(date) {
     var tzo = -date.getTimezoneOffset(),
       dif = tzo >= 0 ? "+" : "-",
