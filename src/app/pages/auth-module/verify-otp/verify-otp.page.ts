@@ -13,7 +13,7 @@ import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { AuthModuleService } from "../auth-module.service";
-import { Preferences } from '@capacitor/preferences';
+import { Preferences } from "@capacitor/preferences";
 import { Platform } from "@ionic/angular";
 import {
   ActionPerformed,
@@ -21,6 +21,7 @@ import {
   PushNotifications,
   Token,
 } from "@capacitor/push-notifications";
+import { CallKitVoip } from "capacitor-callkit-voip";
 @Component({
   selector: "app-verify-otp",
   templateUrl: "./verify-otp.page.html",
@@ -47,7 +48,7 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
   mode: "signup" | "forgot" | "login";
   returnUrl: string;
   generatedToken: string | null = null;
-
+  voipToken: any;
   constructor(
     private coreService: CoreService,
     private apiService: DataService,
@@ -63,6 +64,7 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.startTimer();
     this.getFlowInfo();
+    this.registerVoipNotification();
   }
   ionViewWillEnter() {
     this.generateNotificationToken();
@@ -113,13 +115,17 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
 
   verifyActivateAccountOtp() {
     if (this.validateOtp()) return;
-
+    if (localStorage.getItem("voipToken")) {
+      this.voipToken = localStorage.getItem("voipToken");
+    }
     let request: Request = {
       path:
         "auth/users/otp/verify/" +
         this.otpFormControl.value +
         "?deviceToken=" +
-        this.generatedToken,
+        this.generatedToken +
+        "?voipDeviceToken=" +
+        this.voipToken,
       isAuth: true,
     };
     // this.apiService.post(request).subscribe((response: Response) => {
@@ -237,5 +243,13 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
       this.generatedToken = token.value;
     });
     console.log(this.generatedToken);
+  }
+  async registerVoipNotification() {
+    // register token
+    CallKitVoip.addListener("registration", ({ token }: any) => {
+      console.log(`VOIP token has been received ${token}`);
+      this.voipToken = token;
+      console.log("common", this.voipToken);
+    });
   }
 }

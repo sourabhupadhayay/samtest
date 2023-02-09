@@ -8,7 +8,7 @@ import { CoreService, userRole, UserRole } from "./providers/core.service";
 import { DataService, Request } from "./providers/data.service";
 import { NetworkService } from "./providers/network.service";
 import { SplashScreen } from "@capacitor/splash-screen";
-import { Preferences } from '@capacitor/preferences';
+import { Preferences } from "@capacitor/preferences";
 import { Router } from "@angular/router";
 import { CommonService } from "./providers/common.service";
 import { Stomp } from "@stomp/stompjs";
@@ -25,6 +25,12 @@ import { AuthenticationService } from "./providers/authentication.service";
 import { Subscription, interval } from "rxjs";
 import { NavController } from "@ionic/angular";
 import { Badge } from "@awesome-cordova-plugins/badge/ngx";
+import { CallData, CallKitVoip } from "capacitor-callkit-voip";
+//import { Flipper } from "@capacitor-community/flipper";
+import { FullScreenNotification } from 'capacitor-fullscreen-notification';
+import * as _ from "cypress/types/lodash";
+import { ApplePay } from "@fresha/capacitor-plugin-applepay";
+
 
 @Component({
   selector: "app-root",
@@ -38,7 +44,12 @@ export class AppComponent implements OnInit, OnDestroy {
   private socketSubscription: Subscription;
   intervalId: number;
   userDetails: any;
-  badgeCount : number = 0;
+  badgeCount: number = 0;
+  data = {};
+  id: any;
+  accepted:boolean = false;
+  voipResponse :any;
+
   constructor(
     private apiservice: DataService,
     private _networkService: NetworkService,
@@ -59,31 +70,168 @@ export class AppComponent implements OnInit, OnDestroy {
     this.backButton();
     this.hideSplashScreen();
     this.getPublicInfo();
-    this.commonService.getAthleteEarnings()
+    this.commonService.getAthleteEarnings();
     this.deepLinking();
-    if(this.authService.isAuthenticated()){
-    this.getBadgeNotificationCount();
+    if (this.authService.isAuthenticated()) {
+      this.getBadgeNotificationCount();
     }
   }
+
+   async getfullscreenNotification() {
+      await FullScreenNotification.addListener('launch', (data) => {
+      let dataObject : any =  JSON.stringify(data);
+      let parseDataObject : any = JSON.parse(data.fullScreenId);
+      this.voipResponse = JSON.parse(data.fullScreenId);
+      localStorage.setItem('voip-data',parseDataObject);
+      let dataObject1 : any =  data;
+      let bidId :any = parseDataObject.id;
+      let isBidEvent : any = parseDataObject.bidEventCheck;
+      let buttonClicked : any = JSON.stringify(data.actionId);
+      let eventId :any = parseDataObject.eventId;
+      console.log("objj ",dataObject);
+      console.log("bidId/event/ EventId ",bidId,isBidEvent,eventId);
+      console.log("has actionId ",dataObject1.hasOwnProperty('actionId'));
+      if(!this.commonService.callingAthleteDetails || this.commonService.callingAthleteDetails == null) {
+        this.commonService.callingAthleteDetails = this.voipResponse;
+      }
+      console.log("common 1 ",this.commonService.callingAthleteDetails);
+
+     if (dataObject1.hasOwnProperty('actionId')) {                      //check screen locked/onlocked
+       console.log("screen is open");
+                                                                        //this.accepted = buttonClicked === '"accept"' ? true : false;
+    if(buttonClicked === '"accept"') {                                  //check call accept/reject
+      this.accepted = true
+    } else {
+      this.accepted = false
+    }
+
+      if(this.accepted) {
+        console.log("accept")
+        console.log("/waitlist/call/"+ bidId);
+        
+        if(isBidEvent) {
+          this.navController.navigateBack(["/waitlist/call/"+ bidId], {
+            queryParams: {
+                 isBidEvent: isBidEvent,
+            },
+          })
+        } else {
+          this.navController.navigateBack(["/waitlist/call/"+ eventId], {
+            queryParams: {
+                 isBidEvent: isBidEvent,
+            },
+          })
+        }
+        FullScreenNotification.cancelNotification();
+      } else{
+        console.log("reject");
+        this.cancelFullscreenNotification();
+      }
+     }
+     else {
+       console.log("screen is locked");
+       console.log("/waitlist/incoming-call/"+ bidId);
+       if(isBidEvent) {
+        this.navController.navigateBack(["/waitlist/incoming-call/" + bidId]);
+       } else {
+        this.navController.navigateBack(["/waitlist/incoming-call/" + eventId]);
+       } 
+     } 
+  })
+}
+
+RemoveInvertedComma(id:string) {
+  let updatedId = id.slice(1,-1);
+}
+
+
+async cancelFullscreenNotification() {
+  await this.disconnectCall();
+  await FullScreenNotification.cancelNotification();
+}
+
+
+async disconnectCall() {
+   let leftTime = await this.voipResponse.remainingTime;
+
+      let request: Request = {
+        path: "core/video/updateCall/" + this.voipResponse.id,
+        data: {
+          remainingTime: leftTime,
+        },
+        isAuth: true,
+      };
+      this.apiService.post(request).subscribe((response: Response) => {
+        this.coreService.dismissLoader();
+      });
+      this.router.navigate(["/tabs/schedule"]);
+  }
+
 
   async ngOnInit() {
     // await this.getBadgeNotificationCount();
     // await this.getBadgeStatus(0);
-    this.socketInit();
-    this.callingAthlete();
+    await this.commonService.getAthleteEarnings();
+     this.socketInit();
+     this.callingAthlete();
     const source = interval(60000);
     this.socketSubscription = source.subscribe((val) => this.onlineStatus());
     this.commonService.privacy();
     this.commonService.termcondition();
+   
+    if(this.platform.is('ios')) {
+      await this.registerVoipNotification();
+    }
+   else {
+    this.getfullscreenNotification();
+   }
+   this.applePayPayment()
   }
 
-  
-  async getBadgeStatus(unreadCount:number) {
-    let count = await this.badge.set(unreadCount);
-    console.log("badge count ",count)
-   }
+  applePayPayment() {
+    ApplePay.initiatePayment({
+      merchantIdentifier: 'com.bubble.bubbleapp',
+      countryCode: '+91',
+      currencyCode: 'INR',
+      supportedCountries: ['IN'],
+      supportedNetworks: [
+        'amex',
+        'chinaUnionPay',
+        'cartesBancaires',
+        'discover',
+        'eftpos',
+        'electron',
+        'idCredit',
+        'interac',
+        'JCB',
+        'maestro',
+        'masterCard',
+        'privateLabel',
+        'quicPay',
+        'suica',
+        'visa',
+        'vPay',
+      ],
+      summaryItems: [],
+      requiredShippingContactFields: ['emailAddress'],
+      requiredBillingContactFields: ['emailAddress'],
+      merchantCapabilities: [
+        'capability3DS',
+        'capabilityCredit',
+        'capabilityDebit',
+        'capabilityEMV',
+      ],
+      billingContact: { emailAddress: '' },
+      shippingContact: { emailAddress: '' },
+    });
+  }
 
-   getBadgeNotificationCount() {
+  async getBadgeStatus(unreadCount: number) {
+    let count = await this.badge.set(unreadCount);
+    console.log("badge count ", count);
+  }
+
+  getBadgeNotificationCount() {
     let request: any = {
       path: "notification/notification/check/v2",
       isAuth: true,
@@ -93,7 +241,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.coreService.dismissLoader();
         if (response.status.code === this.constantService.STATUS_OK) {
           this.badgeCount = response?.data?.unreadCount;
-          console.log("count ",this.badgeCount);
+          console.log("count ", this.badgeCount);
           this.getBadgeStatus(this.badgeCount);
         } else {
           this.coreService.showToastMessage(
@@ -123,15 +271,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
   initializeApp(): void {
     Preferences.get({ key: "first_time" }).then(({ value }) => {
-      console.log("initial",value);
-      
-    })
+      console.log("initial", value);
+    });
     this.platform.ready().then((): void => {
       this._networkEventsListener();
       this.initFacebook();
       this.isUserLoggedInFirstTime();
-      //this.registerNotification();
-     
     });
   }
 
@@ -162,10 +307,10 @@ export class AppComponent implements OnInit, OnDestroy {
     App.addListener("appUrlOpen", (event: URLOpenListenerEvent) => {
       this.zone.run(() => {
         let domain = "";
-        if(configuration.state == 'production') {
-          domain = "portal.bubbleapp.com"
+        if (configuration.state == "production") {
+          domain = "portal.bubbleapp.com";
         } else {
-          domain = "dev.bubbleapp.com"
+          domain = "dev.bubbleapp.com";
         }
         const pathArray = event.url.split(domain);
 
@@ -212,10 +357,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   isUserLoggedInFirstTime() {
     Preferences.get({ key: "first_time" }).then(({ value }) => {
-      console.log("first time",value);
-      
-      if (!value && this.authService.data.isLoggedIn==false) {
-      
+      console.log("first time", value);
+
+      if (!value && this.authService.data.isLoggedIn == false) {
         this.router.navigate(["/bubble-screen"]);
       }
     });
@@ -235,6 +379,7 @@ export class AppComponent implements OnInit, OnDestroy {
     PushNotifications.addListener(
       "pushNotificationReceived",
       (notification: PushNotificationSchema) => {
+        console.log("recevied push notifi");
         // alert("Push received: " + JSON.stringify(notification));
       }
     );
@@ -249,9 +394,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   async callingAthlete() {
-  
     if (!this.authService.data.isLoggedIn) {
-        
       return;
     }
 
@@ -259,7 +402,6 @@ export class AppComponent implements OnInit, OnDestroy {
     if (userRole == "athlete") {
       return;
     } else {
-    
       this.socket = Stomp.over(
         () => new SockJS(configuration.BASE_URL + "core/greeting")
       );
@@ -268,30 +410,25 @@ export class AppComponent implements OnInit, OnDestroy {
         {},
         (frame) => {
           this.socket.subscribe("/errors", (message) => {
-            console.log("error",message.body);
-            
+            console.log("error", message.body);
+
             alert("Error " + message.body);
           });
-          console.log("socket connect");
-          
+
           this.userDetails = localStorage.getItem("authDetails");
           let value = localStorage.getItem("authDetails");
-
           this.userDetails = JSON.parse(value);
-          console.log(this.userDetails,"user detail");
-          
           this.send(this.userDetails["id"]);
-
           this.socket.subscribe("/topic/receiveCall", (message) => {
             let responseData = JSON.parse(message.body).content;
 
             let value = localStorage.getItem("authDetails");
             this.userDetails = JSON.parse(value);
             let id = JSON.parse(responseData);
-            console.log("USERID",this.userDetails.id, id.userId)
             if (this.userDetails.id != id.userId) {
               return;
             } else {
+             if((this.platform.is("desktop") || this.platform.is("mobileweb")) && !this.platform.is('ios') ) {
               this.commonService.callingAthleteDetails = JSON.parse(
                 responseData
               );
@@ -299,17 +436,6 @@ export class AppComponent implements OnInit, OnDestroy {
                 this.commonService.callingAthleteDetails.creatorPersona !==
                 "USER"
               ) {
-                // {
-                //   this.router.navigate([
-                //     "/waitlist/incoming-call/" +
-                //       this.commonService.callingAthleteDetails.id,
-                //   ]);
-                // } else {
-                //   this.router.navigate([
-                //     "/waitlist/incoming-call/" +
-                //       this.commonService.callingAthleteDetails.eventId,
-                //   ]);
-                // }
                 this.navController.navigateBack([
                   "/waitlist/incoming-call/" +
                     this.commonService.callingAthleteDetails.id,
@@ -326,7 +452,8 @@ export class AppComponent implements OnInit, OnDestroy {
                     },
                   }
                 );
-              }
+              }   
+             }
             }
           });
         },
@@ -342,6 +469,51 @@ export class AppComponent implements OnInit, OnDestroy {
       userId: id,
     });
     this.socket.send("/app/videoBid", {}, data);
+  }
+  async registerVoipNotification() {
+    // register token
+    CallKitVoip.addListener("registration", ({ token }: any) => {
+      this.commonService.voipToken = token;
+      localStorage.setItem("voipToken", token);
+    });
+
+    // start call
+    CallKitVoip.addListener("callAnswered", (obj: CallData) => {
+      //here obj.id= bidId
+      this.commonService.VideoCallAnswer = true;
+      this.data = obj.connectionId;
+      if (obj.creatorPersona != "USER") {
+        this.router.navigate(["/waitlist/call/" + obj.id], {
+          queryParams: {
+            isBidEvent: obj.creatorPersona == "USER" ? false : true,
+          },
+        });
+      } else {
+        this.router.navigate(["/waitlist/call/" + obj.eventId], {
+          queryParams: {
+            isBidEvent: obj.creatorPersona == "USER" ? false : true,
+          },
+        });
+      }
+    });
+    // end call
+    CallKitVoip.addListener("endCall", (obj: CallData) => {
+      console.log(JSON.stringify(obj), `Call has been REJECTED from `);
+      let request: Request = {
+        path: "core/video/updateCall/" + obj.id,
+        data: {
+          remainingTime: obj.remainingTime,
+        },
+        isAuth: true,
+      };
+      this.apiService.post(request).subscribe((response: Response) => {
+        this.coreService.dismissLoader();
+      });
+      this.router.navigate(["/tabs/schedule"]);
+    });
+    // init plugin, start registration of VOIP notifications
+    await CallKitVoip.register(); // can be used with `.then()`
+    console.log("Push notification has been registered");
   }
 
   ngOnDestroy(): void {

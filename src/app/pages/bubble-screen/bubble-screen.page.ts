@@ -42,8 +42,10 @@ export class BubbleScreenPage implements OnInit {
   }
 
   isUserLoggedIn() {
-    if (this.authenticationService.isAuthenticated()) {
-      this.router.navigate(["/tabs/home"]);
+    if (this.commonService.VideoCallAnswer == false) {
+      if (this.authenticationService.isAuthenticated()) {
+        this.router.navigate(["/tabs/home"]);
+      }
     }
   }
 

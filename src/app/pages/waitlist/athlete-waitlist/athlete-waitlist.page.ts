@@ -17,7 +17,7 @@ import { CommonService } from "src/app/providers/common.service";
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
-import { NavController,ModalController } from "@ionic/angular";
+import { NavController, ModalController } from "@ionic/angular";
 import { Subscription } from "rxjs";
 import { DismissmodalComponent } from "src/app/pages/schedule/dismissmodal/dismissmodal.component";
 @Component({
@@ -30,7 +30,7 @@ export class AthleteWaitlistPage implements OnInit, DoCheck, OnDestroy {
   @Input() connectedFans: any[] = [];
   @Input() pendingCallFans: any[] = [];
   @Input() calledFans: any[] = [];
-  @ViewChild('player') player: ElementRef;
+  @ViewChild("player") player: ElementRef;
   fanImagesList: any[] = [];
   athleteList: any;
   sponsorList: any;
@@ -50,7 +50,8 @@ export class AthleteWaitlistPage implements OnInit, DoCheck, OnDestroy {
   userRole: any;
   eventData: any;
   creatorPersona: any;
-  currentIndex=0;
+  currentIndex = 0;
+  private navigateSubscription: Subscription;
   constructor(
     private router: Router,
     public commonService: CommonService,
@@ -62,40 +63,56 @@ export class AthleteWaitlistPage implements OnInit, DoCheck, OnDestroy {
     private cd: ChangeDetectorRef,
     public modalCtrl: ModalController,
     private constantService: ConstantService
-  ) {}
+  ) {
+    console.log("constructor call");
+    this.ensureVideoPlays();
+  }
 
   ngOnInit() {
     this.getSponsor();
     this.getUserDataFromStorage();
     this.getEventDetails();
-    this.ensureVideoPlays()
+    this.ensureVideoPlays();
+    this.navigateSubscription = this.commonService.$navigateSubject.subscribe(
+      () => {
+        this.ensureVideoPlays();
+        let audio = document.getElementById("muteSound") as HTMLMediaElement;
+        audio.muted = false;
+      }
+    );
   }
-  ionDidViewEnter() { 
-    this.ensureVideoPlays()   
+  ionDidViewEnter() {
+    this.ensureVideoPlays();
+    let audio = document.getElementById("muteSound") as HTMLMediaElement;
+    audio.muted = false;
+    console.log("ion did view");
+
     // this.eventEnd();
   }
   ionViewDidLeave() {
     this.soundOnOff();
     clearInterval(this.interval);
   }
-  ensureVideoPlays(): void{
+  ensureVideoPlays(): void {
     const video = document.querySelector("video");
-    if(!video) return; 
+    if (!video) return;
     const promise = video.play();
-    if(promise !== undefined){
-        promise.then(() => {
-            // Autoplay started
-        }).catch(error => {
-            // Autoplay was prevented.
-            video.muted = true;
-            video.play();
+    if (promise !== undefined) {
+      promise
+        .then(() => {
+          // Autoplay started
+        })
+        .catch((error) => {
+          // Autoplay was prevented.
+          video.muted = true;
+          video.play();
         });
     }
-}
-soundOnOff() {
-  let audio = document.getElementById("muteSound") as HTMLMediaElement;
-  audio.muted = true;
-}
+  }
+  soundOnOff() {
+    let audio = document.getElementById("muteSound") as HTMLMediaElement;
+    audio.muted = true;
+  }
   getEventDetails() {
     let request: Request = {
       path: "core/event/details/" + this.eventId,
@@ -183,16 +200,16 @@ soundOnOff() {
   }
 
   callFan(fan: any) {
-    this.soundOnOff()
+    console.log("call fan");
+    this.soundOnOff();
     this.commonService.callingFanDetail = fan;
-    this.navController.navigateBack(["/waitlist/call/" + fan.id], {
+    this.router.navigate(["/waitlist/call/" + fan.id], {
       queryParams: {
         isBidEvent: true,
       },
     });
   }
   async eventEnd() {
- 
     const modal: HTMLIonModalElement = await this.modalCtrl.create({
       component: DismissmodalComponent,
       cssClass: "small-modal",
@@ -242,8 +259,10 @@ soundOnOff() {
     clearInterval(this.interval);
   }
   checkEnd() {
-  
-    if (this.player.nativeElement.currentTime === this.player.nativeElement.duration) {
+    if (
+      this.player.nativeElement.currentTime ===
+      this.player.nativeElement.duration
+    ) {
       this.playNext();
     }
   }
@@ -253,7 +272,9 @@ soundOnOff() {
     if (this.currentIndex === this.commonService.publicInfo?.videoUrls.length) {
       this.currentIndex = 0;
     }
-    this.player.nativeElement.src = this.commonService.publicInfo?.videoUrls[this.currentIndex];
+    this.player.nativeElement.src = this.commonService.publicInfo?.videoUrls[
+      this.currentIndex
+    ];
     this.player.nativeElement.play();
   }
 }

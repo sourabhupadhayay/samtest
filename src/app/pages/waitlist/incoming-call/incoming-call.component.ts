@@ -20,6 +20,7 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
   socket: any;
   bidId: any;
   userDetails: any;
+  commonData:any;
   constructor(
     private router: Router,
     public commonService: CommonService,
@@ -34,24 +35,40 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
   getBidIdFromRoute() {
     this.route.params.subscribe((params: Params) => {
       this.id = params.id;
+      console.log("param ",this.id)
     });
     this.route.queryParams.subscribe((params) => {
       this.bidId = params.bidId;
-      console.log(this.bidId);
+      console.log("bid id ",this.bidId);
     });
   }
 
-  ngOnInit() {
+ async ngOnInit() {
+  this.commonData = await this.commonService.callingAthleteDetails;
+  if(!this.commonData) {
+    this.commonData = localStorage.getItem('voip-data')
+  }
     if (!this.commonService.callingAthleteDetails) {
-      this.router.navigate(["/tabs/home"]);
+      // this.router.navigate(["/tabs/home"]);
     }
     this.getInitials();
     this.getBidIdFromRoute();
     this.callDisconnectSocket();
     this.loadAndPlayRingtone();
   }
-  ionViewDidEnter() {
+
+ 
+ async ionViewDidEnter() {
+  this.commonData = await this.commonService.callingAthleteDetails;
     this.loadAndPlayRingtone();
+    this.getInitials();
+    this.getBidIdFromRoute();
+    this.callDisconnectSocket();
+    this.loadAndPlayRingtone();
+  }
+
+  async ionViewWillEnter() {
+    this.commonData = await this.commonService.callingAthleteDetails;
   }
 
   loadAndPlayRingtone() {
@@ -90,45 +107,49 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
     });
   }
 
-  getInitials() {
-    this.nameInitials = this.commonService.getInitials(
-      this.commonService.callingAthleteDetails.athleteName
+  async getInitials() {
+    this.nameInitials = await this.commonService.getInitials(
+      this.commonData.athleteName
     );
   }
 
-  joinCall() {
-    this.router.navigate(["/waitlist/call/" + this.id], {
+  async joinCall() {
+    console.log("joinCall ",this.commonData)
+    await this.router.navigate(["/waitlist/call/" + this.id], {
       queryParams: {
         isBidEvent:
-          this.commonService.callingAthleteDetails.creatorPersona == "USER"
+        this.commonData.creatorPersona == "USER"
             ? false
             : true,
       },
     });
   }
-  disconnectCall() {
+ async disconnectCall() {
+  console.log("fan diconnect called",this.commonData)
+   let leftTime = await this.commonData.remainingTime;
     console.log(
-      "details ",
-      this.commonService.callingAthleteDetails.remainingTime
+      "remaining time ",
+      this.commonData.remainingTime
     );
-    if (this.bidId != undefined) {
-      this.id = this.bidId;
-    }
-    let request: Request = {
-      path: "core/video/updateCall/" + this.id,
-      data: {
-        remainingTime: this.commonService.callingAthleteDetails.remainingTime,
-      },
-      isAuth: true,
-    };
-    this.apiService.post(request).subscribe((response: Response) => {
-      this.coreService.dismissLoader();
-    });
-    this.router.navigate(["/tabs/schedule"]);
+      if (this.bidId != undefined) {
+        this.id = this.bidId;
+      }
+      console.log("api ",this.id)
+      let request: Request = {
+        path: "core/video/updateCall/" + this.commonData.id,
+        data: {
+          remainingTime: leftTime,
+        },
+        isAuth: true,
+      };
+      this.apiService.post(request).subscribe((response: Response) => {
+        this.coreService.dismissLoader();
+      });
+      this.router.navigate(["/tabs/schedule"]);
   }
 
   async callDisconnectSocket() {
-    console.log("called");
+    console.log("fan disconnect socket called");
     let userRole: userRole = await this.core.getUserRoleFromStorage();
     let userDetails = await this.core.getUserDataFromStorage();
 
@@ -176,6 +197,7 @@ export class IncomingCallComponent implements OnInit, OnDestroy {
     let data = JSON.stringify({
       userId: id,
     });
+    console.log("fan send cut video ",data)
     this.socket.send("/app/cancelVideo", {}, data);
   }
   ionViewWillLeave() {

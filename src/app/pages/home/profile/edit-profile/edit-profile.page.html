@@ -129,14 +129,18 @@
         <ion-modal class="dateModal" trigger="open-modal" mode="ios">
           <ng-template>
             <ion-content>
-              <ion-datetime
+               <!--  date picker format  change --> 
+              <!-- <ion-datetime
                 [max]="currentDate"
                 mode="ios"
                 #dateTime
                 presentation="date"
                 [showDefaultButtons]="true"
                 (ionChange)="patchDateValue(dateTime.value)"
-              >
+              > -->
+              <ion-datetime  mode="ios" #dateTime1 displayFormat="DD.MM.YYYY" 
+              presentation="date" prefer-wheel="true"  [showDefaultButtons]="true"
+              (ionChange)="patchDateValue(dateTime1.value)">
                 <span slot="title" class="tile-font">Select Birthdate</span></ion-datetime
               >
             </ion-content>
