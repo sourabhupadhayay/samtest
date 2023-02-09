@@ -55,7 +55,7 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
     private constantService: ConstantService,
     private cd: ChangeDetectorRef,
     private router: Router,
-    private common: AuthModuleService,
+    public common: AuthModuleService,
     private route: ActivatedRoute,
     private commonService: CommonService,
     private platform: Platform
