@@ -129,7 +129,17 @@ export class AppereanceBookingComponent implements OnInit {
     });
     let isoDate = new Date(formattedDate);
     if (this.platform.is("ios")) {
-      this.currentDate = new Date(isoDate).toISOString();
+      const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      console.log("time zone", userTimeZone);
+  
+      var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+      // console.log("tz", tzoffset);
+      var localISOTime = (new Date(Date.now() - tzoffset)).toISOString();
+      this.currentDate =  localISOTime;
+      // console.log("final ",this.currentDate);
+      this.starttime = this.currentDate;
+      this.defaultDate = this.currentDate;
+      // this.currentDate = new Date(isoDate).toISOString();
     } else {
       this.currentDate = this.toIsoString(isoDate);
     }
