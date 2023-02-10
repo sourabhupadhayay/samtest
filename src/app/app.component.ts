@@ -25,7 +25,7 @@ import { AuthenticationService } from "./providers/authentication.service";
 import { Subscription, interval } from "rxjs";
 import { NavController } from "@ionic/angular";
 import { Badge } from "@awesome-cordova-plugins/badge/ngx";
-import { CallData, CallKitVoip } from "capacitor-callkit-voip";
+// import { CallData, CallKitVoip } from "capacitor-callkit-voip";
 //import { Flipper } from "@capacitor-community/flipper";
 import { FullScreenNotification } from 'capacitor-fullscreen-notification';
 import * as _ from "cypress/types/lodash";
@@ -179,12 +179,12 @@ async disconnectCall() {
     this.commonService.privacy();
     this.commonService.termcondition();
    
-    if(this.platform.is('ios')) {
-      await this.registerVoipNotification();
-    }
-   else {
-    this.getfullscreenNotification();
-   }
+  //   if(this.platform.is('ios')) {
+  //     // await this.registerVoipNotification();
+  //   }
+  //  else {
+  //   this.getfullscreenNotification();
+  //  }
    this.applePayPayment()
   }
 
@@ -470,51 +470,51 @@ async disconnectCall() {
     });
     this.socket.send("/app/videoBid", {}, data);
   }
-  async registerVoipNotification() {
-    // register token
-    CallKitVoip.addListener("registration", ({ token }: any) => {
-      this.commonService.voipToken = token;
-      localStorage.setItem("voipToken", token);
-    });
+  // async registerVoipNotification() {
+  //   // register token
+  //   CallKitVoip.addListener("registration", ({ token }: any) => {
+  //     this.commonService.voipToken = token;
+  //     localStorage.setItem("voipToken", token);
+  //   });
 
-    // start call
-    CallKitVoip.addListener("callAnswered", (obj: CallData) => {
-      //here obj.id= bidId
-      this.commonService.VideoCallAnswer = true;
-      this.data = obj.connectionId;
-      if (obj.creatorPersona != "USER") {
-        this.router.navigate(["/waitlist/call/" + obj.id], {
-          queryParams: {
-            isBidEvent: obj.creatorPersona == "USER" ? false : true,
-          },
-        });
-      } else {
-        this.router.navigate(["/waitlist/call/" + obj.eventId], {
-          queryParams: {
-            isBidEvent: obj.creatorPersona == "USER" ? false : true,
-          },
-        });
-      }
-    });
+  //   // start call
+  //   CallKitVoip.addListener("callAnswered", (obj: CallData) => {
+  //     //here obj.id= bidId
+  //     this.commonService.VideoCallAnswer = true;
+  //     this.data = obj.connectionId;
+  //     if (obj.creatorPersona != "USER") {
+  //       this.router.navigate(["/waitlist/call/" + obj.id], {
+  //         queryParams: {
+  //           isBidEvent: obj.creatorPersona == "USER" ? false : true,
+  //         },
+  //       });
+  //     } else {
+  //       this.router.navigate(["/waitlist/call/" + obj.eventId], {
+  //         queryParams: {
+  //           isBidEvent: obj.creatorPersona == "USER" ? false : true,
+  //         },
+  //       });
+  //     }
+  //   });
     // end call
-    CallKitVoip.addListener("endCall", (obj: CallData) => {
-      console.log(JSON.stringify(obj), `Call has been REJECTED from `);
-      let request: Request = {
-        path: "core/video/updateCall/" + obj.id,
-        data: {
-          remainingTime: obj.remainingTime,
-        },
-        isAuth: true,
-      };
-      this.apiService.post(request).subscribe((response: Response) => {
-        this.coreService.dismissLoader();
-      });
-      this.router.navigate(["/tabs/schedule"]);
-    });
-    // init plugin, start registration of VOIP notifications
-    await CallKitVoip.register(); // can be used with `.then()`
-    console.log("Push notification has been registered");
-  }
+  //   CallKitVoip.addListener("endCall", (obj: CallData) => {
+  //     console.log(JSON.stringify(obj), `Call has been REJECTED from `);
+  //     let request: Request = {
+  //       path: "core/video/updateCall/" + obj.id,
+  //       data: {
+  //         remainingTime: obj.remainingTime,
+  //       },
+  //       isAuth: true,
+  //     };
+  //     this.apiService.post(request).subscribe((response: Response) => {
+  //       this.coreService.dismissLoader();
+  //     });
+  //     this.router.navigate(["/tabs/schedule"]);
+  //   });
+  //   // init plugin, start registration of VOIP notifications
+  //   await CallKitVoip.register(); // can be used with `.then()`
+  //   console.log("Push notification has been registered");
+  // }
 
   ngOnDestroy(): void {
     this.socketSubscription.unsubscribe();
