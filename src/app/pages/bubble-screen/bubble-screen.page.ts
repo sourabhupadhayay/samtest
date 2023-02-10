@@ -34,7 +34,7 @@ export class BubbleScreenPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.redirectToAppPlayStore();
+    // this.redirectToAppPlayStore();
     this.isUserLoggedIn();
     this.getAthletes();
     this.audio.src = "assets/audio/bubble-bursting.mp3";
