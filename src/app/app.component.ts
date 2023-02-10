@@ -30,6 +30,7 @@ import { Badge } from "@awesome-cordova-plugins/badge/ngx";
 import { FullScreenNotification } from 'capacitor-fullscreen-notification';
 import * as _ from "cypress/types/lodash";
 import { ApplePay } from "@fresha/capacitor-plugin-applepay";
+import { Capacitor } from "@capacitor/core";
 
 
 @Component({
@@ -169,6 +170,7 @@ async disconnectCall() {
 
 
   async ngOnInit() {
+    this.redirectToAppPlayStore();
     // await this.getBadgeNotificationCount();
     // await this.getBadgeStatus(0);
     await this.commonService.getAthleteEarnings();
@@ -187,6 +189,15 @@ async disconnectCall() {
   //  }
    this.applePayPayment()
   }
+
+  redirectToAppPlayStore() {
+       if(Capacitor.getPlatform() == "web" &&
+        this.platform.platforms().includes('mobileweb') && 
+        !this.platform.platforms().includes('desktop') && this.platform.is('android')) {
+          console.log("in mobile chrome");
+          document.getElementById('playstore').click();
+        }
+    }
 
   applePayPayment() {
     ApplePay.initiatePayment({

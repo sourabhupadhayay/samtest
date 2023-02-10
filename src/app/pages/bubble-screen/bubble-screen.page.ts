@@ -35,7 +35,7 @@ export class BubbleScreenPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.redirectToAppPlayStore();
+    // this.redirectToAppPlayStore();
     this.isUserLoggedIn();
     this.getAthletes();
     this.audio.src = "assets/audio/bubble-bursting.mp3";
@@ -45,17 +45,6 @@ export class BubbleScreenPage implements OnInit {
     this.isUserLoggedIn();
   }
   redirectToAppPlayStore() {
-    //  if(this.platform.is('mobile') && this.platform.is('mobileweb')) {
-    //   if(this.platform.is('android')) {
-    //     document.getElementById('playstore').click();
-    //     return
-    //   } 
-    //   if(this.platform.is('ios')) {
-    //     document.getElementById('ios').click();
-    //     return
-    //   }
-    //    }
-
        if(Capacitor.getPlatform() == "web" &&
         this.platform.platforms().includes('mobileweb') && 
         !this.platform.platforms().includes('desktop') && this.platform.is('android')) {
