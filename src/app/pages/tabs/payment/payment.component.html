@@ -2,9 +2,8 @@
   <ion-header mode="ios">
     <div class="icon-header">
       <img src="assets/icon/header-bubble.png" />
-      <h3>Select Payment Option</h3> <ion-button class="" (click)="applePayPayment()">
-        Apple pay
-        </ion-button>
+      <h3>Select Payment Option</h3> 
+      
     </div>
     <div class="top-noch">
       <img src="assets/images/modal-tope.png" />
@@ -34,9 +33,9 @@
                 src="assets/images/apple-pay-gray.svg"
               />
             </ion-item> -->
-            <ion-button class="" (click)="applePayPayment()">
+            <!-- <ion-button class="" (click)="applePayPayment()">
             Apple pay
-            </ion-button>
+            </ion-button> -->
           </div>
 
           <div class="select-item">
@@ -56,12 +55,21 @@
                 src="assets/images/card-icn.svg"
               />
             </ion-item>
-            <div *ngIf="paymentType == 'SQUARE_PAYMENT'" class="card-details">
+            <div class="card-details">
 
-              <form id="payment-form">
+              <!-- <form id="payment-form">
                 <div id="card-container"></div>
-                <!-- <button id="card-button" (click)="pay()" type="button">Pay</button> -->
+                <button id="card-button" (click)="pay()" type="button">Pay</button>
+              </form> -->
+              <!---Apple pay with square-->
+              <form id="payment-form">
+                <!-- Add the below element -->
+                <div id="apple-pay-button"></div>
+                <div id="card-container"></div>
+                <button id="card-button" type="button">Pay $1.00</button>
               </form>
+              <div id="payment-status-container"></div>
+             
               <div id="payment-status-container"></div>
 
               

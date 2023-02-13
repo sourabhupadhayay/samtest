@@ -41,7 +41,8 @@ export class PaymentComponent implements OnInit {
 
   ngOnInit() {
     // this.showPayment();
-    this.initializeCard();
+    // this.initializeCard();
+    this.initializeCardApple();
   }
   onClickCancel() {
     this.modalCtrl.dismiss();
@@ -230,5 +231,89 @@ export class PaymentComponent implements OnInit {
       billingContact: { emailAddress: "ankita.k@techroversolutions.com" },
       shippingContact: { emailAddress: "ankita.k@techroversolutions.com" },
     });
+  }
+  //Apple pay using square
+  buildPaymentRequest(payments) {
+    return payments?.paymentRequest({
+      countryCode: "US",
+      currencyCode: "USD",
+      total: {
+        amount: "1.00",
+        label: "Total",
+      },
+    });
+  }
+
+  async initializeCardApple(payments?: any) {
+    this.card = await payments?.card();
+    await this.card?.attach("#card-container");
+    console.log("card", this.card);
+
+    this.initializeApplePay();
+    return this.card;
+  }
+  async initializeApplePay(payments?: any) {
+    console.log(payments, "pay req");
+    payments = Square.payments(
+      this.commonService.publicInfo.squareAppId,
+      this.commonService.publicInfo.locationId
+    );
+    const paymentRequest = this.buildPaymentRequest(payments);
+    console.log(paymentRequest, "paymentRequest");
+
+    const applePay = await payments?.applePay(paymentRequest);
+    console.log(applePay, "applepay");
+
+    // Note: You do not need to `attach` applePay.
+    if (applePay) {
+      const applePayButton = document.getElementById("apple-pay-button");
+      applePayButton.addEventListener("click", async (event) => {
+        await this.handlePaymentMethodSubmission(event, applePay);
+      });
+    }
+    return applePay;
+  }
+
+  async handlePaymentMethodSubmission(event, paymentMethod) {
+    event.preventDefault();
+
+    try {
+      // disable the submit button as we await tokenization and make a payment request.
+
+      const token = await this.tokenize(paymentMethod);
+      // const paymentResults = await createPayment(token);
+      //this.displayPaymentResults("SUCCESS");
+
+      console.debug("Payment Success", token);
+    } catch (e) {
+      // cardButton.disabled = false;
+      //this.displayPaymentResults("FAILURE");
+      console.error(e.message);
+    }
+  }
+  async tokenize(paymentMethod) {
+    const tokenResult = await paymentMethod?.tokenize();
+    if (tokenResult.status === "OK") {
+      return tokenResult.token;
+    } else {
+      let errorMessage = `Tokenization failed with status: ${tokenResult.status}`;
+      if (tokenResult.errors) {
+        errorMessage += ` and errors: ${JSON.stringify(tokenResult.errors)}`;
+      }
+
+      throw new Error(errorMessage);
+    }
+  }
+  displayPaymentResults(status) {
+    const statusContainer = document.getElementById("payment-status-container");
+    if (status === "SUCCESS") {
+      statusContainer.classList.remove("is-failure");
+      statusContainer.classList.add("is-success");
+    } else {
+      statusContainer.classList.remove("is-success");
+      statusContainer.classList.add("is-failure");
+    }
+
+    statusContainer.style.visibility = "visible";
   }
 }
