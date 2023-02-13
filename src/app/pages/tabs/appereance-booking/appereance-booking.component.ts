@@ -94,7 +94,7 @@ export class AppereanceBookingComponent implements OnInit {
 
   setTimeZone() {
     if(this.platform.is("ios")) {
-      this.timeZone();
+      this.androidTimeZone();
     } else {
       console.log("in android")
       // this.currentDate =  new Date().toISOString();
@@ -107,36 +107,37 @@ export class AppereanceBookingComponent implements OnInit {
     console.log("time zone", userTimeZone);
 
     var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
-    console.log("tz", tzoffset);
+    // console.log("tz", tzoffset);
     var localISOTime = (new Date(Date.now() - tzoffset)).toISOString();
     this.currentDate =  localISOTime;
-    console.log("final ",this.currentDate);
-    this.starttime=this.currentDate
-  
+    // console.log("final ",this.currentDate);
+    this.starttime = this.currentDate;
+    this.defaultDate = this.currentDate;
   }
     
-  timeZone() {
-    // Get the time zone set on the user's device
-    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    console.log("user time zone", userTimeZone);
+  // timeZone() {
+  //   // Get the time zone set on the user's device
+  //   const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  //   console.log("user time zone", userTimeZone);
 
-    let date = new Date().toISOString();
+  //   let date = new Date().toISOString();
 
-    const zonedTime = utcToZonedTime(date, userTimeZone);
+  //   const zonedTime = utcToZonedTime(date, userTimeZone);
 
-    let formattedDate = format(zonedTime, "yyyy-MM-dd HH:mm:ss zzz", {
-      timeZone: userTimeZone,
-    });
-    let isoDate = new Date(formattedDate);
-    if (this.platform.is("ios")) {
-      this.currentDate = new Date(isoDate).toISOString();
-    } else {
-      this.currentDate = this.toIsoString(isoDate);
-    }
-    this.defaultDate = this.currentDate;
-    console.log("iso date", this.currentDate);
-    this.starttime = this.currentDate;
-  }
+  //   let formattedDate = format(zonedTime, "yyyy-MM-dd HH:mm:ss zzz", {
+  //     timeZone: userTimeZone,
+  //   });
+  //   let isoDate = new Date(formattedDate);
+  //   if (this.platform.is("ios")) {
+  //     this.currentDate = new Date(isoDate).toISOString();
+  //   } else {
+  //     this.currentDate = this.toIsoString(isoDate);
+  //   }
+  //   this.defaultDate = this.currentDate;
+  //   console.log("iso date", this.currentDate);
+  //   this.starttime = this.currentDate;
+  //   this.defaultDate = this.currentDate;
+  // }
   toIsoString(date) {
     var tzo = -date.getTimezoneOffset(),
       dif = tzo >= 0 ? "+" : "-",
@@ -297,7 +298,6 @@ export class AppereanceBookingComponent implements OnInit {
       time,
       ...athletePayload
     } = this.athleteForm.value;
-    console.log(athletePayload);
 
     let request: Request = {
       path: "core/event/create",
@@ -362,7 +362,6 @@ export class AppereanceBookingComponent implements OnInit {
     if (!date) {
       return;
     }
-    console.log("date", date, this.currentDate);
     let dt = date.split("T")[0];
     let formattedDate = this.commonService.formatDateTimeUpdated(dt);
 
@@ -374,7 +373,6 @@ export class AppereanceBookingComponent implements OnInit {
     //let dt2 = new Date(date).toISOString();
     this.isoDate = date.split("T")[0];
     this.defaultDate = this.isoDate;
-    console.log("date ", this.isoDate);
   }
   setTimeValue(time: any) {
     this.starttime = time;
@@ -383,7 +381,6 @@ export class AppereanceBookingComponent implements OnInit {
     }
     var tm = time;
     let timedata = tm.split("T")[1];
-    console.log("time2 ", timedata);
     let hour = timedata.split(":")[0];
     let minute = timedata.split(":")[1];
     var AmOrPm = +hour >= 12 ? "pm" : "am";
@@ -395,7 +392,6 @@ export class AppereanceBookingComponent implements OnInit {
     } else {
       this.fanForm.controls.time.patchValue(startTime);
     }
-    console.log("final ", this.isoDate + "T" + timedata);
     this.eventStartTime = this.isoDate + "T" + timedata;
   }
 
@@ -564,8 +560,6 @@ export class AppereanceBookingComponent implements OnInit {
   }
 
   parseStringToFloat(bidAmount: string): number {
-    console.log("bid amt", bidAmount);
-
     if (bidAmount.includes("$")) {
       bidAmount = bidAmount.replace("$", "");
     }

@@ -335,13 +335,13 @@
                   <ng-template>
                     <ion-content>
                       <ion-datetime
-                        [max]="currentDate"
                         mode="ios"
                         #dateTime
                         presentation="date"
                         [showDefaultButtons]="true"
                         (ionChange)="patchDateValue(dateTime?.value)"
                         [value]="selectedDOB"
+                        prefer-wheel="true" 
                       >
                         <span slot="title" class="tile-font">Select Birthdate</span></ion-datetime
                       >

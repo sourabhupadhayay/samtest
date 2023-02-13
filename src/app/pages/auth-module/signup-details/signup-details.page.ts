@@ -52,7 +52,7 @@ export class SignupDetailsPage implements OnInit {
     private apiService: DataService,
     private constantService: ConstantService,
     private router: Router,
-    private common: AuthModuleService,
+    public common: AuthModuleService,
     public commonService: CommonService,
     public modalCtrl: ModalController
   ) {}

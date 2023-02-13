@@ -28,7 +28,7 @@ import {
   AppleSignInErrorResponse,
   ASAuthorizationAppleIDRequest,
 } from "@awesome-cordova-plugins/sign-in-with-apple/ngx";
-import { CallKitVoip } from "capacitor-callkit-voip";
+// import { CallKitVoip } from "capacitor-callkit-voip";
 import { FullScreenNotification } from "capacitor-fullscreen-notification";
 
 @Component({
@@ -75,7 +75,7 @@ export class LoginPage implements OnInit {
       scopes: ["profile", "email"],
     });
     // this.applesign();
-    this.registerVoipNotification();
+    // this.registerVoipNotification();
   }
 
   ngOnInit() {
@@ -360,30 +360,30 @@ export class LoginPage implements OnInit {
         console.error(error);
       });
   }
-  async registerVoipNotification() {
-    // register token
-    console.log("VOIP funv call");
+  // async registerVoipNotification() {
+  //   // register token
+  //   console.log("VOIP funv call");
 
-    CallKitVoip.addListener("registration", ({ token }: any) => {
-      console.log(`VOIP token has been received login123 ${token}`);
-      this.voipToken = token;
-      console.log("common login", this.voipToken);
-    });
+  //   CallKitVoip.addListener("registration", ({ token }: any) => {
+  //     console.log(`VOIP token has been received login123 ${token}`);
+  //     this.voipToken = token;
+  //     console.log("common login", this.voipToken);
+  //   });
 
-    // start call
-    // CallKitVoip.addListener("callAnswered", (obj) =>
-    //   console.log(`Call has been received from`, JSON.stringify(obj))
-    // );
-    // // end call
-    // CallKitVoip.addListener("endCall", (obj) =>
-    //   console.log(
-    //     JSON.stringify(obj),
-    //     obj.connectionId,
-    //     `Call has been REJECTED from `
-    //   )
-    // );
-    // init plugin, start registration of VOIP notifications
-    await CallKitVoip.register(); // can be used with `.then()`
-    console.log("Push notification has been registered");
-  }
+  // start call
+  // CallKitVoip.addListener("callAnswered", (obj) =>
+  //   console.log(`Call has been received from`, JSON.stringify(obj))
+  // );
+  // // end call
+  // CallKitVoip.addListener("endCall", (obj) =>
+  //   console.log(
+  //     JSON.stringify(obj),
+  //     obj.connectionId,
+  //     `Call has been REJECTED from `
+  //   )
+  // );
+  // init plugin, start registration of VOIP notifications
+  // await CallKitVoip.register(); // can be used with `.then()`
+  // console.log("Push notification has been registered");
+  // }
 }

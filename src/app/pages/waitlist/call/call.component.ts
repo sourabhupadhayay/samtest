@@ -58,7 +58,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   userDetail: any = [];
   nameInitials: string;
   OT: any;
-  commonData : any;
+  commonData: any;
   interval;
   predefinedTime: number = 60;
   constructor(
@@ -95,7 +95,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.getUserDataAndRole();
-    console.log("c-afterview ",this.commonService.callingAthleteDetails);
+    console.log("c-afterview ", this.commonService.callingAthleteDetails);
   }
 
   getQueryParams() {
@@ -103,7 +103,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
       if (!params.isBidEvent) {
         this.router.navigate(["tabs/home"]);
       }
-      console.log("param ",params)
+      console.log("param ", params);
       if (params.isBidEvent === "true") {
         this.isBiddingEvent = true;
         this.connectCall(true);
@@ -171,7 +171,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   connectCall(isBiddingEvent: boolean) {
-    console.log("isBiddingEvent ",isBiddingEvent);
+    console.log("isBiddingEvent ", isBiddingEvent);
     if (isBiddingEvent) {
       console.log("1");
 
@@ -267,7 +267,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   disconnectCall() {
-    console.log("athlete disconnect call ",this.bidId,this.timeLeft);
+    console.log("athlete disconnect call ", this.bidId, this.timeLeft);
     let request: Request = {
       path: "core/video/updateCall/" + this.bidId,
       data: {
@@ -309,15 +309,16 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   callAutoCutTimer() {
     this.interval = setInterval(() => {
-      if(this.predefinedTime > 0) {
+      if (this.predefinedTime > 0) {
         this.predefinedTime--;
-        console.log("auto-cut timer ",this.predefinedTime);
-        if(this.predefinedTime == 0) {
+        console.log("auto-cut timer ", this.predefinedTime);
+        if (this.predefinedTime == 0) {
           this.stopAutoCutTimer();
           this.disconnectCall();
+          this.session.disconnect();
         }
       }
-    },1000)
+    }, 1000);
   }
 
   stopAutoCutTimer() {
@@ -362,7 +363,10 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     if (s < 10) {
       sDisplay = "0" + sDisplay;
     }
-    return `0${mDisplay}: ${sDisplay}s`;
+    if (m < 10) {
+      mDisplay = "0" + mDisplay;
+    }
+    return `${mDisplay}: ${sDisplay}s`;
   }
   stopTimer() {
     clearInterval(this.intId);
@@ -371,7 +375,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   async callDisconnectSocket() {
     let userRole: userRole = await this.coreService.getUserRoleFromStorage();
     let userDetails = await this.coreService.getUserDataFromStorage();
-    console.log("athlete disconnect socket called ",userRole,userDetails)
+    console.log("athlete disconnect socket called ", userRole, userDetails);
     this.socket = Stomp.over(
       () => new SockJS(configuration.BASE_URL + "core/greeting")
     );
