@@ -194,8 +194,15 @@ async disconnectCall() {
        if(Capacitor.getPlatform() == "web" &&
         this.platform.platforms().includes('mobileweb') && 
         !this.platform.platforms().includes('desktop') && this.platform.is('android')) {
-          console.log("in mobile chrome");
+          console.log("in android chrome");
           document.getElementById('playstore').click();
+        }
+
+        if(Capacitor.getPlatform() == "web" &&
+        this.platform.platforms().includes('mobileweb') && 
+        !this.platform.platforms().includes('desktop') && this.platform.is('ios')) {
+          console.log("in ios chrome");
+          document.getElementById('ios').click();
         }
     }
 
