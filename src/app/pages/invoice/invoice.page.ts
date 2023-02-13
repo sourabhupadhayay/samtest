@@ -200,7 +200,7 @@ export class InvoicePage implements OnInit {
 
   addBankAccount() {
     let data =  this.bankDetailsForm.value;
-    if(this.bankDetailsForm.valid && this.bankDetailsForm.value.accountNumber.length == 9) {
+    if(this.bankDetailsForm.valid && this.bankDetailsForm.value.accountNumber.length > 4) {
       let request: any = {
         path: "core/payment/bank/add?ipAddress=" + this.ipAddress,
         data: {
@@ -231,9 +231,9 @@ export class InvoicePage implements OnInit {
         "Please fill all required details",
         this.coreService.TOAST_ERROR
       );
-      if(this.bankDetailsForm.value.accountNumber.length < 9){
+      if(this.bankDetailsForm.value.accountNumber.length < 4){
         this.coreService.showToastMessage(
-          "Account number must be exactly 9 characters.",
+          "Account number must be add more then  4  number.",
           this.coreService.TOAST_ERROR
         );
       }
