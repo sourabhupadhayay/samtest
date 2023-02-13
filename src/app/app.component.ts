@@ -98,7 +98,6 @@ export class AppComponent implements OnInit, OnDestroy {
         this.commonService.callingAthleteDetails = this.voipResponse;
       }
       console.log("common 1 ", this.commonService.callingAthleteDetails);
-
       if (dataObject1.hasOwnProperty("actionId")) {
         //check screen locked/onlocked
         console.log("screen is open");
@@ -109,11 +108,9 @@ export class AppComponent implements OnInit, OnDestroy {
         } else {
           this.accepted = false;
         }
-
         if (this.accepted) {
           console.log("accept");
           console.log("/waitlist/call/" + bidId);
-
           if (isBidEvent) {
             this.navController.navigateBack(["/waitlist/call/" + bidId], {
               queryParams: {
@@ -127,6 +124,7 @@ export class AppComponent implements OnInit, OnDestroy {
               },
             });
           }
+          FullScreenNotification.cancelNotification();
         } else {
           console.log("reject");
           this.cancelFullscreenNotification();
@@ -141,10 +139,6 @@ export class AppComponent implements OnInit, OnDestroy {
             "/waitlist/incoming-call/" + eventId,
           ]);
         }
-        FullScreenNotification.cancelNotification();
-      } else{
-        console.log("reject");
-        this.cancelFullscreenNotification();
       }
     });
   }
@@ -185,31 +179,37 @@ export class AppComponent implements OnInit, OnDestroy {
     this.socketSubscription = source.subscribe((val) => this.onlineStatus());
     this.commonService.privacy();
     this.commonService.termcondition();
-   
-  //   if(this.platform.is('ios')) {
-  //     // await this.registerVoipNotification();
-  //   }
-  //  else {
-  //   this.getfullscreenNotification();
-  //  }
-   this.applePayPayment()
+
+    //   if(this.platform.is('ios')) {
+    //     // await this.registerVoipNotification();
+    //   }
+    //  else {
+    //   this.getfullscreenNotification();
+    //  }
+    this.applePayPayment();
   }
 
   redirectToAppPlayStore() {
-       if(Capacitor.getPlatform() == "web" &&
-        this.platform.platforms().includes('mobileweb') && 
-        !this.platform.platforms().includes('desktop') && this.platform.is('android')) {
-          console.log("in android chrome");
-          document.getElementById('playstore').click();
-        }
-
-        if(Capacitor.getPlatform() == "web" &&
-        this.platform.platforms().includes('mobileweb') && 
-        !this.platform.platforms().includes('desktop') && this.platform.is('ios')) {
-          console.log("in ios chrome");
-          document.getElementById('ios').click();
-        }
+    if (
+      Capacitor.getPlatform() == "web" &&
+      this.platform.platforms().includes("mobileweb") &&
+      !this.platform.platforms().includes("desktop") &&
+      this.platform.is("android")
+    ) {
+      console.log("in android chrome");
+      document.getElementById("playstore").click();
     }
+
+    if (
+      Capacitor.getPlatform() == "web" &&
+      this.platform.platforms().includes("mobileweb") &&
+      !this.platform.platforms().includes("desktop") &&
+      this.platform.is("ios")
+    ) {
+      console.log("in ios chrome");
+      document.getElementById("ios").click();
+    }
+  }
 
   applePayPayment() {
     ApplePay.initiatePayment({
@@ -523,7 +523,7 @@ export class AppComponent implements OnInit, OnDestroy {
   //       });
   //     }
   //   });
-    // end call
+  // end call
   //   CallKitVoip.addListener("endCall", (obj: CallData) => {
   //     console.log(JSON.stringify(obj), `Call has been REJECTED from `);
   //     let request: Request = {

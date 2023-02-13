@@ -278,63 +278,63 @@ export class BidPaymentPage implements OnInit {
   CompletePaymentRequest: any = {
     status: ["success", "failure"],
   };
-  applePayPayment() {
-    console.log("apple pay ment");
-    ApplePay.canMakePayments().then((res: any) => {
-      console.log("can make payment", res);
-      try {
-        ApplePay.initiatePayment({
-          merchantIdentifier: "merchant.com.bubbleapp",
-          countryCode: "US",
-          currencyCode: "USD",
-          supportedCountries: ["United States"],
-          supportedNetworks: [
-            "amex",
-            "chinaUnionPay",
-            "cartesBancaires",
-            "discover",
-            "eftpos",
-            "electron",
-            "idCredit",
-            "interac",
-            "JCB",
-            "maestro",
-            "masterCard",
-            "privateLabel",
-            "quicPay",
-            "suica",
-            "visa",
-            "vPay",
-          ],
-          summaryItems: [this.PaymentSummaryItem],
-          requiredShippingContactFields: ["emailAddress"],
-          requiredBillingContactFields: ["emailAddress"],
-          merchantCapabilities: [
-            "capability3DS",
-            "capabilityCredit",
-            "capabilityDebit",
-            "capabilityEMV",
-          ],
-          billingContact: { emailAddress: "ankita.k@techroversolutions.com" },
-          shippingContact: { emailAddress: "ankita.k@techroversolutions.com" },
-        }).then((res: any) => {
-          console.log("inital ", res);
-          res.token.paymentData;
-          const decodedPaymentData = atob(res.token.paymentData);
-          const paymentDataObject = JSON.parse(decodedPaymentData);
-          console.log("payment convert", paymentDataObject);
+  // applePayPayment() {
+  //   console.log("apple pay ment");
+  //   ApplePay.canMakePayments().then((res: any) => {
+  //     console.log("can make payment", res);
+  //     try {
+  //       ApplePay.initiatePayment({
+  //         merchantIdentifier: "merchant.com.bubbleapp",
+  //         countryCode: "US",
+  //         currencyCode: "USD",
+  //         supportedCountries: ["United States"],
+  //         supportedNetworks: [
+  //           "amex",
+  //           "chinaUnionPay",
+  //           "cartesBancaires",
+  //           "discover",
+  //           "eftpos",
+  //           "electron",
+  //           "idCredit",
+  //           "interac",
+  //           "JCB",
+  //           "maestro",
+  //           "masterCard",
+  //           "privateLabel",
+  //           "quicPay",
+  //           "suica",
+  //           "visa",
+  //           "vPay",
+  //         ],
+  //         summaryItems: [this.PaymentSummaryItem],
+  //         requiredShippingContactFields: ["emailAddress"],
+  //         requiredBillingContactFields: ["emailAddress"],
+  //         merchantCapabilities: [
+  //           "capability3DS",
+  //           "capabilityCredit",
+  //           "capabilityDebit",
+  //           "capabilityEMV",
+  //         ],
+  //         billingContact: { emailAddress: "ankita.k@techroversolutions.com" },
+  //         shippingContact: { emailAddress: "ankita.k@techroversolutions.com" },
+  //       }).then((res: any) => {
+  //         console.log("inital ", res);
+  //         res.token.paymentData;
+  //         const decodedPaymentData = atob(res.token.paymentData);
+  //         const paymentDataObject = JSON.parse(decodedPaymentData);
+  //         console.log("payment convert", paymentDataObject);
 
-          // ApplePay.completeLastPayment(this.CompletePaymentRequest).then(
-          //   (res: any) => {
-          //     console.log("complete", res);
-          //   }
-          // );
-        });
-      } catch (error) {
-        console.log(error, "apple pay errro");
-      }
-    });
-  }
+  //         // ApplePay.completeLastPayment(this.CompletePaymentRequest).then(
+  //         //   (res: any) => {
+  //         //     console.log("complete", res);
+  //         //   }
+  //         // );
+  //       });
+  //     } catch (error) {
+  //       console.log(error, "apple pay errro");
+  //     }
+  //   });
+  // }
 }
 
 interface paymentData {
