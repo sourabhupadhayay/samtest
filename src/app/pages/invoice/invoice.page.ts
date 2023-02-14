@@ -233,7 +233,7 @@ export class InvoicePage implements OnInit {
       );
       if(this.bankDetailsForm.value.accountNumber.length < 4){
         this.coreService.showToastMessage(
-          "Account number must be add more then  4  number.",
+          "Account number must be add more then  4  digit.",
           this.coreService.TOAST_ERROR
         );
       }
