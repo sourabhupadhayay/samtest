@@ -42,7 +42,6 @@ export class PaymentComponent implements OnInit {
   ngOnInit() {
     // this.showPayment();
     this.initializeCard();
-    console.log(this.commonService)
   }
 
   showPaymentDiv(show:boolean) {
