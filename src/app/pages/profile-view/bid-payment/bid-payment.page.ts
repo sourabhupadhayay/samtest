@@ -241,10 +241,12 @@ export class BidPaymentPage implements OnInit {
           this.coreService.TOAST_ERROR
         );
       } else {
-        console.log("valid")
+        console.log("valid");
+        this.commonService.bidAmount = this.bidAmount;
       }
     } else {
       console.log("first time bid")
+      this.commonService.bidAmount = this.bidAmount;
       return;
     }
   }  

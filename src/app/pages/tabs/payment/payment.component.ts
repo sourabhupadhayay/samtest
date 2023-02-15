@@ -20,6 +20,8 @@ declare var SqPaymentForm: any;
 export class PaymentComponent implements OnInit {
   @ViewChild(IonModal) modal: IonModal;
   @ViewChild("CreateAppearance") ConfirmModal: IonModal;
+  @ViewChild("saveCard") ConfirmSaveCardModal: IonModal;
+  @ViewChild("confirmSavedCardPayment") confirmSavedCardPayment: IonModal;
   isBiddingForEvent: boolean = this.navParams.get("isBiddingForEvent");
   errors: any[] = [];
   nonce: string;
@@ -28,6 +30,7 @@ export class PaymentComponent implements OnInit {
   sqPaymentForm: any; //this is our payment form object
   card :any;
   isCardSelected: boolean = false;
+  showPaymentScreen : boolean = false;
   
   constructor(
     public modalCtrl: ModalController,
@@ -39,6 +42,11 @@ export class PaymentComponent implements OnInit {
   ngOnInit() {
     // this.showPayment();
     this.initializeCard();
+    console.log(this.commonService)
+  }
+
+  showPaymentDiv(show:boolean) {
+    this.showPaymentScreen = show;
   }
 
   selectCard() {
@@ -46,10 +54,37 @@ export class PaymentComponent implements OnInit {
     console.log("clicked ",this.isCardSelected)
   }
 
+  saveSelectedCard() {
+    console.log("card saved!")
+  }
+
+  CardSaveCheckBox(e:any) {
+   if( e.detail.checked) {
+    this.ConfirmSaveCardModal.present();
+   }
+  }
+
+  paymentThroughSelectedCard() {
+    if(!this.isCardSelected) {
+      this.coreService.showToastMessage(
+        "Please select a card for payment!",
+        this.coreService.TOAST_ERROR
+      );
+      return;
+    }
+    this.confirmSavedCardPayment.present();
+  }
+
+  confirmPaymentFromSavedCard() {
+    console.log("pay !")
+  }
+
   onClickCancel() {
     this.modalCtrl.dismiss();
   }
   async cancel() {
+    this.ConfirmSaveCardModal.dismiss();
+    this.confirmSavedCardPayment.dismiss();
     await this.modal.dismiss();
   }
   async onSubmit() {
