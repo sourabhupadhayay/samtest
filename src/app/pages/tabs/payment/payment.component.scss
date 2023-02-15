@@ -176,6 +176,29 @@
                     }
                   }
                 }
+
+                .new-card-saved{
+                  h4{color: var(--text-gray); font-size: 0.875rem; margin: 0 0 15px 0; font-weight: 400;}
+                  .card-main-part{display: flex; flex-flow: column;
+                    .card{background: var(--theme-one-bg); border-radius: 10px; padding: 15px; min-height: 176px; background: url(../../../../assets/images/card-new-bg.png) no-repeat center; background-size: cover; position: relative; margin-bottom: -120px; box-shadow: 0 0 10px #0883c5;
+                      .card-number-top{
+                        display: flex; padding: 15px 0; 
+                        p{color: var(--white-clr); font-size: 1rem; font-weight: 600; margin: 0; flex: 1;}
+                        .card-icon{
+                          img{width: 27px;}
+                        }
+                      }
+                      .card-bottom{text-align: right; position: absolute; bottom: 0; left: 0; width: 100%; padding: 15px; background: rgba(var(--black-bg-rgb), 0.1); border-radius: 0 0 10px 10px;
+                        h5{font-size: 0.875rem; color: var(--white-clr); font-weight: 500; margin: 0;}
+                        h6{font-size: 1rem; color: var(--white-clr); font-weight: 600; margin: 0;}
+                      }
+                      &:last-child{margin-bottom: 5px;}
+                      &.selected-card{order: 1; border: 1px solid var(--black-clr);}
+                    }
+                  }
+                  
+                }
+               
               }
             }
         }
@@ -192,6 +215,9 @@
         --padding-bottom: 10px;
         --background: var(--white-bg);
         text-align: center;
+        .add-card-btn{
+          ion-button{width: 100%; --background: var(--theme-one-bg); --background-activated : var(--theme-one-bg); --background-focused: var(--theme-one-bg); --background-hover:var(--theme-one-bg); --color:var(--white-clr); --border-radius: 10px; text-transform: capitalize; font-size: 1rem; color: var(--white-clr); font-weight: 600;}
+        }
         ion-button {
           --background: transparent;
           --background-focused: transparent;

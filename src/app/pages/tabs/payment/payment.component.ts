@@ -27,6 +27,7 @@ export class PaymentComponent implements OnInit {
   errorMsg: any;
   sqPaymentForm: any; //this is our payment form object
   card :any;
+  isCardSelected: boolean = false;
   
   constructor(
     public modalCtrl: ModalController,
@@ -39,6 +40,12 @@ export class PaymentComponent implements OnInit {
     // this.showPayment();
     this.initializeCard();
   }
+
+  selectCard() {
+    this.isCardSelected = true;
+    console.log("clicked ",this.isCardSelected)
+  }
+
   onClickCancel() {
     this.modalCtrl.dismiss();
   }
