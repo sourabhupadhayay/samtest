@@ -69,44 +69,24 @@
 
               <div class="new-card-saved" [hidden]=showPaymentScreen>
                 <h4> Saved Cards:</h4>
-                  <div class="card-main-part">
-                      <div class="card" *ngFor="let card of savecard let i=index" [ngClass]="card.isCardSelected ? 'selected-card' : ''" (click)="selectCard(i)">
+                  <div class="card-main-part" *ngIf="savecard.length !== 0">
+                      <div class="card" *ngFor="let card of savecard let i=index" [ngClass]="card.isCardSelected ? 'selected-card' : ''" (click)="selectCard(i,card)">
                           <div class="card-number-top">
-                              <p>{{card.cardNo}}</p>
+                            <p>**** **** **** {{card.lastFourDigit}}</p>
                               <div class="card-icon">
                                   <img src="assets/images/card-icon.png">
                               </div>
                           </div>
                           <div class="card-bottom">
                               <h5>Valid Thru</h5>
-                              <h6>{{card.expDate}}</h6>
+                              <h6>{{card.expMonth}}/{{card.expYear}}</h6>
                           </div>
                       </div>
-                      <!-- <div class="card" [ngClass]="isCardSelected ? 'selected-card' : ''" (click)="selectCard()">
-                        <div class="card-number-top">
-                            <p>**** **** **** 4569</p>
-                            <div class="card-icon">
-                                <img src="assets/images/card-icon.png">
-                            </div>
-                        </div>
-                        <div class="card-bottom">
-                            <h5>Valid Thru</h5>
-                            <h6>06/24</h6>
-                        </div>
-                      </div>
-                      <div class="card">
-                        <div class="card-number-top">
-                            <p>**** **** **** 5342</p>
-                            <div class="card-icon">
-                                <img src="assets/images/card-icon.png">
-                            </div>
-                        </div>
-                        <div class="card-bottom">
-                            <h5>Valid Thru</h5>
-                            <h6>06/24</h6>
-                        </div>
-                      </div> -->
                   </div>
+
+                  <div class="no-cards" *ngIf="savecard.length == 0">
+                    <p>No saved cards found!</p>
+                </div>
                  
               </div>              
               <div class="clear-fixed"></div>

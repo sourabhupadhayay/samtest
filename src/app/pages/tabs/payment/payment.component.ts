@@ -7,8 +7,12 @@ import {
 } from "@angular/core";
 import { IonModal, ModalController, NavParams } from "@ionic/angular";
 import { data } from "cypress/types/jquery";
+import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
+import { DataService } from "src/app/providers/data.service";
 import { CommonService } from "../../../providers/common.service";
+import { Request, Response } from "src/app/providers/data.service";
+
 declare var Square :any;
 declare var SqPaymentForm: any;
 //magic to allow us to access the SquarePaymentForm lib
@@ -32,26 +36,47 @@ export class PaymentComponent implements OnInit {
   isCardSelected: boolean = false;
   showPaymentScreen : boolean = false;
   isChecked:boolean=false
-  savecard:any=[{cardNo:"**** **** **** 4569",expDate:"06/24",isCardSelected:false},{cardNo:"**** **** **** 9875",expDate:"06/24",isCardSelected:false},{cardNo:"**** **** **** 5342",expDate:"06/24",isCardSelected:false}]
+  savecard:any=[];
+  LoggedInUser : any;
+  tappedCardDetails : any;
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
     private commonService: CommonService,
-    public navParams: NavParams
+    public navParams: NavParams,
+    public apiService: DataService,
+    public constantService : ConstantService,
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     // this.showPayment();
+    this.getSavedCardList();
     this.initializeCard();
+    this.LoggedInUser = await localStorage.getItem("authDetails");
   }
 
   showPaymentDiv(show:boolean) {
     this.showPaymentScreen = show;
   }
 
-  selectCard(i) {
+  getSavedCardList() {
+      let request: any = {
+        path: "core/payment/cards?paymentType=SQUARE_PAYMENT",
+        isAuth: true,
+      };
+        this.apiService.get(request).subscribe((response: any) => {
+          this.savecard = response.data;
+          this.savecard.forEach((element,index) => {
+              this.savecard[index]['isCardSelected']=false;
+            }) 
+          console.log("c ",this.savecard);
+          });
+  }
+
+  selectCard(i:number,selectedCardData:any) {
+    this.tappedCardDetails = selectedCardData;
     this.isCardSelected = true;
-    console.log("clicked ",this.isCardSelected)
+    console.log("clicked ",this.isCardSelected,selectedCardData)
     this.savecard.forEach((element,index) => {
       if(index==i){
         this.savecard[index]['isCardSelected']=true
@@ -64,15 +89,46 @@ export class PaymentComponent implements OnInit {
   }
 
   saveSelectedCard() {
-    console.log("card saved!")
+    console.log("card saved!");
+    let request: any = {
+      path: "core/payment/cards",
+      data: {
+        email: this.LoggedInUser?.email,
+        fullName: this.LoggedInUser?.fullName,
+        nonce: this.nonce,
+        paymentType: "SQUARE_PAYMENT"
+      },
+      isAuth: true,
+    };
+    this.coreService.presentLoader(this.constantService.WAIT);
+    this.apiService.post(request).subscribe((response: Response) => {
+      this.coreService.dismissLoader();
+      if (response["status"]["code"] === this.constantService.STATUS_OK) {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_SUCCESS
+        );
+        this.ConfirmSaveCardModal.dismiss();
+      } else {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_ERROR
+        );
+      }
+    });
+
   }
+
   async CardSaveCheckBox(e:any) {
    if( e.detail.checked) {
     let tokenResult;
     await this.card.tokenize().then(data=>
-      tokenResult=data.status
+      {
+        tokenResult=data.status,
+        this.nonce = data.token
+      }
     );
-    console.log("token new ",tokenResult)
+    console.log("token new ",tokenResult,this.nonce)
     if(tokenResult!='Invalid'){
     this.ConfirmSaveCardModal.present();
     }
@@ -93,9 +149,11 @@ export class PaymentComponent implements OnInit {
     this.confirmSavedCardPayment.present();
   }
 
-  confirmPaymentFromSavedCard() {
-    console.log("pay !")
+ async confirmPaymentFromSavedCard() {
+    console.log("pay !");
+    this.pay();
   }
+
   onClickCancel() {
     this.modalCtrl.dismiss();
   }
@@ -110,6 +168,7 @@ export class PaymentComponent implements OnInit {
     this.modalCtrl.dismiss({
       nonce: this.nonce,
       paymentType: this.paymentType,
+      cardId: this.tappedCardDetails?.id
     });
   }
 
@@ -253,9 +312,10 @@ export class PaymentComponent implements OnInit {
       console.log("nonce ",this.nonce);
       // await this.card.tokenize().then(data=>
       //   console.log("card ",data))
-      if(this.nonce!=undefined){
-        this.ConfirmModal.present()
-      }
+      // if(this.nonce!=undefined){
+      //   this.ConfirmModal.present()
+      // }
+      this.ConfirmModal.present()
   }
   
 }

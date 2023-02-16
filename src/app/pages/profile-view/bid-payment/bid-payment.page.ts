@@ -182,6 +182,7 @@ export class BidPaymentPage implements OnInit {
         eventId: this.eventId,
         nonce: this.paymentData.nonce,
         paymentType: this.paymentData?.paymentType,
+        cardId: this.paymentData?.cardId,
         totalAmount: parseFloat(this.bidAmount),
       },
       isAuth: true,
@@ -282,4 +283,5 @@ export class BidPaymentPage implements OnInit {
 interface paymentData {
   nonce: string;
   paymentType: "SQUARE_PAYMENT" | "apple";
+  cardId : string;
 }

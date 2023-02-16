@@ -525,3 +525,13 @@
   .plr-0{padding: 0;}
   .pl-0{padding-left: 0;}
   .pr-0{padding-right: 0;}
+
+  .no-cards{
+   p{
+    color: var(--text-gray);
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 400;
+    margin: 15px 0;
+   }
+}
