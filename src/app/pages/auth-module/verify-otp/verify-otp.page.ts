@@ -21,7 +21,7 @@ import {
   PushNotifications,
   Token,
 } from "@capacitor/push-notifications";
-import { CallKitVoip } from "capacitor-callkit-voip";
+// import { CallKitVoip } from "capacitor-callkit-voip";
 @Component({
   selector: "app-verify-otp",
   templateUrl: "./verify-otp.page.html",
@@ -64,7 +64,7 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.startTimer();
     this.getFlowInfo();
-    this.registerVoipNotification();
+    // this.registerVoipNotification();
   }
   ionViewWillEnter() {
     this.generateNotificationToken();
@@ -244,12 +244,12 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
     });
     console.log(this.generatedToken);
   }
-  async registerVoipNotification() {
-    // register token
-    CallKitVoip.addListener("registration", ({ token }: any) => {
-      console.log(`VOIP token has been received ${token}`);
-      this.voipToken = token;
-      console.log("common", this.voipToken);
-    });
-  }
+  // async registerVoipNotification() {
+  //   // register token
+  //   CallKitVoip.addListener("registration", ({ token }: any) => {
+  //     console.log(`VOIP token has been received ${token}`);
+  //     this.voipToken = token;
+  //     console.log("common", this.voipToken);
+  //   });
+  // }
 }
