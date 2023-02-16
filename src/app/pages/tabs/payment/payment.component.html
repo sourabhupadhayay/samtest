@@ -74,7 +74,12 @@
                           <div class="card-number-top">
                             <p>**** **** **** {{card.lastFourDigit}}</p>
                               <div class="card-icon">
-                                  <img src="assets/images/card-icon.png">
+                                  <img *ngIf="card.cardBrand == 'MASTERCARD'" src="assets/icon/Mastercard.svg">
+                                  <img *ngIf="card.cardBrand == 'AMERICAN_EXPRESS'" src="assets/icon/Amex.svg">
+                                  <img *ngIf="card.cardBrand == 'DISCOVER'" src="assets/icon/Discover.svg">
+                                  <img *ngIf="card.cardBrand == 'JCB'" src="assets/icon/JCB.svg">
+                                  <img *ngIf="card.cardBrand == 'VISA'" src="assets/icon/Visa.svg">
+                                  <img *ngIf="card.cardBrand == 'CHINA_UNIONPAY'" src="assets/icon/union pay.svg">
                               </div>
                           </div>
                           <div class="card-bottom">
