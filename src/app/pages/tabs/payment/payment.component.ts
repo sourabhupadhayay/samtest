@@ -72,11 +72,9 @@ export class PaymentComponent implements OnInit {
     await this.card.tokenize().then(data=>
       tokenResult=data.status
     );
-
     console.log("token new ",tokenResult)
     if(tokenResult!='Invalid'){
     this.ConfirmSaveCardModal.present();
-   
     }
     else{
       this.isChecked=false
@@ -102,6 +100,7 @@ export class PaymentComponent implements OnInit {
     this.modalCtrl.dismiss();
   }
   async cancel() {
+    this.isChecked = false;
     this.ConfirmSaveCardModal.dismiss();
     this.confirmSavedCardPayment.dismiss();
     await this.modal.dismiss();
