@@ -39,6 +39,7 @@ export class PaymentComponent implements OnInit {
   savecard:any=[];
   LoggedInUser : any;
   tappedCardDetails : any;
+  year : string;
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -59,7 +60,12 @@ export class PaymentComponent implements OnInit {
     this.showPaymentScreen = show;
   }
 
-  getSavedCardList() {
+  adjustValidYear(str) {
+    let year =  String(str).substring(2, 4);
+    return year;
+  }
+
+    getSavedCardList() {
       let request: any = {
         path: "core/payment/cards?paymentType=SQUARE_PAYMENT",
         isAuth: true,
@@ -68,6 +74,7 @@ export class PaymentComponent implements OnInit {
           this.savecard = response.data;
           this.savecard.forEach((element,index) => {
               this.savecard[index]['isCardSelected']=false;
+              this.savecard[index]['yearUpd'] = this.adjustValidYear(this.savecard[index]["expYear"]) ;
             }) 
           console.log("c ",this.savecard);
           });
