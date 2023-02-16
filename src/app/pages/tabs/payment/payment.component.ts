@@ -129,14 +129,16 @@ export class PaymentComponent implements OnInit {
   async CardSaveCheckBox(e:any) {
    if( e.detail.checked) {
     let tokenResult;
+    this.coreService.presentLoader(this.constantService.WAIT); 
     await this.card.tokenize().then(data=>
       {
         tokenResult=data.status,
         this.nonce = data.token
       }
     );
+    this.coreService.dismissLoader();
     console.log("token new ",tokenResult,this.nonce)
-    if(tokenResult!='Invalid'){
+    if(tokenResult!='Invalid'){  
     this.ConfirmSaveCardModal.present();
     }
     else{
