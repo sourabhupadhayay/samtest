@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: bubbleapp-prod  
+  name: bubbleapp-web
+  labels:
+   env: dev
+   project-name: bubbleapp
+   tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bubbleapp-web
+  minReadySeconds: 10
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      name: bubbleapp-web
+      labels:
+        app: bubbleapp-web
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+      - image: CONTAINER_IMAGE
+        name: bubbleapp-web
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 6510
+          protocol: TCP
+        readinessProbe:
+            tcpSocket:
+              port: 6510
+            initialDelaySeconds: 60
+            periodSeconds: 30
+        livenessProbe:
+            tcpSocket:
+              port: 6510
+            initialDelaySeconds: 60
+            periodSeconds: 30
