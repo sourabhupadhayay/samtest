@@ -31,7 +31,8 @@ export class PaymentComponent implements OnInit {
   card :any;
   isCardSelected: boolean = false;
   showPaymentScreen : boolean = false;
-  
+  isChecked:boolean=false
+  savecard:any=[{cardNo:"**** **** **** 4569",expDate:"06/24",isCardSelected:false},{cardNo:"**** **** **** 9875",expDate:"06/24",isCardSelected:false},{cardNo:"**** **** **** 5342",expDate:"06/24",isCardSelected:false}]
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -48,18 +49,38 @@ export class PaymentComponent implements OnInit {
     this.showPaymentScreen = show;
   }
 
-  selectCard() {
+  selectCard(i) {
     this.isCardSelected = true;
     console.log("clicked ",this.isCardSelected)
+    this.savecard.forEach((element,index) => {
+      if(index==i){
+        this.savecard[index]['isCardSelected']=true
+      }
+      else{
+        this.savecard[index]['isCardSelected']=false
+      }
+      
+    });
   }
 
   saveSelectedCard() {
     console.log("card saved!")
   }
-
-  CardSaveCheckBox(e:any) {
+  async CardSaveCheckBox(e:any) {
    if( e.detail.checked) {
+    let tokenResult;
+    await this.card.tokenize().then(data=>
+      tokenResult=data.status
+    );
+
+    console.log("token new ",tokenResult)
+    if(tokenResult!='Invalid'){
     this.ConfirmSaveCardModal.present();
+   
+    }
+    else{
+      this.isChecked=false
+    }
    }
   }
 
@@ -77,7 +98,6 @@ export class PaymentComponent implements OnInit {
   confirmPaymentFromSavedCard() {
     console.log("pay !")
   }
-
   onClickCancel() {
     this.modalCtrl.dismiss();
   }
@@ -97,17 +117,13 @@ export class PaymentComponent implements OnInit {
   openCreateModal() {
     this.pay();
     // this.sqPaymentForm.requestCardNonce();
-    
-
     setTimeout(() => {
       if (this.errors.length > 0) {
         return;
       }
-
       //this.ConfirmModal.present();
     }, 1000);
   }
-
   showPayment() {
     let toastMsg;
     var applicationId = this.commonService.publicInfo.squareAppId;
@@ -179,8 +195,6 @@ export class PaymentComponent implements OnInit {
     console.log("bfhf", this.sqPaymentForm);
     this.sqPaymentForm.build();
   }
-
-
   async initializeCard(payments?:any) {
      payments = Square.payments(this.commonService.publicInfo.squareAppId, this.commonService.publicInfo.locationId)
 
@@ -222,22 +236,21 @@ export class PaymentComponent implements OnInit {
     this.card = await payments.card({
       // style: darkModeCardStyle,
     });
-    await this.card.attach('#card-container');
+    await this.card.attach('#card-container');  
     return this.card;
-
-    let tokenResult;
     const button = document.getElementById('card-button');
+    console.log(button); 
     button.addEventListener('click', e => {
-      console.log("called")
-    e.preventDefault();
-    tokenResult = this.card.tokenize();
-    console.log("token new ",tokenResult)
+      console.log("called",e)
+    e.preventDefault(); 
 })
   } 
 
  async pay() {
+  let error:any[]= []
    await this.card.tokenize().then(data=>
-      this.nonce = data.token);
+      this.nonce = data.token,
+      );  
       console.log("nonce ",this.nonce);
       // await this.card.tokenize().then(data=>
       //   console.log("card ",data))

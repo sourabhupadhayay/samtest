@@ -61,7 +61,7 @@
                 <div class="save-card">
                   <ion-item lines="none" mode="ios">
                     <ion-label>Save Card</ion-label>
-                    <ion-checkbox slot="start" mode="ios" (ionChange)="CardSaveCheckBox($event)"></ion-checkbox>
+                    <ion-checkbox slot="start" mode="ios"  id="card-button" (ionChange)="CardSaveCheckBox($event)"[(ngModel)]="isChecked"></ion-checkbox>
                   </ion-item>
                 </div>
   
@@ -70,19 +70,19 @@
               <div class="new-card-saved" [hidden]=showPaymentScreen>
                 <h4> Saved Cards:</h4>
                   <div class="card-main-part">
-                      <div class="card">
+                      <div class="card" *ngFor="let card of savecard let i=index" [ngClass]="card.isCardSelected ? 'selected-card' : ''" (click)="selectCard(i)">
                           <div class="card-number-top">
-                              <p>**** **** **** 9875</p>
+                              <p>{{card.cardNo}}</p>
                               <div class="card-icon">
                                   <img src="assets/images/card-icon.png">
                               </div>
                           </div>
                           <div class="card-bottom">
                               <h5>Valid Thru</h5>
-                              <h6>06/24</h6>
+                              <h6>{{card.expDate}}</h6>
                           </div>
                       </div>
-                      <div class="card" [ngClass]="isCardSelected ? 'selected-card' : ''" (click)="selectCard()">
+                      <!-- <div class="card" [ngClass]="isCardSelected ? 'selected-card' : ''" (click)="selectCard()">
                         <div class="card-number-top">
                             <p>**** **** **** 4569</p>
                             <div class="card-icon">
@@ -105,7 +105,7 @@
                             <h5>Valid Thru</h5>
                             <h6>06/24</h6>
                         </div>
-                      </div>
+                      </div> -->
                   </div>
                  
               </div>              
