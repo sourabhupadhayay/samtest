@@ -182,6 +182,7 @@ export class BidPaymentPage implements OnInit {
         eventId: this.eventId,
         nonce: this.paymentData.nonce,
         paymentType: this.paymentData?.paymentType,
+        cardId: this.paymentData?.cardId,
         totalAmount: parseFloat(this.bidAmount),
       },
       isAuth: true,
@@ -241,10 +242,12 @@ export class BidPaymentPage implements OnInit {
           this.coreService.TOAST_ERROR
         );
       } else {
-        console.log("valid")
+        console.log("valid");
+        this.commonService.bidAmount = this.bidAmount;
       }
     } else {
       console.log("first time bid")
+      this.commonService.bidAmount = this.bidAmount;
       return;
     }
   }  
@@ -280,4 +283,5 @@ export class BidPaymentPage implements OnInit {
 interface paymentData {
   nonce: string;
   paymentType: "SQUARE_PAYMENT" | "apple";
+  cardId : string;
 }
