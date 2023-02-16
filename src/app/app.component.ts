@@ -27,10 +27,9 @@ import { NavController } from "@ionic/angular";
 import { Badge } from "@awesome-cordova-plugins/badge/ngx";
 import { CallData, CallKitVoip } from "capacitor-callkit-voip";
 //import { Flipper } from "@capacitor-community/flipper";
-import { FullScreenNotification } from 'capacitor-fullscreen-notification';
+import { FullScreenNotification } from "capacitor-fullscreen-notification";
 import * as _ from "cypress/types/lodash";
 import { ApplePay } from "@fresha/capacitor-plugin-applepay";
-
 
 @Component({
   selector: "app-root",
@@ -47,8 +46,8 @@ export class AppComponent implements OnInit, OnDestroy {
   badgeCount: number = 0;
   data = {};
   id: any;
-  accepted:boolean = false;
-  voipResponse :any;
+  accepted: boolean = false;
+  voipResponse: any;
 
   constructor(
     private apiservice: DataService,
@@ -77,152 +76,154 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-   async getfullscreenNotification() {
-      await FullScreenNotification.addListener('launch', (data) => {
-      let dataObject : any =  JSON.stringify(data);
-      let parseDataObject : any = JSON.parse(data.fullScreenId);
+  async getfullscreenNotification() {
+    await FullScreenNotification.addListener("launch", (data) => {
+      let dataObject: any = JSON.stringify(data);
+      let parseDataObject: any = JSON.parse(data.fullScreenId);
       this.voipResponse = JSON.parse(data.fullScreenId);
-      localStorage.setItem('voip-data',parseDataObject);
-      let dataObject1 : any =  data;
-      let bidId :any = parseDataObject.id;
-      let isBidEvent : any = parseDataObject.bidEventCheck;
-      let buttonClicked : any = JSON.stringify(data.actionId);
-      let eventId :any = parseDataObject.eventId;
-      console.log("objj ",dataObject);
-      console.log("bidId/event/ EventId ",bidId,isBidEvent,eventId);
-      console.log("has actionId ",dataObject1.hasOwnProperty('actionId'));
-      if(!this.commonService.callingAthleteDetails || this.commonService.callingAthleteDetails == null) {
+      localStorage.setItem("voip-data", parseDataObject);
+      let dataObject1: any = data;
+      let bidId: any = parseDataObject.id;
+      let isBidEvent: any = parseDataObject.bidEventCheck;
+      let buttonClicked: any = JSON.stringify(data.actionId);
+      let eventId: any = parseDataObject.eventId;
+      console.log("objj ", dataObject);
+      console.log("bidId/event/ EventId ", bidId, isBidEvent, eventId);
+      console.log("has actionId ", dataObject1.hasOwnProperty("actionId"));
+      if (
+        !this.commonService.callingAthleteDetails ||
+        this.commonService.callingAthleteDetails == null
+      ) {
         this.commonService.callingAthleteDetails = this.voipResponse;
       }
-      console.log("common 1 ",this.commonService.callingAthleteDetails);
+      console.log("common 1 ", this.commonService.callingAthleteDetails);
 
-     if (dataObject1.hasOwnProperty('actionId')) {                      //check screen locked/onlocked
-       console.log("screen is open");
-                                                                        //this.accepted = buttonClicked === '"accept"' ? true : false;
-    if(buttonClicked === '"accept"') {                                  //check call accept/reject
-      this.accepted = true
-    } else {
-      this.accepted = false
-    }
-
-      if(this.accepted) {
-        console.log("accept")
-        console.log("/waitlist/call/"+ bidId);
-        
-        if(isBidEvent) {
-          this.navController.navigateBack(["/waitlist/call/"+ bidId], {
-            queryParams: {
-                 isBidEvent: isBidEvent,
-            },
-          })
+      if (dataObject1.hasOwnProperty("actionId")) {
+        //check screen locked/onlocked
+        console.log("screen is open");
+        //this.accepted = buttonClicked === '"accept"' ? true : false;
+        if (buttonClicked === '"accept"') {
+          //check call accept/reject
+          this.accepted = true;
         } else {
-          this.navController.navigateBack(["/waitlist/call/"+ eventId], {
-            queryParams: {
-                 isBidEvent: isBidEvent,
-            },
-          })
+          this.accepted = false;
         }
-        FullScreenNotification.cancelNotification();
-      } else{
-        console.log("reject");
-        this.cancelFullscreenNotification();
+
+        if (this.accepted) {
+          console.log("accept");
+          console.log("/waitlist/call/" + bidId);
+
+          if (isBidEvent) {
+            this.navController.navigateBack(["/waitlist/call/" + bidId], {
+              queryParams: {
+                isBidEvent: isBidEvent,
+              },
+            });
+          } else {
+            this.navController.navigateBack(["/waitlist/call/" + eventId], {
+              queryParams: {
+                isBidEvent: isBidEvent,
+              },
+            });
+          }
+          FullScreenNotification.cancelNotification();
+        } else {
+          console.log("reject");
+          this.cancelFullscreenNotification();
+        }
+      } else {
+        console.log("screen is locked");
+        console.log("/waitlist/incoming-call/" + bidId);
+        if (isBidEvent) {
+          this.navController.navigateBack(["/waitlist/incoming-call/" + bidId]);
+        } else {
+          this.navController.navigateBack([
+            "/waitlist/incoming-call/" + eventId,
+          ]);
+        }
       }
-     }
-     else {
-       console.log("screen is locked");
-       console.log("/waitlist/incoming-call/"+ bidId);
-       if(isBidEvent) {
-        this.navController.navigateBack(["/waitlist/incoming-call/" + bidId]);
-       } else {
-        this.navController.navigateBack(["/waitlist/incoming-call/" + eventId]);
-       } 
-     } 
-  })
-}
-
-RemoveInvertedComma(id:string) {
-  let updatedId = id.slice(1,-1);
-}
-
-
-async cancelFullscreenNotification() {
-  await this.disconnectCall();
-  await FullScreenNotification.cancelNotification();
-}
-
-
-async disconnectCall() {
-   let leftTime = await this.voipResponse.remainingTime;
-
-      let request: Request = {
-        path: "core/video/updateCall/" + this.voipResponse.id,
-        data: {
-          remainingTime: leftTime,
-        },
-        isAuth: true,
-      };
-      this.apiService.post(request).subscribe((response: Response) => {
-        this.coreService.dismissLoader();
-      });
-      this.router.navigate(["/tabs/schedule"]);
+    });
   }
 
+  RemoveInvertedComma(id: string) {
+    let updatedId = id.slice(1, -1);
+  }
+
+  async cancelFullscreenNotification() {
+    await this.disconnectCall();
+    await FullScreenNotification.cancelNotification();
+  }
+
+  async disconnectCall() {
+    let leftTime = await this.voipResponse.remainingTime;
+
+    let request: Request = {
+      path: "core/video/updateCall/" + this.voipResponse.id,
+      data: {
+        remainingTime: leftTime,
+      },
+      isAuth: true,
+    };
+    this.apiService.post(request).subscribe((response: Response) => {
+      this.coreService.dismissLoader();
+    });
+    this.router.navigate(["/tabs/schedule"]);
+  }
 
   async ngOnInit() {
     // await this.getBadgeNotificationCount();
     // await this.getBadgeStatus(0);
     await this.commonService.getAthleteEarnings();
-     this.socketInit();
-     this.callingAthlete();
+    this.socketInit();
+    this.callingAthlete();
     const source = interval(60000);
     this.socketSubscription = source.subscribe((val) => this.onlineStatus());
     this.commonService.privacy();
     this.commonService.termcondition();
-   
-    if(this.platform.is('ios')) {
+
+    if (this.platform.is("ios")) {
       await this.registerVoipNotification();
+    } else {
+      this.getfullscreenNotification();
     }
-   else {
-    this.getfullscreenNotification();
-   }
-   this.applePayPayment()
+    this.applePayPayment();
   }
 
   applePayPayment() {
     ApplePay.initiatePayment({
-      merchantIdentifier: 'com.bubble.bubbleapp',
-      countryCode: '+91',
-      currencyCode: 'INR',
-      supportedCountries: ['IN'],
+      merchantIdentifier: "com.bubble.bubbleapp",
+      countryCode: "+91",
+      currencyCode: "INR",
+      supportedCountries: ["IN"],
       supportedNetworks: [
-        'amex',
-        'chinaUnionPay',
-        'cartesBancaires',
-        'discover',
-        'eftpos',
-        'electron',
-        'idCredit',
-        'interac',
-        'JCB',
-        'maestro',
-        'masterCard',
-        'privateLabel',
-        'quicPay',
-        'suica',
-        'visa',
-        'vPay',
+        "amex",
+        "chinaUnionPay",
+        "cartesBancaires",
+        "discover",
+        "eftpos",
+        "electron",
+        "idCredit",
+        "interac",
+        "JCB",
+        "maestro",
+        "masterCard",
+        "privateLabel",
+        "quicPay",
+        "suica",
+        "visa",
+        "vPay",
       ],
       summaryItems: [],
-      requiredShippingContactFields: ['emailAddress'],
-      requiredBillingContactFields: ['emailAddress'],
+      requiredShippingContactFields: ["emailAddress"],
+      requiredBillingContactFields: ["emailAddress"],
       merchantCapabilities: [
-        'capability3DS',
-        'capabilityCredit',
-        'capabilityDebit',
-        'capabilityEMV',
+        "capability3DS",
+        "capabilityCredit",
+        "capabilityDebit",
+        "capabilityEMV",
       ],
-      billingContact: { emailAddress: '' },
-      shippingContact: { emailAddress: '' },
+      billingContact: { emailAddress: "" },
+      shippingContact: { emailAddress: "" },
     });
   }
 
@@ -428,32 +429,36 @@ async disconnectCall() {
             if (this.userDetails.id != id.userId) {
               return;
             } else {
-             if((this.platform.is("desktop") || this.platform.is("mobileweb")) && !this.platform.is('ios') ) {
-              this.commonService.callingAthleteDetails = JSON.parse(
-                responseData
-              );
               if (
-                this.commonService.callingAthleteDetails.creatorPersona !==
-                "USER"
+                (this.platform.is("desktop") ||
+                  this.platform.is("mobileweb")) &&
+                !this.platform.is("ios")
               ) {
-                this.navController.navigateBack([
-                  "/waitlist/incoming-call/" +
-                    this.commonService.callingAthleteDetails.id,
-                ]);
-              } else {
-                this.navController.navigateBack(
-                  [
-                    "/waitlist/incoming-call/" +
-                      this.commonService.callingAthleteDetails.eventId,
-                  ],
-                  {
-                    queryParams: {
-                      bidId: this.commonService.callingAthleteDetails.id,
-                    },
-                  }
+                this.commonService.callingAthleteDetails = JSON.parse(
+                  responseData
                 );
-              }   
-             }
+                if (
+                  this.commonService.callingAthleteDetails.creatorPersona !==
+                  "USER"
+                ) {
+                  this.navController.navigateBack([
+                    "/waitlist/incoming-call/" +
+                      this.commonService.callingAthleteDetails.id,
+                  ]);
+                } else {
+                  this.navController.navigateBack(
+                    [
+                      "/waitlist/incoming-call/" +
+                        this.commonService.callingAthleteDetails.eventId,
+                    ],
+                    {
+                      queryParams: {
+                        bidId: this.commonService.callingAthleteDetails.id,
+                      },
+                    }
+                  );
+                }
+              }
             }
           });
         },
@@ -480,6 +485,8 @@ async disconnectCall() {
     // start call
     CallKitVoip.addListener("callAnswered", (obj: CallData) => {
       //here obj.id= bidId
+      console.log(obj.id, "bidid", obj);
+
       this.commonService.VideoCallAnswer = true;
       this.data = obj.connectionId;
       if (obj.creatorPersona != "USER") {
