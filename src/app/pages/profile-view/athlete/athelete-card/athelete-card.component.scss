@@ -733,10 +733,13 @@ ion-button.button-disabled {
 .card__sponser{
   display: flex;
   gap: 5px;
-  height: 65px; width: 65px; border-radius: 65px; padding: 7px;
+  height: 65px; width: 135px; border-radius: 65px; padding: 7px; flex-flow: column;
   & img {
     max-width: 100%;
     border-radius: 0;
+    width: 65px;	
+    margin: auto;	
+    margin-right: 0;
   }
   &__detail {
     & h6 {
@@ -753,7 +756,13 @@ ion-button.button-disabled {
     }
   }
 }
-
+.ath-icon{position: relative; padding-left: 30px;	
+  .icon-img{position: absolute; left: 0; top: 0; bottom: 0; margin: auto; height: 25px; width: 25px;	
+    img{width: 25px; height: 25px; border-radius: 25px;}	
+    span{ width: 25px; height: 25px; border-radius: 25px; background: var(--bg-gray); color: var(--theme-one-clr); text-transform: uppercase; display: inline-block; text-align: center; line-height: 25px; font-weight: 500; font-size: 0.75rem; color: var(--white-clr); background: #1b4b64;}	
+  }	
+  p{font-size: 0.75rem; color: var(--theme-one-clr); font-weight: 600; margin: 0;}
+}
 .bubble-text{
   p{position: relative; padding-left: 23px; font-size: 0.75rem; font-weight: 600; margin: 0; color: var(--theme-one-clr);
     img{position: absolute; left: 0; top: 0; width: 18px; bottom: 0; margin: auto;}

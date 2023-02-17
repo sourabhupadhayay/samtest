@@ -135,6 +135,13 @@
         </div>
         <div *ngIf="cardData.sponsorProfilePicture" class="card__sponser">
           <img [src]="cardData.sponsorProfilePicture | profile" alt="" />
+          <div class="ath-icon">	
+            <div class="icon-img">	
+              <img *ngIf="cardData?.athleteProfilePicture!== '' || cardData?.athleteProfilePicture " [src]="cardData?.athleteProfilePicture | profile" alt="">	
+              <span *ngIf="cardData?.athleteProfilePicture == '' || !cardData?.athleteProfilePicture">{{athleteNameInitials}}</span>	
+            </div>	
+            <p *ngIf="cardData?.athleteName">{{cardData?.athleteName}}</p>	
+          </div>
         </div>
         </div>
         <!-- <div class="card__border"></div> -->
