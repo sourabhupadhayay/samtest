@@ -30,6 +30,7 @@ import { CallData, CallKitVoip } from "capacitor-callkit-voip";
 import { FullScreenNotification } from "capacitor-fullscreen-notification";
 import * as _ from "cypress/types/lodash";
 import { ApplePay } from "@fresha/capacitor-plugin-applepay";
+import { Capacitor } from "@capacitor/core";
 
 @Component({
   selector: "app-root",
@@ -171,6 +172,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    this.redirectToAppPlayStore();
     // await this.getBadgeNotificationCount();
     // await this.getBadgeStatus(0);
     await this.commonService.getAthleteEarnings();
@@ -187,6 +189,28 @@ export class AppComponent implements OnInit, OnDestroy {
       this.getfullscreenNotification();
     }
     this.applePayPayment();
+  }
+
+  redirectToAppPlayStore() {
+    if (
+      Capacitor.getPlatform() == "web" &&
+      this.platform.platforms().includes("mobileweb") &&
+      !this.platform.platforms().includes("desktop") &&
+      this.platform.is("android")
+    ) {
+      console.log("in android chrome");
+      document.getElementById("playstore").click();
+    }
+
+    if (
+      Capacitor.getPlatform() == "web" &&
+      this.platform.platforms().includes("mobileweb") &&
+      !this.platform.platforms().includes("desktop") &&
+      this.platform.is("ios")
+    ) {
+      console.log("in ios chrome");
+      document.getElementById("ios").click();
+    }
   }
 
   applePayPayment() {
@@ -503,25 +527,26 @@ export class AppComponent implements OnInit, OnDestroy {
         });
       }
     });
-    // end call
-    CallKitVoip.addListener("endCall", (obj: CallData) => {
-      console.log(JSON.stringify(obj), `Call has been REJECTED from `);
-      let request: Request = {
-        path: "core/video/updateCall/" + obj.id,
-        data: {
-          remainingTime: obj.remainingTime,
-        },
-        isAuth: true,
-      };
-      this.apiService.post(request).subscribe((response: Response) => {
-        this.coreService.dismissLoader();
-      });
-      this.router.navigate(["/tabs/schedule"]);
-    });
-    // init plugin, start registration of VOIP notifications
-    await CallKitVoip.register(); // can be used with `.then()`
-    console.log("Push notification has been registered");
   }
+  // end call
+  //   CallKitVoip.addListener("endCall", (obj: CallData) => {
+  //     console.log(JSON.stringify(obj), `Call has been REJECTED from `);
+  //     let request: Request = {
+  //       path: "core/video/updateCall/" + obj.id,
+  //       data: {
+  //         remainingTime: obj.remainingTime,
+  //       },
+  //       isAuth: true,
+  //     };
+  //     this.apiService.post(request).subscribe((response: Response) => {
+  //       this.coreService.dismissLoader();
+  //     });
+  //     this.router.navigate(["/tabs/schedule"]);
+  //   });
+  //   // init plugin, start registration of VOIP notifications
+  //   await CallKitVoip.register(); // can be used with `.then()`
+  //   console.log("Push notification has been registered");
+  // }
 
   ngOnDestroy(): void {
     this.socketSubscription.unsubscribe();

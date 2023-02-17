@@ -1,6 +1,8 @@
+
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { IonRouterOutlet, ModalController } from "@ionic/angular";
+import { Capacitor } from "@capacitor/core";
+import { IonRouterOutlet, ModalController ,Platform} from "@ionic/angular";
 import { AuthenticationService } from "src/app/providers/authentication.service";
 
 import { ConstantService } from "src/app/providers/constant.service";
@@ -28,10 +30,12 @@ export class BubbleScreenPage implements OnInit {
     private constant: ConstantService,
     public authenticationService: AuthenticationService,
     private router: Router,
-    private commonService: CommonService
+    private commonService: CommonService,
+    public platform:Platform
   ) {}
 
   ngOnInit() {
+    // this.redirectToAppPlayStore();
     this.isUserLoggedIn();
     this.getAthletes();
     this.audio.src = "assets/audio/bubble-bursting.mp3";
@@ -40,6 +44,14 @@ export class BubbleScreenPage implements OnInit {
   ionViewDidEnter() {
     this.isUserLoggedIn();
   }
+  redirectToAppPlayStore() {
+       if(Capacitor.getPlatform() == "web" &&
+        this.platform.platforms().includes('mobileweb') && 
+        !this.platform.platforms().includes('desktop') && this.platform.is('android')) {
+          console.log("in mobile chrome");
+          document.getElementById('playstore').click();
+        }
+    }
 
   isUserLoggedIn() {
     if (this.commonService.VideoCallAnswer == false) {

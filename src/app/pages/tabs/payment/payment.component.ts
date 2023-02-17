@@ -43,7 +43,7 @@ export class PaymentComponent implements OnInit {
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
-    private commonService: CommonService,
+    public commonService: CommonService,
     public navParams: NavParams,
     public apiService: DataService,
     public constantService : ConstantService,
