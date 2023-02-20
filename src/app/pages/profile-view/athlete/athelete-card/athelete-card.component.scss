@@ -762,7 +762,9 @@ ion-button.button-disabled {
     img{width: 25px; height: 25px; border-radius: 25px;}	
     span{ width: 25px; height: 25px; border-radius: 25px; background: var(--bg-gray); color: var(--theme-one-clr); text-transform: uppercase; display: inline-block; text-align: center; line-height: 25px; font-weight: 500; font-size: 0.75rem; color: var(--white-clr); background: #1b4b64;}	
   }	
-  p{font-size: 0.75rem; color: var(--theme-one-clr); font-weight: 600; margin: 0;}
+  p{font-size: 0.75rem; color: var(--theme-one-clr); font-weight: 600; margin: 0;display: inline-block;
+    span.featured{display: block; color: var(--text-gray); font-weight: 400; font-size: 0.75rem; text-align: left;}
+  }
 }
 .bubble-text{
   p{position: relative; padding-left: 23px; font-size: 0.75rem; font-weight: 600; margin: 0; color: var(--theme-one-clr);

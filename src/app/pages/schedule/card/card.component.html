@@ -158,7 +158,8 @@
                 <img *ngIf="cardData?.athleteProfilePicture!== '' || cardData?.athleteProfilePicture " [src]="cardData?.athleteProfilePicture | profile" alt="">	
                 <span *ngIf="cardData?.athleteProfilePicture == '' || !cardData?.athleteProfilePicture">{{athleteNameInitials}}</span>	
               </div>	
-              <p *ngIf="cardData?.athleteName">{{cardData?.athleteName}}</p>	
+              <p *ngIf="cardData?.athleteName">
+                <span class="featured">Featured</span> {{cardData?.athleteName}}</p>
             </div>
           </div>
         </div>
