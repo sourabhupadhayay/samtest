@@ -339,6 +339,12 @@ export class LoginPage implements OnInit {
       console.log(e);
     });
   }
+
+  async goBack(){
+    await localStorage.removeItem("authDetail");
+    this.router.navigate(["/bubble-screen"]);
+  }
+
   applesign() {
     this.signInWithApple
       .signin({
