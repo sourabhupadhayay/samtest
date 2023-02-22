@@ -178,7 +178,13 @@ export class AppereanceBookingComponent implements OnInit {
     );
     this.totalFanDuration = this.commonService.publicInfo.defaultDurationOfFanEvent;
   }
-
+  numberOnly(event:any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
   eventTypeSelected() {
     this.setDuration();
     if (this.fanEventType == "VIDEO") {

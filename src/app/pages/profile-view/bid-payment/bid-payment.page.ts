@@ -251,7 +251,13 @@ export class BidPaymentPage implements OnInit {
       return;
     }
   }  
-
+  numberOnly(event:any): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+  }
     getNotificationCount() {
       let request: any = {
         path: "notification/notification/check/v2",
