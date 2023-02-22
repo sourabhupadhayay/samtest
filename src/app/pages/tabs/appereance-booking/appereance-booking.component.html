@@ -179,6 +179,7 @@
               <ion-input
                 appConverStringToInt
                 inputmode="numeric"
+                (keypress)="numberOnly($event)"
                 (ionBlur)="setInputCurrency()"
                 formControlName="minBid"
                 placeholder="Minimum Bid"
