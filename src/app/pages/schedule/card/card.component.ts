@@ -47,6 +47,7 @@ export class CardComponent implements OnInit {
   eventType:any="Paid"
   eventData:any;
   message:any;
+  athleteNameInitials: string;
   constructor(
     private cd: ChangeDetectorRef,
     private coreService: CoreService,
@@ -65,7 +66,14 @@ export class CardComponent implements OnInit {
  
   getInitials() {
     this.nameInitials = this.commonService.getInitials(this.cardData.userName);
+    this.athleteNameInitials = this.commonService.getInitials(this.cardData.athleteName);	
+  }	
+  getAthleteInitials(fullName:any) {	
+    let  initials = fullName.split(' ');	
+        initials = fullName.shift().charAt(0) + fullName.pop().charAt(0);	
+    return initials.toUpperCase();	
   }
+  
 
   changeEventStatus(eventState: EventStatus, rejectionMessage?: string) {
     let request: Request;

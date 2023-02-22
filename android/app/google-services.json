@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "573316732862",
+    "project_id": "bubble-app-55e11",
+    "storage_bucket": "bubble-app-55e11.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:573316732862:android:11f86aabc4a9f98097cbef",
+        "android_client_info": {
+          "package_name": "com.bubble.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "573316732862-ihcsn2uu3cvnhq115s1ejvnbv5mko29t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2DUKlCh9VRd75eYv-qAFH77uTptMvspM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "573316732862-ihcsn2uu3cvnhq115s1ejvnbv5mko29t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "573316732862-471jaa7mbbjkvebb10pit81kkf5pdacm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bubble.bubbleapp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:573316732862:android:9ed8c44568e9937297cbef",
+        "android_client_info": {
+          "package_name": "com.bubble_app_9093.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "573316732862-ihcsn2uu3cvnhq115s1ejvnbv5mko29t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2DUKlCh9VRd75eYv-qAFH77uTptMvspM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "573316732862-ihcsn2uu3cvnhq115s1ejvnbv5mko29t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "573316732862-471jaa7mbbjkvebb10pit81kkf5pdacm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.bubble.bubbleapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

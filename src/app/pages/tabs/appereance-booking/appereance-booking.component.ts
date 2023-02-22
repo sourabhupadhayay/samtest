@@ -93,10 +93,10 @@ export class AppereanceBookingComponent implements OnInit {
   }
 
   setTimeZone() {
-    if(this.platform.is("ios")) {
+    if (this.platform.is("ios")) {
       this.androidTimeZone();
     } else {
-      console.log("in android")
+      console.log("in android");
       // this.currentDate =  new Date().toISOString();
       this.androidTimeZone();
     }
@@ -106,15 +106,15 @@ export class AppereanceBookingComponent implements OnInit {
     const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     console.log("time zone", userTimeZone);
 
-    var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
+    var tzoffset = new Date().getTimezoneOffset() * 60000; //offset in milliseconds
     // console.log("tz", tzoffset);
-    var localISOTime = (new Date(Date.now() - tzoffset)).toISOString();
-    this.currentDate =  localISOTime;
+    var localISOTime = new Date(Date.now() - tzoffset).toISOString();
+    this.currentDate = localISOTime;
     // console.log("final ",this.currentDate);
     this.starttime = this.currentDate;
     this.defaultDate = this.currentDate;
   }
-    
+
   // timeZone() {
   //   // Get the time zone set on the user's device
   //   const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -318,7 +318,7 @@ export class AppereanceBookingComponent implements OnInit {
     this.fanForm.controls.minBid.patchValue(
       this.parseStringToFloat(this.fanForm.controls.minBid.value)
     );
-
+    this.commonService.bidAmount = this.fanForm.controls.minBid.value;
     if (this.fanForm.invalid) {
       this.coreService.showToastMessage(
         "Please enter valid details",

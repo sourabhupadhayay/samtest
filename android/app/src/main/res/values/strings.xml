@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">BubbleAppNIL</string>
+    <string name="title_activity_main">BubbleAppNIL</string>
+    <string name="package_name">com.bubble_app_9093.app</string>
+    <string name="custom_url_scheme">com.bubble_app_9093.app</string>
+
+
+  <string name="facebook_app_id">437785021263534</string>
+  <string name="facebook_client_token">437785021263534</string>
+  <string name="server_client_id">573316732862-ihcsn2uu3cvnhq115s1ejvnbv5mko29t.apps.googleusercontent.com</string>
+    <string name="title_activity_maps">MapsActivity</string>
+</resources>
