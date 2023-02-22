@@ -25,7 +25,7 @@ import { AuthenticationService } from "./providers/authentication.service";
 import { Subscription, interval } from "rxjs";
 import { NavController } from "@ionic/angular";
 import { Badge } from "@awesome-cordova-plugins/badge/ngx";
-import { CallData, CallKitVoip } from "capacitor-callkit-voip";
+// import { CallData, CallKitVoip } from "capacitor-callkit-voip";
 //import { Flipper } from "@capacitor-community/flipper";
 import { FullScreenNotification } from "capacitor-fullscreen-notification";
 import * as _ from "cypress/types/lodash";
@@ -184,7 +184,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.commonService.termcondition();
 
     if (this.platform.is("ios")) {
-      await this.registerVoipNotification();
+      // await this.registerVoipNotification();
     } else {
       this.getfullscreenNotification();
     }
@@ -499,35 +499,35 @@ export class AppComponent implements OnInit, OnDestroy {
     });
     this.socket.send("/app/videoBid", {}, data);
   }
-  async registerVoipNotification() {
-    // register token
-    CallKitVoip.addListener("registration", ({ token }: any) => {
-      this.commonService.voipToken = token;
-      localStorage.setItem("voipToken", token);
-    });
+  // async registerVoipNotification() {
+  //   // register token
+  //   CallKitVoip.addListener("registration", ({ token }: any) => {
+  //     this.commonService.voipToken = token;
+  //     localStorage.setItem("voipToken", token);
+  //   });
 
-    // start call
-    CallKitVoip.addListener("callAnswered", (obj: CallData) => {
-      //here obj.id= bidId
-      console.log(obj.id, "bidid", obj);
+  //   // start call
+  //   CallKitVoip.addListener("callAnswered", (obj: CallData) => {
+  //     //here obj.id= bidId
+  //     console.log(obj.id, "bidid", obj);
 
-      this.commonService.VideoCallAnswer = true;
-      this.data = obj.connectionId;
-      if (obj.creatorPersona != "USER") {
-        this.router.navigate(["/waitlist/call/" + obj.id], {
-          queryParams: {
-            isBidEvent: obj.creatorPersona == "USER" ? false : true,
-          },
-        });
-      } else {
-        this.router.navigate(["/waitlist/call/" + obj.eventId], {
-          queryParams: {
-            isBidEvent: obj.creatorPersona == "USER" ? false : true,
-          },
-        });
-      }
-    });
-  }
+  //     this.commonService.VideoCallAnswer = true;
+  //     this.data = obj.connectionId;
+  //     if (obj.creatorPersona != "USER") {
+  //       this.router.navigate(["/waitlist/call/" + obj.id], {
+  //         queryParams: {
+  //           isBidEvent: obj.creatorPersona == "USER" ? false : true,
+  //         },
+  //       });
+  //     } else {
+  //       this.router.navigate(["/waitlist/call/" + obj.eventId], {
+  //         queryParams: {
+  //           isBidEvent: obj.creatorPersona == "USER" ? false : true,
+  //         },
+  //       });
+  //     }
+  //   });
+  // }
   // end call
   //   CallKitVoip.addListener("endCall", (obj: CallData) => {
   //     console.log(JSON.stringify(obj), `Call has been REJECTED from `);
