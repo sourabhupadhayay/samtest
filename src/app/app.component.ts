@@ -29,7 +29,7 @@ import { CallData, CallKitVoip } from "capacitor-callkit-voip";
 //import { Flipper } from "@capacitor-community/flipper";
 import { FullScreenNotification } from "capacitor-fullscreen-notification";
 import * as _ from "cypress/types/lodash";
-import { ApplePay } from "@fresha/capacitor-plugin-applepay";
+// import { ApplePay } from "@fresha/capacitor-plugin-applepay";
 import { Capacitor } from "@capacitor/core";
 
 @Component({
@@ -188,7 +188,7 @@ export class AppComponent implements OnInit, OnDestroy {
     } else {
       this.getfullscreenNotification();
     }
-    this.applePayPayment();
+    // this.applePayPayment();
   }
 
   redirectToAppPlayStore() {
@@ -213,43 +213,43 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  applePayPayment() {
-    ApplePay.initiatePayment({
-      merchantIdentifier: "com.bubble.bubbleapp",
-      countryCode: "+91",
-      currencyCode: "INR",
-      supportedCountries: ["IN"],
-      supportedNetworks: [
-        "amex",
-        "chinaUnionPay",
-        "cartesBancaires",
-        "discover",
-        "eftpos",
-        "electron",
-        "idCredit",
-        "interac",
-        "JCB",
-        "maestro",
-        "masterCard",
-        "privateLabel",
-        "quicPay",
-        "suica",
-        "visa",
-        "vPay",
-      ],
-      summaryItems: [],
-      requiredShippingContactFields: ["emailAddress"],
-      requiredBillingContactFields: ["emailAddress"],
-      merchantCapabilities: [
-        "capability3DS",
-        "capabilityCredit",
-        "capabilityDebit",
-        "capabilityEMV",
-      ],
-      billingContact: { emailAddress: "" },
-      shippingContact: { emailAddress: "" },
-    });
-  }
+  // applePayPayment() {
+  //   ApplePay.initiatePayment({
+  //     merchantIdentifier: "com.bubble.bubbleapp",
+  //     countryCode: "+91",
+  //     currencyCode: "INR",
+  //     supportedCountries: ["IN"],
+  //     supportedNetworks: [
+  //       "amex",
+  //       "chinaUnionPay",
+  //       "cartesBancaires",
+  //       "discover",
+  //       "eftpos",
+  //       "electron",
+  //       "idCredit",
+  //       "interac",
+  //       "JCB",
+  //       "maestro",
+  //       "masterCard",
+  //       "privateLabel",
+  //       "quicPay",
+  //       "suica",
+  //       "visa",
+  //       "vPay",
+  //     ],
+  //     summaryItems: [],
+  //     requiredShippingContactFields: ["emailAddress"],
+  //     requiredBillingContactFields: ["emailAddress"],
+  //     merchantCapabilities: [
+  //       "capability3DS",
+  //       "capabilityCredit",
+  //       "capabilityDebit",
+  //       "capabilityEMV",
+  //     ],
+  //     billingContact: { emailAddress: "" },
+  //     shippingContact: { emailAddress: "" },
+  //   });
+  // }
 
   async getBadgeStatus(unreadCount: number) {
     let count = await this.badge.set(unreadCount);
