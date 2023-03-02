@@ -1,6 +1,6 @@
-<ion-content [scrollEvents]="true">
 
-  <ion-grid class="faq-main">
+
+  <!-- <ion-grid class="faq-main">
       <div class="faq-card">
         <ion-segment value="buttons" [(ngModel)]="fanEventType">
           <ion-segment-button value="VIDEO">
@@ -14,11 +14,614 @@
            
           </div>
       </div>
-  </ion-grid>
+  </ion-grid> -->
 
 
 
+  <ion-content [scrollEvents]="true">
+    <div *ngIf="userRole == 'athlete'" class="inner-content">
+      <div class="main-screen">
+        <div class="radio-btn">
+          <ion-radio-group value="VIDEO" mode="md">
+            <div class="radio-main">
+              <div class="radio-text">
+                <h5>Select Request Type</h5>
+              </div>
   
+              <div class="radio-data">
+                <ion-item lines="none" mode="ios">
+                  <ion-label>Video</ion-label>
+                  <ion-radio mode="md" slot="start" value="VIDEO"></ion-radio>
+                </ion-item>
+              </div>
+            </div>
+          </ion-radio-group>
+        </div>
+        <ion-row [formGroup]="athleteForm">
+          <ion-col size="12">
+            <div class="input-box">
+              <ion-item
+                id="open-modal"
+                [ngClass]="validAthleteInputBorder('startDate')"
+                lines="none"
+                class="ion-align-items-center"
+              >
+                <ion-input
+                  formControlName="startDate"
+                  placeholder="Select Date"
+                  displayFormat="MM/DD/YYYY" 
+                ></ion-input>
+                <img
+                  class="ion-align-items-center"
+                  slot="end"
+                  src="assets/icon/calendar.svg"
+                />
+              </ion-item>
+              <ion-modal class="dateModal" trigger="open-modal" mode="ios">
+                <ng-template>
+                  <ion-content>
+                    <ion-datetime
+                      locale="en-US"
+                      mode="ios"
+                      #dateTime
+                      [showDefaultButtons]="true"
+                      [min]="currentDate"
+                      (ionChange)="setDateValue(dateTime.value)"
+                      displayFormat="MM/DD/YYYY"
+                      presentation="date" 
+                      [value] = "defaultDate"
+                      [max] ="maxData"
+                      prefer-wheel="true" 
+                    >
+                      <span slot="title" class="tile-font">Select start date</span></ion-datetime
+                    >
+                  </ion-content>
+                </ng-template>
+              </ion-modal>
+            </div>
+          </ion-col>
+  
+  
+          <ion-col size="12">
+            <div class="input-box">
+              <ion-item
+              id="date-time1"
+                lines="none"
+                class="ion-align-items-center"
+              >
+                <ion-input
+                displayFormat="h:mm a"
+                 placeholder="Select Time"
+                 formControlName="time"
+                ></ion-input>
+              
+                <img
+                  class="ion-align-items-center"
+                  slot="end"
+                  src="assets/icon/duration.svg"
+                />
+              </ion-item>
+              <ion-modal class="dateModal" trigger="date-time1" mode="ios">
+                <ng-template>
+                  <ion-content>
+                    <ion-datetime
+                      displayFormat="hh:mm A"
+                      mode="ios"
+                      #dateTime1
+                      [showDefaultButtons]="true"
+                      presentation="time"
+                      (ionChange)="setTimeValue(dateTime1.value)"
+                      [value] = "starttime"
+                    >
+                      <span slot="title" class="tile-font">Select time</span></ion-datetime
+                    >
+                  </ion-content>
+                </ng-template>
+              </ion-modal>
+            </div>
+          </ion-col>
+  
+  
+  
+          <ion-col size="12">
+            <div class="input-box">
+              <ion-item
+                id="date-time"
+                [ngClass]="validAthleteInputBorder('duration')"
+                lines="none"
+                class="ion-align-items-center"
+              >
+                <ion-input
+                  formControlName="duration"
+                  placeholder="Duration"
+                ></ion-input>
+                <img
+                  class="ion-align-items-center"
+                  slot="end"
+                  src="assets/icon/duration.svg"
+                />
+              </ion-item>
+              <ion-modal class="dateModal" trigger="date-time" mode="ios">
+                <ng-template>
+                  <ion-content>
+                    <ion-datetime
+                      mode="ios"
+                      presentation="time"
+                      hourCycle="h23"
+                      #dateTime
+                      [showDefaultButtons]="true"
+                      [value]="selectduration"
+                      (ionChange)="patchTime(dateTime.value)"
+                    >
+                      <span slot="title" class="tile-font">Select duration</span></ion-datetime
+                    >
+                  </ion-content>
+                </ng-template>
+              </ion-modal>
+            </div>
+          </ion-col>
+          <ion-col size="12">
+            <div class="input-box">
+              <ion-item
+                [ngClass]="validAthleteInputBorder('eventName')"
+                lines="none"
+                class="ion-align-items-center"
+              >
+                <ion-input
+                  formControlName="eventName"
+                  placeholder="Event Name"
+                ></ion-input>
+                <img
+                  class="ion-align-items-center"
+                  slot="end"
+                  src="assets/icon/event-name.svg"
+                />
+              </ion-item>
+            </div>
+          </ion-col>
+          <ion-col size="12">
+            <div class="input-box">
+              <ion-item
+                [ngClass]="validAthleteInputBorder('minBid')"
+                lines="none"
+                class="ion-align-items-center"
+              >
+                <ion-input
+                  appConverStringToInt
+                  inputmode="numeric"
+                  (keypress)="numberOnly($event)"
+                  (ionBlur)="setInputCurrency()"
+                  formControlName="minBid"
+                  placeholder="Minimum Bid"
+                ></ion-input>
+                <img
+                  class="ion-align-items-center"
+                  slot="end"
+                  src="assets/icon/dolor.svg"
+                />
+              </ion-item>
+            </div>
+          </ion-col>
+  
+          <ion-col size="12">
+            <div class="input-box">
+              <ion-item lines="none" class="ion-align-items-center">
+                <ion-textarea
+                  formControlName="description"
+                  placeholder="Message For Fans"
+                ></ion-textarea>
+                <img
+                  class="ion-align-items-center"
+                  slot="end"
+                  src="assets/icon/chat-black.svg"
+                />
+              </ion-item>
+            </div>
+          </ion-col>
+        </ion-row>
+        <div class="save-card">
+          <ion-item lines="none" mode="ios">
+            <ion-label
+              >Accept<span (click)="presentTermsAndConditions()"
+                >Terms & Conditions</span
+              ></ion-label
+            >
+            <ion-checkbox
+              [(ngModel)]="isTermsAndConditionAccepted"
+              slot="start"
+              mode="ios"
+            ></ion-checkbox>
+          </ion-item>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="userRole == 'fan'" class="inner-content">
+      <div class="main-screen">
+        <div class="radio-btn">
+          <ion-radio-group
+            [(ngModel)]="fanEventType"
+            (ngModelChange)="eventTypeSelected()"
+            mode="md"
+          >
+            <div class="radio-main">
+              <div class="radio-text">
+                <h5>Select Request Type</h5>
+              </div>
+              <div class="radio-data">
+                <ion-item lines="none" mode="ios">
+                  <ion-label>Video</ion-label>
+                  <ion-radio
+                    mode="md"
+                    name="video"
+                    slot="start"
+                    value="VIDEO"
+                  ></ion-radio>
+                </ion-item>
+              </div>
+              <div class="radio-data">
+                <ion-item lines="none" mode="ios">
+                  <ion-label>In-Person</ion-label>
+                  <ion-radio
+                    mode="md"
+                    slot="start"
+                    name="video"
+                    value="IN_PERSON"
+                  ></ion-radio>
+                </ion-item>
+              </div>
+            </div>
+          </ion-radio-group>
+        </div>
+        <ion-row [formGroup]="fanForm">
+          <ion-col size="12">
+            <div class="input-box">
+              <ion-item
+                id="open-date"
+                [ngClass]="validFanInputBorder('startDate')"
+                lines="none"
+                class="ion-align-items-center"
+              >
+                <ion-input
+                  formControlName="startDate"
+                  placeholder="Select Date"
+                ></ion-input>
+                <img
+                  class="ion-align-items-center"
+                  slot="end"
+                  src="assets/icon/calendar.svg"
+                />
+              </ion-item>
+              <ion-modal class="dateModal" trigger="open-date" mode="ios">
+                <ng-template>
+                  <ion-content>
+                    <ion-datetime
+                      locale="en-US"
+                      mode="ios"
+                      #dateTime
+                      [showDefaultButtons]="true"
+                      [min]="currentDate"
+                      (ionChange)="setDateValue(dateTime.value)"
+                      displayFormat="MM/DD/YYYY"
+                      presentation="date" 
+                      [value] = "defaultDate"
+                      [max] ="maxData"
+                      prefer-wheel="true" 
+                    >
+                      <span slot="title" class="tile-font">Select start date</span></ion-datetime
+                    >
+                  </ion-content>
+                </ng-template>
+              </ion-modal>
+            </div>
+          </ion-col>
+  
+          <ion-col size="12">
+            <div class="input-box">
+              <ion-item
+              id="date-time"
+                [ngClass]="validFanInputBorder('time')"
+                lines="none"
+                class="ion-align-items-center"
+              >
+                <ion-input
+                formControlName="time"
+                displayFormat="h:mm a"
+                placeholder="Select Time"
+                format
+                ></ion-input>
+              
+                <img
+                  class="ion-align-items-center"
+                  slot="end"
+                  src="assets/icon/duration.svg"
+                />
+              </ion-item>
+              <ion-modal class="dateModal" trigger="date-time" mode="ios">
+                <ng-template>
+                  <ion-content>
+                    <ion-datetime
+                    displayFormat="hh:mm A"
+                      mode="ios"
+                      #dateTime
+                      [showDefaultButtons]="true"
+                      presentation="time"
+                      (ionChange)="setTimeValue(dateTime.value)"
+                       [value] = "starttime"
+                    >
+                      <span slot="title" class="tile-font">Select time</span></ion-datetime
+                    >
+                
+                  </ion-content>
+                </ng-template>
+  
+                
+              </ion-modal>
+  
+            </div>
+          </ion-col>
+  
+  
+  
+          <ion-col size="12">
+            <div class="input-box">
+              <ion-item
+                id="duration"
+                [ngClass]="validFanInputBorder('duration')"
+                lines="none"
+                class="ion-align-items-center"
+              >
+                <ion-input
+                  [disabled]="fanEventType == 'VIDEO'"
+                  formControlName="duration"
+                  placeholder="Duration"
+                ></ion-input>
+                <img
+                  class="ion-align-items-center"
+                  slot="end"
+                  src="assets/icon/duration.svg"
+                />
+              </ion-item>
+              <ion-modal class="dateModal" trigger="duration" mode="ios">
+                <ng-template>
+                  <ion-content>
+                    <ion-datetime
+                      mode="ios"
+                      presentation="time"
+                      hourCycle="h23"
+                      #dateTime
+                      [showDefaultButtons]="true"
+                      [value]="selectduration"
+                      (ionChange)="patchTime(dateTime.value)"
+                    >
+                      <span slot="title" class="tile-font">Select duration</span></ion-datetime
+                    >
+                  </ion-content>
+                </ng-template>
+              </ion-modal>
+            </div>
+          </ion-col>
+          <ion-col size="12">
+            <div class="input-box">
+              <ion-item
+                [ngClass]="validFanInputBorder('eventName')"
+                lines="none"
+                class="ion-align-items-center"
+              >
+                <ion-input
+                  formControlName="eventName"
+                  placeholder="Event Name"
+                ></ion-input>
+                <img
+                  class="ion-align-items-center"
+                  slot="end"
+                  src="assets/icon/event-name.svg"
+                />
+              </ion-item>
+            </div>
+          </ion-col>
+          <ion-col size="12">
+            <div class="input-box">
+              <ion-item
+                [ngClass]="validFanInputBorder('selectedAthleteName')"
+                lines="none"
+                class="ion-align-items-center"
+                mode="md"
+              >
+                <input
+                  matInput
+                  [matAutocomplete]="auto"
+                  formControlName="selectedAthleteName"
+                  placeholder="Select Athlete"
+                  class="transparent-input"
+                />
+                <img
+                  class="ion-align-items-center"
+                  slot="end"
+                  src="assets/icon/arrow-down.svg"
+                />
+              </ion-item>
+              <mat-autocomplete
+                #auto="matAutocomplete"
+                class="custom-class"
+                mode="md"
+              >
+                <mat-option
+                  (click)="selectedAthlete(option)"
+                  *ngFor="let option of $athletes | async"
+                  [value]="option.fullName"
+                >
+                  <div class="list-data">
+                    <!-- <ion-list> -->
+                    <ion-item lines="none">
+                      <img
+                        slot="start"
+                        *ngIf=" option.profileUrl !==''"
+                        [src]="option.profileUrl | profile"
+                      />
+                      <div *ngIf="option?.profileUrl ==''" class="inital">
+                        <span class="initial__span">
+                          {{getInitials(option.fullName) | titlecase }}
+                        </span>
+                      </div>
+                      <ion-label>
+                        <h5>{{option.fullName }}</h5>
+                      </ion-label>
+                    </ion-item>
+                    <!-- </ion-list> -->
+                  </div>
+                </mat-option>
+              </mat-autocomplete>
+            </div>
+          </ion-col>
+          <ion-col size="12">
+            <div class="input-box">
+              <ion-item
+                [ngClass]="validFanInputBorder('minBid')"
+                lines="none"
+                class="ion-align-items-center"
+              >
+                <ion-input
+                  appConverStringToInt
+                  (keypress)="numberOnly($event)"
+                  (ionBlur)="setInputCurrency()"
+                  formControlName="minBid"
+                  inputmode="numeric"
+                  placeholder="Offer Amount ($)"
+                ></ion-input>
+                <img
+                  class="ion-align-items-center"
+                  slot="end"
+                  src="assets/icon/dolor.svg"
+                />
+              </ion-item>
+            </div>
+          </ion-col>
+          <ng-container *ngIf="fanEventType === 'IN_PERSON'">
+            <ion-row formGroupName="eventAddress">
+              <ion-col size="12">
+                <div class="input-box">
+                  <ion-item
+                    [ngClass]="validFanAddressInputBorder('addressLine1')"
+                    lines="none"
+                    class="ion-align-items-center"
+                  >
+                    <ion-textarea
+                      formControlName="addressLine1"
+                      placeholder="Address"
+                    ></ion-textarea>
+                    <img
+                      class="ion-align-items-center"
+                      slot="end"
+                      src="assets/icon/location.svg"
+                    />
+                  </ion-item>
+                </div>
+              </ion-col>
+              <ion-col size="6">
+                <div class="input-box">
+                  <ion-item
+                    [ngClass]="validFanAddressInputBorder('state')"
+                    lines="none"
+                    class="ion-align-items-center"
+                  >
+                    <ion-input
+                      formControlName="state"
+                      placeholder="State"
+                    ></ion-input>
+                  </ion-item>
+                </div>
+              </ion-col>
+              <ion-col size="6">
+                <div class="input-box">
+                  <ion-item
+                    inputmode=""
+                    [ngClass]="validFanAddressInputBorder('city')"
+                    lines="none"
+                    class="ion-align-items-center"
+                  >
+                    <ion-input
+                      formControlName="city"
+                      placeholder="City"
+                    ></ion-input>
+                  </ion-item>
+                </div>
+              </ion-col>
+              <ion-col size="12">
+                <div class="input-box">
+                  <ion-item
+                    [ngClass]="validFanAddressInputBorder('zipCode')"
+                    lines="none"
+                    class="ion-align-items-center"
+                  >
+                    <ion-input
+                      maxlength="5"
+                      type="number"
+                      formControlName="zipCode"
+                      placeholder="Zip Code"
+                    ></ion-input>
+                    <img
+                      class="ion-align-items-center"
+                      slot="end"
+                      src="assets/icon/location.svg"
+                    />
+                  </ion-item>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ng-container>
+          <ion-col *ngIf="fanEventType === 'VIDEO'" size="12">
+            <div class="input-box">
+              <ion-item lines="none" class="ion-align-items-center">
+                <ion-textarea
+                  formControlName="description"
+                  placeholder="Event Description"
+                ></ion-textarea>
+                <img
+                  class="ion-align-items-center"
+                  slot="end"
+                  src="assets/icon/chat-black.svg"
+                />
+              </ion-item>
+            </div>
+          </ion-col>
+        </ion-row>
+  
+        <div class="save-card">
+          <ion-item lines="none" mode="ios">
+            <ion-label
+              >Accept<span (click)="presentTermsAndConditions()"
+                >Terms & Conditions</span
+              ></ion-label
+            >
+            <ion-checkbox
+              [(ngModel)]="isTermsAndConditionAccepted"
+              slot="start"
+              mode="ios"
+            ></ion-checkbox>
+          </ion-item>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+
+  <ion-footer mode="ios">
+    <ion-toolbar mode="ios">
+      <ion-button class="white-btn" (click)="onclick_cancel()">
+        <img src="assets/icon/close-icon.png" />
+      </ion-button>
+      <ion-button
+        [disabled]="!isTermsAndConditionAccepted"
+        (click)="onSubmit()"
+        class="white-btn"
+      >
+        <img src="assets/icon/right-icon.png" />
+      </ion-button>
+      <div class="nil4all">
+        <span>#NIL4ALL</span>
+      </div>
+    </ion-toolbar>
+  </ion-footer>
+
 
 
  
