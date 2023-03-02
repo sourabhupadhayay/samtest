@@ -14,6 +14,7 @@ import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatInputModule } from "@angular/material/input";
 import { PaymentComponent } from "./payment/payment.component";
 import { TermsConditionsComponent } from "./terms-conditions/terms-conditions.component";
+import { SelectAppereancePage } from "./select-appereance/select-appereance.page";
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { TermsConditionsComponent } from "./terms-conditions/terms-conditions.co
   declarations: [
     TabsPage,
     AppereanceBookingComponent,
+    SelectAppereancePage,
     PaymentComponent,
     TermsConditionsComponent,
   ],

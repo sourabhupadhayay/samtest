@@ -1,0 +1,102 @@
+<div class="client-filter-modal">
+  <ion-header mode="ios">
+    <div class="icon-header">
+      <img src="assets/icon/header-bubble.png" />
+      <h3>Select Appereance Type</h3>
+    </div>
+    <div class="top-noch">
+      <img src="assets/images/modal-tope.png" />
+    </div>
+  </ion-header>
+
+
+  <div class="inner-content">
+    <div class="main-screen">
+      <div class="radio-btn" *ngIf="userRole == 'athlete'">
+        <ion-radio-group value="VIDEO" mode="md">
+          <div class="radio-main">
+            <div class="radio-text">
+              <h5>Select Request Type</h5>
+            </div>
+
+            <div class="radio-data">
+              <ion-item lines="none" mode="ios">
+                <ion-label>Video</ion-label>
+                <ion-radio mode="md" slot="start" value="VIDEO"></ion-radio>
+              </ion-item>
+            </div>
+          </div>
+        </ion-radio-group>
+      </div>
+
+      <div class="radio-btn" *ngIf="userRole == 'fan'">
+        <ion-radio-group
+          [(ngModel)]="fanEventType"
+          (ngModelChange)="eventTypeSelected()"
+          mode="md"
+        >
+          <div class="radio-main">
+            <div class="radio-text">
+              <h5>Select Request Type</h5>
+            </div>
+            <div class="radio-data">
+              <ion-item lines="none" mode="ios">
+                <ion-label>Video</ion-label>
+                <ion-radio
+                  mode="md"
+                  name="video"
+                  slot="start"
+                  value="VIDEO"
+                ></ion-radio>
+              </ion-item>
+            </div>
+            <div class="radio-data">
+              <ion-item lines="none" mode="ios">
+                <ion-label>In-Person</ion-label>
+                <ion-radio
+                  mode="md"
+                  slot="start"
+                  name="video"
+                  value="IN_PERSON"
+                ></ion-radio>
+              </ion-item>
+            </div>
+          </div>
+        </ion-radio-group>
+      </div>
+    </div>
+  </div>
+
+
+  <ion-footer mode="ios">
+    <ion-toolbar mode="ios">
+      <ion-button class="white-btn"  (click)="onclick_cancel()">
+        <img src="assets/icon/close-icon.png" />
+      </ion-button>
+      <ion-button
+        class="white-btn"
+        (click)="redirectTOAppereancePage()"
+      >
+        <img src="assets/icon/right-icon.png" />
+      </ion-button>
+      <div class="nil4all">
+        <span>#NIL4ALL</span>
+      </div>
+    </ion-toolbar>
+  </ion-footer>
+
+  <ion-grid class="bg-bubble">
+    <div class="dots-bubble">
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots"></div>
+    </div>
+  </ion-grid>
+</div>

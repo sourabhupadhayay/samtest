@@ -7,6 +7,7 @@ import { DataService, Request, Response } from "src/app/providers/data.service";
 import { AppereanceBookingComponent } from "./appereance-booking/appereance-booking.component";
 import { PaymentComponent } from "./payment/payment.component";
 import { Preferences } from '@capacitor/preferences';
+import { SelectAppereancePage } from "./select-appereance/select-appereance.page";
 @Component({
   selector: "app-tabs",
   templateUrl: "./tabs.page.html",
@@ -49,6 +50,25 @@ export class TabsPage implements OnInit {
     }
 
     this.createEventRequest = data;
+
+    this.presentPaymentModal();
+  }
+
+  async newPresentAppearanceBookingModal() : Promise<void> {
+    const modal: HTMLIonModalElement = await this.modalCtrl.create({
+      component: SelectAppereancePage,
+      cssClass: "client-filter-modal",
+    });
+
+    modal.present();
+
+    const { data, role } = await modal.onDidDismiss();
+    if (!data) {
+      return;
+    }
+
+    this.createEventRequest = data;
+    console.log("data ",this.createEventRequest)
 
     this.presentPaymentModal();
   }

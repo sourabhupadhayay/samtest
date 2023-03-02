@@ -37,9 +37,26 @@ const routes: Routes = [
           import("../help-section/help-section.module").then(
             (m) => m.HelpSectionPageModule
           ),
-      }
+      },
+      {
+        path: "new-appereance",
+        loadChildren: () =>
+          import("../new-appereance-booking/new-appereance-booking.page").then(
+            (m) => m.NewAppereanceBookingPage
+          ),
+      },
     ],
+    
   },
+  {
+    path: 'new-booking',
+    loadChildren: () => import('./new-booking/new-booking.module').then( m => m.NewBookingPageModule)
+  },
+  {
+    path: 'appereance',
+    loadChildren: () => import('./appereance-booking/appereance-booking.component').then( m => m.AppereanceBookingComponent)
+  },
+
 ];
 
 @NgModule({
