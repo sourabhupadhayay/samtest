@@ -36,7 +36,7 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
   selectedIndex: any ;
   isAthleteFormSubmitted = false;
   isFanFormSubmitted = false;
-  fanEventType: any = "IN_PERSON";
+  fanEventType: "VIDEO" | "IN_PERSON" = "VIDEO";
   userRole: userRole;
   $athletes: Observable<any>;
   selectedAthleteId: string = "";
@@ -86,7 +86,6 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
     this.getUserRole();
     this.eventTypeSelected();
     this.getSelectedAthlete();
-    // this.timeZone();
     this.setTimeZone();
   }
   async getUserRole() {
@@ -95,10 +94,16 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
     this.setDuration();
   }
  async ionViewDidEnter(){
-    this.selectedIndex = await this.commonService.fanEventType;
+    // this.selectedIndex = await this.commonService.fanEventType;
     this.fanEventType =await this.commonService.fanEventType;
     console.log("type ",this.commonService.fanEventType)
     this.setDuration();
+    this.initAppearanceForm();
+    this.fanForm.get("duration").disable();
+    this.getUserRole();
+    this.eventTypeSelected();
+    this.getSelectedAthlete();
+    this.setTimeZone();
   }
   getAppearanceData() {
     console.log(this.selectedIndex);
