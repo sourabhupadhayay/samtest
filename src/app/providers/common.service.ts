@@ -24,6 +24,7 @@ export class CommonService {
   voipToken: any;
   VideoCallAnswer: boolean = false;
   bidAmount : any = 0;
+  fanEventType:string = "VIDEO";
   public $socketSubject: Subject<null> = new Subject();
   public $navigateSubject: Subject<null> = new Subject();
   constructor(

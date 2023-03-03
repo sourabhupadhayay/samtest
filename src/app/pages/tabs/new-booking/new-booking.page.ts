@@ -23,6 +23,7 @@ import { TermsConditionsComponent } from "../terms-conditions/terms-conditions.c
 import { format, utcToZonedTime } from "date-fns-tz";
 // import * as moment from 'moment';
 import { Platform } from "@ionic/angular";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-booking',
@@ -32,10 +33,10 @@ import { Platform } from "@ionic/angular";
 })
 export class NewBookingPage implements OnInit { athleteForm: FormGroup;
   fanForm: FormGroup;
-  selectedIndex: string = "video";
+  selectedIndex: any ;
   isAthleteFormSubmitted = false;
   isFanFormSubmitted = false;
-  fanEventType: "VIDEO" | "IN_PERSON" = "VIDEO";
+  fanEventType: any = "IN_PERSON";
   userRole: userRole;
   $athletes: Observable<any>;
   selectedAthleteId: string = "";
@@ -67,7 +68,8 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
     private constant: ConstantService,
     private renderer: Renderer2,
     private currencyPipe: CurrencyPipe,
-    private platform: Platform
+    private platform: Platform,
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -89,9 +91,18 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
   }
   async getUserRole() {
     this.userRole = await this.coreService.getUserRoleFromStorage();
+   
     this.setDuration();
   }
-
+ async ionViewDidEnter(){
+    this.selectedIndex = await this.commonService.fanEventType;
+    this.fanEventType =await this.commonService.fanEventType;
+    console.log("type ",this.commonService.fanEventType)
+    this.setDuration();
+  }
+  getAppearanceData() {
+    console.log(this.selectedIndex);
+  }
   setTimeZone() {
     if (this.platform.is("ios")) {
       this.androidTimeZone();
@@ -225,8 +236,8 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
       this.fanForm.reset();
       this.isFanFormSubmitted = false;
     }
-
-    this.modalCtrl.dismiss(false);
+    this.router.navigate(["/tabs/home"]);
+    // this.modalCtrl.dismiss(false);
   }
 
   onSubmit() {

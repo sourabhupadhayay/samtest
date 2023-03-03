@@ -14,7 +14,7 @@ import { AppereanceBookingComponent } from '../appereance-booking/appereance-boo
 })
 export class SelectAppereancePage implements OnInit {
 
-  fanEventType: "VIDEO" | "IN_PERSON" = "VIDEO";
+  fanEventType:any = 'VIDEO';
   userRole: userRole;
   $athletes: Observable<any>;
 
@@ -22,19 +22,25 @@ export class SelectAppereancePage implements OnInit {
     public modalCtrl: ModalController,
     private coreService: CoreService,
     private constant: ConstantService,
-    private router: Router
+    private router: Router,
+    public commonService:CommonService
   ) { }
 
   ngOnInit() {
     this.getUserRole();
+
   }
 
   async getUserRole() {
     this.userRole = await this.coreService.getUserRoleFromStorage();
   }
-
-  eventTypeSelected() {
-    console.log("event ",this.fanEventType);
+  // async ionViewDidEnter(){
+  //   this.fanEventType = 
+  //   console.log("type ",this.fanEventType);
+  // }
+  eventTypeSelected(e:any) {
+    
+    this.commonService.fanEventType=e;
   }
 
 

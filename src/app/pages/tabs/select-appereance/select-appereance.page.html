@@ -21,7 +21,7 @@
 
             <div class="radio-data">
               <ion-item lines="none" mode="md">
-                <ion-radio slot="start" value="video"></ion-radio>
+                <ion-radio slot="start" value="VIDEO"></ion-radio>
                 <ion-label>
                   <h5>Video</h5>
                 </ion-label>
@@ -45,7 +45,7 @@
       <div class="radio-btn" *ngIf="userRole == 'fan'">
         <ion-radio-group
           [(ngModel)]="fanEventType"
-          (ngModelChange)="eventTypeSelected()"
+          (ngModelChange)="eventTypeSelected($event)"
           mode="md"
         >
           <div class="radio-main">
@@ -53,7 +53,7 @@
               <h5>Select Request Type</h5>
             </div>
             <ion-item lines="none" mode="md">
-              <ion-radio slot="start" value="video"></ion-radio>
+              <ion-radio slot="start" value="VIDEO"></ion-radio>
               <ion-label>
                 <h5>Video</h5>
               </ion-label>
@@ -71,7 +71,7 @@
             </ion-item>
 
             <ion-item lines="none" mode="md">
-              <ion-radio slot="start" value="In-Person"></ion-radio>
+              <ion-radio slot="start" value="IN-PERSON"></ion-radio>
               <ion-label>
                 <h5>In-Person</h5>
               </ion-label>

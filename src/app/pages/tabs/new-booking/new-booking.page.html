@@ -47,40 +47,35 @@
       </div>
     </ion-grid>
 
-    <ion-grid class="tabs-design">
+    <!-- <ion-grid class="tabs-design">
       <ion-segment
         [(ngModel)]="selectedIndex"
         (ngModelChange)="getAppearanceData()"
         mode="ios"
       >
-        <ion-segment-button value="video">
-          <ion-label>Video</ion-label>
+        <ion-segment-button value="VIDEO">
+          <ion-label>Video {{selectedIndex}}</ion-label>
         </ion-segment-button>
-        <ion-segment-button value="in-person">
-          <ion-label>in-person</ion-label>
+        <ion-segment-button value="IN-PERSON">
+          <ion-label>in-person{{userRole}}</ion-label>
         </ion-segment-button>
       </ion-segment>
-    </ion-grid>
+    </ion-grid> -->
 
 
     <div *ngIf="userRole == 'athlete'" class="inner-content-new">
       <div class="main-screen">
-        <!-- <div class="radio-btn">
-          <ion-radio-group value="VIDEO" mode="md">
-            <div class="radio-main">
-              <div class="radio-text">
-                <h5>Select Request Type</h5>
-              </div>
-  
-              <div class="radio-data">
-                <ion-item lines="none" mode="ios">
-                  <ion-label>Video</ion-label>
-                  <ion-radio mode="md" slot="start" value="VIDEO"></ion-radio>
-                </ion-item>
-              </div>
-            </div>
-          </ion-radio-group>
-        </div> -->
+        <ion-grid class="tabs-design">
+          <ion-segment
+            [(ngModel)]="selectedIndex"
+            (ngModelChange)="getAppearanceData()"
+            mode="ios"
+          >
+            <ion-segment-button value="VIDEO">
+              <ion-label>Video {{selectedIndex}}</ion-label>
+            </ion-segment-button>
+          </ion-segment>
+        </ion-grid>
         <ion-row [formGroup]="athleteForm">
           <ion-col size="12">
             <div class="input-box">
@@ -237,7 +232,8 @@
                   (ionBlur)="setInputCurrency()"
                   formControlName="minBid"
                   placeholder="Minimum Bid"
-                ></ion-input>
+                  value="selectedIndex"
+                >{{fanEventType}}</ion-input>
                 <img
                   class="ion-align-items-center"
                   slot="end"
@@ -246,7 +242,79 @@
               </ion-item>
             </div>
           </ion-col>
-  
+          <ng-container *ngIf="fanEventType == 'IN-PERSON'">
+            <ion-row formGroupName="eventAddress">
+              <ion-col size="12">
+                <div class="input-box">
+                  <ion-item
+                    [ngClass]="validFanAddressInputBorder('addressLine1')"
+                    lines="none"
+                    class="ion-align-items-center"
+                  >
+                    <ion-textarea
+                      formControlName="addressLine1"
+                      placeholder="Address"
+                    ></ion-textarea>
+                    <img
+                      class="ion-align-items-center"
+                      slot="end"
+                      src="assets/icon/location.svg"
+                    />
+                  </ion-item>
+                </div>
+              </ion-col>
+              <ion-col size="6">
+                <div class="input-box">
+                  <ion-item
+                    [ngClass]="validFanAddressInputBorder('state')"
+                    lines="none"
+                    class="ion-align-items-center"
+                  >
+                    <ion-input
+                      formControlName="state"
+                      placeholder="State"
+                    ></ion-input>
+                  </ion-item>
+                </div>
+              </ion-col>
+              <ion-col size="6">
+                <div class="input-box">
+                  <ion-item
+                    inputmode=""
+                    [ngClass]="validFanAddressInputBorder('city')"
+                    lines="none"
+                    class="ion-align-items-center"
+                  >
+                    <ion-input
+                      formControlName="city"
+                      placeholder="City"
+                    ></ion-input>
+                  </ion-item>
+                </div>
+              </ion-col>
+              <ion-col size="12">
+                <div class="input-box">
+                  <ion-item
+                    [ngClass]="validFanAddressInputBorder('zipCode')"
+                    lines="none"
+                    class="ion-align-items-center"
+                  >
+                    <ion-input
+                      maxlength="5"
+                      type="number"
+                      formControlName="zipCode"
+                      placeholder="Zip Code"
+                    ></ion-input>
+                    <img
+                      class="ion-align-items-center"
+                      slot="end"
+                      src="assets/icon/location.svg"
+                    />
+                  </ion-item>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ng-container>
           <ion-col size="12">
             <div class="input-box">
               <ion-item lines="none" class="ion-align-items-center">
@@ -284,41 +352,20 @@
 
     <div *ngIf="userRole == 'fan'" class="inner-content-new">
       <div class="main-screen">
-        <!-- <div class="radio-btn">
-          <ion-radio-group
-            [(ngModel)]="fanEventType"
-            (ngModelChange)="eventTypeSelected()"
-            mode="md"
+        <ion-grid class="tabs-design">
+          <ion-segment
+            [(ngModel)]="selectedIndex"
+            (ngModelChange)="getAppearanceData()"
+            mode="ios"
           >
-            <div class="radio-main">
-              <div class="radio-text">
-                <h5>Select Request Type</h5>
-              </div>
-              <div class="radio-data">
-                <ion-item lines="none" mode="ios">
-                  <ion-label>Video</ion-label>
-                  <ion-radio
-                    mode="md"
-                    name="video"
-                    slot="start"
-                    value="VIDEO"
-                  ></ion-radio>
-                </ion-item>
-              </div>
-              <div class="radio-data">
-                <ion-item lines="none" mode="ios">
-                  <ion-label>In-Person</ion-label>
-                  <ion-radio
-                    mode="md"
-                    slot="start"
-                    name="video"
-                    value="IN_PERSON"
-                  ></ion-radio>
-                </ion-item>
-              </div>
-            </div>
-          </ion-radio-group>
-        </div> -->
+            <ion-segment-button value="VIDEO">
+              <ion-label>Video {{selectedIndex}}</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="IN-PERSON">
+              <ion-label>in-person{{userRole}}</ion-label>
+            </ion-segment-button>
+          </ion-segment>
+        </ion-grid>
         <ion-row [formGroup]="fanForm">
           <ion-col size="12">
             <div class="input-box">
@@ -543,7 +590,7 @@
               </ion-item>
             </div>
           </ion-col>
-          <ng-container *ngIf="fanEventType === 'IN_PERSON'">
+          <ng-container *ngIf="selectedIndex == 'IN-PERSON'">
             <ion-row formGroupName="eventAddress">
               <ion-col size="12">
                 <div class="input-box">
