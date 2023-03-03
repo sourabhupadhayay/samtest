@@ -19,9 +19,53 @@
 
 
   <ion-content [scrollEvents]="true">
-    <div *ngIf="userRole == 'athlete'" class="inner-content">
+
+    <ion-grid class="top-card">
+      <div class="title-part">
+        <ion-item lines="none" mode="md">
+          <ion-icon
+            routerLink="/tabs/home"
+            slot="start"
+            name="arrow-back-outline" mode="md"
+          ></ion-icon>
+          <ion-label>
+            <ion-grid class="logo-head">
+              <img src="assets/images/single-logo.svg" />
+              <div class="nil4all">
+                <span>#NIL4ALL</span>
+              </div>
+            </ion-grid>
+          </ion-label>
+          <div class="notification" slot="end"   (click)="presentPopover($event)">
+            <img src="assets/icon/notification.svg" />
+            <span *ngIf="this.badgeCount != 0">
+              <i *ngIf="this.badgeCount < 99">{{this.badgeCount}}</i>
+              <i *ngIf="this.badgeCount > 99">99+</i>
+            </span>
+          </div>
+        </ion-item>
+      </div>
+    </ion-grid>
+
+    <ion-grid class="tabs-design">
+      <ion-segment
+        [(ngModel)]="selectedIndex"
+        (ngModelChange)="getAppearanceData()"
+        mode="ios"
+      >
+        <ion-segment-button value="video">
+          <ion-label>Video</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="in-person">
+          <ion-label>in-person</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-grid>
+
+
+    <div *ngIf="userRole == 'athlete'" class="inner-content-new">
       <div class="main-screen">
-        <div class="radio-btn">
+        <!-- <div class="radio-btn">
           <ion-radio-group value="VIDEO" mode="md">
             <div class="radio-main">
               <div class="radio-text">
@@ -36,7 +80,7 @@
               </div>
             </div>
           </ion-radio-group>
-        </div>
+        </div> -->
         <ion-row [formGroup]="athleteForm">
           <ion-col size="12">
             <div class="input-box">
@@ -235,9 +279,12 @@
         </div>
       </div>
     </div>
-    <div *ngIf="userRole == 'fan'" class="inner-content">
+
+
+
+    <div *ngIf="userRole == 'fan'" class="inner-content-new">
       <div class="main-screen">
-        <div class="radio-btn">
+        <!-- <div class="radio-btn">
           <ion-radio-group
             [(ngModel)]="fanEventType"
             (ngModelChange)="eventTypeSelected()"
@@ -271,7 +318,7 @@
               </div>
             </div>
           </ion-radio-group>
-        </div>
+        </div> -->
         <ion-row [formGroup]="fanForm">
           <ion-col size="12">
             <div class="input-box">
@@ -602,6 +649,22 @@
         </div>
       </div>
     </div>
+
+
+    <ion-grid class="bg-bubble">
+      <div class="dots-bubble">
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+        <div class="dots"></div>
+      </div>
+    </ion-grid>
   </ion-content>
 
   <ion-footer mode="ios">
@@ -624,33 +687,7 @@
 
 
 
- 
 
-  <ion-grid class="bg-bubble">
-    <div class="dots-bubble">
-      <div class="dots"></div>
-      <div class="dots"></div>
-      <div class="dots"></div>
-      <div class="dots"></div>
-      <div class="dots"></div>
-      <div class="dots"></div>
-      <div class="dots"></div>
-      <div class="dots"></div>
-      <div class="dots"></div>
-      <div class="dots"></div>
-
-      <div class="dots"></div>
-      <div class="dots"></div>
-      <div class="dots"></div>
-      <div class="dots"></div>
-      <div class="dots"></div>
-      <div class="dots"></div>
-      <div class="dots"></div>
-      <div class="dots"></div>
-      <div class="dots"></div>
-      <div class="dots"></div>
-    </div>
-  </ion-grid>
 <!-- </ion-grid> -->
 
 <!-- <ion-grid class="logo-bg">

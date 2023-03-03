@@ -132,8 +132,8 @@
           background: var(--white-bg);
           z-index: 99;
           .radio-main {
-            display: flex;
-            align-items: center;
+            // display: flex;
+            // align-items: center;
             .radio-text {
               flex: 1;
               align-self: center;
@@ -144,39 +144,65 @@
                 font-weight: 400;
               }
             }
-            .radio-data {
-              margin: 0 5px;
-              ion-item {
-                --padding-start: 0;
-                --inner-padding-end: 0;
-                --padding-start: 0;
-                --innerpadding-end: 0;
-                --background: transparent;
-                --ripple-color: none;
-                --background-activated: none;
-                --background-focused: none;
-                --background-hover: none;
-                --background-activated-opacity: 1;
-                --background-focused-opacity: 1;
-                --background-hover-opacity: 1;
-                --ripple-color: none;
-                --min-height: 26px;
-                ion-label {
-                  font-size: 0.875rem;
-                  color: var(--theme-one-clr);
-                  margin: 0;
-                  font-weight: 400;
-                }
-                ion-radio {
-                  margin: 0;
-                  width: 16px;
-                  height: 16px;
-                  --color-checked: var(--theme-one-clr);
-                  --color: var(--text-gray);
-                  margin-right: 5px;
+            ion-item{--padding-start:15px; --inner-padding-end:15px; --background: var(--white-bg); border-radius: 8px; box-shadow: 0 0 10px #ccc; margin: 10px 0;
+              ion-radio{margin: 0 10px 0 0; --color-checked: var(--text-gray);}
+              ion-label{
+                h5{color: var(--text-gray); margin: 0; font-size: 0.875rem; font-weight: 600;}
+                p{color: var(--text-gray); margin: 0; font-size: 0.875rem; font-weight: 300;
+                  span{font-weight: 300;}
                 }
               }
+              span{margin: 0; color: var(--text-gray);}
+              // img{margin: 0;
+              //   &.unchecked{display: block !important;}
+              //   &.checked{display: none !important;}
+              // }
+              &.item-radio-checked{  --background: var(--theme-one-clr);
+                  ion-radio{--color-checked: var(--white-clr);}
+                  ion-label{
+                    h5{color: var(--white-clr);}
+                    p{color: var(--white-clr);}
+                  }
+                  span{ color: var(--white-clr);}
+                  // img{
+                  //     &.unchecked{display: none !important;}
+                  //     &.checked{display: block !important;}
+                  // }
+              }
             }
+            // .radio-data {
+            //   margin: 0 5px;
+            //   ion-item {
+            //     --padding-start: 0;
+            //     --inner-padding-end: 0;
+            //     --padding-start: 0;
+            //     --innerpadding-end: 0;
+            //     --background: transparent;
+            //     --ripple-color: none;
+            //     --background-activated: none;
+            //     --background-focused: none;
+            //     --background-hover: none;
+            //     --background-activated-opacity: 1;
+            //     --background-focused-opacity: 1;
+            //     --background-hover-opacity: 1;
+            //     --ripple-color: none;
+            //     --min-height: 26px;
+            //     ion-label {
+            //       font-size: 0.875rem;
+            //       color: var(--theme-one-clr);
+            //       margin: 0;
+            //       font-weight: 400;
+            //     }
+            //     ion-radio {
+            //       margin: 0;
+            //       width: 16px;
+            //       height: 16px;
+            //       --color-checked: var(--theme-one-clr);
+            //       --color: var(--text-gray);
+            //       margin-right: 5px;
+            //     }
+            //   }
+            // }
           }
         }
         .save-card {

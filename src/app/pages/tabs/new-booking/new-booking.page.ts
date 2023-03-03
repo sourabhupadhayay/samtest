@@ -32,6 +32,7 @@ import { Platform } from "@ionic/angular";
 })
 export class NewBookingPage implements OnInit { athleteForm: FormGroup;
   fanForm: FormGroup;
+  selectedIndex: string = "video";
   isAthleteFormSubmitted = false;
   isFanFormSubmitted = false;
   fanEventType: "VIDEO" | "IN_PERSON" = "VIDEO";
