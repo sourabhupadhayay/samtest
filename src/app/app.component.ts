@@ -190,27 +190,27 @@ export class AppComponent implements OnInit, OnDestroy {
     // this.applePayPayment();
   }
 
-  redirectToAppPlayStore() {
-    if (
-      Capacitor.getPlatform() == "web" &&
-      this.platform.platforms().includes("mobileweb") &&
-      !this.platform.platforms().includes("desktop") &&
-      this.platform.is("android")
-    ) {
-      console.log("in android chrome");
-      document.getElementById("playstore").click();
-    }
+  // redirectToAppPlayStore() {
+  //   if (
+  //     Capacitor.getPlatform() == "web" &&
+  //     this.platform.platforms().includes("mobileweb") &&
+  //     !this.platform.platforms().includes("desktop") &&
+  //     this.platform.is("android")
+  //   ) {
+  //     console.log("in android chrome");
+  //     document.getElementById("playstore").click();
+  //   }
 
-    if (
-      Capacitor.getPlatform() == "web" &&
-      this.platform.platforms().includes("mobileweb") &&
-      !this.platform.platforms().includes("desktop") &&
-      this.platform.is("ios")
-    ) {
-      console.log("in ios chrome");
-      document.getElementById("ios").click();
-    }
-  }
+  //   if (
+  //     Capacitor.getPlatform() == "web" &&
+  //     this.platform.platforms().includes("mobileweb") &&
+  //     !this.platform.platforms().includes("desktop") &&
+  //     this.platform.is("ios")
+  //   ) {
+  //     console.log("in ios chrome");
+  //     document.getElementById("ios").click();
+  //   }
+  // }
 
   // applePayPayment() {
   //   ApplePay.initiatePayment({
