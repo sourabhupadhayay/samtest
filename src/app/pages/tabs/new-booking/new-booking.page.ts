@@ -561,6 +561,9 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
   }
 
   parseStringToFloat(bidAmount: string): number {
+    if (!bidAmount) {
+      return;
+    }
     if (bidAmount.includes("$")) {
       bidAmount = bidAmount.replace("$", "");
     }
@@ -650,5 +653,10 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
     if (!data) {
       return;
     }
+  }
+
+
+  redirectBackToHome(){
+    this.onclick_cancel();
   }
 }
