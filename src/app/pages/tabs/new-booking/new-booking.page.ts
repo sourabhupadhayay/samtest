@@ -115,7 +115,8 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
   }
   getAppearanceData() {
     // this.fanEventType= this.commonService.fanEventType;
-    console.log('ff ',this.fanEventType)
+    console.log('ff ',this.fanEventType);
+    this.isTermsAndConditionAccepted = false;
   }
   setTimeZone() {
     if (this.platform.is("ios")) {
@@ -251,7 +252,7 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
       this.isFanFormSubmitted = false;
     }
     this.router.navigate(["/tabs/home"]);
-    // this.modalCtrl.dismiss(false);
+   this.isTermsAndConditionAccepted = false;
   }
 
   onSubmit() {
@@ -324,7 +325,8 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
     // this.fanForm.controls.minBid.patchValue(
     //   this.parseStringToFloat(this.fanForm.controls.minBid.value)
     // );
-    this.commonService.bidAmount = this.fanForm.controls.minBid.value;
+    this.fanForm.value.minBid =  this.parseStringToFloat(this.fanForm.controls.minBid.value);
+    this.commonService.bidAmount = this.parseStringToFloat(this.fanForm.controls.minBid.value);
     if (this.fanForm.invalid) {
       this.coreService.showToastMessage(
         "Please enter valid details",
@@ -338,7 +340,7 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
     }
     this.createEventRequest=this.requestData;                                   
     this.presentPaymentModal()
-    this.fanForm.value.minBid =  this.parseStringToFloat(this.fanForm.controls.minBid.value);
+   
     let {
       selectedAthleteName,
       startDate,
