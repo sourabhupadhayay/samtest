@@ -676,6 +676,20 @@
       </div>
     </div>
 
+    <div class="footer-btn">
+      <ion-button class="white-btn" (click)="onclick_cancel()">
+        <img src="assets/icon/close-icon.png" />
+      </ion-button>
+      <ion-button
+        [disabled]="!isTermsAndConditionAccepted"
+        (click)="onSubmit()"
+        class="white-btn"
+      >
+        <img src="assets/icon/right-icon.png" />
+      </ion-button>
+    </div>
+    
+
 
     <ion-grid class="bg-bubble">
       <div class="dots-bubble">
@@ -693,23 +707,14 @@
     </ion-grid>
   </ion-content>
 
-  <ion-footer mode="ios">
+  <!-- <ion-footer mode="ios">
     <ion-toolbar mode="ios">
-      <ion-button class="white-btn" (click)="onclick_cancel()">
-        <img src="assets/icon/close-icon.png" />
-      </ion-button>
-      <ion-button
-        [disabled]="!isTermsAndConditionAccepted"
-        (click)="onSubmit()"
-        class="white-btn"
-      >
-        <img src="assets/icon/right-icon.png" />
-      </ion-button>
+      
       <div class="nil4all">
         <span>#NIL4ALL</span>
       </div>
     </ion-toolbar>
-  </ion-footer>
+  </ion-footer> -->
 
 
 

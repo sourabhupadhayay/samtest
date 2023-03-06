@@ -114,7 +114,8 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
     this.getNotificationCount();
   }
   getAppearanceData() {
-    this.fanEventType= this.commonService.fanEventType;
+    // this.fanEventType= this.commonService.fanEventType;
+    console.log('ff ',this.fanEventType)
   }
   setTimeZone() {
     if (this.platform.is("ios")) {

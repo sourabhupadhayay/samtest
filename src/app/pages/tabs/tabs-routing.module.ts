@@ -45,13 +45,17 @@ const routes: Routes = [
             (m) => m.NewAppereanceBookingPage
           ),
       },
+      {
+        path: 'new-booking',
+        loadChildren: () => import('./new-booking/new-booking.module').then( m => m.NewBookingPageModule)
+      },
     ],
     
   },
-  {
-    path: 'new-booking',
-    loadChildren: () => import('./new-booking/new-booking.module').then( m => m.NewBookingPageModule)
-  },
+  // {
+  //   path: 'new-booking',
+  //   loadChildren: () => import('./new-booking/new-booking.module').then( m => m.NewBookingPageModule)
+  // },
   {
     path: 'appereance',
     loadChildren: () => import('./appereance-booking/appereance-booking.component').then( m => m.AppereanceBookingComponent)
