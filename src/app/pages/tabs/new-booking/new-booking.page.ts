@@ -288,14 +288,15 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
   athleteDataRequest() {
     this.isAthleteFormSubmitted = true;
 
-    this.athleteForm.controls.minBid.patchValue(
-      this.parseStringToFloat(this.athleteForm.controls.minBid.value)
-    );
+    // this.athleteForm.controls.minBid.patchValue(
+    //   this.parseStringToFloat(this.athleteForm.controls.minBid.value)
+    // );
 
     if (this.athleteForm.invalid) {
       return;
     }
     this.isAthleteFormSubmitted = true;
+    this.athleteForm.value.minBid =  this.parseStringToFloat(this.athleteForm.controls.minBid.value);
 
     let {
       startDate,
@@ -320,9 +321,9 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
   fanDataRequest() {
     this.isFanFormSubmitted = true;
 
-    this.fanForm.controls.minBid.patchValue(
-      this.parseStringToFloat(this.fanForm.controls.minBid.value)
-    );
+    // this.fanForm.controls.minBid.patchValue(
+    //   this.parseStringToFloat(this.fanForm.controls.minBid.value)
+    // );
     this.commonService.bidAmount = this.fanForm.controls.minBid.value;
     if (this.fanForm.invalid) {
       this.coreService.showToastMessage(
@@ -337,6 +338,7 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
     }
     this.createEventRequest=this.requestData;                                   
     this.presentPaymentModal()
+    this.fanForm.value.minBid =  this.parseStringToFloat(this.fanForm.controls.minBid.value);
     let {
       selectedAthleteName,
       startDate,
