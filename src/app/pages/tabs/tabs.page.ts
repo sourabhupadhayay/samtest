@@ -50,7 +50,6 @@ export class TabsPage implements OnInit {
     }
 
     this.createEventRequest = data;
-
     this.presentPaymentModal();
   }
 

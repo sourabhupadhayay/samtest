@@ -1,8 +1,9 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { CurrencyPipe } from "@angular/common";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ModalController } from "@ionic/angular";
+import { ModalController, PopoverController } from "@ionic/angular";
 import { Observable } from "rxjs";
+
 import {
   debounceTime,
   distinctUntilChanged,
@@ -24,6 +25,8 @@ import { format, utcToZonedTime } from "date-fns-tz";
 // import * as moment from 'moment';
 import { Platform } from "@ionic/angular";
 import { Router } from '@angular/router';
+import { PaymentComponent } from '../payment/payment.component';
+import { PushNotificationPage } from '../../push-notification/push-notification.page';
 
 @Component({
   selector: 'app-new-booking',
@@ -59,6 +62,9 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
   starttime: any;
   selectduration: any = "00:00";
   minSample = new Date().toISOString();
+  createEventRequest: Request;
+  badgeCount: number = 0;
+  requestData:any;
   constructor(
     public modalCtrl: ModalController,
     private fb: FormBuilder,
@@ -70,6 +76,7 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
     private currencyPipe: CurrencyPipe,
     private platform: Platform,
     private router: Router,
+    public popoverController: PopoverController
   ) {}
 
   ngOnInit() {
@@ -103,10 +110,11 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
     this.getUserRole();
     this.eventTypeSelected();
     this.getSelectedAthlete();
-    this.setTimeZone();
+    this.setTimeZone();    
+    this.getNotificationCount();
   }
   getAppearanceData() {
-    console.log(this.selectedIndex);
+    this.fanEventType= this.commonService.fanEventType;
   }
   setTimeZone() {
     if (this.platform.is("ios")) {
@@ -272,7 +280,7 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
         }
       });
     } else {
-      this.modalCtrl.dismiss(request);
+      this.requestData=request;
     }
   }
 
@@ -325,7 +333,8 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
     if (this.isSelectedAthleteValid()) {
       return;
     }
-
+    this.createEventRequest=this.requestData;                                   
+    this.presentPaymentModal()
     let {
       selectedAthleteName,
       startDate,
@@ -351,7 +360,7 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
     };
     return request;
   }
-
+ 
   setDateValue(date: any) {
     if (!date) {
       return;
@@ -558,5 +567,86 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
     }
     return parseFloat(bidAmount);
   }
-}
+   
+  async presentPaymentModal() {
+    const modal: HTMLIonModalElement = await this.modalCtrl.create({
+      component: PaymentComponent,
+      cssClass: "client-filter-modal",
+      componentProps: {
+        isBiddingForEvent: false,
+      },
+    });
+    modal.present();
+    const { data, role } = await modal.onDidDismiss();
 
+    if (!data) {
+      return;
+    }
+
+    this.createEventRequest=this.requestData; 
+    this.createEventRequest.data = {
+      ...this.createEventRequest.data,
+      ...data,
+    };
+
+    this.createEventForFan();
+  }
+  createEventForFan() {
+  //   this.createEventRequest=this.data1;
+    console.log("fannn",this.createEventRequest)
+    this.coreService.presentLoader(this.constant.WAIT);
+    this.apiService
+      .post(this.createEventRequest)
+      .subscribe((response: Response) => {
+        this.coreService.dismissLoader();
+        if (response.status.code === this.constant.STATUS_OK) {
+          this.coreService.showToastMessage(
+            response.status.description,
+            this.coreService.TOAST_SUCCESS
+          );
+        } else {
+          this.coreService.showToastMessage(
+            response.status.description,
+            this.coreService.TOAST_ERROR
+          );
+        }
+      });
+  }
+  async presentPopover(ev: any) {
+    const popover = await this.popoverController.create({
+      component: PushNotificationPage,
+      cssClass: "notification-pop",
+      event: ev,
+      translucent: false,
+      side: "bottom",
+      alignment: "start",
+      size: "auto",
+    });
+    await popover.present();
+
+    const { role } = await popover.onDidDismiss();
+  }
+  getNotificationCount() {
+    let request: any = {
+      path: "notification/notification/check/v2",
+      isAuth: true,
+    };
+    this.apiService.get(request).subscribe((response: any) => {
+      this.badgeCount = response.data.unreadCount;
+      return this.badgeCount;
+    });
+  }
+  async newPresentAppearanceBookingModal() : Promise<void> {
+    const modal: HTMLIonModalElement = await this.modalCtrl.create({
+      component: this.newPresentAppearanceBookingModal,
+      cssClass: "client-filter-modal",
+    });
+
+    modal.present();
+
+    const { data, role } = await modal.onDidDismiss();
+    if (!data) {
+      return;
+    }
+  }
+}

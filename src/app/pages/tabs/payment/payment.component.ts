@@ -12,6 +12,7 @@ import { CoreService } from "src/app/providers/core.service";
 import { DataService } from "src/app/providers/data.service";
 import { CommonService } from "../../../providers/common.service";
 import { Request, Response } from "src/app/providers/data.service";
+import { Router } from "@angular/router";
 
 declare var Square :any;
 declare var SqPaymentForm: any;
@@ -40,6 +41,7 @@ export class PaymentComponent implements OnInit {
   LoggedInUser : any;
   tappedCardDetails : any;
   year : string;
+  routingUrl:any;
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -47,6 +49,7 @@ export class PaymentComponent implements OnInit {
     public navParams: NavParams,
     public apiService: DataService,
     public constantService : ConstantService,
+    private router: Router,
   ) {}
 
   async ngOnInit() {
@@ -179,6 +182,10 @@ export class PaymentComponent implements OnInit {
       paymentType: this.paymentType,
       cardId: this.tappedCardDetails?.id
     });
+    this.routingUrl=this.router.url;
+    if(this.routingUrl=="/tabs/new-booking"){
+      this.router.navigate(["/tabs/schedule"]);
+    }
   }
 
   openCreateModal() {
