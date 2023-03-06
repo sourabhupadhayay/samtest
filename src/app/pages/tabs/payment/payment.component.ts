@@ -7,10 +7,14 @@ import {
 } from "@angular/core";
 import { IonModal, ModalController, NavParams } from "@ionic/angular";
 import { data } from "cypress/types/jquery";
+import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
+import { DataService } from "src/app/providers/data.service";
 import { CommonService } from "../../../providers/common.service";
-import { ApplePay } from "@fresha/capacitor-plugin-applepay";
-declare var Square: any;
+import { Request, Response } from "src/app/providers/data.service";
+import { Router } from "@angular/router";
+
+declare var Square :any;
 declare var SqPaymentForm: any;
 //magic to allow us to access the SquarePaymentForm lib
 @Component({
@@ -21,33 +25,154 @@ declare var SqPaymentForm: any;
 export class PaymentComponent implements OnInit {
   @ViewChild(IonModal) modal: IonModal;
   @ViewChild("CreateAppearance") ConfirmModal: IonModal;
+  @ViewChild("saveCard") ConfirmSaveCardModal: IonModal;
+  @ViewChild("confirmSavedCardPayment") confirmSavedCardPayment: IonModal;
   isBiddingForEvent: boolean = this.navParams.get("isBiddingForEvent");
   errors: any[] = [];
   nonce: string;
   paymentType: "SQUARE_PAYMENT" | "apple" = "SQUARE_PAYMENT";
   errorMsg: any;
   sqPaymentForm: any; //this is our payment form object
-  card: any;
-  PaymentSummaryItem: any = {
-    label: "bid",
-    amount: "2",
-  };
+  card :any;
+  isCardSelected: boolean = false;
+  showPaymentScreen : boolean = false;
+  isChecked:boolean=false
+  savecard:any=[];
+  LoggedInUser : any;
+  tappedCardDetails : any;
+  year : string;
+  routingUrl:any;
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
-    private commonService: CommonService,
-    public navParams: NavParams
+    public commonService: CommonService,
+    public navParams: NavParams,
+    public apiService: DataService,
+    public constantService : ConstantService,
+    private router: Router,
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     // this.showPayment();
-    // this.initializeCard();
-    this.initializeCardApple();
+    this.getSavedCardList();
+    this.initializeCard();
+    this.LoggedInUser = await localStorage.getItem("authDetails");
   }
+
+  showPaymentDiv(show:boolean) {
+    this.showPaymentScreen = show;
+  }
+
+  adjustValidYear(str) {
+    let year =  String(str).substring(2, 4);
+    return year;
+  }
+
+    getSavedCardList() {
+      let request: any = {
+        path: "core/payment/cards?paymentType=SQUARE_PAYMENT",
+        isAuth: true,
+      };
+        this.apiService.get(request).subscribe((response: any) => {
+          this.savecard = response.data;
+          this.savecard.forEach((element,index) => {
+              this.savecard[index]['isCardSelected']=false;
+              this.savecard[index]['yearUpd'] = this.adjustValidYear(this.savecard[index]["expYear"]) ;
+            }) 
+          console.log("c ",this.savecard);
+          });
+  }
+
+  selectCard(i:number,selectedCardData:any) {
+    this.tappedCardDetails = selectedCardData;
+    this.isCardSelected = true;
+    console.log("clicked ",this.isCardSelected,selectedCardData)
+    this.savecard.forEach((element,index) => {
+      if(index==i){
+        this.savecard[index]['isCardSelected']=true
+      }
+      else{
+        this.savecard[index]['isCardSelected']=false
+      }
+      
+    });
+  }
+
+  saveSelectedCard() {
+    console.log("card saved!");
+    let request: any = {
+      path: "core/payment/cards",
+      data: {
+        email: this.LoggedInUser?.email,
+        fullName: this.LoggedInUser?.fullName,
+        nonce: this.nonce,
+        paymentType: "SQUARE_PAYMENT"
+      },
+      isAuth: true,
+    };
+    this.coreService.presentLoader(this.constantService.WAIT);
+    this.apiService.post(request).subscribe((response: Response) => {
+      this.coreService.dismissLoader();
+      if (response["status"]["code"] === this.constantService.STATUS_OK) {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_SUCCESS
+        );
+        this.ConfirmSaveCardModal.dismiss();
+      } else {
+        this.coreService.showToastMessage(
+          response.status.description,
+          this.coreService.TOAST_ERROR
+        );
+      }
+    });
+
+  }
+
+  async CardSaveCheckBox(e:any) {
+   if( e.detail.checked) {
+    let tokenResult;
+    this.coreService.presentLoader(this.constantService.WAIT); 
+    await this.card.tokenize().then(data=>
+      {
+        tokenResult=data.status,
+        this.nonce = data.token
+      }
+    );
+    this.coreService.dismissLoader();
+    console.log("token new ",tokenResult,this.nonce)
+    if(tokenResult!='Invalid'){  
+    this.ConfirmSaveCardModal.present();
+    }
+    else{
+      this.isChecked=false
+    }
+   }
+  }
+
+  paymentThroughSelectedCard() {
+    if(!this.isCardSelected) {
+      this.coreService.showToastMessage(
+        "Please select a card for payment!",
+        this.coreService.TOAST_ERROR
+      );
+      return;
+    }
+    this.confirmSavedCardPayment.present();
+  }
+
+ async confirmPaymentFromSavedCard() {
+    console.log("pay !");
+    this.pay();
+  }
+
   onClickCancel() {
     this.modalCtrl.dismiss();
   }
   async cancel() {
+    this.isChecked = false;
+    this.ConfirmSaveCardModal.dismiss();
+    this.confirmSavedCardPayment.dismiss();
     await this.modal.dismiss();
   }
   async onSubmit() {
@@ -55,22 +180,24 @@ export class PaymentComponent implements OnInit {
     this.modalCtrl.dismiss({
       nonce: this.nonce,
       paymentType: this.paymentType,
+      cardId: this.tappedCardDetails?.id
     });
+    this.routingUrl=this.router.url;
+    if(this.routingUrl=="/tabs/new-booking"){
+      this.router.navigate(["/tabs/schedule"]);
+    }
   }
 
   openCreateModal() {
     this.pay();
     // this.sqPaymentForm.requestCardNonce();
-
     setTimeout(() => {
       if (this.errors.length > 0) {
         return;
       }
-
       //this.ConfirmModal.present();
     }, 1000);
   }
-
   showPayment() {
     let toastMsg;
     var applicationId = this.commonService.publicInfo.squareAppId;
@@ -142,178 +269,69 @@ export class PaymentComponent implements OnInit {
     console.log("bfhf", this.sqPaymentForm);
     this.sqPaymentForm.build();
   }
-
-  async initializeCard(payments?: any) {
-    payments = Square.payments(
-      this.commonService.publicInfo.squareAppId,
-      this.commonService.publicInfo.locationId
-    );
+  async initializeCard(payments?:any) {
+     payments = Square.payments(this.commonService.publicInfo.squareAppId, this.commonService.publicInfo.locationId)
 
     const darkModeCardStyle = {
-      ".input-container": {
-        borderColor: "#2D2D2D",
-        borderRadius: "6px",
+      '.input-container': {
+        borderColor: '#2D2D2D',
+        borderRadius: '6px',
       },
-      ".input-container.is-focus": {
-        borderColor: "#006AFF",
+      '.input-container.is-focus': {
+        borderColor: '#006AFF',
       },
-      ".input-container.is-error": {
-        borderColor: "#ff1600",
+      '.input-container.is-error': {
+        borderColor: '#ff1600',
       },
-      ".message-text": {
-        color: "#999999",
+      '.message-text': {
+        color: '#999999',
       },
-      ".message-icon": {
-        color: "#999999",
+      '.message-icon': {
+        color: '#999999',
       },
-      ".message-text.is-error": {
-        color: "#ff1600",
+      '.message-text.is-error': {
+        color: '#ff1600',
       },
-      ".message-icon.is-error": {
-        color: "#ff1600",
+      '.message-icon.is-error': {
+        color: '#ff1600',
       },
       input: {
-        backgroundColor: "#2D2D2D",
-        color: "#FFFFFF",
-        fontFamily: "helvetica neue, sans-serif",
+        backgroundColor: '#2D2D2D',
+        color: '#FFFFFF',
+        fontFamily: 'helvetica neue, sans-serif',
       },
-      "input::placeholder": {
-        color: "#999999",
+      'input::placeholder': {
+        color: '#999999',
       },
-      "input.is-error": {
-        color: "#ff1600",
+      'input.is-error': {
+        color: '#ff1600',
       },
     };
     this.card = await payments.card({
       // style: darkModeCardStyle,
     });
-    await this.card.attach("#card-container");
+    await this.card.attach('#card-container');  
     return this.card;
+    const button = document.getElementById('card-button');
+    console.log(button); 
+    button.addEventListener('click', e => {
+      console.log("called",e)
+    e.preventDefault(); 
+})
+  } 
 
-    let tokenResult;
-    const button = document.getElementById("card-button");
-    button.addEventListener("click", (e) => {
-      console.log("called");
-      e.preventDefault();
-      tokenResult = this.card.tokenize();
-      console.log("token new ", tokenResult);
-    });
+ async pay() {
+  let error:any[]= []
+   await this.card.tokenize().then(data=>
+      this.nonce = data.token,
+      );  
+      console.log("nonce ",this.nonce);
+      // await this.card.tokenize().then(data=>
+      //   console.log("card ",data))
+      // if(this.nonce!=undefined){
+      //   this.ConfirmModal.present()
+      // }
+      this.ConfirmModal.present()
   }
-
-  async pay() {
-    await this.card.tokenize().then((data) => (this.nonce = data.token));
-    console.log("nonce ", this.nonce);
-    // await this.card.tokenize().then(data=>
-    //   console.log("card ",data))
-    if (this.nonce != undefined) {
-      this.ConfirmModal.present();
-    }
-  }
-
-  applePayPayment() {
-    console.log("apple pay ment");
-
-    ApplePay.initiatePayment({
-      merchantIdentifier: "merchant.com.bubbleapp",
-      countryCode: "US",
-      currencyCode: "USD",
-      supportedCountries: ["US"],
-      supportedNetworks: ["amex", "visa", "vPay"],
-      summaryItems: [this.PaymentSummaryItem],
-      requiredShippingContactFields: ["emailAddress"],
-      requiredBillingContactFields: ["emailAddress"],
-      merchantCapabilities: [
-        "capability3DS",
-        "capabilityCredit",
-        "capabilityDebit",
-        "capabilityEMV",
-      ],
-      billingContact: { emailAddress: "ankita.k@techroversolutions.com" },
-      shippingContact: { emailAddress: "ankita.k@techroversolutions.com" },
-    });
-  }
-  //Apple pay using square
-  buildPaymentRequest(payments) {
-    return payments?.paymentRequest({
-      countryCode: "US",
-      currencyCode: "USD",
-      total: {
-        amount: "1.00",
-        label: "Total",
-      },
-    });
-  }
-
-  async initializeCardApple(payments?: any) {
-    this.card = await payments?.card();
-    await this.card?.attach("#card-container");
-    console.log("card", this.card);
-
-    this.initializeApplePay();
-    return this.card;
-  }
-  async initializeApplePay(payments?: any) {
-    console.log(payments, "pay req");
-    payments = Square.payments(
-      this.commonService.publicInfo.squareAppId,
-      this.commonService.publicInfo.locationId
-    );
-    const paymentRequest = this.buildPaymentRequest(payments);
-    console.log(paymentRequest, "paymentRequest");
-
-    const applePay = await payments?.applePay(paymentRequest);
-    console.log(applePay, "applepay");
-
-    // Note: You do not need to `attach` applePay.
-    if (applePay) {
-      const applePayButton = document.getElementById("apple-pay-button");
-      applePayButton.addEventListener("click", async (event) => {
-        await this.handlePaymentMethodSubmission(event, applePay);
-      });
-    }
-    return applePay;
-  }
-
-  async handlePaymentMethodSubmission(event, paymentMethod) {
-    event.preventDefault();
-
-    try {
-      // disable the submit button as we await tokenization and make a payment request.
-
-      const token = await this.tokenize(paymentMethod);
-      // const paymentResults = await createPayment(token);
-      //this.displayPaymentResults("SUCCESS");
-
-      console.debug("Payment Success", token);
-    } catch (e) {
-      // cardButton.disabled = false;
-      //this.displayPaymentResults("FAILURE");
-      console.error(e.message);
-    }
-  }
-  async tokenize(paymentMethod) {
-    const tokenResult = await paymentMethod?.tokenize();
-    if (tokenResult.status === "OK") {
-      return tokenResult.token;
-    } else {
-      let errorMessage = `Tokenization failed with status: ${tokenResult.status}`;
-      if (tokenResult.errors) {
-        errorMessage += ` and errors: ${JSON.stringify(tokenResult.errors)}`;
-      }
-
-      throw new Error(errorMessage);
-    }
-  }
-  displayPaymentResults(status) {
-    const statusContainer = document.getElementById("payment-status-container");
-    if (status === "SUCCESS") {
-      statusContainer.classList.remove("is-failure");
-      statusContainer.classList.add("is-success");
-    } else {
-      statusContainer.classList.remove("is-success");
-      statusContainer.classList.add("is-failure");
-    }
-
-    statusContainer.style.visibility = "visible";
-  }
+  
 }

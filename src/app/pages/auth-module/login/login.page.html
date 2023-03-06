@@ -3,7 +3,7 @@
     <ion-icon 
       slot="start"
       name="arrow-back-outline"
-      routerLink="/bubble-screen" mode="md"
+      (click)="goBack()" mode="md"
     ></ion-icon>
     <!-- <ion-buttons slot="start" mode="ios" style="margin-top: 50px;">
       <ion-back-button mode="ios" defaultHref="/bubble-screen"></ion-back-button>
@@ -152,15 +152,15 @@
 <!-- commented for ios -->
 
         <div class="social-media">
-          <!-- <ion-button (click)="faceBookSignIn()">
+          <ion-button (click)="faceBookSignIn()">
             <img src="assets/images/facebook.svg" />
-          </ion-button> -->
+          </ion-button>
           <ion-button (click)="googleSignIn()">
             <img src="assets/images/google.svg" />
           </ion-button>
-          <!-- <ion-button *ngIf="this.isIOSPlatform" (click)="applesign()">
+          <ion-button *ngIf="this.isIOSPlatform" (click)="applesign()">
             <img src="assets/images/apple.svg" />
-          </ion-button>  -->
+          </ion-button> 
         </div>
 
         

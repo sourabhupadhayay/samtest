@@ -2,8 +2,7 @@
   <ion-header mode="ios">
     <div class="icon-header">
       <img src="assets/icon/header-bubble.png" />
-      <h3>Select Payment Option</h3> 
-      
+      <h3>Select Payment Option</h3>
     </div>
     <div class="top-noch">
       <img src="assets/images/modal-tope.png" />
@@ -33,9 +32,6 @@
                 src="assets/images/apple-pay-gray.svg"
               />
             </ion-item> -->
-            <!-- <ion-button class="" (click)="applePayPayment()">
-            Apple pay
-            </ion-button> -->
           </div>
 
           <div class="select-item">
@@ -55,23 +51,50 @@
                 src="assets/images/card-icn.svg"
               />
             </ion-item>
-            <div class="card-details">
+            <div *ngIf="paymentType == 'SQUARE_PAYMENT'" class="card-details">
 
-              <!-- <form id="payment-form">
-                <div id="card-container"></div>
-                <button id="card-button" (click)="pay()" type="button">Pay</button>
-              </form> -->
-              <!---Apple pay with square-->
-              <form id="payment-form">
-                <!-- Add the below element -->
-                <div id="apple-pay-button"></div>
-                <div id="card-container"></div>
-                <button id="card-button" type="button">Pay $1.00</button>
-              </form>
-              <div id="payment-status-container"></div>
-             
-              <div id="payment-status-container"></div>
+              <div [hidden]=!showPaymentScreen>
+                <form id="payment-form">
+                  <div id="card-container"></div>
+                </form>
+                <div id="payment-status-container"></div>
+                <div class="save-card">
+                  <ion-item lines="none" mode="ios">
+                    <ion-label>Save Card</ion-label>
+                    <ion-checkbox slot="start" mode="ios"  id="card-button" (ionChange)="CardSaveCheckBox($event)"[(ngModel)]="isChecked"></ion-checkbox>
+                  </ion-item>
+                </div>
+  
+              </div>
 
+              <div class="new-card-saved" [hidden]=showPaymentScreen>
+                <h4> Saved Cards:</h4>
+                  <div class="card-main-part" *ngIf="savecard.length !== 0">
+                      <div class="card" *ngFor="let card of savecard let i=index" [ngClass]="card.isCardSelected ? 'selected-card' : ''" (click)="selectCard(i,card)">
+                          <div class="card-number-top">
+                            <p>**** **** **** {{card.lastFourDigit}}</p>
+                              <div class="card-icon">
+                                  <img *ngIf="card.cardBrand == 'MASTERCARD'" src="assets/icon/Mastercard.svg">
+                                  <img *ngIf="card.cardBrand == 'AMERICAN_EXPRESS'" src="assets/icon/Amex.svg">
+                                  <img *ngIf="card.cardBrand == 'DISCOVER'" src="assets/icon/Discover.svg">
+                                  <img *ngIf="card.cardBrand == 'JCB'" src="assets/icon/JCB.svg">
+                                  <img *ngIf="card.cardBrand == 'VISA'" src="assets/icon/Visa.svg">
+                                  <img *ngIf="card.cardBrand == 'CHINA_UNIONPAY'" src="assets/icon/union pay.svg">
+                              </div>
+                          </div>
+                          <div class="card-bottom">
+                              <h5>Valid Thru</h5>
+                              <h6>{{card.expMonth}}/{{card.yearUpd}}</h6>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="no-cards" *ngIf="savecard.length == 0">
+                    <p>No saved cards found!</p>
+                </div>
+                 
+              </div>              
+              <div class="clear-fixed"></div>
               
               <!-- <ion-row>
                 <ion-col size="12" class="plr-0">
@@ -116,12 +139,6 @@
                 </ion-col>
 
               </ion-row> -->
-              <!-- <div class="save-card">
-                <ion-item lines="none" mode="ios">
-                  <ion-label>Save Card</ion-label>
-                  <ion-checkbox slot="start" mode="ios"></ion-checkbox>
-                </ion-item>
-              </div> -->
             </div>
           </div>
         </ion-radio-group>
@@ -131,12 +148,33 @@
 
   <ion-footer mode="ios">
     <ion-toolbar mode="ios">
-      <ion-button class="white-btn" (click)="onClickCancel()">
-        <img src="assets/icon/close-icon.png" />
-      </ion-button>
-      <ion-button class="white-btn" (click)="openCreateModal()">
-        <img src="assets/icon/right-icon.png" />
-      </ion-button>
+      <div class="add-card-btn" [hidden]=showPaymentScreen (click)="showPaymentDiv(true)">
+        <ion-button>+ Add New Card</ion-button>
+      </div>
+      <div class="add-card-btn" [hidden]=!showPaymentScreen (click)="showPaymentDiv(false)">
+        <ion-button>Back to saved cards</ion-button>
+      </div>
+
+    <!-- select card screen -->
+      <div [hidden]=showPaymentScreen>
+        <ion-button class="white-btn">
+          <img src="assets/icon/close-icon.png" (click)="onClickCancel()"/>
+        </ion-button>
+        <ion-button class="white-btn" (click)="paymentThroughSelectedCard()">
+          <img src="assets/icon/right-icon.png" />
+        </ion-button>
+      </div>
+
+      <!-- add card-screen -->
+      <div [hidden]=!showPaymentScreen>
+        <ion-button class="white-btn" (click)="onClickCancel()">
+          <img src="assets/icon/close-icon.png" />
+        </ion-button>
+        <ion-button class="white-btn" (click)="openCreateModal()">
+          <img src="assets/icon/right-icon.png" />
+        </ion-button>
+      </div>
+
       <div class="nil4all">
         <span>#NIL4ALL</span>
       </div>
@@ -184,6 +222,67 @@
           <img src="assets/icon/close-icon.png" />
         </ion-button>
         <ion-button (click)="onSubmit()" class="white-btn">
+          <img src="assets/icon/right-icon.png" />
+        </ion-button>
+      </ion-toolbar>
+    </ion-footer>
+  </ng-template>
+</ion-modal>
+
+
+
+<!-- save card pop-up -->
+<ion-modal #saveCard class="small-modal">
+  <ng-template>
+    <ion-header mode="md">
+      <h3 *ngIf="isBiddingForEvent">Save Card</h3>
+    </ion-header>
+
+    <div class="inner-content">
+      <div class="main-screen">
+        <p>
+          Are you sure, you want to save this card?
+        </p>
+      </div>
+     
+    </div>
+
+    <ion-footer mode="ios">
+      <ion-toolbar mode="ios">
+        <ion-button (click)="cancel()" class="white-btn">
+          <img src="assets/icon/close-icon.png" />
+        </ion-button>
+        <ion-button (click)="saveSelectedCard()" class="white-btn">
+          <img src="assets/icon/right-icon.png" />
+        </ion-button>
+      </ion-toolbar>
+    </ion-footer>
+  </ng-template>
+</ion-modal>
+
+
+<!-- confirm card pop-up -->
+<ion-modal #confirmSavedCardPayment class="small-modal">
+  <ng-template>
+    <ion-header mode="md">
+      <h3 *ngIf="isBiddingForEvent">Use this card</h3>
+    </ion-header>
+
+    <div class="inner-content">
+      <div class="main-screen">
+        <p>
+          Are you sure, you want to use this card for bid of ${{this.commonService.bidAmount}} ?
+        </p>
+      </div>
+     
+    </div>
+
+    <ion-footer mode="ios">
+      <ion-toolbar mode="ios">
+        <ion-button (click)="cancel()" class="white-btn">
+          <img src="assets/icon/close-icon.png" />
+        </ion-button>
+        <ion-button (click)="confirmPaymentFromSavedCard()" class="white-btn">
           <img src="assets/icon/right-icon.png" />
         </ion-button>
       </ion-toolbar>

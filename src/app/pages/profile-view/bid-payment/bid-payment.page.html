@@ -69,6 +69,7 @@
           <span>$</span>
           <ion-input
             [(ngModel)]="bidAmount"
+            (keypress)="numberOnly($event)"
             (ionBlur)="getToFixedDigits($event);validatePreviosBidAmount($event)"
             placeholder="Enter Amount"
             type="number"

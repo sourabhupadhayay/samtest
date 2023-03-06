@@ -215,7 +215,7 @@
           <ion-col size="12">
             <div class="input-box">
               <ion-item lines="none" class="ion-align-items-center">
-                <ion-input placeholder="Account Holder Name"  (keypress)="charOnly($event)" formControlName="accountHolderName"></ion-input>
+                <ion-input placeholder="Account Holder Name" type="text"  (keypress)="charOnly($event)" formControlName="accountHolderName"></ion-input>
                 <img
                   class="ion-align-items-center"
                   slot="end"
@@ -227,7 +227,7 @@
           <ion-col size="12">
             <div class="input-box">
               <ion-item lines="none" class="ion-align-items-center">
-                <ion-input placeholder="Account Number" type="password" (keypress)="numberOnly($event)" maxlength="9" formControlName="accountNumber"></ion-input>
+                <ion-input placeholder="Account Number" (keypress)="numberOnly($event)" maxlength="20" formControlName="accountNumber"></ion-input>
                 <img
                   class="ion-align-items-center"
                   slot="end"

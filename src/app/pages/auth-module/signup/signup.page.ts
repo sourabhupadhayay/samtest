@@ -78,5 +78,9 @@ export class SignupPage implements OnInit {
       }
     });
   }
- 
+  goBack(){
+    localStorage.removeItem("authDetail");
+    this.router.navigate(["/auth/login"])
+   
+  }
 }

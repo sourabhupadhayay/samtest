@@ -34,7 +34,7 @@ export class AtheleteCardComponent implements OnInit {
 
 
   nameInitials: string;
-
+  athleteNameInitials: string;
   liveTime: any;
   counter: any;
   timer: any = null;
@@ -59,6 +59,12 @@ export class AtheleteCardComponent implements OnInit {
 
   getInitials() {
     this.nameInitials = this.commonService.getInitials(this.cardData.userName);
+    this.athleteNameInitials = this.commonService.getInitials(this.cardData.athleteName);	
+  }	
+  getAthleteInitials(fullName:any) {	
+    let  initials = fullName.split(' ');	
+        initials = fullName.shift().charAt(0) + fullName.pop().charAt(0);	
+    return initials.toUpperCase();	
   }
 
   async presentAlert() {
