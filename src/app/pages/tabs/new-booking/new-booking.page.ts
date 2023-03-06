@@ -313,6 +313,7 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
       },
       isAuth: true,
     };
+    this.router.navigate(["/tabs/home"]);
     return request;
   }
 
