@@ -28,6 +28,7 @@ export class SelectAppereancePage implements OnInit {
 
   ngOnInit() {
     this.getUserRole();
+    this.commonService.fanEventType = "VIDEO";
 
   }
 
@@ -38,9 +39,8 @@ export class SelectAppereancePage implements OnInit {
   //   this.fanEventType = 
   //   console.log("type ",this.fanEventType);
   // }
-  eventTypeSelected(e:any) {
-    
-    this.commonService.fanEventType=e;
+  eventTypeSelected(eventType:any) {
+    this.commonService.fanEventType = eventType;
   }
 
 
