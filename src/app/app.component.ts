@@ -98,7 +98,6 @@ export class AppComponent implements OnInit, OnDestroy {
         this.commonService.callingAthleteDetails = this.voipResponse;
       }
       console.log("common 1 ", this.commonService.callingAthleteDetails);
-
       if (dataObject1.hasOwnProperty("actionId")) {
         //check screen locked/onlocked
         console.log("screen is open");
