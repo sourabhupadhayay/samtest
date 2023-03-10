@@ -29,7 +29,7 @@ import {
   ASAuthorizationAppleIDRequest,
 } from "@awesome-cordova-plugins/sign-in-with-apple/ngx";
 // import { CallKitVoip } from "capacitor-callkit-voip";
-import { FullScreenNotification } from 'capacitor-fullscreen-notification';
+import { FullScreenNotification } from "capacitor-fullscreen-notification";
 
 @Component({
   selector: "app-login",
@@ -316,9 +316,7 @@ export class LoginPage implements OnInit {
         // alert("Push action performed: " + JSON.stringify(notification));
       }
     );
-   
   }
-
 
   requestPushNotificationsPermission() {
     // requesting permission
@@ -355,6 +353,7 @@ export class LoginPage implements OnInit {
       })
       .then((res: AppleSignInResponse) => {
         // https://developer.apple.com/documentation/signinwithapplerestapi/verifying_a_user
+        console.log("apple sign-in", res);
 
         let RequestData = {
           socialAccessToken: res.identityToken,
@@ -377,20 +376,20 @@ export class LoginPage implements OnInit {
   //     console.log("common login", this.voipToken);
   //   });
 
-    // start call
-    // CallKitVoip.addListener("callAnswered", (obj) =>
-    //   console.log(`Call has been received from`, JSON.stringify(obj))
-    // );
-    // // end call
-    // CallKitVoip.addListener("endCall", (obj) =>
-    //   console.log(
-    //     JSON.stringify(obj),
-    //     obj.connectionId,
-    //     `Call has been REJECTED from `
-    //   )
-    // );
-    // init plugin, start registration of VOIP notifications
-    // await CallKitVoip.register(); // can be used with `.then()`
-    // console.log("Push notification has been registered");
+  // start call
+  // CallKitVoip.addListener("callAnswered", (obj) =>
+  //   console.log(`Call has been received from`, JSON.stringify(obj))
+  // );
+  // // end call
+  // CallKitVoip.addListener("endCall", (obj) =>
+  //   console.log(
+  //     JSON.stringify(obj),
+  //     obj.connectionId,
+  //     `Call has been REJECTED from `
+  //   )
+  // );
+  // init plugin, start registration of VOIP notifications
+  // await CallKitVoip.register(); // can be used with `.then()`
+  // console.log("Push notification has been registered");
   // }
 }
