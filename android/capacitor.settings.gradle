@@ -41,8 +41,8 @@ project(':capacitor-status-bar').projectDir = new File('../node_modules/@capacit
 include ':codetrix-studio-capacitor-google-auth'
 project(':codetrix-studio-capacitor-google-auth').projectDir = new File('../node_modules/@codetrix-studio/capacitor-google-auth/android')
 
-include ':capacitor-callkit-voip'
-project(':capacitor-callkit-voip').projectDir = new File('../node_modules/capacitor-callkit-voip/android')
-
 include ':capacitor-fullscreen-notification'
 project(':capacitor-fullscreen-notification').projectDir = new File('../node_modules/capacitor-fullscreen-notification/android')
+
+include ':capacitor-callkit-voip'
+project(':capacitor-callkit-voip').projectDir = new File('../node_modules/capacitor-callkit-voip/android')
