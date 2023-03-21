@@ -77,27 +77,34 @@
         </div>
         <div class="select-payment">
           <ion-item lines="none" (click)="presentPaymentModal()">
-            <!-- <img
-              *ngIf="paymentType == 'apple'"
-              src="assets/images/pay-icon.png"
-            /> -->
             <img
-              *ngIf="paymentType !== 'apple'"
+              *ngIf="paymentType == 'APPLE_PAYMENT'"
+              src="assets/images/pay-icon.png"
+            />
+            <img
+              *ngIf="paymentType !== 'APPLE_PAYMENT'"
               src="assets/images/cc-img.png"
             />
-            <!-- <ion-label *ngIf="paymentType == 'apple'">Apple Pay</ion-label> -->
-            <ion-label *ngIf="paymentType !== 'apple'">Credit card</ion-label>
+            <ion-label *ngIf="paymentType == 'APPLE_PAYMENT'">Apple Pay</ion-label>
+            <ion-label *ngIf="paymentType !== 'APPLE_PAYMENT'">Credit card</ion-label>
             <ion-icon slot="end" name="chevron-down-outline"></ion-icon>
           </ion-item>
         </div>
         <div class="auth-btn">
-          <ion-button
+          <ion-button 
             [disabled]="!paymentData || !bidAmount "
             id="bidSubmitted"
           >
             <img src="assets/images/button-auth.png" />
             <span>Pay<br />Now</span>
           </ion-button>
+          <!-- <ion-button (click)="applePayPayment()"
+          [disabled]="!paymentData || !bidAmount " *ngIf="paymentType=='APPLE_PAYMENT'"
+          id="bidSubmitted"
+        >
+          <img src="assets/images/button-auth.png" />
+          <span>Pay<br />Now</span>
+        </ion-button> -->
           <!-- <ion-button class="" (click)="applePayPayment()">
             Apple pay
             </ion-button> -->
@@ -172,7 +179,11 @@
             <img src="assets/images/button-auth-red.png" />
             <span><img src="assets/icon/close-btn.svg" /></span>
           </ion-button>
-          <ion-button (click)="onPayment()">
+          <ion-button (click)="onPayment()" *ngIf="paymentType=='SQUARE_PAYMENT'">
+            <img src="assets/images/button-auth-green.png" />
+            <span>Go</span>
+          </ion-button>
+          <ion-button (click)="applePayPayment()" *ngIf="paymentType=='APPLE_PAYMENT'">
             <img src="assets/images/button-auth-green.png" />
             <span>Go</span>
           </ion-button>

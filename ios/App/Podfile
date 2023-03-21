@@ -34,5 +34,6 @@ pod 'FBSDKCoreKit'
   pod 'FBSDKShareKit'
 pod 'Firebase/Messaging'
 pod 'Firebase/Analytics'
+pod 'SquareInAppPaymentsSDK'
 end
 

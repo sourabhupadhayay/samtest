@@ -3,6 +3,7 @@ import Capacitor
 import FirebaseCore
 import FirebaseMessaging
 import FBSDKCoreKit
+import SquareInAppPaymentsSDK
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
@@ -36,6 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.registerForRemoteNotifications()
         Messaging.messaging().delegate = self
         FirebaseApp.configure()
+      SQIPInAppPaymentsSDK.squareApplicationID = "sandbox-sq0idb-r92A0oxpvi6g0Y1wHRzYwA"
        
     return true
   }

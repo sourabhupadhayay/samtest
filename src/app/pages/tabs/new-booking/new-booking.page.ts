@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { CurrencyPipe } from "@angular/common";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ModalController, PopoverController } from "@ionic/angular";
@@ -27,14 +27,14 @@ import { Platform } from "@ionic/angular";
 import { Router } from '@angular/router';
 import { PaymentComponent } from '../payment/payment.component';
 import { PushNotificationPage } from '../../push-notification/push-notification.page';
-
+import { ApplePay } from "@fresha/capacitor-plugin-applepay";
 @Component({
   selector: 'app-new-booking',
   templateUrl: './new-booking.page.html',
   styleUrls: ['./new-booking.page.scss'],
   providers: [CurrencyPipe],
 })
-export class NewBookingPage implements OnInit { athleteForm: FormGroup;
+export class NewBookingPage implements OnInit, OnDestroy { athleteForm: FormGroup;
   fanForm: FormGroup;
   selectedIndex: any ;
   isAthleteFormSubmitted = false;
@@ -65,6 +65,11 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
   createEventRequest: Request;
   badgeCount: number = 0;
   requestData:any;
+
+  //Apple pay variables
+  nonce:string
+  paymentType:string
+  subscribeData:any
   constructor(
     public modalCtrl: ModalController,
     private fb: FormBuilder,
@@ -77,11 +82,20 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
     private platform: Platform,
     private router: Router,
     public popoverController: PopoverController
-  ) {}
+  ) {
+    this.commonService.subscribe("payment Data", (data)=>{
+      console.log(data,"ankita");
+      
+      this.nonce=data.nonce
+      this.paymentType=data.paymentType
+    })
+    console.log("abcd",this.nonce,this.paymentType);
+    
+  }
 
   ngOnInit() {
     const script = this.renderer.createElement("script");
-    if (this.commonService.publicInfo.squareEnvironment == "PRODUCTION") {
+    if (this.commonService?.publicInfo?.squareEnvironment == "PRODUCTION") {
       script.src = `https://web.squarecdn.com/v1/square.js`;
     } else {
       // script.src = `https://js.squareupsandbox.com/v2/paymentform`; //deprecated
@@ -94,6 +108,9 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
     this.eventTypeSelected();
     this.getSelectedAthlete();
     this.setTimeZone();
+   
+    console.log("abcd1",this.nonce,this.paymentType);
+    
   }
   async getUserRole() {
     this.userRole = await this.coreService.getUserRoleFromStorage();
@@ -263,7 +280,14 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
     } else {
       request = this.fanDataRequest();
     }
-
+    this.subscribeData=this.commonService.subscribe("payment Data", (data)=>{
+      console.log(data,"ankita1");
+      
+      this.nonce=data.nonce
+      this.paymentType=data.paymentType
+    })
+    console.log(request.data, this.nonce, this.paymentType,"etgg");
+    
     if (!request) {
       return;
     }
@@ -272,6 +296,7 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
       this.apiService.post(request).subscribe((response: Response) => {
         this.coreService.dismissLoader();
         if (response.status.code == this.constant.STATUS_OK) {
+        
           this.modalCtrl.dismiss(false);
           window.location.reload();
         } else {
@@ -327,6 +352,7 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
     // );
     this.fanForm.value.minBid =  this.parseStringToFloat(this.fanForm.controls.minBid.value);
     this.commonService.bidAmount = this.parseStringToFloat(this.fanForm.controls.minBid.value);
+    
     if (this.fanForm.invalid) {
       this.coreService.showToastMessage(
         "Please enter valid details",
@@ -359,7 +385,7 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
         duration: this.totalFanDuration,
         athleteId: this.selectedAthleteId,
         eventType: this.fanEventType,
-
+       
         eventAddress: this.fanEventType == "IN_PERSON" ? eventAddress : {},
       },
       isAuth: true,
@@ -591,7 +617,7 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
     if (!data) {
       return;
     }
-
+   
     this.createEventRequest=this.requestData; 
     this.createEventRequest.data = {
       ...this.createEventRequest.data,
@@ -601,6 +627,17 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
     this.createEventForFan();
   }
   createEventForFan() {
+    // this.commonService.subscribe("payment Data", (data)=>{
+    //   console.log(data,"ankita2");
+      
+    //   this.nonce=data.nonce
+    //   this.paymentType=data.paymentType
+    // })
+    console.log(this.createEventRequest.data);
+    if(this.paymentType=='APPLE_PAYMENT'){
+    this.createEventRequest['data']['nonce']=this.nonce
+    this.createEventRequest['data']['paymentType']=this.paymentType
+    }
   //   this.createEventRequest=this.data1;
     console.log("fannn",this.createEventRequest)
     this.coreService.presentLoader(this.constant.WAIT);
@@ -609,6 +646,14 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
       .subscribe((response: Response) => {
         this.coreService.dismissLoader();
         if (response.status.code === this.constant.STATUS_OK) {
+          if(this.paymentType=='APPLE_PAYMENT'){
+              ApplePay.completeLastPayment({status:'success'}).then(
+            (res: any) => {
+              console.log("complete", res);
+              this.router.navigate(["/tabs/schedule"]);
+            }
+              )
+          }
           this.coreService.showToastMessage(
             response.status.description,
             this.coreService.TOAST_SUCCESS
@@ -663,4 +708,8 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
   redirectBackToHome(){
     this.onclick_cancel();
   }
+  ngOnDestroy(): void {
+    this.subscribeData.unsubscribe();
+  }
+
 }
