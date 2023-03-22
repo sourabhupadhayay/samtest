@@ -202,6 +202,42 @@
             }
           }
       }
+      .save-card{padding: 5px;
+        ion-item{
+          --padding-start:15px; --inner-padding-end:15px; --background: var(--white-bg); border-radius: 8px; box-shadow: none;
+          --padding-start: 0;
+          --innerpadding-end: 0;
+          --background: transparent;
+          --ripple-color: none;
+          --background-activated: none;
+          --background-focused: none;
+          --background-hover: none;
+          --background-activated-opacity: 1;
+          --background-focused-opacity: 1;
+          --background-hover-opacity: 1;
+          --ripple-color: none;
+          --min-height: 25px;
+          margin-bottom: 10px;
+          ion-checkbox{
+            --ripple-color: none;
+            margin: 0;
+            margin-right: 5px;
+            --size: 17px;
+            --border-color: var(--theme-one-clr);
+            --background-checked: transparent;
+            --background: transparent;
+            --border-width: 2px;
+            --checkmark-width: 3px;
+            --border-color-checked: var(--theme-one-clr);
+            --ripple-color: none;
+            --border-radius: 50px;
+            --checkmark-color: var(--theme-one-clr);
+          }
+          ion-label{
+            --color: var(--theme-one-clr); margin: 0; font-size: 0.875rem; font-weight: 600;
+          }
+        }
+      }
     }
   }
 
