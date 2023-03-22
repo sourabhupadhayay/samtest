@@ -44,7 +44,7 @@ export class HomePagePage implements OnInit {
       path: "auth/users/manage/filter/list",
       data: {
         filter: {
-          roles: ["ATHLETE"],
+          userRole : "ATHLETE",
           userStatuses: [ "ACTIVE" ]
         },
         page: {

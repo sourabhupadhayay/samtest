@@ -415,7 +415,7 @@ export class AppereanceBookingComponent implements OnInit {
           path: "auth/users/manage/filter/list",
           data: {
             filter: {
-              roles: ["ATHLETE"],
+              userRole : "ATHLETE",
               userStatuses: [ "ACTIVE" ],
               search: value,
             },

@@ -82,7 +82,7 @@ export class BubbleScreenListPage implements OnInit {
       path: "auth/users/manage/filter",
       data: {
         filter: {
-          roles: ["ATHLETE"],
+          userRole : "ATHLETE",
           userStatuses: [ "ACTIVE" ],
 
           search: this.searchControl.value,
@@ -133,7 +133,7 @@ export class BubbleScreenListPage implements OnInit {
   
     if( e.detail.value != "All"){
        data={
-        roles: ["ATHLETE"],
+        userRole : "ATHLETE",
         online:myBool,
         search: this.searchControl.value,
         userStatuses: [ "ACTIVE" ]
@@ -141,7 +141,7 @@ export class BubbleScreenListPage implements OnInit {
     }
       else{
         data={
-          roles: ["ATHLETE"],
+          userRole : "ATHLETE",
           search: this.searchControl.value,
           userStatuses: [ "ACTIVE" ]
         }

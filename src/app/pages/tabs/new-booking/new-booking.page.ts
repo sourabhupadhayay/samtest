@@ -418,7 +418,7 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
           path: "auth/users/manage/filter/list",
           data: {
             filter: {
-              roles: ["ATHLETE"],
+              userRole : "ATHLETE",
               userStatuses: [ "ACTIVE" ],
               search: value,
             },
