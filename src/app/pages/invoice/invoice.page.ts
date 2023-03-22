@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { IonModal, ModalController } from "@ionic/angular";
+import { IonModal, ModalController, Platform } from "@ionic/angular";
 import { TermsOfServiceComponent } from "./terms-of-service/terms-of-service.component";
 import { PopoverController } from '@ionic/angular';
 import { PushNotificationPage } from "../push-notification/push-notification.page";
@@ -42,7 +42,9 @@ export class InvoicePage implements OnInit {
                private constantService: ConstantService,
                public commonService: CommonService,
                private formBuilder: FormBuilder,
-               private core:CoreService,private navController: NavController
+               private core:CoreService,
+               private navController: NavController,
+               private platform: Platform
                ) {
                }
 

@@ -12,7 +12,11 @@
 
         <ion-label>
           <ion-grid class="logo-head">
-            <img src="assets/images/logo.svg" />
+           <div class="logo-v">
+              <img src="assets/images/single-logo.svg" />
+              <span *ngIf="this.platform.is('android')" class="version-txt">{{commonService?.androidAppVersion}} ({{commonService?.androidBuildVersion}})</span>
+              <span *ngIf="this.platform.is('ios')" class="version-txt">{{commonService?.IOSAppVersion}} ({{commonService?.IOSBuildVersion}})</span>
+            </div>
             <div class="nil4all">
               <span>#NIL4ALL</span>
             </div>
