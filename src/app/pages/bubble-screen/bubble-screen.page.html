@@ -2,7 +2,11 @@
   <!-- <ion-grid class="main-screen-bg"> -->
   <ion-header>
     <ion-toolbar>
-      <img src="assets/images/single-logo.svg" />
+      <div class="logo-v">
+        <img src="assets/images/single-logo.svg" />
+        <span *ngIf="this.platform.is('android')" class="version-txt">{{commonService?.androidAppVersion}} ({{commonService?.androidBuildVersion}})</span>
+        <span *ngIf="this.platform.is('ios')" class="version-txt">{{commonService?.IOSAppVersion}} ({{commonService?.IOSBuildVersion}})</span>
+      </div>
       <span class="list-icon" slot="end" routerLink="/bubble-screen-list">
         <img src="assets/icon/Search.svg">
       </span>

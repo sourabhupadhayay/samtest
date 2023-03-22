@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from "@angular/core";
-import { IonContent, IonModal } from "@ionic/angular";
+import { IonContent, IonModal, Platform } from "@ionic/angular";
 import { CommonService } from "src/app/providers/common.service";
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService, userRole } from "src/app/providers/core.service";
@@ -50,7 +50,8 @@ export class SchedulePage implements OnInit {
     public modalCtrl: ModalController,
     public popoverController: PopoverController,
     private router: Router,
-    private core: CoreService
+    private core: CoreService,
+    public platform: Platform
   ) {}
 
   ionViewWillEnter() {

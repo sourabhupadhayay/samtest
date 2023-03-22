@@ -1,7 +1,7 @@
 import { DecimalPipe, formatNumber, Location } from "@angular/common";
 import { Component, OnInit, Renderer2 } from "@angular/core";
 import { ActivatedRoute, ParamMap, Route, Router } from "@angular/router";
-import { ModalController } from "@ionic/angular";
+import { ModalController, Platform } from "@ionic/angular";
 import { switchMap } from "rxjs/operators";
 import { CommonService } from "src/app/providers/common.service";
 import { ConstantService } from "src/app/providers/constant.service";
@@ -41,6 +41,7 @@ export class BidPaymentPage implements OnInit {
     private _location: Location,
     private decimalPipe: DecimalPipe,
     public popoverController: PopoverController,
+    private platform: Platform
   ) {}
 
   ngOnInit() {

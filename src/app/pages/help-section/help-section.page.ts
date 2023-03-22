@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Preferences } from '@capacitor/preferences';
-import { ModalController, PopoverController } from '@ionic/angular';
+import { ModalController, Platform, PopoverController } from '@ionic/angular';
 import { CommonService } from 'src/app/providers/common.service';
 import { ConstantService } from 'src/app/providers/constant.service';
 import { CoreService } from 'src/app/providers/core.service';
@@ -30,7 +30,8 @@ export class HelpSectionPage implements OnInit {
     public coreService : CoreService,
     public constant : ConstantService,
     public commonService : CommonService,
-    public modal : ModalController
+    public modal : ModalController,
+    public platform: Platform
   ) {
   }
 

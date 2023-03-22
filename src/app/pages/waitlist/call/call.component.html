@@ -2,6 +2,8 @@
   <ion-header mode="ios">
     <ion-toolbar mode="ios">
       <img src="assets/images/single-logo.svg" />
+      <span *ngIf="this.platform.is('android')">{{commonService.androidAppVersion}} ({{commonService.androidBuildVersion}})</span>
+      <span *ngIf="this.platform.is('ios')">{{commonService.IOSAppVersion}} ({{commonService.IOSBuildVersion}})</span>
       <span class="time" slot="end" [style.background]= "color">
         {{secondsToHms(timeLeft)}}
       </span>

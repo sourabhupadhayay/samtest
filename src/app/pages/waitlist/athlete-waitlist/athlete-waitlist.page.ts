@@ -17,7 +17,7 @@ import { CommonService } from "src/app/providers/common.service";
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
-import { NavController, ModalController } from "@ionic/angular";
+import { NavController, ModalController, Platform } from "@ionic/angular";
 import { Subscription } from "rxjs";
 import { DismissmodalComponent } from "src/app/pages/schedule/dismissmodal/dismissmodal.component";
 @Component({
@@ -62,7 +62,8 @@ export class AthleteWaitlistPage implements OnInit, DoCheck, OnDestroy {
     private navController: NavController,
     private cd: ChangeDetectorRef,
     public modalCtrl: ModalController,
-    private constantService: ConstantService
+    private constantService: ConstantService,
+    private platform: Platform
   ) {
     console.log("constructor call");
     this.ensureVideoPlays();

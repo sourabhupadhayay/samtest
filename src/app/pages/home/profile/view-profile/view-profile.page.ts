@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { ModalController } from "@ionic/angular";
+import { ModalController, Platform } from "@ionic/angular";
 import { AuthenticationService } from "src/app/providers/authentication.service";
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
@@ -34,6 +34,7 @@ export class ViewProfilePage implements OnInit {
     public commonService: CommonService,
     public popoverController: PopoverController,
     private badge: Badge,
+    private platform: Platform
   ) {}
 
   ngOnInit() {

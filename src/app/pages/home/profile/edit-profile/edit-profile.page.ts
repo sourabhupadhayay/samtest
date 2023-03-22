@@ -13,6 +13,7 @@ import {
   ActionSheetController,
   IonModal,
   ModalController,
+  Platform,
 } from "@ionic/angular";
 
 import { ConstantService } from "src/app/providers/constant.service";
@@ -51,7 +52,8 @@ export class EditProfilePage implements OnInit {
     public commonService: CommonService,
     private cd: ChangeDetectorRef,
     private route: ActivatedRoute,
-    public popoverController: PopoverController
+    public popoverController: PopoverController,
+    private platform: Platform
   ) {}
 
   ngOnInit() {}

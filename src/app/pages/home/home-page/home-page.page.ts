@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { IonRouterOutlet, ModalController } from "@ionic/angular";
+import { IonRouterOutlet, ModalController, Platform } from "@ionic/angular";
 import { AppComponent } from "src/app/app.component";
 import { AuthenticationService } from "src/app/providers/authentication.service";
 import { ConstantService } from "src/app/providers/constant.service";
@@ -26,7 +26,8 @@ export class HomePagePage implements OnInit {
     public authenticationService: AuthenticationService,
     private router: Router,
     private commonService: CommonService,
-    private  app:AppComponent
+    private  app:AppComponent,
+    public platform:Platform
 
   ) {}
 

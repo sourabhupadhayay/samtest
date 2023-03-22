@@ -2,6 +2,7 @@ import { Location } from "@angular/common";
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { Router } from "@angular/router";
+import { Platform } from "@ionic/angular";
 import { el } from "date-fns/locale";
 
 import {
@@ -40,6 +41,7 @@ export class BubbleScreenListPage implements OnInit {
     private location: Location,
     private commonService: CommonService,
     private cd:ChangeDetectorRef,
+    public platform : Platform
   ) {}
   isOpen = false;
   ngOnInit() {

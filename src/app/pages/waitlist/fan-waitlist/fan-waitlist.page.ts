@@ -10,7 +10,7 @@ import {
   ViewChild,
 } from "@angular/core";
 import { Router } from "@angular/router";
-import { NavController } from "@ionic/angular";
+import { NavController, Platform } from "@ionic/angular";
 import { CommonService } from "src/app/providers/common.service";
 import { ConstantService } from "src/app/providers/constant.service";
 // import { Socket } from "ngx-socket-io";
@@ -63,7 +63,8 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
     public commonService: CommonService,
     private cd: ChangeDetectorRef,
     private constant: ConstantService,
-    private navController: NavController
+    private navController: NavController,
+    private platform: Platform
   ) {}
 
   ngOnInit() {

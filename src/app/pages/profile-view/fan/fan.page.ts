@@ -6,7 +6,7 @@ import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
 import { AuthModuleService } from "../../auth-module/auth-module.service";
-import { PopoverController } from '@ionic/angular';
+import { Platform, PopoverController } from '@ionic/angular';
 import { PushNotificationPage } from "../../push-notification/push-notification.page";
 
 
@@ -25,7 +25,8 @@ export class fanPage implements OnInit {
     private route: ActivatedRoute,
     private constantService: ConstantService,
     private commonService: CommonService,
-    public popoverController: PopoverController
+    public popoverController: PopoverController,
+    public platfrom: Platform
   ) {}
 
   ngOnInit() {}

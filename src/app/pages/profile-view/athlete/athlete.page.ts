@@ -7,7 +7,7 @@ import {
 } from "@angular/core";
 import { async } from "@angular/core/testing";
 import { ActivatedRoute, ParamMap, Router } from "@angular/router";
-import { IonContent, ModalController } from "@ionic/angular";
+import { IonContent, ModalController, Platform } from "@ionic/angular";
 import { Observable } from "rxjs";
 import { map, switchMap, tap } from "rxjs/operators";
 import { AuthModuleService } from "src/app/pages/auth-module/auth-module.service";
@@ -56,7 +56,8 @@ export class AthletePage implements OnInit, OnDestroy {
     private cd: ChangeDetectorRef,
     private commonService: CommonService,
     public popoverController: PopoverController,
-    private activeRoute: ActivatedRoute
+    private activeRoute: ActivatedRoute,
+    private platform: Platform
   ) {}
 
   ngOnInit() {

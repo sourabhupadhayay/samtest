@@ -26,7 +26,7 @@ import * as SockJS from "sockjs-client";
 import { configuration } from "src/app/configuration";
 import { CommonService } from "src/app/providers/common.service";
 import { SafeExecution } from "../../../directives/models/safe-execution.decorator";
-import { NavController } from "@ionic/angular";
+import { NavController, Platform } from "@ionic/angular";
 
 @Component({
   selector: "app-call",
@@ -69,7 +69,8 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     private cd: ChangeDetectorRef,
     private constantService: ConstantService,
     public commonService: CommonService,
-    private navController: NavController
+    private navController: NavController,
+    private platform: Platform
   ) {}
 
   async ngOnInit() {
