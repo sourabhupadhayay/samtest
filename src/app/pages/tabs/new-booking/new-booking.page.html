@@ -532,10 +532,10 @@
                     <ion-item lines="none">
                       <img
                         slot="start"
-                        *ngIf=" option.profileUrl !==''"
+                        *ngIf=" option.profileUrl"
                         [src]="option.profileUrl | profile"
                       />
-                      <div *ngIf="option?.profileUrl ==''" class="inital">
+                      <div *ngIf="!option?.profileUrl" class="inital">
                         <span class="initial__span">
                           {{getInitials(option.fullName) | titlecase }}
                         </span>
