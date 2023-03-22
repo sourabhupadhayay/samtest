@@ -37,7 +37,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.registerForRemoteNotifications()
         Messaging.messaging().delegate = self
         FirebaseApp.configure()
-      SQIPInAppPaymentsSDK.squareApplicationID = "sandbox-sq0idb-r92A0oxpvi6g0Y1wHRzYwA"
+      //sandbox APPID
+      //SQIPInAppPaymentsSDK.squareApplicationID = "sandbox-sq0idb-r92A0oxpvi6g0Y1wHRzYwA"
+      
+      // Production APPID
+      SQIPInAppPaymentsSDK.squareApplicationID = "sq0idp-10OYBrScRrwJSk2nz1w3Og"
        
     return true
   }
