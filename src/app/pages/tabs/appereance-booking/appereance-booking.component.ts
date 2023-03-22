@@ -416,6 +416,7 @@ export class AppereanceBookingComponent implements OnInit {
           data: {
             filter: {
               roles: ["ATHLETE"],
+              userStatuses: [ "ACTIVE" ],
               search: value,
             },
             page: {

@@ -107,6 +107,7 @@ export class FanWaitlistPage implements OnInit, OnDestroy {
       data: {
         filter: {
           roles: ["SPONSOR"],
+          userStatuses: [ "ACTIVE" ]
         },
         page: {
           pageLimit: 1,

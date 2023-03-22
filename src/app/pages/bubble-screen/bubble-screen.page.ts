@@ -67,6 +67,8 @@ export class BubbleScreenPage implements OnInit {
       data: {
         filter: {
           roles: ["ATHLETE"],
+          userStatuses: [ "ACTIVE" ]
+
         },
         page: {
           pageLimit: 1,

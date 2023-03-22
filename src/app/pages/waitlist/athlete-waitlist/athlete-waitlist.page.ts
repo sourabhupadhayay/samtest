@@ -142,6 +142,7 @@ export class AthleteWaitlistPage implements OnInit, DoCheck, OnDestroy {
       data: {
         filter: {
           roles: ["SPONSOR"],
+          userStatuses: [ "ACTIVE" ]
         },
         page: {
           pageLimit: 1,
