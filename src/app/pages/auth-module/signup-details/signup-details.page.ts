@@ -19,7 +19,7 @@ import {
 } from "src/app/utility/passwordValidator";
 import { AuthModuleService } from "../auth-module.service";
 import { CommonService } from "../../../providers/common.service";
-import { ModalController } from "@ionic/angular";
+import { ModalController, Platform } from "@ionic/angular";
 
 @Component({
   selector: "app-signup-details",
@@ -54,7 +54,8 @@ export class SignupDetailsPage implements OnInit {
     private router: Router,
     public common: AuthModuleService,
     public commonService: CommonService,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    private platform: Platform,
   ) {}
 
   ngOnInit() {

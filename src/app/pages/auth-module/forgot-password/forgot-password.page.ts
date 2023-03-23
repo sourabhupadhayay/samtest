@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+import { Platform } from "@ionic/angular";
+import { CommonService } from "src/app/providers/common.service";
 
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
@@ -23,7 +25,9 @@ export class ForgotPasswordPage implements OnInit {
     private apiService: DataService,
     private constantService: ConstantService,
     private router: Router,
-    private commonService: AuthModuleService
+    private commonService: AuthModuleService,
+    private platform: Platform,
+    private commonService2: CommonService
   ) {}
 
   ngOnInit() {}

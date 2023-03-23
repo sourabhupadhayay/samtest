@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { ModalController } from "@ionic/angular";
+import { ModalController, Platform } from "@ionic/angular";
 import { EMAIL_PATTERN } from "src/app/helpers/emailValidation";
 import { CommonService } from "src/app/providers/common.service";
 
@@ -35,6 +35,8 @@ export class SignupPage implements OnInit {
     private constantService: ConstantService,
     private commonService: AuthModuleService,
     public commonservice: CommonService,
+    private platform: Platform,
+    private commonService2: CommonService
   ) {}
 
   ngOnInit() {

@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+import { Platform } from "@ionic/angular";
+import { CommonService } from "src/app/providers/common.service";
 import { ConstantService } from "src/app/providers/constant.service";
 import { CoreService } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
@@ -35,7 +37,9 @@ export class ResetPasswordPage implements OnInit {
     private coreService: CoreService,
     private apiService: DataService,
     private constantService: ConstantService,
-    private router: Router
+    private router: Router,
+    private platform: Platform,
+    private commonService: CommonService,
   ) {}
 
   ngOnInit() {
