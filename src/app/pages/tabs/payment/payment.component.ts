@@ -124,6 +124,7 @@ export class PaymentComponent implements OnInit {
           response.status.description,
           this.coreService.TOAST_ERROR
         );
+        this.ConfirmSaveCardModal.dismiss();
       }
     });
 

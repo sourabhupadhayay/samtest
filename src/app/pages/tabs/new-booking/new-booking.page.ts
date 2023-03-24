@@ -551,6 +551,18 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
     if (!bidAmount) {
       return;
     }
+    if(bidAmount == '0'){
+      if(this.userRole == "fan") {
+        this.fanForm.controls['minBid'].reset();
+      } else {
+        this.athleteForm.controls['minBid'].reset();
+      }
+      this.coreService.showToastMessage(
+       "Minimum amount should be greater than 0",
+        this.coreService.TOAST_ERROR
+      );
+      return;
+    }
     if (bidAmount.includes("$")) {
       bidAmount = bidAmount.replace("$", "");
     }

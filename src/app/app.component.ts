@@ -381,10 +381,19 @@ export class AppComponent implements OnInit, OnDestroy {
 
   isUserLoggedInFirstTime() {
     Preferences.get({ key: "first_time" }).then(({ value }) => {
-      console.log("first time", value);
+      console.log("first time ",window.location.href,this.router.url);
+      let url = window.location.href;
+      console.log("url ",url);
 
       if (!value && this.authService.data.isLoggedIn == false) {
-        this.router.navigate(["/bubble-screen"]);
+        if (url.indexOf('signup') > -1) {
+          console.log("has signup");
+          return;
+        } else {
+          console.log("no signup");
+          this.router.navigate(["/bubble-screen"]);
+        }
+        // this.router.navigate(["/bubble-screen"]);
       }
     });
   }

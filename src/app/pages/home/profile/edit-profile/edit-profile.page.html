@@ -144,7 +144,7 @@
               > -->
               <ion-datetime  mode="ios" #dateTime1 displayFormat="DD.MM.YYYY" 
               presentation="date" prefer-wheel="true"  [showDefaultButtons]="true"
-              (ionChange)="patchDateValue(dateTime1.value)">
+              (ionChange)="patchDateValue(dateTime1.value)" [value] = "dateOfBirth">
                 <span slot="title" class="tile-font">Select Birthdate</span></ion-datetime
               >
             </ion-content>

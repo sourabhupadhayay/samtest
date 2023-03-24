@@ -27,6 +27,8 @@ export class SignupPage implements OnInit {
     termCondition: new FormControl<boolean>(false),
   });
   term:any;
+  emailFromUrl : string = '';
+  isEmailFromRoute : boolean = false;
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -40,6 +42,20 @@ export class SignupPage implements OnInit {
   ) {}
 
   ngOnInit() {
+    let email:string  = this.router.url;
+    email = email.slice(13);
+    console.log("email ",email);
+    this.getEmailFromURL(this.router.url)
+  }
+
+  getEmailFromURL(url:any) {
+    this.emailFromUrl = url.slice(13);
+    if(this.emailFromUrl) {
+      this.isEmailFromRoute = true;
+      this.signUpForm.controls['email'].patchValue(this.emailFromUrl);
+      this.signUpForm.controls['email'].setValue(this.emailFromUrl);
+      this.signUpForm.controls['email'].disable();
+    }
   }
 
   onclick_cancel(): void {
@@ -55,7 +71,9 @@ export class SignupPage implements OnInit {
     if (this.signUpForm.invalid) {
       return;
     }
-
+    if(this.isEmailFromRoute) {
+      this.signUpForm.value.email = this.emailFromUrl
+    }
     let request: Request = {
       path: "auth/users/signUp",
       data: { ...this.signUpForm.value },

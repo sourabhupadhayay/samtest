@@ -11,12 +11,12 @@
       <span *ngIf="this.platform.is('android')" class="version-txt">{{commonService?.androidAppVersion}} ({{commonService?.androidBuildVersion}})</span>
       <span *ngIf="this.platform.is('ios')" class="version-txt">{{commonService?.IOSAppVersion}} ({{commonService?.IOSBuildVersion}})</span>
     </div>
-      <span class="filter-icon" slot="end">
+      <span class="filter-icon" slot="end" (click)="resetFilters()">
         <img 
-          (click)="presentPopover($event)"
+        id="terms-of-use"
           src="assets/icon/filter-icon.svg"
         />
-        <ion-popover
+        <!-- <ion-popover
           #popover
           [isOpen]="isOpen"
           interface="popover"
@@ -40,7 +40,7 @@
               </ion-item>
             </ion-radio-group>
           </ng-template>
-        </ion-popover>
+        </ion-popover> -->
       </span>
     </ion-toolbar>
   </ion-header>
@@ -128,3 +128,177 @@
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>
+
+
+<!-- Filter Modal -->
+<ion-modal trigger="terms-of-use" class="filter-modal">
+  <ng-template>
+    <ion-header mode="ios">
+      <ion-toolbar>
+        <ion-grid class="logo-head">
+          <img src="assets/icon/logo-new.svg" />
+          <div class="nil4all">
+            <span>#NIL4ALL</span>
+          </div>
+        </ion-grid>
+        <!-- <ion-icon slot="end" name="close-outline" (click)="onclick_cancel()"></ion-icon> -->
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+      <ion-grid class="filter-title">
+        <h5 (click)="cancel()"><img src="assets/icon/arrow-back-blue.svg"> Filters</h5>
+      </ion-grid>
+      <ion-grid class="content-part">
+          <div class="menu-part-left">
+
+            <ion-segment [scrollable]="true" value="All" [(ngModel)]="selectedIndex"  mode="ios" (ngModelChange)="getCategoriesData()">
+              <ion-segment-button value="All" mode="ios">
+                <div class="icon-text">
+                  <img class="d-active" src="assets/images/all-active.gif">
+                  <img class="active" src="assets/images/all.gif">
+                  <p>All</p>
+                </div>
+              </ion-segment-button>
+              <ion-segment-button value="Sports" mode="ios">
+                <div class="icon-text">
+                  <img class="d-active" src="assets/images/rugby.gif">
+                  <img class="active" src="assets/images/rugby-active.gif">
+                  <p>Sports</p>
+                </div>
+              </ion-segment-button>
+              <!-- <ion-segment-button value="Entertainment" mode="ios">
+                <div class="icon-text">
+                  <img class="d-active" src="assets/images/rugby.gif">
+                  <img class="active" src="assets/images/rugby-active.gif">
+                  <p>Entertainment</p>
+                </div>
+              </ion-segment-button> -->
+              <ion-segment-button value="OnlineAthletes" mode="ios">
+                <div class="icon-text">
+                  <img class="d-active" src="assets/images/online.gif">
+                  <img class="active" src="assets/images/online.gif">
+                  <span class="user-shape"></span>
+                  <p>Online Athletes</p>
+                </div>
+              </ion-segment-button>
+              <ion-segment-button value="OfflineAthletes" mode="ios">
+                <div class="icon-text">
+                  <img class="d-active" src="assets/images/offline.gif">
+                  <img class="active" src="assets/images/offline.gif">
+                  <span class="user-shape"></span>
+                  <p>Offline Athletes</p>
+                </div>
+              </ion-segment-button>
+            </ion-segment>
+
+             
+          </div>
+          <div class="filter-list-right">
+            <!-- All -->
+              <div class="all-filter" *ngIf="selectedIndex == 'All'">
+                  <div class="select-item">
+                      <ion-item lines="none">
+                          <ion-checkbox slot="start" mode="ios" [(ngModel)]="allAthletes" (ionChange)="getFilterInputs($event,'ALL')"></ion-checkbox>
+                          <ion-label>All Athletes 
+                            <!-- <span>({{this.totalElements}})</span> -->
+                          </ion-label>
+                      </ion-item>
+                  </div>
+              </div>
+
+              <!-- Sports -->
+              <div class="all-filter" *ngIf="selectedIndex == 'Sports'">
+                  <div class="main-part" *ngIf="showSportCategories">
+                      <div class="select-item" *ngFor="let categories of sportCategories">
+                        <ion-item lines="none">
+                            <ion-label>{{categories?.category}} <span>({{categories?.totalTeams}})</span></ion-label>
+                            <ion-icon slot="end" name="chevron-forward-outline" (click)="getSelectedCategoryName(categories?.category)"></ion-icon>
+                        </ion-item>
+                    </div>
+                  </div>
+
+                  <div class="inner-part" *ngIf="showSelectedCategoriesInDetail">
+                      <div class="back-menu">
+                        <ion-item lines="none">
+                          <ion-icon *ngIf="this.selectedCategories[0]" slot="start" name="chevron-back-outline" (click)="showHideContent()"></ion-icon>
+                          <ion-label>{{this.selectedCategories[0]}}</ion-label>
+                        </ion-item>
+                      </div>
+                      <ion-grid class="search-bar" *ngIf="this.selectedCategories[0]">
+                        <ion-searchbar
+                          mode="ios"
+                          placeholder="Search your favourite"
+                          [formControl]="categoriesSearchControl"
+                        ></ion-searchbar>
+                      </ion-grid>
+                      <div class="select-item">
+                        <ion-item lines="none">
+                            <ion-checkbox slot="start" mode="ios"  (ionChange)="getFilterInputs($event,this.selectedCategories[0])"></ion-checkbox>
+                            <ion-label>All {{this.selectedCategories[0]}} </ion-label>
+                        </ion-item>
+                      </div>
+                      <div class="team-tlt" *ngIf="this.selectedCategories[0]">
+                        <h6>{{this.selectedCategories[0]}} Teams</h6>
+                      </div>
+
+                      <div class="select-item"  *ngIf="this.teams">
+                        <ion-item lines="none" *ngFor="let team of teamObj">
+                            <ion-checkbox slot="start" mode="ios" [(ngModel)]="team.checked" value="{{team.teamName}}" (ionChange)="selectTeams(team.teamName)"></ion-checkbox>
+                            <ion-label>{{team.teamName}}</ion-label>
+                        </ion-item>
+                      </div>
+
+                      <div class="select-item" *ngIf="!this.teams && this.selectedCategories[0]">
+                        <ion-item lines="none">
+                            <ion-label>No {{this.selectedCategories[0]}} players found!</ion-label>
+                        </ion-item>
+                      </div>
+                      
+                  </div>
+              </div>
+
+              <div class="all-filter" *ngIf="selectedIndex == 'OnlineAthletes'">
+                <div class="select-item">
+                    <ion-item lines="none">
+                        <ion-checkbox slot="start" mode="ios" [(ngModel)]="OnlineAthletes" (ionChange)="getFilterInputs($event,'ONLINE')"></ion-checkbox>
+                        <ion-label>Online Athletes
+                           <!-- <span>(30)</span> -->
+                          </ion-label>
+                    </ion-item>
+                </div>
+            </div>
+
+            <div class="all-filter" *ngIf="selectedIndex == 'OfflineAthletes'">
+              <div class="select-item">
+                  <ion-item lines="none">
+                      <ion-checkbox slot="start" mode="ios" [(ngModel)]="offlineAthletes" (ionChange)="getFilterInputs($event,'OFFLINE')"></ion-checkbox>
+                      <ion-label>Offline Athletes
+                         <!-- <span>(15)</span> -->
+                        </ion-label>
+                  </ion-item>
+              </div>
+          </div>
+         </div>
+      </ion-grid>
+    </ion-content>
+    <ion-footer mode="ios">
+      <ion-toolbar mode="ios">
+          <ion-grid>
+              <ion-row>
+                  <ion-col size="4">
+                    <ion-button class="cancel-btn" (click)="cancel()">
+                      Cancel
+                    </ion-button>
+                  </ion-col>
+                  <ion-col size="8">
+                    <ion-button class="send-btn" (click)="applyFilters()">
+                      Apply Filter
+                    </ion-button>
+                  </ion-col>
+              </ion-row>
+          </ion-grid>
+      </ion-toolbar>
+    </ion-footer>
+  </ng-template>
+</ion-modal>

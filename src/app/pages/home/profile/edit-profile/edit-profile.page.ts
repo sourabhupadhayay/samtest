@@ -42,6 +42,7 @@ export class EditProfilePage implements OnInit {
   currentUserRole: any | "fan" | "athlete";
   isUserProfileComplete: boolean = true;
   badgeCount:any;
+  dateOfBirth:any = new Date().toISOString();
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -155,6 +156,7 @@ export class EditProfilePage implements OnInit {
     if (this.currentUserRole == "fan") {
       this.fanProfileForm.patchValue(data);
       this.patchDateValue(data.birthDate);
+      this.dateOfBirth = data.birthDate;
     } else {
       this.athleteProfileForm.patchValue(data);
     }
