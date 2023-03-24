@@ -136,9 +136,10 @@
     <ion-header mode="ios">
       <ion-toolbar>
         <ion-grid class="logo-head">
-          <img src="assets/icon/logo-new.svg" />
-          <div class="nil4all">
-            <span>#NIL4ALL</span>
+          <div class="logo-v tag-logo">
+            <img src="assets/images/logo.svg" />
+            <span *ngIf="this.platform.is('android')" class="version-txt">{{commonService?.androidAppVersion}} ({{commonService?.androidBuildVersion}})</span>
+            <span *ngIf="this.platform.is('ios')" class="version-txt">{{commonService?.IOSAppVersion}} ({{commonService?.IOSBuildVersion}})</span>
           </div>
         </ion-grid>
         <!-- <ion-icon slot="end" name="close-outline" (click)="onclick_cancel()"></ion-icon> -->
