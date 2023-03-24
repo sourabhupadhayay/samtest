@@ -50,6 +50,7 @@ export class BubbleScreenListPage implements OnInit {
   allSportsAthletes : boolean = false;
   isOnline : boolean = false;
   teamObj : any = {};
+  athleteCount: any;
   
   constructor(
     private apiService: DataService,
@@ -67,16 +68,21 @@ export class BubbleScreenListPage implements OnInit {
     this.audio.src = "assets/audio/bubble-bursting.mp3";
     this.audio.load();
     this.getAthletes();
+    this.getAthleteCounts();
     this.getSubCategoriesList();
     this.searchAthlete();
     // this.getAuthPublicInfo();
     this.serachListFromCategories();
   }
 
-  async getUserRole() {
-    let userRole: userRole = await this.coreService?.getUserRoleFromStorage();
-    this.userRole = userRole?.toUpperCase();
-    this.getSubCategoriesList();
+  getAthleteCounts() {
+    let request: Request = {
+      path: "auth/dashboard/statistics/ATHLETE",
+      isAuth: false,
+    };
+    this.apiService.get(request).subscribe((response: Response) => {
+      this.athleteCount = response?.data;
+    });
   }
 
   async resetFilters() {
@@ -260,6 +266,7 @@ export class BubbleScreenListPage implements OnInit {
           teamNames : this.selectedTeams,
           userRole : "ATHLETE",
           search: this.searchControl.value,
+          userStatuses: [ "ACTIVE" ]
           // online: this.isOnline
         },
         page: {
@@ -310,6 +317,7 @@ export class BubbleScreenListPage implements OnInit {
        data={
         userRole: "ATHLETE",
         online:e,
+        userStatuses: [ "ACTIVE" ]
       }
     
 

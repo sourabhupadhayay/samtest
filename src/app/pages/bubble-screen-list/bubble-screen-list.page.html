@@ -201,7 +201,7 @@
                       <ion-item lines="none">
                           <ion-checkbox slot="start" mode="ios" [(ngModel)]="allAthletes" (ionChange)="getFilterInputs($event,'ALL')"></ion-checkbox>
                           <ion-label>All Athletes 
-                            <!-- <span>({{this.totalElements}})</span> -->
+                            <span>({{athleteCount.totalCount}})</span>
                           </ion-label>
                       </ion-item>
                   </div>
@@ -263,7 +263,7 @@
                     <ion-item lines="none">
                         <ion-checkbox slot="start" mode="ios" [(ngModel)]="OnlineAthletes" (ionChange)="getFilterInputs($event,'ONLINE')"></ion-checkbox>
                         <ion-label>Online Athletes
-                           <!-- <span>(30)</span> -->
+                          <span>({{athleteCount.onlineCount}})</span>
                           </ion-label>
                     </ion-item>
                 </div>
@@ -274,7 +274,7 @@
                   <ion-item lines="none">
                       <ion-checkbox slot="start" mode="ios" [(ngModel)]="offlineAthletes" (ionChange)="getFilterInputs($event,'OFFLINE')"></ion-checkbox>
                       <ion-label>Offline Athletes
-                         <!-- <span>(15)</span> -->
+                        <span>({{athleteCount.offlineCount}})</span>
                         </ion-label>
                   </ion-item>
               </div>
