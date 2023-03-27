@@ -166,14 +166,14 @@ export class BubbleScreenListPage implements OnInit {
   }
   cancel() {
     this.modal.dismiss();
-    this.selectedCategories = [];
-    this.selectedTeams = [];
     this.selectedIndex = "All";
-    this.onlineAthletes = false;
-    this.offlineAthletes =  false;
-    this.showHideContent();
-    this.getSubCategoriesList();
-    this.getAthletes();
+    // this.selectedCategories = [];
+    // this.selectedTeams = [];
+    // this.onlineAthletes = false;
+    // this.offlineAthletes =  false;
+    // this.showHideContent();
+    // this.getSubCategoriesList();
+    // this.getAthletes();
   }
   selectTeams(team:any) {
     if(this.selectedTeams.includes(team)) {

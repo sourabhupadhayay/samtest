@@ -391,7 +391,7 @@ export class AppComponent implements OnInit, OnDestroy {
           return;
         } else {
           console.log("no signup");
-          this.router.navigate(["/bubble-screen"]);
+          // this.router.navigate(["/bubble-screen"]);
         }
         // this.router.navigate(["/bubble-screen"]);
       }
