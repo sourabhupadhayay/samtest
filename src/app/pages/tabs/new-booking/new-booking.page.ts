@@ -106,7 +106,9 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
     console.log("type ",this.commonService.fanEventType)
     this.setDuration();
     this.initAppearanceForm();
+   if(this.commonService.fanEventType == 'VIDEO') {
     this.fanForm.get("duration").disable();
+   }
     this.getUserRole();
     this.eventTypeSelected();
     this.getSelectedAthlete();
@@ -116,7 +118,13 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
   getAppearanceData() {
     // this.fanEventType= this.commonService.fanEventType;
     console.log('ff ',this.fanEventType);
+    if(this.fanEventType == 'VIDEO') {
+      this.fanForm.controls.duration.patchValue(
+        this.commonService.publicInfo.defaultDurationOfFanEvent + "min"
+      );
+    }
     this.isTermsAndConditionAccepted = false;
+
   }
   setTimeZone() {
     if (this.platform.is("ios")) {
@@ -320,6 +328,7 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
   }
 
   fanDataRequest() {
+    console.log("data ",this.fanForm.value)
     this.isFanFormSubmitted = true;
 
     // this.fanForm.controls.minBid.patchValue(

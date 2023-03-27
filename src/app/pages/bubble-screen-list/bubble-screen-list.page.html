@@ -148,8 +148,14 @@
 
     <ion-content>
       <ion-grid class="filter-title">
-        <h5>Filters</h5>
-        <!-- <h5 (click)="cancel()">Reset</h5> -->
+        <ion-row>
+           <ion-col>
+            <h5>Filters</h5>
+           </ion-col>
+           <ion-col class="ion-text-end">
+            <h4 (click)="cancel()"><img src="assets/icon/reset-btn.svg"> Reset</h4>
+           </ion-col>
+        </ion-row>
       </ion-grid>
       <ion-grid class="content-part">
           <div class="menu-part-left">

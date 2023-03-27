@@ -217,6 +217,10 @@
               margin: 0;
               width: 22px;
             }
+            &.item-interactive-disabled{
+              --background: #dbdbdb;
+              ion-input{background-color: #dbdbdb;}
+            }
           }
           .transparent-input {
             height: 100%;

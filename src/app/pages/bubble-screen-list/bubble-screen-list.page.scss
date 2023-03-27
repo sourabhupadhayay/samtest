@@ -386,6 +386,9 @@ ion-content {
       h5{font-size: 1rem; font-weight: 600; margin: 0; color: var(--theme-one-clr); position: relative; padding-left: 25px;
         img{width: 20px; position: absolute; left: 0; top: 0; bottom: 0; margin: auto; height: fit-content;}
       }
+      h4{font-size: 1rem; font-weight: 600; margin: 0; color: var(--theme-one-clr); position: relative; padding-left: 25px; display: inline-block;
+        img{ width: 20px; position: absolute; left: 0; top: 0; bottom: 0; margin: auto; height: fit-content;}
+      }
     }
     ion-grid.content-part{margin: 0; padding:0px; height: calc(100% - 40px); max-height: calc(100% - 40px); overflow: auto;
       .menu-part-left{display: inline-block; width: 110px; vertical-align: top; height: 100%; background: var(--theme-one-bg);  padding: 0px; position: sticky; top: 0; overflow: auto;
