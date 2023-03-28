@@ -237,7 +237,6 @@ export class BubbleScreenListPage implements OnInit {
   }
 
   goBack() {
-    //this.location.back();
     this.router.navigate(["/bubble-screen"]);
     this.selectedCategories = [];
     this.selectedTeams = [];
@@ -246,7 +245,6 @@ export class BubbleScreenListPage implements OnInit {
   }
 
   getCategoriesData() {
-    console.log("segment ",this.selectedIndex);
     this.allAthletes = false;
     this.onlineAthletes = false;
     this.offlineAthletes = false;
@@ -381,7 +379,6 @@ export class BubbleScreenListPage implements OnInit {
   }
 
   sortFilters() {
-    console.log("sel catt ",this.selectedCategories)
     if(this.selectedCategories.length == 1 && this.selectedCategories.includes('ALL')) 
     {
      this.selectedTeams = [];

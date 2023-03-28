@@ -182,7 +182,7 @@
                   <p>Entertainment</p>
                 </div>
               </ion-segment-button> -->
-              <ion-segment-button value="OnlineAthletes" mode="ios">
+              <ion-segment-button value="online" mode="ios">
                 <div class="icon-text">
                   <img class="d-active" src="assets/images/online.gif">
                   <img class="active" src="assets/images/online.gif">
@@ -190,7 +190,7 @@
                   <p>Online Athletes</p>
                 </div>
               </ion-segment-button>
-              <ion-segment-button value="OfflineAthletes" mode="ios">
+              <ion-segment-button value="offline" mode="ios">
                 <div class="icon-text">
                   <img class="d-active" src="assets/images/offline.gif">
                   <img class="active" src="assets/images/offline.gif">
@@ -266,10 +266,10 @@
                   </div>
               </div>
 
-              <div class="all-filter" *ngIf="selectedIndex == 'OnlineAthletes'">
+              <div class="all-filter" *ngIf="selectedIndex == 'online'">
                 <div class="select-item">
                     <ion-item lines="none">
-                        <ion-checkbox slot="start" mode="ios" [(ngModel)]="OnlineAthletes" (ionChange)="getFilterInputs($event,'ONLINE')"></ion-checkbox>
+                        <ion-checkbox slot="start" mode="ios" (ionChange)="getFilterInputs($event,'ONLINE')"></ion-checkbox>
                         <ion-label>Online Athletes
                           <span>({{athleteCount.onlineCount}})</span>
                           </ion-label>
@@ -277,10 +277,10 @@
                 </div>
             </div>
 
-            <div class="all-filter" *ngIf="selectedIndex == 'OfflineAthletes'">
+            <div class="all-filter" *ngIf="selectedIndex == 'offline'">
               <div class="select-item">
                   <ion-item lines="none">
-                      <ion-checkbox slot="start" mode="ios" [(ngModel)]="offlineAthletes" (ionChange)="getFilterInputs($event,'OFFLINE')"></ion-checkbox>
+                      <ion-checkbox slot="start" mode="ios" (ionChange)="getFilterInputs($event,'OFFLINE')"></ion-checkbox>
                       <ion-label>Offline Athletes
                         <span>({{athleteCount.offlineCount}})</span>
                         </ion-label>
