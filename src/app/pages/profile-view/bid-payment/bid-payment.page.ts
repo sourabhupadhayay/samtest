@@ -228,9 +228,11 @@ export class BidPaymentPage implements OnInit {
   }
 
   getToFixedDigits(event:any){
-    if(event.target.value !== '')
-     event.target.value = parseFloat(event.target.value).toFixed(2)
+    if(event.target.value !== '') {
+    let val = (Math.trunc(event.target.value)).toString();
+    event.target.value = parseFloat(val).toFixed(2)
     }
+  }
 
   validatePreviosBidAmount(e:any) {
     let input = e.target.value;

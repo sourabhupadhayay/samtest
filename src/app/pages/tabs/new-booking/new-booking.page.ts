@@ -578,6 +578,7 @@ export class NewBookingPage implements OnInit { athleteForm: FormGroup;
     if (bidAmount.includes(",")) {
       bidAmount = bidAmount.replace(",", "");
     }
+    bidAmount = bidAmount.split('.')[0];
     let convertedAmount = this.currencyPipe.transform(bidAmount, "$");
     if (this.userRole == "fan") {
       this.fanForm.controls.minBid.patchValue(convertedAmount);
