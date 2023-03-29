@@ -229,11 +229,11 @@
                   <div class="inner-part" *ngIf="showSelectedCategoriesInDetail">
                       <div class="back-menu">
                         <ion-item lines="none">
-                          <ion-icon *ngIf="this.selectedCategories[0]" slot="start" name="chevron-back-outline" (click)="showHideContent()"></ion-icon>
-                          <ion-label>{{this.selectedCategories[0]}}</ion-label>
+                          <ion-icon slot="start" name="chevron-back-outline" (click)="showHideContent()"></ion-icon>
+                          <ion-label>{{selectedSport}}</ion-label>
                         </ion-item>
                       </div>
-                      <ion-grid class="search-bar" *ngIf="this.selectedCategories[0]">
+                      <ion-grid class="search-bar">
                         <ion-searchbar
                           mode="ios"
                           placeholder="Search your favourite"
@@ -242,12 +242,12 @@
                       </ion-grid>
                       <div class="select-item">
                         <ion-item lines="none">
-                            <ion-checkbox slot="start" mode="ios"  (ionChange)="getFilterInputs($event,this.selectedCategories[0])"></ion-checkbox>
-                            <ion-label>All {{this.selectedCategories[0]}} </ion-label>
+                            <ion-checkbox slot="start" mode="ios"  (ionChange)="getFilterInputs($event,selectedSport)"></ion-checkbox>
+                            <ion-label>All {{selectedSport}} </ion-label>
                         </ion-item>
                       </div>
-                      <div class="team-tlt" *ngIf="this.selectedCategories[0]">
-                        <h6>{{this.selectedCategories[0]}} Teams</h6>
+                      <div class="team-tlt" *ngIf="selectedSport">
+                        <h6>{{selectedSport}} Teams</h6>
                       </div>
 
                       <div class="select-item"  *ngIf="this.teams">
@@ -257,9 +257,9 @@
                         </ion-item>
                       </div>
 
-                      <div class="select-item" *ngIf="!this.teams && this.selectedCategories[0]">
+                      <div class="select-item" *ngIf="!this.teams && this.selectedSport">
                         <ion-item lines="none">
-                            <ion-label>No {{this.selectedCategories[0]}} players found!</ion-label>
+                            <ion-label>No {{this.selectedSport}} players found!</ion-label>
                         </ion-item>
                       </div>
                       

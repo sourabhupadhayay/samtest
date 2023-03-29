@@ -51,6 +51,7 @@ export class BubbleScreenListPage implements OnInit {
   isOnline : boolean = false;
   teamObj : any = {};
   athleteCount: any;
+  selectedSport: string;
   
   constructor(
     private apiService: DataService,
@@ -108,6 +109,7 @@ export class BubbleScreenListPage implements OnInit {
   }
 
   async getSelectedCategoryName(category:string) {
+    this.selectedSport = category;
     this.selectedCategories = [];
     this.selectedTeams = [];
     await this.selectedCategories.push(category);
@@ -185,6 +187,7 @@ export class BubbleScreenListPage implements OnInit {
   }
 
   getFilterInputs(checked:any,value:string) {
+    this.selectedCategories = [];
     if(checked.detail.checked) {
       this.teamObj.forEach((element,index) => {
         this.teamObj[index]['checked']= true;
@@ -222,7 +225,6 @@ export class BubbleScreenListPage implements OnInit {
         this.pageNumber = 0;
         this.isScrollDisabled = false;
         this.totalElements = 0;
-        console.log("working");
         this.searchControl.patchValue(value);
         this.getAthletes();
       });
@@ -254,7 +256,6 @@ export class BubbleScreenListPage implements OnInit {
   }
 
   getAthletes() {
-    console.log("innn ")
     let request: Request = {
       path: "auth/users/manage/filter",
       data: {
@@ -354,7 +355,6 @@ export class BubbleScreenListPage implements OnInit {
     event.target.complete();
 
     if (this.totalElements <= this.athleteList.length) {
-      console.log("disabled");
       this.isScrollDisabled = true;
     }
   }
@@ -406,6 +406,9 @@ export class BubbleScreenListPage implements OnInit {
     console.log("cat ",this.selectedCategories);
     console.log("teams ",this.selectedTeams);
     if(this.selectedIndex == 'Sports') {
+      if(this.selectedCategories.length == 0){
+        this.selectedCategories.push(this.selectedSport);
+      }
       await this.getAthletes();
       this.modal?.dismiss();
     }else {
