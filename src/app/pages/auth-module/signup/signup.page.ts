@@ -55,6 +55,7 @@ export class SignupPage implements OnInit {
       this.signUpForm.controls['email'].patchValue(this.emailFromUrl);
       this.signUpForm.controls['email'].setValue(this.emailFromUrl);
       this.signUpForm.controls['email'].disable();
+      this.commonService.isDirectedFromInviteLink  = this.isEmailFromRoute;
     }
   }
 
@@ -85,6 +86,9 @@ export class SignupPage implements OnInit {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
         this.saveSignupData();
+        if(this.isEmailFromRoute) {
+          this.commonService.signUpWithInviteLinkDetails = response['data'];
+        }
         this.router.navigate(["/auth/verify-otp"], {
           queryParams: {
             mode: "signup",

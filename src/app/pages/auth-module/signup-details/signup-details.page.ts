@@ -87,7 +87,14 @@ export class SignupDetailsPage implements OnInit {
       school: ["", Validators.pattern("^[a-zA-Z ]*$")],
       country: ["", Validators.pattern("^[a-zA-Z ]*$")],
     });
-    this.getSignUpData();
+   
+    if(this.common.isDirectedFromInviteLink) {
+      console.log("in link")
+      this.getInvitedAthleteDetails();
+    } else {
+      console.log("not in link")
+      this.getSignUpData();
+    }
   }
 
   onPasswordChanged() {
@@ -117,6 +124,20 @@ export class SignupDetailsPage implements OnInit {
     this.signUpDetailsForm.controls.phone.patchValue(
       this.common.signUpData.phone
     );
+
+    this.signUpDetailsForm.controls.phone.disable({ onlySelf: true });
+  }
+
+  getInvitedAthleteDetails() {
+    console.log("invite details ",this.common.signUpWithInviteLinkDetails)
+    if (!this.common.signUpWithInviteLinkDetails) {
+      return;
+    }
+    
+    this.signUpDetailsForm.patchValue(this.common.signUpWithInviteLinkDetails);
+    this.signUpDetailsForm.patchValue({
+      birthdate: this.patchDateValue(this.common.signUpWithInviteLinkDetails.birthDate)
+    })
 
     this.signUpDetailsForm.controls.phone.disable({ onlySelf: true });
   }
@@ -167,6 +188,8 @@ export class SignupDetailsPage implements OnInit {
           this.coreService.TOAST_SUCCESS
         );
         this.router.navigate(["/auth/login"]);
+        this.common.signUpWithInviteLinkDetails = null;
+        this.common.isDirectedFromInviteLink = false;
       } else {
         this.coreService.dismissLoader();
         this.coreService.showToastMessage(
