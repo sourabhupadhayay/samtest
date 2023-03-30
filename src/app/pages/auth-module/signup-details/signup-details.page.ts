@@ -63,7 +63,7 @@ export class SignupDetailsPage implements OnInit {
     this.onPasswordChanged();
   }
   ionViewDidEnter() {
-    this.getSignUpData();
+    this.patchFormData();
   }
   ionViewDidLeave() {
     this.modalCtrl.dismiss();
@@ -88,6 +88,10 @@ export class SignupDetailsPage implements OnInit {
       country: ["", Validators.pattern("^[a-zA-Z ]*$")],
     });
    
+    this.patchFormData();
+  }
+
+  patchFormData() {
     if(this.common.isDirectedFromInviteLink) {
       console.log("in link")
       this.getInvitedAthleteDetails();
