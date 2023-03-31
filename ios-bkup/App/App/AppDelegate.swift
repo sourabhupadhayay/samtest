@@ -3,7 +3,7 @@ import Capacitor
 import FirebaseCore
 import FirebaseMessaging
 import FBSDKCoreKit
-//import SquareInAppPaymentsSDK
+import SquareInAppPaymentsSDK
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       //SQIPInAppPaymentsSDK.squareApplicationID = "sandbox-sq0idb-r92A0oxpvi6g0Y1wHRzYwA"
       
       // Production APPID
-      //SQIPInAppPaymentsSDK.squareApplicationID = "sq0idp-10OYBrScRrwJSk2nz1w3Og"
+      SQIPInAppPaymentsSDK.squareApplicationID = "sq0idp-10OYBrScRrwJSk2nz1w3Og"
        
     return true
   }

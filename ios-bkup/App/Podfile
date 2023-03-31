@@ -31,15 +31,11 @@ end
 
 target 'App' do
   capacitor_pods
-  # Add your Pods here
-  pod 'FBSDKCoreKit',:modular_headers => true
-  pod 'FBSDKLoginKit',:modular_headers => true
-  pod 'FBSDKShareKit',:modular_headers => true
-pod 'Firebase/Messaging',:modular_headers => true
-pod 'Firebase/Analytics',:modular_headers => true
-
+pod 'FBSDKCoreKit'
+  pod 'FBSDKLoginKit'
+  pod 'FBSDKShareKit'
+pod 'Firebase/Messaging'
+pod 'Firebase/Analytics'
+pod 'SquareInAppPaymentsSDK'
 end
 
-post_install do |installer|
-  assertDeploymentTarget(installer)
-end

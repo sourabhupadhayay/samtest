@@ -12,7 +12,7 @@ import { DataService, Request, Response } from "./data.service";
 })
 export class CommonService {
   public publicInfo: any;
-  public $profileSubject: Subject<any> = new Subject();
+  public $profileSubject: Subject<void> = new Subject();
   profileUrl: string = "";
   callingAthleteDetails: any | null = null;
   callingFanDetail: any | null = null;
@@ -25,8 +25,8 @@ export class CommonService {
   VideoCallAnswer: boolean = false;
   bidAmount : any = 0;
   fanEventType: "VIDEO" | "IN_PERSON" = "VIDEO";
-  public $socketSubject: Subject<null> = new Subject();
-  public $navigateSubject: Subject<null> = new Subject();
+  public $socketSubject: Subject<void> = new Subject();
+  public $navigateSubject: Subject<void> = new Subject();
   constructor(
     private apiService: DataService,
     private constantService: ConstantService,
