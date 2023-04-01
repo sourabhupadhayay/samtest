@@ -16,7 +16,7 @@
 		7E034526294B13D7003820AA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7E034525294B13D7003820AA /* GoogleService-Info.plist */; };
 		7E985D8A2869BC7100AF4A21 /* Splash_Bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E985D892869BC7100AF4A21 /* Splash_Bubble.png */; };
 		A084ECDBA7D38E1E42DFC39D /* Pods_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF277DCFFFF123FFC6DF26C7 /* Pods_App.framework */; };
-		BC2A71F429A5F06A00CD0AF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BC2A71F329A5F06A00CD0AF6 /* Assets.xcassets */; };
+		CF5DFB6029D6E3C400B8F827 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF5DFB5F29D6E3C400B8F827 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +33,7 @@
 		7E985D892869BC7100AF4A21 /* Splash_Bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Splash_Bubble.png; sourceTree = "<group>"; };
 		AF277DCFFFF123FFC6DF26C7 /* Pods_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF51FD2D460BCFE21FA515B2 /* Pods-App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App.release.xcconfig"; path = "Pods/Target Support Files/Pods-App/Pods-App.release.xcconfig"; sourceTree = "<group>"; };
-		BC2A71F329A5F06A00CD0AF6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = "../../../../../../../ankita/Downloads/AppIcons 2/Assets.xcassets"; sourceTree = "<group>"; };
+		CF5DFB5F29D6E3C400B8F827 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = ../../../../../../Downloads/AppIcons/Assets.xcassets; sourceTree = "<group>"; };
 		FC68EB0AF532CFC21C3344DD /* Pods-App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App.debug.xcconfig"; path = "Pods/Target Support Files/Pods-App/Pods-App.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -82,7 +82,7 @@
 				50379B222058CBB4000EE86E /* capacitor.config.json */,
 				504EC3071FED79650016851F /* AppDelegate.swift */,
 				504EC30B1FED79650016851F /* Main.storyboard */,
-				BC2A71F329A5F06A00CD0AF6 /* Assets.xcassets */,
+				CF5DFB5F29D6E3C400B8F827 /* Assets.xcassets */,
 				7E034525294B13D7003820AA /* GoogleService-Info.plist */,
 				504EC3101FED79650016851F /* LaunchScreen.storyboard */,
 				504EC3131FED79650016851F /* Info.plist */,
@@ -169,7 +169,7 @@
 				7E985D8A2869BC7100AF4A21 /* Splash_Bubble.png in Resources */,
 				504EC30D1FED79650016851F /* Main.storyboard in Resources */,
 				7E034526294B13D7003820AA /* GoogleService-Info.plist in Resources */,
-				BC2A71F429A5F06A00CD0AF6 /* Assets.xcassets in Resources */,
+				CF5DFB6029D6E3C400B8F827 /* Assets.xcassets in Resources */,
 				2FAD9763203C412B000D30F8 /* config.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -360,13 +360,13 @@
 				CODE_SIGN_ENTITLEMENTS = App/AppDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 49HKC2RGD2;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 14.0;
+				MARKETING_VERSION = 15.0;
 				OTHER_CODE_SIGN_FLAGS = "--generate-entitlement-der";
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" \"-DDEBUG\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bubble.bubbleapp;
@@ -388,13 +388,13 @@
 				CODE_SIGN_ENTITLEMENTS = App/AppDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 49HKC2RGD2;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 14.0;
+				MARKETING_VERSION = 15.0;
 				OTHER_CODE_SIGN_FLAGS = "--generate-entitlement-der";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bubble.bubbleapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";

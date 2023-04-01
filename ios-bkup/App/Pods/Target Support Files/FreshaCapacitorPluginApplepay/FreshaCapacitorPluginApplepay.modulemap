@@ -1,0 +1,6 @@
+framework module FreshaCapacitorPluginApplepay {
+  umbrella header "FreshaCapacitorPluginApplepay-umbrella.h"
+
+  export *
+  module * { export * }
+}
