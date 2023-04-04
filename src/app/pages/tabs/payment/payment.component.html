@@ -12,10 +12,10 @@
   <div class="inner-content">
     <div class="main-screen">
       <div class="payment-select">
-        <ion-radio-group [(ngModel)]="paymentType" mode="md">
+        <ion-radio-group [(ngModel)]="paymentType" mode="md" (ionChange)="PaymentTypeSelect($event)">
           <div class="select-item">
-            <!-- <ion-item lines="none" mode="md">
-              <ion-radio slot="start" value="apple"></ion-radio>
+            <ion-item lines="none" mode="md">
+              <ion-radio slot="start" value="APPLE_PAYMENT"></ion-radio>
               <ion-label>
                 <h5>Apple Pay</h5>
                 <p>Balance : <span>$500</span></p>
@@ -31,11 +31,11 @@
                 class="unchecked"
                 src="assets/images/apple-pay-gray.svg"
               />
-            </ion-item> -->
+            </ion-item>
           </div>
 
           <div class="select-item">
-            <ion-item lines="none" mode="md" (click)="showPayment()">
+            <ion-item lines="none" mode="md" >
               <ion-radio slot="start" value="SQUARE_PAYMENT"></ion-radio>
               <ion-label>
                 <h5>Credit Card</h5>
@@ -58,12 +58,12 @@
                   <div id="card-container"></div>
                 </form>
                 <div id="payment-status-container"></div>
-                <div class="save-card">
+                <!-- <div class="save-card" *ngIf="paymentType=='SQUARE_PAYMENT'">
                   <ion-item lines="none" mode="ios">
                     <ion-label>Save Card</ion-label>
                     <ion-checkbox slot="start" mode="ios"  id="card-button" (ionChange)="CardSaveCheckBox($event)"[(ngModel)]="isChecked"></ion-checkbox>
                   </ion-item>
-                </div>
+                </div> -->
   
               </div>
 
@@ -142,21 +142,27 @@
             </div>
           </div>
         </ion-radio-group>
+        <div class="save-card" *ngIf="paymentType=='SQUARE_PAYMENT'">
+          <ion-item lines="none" mode="ios">
+            <ion-label>Save Card</ion-label>
+            <ion-checkbox slot="start" mode="ios"  id="card-button" (ionChange)="CardSaveCheckBox($event)"[(ngModel)]="isChecked"></ion-checkbox>
+          </ion-item>
+        </div>
       </div>
     </div>
   </div>
 
-  <ion-footer mode="ios">
+  <ion-footer mode="ios" >
     <ion-toolbar mode="ios">
-      <div class="add-card-btn" [hidden]=showPaymentScreen (click)="showPaymentDiv(true)">
+      <div class="add-card-btn" *ngIf="paymentType=='SQUARE_PAYMENT'" [hidden]=showPaymentScreen (click)="showPaymentDiv(true)">
         <ion-button>+ Add New Card</ion-button>
       </div>
-      <div class="add-card-btn" [hidden]=!showPaymentScreen (click)="showPaymentDiv(false)">
+      <div class="add-card-btn"  *ngIf="paymentType=='SQUARE_PAYMENT'"[hidden]=!showPaymentScreen (click)="showPaymentDiv(false)">
         <ion-button>Back to saved cards</ion-button>
       </div>
 
     <!-- select card screen -->
-      <div [hidden]=showPaymentScreen>
+      <div [hidden]=showPaymentScreen >
         <ion-button class="white-btn">
           <img src="assets/icon/close-icon.png" (click)="onClickCancel()"/>
         </ion-button>

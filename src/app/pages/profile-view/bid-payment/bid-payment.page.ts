@@ -10,7 +10,7 @@ import { DataService, Request, Response } from "src/app/providers/data.service";
 import { PaymentComponent } from "../../tabs/payment/payment.component";
 import { PopoverController } from '@ionic/angular';
 import { PushNotificationPage } from "../../push-notification/push-notification.page";
-
+import { ApplePay } from "@fresha/capacitor-plugin-applepay";
 @Component({
   selector: "app-bid-payment",
   templateUrl: "./bid-payment.page.html",
@@ -22,13 +22,15 @@ export class BidPaymentPage implements OnInit {
   nameInitials: string;
   bidAmount: string;
   eventId: string;
-  paymentType: "SQUARE_PAYMENT" | "apple" = "SQUARE_PAYMENT";
+  paymentType: "SQUARE_PAYMENT" | "APPLE_PAYMENT" = "APPLE_PAYMENT";
   paymentData: paymentData | null = null;
   currentBidAmount: string = "";
   MaxAmount: string = "";
   badgeCount :number = 0;
   minBidAmountRequired: number = 0;
   hasPreviosBid : boolean = false;
+  // Apple pay variable
+  PaymentSummaryItem: any = {label: "bid",amount: "",  };
   constructor(
     public modalCtrl: ModalController,
     private coreService: CoreService,
@@ -193,6 +195,14 @@ export class BidPaymentPage implements OnInit {
     this.apiService.post(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
       if (response.status.code === this.constantService.STATUS_OK) {
+        if(this.paymentType=='APPLE_PAYMENT'){
+          ApplePay.completeLastPayment({status:'success'}).then(
+        (res: any) => {
+          console.log("complete", res);
+        
+        }
+          )
+      }
         this.modalCtrl.dismiss();
         this.bidAmount = '';
         this.router.navigate(["waitlist/event/" + this.eventId]);
@@ -288,9 +298,77 @@ export class BidPaymentPage implements OnInit {
       const { role } = await popover.onDidDismiss();
       console.log('onDidDismiss resolved with role', role);
     }
+// Apple pay using square
+    applePayPayment() {
+      this.PaymentSummaryItem.amount=parseFloat(this.commonService.bidAmount).toString()
+      console.log("apple pay ment",this.PaymentSummaryItem);
+      ApplePay.canMakePayments().then((res: any) => {
+        console.log("can make payment", res);
+        try {
+          ApplePay.initiatePayment({
+            merchantIdentifier: "merchant.com.bubbleapp",
+            countryCode: "US",
+            currencyCode: "USD",
+            supportedCountries: ["United States"],
+            supportedNetworks: [
+              "amex",
+              "chinaUnionPay",
+              "cartesBancaires",
+              "discover",
+              "eftpos",
+              "electron",
+              "idCredit",
+              "interac",
+              "JCB",
+              "maestro",
+              "masterCard",
+              "privateLabel",
+              "quicPay",
+              "suica",
+              "visa",
+              "vPay",
+            ],
+            summaryItems: [this.PaymentSummaryItem],
+            requiredShippingContactFields: ["emailAddress"],
+            requiredBillingContactFields: ["emailAddress"],
+            merchantCapabilities: [
+              "capability3DS",
+              "capabilityCredit",
+              "capabilityDebit",
+              "capabilityEMV",
+            ],
+            // billingContact: { emailAddress: "ankita.k@techroversolutions.com" },
+            // shippingContact: { emailAddress: "ankita.k@techroversolutions.com" },
+          }).then((res: any) => {
+            console.log("inital ",res);
+            this.paymentData=res
+            this.paymentData.nonce=res.PaymentNonce
+           this.paymentData.paymentType='APPLE_PAYMENT'
+          
+            this.onPayment()
+           
+          console.log("pay ment 123",this.paymentData.nonce);
+          
+          
+        
+          // 
+            // const decodedPaymentData = atob(res.token.paymentData);
+            // const paymentDataObject = JSON.parse(decodedPaymentData);
+            // console.log("payment convert", paymentDataObject);
+            // ApplePay.completeLastPayment(this.CompletePaymentRequest).then(
+            //   (res: any) => {
+            //     console.log("complete", res);
+            //   }
+            // );
+          });
+        } catch (error) {
+          console.log(error, "apple pay errro");
+        }
+      });
+    }
 }
 interface paymentData {
   nonce: string;
-  paymentType: "SQUARE_PAYMENT" | "apple";
+  paymentType: "SQUARE_PAYMENT" | "APPLE_PAYMENT";
   cardId : string;
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Injectable } from "@angular/core";
 import { format, parseISO } from "date-fns";
-import { Subject } from "rxjs";
+import { Subject, Subscription } from "rxjs";
 import { ConstantService } from "./constant.service";
 
 import { AuthenticationService } from "./authentication.service";
@@ -12,7 +12,7 @@ import { DataService, Request, Response } from "./data.service";
 })
 export class CommonService {
   public publicInfo: any;
-  public $profileSubject: Subject<any> = new Subject();
+  public $profileSubject: Subject<void> = new Subject();
   profileUrl: string = "";
   callingAthleteDetails: any | null = null;
   callingFanDetail: any | null = null;
@@ -25,12 +25,8 @@ export class CommonService {
   VideoCallAnswer: boolean = false;
   bidAmount : any = 0;
   fanEventType: "VIDEO" | "IN_PERSON" = "VIDEO";
-  IOSAppVersion : string = "v1.2";
-  androidAppVersion : string = "v1.2";
-  IOSBuildVersion : number = 11;
-  androidBuildVersion : number = 17;
-  public $socketSubject: Subject<null> = new Subject();
-  public $navigateSubject: Subject<null> = new Subject();
+  public $socketSubject: Subject<void> = new Subject();
+  public $navigateSubject: Subject<void> = new Subject();
   constructor(
     private apiService: DataService,
     private constantService: ConstantService,
@@ -215,4 +211,47 @@ export class CommonService {
       return this.termconditions;
     });
   }
+   //////////////////////////////////////////// FOR EVENT SUBSCRIPTION ////////////////////////////////////////////
+  /**
+   * Subscribe to a topic and provide a single handler/observer.........
+   * @param topic The name of the topic to subscribe to.
+   * @param observer The observer or callback function to listen when changes are published.
+   *
+   * @returns Subscription from which you can unsubscribe to release memory resources and to prevent memory leak.
+   */
+  private channels: { [key: string]: Subject<any> } = {};
+  subscribe(topic: string, observer: (_: any) => void): Subscription {
+    if (!this.channels[topic]) {
+      // You can also use ReplaySubject with one concequence
+      this.channels[topic] = new Subject<any>();
+    }
+    return this.channels[topic].subscribe(observer);
+  }
+  /**
+   * Publish some data to the subscribers of the given topic.
+   * @param topic The name of the topic to emit data to.
+   * @param data data in any format to pass on.
+   */
+  publish(topic: string, data?: any): void {
+    const subject = this.channels[topic];
+    if (!subject) {
+      // Or you can create a new subject for future subscribers
+      return;
+    }
+    subject.next(data);
+  }
+  /**
+   * When you are sure that you are done with the topic and the subscribers no longer needs to listen to a particular topic, you can
+   * destroy the observable of the topic using this method.
+   * @param topic The name of the topic to destroy.
+   */
+  destroy(topic: string): null {
+    const subject = this.channels[topic];
+    if (!subject) {
+      return;
+    }
+    subject.complete();
+    delete this.channels[topic];
+  }
+  
 }
