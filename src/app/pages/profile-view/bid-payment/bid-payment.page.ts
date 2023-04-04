@@ -337,7 +337,7 @@ export class BidPaymentPage implements OnInit {
             // billingContact: { emailAddress: "ankita.k@techroversolutions.com" },
             // shippingContact: { emailAddress: "ankita.k@techroversolutions.com" },
           }).then((res: any) => {
-            console.log("inital ", res.PaymentNonce);
+            console.log("inital ",res);
             this.paymentData=res
             this.paymentData.nonce=res.PaymentNonce
            this.paymentData.paymentType='APPLE_PAYMENT'
