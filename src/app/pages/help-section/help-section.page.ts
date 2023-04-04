@@ -97,7 +97,7 @@ export class HelpSectionPage implements OnInit {
           "message": this.feedbackMsg,
           "role": this.currentUserRole
         },
-        isAuth: false,
+        isAuth: true,
       };
       this.coreService.presentLoader(this.constant.WAIT);
       this.apiService.post(request).subscribe((response: any) => {
