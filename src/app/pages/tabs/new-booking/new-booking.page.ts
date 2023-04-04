@@ -132,17 +132,18 @@ export class NewBookingPage implements OnInit, OnDestroy { athleteForm: FormGrou
     this.setTimeZone();    
     this.getNotificationCount();
   }
-  getAppearanceData() {
-    // this.fanEventType= this.commonService.fanEventType;
-    console.log('ff ',this.fanEventType);
-    if(this.fanEventType == 'VIDEO') {
-      this.fanForm.controls.duration.patchValue(
-        this.commonService.publicInfo.defaultDurationOfFanEvent + "min"
-      );
-    }
-    this.isTermsAndConditionAccepted = false;
-
+  getAppearanceData()
+  {
+  if(this.fanEventType == 'VIDEO') { 
+    this.fanForm.reset(); 
+    this.fanForm.controls.duration.patchValue( this.commonService.publicInfo.defaultDurationOfFanEvent + "min" );  
   }
+  else {
+  this.fanForm.reset(); 
+  this.selectduration = "00:00";
+  }
+  this.isTermsAndConditionAccepted = false;
+}
   setTimeZone() {
     if (this.platform.is("ios")) {
       this.androidTimeZone();
