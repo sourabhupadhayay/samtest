@@ -38,11 +38,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Messaging.messaging().delegate = self
         FirebaseApp.configure()
       //sandbox APPID for square
-            SQIPInAppPaymentsSDK.squareApplicationID = "sandbox-sq0idb-r92A0oxpvi6g0Y1wHRzYwA"
+//            SQIPInAppPaymentsSDK.squareApplicationID = "sandbox-sq0idb-r92A0oxpvi6g0Y1wHRzYwA"
             
             // Production APPID for square
       
-           // SQIPInAppPaymentsSDK.squareApplicationID = "sq0idp-10OYBrScRrwJSk2nz1w3Og"
+            SQIPInAppPaymentsSDK.squareApplicationID = "sq0idp-10OYBrScRrwJSk2nz1w3Og"
        
        
     return true

@@ -118,16 +118,29 @@ export class VerifyOTPPage implements OnInit, OnDestroy {
     if (localStorage.getItem("voipToken")) {
       this.voipToken = localStorage.getItem("voipToken");
     }
-    let request: Request = {
+    let request:Request
+    if(this.platform.is("ios")){
+     request = {
       path:
         "auth/users/otp/verify/" +
         this.otpFormControl.value +
         "?deviceToken=" +
         this.generatedToken +
-        "?voipDeviceToken=" +
+        "&voipDeviceToken=" +
         this.voipToken,
       isAuth: true,
     };
+  }
+  else{
+    request = {
+      path:
+        "auth/users/otp/verify/" +
+        this.otpFormControl.value +
+        "?deviceToken=" +
+        this.generatedToken,
+      isAuth: true,
+    };
+  }
     // this.apiService.post(request).subscribe((response: Response) => {
     //   this.authPublicInfo = response.data;
     // });

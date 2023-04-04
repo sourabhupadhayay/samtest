@@ -25,6 +25,10 @@ export class CommonService {
   VideoCallAnswer: boolean = false;
   bidAmount : any = 0;
   fanEventType: "VIDEO" | "IN_PERSON" = "VIDEO";
+  IOSAppVersion : string = "v1.2";
+  androidAppVersion : string = "v1.2";
+ IOSBuildVersion : number = 10;
+ androidBuildVersion : number = 17;
   public $socketSubject: Subject<void> = new Subject();
   public $navigateSubject: Subject<void> = new Subject();
   constructor(
