@@ -1,6 +1,0 @@
-framework module CapacitorCallkitVoip {
-  umbrella header "CapacitorCallkitVoip-umbrella.h"
-
-  export *
-  module * { export * }
-}

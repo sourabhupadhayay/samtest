@@ -1,6 +1,0 @@
-framework module CapacitorCommunityFacebookLogin {
-  umbrella header "CapacitorCommunityFacebookLogin-umbrella.h"
-
-  export *
-  module * { export * }
-}
