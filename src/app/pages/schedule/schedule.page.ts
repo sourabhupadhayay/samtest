@@ -137,7 +137,7 @@ export class SchedulePage implements OnInit {
         this.getScheduleDetails()
         this.athleteScheduleRequest();
         this.getAthleteEarnings();
-          this.fanScheduleRequest();
+        this.fanScheduleRequest();
     }, 2000);
   }
   async getUserDataFromStorage() {
@@ -335,7 +335,9 @@ export class SchedulePage implements OnInit {
           this.athleteEarnings = response?.data?.totalEarning;
           console.log("athleteEarnings", this.athleteEarnings);
 
-          this.commonService.athleteEarning = this.athleteEarnings;
+          this.commonService.athleteEarnings = this.athleteEarnings;
+          console.log("common",this.commonService.athleteEarnings);
+          
         }
       });
     } else {

@@ -157,6 +157,8 @@ export class EditProfilePage implements OnInit {
       this.fanProfileForm.patchValue(data);
       this.patchDateValue(data.birthDate);
       this.dateOfBirth = data.birthDate;
+    
+      
     } else {
       this.athleteProfileForm.patchValue(data);
     }
@@ -279,7 +281,7 @@ export class EditProfilePage implements OnInit {
       return;
     }
     let formattedDate = this.commonService.formatDate(date);
-
+    this.dateOfBirth=date
     this.fanProfileForm.controls.birthDate.patchValue(formattedDate);
   }
 

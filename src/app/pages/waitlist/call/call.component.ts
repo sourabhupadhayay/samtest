@@ -18,7 +18,7 @@ import {
 
 import { CoreService, userRole } from "src/app/providers/core.service";
 import { DataService, Request, Response } from "src/app/providers/data.service";
-import { switchMap } from "rxjs/operators";
+import { switchMap, withLatestFrom } from "rxjs/operators";
 import { ConstantService } from "src/app/providers/constant.service";
 import { KeepAwake } from "@capacitor-community/keep-awake";
 import { Stomp } from "@stomp/stompjs";
@@ -61,6 +61,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   commonData: any;
   interval;
   predefinedTime: number = 60;
+  paramsSub:any
   constructor(
     private apiService: DataService,
     private coreService: CoreService,
@@ -130,11 +131,16 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     KeepAwake.allowSleep();
   }
 
-  getVideoSessionAndToken(path: string, isOneToOneCall = false) {
-    this.route.paramMap
+  async getVideoSessionAndToken(path: string, isOneToOneCall = false) {
+    console.log("ANK"); 
+    this.paramsSub=this.route.paramMap
       .pipe(
         switchMap((params: ParamMap) => {
+          console.log("param",params);
+          
           this.id = params.get("id");
+          console.log("fdsfsdg");
+          
           let request: Request = {
             path: path + params.get("id"),
             isAuth: true,
@@ -144,6 +150,8 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
               console.log(isOneToOneCall, this.userRole);
               request.path = `core/video/call/now/${this.id}?receiveCall=false`;
             } else {
+              console.log("else 121");
+              
               request.path = `core/video/call/now/${this.id}?receiveCall=true`;
             }
           }
@@ -152,6 +160,8 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
         })
       )
       .subscribe((response) => {
+      console.log("RESPONSE");
+        
         if (response.status.code === this.constantService.STATUS_OK) {
           this.sessionId = response.data.sessionId;
           this.token = response.data.token;
@@ -168,7 +178,9 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
           );
           this.router.navigate(["tabs/schedule"]);
         }
+        
       });
+     
   }
 
   connectCall(isBiddingEvent: boolean) {
@@ -190,6 +202,8 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getSession() {
+    console.log("session call");
+    
     this.session = OT.initSession(this.apiKey, this.sessionId);
     this.session.connect(this.token, (error) => {
       if (error) {
@@ -205,6 +219,10 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.session.on("streamCreated", (event) => {
       this.stopAutoCutTimer();
       this.startTimer();
+    this.streams.on.videoEnabled((data)=>{
+      console.log("VIDEO ENABLED",data);
+      
+    })
       this.subscribe = this.session.subscribe(event.stream, element, {
         width: "100%",
         height: "100%",
@@ -474,6 +492,7 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.sessionId = "";
     this.apiKey = "";
     clearInterval(this.interval);
+    this.paramsSub.unsubscribe()
   }
   ionViewDidLeave() {
     console.log("leave csll");
@@ -484,5 +503,6 @@ export class CallComponent implements OnInit, AfterViewInit, OnDestroy {
     clearInterval(this.interval);
     this.cd.detectChanges();
     this.sessionId = "";
+    this.paramsSub.unsubscribe()
   }
 }

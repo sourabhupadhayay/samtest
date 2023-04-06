@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //            SQIPInAppPaymentsSDK.squareApplicationID = "sandbox-sq0idb-r92A0oxpvi6g0Y1wHRzYwA"
             
             // Production APPID for square
-      
+            
             SQIPInAppPaymentsSDK.squareApplicationID = "sq0idp-10OYBrScRrwJSk2nz1w3Og"
        
        

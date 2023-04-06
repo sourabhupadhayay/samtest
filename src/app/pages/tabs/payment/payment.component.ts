@@ -31,7 +31,7 @@ export class PaymentComponent implements OnInit {
   isBiddingForEvent: boolean = this.navParams.get("isBiddingForEvent");
   errors: any[] = [];
   nonce: string;
-  paymentType: "SQUARE_PAYMENT" | "APPLE_PAYMENT" = "APPLE_PAYMENT";
+  paymentType: "SQUARE_PAYMENT" | "APPLE_PAYMENT" = "APPLE_PAYMENT" ;
   errorMsg: any;
   sqPaymentForm: any; //this is our payment form object
   card: any;
@@ -40,7 +40,7 @@ export class PaymentComponent implements OnInit {
   isChecked: boolean = false
   savecard: any = [];
   LoggedInUser: any;
-  tappedCardDetails: any;
+  tappedCardDetails: any=null;
   year: string;
   routingUrl: any;
   paymentData: paymentData | null = null;
@@ -61,12 +61,18 @@ export class PaymentComponent implements OnInit {
     this.getSavedCardList();
     // this.initializeCard();
     this.LoggedInUser = await localStorage.getItem("authDetails");
-  }
+    console.log("payment",this.paymentData,this.paymentType);
+  
+   }
 
   showPaymentDiv(show: boolean) {
+    this.tappedCardDetails= null
     this.showPaymentScreen = show;
     if (this.paymentType == 'APPLE_PAYMENT') {
       this.card.detach()
+    }
+    else{
+      this.card.attach()
     }
   }
 
@@ -86,14 +92,12 @@ export class PaymentComponent implements OnInit {
         this.savecard[index]['isCardSelected'] = false;
         this.savecard[index]['yearUpd'] = this.adjustValidYear(this.savecard[index]["expYear"]);
       })
-      console.log("c ", this.savecard);
     });
   }
 
   selectCard(i: number, selectedCardData: any) {
     this.tappedCardDetails = selectedCardData;
     this.isCardSelected = true;
-    console.log("clicked ", this.isCardSelected, selectedCardData)
     this.savecard.forEach((element, index) => {
       if (index == i) {
         this.savecard[index]['isCardSelected'] = true
@@ -106,7 +110,6 @@ export class PaymentComponent implements OnInit {
   }
 
   saveSelectedCard() {
-    console.log("card saved!",this.paymentType);
     let request: any = {
       path: "core/payment/cards",
       data: {
@@ -121,8 +124,6 @@ export class PaymentComponent implements OnInit {
     this.apiService.post(request).subscribe((response: Response) => {
       this.coreService.dismissLoader();
       if (response["status"]["code"] === this.constantService.STATUS_OK) {
-        console.log(this.paymentType,"payment tpe save");
-        
         this.coreService.showToastMessage(
           response.status.description,
           this.coreService.TOAST_SUCCESS
@@ -149,7 +150,6 @@ export class PaymentComponent implements OnInit {
       }
       );
       this.coreService.dismissLoader();
-      console.log("token new ", tokenResult, this.nonce)
       if (tokenResult != 'Invalid') {
         this.ConfirmSaveCardModal.present();
       }
@@ -160,8 +160,6 @@ export class PaymentComponent implements OnInit {
   }
 
   paymentThroughSelectedCard() {
-    console.log("456");
-
     if (!this.isCardSelected && this.paymentType == 'SQUARE_PAYMENT') {
       this.coreService.showToastMessage(
         "Please select a card for payment!",
@@ -169,27 +167,19 @@ export class PaymentComponent implements OnInit {
       );
       return;
     }
-    console.log("123");
-
     this.confirmSavedCardPayment.present();
   }
 
   async confirmPaymentFromSavedCard() {
-    console.log("pay !");
     if (this.paymentType == 'SQUARE_PAYMENT') {
-      console.log("if cLL");
-      
       this.pay();
     }
     else {
-    console.log("else cll");
-    
       if (!this.isBiddingForEvent) {
         this.confirmSavedCardPayment.dismiss()
         this.applePayPayment()
       }
       else {
-        console.log("else 12243call");
         this.onClickCancel()
         setTimeout(() => {
           this.modalCtrl.dismiss({
@@ -215,8 +205,6 @@ export class PaymentComponent implements OnInit {
   }
   async onSubmit() {
     await this.cancel();
-    console.log("pay meeemnt", this, this.paymentType);
-
     if (this.paymentType == 'SQUARE_PAYMENT') {
       this.modalCtrl.dismiss({
         nonce: this.nonce,
@@ -230,8 +218,7 @@ export class PaymentComponent implements OnInit {
         paymentType: this.paymentType,
       })
     }
-    console.log("routing url", this.routingUrl);
-
+  
     this.routingUrl = this.router.url;
     if (this.routingUrl == "/tabs/new-booking") {
       this.router.navigate(["/tabs/schedule"]);
@@ -241,7 +228,6 @@ export class PaymentComponent implements OnInit {
   openCreateModal() {
     if (this.paymentType == 'SQUARE_PAYMENT') {
       this.pay();
-
       // this.sqPaymentForm.requestCardNonce();
       setTimeout(() => {
         if (this.errors.length > 0) {
@@ -378,36 +364,32 @@ export class PaymentComponent implements OnInit {
 
   async pay() {
     let error: any[] = []
+    console.log("tap card",this.tappedCardDetails);
+    
+    if(this.tappedCardDetails==null){
     await this.card.tokenize().then(data =>
       this.nonce = data.token,
     );
-    console.log("nonce ", this.nonce);
+    }
+  
     // await this.card.tokenize().then(data=>
     //   console.log("card ",data))
     // if (this.nonce != undefined && this.paymentType == 'SQUARE_PAYMENT') {
     //   this.ConfirmModal.present()
     // }
 //chANGE
-console.log(this.isCardSelected);
 
 if ( this.paymentType == 'SQUARE_PAYMENT' && this.isCardSelected) {
-  console.log("data nonce")
   this.ConfirmModal.present()
 }
   }
   async PaymentTypeSelect(event) {
     await this.card?.detach();
-   console.log("payment select",event);
-   
     this.paymentType = event?.detail?.value;
-  
-    
     if (this.paymentType == 'SQUARE_PAYMENT') {
       this.initializeCard();
     }
     else {
-      console.log("pay ment else");
-
       if (this.paymentType == 'APPLE_PAYMENT')
         this.card.attach();
       await this.card?.detach();
@@ -418,9 +400,7 @@ if ( this.paymentType == 'SQUARE_PAYMENT' && this.isCardSelected) {
 
   applePayPayment() {
     this.PaymentSummaryItem.amount = parseFloat(this.commonService.bidAmount).toString()
-    console.log("apple pay ment", this.PaymentSummaryItem);
-    ApplePay.canMakePayments().then((res: any) => {
-      console.log("can make payment", res);
+       ApplePay.canMakePayments().then((res: any) => {
       try {
         ApplePay.initiatePayment({
           merchantIdentifier: "merchant.com.bubbleapp",
@@ -457,19 +437,13 @@ if ( this.paymentType == 'SQUARE_PAYMENT' && this.isCardSelected) {
           billingContact: { emailAddress: "ankita.k@techroversolutions.com" },
           shippingContact: { emailAddress: "ankita.k@techroversolutions.com" },
         }).then((res: any) => {
-          console.log("inital ", res);
           this.paymentData = res
           this.paymentData.nonce = res.PaymentNonce
           this.paymentData.paymentType = 'APPLE_PAYMENT'
-          console.log("pay ment 123", this.paymentData.nonce);
-
           if (this.paymentData.nonce != "") {
-            console.log("modal call");
             let data = {}
             data['nonce'] = this.paymentData.nonce,
-              data['paymentType'] = this.paymentData.paymentType,
-              console.log("1124432", data);
-
+            data['paymentType'] = this.paymentData.paymentType,
             this.commonService.publish("payment Data", data)
             this.modalCtrl.dismiss({
 
